@@ -12,15 +12,16 @@ import android.gesture.Prediction;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 public class GameActivity extends Activity
 {
-    private GLSurfaceView _glSurfaceView;
-    private GLRenderer    _glRenderer;
-    private GameThread    _gameThread;
+    private GLSurfaceView glSurfaceView;
+    private GLRenderer    glRenderer;
+    private GameThread    gameThread;
     
     /** P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰. */
     @Override
@@ -34,21 +35,27 @@ public class GameActivity extends Activity
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         // Luodaan OpenGL-n‰kym‰ ja renderˆij‰
-        _glSurfaceView = new GLSurfaceView(this);
-        _glRenderer    = new GLRenderer(this);
+        glSurfaceView = new GLSurfaceView(this);
+        glRenderer    = new GLRenderer(this);
         
         // M‰‰ritet‰‰n renderˆij‰n asetukset ja otetaan se k‰yttˆˆn
-        _glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
-        _glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-        _glSurfaceView.setRenderer(_glRenderer);
+        glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
+        glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        glSurfaceView.setRenderer(glRenderer);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //Options options = Options.getInstance();
+        //options.screenWidth  = dm.widthPixels;
+        //options.screenHeight = dm.heightPixels;
         
-        setContentView(_glSurfaceView);
+        setContentView(glSurfaceView);
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        _gameThread = new GameThread(this, getResources(), _glSurfaceView, _glRenderer);
-        _gameThread.setRunning(true);
+        gameThread = new GameThread(this, getResources(), glSurfaceView, glRenderer);
+        gameThread.setRunning(true);
         try {
-            _gameThread.start();
+            gameThread.start();
         }
         catch (IllegalThreadStateException exc) {
             finish();
@@ -60,14 +67,14 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        _glSurfaceView.onResume();
+        glSurfaceView.onResume();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
-        _gameThread.setRunning(false);
+        gameThread.setRunning(false);
         while (retry) {
             try {
-                _gameThread.join();
+                gameThread.join();
                 retry = false;
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
@@ -80,14 +87,14 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
-        _glSurfaceView.onPause();
+        glSurfaceView.onPause();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
-        _gameThread.setRunning(false);
+        gameThread.setRunning(false);
         while (retry) {
             try {
-                _gameThread.join();
+                gameThread.join();
                 retry = false;
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
