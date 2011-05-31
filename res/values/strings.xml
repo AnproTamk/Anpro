@@ -3,9 +3,18 @@
     <string name="app_name">Pelin nimi</string>
     <string name="button_story">Story</string>
     <string name="button_survival">Survival</string>
+    <string name="button_highscores">Highscores</string>
     <string name="button_options">Options</string>
     <string name="button_help">Help</string>
     <string name="button_quit">Quit</string>
+    <string name="about_text">
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista.
+    </string>
+    
+    <string name="particles_title">Particles</string>
+    <string name="particles_summary">Particle Effects</string>
+    <string name="settings_title">Settings</string>
     
     <color name="background">#6291c0</color>
 </resources>
