@@ -3,3 +3,4 @@ bin/
 testi-ignorethis.txt
 gen/
 *settings*
+*.xcf
