@@ -1,0 +1,89 @@
+package fi.tamk.anpro;
+
+import java.io.IOException;
+
+import javax.microedition.khronos.opengles.GL10;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import android.content.Context;
+import android.content.res.XmlResourceParser;
+
+public class XmlReader 
+{
+	private Context context;
+	private GLRenderer renderer;
+	private GL10 gl;
+	
+	public XmlReader(Context _context, GLRenderer _renderer, GL10 _gl)
+	{
+		context = _context;
+		renderer = _renderer;
+		gl = _gl;
+	}
+	
+	public void readLevel(int _id)
+	{
+		XmlResourceParser level = context.getResources().getXml(_id);
+
+        // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
+        try {
+            while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
+                if (level.getEventType() == XmlPullParser.START_TAG) {
+                    /*if (level.getName().equals("player")) {
+                        renderer.players.add(new GfxObject(gl, context, level.getAttributeResourceValue(null, "id", 0)));
+                        renderer.players.get(renderer.players.size()-1).setLocation(level.getAttributeIntValue(null, "x_coord", 0),
+                                                                    level.getAttributeIntValue(null, "y_coord", 0),
+                                                                    level.getAttributeIntValue(null, "z_coord", 0));
+                    }
+                    else if (level.getName().equals("enemy")) {
+                    	renderer.enemies.add(new GfxObject(gl, context, level.getAttributeResourceValue(null, "id", 0)));
+                    	renderer.enemies.get(renderer.enemies.size()-1).setLocation(level.getAttributeIntValue(null, "x_coord", 0),
+                                                                    level.getAttributeIntValue(null, "y_coord", 0),
+                                                                    level.getAttributeIntValue(null, "z_coord", 0));
+                    }*/
+                }
+                else if (level.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+                else if (level.getEventType() == XmlPullParser.TEXT) {
+                    // ...
+                }
+
+                level.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+ 	
+	public void readHUD()
+	{
+		/*XmlResourceParser level = context.getResources().getXml(R.xml.HUD);
+
+        // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
+        try {
+            while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
+                if (level.getEventType() == XmlPullParser.START_TAG) {
+                    // ...
+                }
+                else if (level.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+                else if (level.getEventType() == XmlPullParser.TEXT) {
+                    // ...
+                }
+
+                level.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+	}
+	
+}
