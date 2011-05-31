@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenGL_ES</string>
-    <string name="dummytext">This is a dummy text.</string>
+    <string name="app_name">Pelin nimi</string>
+    <string name="button_story">Story</string>
+    <string name="button_survival">Survival</string>
+    <string name="button_options">Options</string>
+    <string name="button_help">Help</string>
+    <string name="button_quit">Quit</string>
+    
+    <color name="background">#6291c0</color>
 </resources>
