@@ -1,10 +1,7 @@
 package fi.tamk.anpro;
 
 import fi.tamk.anpro.R;
-
-import fi.tamk.anpro.R.layout;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +21,8 @@ public class MainActivity extends Activity implements OnClickListener {
         optionsButton.setOnClickListener(this);
     }
     
+    
+    //
     public void onClick(View v) {
     	
     	switch(v.getId()) {
