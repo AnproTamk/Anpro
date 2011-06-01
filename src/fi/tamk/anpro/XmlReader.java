@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.content.res.XmlResourceParser;
 
 public class XmlReader 
@@ -16,6 +17,8 @@ public class XmlReader
 	private GLRenderer renderer;
 	private GL10 gl;
 	
+	
+	
 	public XmlReader(Context _context, GLRenderer _renderer, GL10 _gl)
 	{
 		context = _context;
@@ -23,26 +26,35 @@ public class XmlReader
 		gl = _gl;
 	}
 	
+
+	
 	public void readLevel(int _id)
 	{
-		XmlResourceParser level = context.getResources().getXml(_id);
+		XmlResourceParser level;
+		try {
+			level = context.getResources().getXml(R.xml.class.getField("level_"+_id).getInt(getClass()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
+		
         // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         try {
             while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (level.getEventType() == XmlPullParser.START_TAG) {
-                    /*if (level.getName().equals("player")) {
-                        renderer.players.add(new GfxObject(gl, context, level.getAttributeResourceValue(null, "id", 0)));
-                        renderer.players.get(renderer.players.size()-1).setLocation(level.getAttributeIntValue(null, "x_coord", 0),
-                                                                    level.getAttributeIntValue(null, "y_coord", 0),
-                                                                    level.getAttributeIntValue(null, "z_coord", 0));
+                    if (level.getName().equals("player")) {
+                        renderer.players.add(new Player(gl, context, level.getAttributeResourceValue(null, "id", 0),
+                        								level.getAttributeIntValue(null, "health", 10),
+                        								level.getAttributeIntValue(null, "defence", 0)));
+
                     }
+ 
                     else if (level.getName().equals("enemy")) {
-                    	renderer.enemies.add(new GfxObject(gl, context, level.getAttributeResourceValue(null, "id", 0)));
-                    	renderer.enemies.get(renderer.enemies.size()-1).setLocation(level.getAttributeIntValue(null, "x_coord", 0),
-                                                                    level.getAttributeIntValue(null, "y_coord", 0),
-                                                                    level.getAttributeIntValue(null, "z_coord", 0));
-                    }*/
+                    	//renderer.enemies.add(new Enemy(gl, context, level.getAttributeResourceValue(null, "id", 0),
+						//								level.getAttributeIntValue(null, "rank", 1));
+
+						//renderer.enemies.get(renderer.enemies.size()-1).spawnPoint = level.getAttributeIntValue(null, "spawnPoint", 0);
+                    }
                 }
                 else if (level.getEventType() == XmlPullParser.END_TAG) {
                     // ...

@@ -18,7 +18,7 @@ public class GameObject extends GfxObject {
 	private int turningDirection; // 0 none, 1 left, 2 right
 	
 	
-	public GameObject(GL10 gl, Context context, int id) {
-		super(gl, context, id);
+	public GameObject(GL10 _gl, Context _context, int _id) {
+		super(_gl, _context, _id);
 	}
 }
