@@ -39,4 +39,17 @@ public class Enemy extends GameObject
 			active = false;
 		}
 	}
+	
+	@Override
+	public void triggerImpact(int _damage, int _armorPiercing)
+	{
+		
+	}
+	
+	@Override
+	public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+	{
+		
+	}
+	
 }
