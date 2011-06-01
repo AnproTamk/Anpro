@@ -24,5 +24,23 @@ public class StoryMode {
     //cooldown-ajat aseille
     public ArrayList<Integer> cooldownTime;
     
+    //Valittujen aseiden lista
     public ArrayList<Weapon> weapons;
+    
+    /*Hae Xml-Readerilla XML-tiedostosta tallennetut tiedot
+    
+    //Avataan läpäistyt kentät pelaajalle
+    //Reset-napista muokataan LevelNumber = 1 ja muut muuttujat kohdilleen, jolloin pelaaja voi aloittaa alusta..
+    public int LevelNumber = XmlReader.readStoryMode("LevelNumber");
+    
+    //skillTree aloittaa default-aseen päivitystasolla 1
+    public int skillTree[][] = XmlReader.readStoryMode(, "skillTree");
+    	if (skillTree[0][0] == {0}) {
+    		skillTree[0][0] = {1}
+    	}
+    
+    */
+    
+    
+    
 }
