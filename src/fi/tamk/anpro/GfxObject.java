@@ -51,13 +51,13 @@ public class GfxObject {
     private Animation moveAnimation;
     
     // Konteksti ja OpenGL-rajapinta
-    private Context _context;
-    private GL10    _gl;
+    private Context context;
+    private GL10    gl;
     
     /** Rakentaja */
-    public GfxObject(GL10 gl, Context context, int id) {
+    public GfxObject(GL10 _gl, Context _context, int _id) {
         // Ladataan pakollinen staattinen tekstuuri
-        loadGLTexture(gl, context, _staticTexture, 0, id);
+        loadGLTexture(_gl, _context, _staticTexture, 0, _id);
         
         vertices = new float[12];
         vertices[0] = (-1)*imageSize;
@@ -87,8 +87,8 @@ public class GfxObject {
         textureBuffer.put(texture);
         textureBuffer.position(0);
         
-        _gl      = gl;
-        _context = context;
+        gl      = _gl;
+        context = _context;
         
         staticAnimation = null;
         moveAnimation   = null;
@@ -120,7 +120,7 @@ public class GfxObject {
     
     /** Lataa animaation kuvat */
     public void loadAnimation(int _anim, int _length, String _id) {
-    	animations.add(_anim, new Animation(_gl, _context, _id, _length));
+    	animations.add(_anim, new Animation(gl, context, _id, _length));
     }
     
     /** Piirtofunktio */
