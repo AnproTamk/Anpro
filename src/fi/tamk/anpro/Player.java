@@ -36,10 +36,10 @@ public class Player extends GameObject
 	}
 	
 	// Funktio pelaajan laukauksen toteuttamiseen.
-	public void triggerShoot()
+	public void triggerShoot(int _xTouchPosition, int _yTouchPosition)
 	{
 		if (cooldownLeft.get(currentWeapon) == 0) {
-			survivalMode.weapons.get(currentWeapon).activate();
+			survivalMode.weapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
 			cooldownLeft.add(currentWeapon, cooldownTime.get(currentWeapon));
 		}
 	}

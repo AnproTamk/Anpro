@@ -13,10 +13,10 @@ public class Weapon {
 		armorPiercing = _armorPiercing;
 	}
 	
-	public void activate() {
+	public void activate(int _xTouchPosition, int _yTouchPosition) {
 		// tarkistaa mikä aseista on alustettu
 		if (weaponDefault != null) {
-			weaponDefault.activate();
+			weaponDefault.activate(_xTouchPosition, _yTouchPosition);
 		}
 	}
 }

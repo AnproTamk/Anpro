@@ -36,7 +36,7 @@ public class SurvivalMode {
     */
     public void initWeapons(){
     	weapons.add(new Weapon(0, 0, 0));
-        weapons.get(0).weaponDefault = new WeaponDefault();
+        //weapons.get(0).weaponDefault = new WeaponDefault();
     }
     
     
