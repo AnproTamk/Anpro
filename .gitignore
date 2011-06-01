@@ -2,5 +2,4 @@ bin/
 *.apk
 testi-ignorethis.txt
 gen/
-*settings*
 *.xcf
