@@ -2,12 +2,16 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-public class Player
+import javax.microedition.khronos.opengles.GL10;
+
+import android.content.Context;
+
+public class Player extends GameObject
 {
-	private int health;
-	private int defence;
+	public int health;
+	public int defence;
 	private int currentWeapon;
-	private int spawnPoint;
+	public int spawnPoint;
 	private ArrayList<Integer> cooldownLeft;
 	private ArrayList<Integer> cooldownTime;
 	
@@ -15,11 +19,12 @@ public class Player
 	
 	
 	// Luokan muuttujien rakentaja.
-	public Player(int _health, int _defence, int _currentWeapon)
+	public Player(GL10 _gl, Context _context, int _id, int _health, int _defence)
 	{
+		super(_gl, _context, _id);
 		health = _health;
 		defence = _defence;
-		currentWeapon = _currentWeapon;
+		currentWeapon = -1;
 		
 		survivalMode = SurvivalMode.getInstance();
 		
