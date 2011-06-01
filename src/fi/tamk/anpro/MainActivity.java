@@ -17,12 +17,13 @@ public class MainActivity extends Activity implements OnClickListener {
         View aboutButton = findViewById(R.id.button_help);
         aboutButton.setOnClickListener(this);
         
+        View highscoresButton = findViewById(R.id.button_highscores);
+        highscoresButton.setOnClickListener(this);
+        
         View optionsButton = findViewById(R.id.button_options);
         optionsButton.setOnClickListener(this);
     }
     
-    
-    //
     public void onClick(View v) {
     	
     	switch(v.getId()) {
@@ -33,6 +34,8 @@ public class MainActivity extends Activity implements OnClickListener {
     	case R.id.button_options:
     		Intent i_settings = new Intent(this, SettingsActivity.class);
     		startActivity(i_settings);
+    		break;
+    	case R.id.button_highscores:
     		break;
     	case R.id.button_help:
     		Intent i_help = new Intent(this, AboutActivity.class);
