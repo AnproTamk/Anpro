@@ -7,14 +7,41 @@
     <string name="button_options">Options</string>
     <string name="button_help">Help</string>
     <string name="button_quit">Quit</string>
+    <string name="button_mainmenu">Back to Main Menu</string>
+    <string name="hello">Help</string>
     <string name="about_text">
     Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
-    pelaajalle pelin toiminnoista ja aseista.
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
+    Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
+    pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
+    ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
     </string>
     
     <string name="particles_title">Particles</string>
     <string name="particles_summary">Particle Effects</string>
     <string name="settings_title">Settings</string>
+    
+    <string name="music_title">Music</string>
+    <string name="music_summary">Turn music on/off</string>
+    
+    <string name="sounds_title">Sounds</string>
+    <string name="sounds_summary">Turn sounds on/off</string>
     
     <color name="background">#6291c0</color>
 </resources>
