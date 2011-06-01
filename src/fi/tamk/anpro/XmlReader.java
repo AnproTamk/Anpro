@@ -99,4 +99,34 @@ public class XmlReader
         }*/
 	}
 	
+	// Luetaan XML-tiedosto pelin asetuksia varten.
+	/*
+	public void readOptions() {
+		XmlResourceParser options = null;
+		
+		try {
+			options = context.getResources().getXml(R.xml.options);
+		} catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+        	while (options.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		// ...
+        	}
+        	if (options.getEventType() == XmlPullParser.START_TAG) {
+                // ...
+            }
+            else if (options.getEventType() == XmlPullParser.END_TAG) {
+                // ...
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	*/
 }
