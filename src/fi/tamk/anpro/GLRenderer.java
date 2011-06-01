@@ -12,11 +12,8 @@ import android.opengl.GLU;
 public class GLRenderer implements Renderer {
 
     // Piirrettävät objektit
-    public ArrayList <GfxObject>players;
+    public ArrayList <Player>players;
     public ArrayList <GfxObject>enemies;
-    public ArrayList <GfxObject>obstacles;
-    public ArrayList <GfxObject>background;
-    public ArrayList <GfxObject>foreground;
     public ArrayList <GfxObject>gui;
 
     private Context context;
@@ -27,18 +24,15 @@ public class GLRenderer implements Renderer {
         context = _context;
 
         // Alustetaan dynaamiset taulukot
-        players    = new ArrayList<GfxObject>();
+        players    = new ArrayList<Player>();
         enemies    = new ArrayList<GfxObject>();
-        obstacles  = new ArrayList<GfxObject>();
-        background = new ArrayList<GfxObject>();
-        foreground = new ArrayList<GfxObject>();
         gui        = new ArrayList<GfxObject>();
     }
 
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-    	players.add(new GfxObject(_gl, context, R.drawable.icon));
+    	players.add(new Player(_gl, context, R.drawable.icon, 1, 0));
     	players.get(0)._xf = 240.0f;
     	players.get(0)._yf = 160.0f;
     	
