@@ -17,6 +17,7 @@ import android.opengl.GLUtils;
 public class Animation {
     // Frames
     public int[] frames;
+    public int   length;
     
     // Tekstuurin mitat
     private float imageSize = 0;
@@ -25,20 +26,10 @@ public class Animation {
     public FloatBuffer vertexBuffer;
     public float[] vertices;
 
-    // Controls
-    private int length;
-    public int currentFrame = 0;
-    public int startFrame   = 0;
-    public int endFrame     = 0;
-    private int currentLoop  = 1;
-    private int loops        = 0;
-    
-    // State
-    private boolean _running = false;
-
-    public Animation(GL10 _gl, Context context, String _id, int length) {
-        frames = new int[length];
-        length = length;
+    // Rakentaja
+    public Animation(GL10 _gl, Context context, String _id, int _length) {
+        frames = new int[_length];
+        length = _length;
 
         try {
             String idField = _id + "_anim_";
@@ -88,50 +79,5 @@ public class Animation {
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
         bitmap.recycle();
-    }
-
-    /*
-     * P‰ivitt‰‰ animaation framen
-     */
-    
-    public void update() {
-        if (_running) {
-        	// Suunta eteenp‰in
-            if (startFrame < endFrame) {
-                if (currentFrame + 1 > endFrame) {
-                    if (currentLoop < loops && loops > 1) {
-                        currentFrame = startFrame;
-                        ++currentLoop;
-                    }
-                    else if (currentLoop == loops && loops > 1) {
-                        _running = false;
-                    }
-                    else {
-                        currentFrame = startFrame;
-                    }
-                }
-                else {
-                    ++currentFrame;
-                }
-            }
-            // Suunta taaksep‰in
-            else if (startFrame > endFrame) {
-                if (currentFrame - 1 < endFrame) {
-                    if (currentLoop < loops && loops > 1) {
-                        currentFrame = startFrame;
-                        --currentLoop;
-                    }
-                    else if (currentLoop == loops && loops > 1) {
-                        _running = false;
-                    }
-                    else {
-                        currentFrame = startFrame;
-                    }
-                }
-                else {
-                    --currentFrame;
-                }
-            }
-        }
     }
 }
