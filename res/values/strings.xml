@@ -43,5 +43,10 @@
     <string name="sounds_title">Sounds</string>
     <string name="sounds_summary">Turn sounds on/off</string>
     
+    <string name="player">Player</string>
+    <string name="score">Score</string>
+    <string name="resetHighScore">Reset all scores</string>
+    <string name="goHome">Main Menu</string>
+    
     <color name="background">#6291c0</color>
 </resources>
