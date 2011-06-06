@@ -25,6 +25,7 @@ public class AboutActivity extends Activity implements OnClickListener {
 		if(v.getId() == R.id.button_mainmenu) {
 			Intent i_mainmenu = new Intent(this, MainActivity.class);			// VAATII OPTIMOINTIA - KÄYNNISTÄÄ JOKA KERTA LUOKAN UUDELLEEN
     		startActivity(i_mainmenu);
+    		finish();
 		}
 		
 	}
