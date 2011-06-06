@@ -16,12 +16,23 @@ public class Wrapper {
     }
 	
 	// Listat piirrettävistä objekteista
-	public ArrayList<Player> playersToDraw = null;
-	public ArrayList<Enemy> enemiesToDraw = null;
-	public ArrayList<ProjectileLaser> projectileLasersToDraw = null;
+	public ArrayList<Player> players = null;
+	public ArrayList<Enemy> enemies = null;
+
+	// Listat objektien tiloista
+	public ArrayList<Integer> playerStates = null;
+	public ArrayList<Integer> enemyStates = null;
 	
-	// Listat päivitettävistä objekteista
-	public ArrayList<Player> playersToUpdate = null;
-	public ArrayList<Enemy> enemiesToUpdate = null;
-	public ArrayList<ProjectileLaser> projectileLasersToUpdate = null;
+	public int addToList(Object _object){
+		if (_object instanceof Player) {
+			players.add((Player)_object);
+			playerIds.add(1);
+		}
+		else if (_object instanceof Enemy) {
+			enemies.add((Enemy)_object);
+			enemyIds.add(1);
+		}
+
+		return enemyIds.size()-1;
+	}
 }
