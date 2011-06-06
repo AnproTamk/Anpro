@@ -41,7 +41,7 @@ public class GfxObject {
     
     public void update() {
     	if (animationLoops > 0) {
-    		if (currentFrame + 1 > animationLength[usedAnimation]) {
+    		if (currentFrame + 1 > animationLengths[usedAnimation]) {
     			currentFrame = 0;
     			++currentLoop;
     		}
