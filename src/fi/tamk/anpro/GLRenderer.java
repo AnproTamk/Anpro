@@ -1,20 +1,28 @@
 package fi.tamk.anpro;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
+import android.opengl.GLUtils;
 
 public class GLRenderer implements Renderer {
-
     // Piirrett‰v‰t objektit
-    public ArrayList <Player>players;
-    public ArrayList <GfxObject>enemies;
-    public ArrayList <GfxObject>gui;
+	private ArrayList<Animation> playerAnimations;     // 3
+	private ArrayList<Texture>   playerTextures;       // 2
+	private ArrayList<Animation> enemyAnimations;      // 3 per rank
+	private ArrayList<Texture>   enemyTextures;        // 2 per rank
+	private ArrayList<Animation> projectileAnimations; // 3 per projectile
+	private ArrayList<Texture>   projectileTextures;   // 1 per projectile
 
     private Context context;
     
@@ -26,18 +34,16 @@ public class GLRenderer implements Renderer {
         context = _context;
         
         wrapper = Wrapper.getInstance();
-
-        // Alustetaan dynaamiset taulukot
-        players    = new ArrayList<Player>();
-        enemies    = new ArrayList<GfxObject>();
-        gui        = new ArrayList<GfxObject>();
+        
+        // M‰‰ritet‰‰n taulukoiden koot
+        //...
     }
 
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-    	XmlReader reader = new XmlReader(context, this, _gl);
-    	reader.readLevel(1);
+    	//XmlReader reader = new XmlReader(context, this, _gl);
+    	//reader.readLevel(1);
     	
         // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
         _gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -82,7 +88,6 @@ public class GLRenderer implements Renderer {
 
     /** Kutsutaan, kun pinta tuhoutuu */
     public void onSurfaceDestroyed() {
-        boolean retry = true;
     }
 
     /** Kutsutaan, kun pinta p‰ivitet‰‰n. */
@@ -91,16 +96,39 @@ public class GLRenderer implements Renderer {
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(255, 255, 255, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        
+        ArrayList<Player> playersTemp              = wrapper.getPlayersToDraw();
+        ArrayList<Enemy> enemiesTemp               = wrapper.getEnemiesToDraw();
+        ArrayList<ProjectileLaser> projectilesTemp = wrapper.getProjectileLasersToDraw();
 
         // K‰yd‰‰n l‰pi piirtolistat
-        for (int i = wrapper.playersToDraw.size()-1; i >= 0; --i) {
-        	wrapper.playersToDraw.get(i).drawObject(_gl);
+        for (int i = playersTemp.size()-1; i >= 0; --i) {
+        	if (wrapper.playersToDraw.get(i).usedAnimation > -1) {
+        		playerAnimations.get(playersTemp.get(i).usedAnimation).draw(playersTemp.get(i)._xf,
+        																	playersTemp.get(i)._yf,
+        																	playersTemp.get(i).direction);
+        	}
+        	else {
+        		playerTextures.get(playersTemp.get(i).usedTexture).draw(playersTemp.get(i)._xf,
+        																playersTemp.get(i)._yf,
+        																playersTemp.get(i).direction);
+        	}
         }
-        /*for (int i = wrapper.enemiesToDraw.size()-1; i >= 0; --i) {
-        	
-        }*/
-        for (int i = wrapper.projectileLasersToDraw.size()-1; i >= 0; --i) {
-        	wrapper.projectileLasersToDraw.get(i).drawObject(_gl);
+        
+        for (int i = enemiesTemp.size()-1; i >= 0; --i) {
+        	if (enemiesTemp.get(i).usedAnimation > -1) {
+        		enemyAnimations.get(enemiesTemp.get(i).usedAnimation).draw(enemiesTemp.get(i)._xf,
+        																   enemiesTemp.get(i)._yf,
+        																   enemiesTemp.get(i).direction);
+        	}
+        	else {
+        		enemyTextures.get(enemiesTemp.get(i).rank * 3 + enemiesTemp.get(i).usedTexture) - 4).draw(enemiesTemp.get(i)._xf,
+        																								  enemiesTemp.get(i)._yf,
+        																								  enemiesTemp.get(i).direction);
+        	}
+        }
+        for (int i = projectilesTemp.size()-1; i >= 0; --i) {
+        	// ...
         }
     }
 }
