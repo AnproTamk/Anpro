@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import java.lang.Math;
 
 public class ProjectileLaser extends GameObject {
 	public boolean active = false;
@@ -21,12 +22,15 @@ public class ProjectileLaser extends GameObject {
 		speed = 3;
 		targetX = _xTouchPosition;
 		targetY = _yTouchPosition;
-		
+
 		// Valitaan suunta (miss‰ kohde on pelaajaan n‰hden)
 		// Jos vihollinen on pelaajasta katsottuna oikealla ja ylh‰‰ll‰
-		//direction = ();
+		if (_xTouchPosition > 0 && _yTouchPosition > 0){
+			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition));
+		}
+		
 		// Jos vihollinen on pelaajasta katsottuna oikealla ja alhaalla
-		//direction = ();
+		direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)+180);
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja ylh‰‰ll‰
 		//direction = ();
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja alhaalla
