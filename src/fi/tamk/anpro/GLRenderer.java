@@ -97,38 +97,15 @@ public class GLRenderer implements Renderer {
         _gl.glClearColor(255, 255, 255, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
-        ArrayList<Player> playersTemp              = wrapper.getPlayersToDraw();
-        ArrayList<Enemy> enemiesTemp               = wrapper.getEnemiesToDraw();
-        ArrayList<ProjectileLaser> projectilesTemp = wrapper.getProjectileLasersToDraw();
+        Player[] playersTemp = wrapper.players;
+        Enemy[] enemiesTemp  = wrapper.enemies;
 
         // Käydään läpi piirtolistat
         for (int i = playersTemp.size()-1; i >= 0; --i) {
-        	if (wrapper.playersToDraw.get(i).usedAnimation > -1) {
-        		playerAnimations.get(playersTemp.get(i).usedAnimation).draw(playersTemp.get(i)._xf,
-        																	playersTemp.get(i)._yf,
-        																	playersTemp.get(i).direction);
-        	}
-        	else {
-        		playerTextures.get(playersTemp.get(i).usedTexture).draw(playersTemp.get(i)._xf,
-        																playersTemp.get(i)._yf,
-        																playersTemp.get(i).direction);
-        	}
+        	playersTemp.get(i).draw();
         }
-        
         for (int i = enemiesTemp.size()-1; i >= 0; --i) {
-        	if (enemiesTemp.get(i).usedAnimation > -1) {
-        		enemyAnimations.get(enemiesTemp.get(i).usedAnimation).draw(enemiesTemp.get(i)._xf,
-        																   enemiesTemp.get(i)._yf,
-        																   enemiesTemp.get(i).direction);
-        	}
-        	else {
-        		enemyTextures.get(enemiesTemp.get(i).rank * 3 + enemiesTemp.get(i).usedTexture) - 4).draw(enemiesTemp.get(i)._xf,
-        																								  enemiesTemp.get(i)._yf,
-        																								  enemiesTemp.get(i).direction);
-        	}
-        }
-        for (int i = projectilesTemp.size()-1; i >= 0; --i) {
-        	// ...
+        	enemiesTemp.get(i).draw();
         }
     }
 }
