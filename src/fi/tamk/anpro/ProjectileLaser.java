@@ -13,8 +13,8 @@ public class ProjectileLaser extends GameObject {
 	private int targetY;
 	private int direction;
 
-	public ProjectileLaser(GL10 _gl, Context _context, int _id){
-		super(_gl, _context, _id); 
+	public ProjectileLaser(){
+		super(); 
 	}
 	
 	// Aktivoidaan ammus
@@ -26,18 +26,27 @@ public class ProjectileLaser extends GameObject {
 		// Valitaan suunta (missä kohde on pelaajaan nähden)
 		// Jos vihollinen on pelaajasta katsottuna oikealla ja ylhäällä
 		if (_xTouchPosition > 0 && _yTouchPosition > 0){
-			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition));
+			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition ));
 		}
 		
 		// Jos vihollinen on pelaajasta katsottuna oikealla ja alhaalla
-		direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)+180);
+		if (_xTouchPosition > 0 && _yTouchPosition < 0){
+			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
+		}
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja ylhäällä
-		//direction = ();
+		if (_xTouchPosition < 0 && _yTouchPosition > 0){
+			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
+		}
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja alhaalla
-		//direction = ();
-		
+		if (_xTouchPosition < 0 && _yTouchPosition < 0){
+			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
+		}
+		else {
+			direction = 0;
+		}
+
 	/*
-	 * 1. valitse suunta (missä kohde on pelaajaan nähden)
+	 * TEHTY 1. valitse suunta (missä kohde on pelaajaan nähden)
 	 * 2. laske liikkumisnopeus ja kiihtyvyydet
 	 * 3. määritä collisionType ja collisionRadius (WEAPON LUOKKAAN!)
 	 * 4. lisää tämä luokka globaaliin piirto- ja päivityslistaan
