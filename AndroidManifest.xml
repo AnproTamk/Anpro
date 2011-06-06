@@ -16,6 +16,11 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="LevelSelectActivity"
+                  android:label="@string/levelselect_title">
+        </activity>
+         
+        
         <activity android:name="AboutActivity"
                   android:label="@string/about_text"
                   android:theme="@android:style/Theme.Dialog">
@@ -24,6 +29,9 @@
         <activity android:name="SettingsActivity"
                   android:label="@string/settings_title">
         </activity>
-
+        
+        <activity android:name="HighScoresActivity"
+                  android:label="@string/highscores_title">
+        </activity>
     </application>
 </manifest>
