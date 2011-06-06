@@ -17,11 +17,15 @@ public class GLRenderer implements Renderer {
     public ArrayList <GfxObject>gui;
 
     private Context context;
+    
+    private Wrapper wrapper;
 
     /** Rakentaja */
     public GLRenderer(Context _context)
     {
         context = _context;
+        
+        wrapper = Wrapper.getInstance();
 
         // Alustetaan dynaamiset taulukot
         players    = new ArrayList<Player>();
@@ -32,9 +36,8 @@ public class GLRenderer implements Renderer {
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-    	players.add(new Player(_gl, context, R.drawable.icon, 1, 0));
-    	players.get(0)._xf = 240.0f;
-    	players.get(0)._yf = 160.0f;
+    	XmlReader reader = new XmlReader(context, this, _gl);
+    	reader.readLevel(1);
     	
         // Otetaan käyttöön 2D-tekstuurit ja shademalli
         _gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -89,7 +92,15 @@ public class GLRenderer implements Renderer {
         _gl.glClearColor(255, 255, 255, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
-        // Piirretään objectit
-        players.get(0).drawObject(_gl);
+        // Käydään läpi piirtolistat
+        for (int i = wrapper.playersToDraw.size()-1; i >= 0; --i) {
+        	wrapper.playersToDraw.get(i).drawObject(_gl);
+        }
+        /*for (int i = wrapper.enemiesToDraw.size()-1; i >= 0; --i) {
+        	
+        }*/
+        for (int i = wrapper.projectileLasersToDraw.size()-1; i >= 0; --i) {
+        	wrapper.projectileLasersToDraw.get(i).drawObject(_gl);
+        }
     }
 }
