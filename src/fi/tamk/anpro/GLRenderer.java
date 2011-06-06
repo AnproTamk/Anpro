@@ -1,28 +1,20 @@
 package fi.tamk.anpro;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
-import android.opengl.GLUtils;
 
 public class GLRenderer implements Renderer {
     // Piirrett‰v‰t objektit
-	private ArrayList<Animation> playerAnimations;     // 3
-	private ArrayList<Texture>   playerTextures;       // 2
-	private ArrayList<Animation> enemyAnimations;      // 3 per rank
-	private ArrayList<Texture>   enemyTextures;        // 2 per rank
-	private ArrayList<Animation> projectileAnimations; // 3 per projectile
-	private ArrayList<Texture>   projectileTextures;   // 1 per projectile
+	public ArrayList<Animation> playerAnimations; // 3
+	public ArrayList<Texture>   playerTextures;   // 2
+	public ArrayList<Animation> enemyAnimations;  // 3 per rank
+	public ArrayList<Texture>   enemyTextures;    // 2 per rank
 
     private Context context;
     
@@ -35,15 +27,20 @@ public class GLRenderer implements Renderer {
         
         wrapper = Wrapper.getInstance();
         
+        wrapper.setRenderer(this);
+        
         // M‰‰ritet‰‰n taulukoiden koot
-        //...
+        playerAnimations = new ArrayList<Animation>();
+        playerTextures   = new ArrayList<Texture>();
+        enemyAnimations = new ArrayList<Animation>();
+        enemyTextures   = new ArrayList<Texture>();
     }
 
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-    	//XmlReader reader = new XmlReader(context, this, _gl);
-    	//reader.readLevel(1);
+    	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+    	//playerTextures.set(0, new Texture(_gl, context, R.drawable.icon));
     	
         // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
         _gl.glEnable(GL10.GL_TEXTURE_2D);
@@ -96,16 +93,15 @@ public class GLRenderer implements Renderer {
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(255, 255, 255, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        
-        Player[] playersTemp = wrapper.players;
-        Enemy[] enemiesTemp  = wrapper.enemies;
 
         // K‰yd‰‰n l‰pi piirtolistat
-        for (int i = playersTemp.size()-1; i >= 0; --i) {
-        	playersTemp.get(i).draw();
-        }
-        for (int i = enemiesTemp.size()-1; i >= 0; --i) {
-        	enemiesTemp.get(i).draw();
-        }
+        //for (int i = playersTemp.size()-1; i >= 0; --i) {
+        	wrapper.players.get(0).x = 0.0f;
+        	wrapper.players.get(0).y = 0.0f;
+        	wrapper.players.get(0).draw(_gl);
+        //}
+        /*for (int i = enemiesTemp.size()-1; i >= 0; --i) {
+        	enemiesTemp.get(i).draw(_gl);
+        }*/
     }
 }

@@ -44,9 +44,9 @@ public class XmlReader
             while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (level.getEventType() == XmlPullParser.START_TAG) {
                     if (level.getName().equals("player")) {
-                        renderer.players.add(new Player(gl, context, level.getAttributeResourceValue(null, "id", 0),
+                        /*renderer.players.add(new Player(gl, context, level.getAttributeResourceValue(null, "id", 0),
                         								level.getAttributeIntValue(null, "health", 10),
-                        								level.getAttributeIntValue(null, "defence", 0)));
+                        								level.getAttributeIntValue(null, "defence", 0)));*/
 
                     }
  

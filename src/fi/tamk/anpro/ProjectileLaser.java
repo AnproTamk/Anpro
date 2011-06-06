@@ -1,8 +1,5 @@
 package fi.tamk.anpro;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
 import java.lang.Math;
 
 public class ProjectileLaser extends GameObject {
