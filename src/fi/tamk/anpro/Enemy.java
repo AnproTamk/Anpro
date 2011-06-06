@@ -17,6 +17,9 @@ public class Enemy extends GameObject
     
     public boolean active;
     
+    Wrapper wrapper;
+    int     listId;
+    
     // Luokan muuttujien rakentaja.
     public Enemy(int _health, int _defence, int _speed, int _attack, boolean _active, int _rank)
     {
@@ -35,6 +38,10 @@ public class Enemy extends GameObject
         animationLengths[0] = GLRenderer.enemyAnimations.get(offset - 3).length;
         animationLengths[1] = GLRenderer.enemyAnimations.get(offset - 2).length;
         animationLengths[2] = GLRenderer.enemyAnimations.get(offset - 1).length;
+        
+        wrapper = Wrapper.getInstance();
+        
+        listId = wrapper.addToList(this);
     }
 
 
@@ -44,12 +51,11 @@ public class Enemy extends GameObject
 		if (health > 0) {
 			active = true;
 		
+			//int[]   objectStatuses;
+			//Enemy[] enemies;
 			
-			// hanki pointteri Wrapper-luokasta
-			// lis‰‰ t‰st‰ luokasta pointteri taulukkoon
-			// molemmat taulukot ----^
-			// m‰‰rit‰ "vihollisen aloituspiste"
-			}
+			wrapper.enemyStates.set(listId, 1);
+		}
 	}
 
 	// Funktio vihollisen "ep‰aktiivisuuden" toteuttamiseen.
@@ -57,6 +63,8 @@ public class Enemy extends GameObject
 	{
 		if (health == 0) {
 			active = false;
+
+			wrapper.enemyStates.set(listId, 1);
 		}
 		// hanki pointteri Wrapper-luokasta
 		// poista t‰st‰ luokasta pointteri taulukoista,
