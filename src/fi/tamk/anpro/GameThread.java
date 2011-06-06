@@ -43,8 +43,10 @@ class GameThread extends Thread {
         while (_running) {
             long currentTime = android.os.SystemClock.uptimeMillis();
             
-            if (currentTime - _lastUpdate >= 30) {
+            // Tarkista sijainnit
+            if (currentTime - _lastUpdate >= 20) {
                 _lastUpdate = currentTime;
+                
                 
                 /*
                  * PELIN PÄÄSILMUKKA ALKAA TÄSTÄ
@@ -55,6 +57,16 @@ class GameThread extends Thread {
                 /*
                  * PELIN PÄÄSILMUKKA LOPPUU TÄHÄN
                  */
+            }
+            
+            // Tarkista tekoälyn tila 100 ms välein
+            if (currentTime - _lastUpdate >= 100) {
+            	
+            }
+            
+            // Tarkista animaatiot
+            if (currentTime - _lastUpdate >= 15) {
+            	
             }
         }
     }
