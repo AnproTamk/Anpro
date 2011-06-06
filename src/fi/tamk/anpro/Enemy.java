@@ -1,7 +1,6 @@
 package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
-import android.content.Context;
 import java.util.ArrayList;
 
 public class Enemy extends GameObject
@@ -31,13 +30,13 @@ public class Enemy extends GameObject
         active   = _active;
         rank     = _rank;
     
-        animationLenghts = new int[3];
+        animationLength = new int[3];
 
         int offset = rank *3;
 
-        animationLengths[0] = GLRenderer.enemyAnimations.get(offset - 3).length;
-        animationLengths[1] = GLRenderer.enemyAnimations.get(offset - 2).length;
-        animationLengths[2] = GLRenderer.enemyAnimations.get(offset - 1).length;
+        animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
+        animationLength[1] = wrapper.renderer.playerAnimations.get(offset - 2).length;
+        animationLength[2] = wrapper.renderer.playerAnimations.get(offset - 1).length;
         
         wrapper = Wrapper.getInstance();
         
@@ -81,16 +80,16 @@ public class Enemy extends GameObject
 	*/
 	
 	
-	public void draw()
+	public void draw(GL10 _gl)
 	{
 		// 1. Tarkistaa onko animaatio päällä.
 		// 2. kutsuu animaatioita/tekstuureita
 		if (usedAnimation >= 0){
-			animations.get(usedAnimation).draw(xf, yf, direction, currentFrame);	
+			animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
 			}
 		
 		else{
-			textures.get(usedTexture).draw(xf, yf, direction);
+			textures.get(usedTexture).draw(_gl, x, y, direction);
 		}
 	}
 	

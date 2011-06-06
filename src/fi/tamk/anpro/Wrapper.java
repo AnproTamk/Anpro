@@ -5,8 +5,15 @@ import java.util.ArrayList;
 public class Wrapper {
     private static Wrapper instance = null;
     
+    public GLRenderer renderer;
+    
     //Wrapperin rakentaja
-    protected Wrapper() { }
+    protected Wrapper() {
+    	players = new ArrayList<Player>();
+    	enemies = new ArrayList<Enemy>();
+    	playerStates = new ArrayList<Integer>();
+    	enemyStates = new ArrayList<Integer>();
+    }
     
     public static Wrapper getInstance() {
         if(instance == null) {
@@ -26,13 +33,17 @@ public class Wrapper {
 	public int addToList(Object _object){
 		if (_object instanceof Player) {
 			players.add((Player)_object);
-			playerIds.add(1);
+			playerStates.add(1);
 		}
 		else if (_object instanceof Enemy) {
 			enemies.add((Enemy)_object);
-			enemyIds.add(1);
+			enemyStates.add(1);
 		}
 
-		return enemyIds.size()-1;
+		return enemyStates.size()-1;
+	}
+	
+	public void setRenderer(GLRenderer _renderer) {
+		renderer = _renderer;
 	}
 }

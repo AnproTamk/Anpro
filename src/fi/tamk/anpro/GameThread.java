@@ -11,20 +11,24 @@ import android.view.View.OnTouchListener;
 class GameThread extends Thread {
     private boolean _running = false;
     
-    private Context       _context;
-    private Resources     _resources;
-    private GLSurfaceView _surface;
-    private GLRenderer    _renderer;
+    private Context       context;
+    private Resources     resources;
+    private GLSurfaceView surface;
+    private GLRenderer    renderer;
+    
+    public Player player;
     
     private long _lastUpdate = 0;
     
     GestureLibrary mLibrary;
     
-    public GameThread(Context context, Resources resources, GLSurfaceView glSurfaceView, GLRenderer glRenderer) {
-        _context    = context;
-        _resources  = resources;
-        _surface    = glSurfaceView;
-        _renderer   = glRenderer;
+    public GameThread(Context _context, Resources _resources, GLSurfaceView _glSurfaceView, GLRenderer _glRenderer) {
+        context    = _context;
+        resources  = _resources;
+        renderer   = _glRenderer;
+        
+        player = new Player(10, 5);
+        player.setDrawables(null, renderer.playerTextures);
     }
 
     public void setRunning(boolean run) {

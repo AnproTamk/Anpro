@@ -31,13 +31,13 @@ public class Texture {
         1.0f, 0.0f		// alaoikea
     };
 
-    public Texture(GL10 _gl, Context context, String _id) {
+    public Texture(GL10 _gl, Context context, int _id) {
     	sprite = new int[1];
     	
         Bitmap bitmap = null;
         
-		try {
-			bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.class.getField(_id).getInt(getClass()));
+        try {
+			bitmap = BitmapFactory.decodeResource(context.getResources(), _id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,7 +113,6 @@ public class Texture {
 	    // Piirretään neliö (parametreissa on sana "TRIANGLE", sillä neliö muodostetaan oikeasti
 	    // kahdesta kolmiosta)   
 	    _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
-	
 	
 	    // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
 	    _gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
