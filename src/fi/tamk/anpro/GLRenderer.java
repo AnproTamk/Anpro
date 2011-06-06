@@ -11,10 +11,10 @@ import android.opengl.GLU;
 
 public class GLRenderer implements Renderer {
     // Piirrettävät objektit
-	public ArrayList<Animation> playerAnimations; // 3
-	public ArrayList<Texture>   playerTextures;   // 2
-	public ArrayList<Animation> enemyAnimations;  // 3 per rank
-	public ArrayList<Texture>   enemyTextures;    // 2 per rank
+    public ArrayList<Animation> playerAnimations; // 3
+    public ArrayList<Texture>   playerTextures;   // 2
+    public ArrayList<Animation> enemyAnimations;  // 3 per rank
+    public ArrayList<Texture>   enemyTextures;    // 2 per rank
 
     private Context context;
     
@@ -39,9 +39,8 @@ public class GLRenderer implements Renderer {
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-    	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
-    	//playerTextures.set(0, new Texture(_gl, context, R.drawable.icon));
-    	
+        //playerTextures.set(0, new Texture(_gl, context, R.drawable.icon));
+        
         // Otetaan käyttöön 2D-tekstuurit ja shademalli
         _gl.glEnable(GL10.GL_TEXTURE_2D);
         _gl.glShadeModel(GL10.GL_SMOOTH);
@@ -58,6 +57,7 @@ public class GLRenderer implements Renderer {
         // Määritetään läpinäkyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
+        playerTextures.add(new Texture(_gl, context, R.drawable.icon));
     }
 
     /** Kutsutaan, kun pinta muuttuu (kännykkää käännetään tai muuten vain koko muuttuu) */
@@ -95,13 +95,11 @@ public class GLRenderer implements Renderer {
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         // Käydään läpi piirtolistat
-        //for (int i = playersTemp.size()-1; i >= 0; --i) {
-        	wrapper.players.get(0).x = 0.0f;
-        	wrapper.players.get(0).y = 0.0f;
-        	wrapper.players.get(0).draw(_gl);
-        //}
-        /*for (int i = enemiesTemp.size()-1; i >= 0; --i) {
-        	enemiesTemp.get(i).draw(_gl);
-        }*/
+        for (int i = wrapper.players.size()-1; i >= 0; --i) {
+            wrapper.players.get(0).draw(_gl);
+        }
+        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+            wrapper.enemies.get(i).draw(_gl);
+        }
     }
 }
