@@ -10,37 +10,43 @@ public class Player extends GameObject
 {
 	public int health;
 	public int defence;
-	private int currentWeapon;
 	public int spawnPoint;
-	private ArrayList<Integer> cooldownLeft;
-	private ArrayList<Integer> cooldownTime;
-	
+		
 	SurvivalMode survivalMode;
 	
 	
 	// Luokan muuttujien rakentaja.
-	public Player(GL10 _gl, Context _context, int _id, int _health, int _defence)
+	public Player(int _health, int _defence)
 	{
-		super(_gl, _context, _id);
-		health = _health;
+		super();
+		health  = _health;
 		defence = _defence;
-		currentWeapon = -1;
+
+        animationLengths[0] = GLRenderer.playerAnimations.get(0).length;
+        animationLengths[1] = GLRenderer.playerAnimations.get(1).length;
+        animationLengths[2] = GLRenderer.playerAnimations.get(2).length;
+	}
+
+
+
+	public void draw()
+	{
+		// 1. Tarkistaa onko animaatio päällä.
+		// 2. kutsuu animaatioita/tekstuureita
+		if (usedAnimation >= 0){
+			animations.get(usedAnimation).draw(xf, yf, direction, currentFrame);	
+		}
 		
-		survivalMode = SurvivalMode.getInstance();
-		
-		for (int i = survivalMode.cooldownTime.size()-1; i >= 0; i++) {
-			cooldownTime.add(i, survivalMode.cooldownTime.get(i));
-			
-			cooldownLeft.add(i, 0);
+		else{
+			textures.get(usedTexture).draw(xf, yf, direction);
 		}
 	}
-	
-	// Funktio pelaajan laukauksen toteuttamiseen.
-	public void triggerShoot(int _xTouchPosition, int _yTouchPosition)
+
+
+	public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
 	{
-		if (cooldownLeft.get(currentWeapon) == 0) {
-			survivalMode.weapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
-			cooldownLeft.add(currentWeapon, cooldownTime.get(currentWeapon));
-		}
+		textures   = _textures;
+		animations = _animations;
 	}
 }
+
