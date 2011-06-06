@@ -1,8 +1,8 @@
 package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
-
 import android.content.Context;
+import java.util.ArrayList;
 
 public class Enemy extends GameObject
 {
@@ -10,46 +10,99 @@ public class Enemy extends GameObject
     public int speed;
     public int defence;
     public int health;
+    public int rank;
+    
+    ArrayList<Animation> animations;
+    ArrayList<Texture> textures;
+    
     public boolean active;
     
     // Luokan muuttujien rakentaja.
-    public Enemy(GL10 _gl, Context _context, int _id, int _health, int _defence, int _speed, int _attack, boolean _active)
+    public Enemy(int _health, int _defence, int _speed, int _attack, boolean _active, int _rank)
     {
-        super(_gl, _context, _id);
-        attack = _attack;
-        speed = _speed;
-        defence = _defence;
-        health = _health;
-        active = _active;
+        super();
+        attack   = _attack;
+        speed    = _speed;
+        defence  = _defence;
+        health   = _health;
+        active   = _active;
+        rank     = _rank;
+    
+        animationLenghts = new int[3];
+
+        int offset = rank *3;
+
+        animationLengths[0] = GLRenderer.enemyAnimations.get(offset - 3).length;
+        animationLengths[1] = GLRenderer.enemyAnimations.get(offset - 2).length;
+        animationLengths[2] = GLRenderer.enemyAnimations.get(offset - 1).length;
     }
-	
-	
+
+
 	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
 	public void setActive()
 	{
-		if (health < 0) {
+		if (health > 0) {
 			active = true;
-		}
+		
+			
+			// hanki pointteri Wrapper-luokasta
+			// lisää tästä luokasta pointteri taulukkoon
+			// molemmat taulukot ----^
+			// määritä "vihollisen aloituspiste"
+			}
 	}
-	
+
 	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
 	public void setUnactive()
 	{
 		if (health == 0) {
 			active = false;
 		}
+		// hanki pointteri Wrapper-luokasta
+		// poista tästä luokasta pointteri taulukoista,
+		// molemmista siis!!----^
+		// poista "vihollisen aloituspiste"
+
+	}
+
+	/*
+	Vihollisalus olisi luultavasti parasta siirtää vain pois näkyvistä sen tuhoutuessa. Se tulisi
+	myös määrittää tuhotuksi, mikä estäisi tekoälyn toiminnan ja poistaisi sen piirtotaulukosta
+	(tarvitaan siis jokin taulukko, johon määritetään objektit, jotka tulisi piirtää seuraavassa
+	framessa).
+	*/
+	
+	
+	public void draw()
+	{
+		// 1. Tarkistaa onko animaatio päällä.
+		// 2. kutsuu animaatioita/tekstuureita
+		if (usedAnimation >= 0){
+			animations.get(usedAnimation).draw(xf, yf, direction, currentFrame);	
+			}
+		
+		else{
+			textures.get(usedTexture).draw(xf, yf, direction);
+		}
 	}
 	
-	@Override
+	
+	public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
+	{
+		textures   = _textures;
+		animations = _animations;
+	}
+	
 	public void triggerImpact(int _damage, int _armorPiercing)
 	{
 		
 	}
 	
-	@Override
+	
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
 	{
 		
 	}
+
 	
 }

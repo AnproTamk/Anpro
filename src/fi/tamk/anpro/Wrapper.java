@@ -17,11 +17,11 @@ public class Wrapper {
 	
 	// Listat piirrettävistä objekteista
 	public ArrayList<Player> playersToDraw = null;
-	//public ArrayList<Enemy> enemiesToDraw = null;
+	public ArrayList<Enemy> enemiesToDraw = null;
 	public ArrayList<ProjectileLaser> projectileLasersToDraw = null;
 	
 	// Listat päivitettävistä objekteista
 	public ArrayList<Player> playersToUpdate = null;
-	//public ArrayList<Enemy> enemiesToUpdate = null;
+	public ArrayList<Enemy> enemiesToUpdate = null;
 	public ArrayList<ProjectileLaser> projectileLasersToUpdate = null;
 }
