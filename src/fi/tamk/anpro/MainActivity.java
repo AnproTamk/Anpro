@@ -14,6 +14,12 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        View storyButton = findViewById(R.id.button_story);
+        storyButton.setOnClickListener(this);
+        
+        View survivalButton = findViewById(R.id.button_survival);
+        survivalButton.setOnClickListener(this);
+        
         View aboutButton = findViewById(R.id.button_help);
         aboutButton.setOnClickListener(this);
         
@@ -22,12 +28,18 @@ public class MainActivity extends Activity implements OnClickListener {
         
         View optionsButton = findViewById(R.id.button_options);
         optionsButton.setOnClickListener(this);
+        
+        View quitButton = findViewById(R.id.button_quit);
+        quitButton.setOnClickListener(this);
     }
     
     public void onClick(View v) {
     	
     	switch(v.getId()) {
     	case R.id.button_story:
+    		Intent i_story = new Intent(this, LevelSelectActivity.class);
+    		startActivity(i_story);
+    		finish();
     		break;
     	case R.id.button_survival:
     		break;
@@ -36,13 +48,17 @@ public class MainActivity extends Activity implements OnClickListener {
     		startActivity(i_settings);
     		break;
     	case R.id.button_highscores:
+    		Intent i_highscores = new Intent(this, HighScoresActivity.class);
+    		startActivity(i_highscores);
+    		finish();
     		break;
     	case R.id.button_help:
     		Intent i_help = new Intent(this, AboutActivity.class);
     		startActivity(i_help);
+    		finish();
     		break;
     	case R.id.button_quit:
-    		System.exit(RESULT_OK);
+    		android.os.Process.killProcess(android.os.Process.myPid());
     		break;
     	}
     }
