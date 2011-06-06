@@ -1,9 +1,5 @@
 package fi.tamk.anpro;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-
 public class GameObject extends GfxObject {
 	// Vakioita törmäyksentunnistukseen
 	public static final int NO_COLLISION = 0;
@@ -28,7 +24,7 @@ public class GameObject extends GfxObject {
 	private int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
 	
 	// Suunnan ja kääntymisen muuttujat
-	private int direction = 0; // 0 on suoraan ylöspäin, 90 oikealle
+	public  int direction = 0; // 0 on suoraan ylöspäin, 90 oikealle
 	private int turningDelay = 0; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kääntyminen
 	private int turningAcceleration = 0; // Kääntymisen kiihtyvyys
 	private int turningDirection = 0; // 0 ei käänny, 1 vasen, 2 oikea
@@ -80,8 +76,8 @@ public class GameObject extends GfxObject {
 		if (_time - time >= movementDelay) {
 			// Jos objekti liikkuu eteenpäin
 			if (movementSpeed > 0 ) {
-				xf += (movementSpeed * Math.cos(direction)); // Jos objekti liikkuu liian nopeasti -> movementSpeed*kerroin (esim. 0.1)
-				yf += (movementSpeed * Math.sin(direction));
+				x += (movementSpeed * Math.cos(direction)); // Jos objekti liikkuu liian nopeasti -> movementSpeed*kerroin (esim. 0.1)
+				y += (movementSpeed * Math.sin(direction));
 				// Tekoäly käsittelee movementAccelerationin
 				movementDelay = movementDelay - movementAcceleration;
 			}

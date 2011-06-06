@@ -7,8 +7,6 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import fi.tamk.anpro.R;
-import fi.tamk.anpro.R.drawable;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +23,15 @@ public class Animation {
     // Puskuri ja taulukko vektoreita varten
     public FloatBuffer vertexBuffer;
     public float[] vertices;
+
+    // Puskuri ja taulukko tekstuuria varten
+    private FloatBuffer textureBuffer;
+    private float texture[] = {
+        0.0f, 1.0f,		// ylävasen
+        0.0f, 0.0f,		// alavasen
+        1.0f, 1.0f,		// yläoikea
+        1.0f, 0.0f		// alaoikea
+    };
 
     // Rakentaja
     public Animation(GL10 _gl, Context context, String _id, int _length) {
@@ -79,5 +86,40 @@ public class Animation {
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
         bitmap.recycle();
+    }
+    
+    public void draw(GL10 _gl, float _x, float _y, int _direction, int _frame) {
+	    // Resetoidaan mallimatriisi
+	    _gl.glLoadIdentity();
+	    
+	    // Siirretään mallimatriisia (X, Y, Z)
+	    _gl.glTranslatef(_x, _y, 0);
+	    
+	    // Valitaan piirrettävä tekstuuri
+	    _gl.glBindTexture(GL10.GL_TEXTURE_2D, frames[_frame]);
+	    
+	    // Avataan tekstuuri- ja vektoritaulukot käyttöön
+	    _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	    _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+	    
+	    // Valitaan neliön näytettävä puoli. Huom! Vaikka käytämme 2D-tekstuureja, ovat
+	    // objektit silti 3-ulotteisia. Tästä syystä on valittava objekteista puoli, joka
+	    // näytetään.
+	    _gl.glFrontFace(GL10.GL_CW);
+	    
+	    // Otetaan vektori- ja tekstuuripuskurit käyttöön (OpenGL-ymmärtää nyt, miten objektit
+	    // on tarkoitus piirtää)
+	    _gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+	    
+	    _gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+	
+	    // Piirretään neliö (parametreissa on sana "TRIANGLE", sillä neliö muodostetaan oikeasti
+	    // kahdesta kolmiosta)   
+	    _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
+	
+	
+	    // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
+	    _gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+	    _gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     }
 }

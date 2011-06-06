@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-
 public class Player extends GameObject
 {
 	public int health;
@@ -13,7 +11,9 @@ public class Player extends GameObject
 	public int spawnPoint;
 		
 	SurvivalMode survivalMode;
-	
+    
+    Wrapper wrapper;
+    int     listId;
 	
 	// Luokan muuttujien rakentaja.
 	public Player(int _health, int _defence)
@@ -21,32 +21,58 @@ public class Player extends GameObject
 		super();
 		health  = _health;
 		defence = _defence;
+		
+        /*animationLength[0] = wrapper.renderer.playerAnimations.get(0).length;
+        animationLength[1] = wrapper.renderer.playerAnimations.get(1).length;
+        animationLength[2] = wrapper.renderer.playerAnimations.get(2).length;*/
+        
+        wrapper = Wrapper.getInstance();
+        
+        listId = wrapper.addToList(this);
+	}
 
-        animationLengths[0] = GLRenderer.playerAnimations.get(0).length;
-        animationLengths[1] = GLRenderer.playerAnimations.get(1).length;
-        animationLengths[2] = GLRenderer.playerAnimations.get(2).length;
+
+	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
+	public void setActive()
+	{
+		if (health > 0) {
+			//int[]   objectStatuses;
+			//Enemy[] enemies;
+			
+			wrapper.playerStates.set(listId, 1);
+		}
+	}
+
+	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
+	public void setUnactive()
+	{
+		if (health == 0) {
+			wrapper.playerStates.set(listId, 1);
+		}
+		// hanki pointteri Wrapper-luokasta
+		// poista tästä luokasta pointteri taulukoista,
+		// molemmista siis!!----^
+		// poista "vihollisen aloituspiste"
+
 	}
 
 
 
-	public void draw()
+	public void draw(GL10 _gl)
 	{
-		// 1. Tarkistaa onko animaatio päällä.
-		// 2. kutsuu animaatioita/tekstuureita
-		if (usedAnimation >= 0){
-			animations.get(usedAnimation).draw(xf, yf, direction, currentFrame);	
+		/*if (usedAnimation >= 0){
+			animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
 		}
-		
-		else{
-			textures.get(usedTexture).draw(xf, yf, direction);
-		}
+		else{*/
+			//textures.get(usedTexture).draw(_gl, x, y, direction);
+		//}
 	}
 
 
 	public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
 	{
-		textures   = _textures;
 		animations = _animations;
+		textures   = _textures;
 	}
 }
 
