@@ -7,6 +7,7 @@ abstract public class GameObject extends GfxObject {
 	
 	public static final int COLLISION_WITH_PROJECTILE = 10;
 	public static final int COLLISION_WITH_PLAYER = 11;
+	public static final int COLLISION_WITH_ENEMY = 12;
 	
 	// Vakioita valintaan (ampumisessa)
 	public static final int NO_SELECTION = 0;

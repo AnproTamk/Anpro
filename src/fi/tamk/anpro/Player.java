@@ -65,14 +65,12 @@ public class Player extends GameObject
         textures   = _textures;
     }
 
-	public void triggerImpact(int _damage, int _armorPiercing) {
-		// TODO Auto-generated method stub
-		
+	public void triggerImpact(int _damage) {
+		// R‰j‰hdykset eiv‰t vaikuta pelaajaan
 	}
 	
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
-		// TODO Auto-generated method stub
-		
+		// Osumat playeriin k‰sitell‰‰n Enemy-luokassa
 	}
 }
 
