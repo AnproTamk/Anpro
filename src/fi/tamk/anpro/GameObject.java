@@ -1,11 +1,17 @@
 package fi.tamk.anpro;
 
-public class GameObject extends GfxObject {
+abstract public class GameObject extends GfxObject {
+	// Vakioita suuntiin
+	public static final int TO_THE_LEFT = 1;
+	public static final int TO_THE_RIGHT = 2;
+	
 	// Vakioita törmäyksentunnistukseen
 	public static final int NO_COLLISION = 0;
 	public static final int CIRCLE_COLLISION = 1;
+	
 	public static final int COLLISION_WITH_PROJECTILE = 10;
 	public static final int COLLISION_WITH_PLAYER = 11;
+	public static final int COLLISION_WITH_ENEMY = 12;
 	
 	// Vakioita valintaan (ampumisessa)
 	public static final int NO_SELECTION = 0;
@@ -19,71 +25,60 @@ public class GameObject extends GfxObject {
 	public int selectionRadius = 0;
 	
 	// Liikkeen muuttujat
-	private int movementSpeed = 0; // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
-	private int movementDelay = 0; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys
+	private int movementSpeed = 2; // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
+	private int movementDelay = 20; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys
 	private int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
 	
 	// Suunnan ja kääntymisen muuttujat
 	public  int direction = 0; // 0 on suoraan ylöspäin, 90 oikealle
-	private int turningDelay = 0; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kääntyminen
+	private int turningDelay = 200; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kääntyminen
 	private int turningAcceleration = 0; // Kääntymisen kiihtyvyys
-	private int turningDirection = 0; // 0 ei käänny, 1 vasen, 2 oikea
+	public  int turningDirection = 0; // 0 ei käänny, 1 vasen, 2 oikea
 	
 	// Tallennetaan aika
-	private long time;
+	private long turningTime = 0;
+	private long movementTime = 0;
 	
-	/*
-	 public GameObject() {
+	public GameObject() {
 		super();
 	}
-	*/	
 	
 	// Tekee osumalaskennat räjähdyksissä (ei kahden objektin osumisessa toisiinsa)
-	public void triggerImpact(int _damage, int _armorPiercing) {
-		// VIRTUAALINEN
-	}
+	abstract public void triggerImpact(int _damage);
 	
 	// Tekee osumalaskennat suorassa osumassa toiseen objektiin
-	public void handleCollision(int _eventType, int _damage, int _armorPiercing) {
-		// VIRTUAALINEN
-	}
+	abstract public void triggerCollision(int _eventType, int _damage, int _armorPiercing);
 	
-	// 
+	// Päivitetään liikkuminen
 	public void updateMovement(long _time) {
 		// Lasketaan kääntymisnopeus objektille
-		if (_time - time >= turningDelay) {
-			// Jos objektin kääntymissuunta on ei mihinkään
-			if (turningDirection == 0) {
-				// ÄLÄ TEE MITÄÄN
-			}
+		if (_time - turningTime >= turningDelay) {
+			turningTime = _time;
 			// Jos objektin kääntymissuunta on vasemmalle
-			else if (turningDirection == 1) {
+			if (turningDirection == TO_THE_LEFT) {
 				--direction;
 				// 
-				turningDelay = turningDelay - turningAcceleration;
+				turningDelay -= turningAcceleration;
 				// Tekoäly käsittelee turningAccelerationin
 			}
 			// Jos objektin kääntymissuunta on oikealle
-			else if (turningDirection == 2) {
+			else if (turningDirection == TO_THE_RIGHT) {
 				++direction;
 				// Tekoäly käsittelee turningAccelerationin
-				turningDelay = turningDelay - turningAcceleration;
+				turningDelay -= turningAcceleration;
 			}
 		}
 		
 		// Lasketaan liikkumisnopeus objektille
 		// Mitä suurempi movementDelay sitä hitaammin objekti liikkuu
-		if (_time - time >= movementDelay) {
+		if (_time - movementTime >= movementDelay) {
+			movementTime = _time;
 			// Jos objekti liikkuu eteenpäin
 			if (movementSpeed > 0 ) {
 				x += (movementSpeed * Math.cos(direction)); // Jos objekti liikkuu liian nopeasti -> movementSpeed*kerroin (esim. 0.1)
 				y += (movementSpeed * Math.sin(direction));
 				// Tekoäly käsittelee movementAccelerationin
 				movementDelay = movementDelay - movementAcceleration;
-			}
-			// Jos objekti ei liiku
-			else {
-				// ÄLÄ TEE MITÄÄN
 			}
 		}
 	}
