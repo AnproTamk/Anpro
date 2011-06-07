@@ -67,7 +67,7 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        glSurfaceView.onResume();
+        /*glSurfaceView.onResume();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -79,7 +79,7 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }
+        }*/
     }
     
     /** Kutsutaan kun ohjelma pys‰ytet‰‰n */
@@ -87,7 +87,7 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
-        glSurfaceView.onPause();
+        /*glSurfaceView.onPause();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -99,6 +99,6 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }
+        }*/
     }
 }

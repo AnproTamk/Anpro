@@ -64,5 +64,13 @@ public class Player extends GameObject
         animations = _animations;
         textures   = _textures;
     }
+
+	public void triggerImpact(int _damage) {
+		// R‰j‰hdykset eiv‰t vaikuta pelaajaan
+	}
+	
+	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+		// Osumat playeriin k‰sitell‰‰n Enemy-luokassa
+	}
 }
 
