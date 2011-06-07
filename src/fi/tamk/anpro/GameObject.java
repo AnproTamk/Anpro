@@ -25,13 +25,13 @@ abstract public class GameObject extends GfxObject {
 	public int selectionRadius = 0;
 	
 	// Liikkeen muuttujat
-	private int movementSpeed = 2; // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
+	private int movementSpeed = 1; // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
 	private int movementDelay = 20; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
 	private int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
 	
 	// Suunnan ja k‰‰ntymisen muuttujat
 	public  int direction = 0; // 0 on suoraan ylˆsp‰in, 90 oikealle
-	private int turningDelay = 200; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
+	private int turningDelay = 100; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
 	private int turningAcceleration = 0; // K‰‰ntymisen kiihtyvyys
 	public  int turningDirection = 0; // 0 ei k‰‰nny, 1 vasen, 2 oikea
 	
@@ -51,12 +51,43 @@ abstract public class GameObject extends GfxObject {
 	
 	// P‰ivitet‰‰n liikkuminen
 	public void updateMovement(long _time) {
+		// Lasketaan liikkumisnopeus objektille
+		// Mit‰ suurempi movementDelay sit‰ hitaammin objekti liikkuu
+		if (_time - movementTime >= movementDelay) {
+			movementTime = _time;
+			// Jos objekti liikkuu eteenp‰in
+			if (movementSpeed > 0) {
+				if (direction >= 0 && direction < 90) {
+					x += Math.ceil((movementSpeed * Math.cos((double)direction)));
+					y += Math.ceil((movementSpeed * Math.sin((double)direction)));
+				}
+				else if (direction >= 90 && direction < 180) {
+					x -= Math.ceil((movementSpeed * Math.cos(180-(double)direction)));
+					y += Math.ceil((movementSpeed * Math.sin(180-(double)direction)));
+				}
+				else if (direction >= 180 && direction < 270) {
+					x -= Math.ceil((movementSpeed * Math.cos((double)direction)));
+					y += Math.ceil((movementSpeed * Math.cos((double)direction)));
+				}
+				else {
+					x += Math.ceil((movementSpeed * Math.sin(180-(double)direction)));
+					y += Math.ceil((movementSpeed * Math.cos(180-(double)direction)));
+				}
+				
+				// Teko‰ly k‰sittelee movementAccelerationin
+				movementDelay = movementDelay - movementAcceleration;
+			}
+		}
+		
 		// Lasketaan k‰‰ntymisnopeus objektille
 		if (_time - turningTime >= turningDelay) {
 			turningTime = _time;
 			// Jos objektin k‰‰ntymissuunta on vasemmalle
 			if (turningDirection == TO_THE_LEFT) {
 				--direction;
+				if (direction < 0) {
+					direction = 359;
+				}
 				// 
 				turningDelay -= turningAcceleration;
 				// Teko‰ly k‰sittelee turningAccelerationin
@@ -64,21 +95,11 @@ abstract public class GameObject extends GfxObject {
 			// Jos objektin k‰‰ntymissuunta on oikealle
 			else if (turningDirection == TO_THE_RIGHT) {
 				++direction;
+				if (direction == 360) {
+					direction = 0;
+				}
 				// Teko‰ly k‰sittelee turningAccelerationin
 				turningDelay -= turningAcceleration;
-			}
-		}
-		
-		// Lasketaan liikkumisnopeus objektille
-		// Mit‰ suurempi movementDelay sit‰ hitaammin objekti liikkuu
-		if (_time - movementTime >= movementDelay) {
-			movementTime = _time;
-			// Jos objekti liikkuu eteenp‰in
-			if (movementSpeed > 0 ) {
-				x += (movementSpeed * Math.cos(direction)); // Jos objekti liikkuu liian nopeasti -> movementSpeed*kerroin (esim. 0.1)
-				y += (movementSpeed * Math.sin(direction));
-				// Teko‰ly k‰sittelee movementAccelerationin
-				movementDelay = movementDelay - movementAcceleration;
 			}
 		}
 	}

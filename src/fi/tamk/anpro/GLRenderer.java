@@ -51,10 +51,10 @@ public class GLRenderer implements Renderer {
         _gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 
         // Syvyyspuskurin oletusarvo
-        _gl.glClearDepthf(1.0f);
+        //_gl.glClearDepthf(1.0f);
 
         // Perspektiivilaskennat
-        _gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
+        //_gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
@@ -79,8 +79,9 @@ public class GLRenderer implements Renderer {
         _gl.glMatrixMode(GL10.GL_PROJECTION);
         _gl.glLoadIdentity();
         
-        //GLU.gluOrtho2D(_gl, -240, 240, -160, 160);
-        GLU.gluOrtho2D(_gl, (-1)*(_width/2), (_width/2), (-1)*(_height/2), (_height/2));
+        // Muutetaan ruudun koko
+        //GLU.gluOrtho2D(_gl, (-1)*(_width/2), (_width/2), (-1)*(_height/2), (_height/2));
+        GLU.gluOrtho2D(_gl, 0, _width, 0, _height);
 
         // Valitaan ja resetoidaan mallimatriisi
         _gl.glMatrixMode(GL10.GL_MODELVIEW);
