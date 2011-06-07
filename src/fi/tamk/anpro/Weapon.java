@@ -1,22 +1,15 @@
 package fi.tamk.anpro;
 
-public class Weapon {
-	public WeaponDefault weaponDefault = null;
+import java.util.ArrayList;
+
+abstract public class Weapon {
+	// Ammusten m‰‰r‰
+	public static final int AMOUNT_OF_PROJECTILES = 3;
 	
-	public int cooldown;
-	public int damage;
-	public int armorPiercing;
+	// Ammusten tiedot
+	public int[] projectileStates;
 	
-	public Weapon(int _cooldown, int _damage, int _armorPiercing){
-		cooldown = _cooldown;
-		damage = _damage;
-		armorPiercing = _armorPiercing;
-	}
+	public Weapon() { }
 	
-	public void activate(int _xTouchPosition, int _yTouchPosition) {
-		// tarkistaa mik‰ aseista on alustettu
-		if (weaponDefault != null) {
-			weaponDefault.activate(_xTouchPosition, _yTouchPosition);
-		}
-	}
+	abstract public void activate(int _x, int _y);
 }

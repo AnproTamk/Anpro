@@ -19,6 +19,10 @@ public class GLRenderer implements Renderer {
     private Context context;
     
     private Wrapper wrapper;
+    
+    // Ruudunp‰ivityksen ajastus
+    private long lastDraw;
+    private long time;
 
     /** Rakentaja */
     public GLRenderer(Context _context)
@@ -30,10 +34,10 @@ public class GLRenderer implements Renderer {
         wrapper.setRenderer(this);
         
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations = new ArrayList<Animation>();
-        playerTextures   = new ArrayList<Texture>();
-        enemyAnimations = new ArrayList<Animation>();
-        enemyTextures   = new ArrayList<Texture>();
+        playerAnimations = new ArrayList<Animation>(3);
+        playerTextures   = new ArrayList<Texture>(2);
+        enemyAnimations = new ArrayList<Animation>(15);
+        enemyTextures   = new ArrayList<Texture>(10);
     }
 
     /** Kutsutaan, kun pinta luodaan. */
@@ -90,16 +94,22 @@ public class GLRenderer implements Renderer {
     /** Kutsutaan, kun pinta p‰ivitet‰‰n. */
     public void onDrawFrame(GL10 _gl)
     {
-        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
-        _gl.glClearColor(255, 255, 255, 0);
-        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
-        // K‰yd‰‰n l‰pi piirtolistat
-        for (int i = wrapper.players.size()-1; i >= 0; --i) {
-            wrapper.players.get(0).draw(_gl);
-        }
-        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-            wrapper.enemies.get(i).draw(_gl);
-        }
+    	time = android.os.SystemClock.uptimeMillis();
+    	
+    	if (time - lastDraw >= 20) {
+	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
+	        _gl.glClearColor(0, 0, 0, 0);
+	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+	
+	        // K‰yd‰‰n l‰pi piirtolistat
+	        for (int i = wrapper.players.size()-1; i >= 0; --i) {
+	            wrapper.players.get(0).draw(_gl);
+	        }
+	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+	            wrapper.enemies.get(i).draw(_gl);
+	        }
+	        
+	        lastDraw = time;
+    	}
     }
 }
