@@ -1,9 +1,10 @@
 package fi.tamk.anpro;
 
-public class GameObject extends GfxObject {
+abstract public class GameObject extends GfxObject {
 	// Vakioita törmäyksentunnistukseen
 	public static final int NO_COLLISION = 0;
 	public static final int CIRCLE_COLLISION = 1;
+	
 	public static final int COLLISION_WITH_PROJECTILE = 10;
 	public static final int COLLISION_WITH_PLAYER = 11;
 	
@@ -32,32 +33,22 @@ public class GameObject extends GfxObject {
 	// Tallennetaan aika
 	private long time;
 	
-	/*
-	 public GameObject() {
+	public GameObject() {
 		super();
 	}
-	*/	
 	
 	// Tekee osumalaskennat räjähdyksissä (ei kahden objektin osumisessa toisiinsa)
-	public void triggerImpact(int _damage, int _armorPiercing) {
-		// VIRTUAALINEN
-	}
+	abstract public void triggerImpact(int _damage);
 	
 	// Tekee osumalaskennat suorassa osumassa toiseen objektiin
-	public void handleCollision(int _eventType, int _damage, int _armorPiercing) {
-		// VIRTUAALINEN
-	}
+	abstract public void triggerCollision(int _eventType, int _damage, int _armorPiercing);
 	
-	// 
+	// Päivitetään liikkuminen
 	public void updateMovement(long _time) {
 		// Lasketaan kääntymisnopeus objektille
 		if (_time - time >= turningDelay) {
-			// Jos objektin kääntymissuunta on ei mihinkään
-			if (turningDirection == 0) {
-				// ÄLÄ TEE MITÄÄN
-			}
 			// Jos objektin kääntymissuunta on vasemmalle
-			else if (turningDirection == 1) {
+			if (turningDirection == 1) {
 				--direction;
 				// 
 				turningDelay = turningDelay - turningAcceleration;
@@ -80,10 +71,6 @@ public class GameObject extends GfxObject {
 				y += (movementSpeed * Math.sin(direction));
 				// Tekoäly käsittelee movementAccelerationin
 				movementDelay = movementDelay - movementAcceleration;
-			}
-			// Jos objekti ei liiku
-			else {
-				// ÄLÄ TEE MITÄÄN
 			}
 		}
 	}

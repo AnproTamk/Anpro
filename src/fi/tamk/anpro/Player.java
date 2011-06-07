@@ -64,5 +64,15 @@ public class Player extends GameObject
         animations = _animations;
         textures   = _textures;
     }
+
+	public void triggerImpact(int _damage, int _armorPiercing) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

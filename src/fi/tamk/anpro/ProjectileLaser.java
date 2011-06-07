@@ -84,4 +84,12 @@ public class ProjectileLaser extends GameObject {
 	public void handleAi() {
 		// ...
 	}
+
+	public void triggerImpact(int _damage) {
+		// Räjähdykset eivät vaikuta tähän ammukseen
+	}
+
+	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+		// Osumat eivät vaikuta tähän ammukseen
+	}
 }
