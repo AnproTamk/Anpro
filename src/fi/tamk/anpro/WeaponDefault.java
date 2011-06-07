@@ -13,22 +13,15 @@ public class WeaponDefault extends Weapon {
 		projectiles = new ArrayList<ProjectileLaser>(AMOUNT_OF_PROJECTILES);
 
 		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
-			projectiles.add(new ProjectileLaser(this));
-		}
-		
-		// Alustetaan ammusten tilat
-		projectileStates = new int[AMOUNT_OF_PROJECTILES];
-		
-		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
-			projectileStates[i] = 0;
+			projectiles.add(new ProjectileLaser());
 		}
 	}
 
 	public void activate(int _xTouchPosition, int _yTouchPosition) {
 		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
-			if (projectileStates[i] == 0) {
+			if (projectiles.get(i).active == false) {
 				projectiles.get(i).activate( _xTouchPosition, _yTouchPosition);
-				projectileStates[i] = 1;
+				projectiles.get(i).active = true;
 			}
 		}
 	}

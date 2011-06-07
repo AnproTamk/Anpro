@@ -43,8 +43,6 @@ public class GLRenderer implements Renderer {
     /** Kutsutaan, kun pinta luodaan. */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-        //playerTextures.set(0, new Texture(_gl, context, R.drawable.icon));
-        
         // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
         _gl.glEnable(GL10.GL_TEXTURE_2D);
         _gl.glShadeModel(GL10.GL_SMOOTH);
@@ -61,7 +59,9 @@ public class GLRenderer implements Renderer {
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
-        playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+        
+        // Ladataan graffat (v‰liaikainen)
+        enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
     }
 
     /** Kutsutaan, kun pinta muuttuu (k‰nnykk‰‰ k‰‰nnet‰‰n tai muuten vain koko muuttuu) */
@@ -94,9 +94,11 @@ public class GLRenderer implements Renderer {
     /** Kutsutaan, kun pinta p‰ivitet‰‰n. */
     public void onDrawFrame(GL10 _gl)
     {
-    	time = android.os.SystemClock.uptimeMillis();
+    	_gl.glEnable(GL10.GL_TEXTURE_2D);
     	
-    	if (time - lastDraw >= 20) {
+    	//time = android.os.SystemClock.uptimeMillis();
+    	
+    	//if (time - lastDraw >= 20) {
 	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
 	        _gl.glClearColor(0, 0, 0, 0);
 	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -109,7 +111,7 @@ public class GLRenderer implements Renderer {
 	            wrapper.enemies.get(i).draw(_gl);
 	        }
 	        
-	        lastDraw = time;
-    	}
+	        //lastDraw = time;
+    	//}
     }
 }

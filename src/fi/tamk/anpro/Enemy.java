@@ -14,29 +14,26 @@ public class Enemy extends GameObject
     ArrayList<Animation> animations;
     ArrayList<Texture> textures;
     
-    public boolean active;
-    
     Wrapper wrapper;
     int     listId;
     
     // Luokan muuttujien rakentaja.
-    public Enemy(int _health, int _defence, int _speed, int _attack, boolean _active, int _rank)
+    public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
     {
         super();
         attack   = _attack;
         speed    = _speed;
         defence  = _defence;
         health   = _health;
-        active   = _active;
         rank     = _rank;
     
         animationLength = new int[3];
 
         int offset = rank *3;
 
-        animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
+        /*animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
         animationLength[1] = wrapper.renderer.playerAnimations.get(offset - 2).length;
-        animationLength[2] = wrapper.renderer.playerAnimations.get(offset - 1).length;
+        animationLength[2] = wrapper.renderer.playerAnimations.get(offset - 1).length;*/
         
         wrapper = Wrapper.getInstance();
         
@@ -48,21 +45,17 @@ public class Enemy extends GameObject
 	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
 	public void setActive()
 	{
-		if (health > 0) {
-			wrapper.enemyStates.set(listId, 1);
-			
-			// TODO: Ota tekoäly käyttöön
-		}
+		wrapper.enemyStates.set(listId, 1);
+		
+		// TODO: Ota tekoäly käyttöön
 	}
 
 	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
 	public void setUnactive()
 	{
-		if (health == 0) {
-			wrapper.enemyStates.set(listId, 1);
-			
-			// TODO: Poista tekoäly käytöstä
-		}
+		wrapper.enemyStates.set(listId, 0);
+		
+		// TODO: Poista tekoäly käytöstä
 	}
 	
 	public void draw(GL10 _gl)

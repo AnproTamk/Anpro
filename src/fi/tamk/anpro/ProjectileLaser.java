@@ -25,9 +25,6 @@ public class ProjectileLaser extends GameObject {
 	
 	public int     explodeTime;
 	
-	// Isäntäobjekti
-	private Object parent;
-	
 	// Wrapper
 	private Wrapper wrapper;
 	
@@ -36,15 +33,31 @@ public class ProjectileLaser extends GameObject {
 	private int targetX;
 	private int targetY;
 	private int direction;
+	
+	public boolean active = false;
+	
+	int listId;
 
-	public ProjectileLaser(Object _parent){
+	public ProjectileLaser(){
 		super();
 		
 		wrapper = Wrapper.getInstance();
-		
-		if (_parent instanceof WeaponDefault) {
-			parent = _parent;
-		}
+        
+        listId = wrapper.addToList(this);
+	}
+
+	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
+	public void setActive()
+	{
+		wrapper.projectileLaserStates.set(listId, 1);
+		active = true;
+	}
+
+	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
+	public void setUnactive()
+	{
+		wrapper.projectileLaserStates.set(listId, 0);
+		active = false;
 	}
 	
 	// Aktivoidaan ammus
@@ -82,7 +95,43 @@ public class ProjectileLaser extends GameObject {
 	}
 	
 	public void handleAi() {
-		// ...
+		// Tarkistetaan osumatyyppi ja etäisyydet
+		// Kutsutaan osumatarkistuksia tarvittaessa
+		for (int i = wrapper.enemies.size(); i >= 0; --i) {
+			int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+			if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+				// Osuma ja räjähdys
+				if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+					wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+				}
+				else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+					causeExplosion();
+				}
+			}
+			
+			// Passiivinen vahinko
+			if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
+				wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+			}
+		}
+		
+		// Tarkistetaan räjähdykset (ajastus)
+		//...
+		
+		// Tarkistetaan suunta ja kääntyminen
+		//...
+	}
+	
+	public void causeExplosion() {
+		// Tarkistetaan etäisyydet
+		// Kutsutaan osumatarkistuksia tarvittaessa
+		for (int i = wrapper.enemies.size(); i >= 0; --i) {
+			int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+			if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+				// Osuma ja räjähdys
+				wrapper.enemies.get(i).triggerImpact(damageOnTouch);
+			}
+		}
 	}
 
 	public void triggerImpact(int _damage) {

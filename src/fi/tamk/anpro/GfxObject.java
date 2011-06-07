@@ -27,9 +27,8 @@ public class GfxObject {
     // Staattinen tekstuuri
     public int usedTexture = 0;
     
-    // Konteksti ja OpenGL-rajapinta
+    // Konteksti
     private Context context;
-    private GL10    gl;
     
     /** Rakentaja */
     public GfxObject() {

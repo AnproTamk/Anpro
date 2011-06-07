@@ -1,6 +1,10 @@
 package fi.tamk.anpro;
 
 abstract public class GameObject extends GfxObject {
+	// Vakioita suuntiin
+	public static final int TO_THE_LEFT = 1;
+	public static final int TO_THE_RIGHT = 2;
+	
 	// Vakioita törmäyksentunnistukseen
 	public static final int NO_COLLISION = 0;
 	public static final int CIRCLE_COLLISION = 1;
@@ -21,18 +25,19 @@ abstract public class GameObject extends GfxObject {
 	public int selectionRadius = 0;
 	
 	// Liikkeen muuttujat
-	private int movementSpeed = 0; // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
-	private int movementDelay = 0; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys
+	private int movementSpeed = 2; // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
+	private int movementDelay = 20; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys
 	private int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
 	
 	// Suunnan ja kääntymisen muuttujat
 	public  int direction = 0; // 0 on suoraan ylöspäin, 90 oikealle
-	private int turningDelay = 0; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kääntyminen
+	private int turningDelay = 200; // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kääntyminen
 	private int turningAcceleration = 0; // Kääntymisen kiihtyvyys
-	private int turningDirection = 0; // 0 ei käänny, 1 vasen, 2 oikea
+	public  int turningDirection = 0; // 0 ei käänny, 1 vasen, 2 oikea
 	
 	// Tallennetaan aika
-	private long time;
+	private long turningTime = 0;
+	private long movementTime = 0;
 	
 	public GameObject() {
 		super();
@@ -47,25 +52,27 @@ abstract public class GameObject extends GfxObject {
 	// Päivitetään liikkuminen
 	public void updateMovement(long _time) {
 		// Lasketaan kääntymisnopeus objektille
-		if (_time - time >= turningDelay) {
+		if (_time - turningTime >= turningDelay) {
+			turningTime = _time;
 			// Jos objektin kääntymissuunta on vasemmalle
-			if (turningDirection == 1) {
+			if (turningDirection == TO_THE_LEFT) {
 				--direction;
 				// 
-				turningDelay = turningDelay - turningAcceleration;
+				turningDelay -= turningAcceleration;
 				// Tekoäly käsittelee turningAccelerationin
 			}
 			// Jos objektin kääntymissuunta on oikealle
-			else if (turningDirection == 2) {
+			else if (turningDirection == TO_THE_RIGHT) {
 				++direction;
 				// Tekoäly käsittelee turningAccelerationin
-				turningDelay = turningDelay - turningAcceleration;
+				turningDelay -= turningAcceleration;
 			}
 		}
 		
 		// Lasketaan liikkumisnopeus objektille
 		// Mitä suurempi movementDelay sitä hitaammin objekti liikkuu
-		if (_time - time >= movementDelay) {
+		if (_time - movementTime >= movementDelay) {
+			movementTime = _time;
 			// Jos objekti liikkuu eteenpäin
 			if (movementSpeed > 0 ) {
 				x += (movementSpeed * Math.cos(direction)); // Jos objekti liikkuu liian nopeasti -> movementSpeed*kerroin (esim. 0.1)
