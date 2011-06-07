@@ -33,5 +33,9 @@
         <activity android:name="HighScoresActivity"
                   android:label="@string/highscores_title">
         </activity>
+        
+        <activity android:name="PauseMenuActivity"
+                  android:label="@string/pause_title">
+        </activity>
     </application>
 </manifest>

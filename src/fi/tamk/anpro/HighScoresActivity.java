@@ -28,7 +28,7 @@ public class HighScoresActivity extends Activity implements OnClickListener {
     	case R.id.button_reset:
     		break;
     	case R.id.button_mainmenu:
-    		Intent i_mainmenu = new Intent(this, MainActivity.class);			// VAATII OPTIMOINTIA - KÄYNNISTÄÄ JOKA KERTA LUOKAN UUDELLEEN
+    		Intent i_mainmenu = new Intent(this, MainActivity.class);
     		startActivity(i_mainmenu);
     		finish();
     		break;
