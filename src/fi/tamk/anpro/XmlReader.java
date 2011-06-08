@@ -100,33 +100,45 @@ public class XmlReader
 	}
 	
 	// Luetaan XML-tiedosto pelin asetuksia varten.
-	/*
-	public void readOptions() {
-		XmlResourceParser options = null;
+	public boolean[] readSettings() {
+		XmlResourceParser settings = null;
+		boolean particles = false, music = false, sounds = false;
 		
-		try {
-			options = context.getResources().getXml(R.xml.options);
-		} catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		settings = context.getResources().getXml(R.xml.settings);
         
         try {
-        	while (options.getEventType() != XmlPullParser.END_DOCUMENT) {
-        		// ...
+        	while (settings.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		if (settings.getEventType() == XmlPullParser.START_TAG) {
+                    if (settings.getName().equals("particles")) {
+                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    		particles = true;
+                    	}
+                    	else
+                    		particles = false;
+                    }
+                    else if (settings.getName().equals("music")) {
+                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    		music = true;
+                    	}
+                    	else
+                    		music = false;
+                    }
+                    else if (settings.getName().equals("sounds")) {
+                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    		sounds = true;
+                    	}
+                    	else
+                    		sounds = false;
+                    }
+                }
+                else if (settings.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
         	}
-        	if (options.getEventType() == XmlPullParser.START_TAG) {
-                // ...
-            }
-            else if (options.getEventType() == XmlPullParser.END_TAG) {
-                // ...
-            }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+		boolean settingValues[] = {particles, music, sounds};
+		return settingValues;
 	}
-	*/
 }
