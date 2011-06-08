@@ -21,12 +21,7 @@ public class StoryMode {
         return instance;
     }
     
-    //cooldown-ajat aseille
-    public ArrayList<Integer> cooldownTime;
-    
-    //Valittujen aseiden lista
-    public ArrayList<Weapon> weapons;
-    
+
     /*Hae Xml-Readerilla XML-tiedostosta tallennetut tiedot
     
     //Avataan läpäistyt kentät pelaajalle
