@@ -71,15 +71,15 @@ public class ProjectileLaser extends GameObject {
 			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition ));
 		}
 		// Jos vihollinen on pelaajasta katsottuna oikealla ja alhaalla
-		if (_xTouchPosition > 0 && _yTouchPosition < 0){
+		else if (_xTouchPosition > 0 && _yTouchPosition < 0){
 			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
 		}
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja ylhäällä
-		if (_xTouchPosition < 0 && _yTouchPosition > 0){
+		else if (_xTouchPosition < 0 && _yTouchPosition > 0){
 			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
 		}
 		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja alhaalla
-		if (_xTouchPosition < 0 && _yTouchPosition < 0){
+		else if (_xTouchPosition < 0 && _yTouchPosition < 0){
 			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
 		}
 		else {

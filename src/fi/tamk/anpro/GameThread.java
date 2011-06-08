@@ -29,8 +29,10 @@ class GameThread extends Thread {
         
         enemy = new Enemy(5, 1, 1, 1, 1);
         enemy.setDrawables(null, renderer.enemyTextures);
-        enemy.direction = 45;
-        enemy.turningDirection = 2;
+        enemy.direction = 270;
+        enemy.x = 400;
+        enemy.y = 240;
+        enemy.turningDirection = 0;
         
         /*enemy = new Enemy(5, 1, 1, 1, 1);
         enemy.setDrawables(null, renderer.enemyTextures);*/
