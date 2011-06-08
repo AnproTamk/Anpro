@@ -15,6 +15,8 @@ public class GLRenderer implements Renderer {
     public ArrayList<Texture>   playerTextures;   // 2
     public ArrayList<Animation> enemyAnimations;  // 3 per rank
     public ArrayList<Texture>   enemyTextures;    // 2 per rank
+    
+    public StringTexture testText = null;
 
     private Context context;
     
@@ -62,6 +64,7 @@ public class GLRenderer implements Renderer {
         
         // Ladataan graffat (väliaikainen)
         enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+        testText = new StringTexture(_gl, context, "testi");
     }
 
     /** Kutsutaan, kun pinta muuttuu (kännykkää käännetään tai muuten vain koko muuttuu) */
@@ -111,6 +114,8 @@ public class GLRenderer implements Renderer {
 	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            wrapper.enemies.get(i).draw(_gl);
 	        }
+	        
+	        wrapper.testText.draw(_gl);
 	        
 	        //lastDraw = time;
     	//}
