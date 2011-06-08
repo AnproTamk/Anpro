@@ -56,27 +56,29 @@ abstract public class GameObject extends GfxObject {
 		if (_time - movementTime >= movementDelay) {
 			movementTime = _time;
 			// Jos objekti liikkuu eteenpäin
-			if (movementSpeed > 0) {
+			x += (Math.cos((direction * Math.PI)/180) * movementSpeed);
+			y += (Math.sin((direction * Math.PI)/180) * movementSpeed);
+			/*if (movementSpeed > 0) {
 				if (direction >= 0 && direction < 90) {
-					x += Math.ceil((movementSpeed * Math.cos((double)direction)));
-					y += Math.ceil((movementSpeed * Math.sin((double)direction)));
+					x += (movementSpeed * Math.cos((double)direction));
+					y += (movementSpeed * Math.sin((double)direction));
 				}
 				else if (direction >= 90 && direction < 180) {
-					x -= Math.ceil((movementSpeed * Math.cos(180-(double)direction)));
-					y += Math.ceil((movementSpeed * Math.sin(180-(double)direction)));
+					x += (movementSpeed * Math.cos(180-(double)direction));
+					y += (movementSpeed * Math.sin(180-(double)direction));
 				}
 				else if (direction >= 180 && direction < 270) {
-					x -= Math.ceil((movementSpeed * Math.cos((double)direction)));
-					y += Math.ceil((movementSpeed * Math.cos((double)direction)));
+					x -= (movementSpeed * Math.cos((double)direction));
+					y += (movementSpeed * Math.sin((double)direction));
 				}
 				else {
-					x += Math.ceil((movementSpeed * Math.sin(180-(double)direction)));
-					y += Math.ceil((movementSpeed * Math.cos(180-(double)direction)));
+					x += (movementSpeed * Math.cos((double)direction-180));
+					y -= (movementSpeed * Math.sin((double)direction-180));
 				}
 				
 				// Tekoäly käsittelee movementAccelerationin
 				movementDelay = movementDelay - movementAcceleration;
-			}
+			}*/
 		}
 		
 		// Lasketaan kääntymisnopeus objektille
