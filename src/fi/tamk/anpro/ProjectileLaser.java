@@ -12,18 +12,20 @@ public class ProjectileLaser extends GameObject {
 	public static final int DAMAGE_ON_TOUCH = 5;
 	
 	// Aseiden tiedot
-	public int damageOnTouch;
-	public int damageOnExplode;
+	public int damageOnTouch = 2;
+	public int damageOnExplode = 0;
 	
-	public int damageType; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
+	public int damageType = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
 	
-	public int armorPiercing;
+	public int armorPiercing = 0;
 	
-	public boolean causePassiveDamage;
-	public int     damageOnRadius;
-	public int     damageRadius; // Passiiviselle AoE-vahingolle
+	public boolean causePassiveDamage = false;
+	public int     damageOnRadius = 0;
+	public int     damageRadius = 0; // Passiiviselle AoE-vahingolle
 	
-	public int     explodeTime;
+	public int     explodeTime = 0;
+	public long    startTime = 0;
+	public long    currentTime;
 	
 	// Wrapper
 	private Wrapper wrapper;
@@ -62,6 +64,12 @@ public class ProjectileLaser extends GameObject {
 	
 	// Aktivoidaan ammus
 	public void activate(int _xTouchPosition, int _yTouchPosition) {
+		// Tarkistetaan ajastus
+		if (explodeTime > 0) {
+			startTime = android.os.SystemClock.uptimeMillis();
+		}
+		
+		// Tallennetaan koordinaatit
 		targetX = _xTouchPosition;
 		targetY = _yTouchPosition;
 
@@ -85,13 +93,10 @@ public class ProjectileLaser extends GameObject {
 		else {
 			direction = 0;
 		}
-
-		/*
-		 * TEHTY 1. valitse suunta (missä kohde on pelaajaan nähden)
-		 * 2. laske liikkumisnopeus ja kiihtyvyydet
-		 * 3. määritä collisionType ja collisionRadius (WEAPON LUOKKAAN!)
-		 * 4. lisää tämä luokka globaaliin piirto- ja päivityslistaan
-		 */
+		
+		// Aktivoidaan ammus
+		wrapper.projectileLaserStates.set(listId, 1);
+		active = true;
 	}
 	
 	public void handleAi() {
@@ -116,7 +121,13 @@ public class ProjectileLaser extends GameObject {
 		}
 		
 		// Tarkistetaan räjähdykset (ajastus)
-		//...
+		if (explodeTime > 0) {
+			currentTime = android.os.SystemClock.uptimeMillis();
+			
+			if (currentTime - startTime >= explodeTime) {
+				causeExplosion();
+			}
+		}
 		
 		// Tarkistetaan suunta ja kääntyminen
 		//...
