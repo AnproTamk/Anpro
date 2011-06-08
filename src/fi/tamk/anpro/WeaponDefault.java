@@ -9,6 +9,9 @@ public class WeaponDefault extends Weapon {
 	public WeaponDefault() {
 		super();
 		
+		// M‰‰ritet‰‰n aseen sijainti HUDissa
+		locationOnHUD = 1;
+		
 		// Alustetaan ammukset
 		projectiles = new ArrayList<ProjectileLaser>(AMOUNT_OF_PROJECTILES);
 
@@ -25,6 +28,4 @@ public class WeaponDefault extends Weapon {
 			}
 		}
 	}
-	
-	
 }
