@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 class GameThread extends Thread {
-    private boolean _running = false;
+    private boolean running = false;
     
     private Context       context;
     private Resources     resources;
     private GLSurfaceView surface;
     private GLRenderer    renderer;
     
-    public Player player;
+    public Enemy enemy;
     
     private long _lastUpdate = 0;
     
@@ -27,12 +27,19 @@ class GameThread extends Thread {
         resources  = _resources;
         renderer   = _glRenderer;
         
-        player = new Player(10, 5);
-        player.setDrawables(null, renderer.playerTextures);
+        enemy = new Enemy(5, 1, 1, 1, 1);
+        enemy.setDrawables(null, renderer.enemyTextures);
+        enemy.direction = 270;
+        enemy.x = 400;
+        enemy.y = 240;
+        enemy.turningDirection = 0;
+        
+        /*enemy = new Enemy(5, 1, 1, 1, 1);
+        enemy.setDrawables(null, renderer.enemyTextures);*/
     }
 
     public void setRunning(boolean run) {
-        _running = run;
+        running = run;
     }
 
     @Override
@@ -43,13 +50,16 @@ class GameThread extends Thread {
          * vaadittuja muuttujia)
          */
         _lastUpdate = android.os.SystemClock.uptimeMillis();
-        
-        while (_running) {
+
+        while (running) {
             long currentTime = android.os.SystemClock.uptimeMillis();
             
             // Tarkista sijainnit
+            //if (true) {
             if (currentTime - _lastUpdate >= 20) {
                 _lastUpdate = currentTime;
+                enemy.updateMovement(currentTime);
+                //enemy.x += 10;
                 
                 
                 /*
@@ -61,16 +71,13 @@ class GameThread extends Thread {
                 /*
                  * PELIN PÄÄSILMUKKA LOPPUU TÄHÄN
                  */
-            }
-            
-            // Tarkista tekoälyn tila 100 ms välein
-            if (currentTime - _lastUpdate >= 100) {
-            	
-            }
-            
-            // Tarkista animaatiot
-            if (currentTime - _lastUpdate >= 15) {
-            	
+                
+                try {
+					this.sleep(20);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
     }

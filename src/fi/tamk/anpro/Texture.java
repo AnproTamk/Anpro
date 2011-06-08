@@ -89,6 +89,7 @@ public class Texture {
         
         // Siirret‰‰n mallimatriisia (X, Y, Z)
         _gl.glTranslatef(_x, _y, 0);
+        _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprite[0]);
