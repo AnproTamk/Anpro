@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<res>
+    <enemies>
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="2" />
+        <enemy rank="3" />
+    </enemies>
+    <waves>
+        <wave enemies="0,1,2" />
+        <wave enemies="3,4,5" />
+        <wave enemies="0,1,2,3,4" />    
+    </waves>
+</res>

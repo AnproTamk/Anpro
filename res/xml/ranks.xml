@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ranks>
+	<!-- Ensimmäisen vihollisen tiedot -->
+	<rank health="1" speed="1" attack="1" defence="1" ai="0" />
+	
+	<!-- Toisen vihollisen tiedot -->
+	<rank health="2" speed="2" attack="2" defence="2" ai="1" />
+	
+	<!-- Kolmannen vihollisen tiedot -->
+	<rank health="3" speed="3" attack="3" defence="3" ai="2" />
+	
+	<!-- Neljännen vihollisen tiedot -->
+	<rank health="4" speed="4" attack="4" defence="4" ai="3" />
+</ranks>
