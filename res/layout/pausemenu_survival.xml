@@ -33,13 +33,6 @@
          
          </RadioButton>
          
-         <Button android:text="Level Select" 
-                 android:layout_height="wrap_content" 
-                 android:id="@+id/button_level_select" 
-                 android:layout_marginLeft="85dip" 
-                 android:layout_width="150dip">
-         </Button>
-         
          <Button android:text="Main Menu" 
                  android:layout_height="wrap_content" 
                  android:id="@+id/button_main_menu" 
