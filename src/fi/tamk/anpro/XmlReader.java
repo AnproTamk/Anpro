@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -140,5 +141,92 @@ public class XmlReader
         }
 		boolean settingValues[] = {particles, music, sounds};
 		return settingValues;
+	}
+	
+	/*
+	 * Funktio lukee ranks.xml-tiedostosta vihollisten tason
+	 * ja sijoittaa ne kaksiulotteiseen taulukkoon.
+	 */
+	public ArrayList<Integer> readRanks() {
+		XmlResourceParser ranks = null;
+		ArrayList<Integer> enemyStats = null;
+		
+		ranks = context.getResources().getXml(R.xml.ranks);
+		
+		try {
+        	while (ranks.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		if (ranks.getEventType() == XmlPullParser.START_TAG) {
+                    if (ranks.getName().equals("ranks")) {
+                    	// Muunnetaan saatujen attribuuttien tiedot integer-arvoiksi, jotka sijoitetaan taulukkoon.
+                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "health")));
+                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "speed")));
+                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "attack")));
+                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "defence")));
+                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "ai")));
+                    }
+                }
+                else if (ranks.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+        		
+        		ranks.next();
+        	}
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return enemyStats;
+	}
+	
+	public void readSurvivalMode(SurvivalMode _survivalMode) {
+		XmlResourceParser rsm = null;
+		rsm = context.getResources().getXml(R.xml.survivalmode);
+		int currentWave = 0;
+		
+		try {
+        	while (rsm.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		if (rsm.getEventType() == XmlPullParser.START_TAG) {
+        			if (rsm.getName().equals("enemy")) {
+        				int rankTemp = Integer.parseInt(rsm.getAttributeValue(null, "rank"));
+        				
+        				_survivalMode.enemies.add(new Enemy(_survivalMode.enemyStats[rankTemp][0],
+        													_survivalMode.enemyStats[rankTemp][1],
+        													_survivalMode.enemyStats[rankTemp][2],
+        													_survivalMode.enemyStats[rankTemp][3],
+        													_survivalMode.enemyStats[rankTemp][4]));
+        			}
+        			if (rsm.getName().equals("wave")) {
+        				// int enemisTemp = Integer.parseInt(rsm.getAttributeValue(null, "enemies"));
+        				
+        				String waveTemp = rsm.getAttributeValue(null, "enemies");
+        				String wave[] = waveTemp.split("\\,");
+        				
+        				// Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
+        				int index = 0;
+        				for (int i = wave.length - 1; i >= 0 ; --i) {
+        					_survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
+        					++index;
+        				}
+        				
+        				++currentWave;
+        			}
+        			
+                }
+                else if (rsm.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+        		
+        		rsm.next();
+        	}
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 	}
 }
