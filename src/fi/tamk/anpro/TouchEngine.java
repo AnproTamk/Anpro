@@ -10,9 +10,19 @@ public class TouchEngine {
 	
 	private static TouchEngine instance = null;
 	
+	// Muuttujat
+	public WeaponStorage weaponStorage;
+	public int xTouch;
+	public int yTouch;
+	public int xClickOffset;
+	public int yClickOffset;
+	//public int xOffset;
+	//public int yOffset;
+	public int tileSize = 48;
+	
 	// TouchEnginen rakentaja
     protected TouchEngine() {
-    	
+    	weaponStorage = WeaponStorage.getInstance();
     }
     
     public static TouchEngine getInstance() {
@@ -23,13 +33,7 @@ public class TouchEngine {
     }
     // TouchEnginen rakentaja loppu
 	
-	public int xTouch;
-	public int yTouch;
-	public int xClickOffset;
-	public int yClickOffset;
-	//public int xOffset;
-	//public int yOffset;
-	public int tileSize = 48;
+
 
 	public boolean onTouchEvent(MotionEvent event) {
 			// Painaminen
@@ -56,12 +60,12 @@ public class TouchEngine {
 	        }
 	        // Painamisen loputtua
 	        else if (event.getAction() == MotionEvent.ACTION_UP) {
-	        	if (Math.abs(event.getX() - xClickOffset) < tileSize / 2
-	             && Math.abs(event.getY() - yClickOffset) < tileSize / 2){
+	        	//if (Math.abs(event.getX() - xClickOffset) < tileSize / 2
+	            // && Math.abs(event.getY() - yClickOffset) < tileSize / 2){
 	        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
-	        		//
+	        		weaponStorage.triggerShoot((int)event.getX(), (int)event.getY());
 	        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
-	            }
+	            //}
 	        }
 	        return true;
 	    } 
