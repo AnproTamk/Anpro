@@ -5,11 +5,12 @@ public class SurvivalMode {
     private static SurvivalMode instance = null;
     
     public int waves[][];
-    ArrayList<Enemy> enemies;
+    public int enemyStats[][];
+    public ArrayList<Enemy> enemies;
     
     //StoryModen rakentaja
     protected SurvivalMode() {
-    	// ...
+    	waves = new int[100][10];
     }
     
     public static SurvivalMode getInstance() {
