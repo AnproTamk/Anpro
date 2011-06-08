@@ -4,7 +4,8 @@ import java.util.ArrayList;
 public class SurvivalMode {
     private static SurvivalMode instance = null;
     
-    public int waveNumber = 0;
+    public int waves[][];
+    ArrayList<Enemy> enemies;
     
     //StoryModen rakentaja
     protected SurvivalMode() {
@@ -18,7 +19,5 @@ public class SurvivalMode {
         return instance;
     }
     
-    public void initWeapons(){
-    	// ...
-    }
+    
 }
