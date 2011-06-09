@@ -11,6 +11,8 @@ public class Enemy extends GameObject
     public int health;
     public int rank;
     
+    public GenericAI ai;
+    
     ArrayList<Animation> animations;
     ArrayList<Texture> textures;
     
@@ -26,6 +28,8 @@ public class Enemy extends GameObject
         defence  = _defence;
         health   = _health;
         rank     = _rank;
+        
+        ai = new EnemyAI();
     
         animationLength = new int[3];
 
