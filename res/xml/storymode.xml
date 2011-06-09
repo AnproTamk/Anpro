@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<storymode>
+    <enemies>
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="1" />
+        <enemy rank="2" />
+        <enemy rank="2" />
+        <enemy rank="2" />
+        <enemy rank="3" />
+        <enemy rank="3" />
+        <enemy rank="3" />
+    </enemies>
+    <levels>
+        <story chapter="1" >
+            <level type="1"> <!-- normaalikenttä -->
+                <wave enemies="0,1,2" />
+                <wave enemies="0,1,2" />
+                </level>
+            <level type="2"> <!-- haastavampi kenttä -->
+                <wave enemies="2,3,4" />
+                <wave enemies="2,3,4" />
+                <wave enemies="0,1,2,3,4" />   
+            </level>
+            <level type="3"> <!-- boss-kenttä -->
+                <wave enemies="2,3,4" />
+                <wave enemies="2,3,4" />
+                <wave enemies="2,3,4" />
+            </level>
+         </story>
+    </levels>
+</storymode>
