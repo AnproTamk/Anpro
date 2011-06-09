@@ -58,7 +58,6 @@ public class Player extends GameObject
         }
     }
 
-
     public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
     {
         animations = _animations;

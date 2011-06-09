@@ -17,6 +17,7 @@ class GameThread extends Thread {
     private GLRenderer    renderer;
     
     public Enemy enemy;
+    public GuiObject testText;
     
     private long _lastUpdate = 0;
     
@@ -29,13 +30,15 @@ class GameThread extends Thread {
         
         enemy = new Enemy(5, 1, 1, 1, 1);
         enemy.setDrawables(null, renderer.enemyTextures);
-        enemy.direction = 270;
-        enemy.x = 400;
-        enemy.y = 240;
+        enemy.direction = 0;
+        enemy.x = 240;
+        enemy.y = 400;
         enemy.turningDirection = 0;
         
-        /*enemy = new Enemy(5, 1, 1, 1, 1);
-        enemy.setDrawables(null, renderer.enemyTextures);*/
+        testText = new GuiObject("testi");
+        testText.setDrawables(renderer.testText);
+        testText.x = 240;
+        testText.y = 400;
     }
 
     public void setRunning(boolean run) {

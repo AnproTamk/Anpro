@@ -16,6 +16,9 @@ public class Wrapper {
 	public ArrayList<Integer> playerStates = null;
 	public ArrayList<Integer> enemyStates = null;
 	public ArrayList<Integer> projectileLaserStates = null;
+	
+	// HUD-objektit
+	public GuiObject testText;
     
     //Wrapperin rakentaja
     protected Wrapper() {
@@ -46,6 +49,9 @@ public class Wrapper {
 		else if (_object instanceof ProjectileLaser) {
 			projectileLasers.add((ProjectileLaser)_object);
 			projectileLaserStates.add(1);
+		}
+		else if (_object instanceof GuiObject) {
+			testText = (GuiObject)_object;
 		}
 
 		return enemyStates.size()-1;
