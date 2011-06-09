@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.opengl.GLUtils;
 
 public class StringTexture {
@@ -33,21 +34,26 @@ public class StringTexture {
         1.0f, 0.0f		// alaoikea
     };
 
-    public StringTexture(GL10 _gl, Context context, String _text) {
+    public StringTexture(GL10 _gl, Context _context, String _text) {
         sprite = new int[1];
         
         // Luodaan tyhj‰ bitmappi ja lis‰t‰‰n se canvasiin
-        Bitmap bitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_4444);
+        Bitmap bitmap = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_4444);
+        bitmap.eraseColor(120);
+        
         Canvas canvas = new Canvas(bitmap);
-        bitmap.eraseColor(0);
+        
+        int a = bitmap.getWidth();
+        int b = bitmap.getHeight();
         
         // Piirret‰‰n teksti
         Paint textPaint = new Paint();
-        textPaint.setTextSize(32);
-        textPaint.setAntiAlias(true);
-        textPaint.setARGB(0xff, 0x00, 0x00, 0x00);
+        textPaint.setTextSize(16);
+        textPaint.setAntiAlias(false);
+        textPaint.setARGB(255, 255, 255, 255);
         
-        canvas.drawText(_text, 16, 112, textPaint);
+        //canvas.drawText("tes", 0, 0, textPaint);
+        canvas.drawARGB(255, 255, 255, 255);
         
         // Asetetaan mitat
         imageSize = (float)bitmap.getWidth();
@@ -61,7 +67,7 @@ public class StringTexture {
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
         bitmap.recycle();
-        
+        b= a; a = b;
         vertices = new float[12];
         vertices[0] = (-1)*imageSize;
         vertices[1] = vertices[0];
