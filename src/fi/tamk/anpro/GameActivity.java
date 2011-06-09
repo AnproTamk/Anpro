@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -33,6 +34,9 @@ public class GameActivity extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         
         // Luodaan OpenGL-näkymä ja renderöijä
         glSurfaceView = new GLSurfaceView(this);
