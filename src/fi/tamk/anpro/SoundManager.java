@@ -6,6 +6,13 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+/*
+ * SoundManager-class
+ * 
+ * Käyttö:
+ * playSound(äänen indeksinumero(int), toistonopeus(float));
+ */
+
 public class SoundManager {
 
 	static private SoundManager instance;
