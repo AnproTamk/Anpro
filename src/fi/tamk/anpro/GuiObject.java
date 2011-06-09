@@ -11,9 +11,7 @@ public class GuiObject extends GfxObject {
 	
 	private int listId;
 	
-	public GuiObject(String _text) {
-		text = _text;
-        
+	public GuiObject() {
         wrapper = Wrapper.getInstance();
         
         listId = wrapper.addToList(this);
