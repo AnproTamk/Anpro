@@ -56,6 +56,7 @@ public class Enemy extends GameObject
 		wrapper.enemyStates.set(listId, 0);
 		
 		// TODO: Poista tekoäly käytöstä
+		// TODO: Tarkista pelitila ja päivitä enemiesLeft-muuttuja
 	}
 	
 	public void draw(GL10 _gl)
@@ -101,5 +102,16 @@ public class Enemy extends GameObject
 			wrapper.players.get(0).health -= attack * 3;
 			setUnactive();
 		}
+	}
+
+	public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
+		health = _health;
+		speed = _speed;
+		attack = _attack;
+		defence = _defence;
+		rank = _rank;
+		
+		
+		// TODO: Ota uusi tekoäly käyttöön
 	}
 }
