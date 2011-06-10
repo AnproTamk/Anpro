@@ -31,29 +31,10 @@ public class XmlWriter {
 	 * Tämä funktio tallentaa StoryModen tiedot XML-tiedostoon.
 	 */
 	public boolean saveGame() {
+		// Luodaan uusi XML-tiedosto pelin tallennukselle
+		File xmlSaveGame = new File(Environment.getExternalStorageDirectory()+"/storymode.xml");
 		
-		
-		
-		return false;
-	}
-	
-	/*
-	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
-	 * @param boolean[] settingStates
-	 **/
-	public void saveSettings(boolean[] settingStates) {
-		// Luodaan uusi XML-tiedosto pelitallennukselle.
-		File xmlSaveGame = new File(Environment.getExternalStorageDirectory()+"/settings.xml");
-		
-		String[] stateId = {"0", "0", "0"};
-		
-		for (int i = 0; i < 3; i++) {
-			if (settingStates[i] == false) {
-				stateId[i] = "0";
-			}
-			else
-				stateId[i] = "1";
-		}
+		// Kokeillaan, onko tiedosto jo olemassa. Jos ei ole, se luodaan.
 		try {
 			xmlSaveGame.createNewFile();
 		} catch (Exception e) {
@@ -65,6 +46,85 @@ public class XmlWriter {
 		
 		try {
 			fileos = new FileOutputStream(xmlSaveGame);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Luodaan XmlSerializer, jotta voidaan kirjoittaa xml-dataa.
+		XmlSerializer serializer = Xml.newSerializer();
+		
+		try {
+			// Asetetaan FileOutputStream ulostuloksi serializerille, käyttäen UTF-8-koodausta.
+			serializer.setOutput(fileos, "UTF-8");
+			// Kirjoitetaan <?xml -selite enkoodauksella (jos enkoodaus ei ole "null") 
+			//ja "standalone flag" (jos "standalone" ei ole "null").
+			serializer.startDocument(null, Boolean.valueOf(false));
+			// Asetetaan sisennykset.
+			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
+			serializer.startTag(null, "res");
+			
+			/* 
+			 * Tästä alkaa xml-tiedoston sisempi osuus.
+			 * Tallennetaan storymoden pelitiedot.
+			 * 
+			 
+			serializer.startTag(null, "particles");
+			serializer.attribute(null, "value", stateId[0]);
+			serializer.endTag(null, "particles");
+			
+			serializer.startTag(null, "music");
+			serializer.attribute(null, "value", stateId[1]);
+			serializer.endTag(null, "music");
+			
+			serializer.startTag(null, "sounds");
+			serializer.attribute(null, "value", stateId[2]);
+			serializer.endTag(null, "sounds");
+			
+			serializer.endTag(null, "res");
+			serializer.endDocument();
+			
+			//Kirjoitetaan xml-data FileOutputStreamiin.
+			serializer.flush();
+			//Suljetaan tiedostovirta.
+			fileos.close();
+			*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/*
+	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
+	 * @param boolean[] settingStates
+	 **/
+	public void saveSettings(boolean[] settingStates) {
+		// Luodaan uusi XML-tiedosto asetuksille.
+		File xmlStoreSettings = new File(Environment.getExternalStorageDirectory()+"/settings.xml");
+		
+		String[] stateId = {"0", "0", "0"};
+		
+		for (int i = 0; i < 3; i++) {
+			if (settingStates[i] == false) {
+				stateId[i] = "0";
+			}
+			else
+				stateId[i] = "1";
+		}
+		
+		try {
+			xmlStoreSettings.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// "Sidotaan" uusi tiedosto FileOutputStreamilla.
+		FileOutputStream fileos = null;
+		
+		try {
+			fileos = new FileOutputStream(xmlStoreSettings);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
