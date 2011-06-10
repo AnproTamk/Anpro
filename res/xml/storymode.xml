@@ -16,18 +16,23 @@
     <levels>
         <story chapter="1" >
             <level type="1"> <!-- normaalikenttä -->
-                <wave enemies="0,1,2" />
-                <wave enemies="0,1,2" />
-                </level>
+                <wave enemies="0,1,2" prefspawnside="3"/>
+                <wave enemies="0,1,2" prefspawnside="1"/>
+            </level>
             <level type="2"> <!-- haastavampi kenttä -->
-                <wave enemies="2,3,4" />
-                <wave enemies="2,3,4" />
-                <wave enemies="0,1,2,3,4" />   
+                <wave enemies="3,4,5" prefspawnside="1" />
+                <wave enemies="3,4,5" prefspawnside="1" />
+                <wave enemies="7,8,9,10" prefspawnside="4" />   
             </level>
             <level type="3"> <!-- boss-kenttä -->
-                <wave enemies="2,3,4" />
-                <wave enemies="2,3,4" />
-                <wave enemies="2,3,4" />
+                <wave enemies="6,7,8" prefspawnside="1" />
+                <wave enemies="8,9,10" prefspawnside="2" />
+                <wave enemies="9,10" prefspawnside="3" />
+            </level>
+         </story>
+         <story chapter="2" >
+            <level type="1">
+                <wave enemies="" prefspawnside="" />
             </level>
          </story>
     </levels>

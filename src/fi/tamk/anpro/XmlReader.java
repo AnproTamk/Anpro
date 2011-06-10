@@ -249,22 +249,35 @@ public class XmlReader
 	
 	 /*
      * Luokka readStoryMode()
+     * @param StoryMode _storyMode
      */
     public void readStoryMode(StoryMode _storyMode){
     	XmlResourceParser rStoryMode = null;
-		//rStoryMode = context.getResources().getXml(R.xml.storymode);
-    	
-    	
+		rStoryMode = context.getResources().getXml(R.xml.storymode);
+		int currentWave = 0;
     	
     	try {
         	while (rStoryMode.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (rStoryMode.getEventType() == XmlPullParser.START_TAG) {
-        			/*if (rsm.getName().equals("")) {
+        			if (rStoryMode.getName().equals("enemy")) {
+        				int rankTemp = Integer.parseInt(rStoryMode.getAttributeValue(null, "rank"));
+        				
+        				/*_storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rankTemp][0],
+        						_storyMode.enemyStats[rankTemp][1],
+        						_storyMode.enemyStats[rankTemp][2],
+        						_storyMode.enemyStats[rankTemp][3],
+        						_storyMode.enemyStats[rankTemp][4]));*/
         				
         			}
-        			if (rsm.getName().equals("")) {
+        			if (rStoryMode.getName().equals("story")) {
+        				// Tähän funktio "chapterin" tallentamiseksi.
+        				// int currentChapter = blaa...
         				
-        			}*/
+        				if (rStoryMode.getName().equals("level")) {
+        					// Tähän funktio "levelin" tallentamiseksi.
+            				// int levelType = ...
+        				}
+        			}
                 }
                 else if (rStoryMode.getEventType() == XmlPullParser.END_TAG) {
                     // ...
@@ -287,8 +300,6 @@ public class XmlReader
     public void readSavedGame() {
     	XmlResourceParser rsg = null;
 		//rsg = context.getResources().getXml(R.xml.savedgame);
-    	
-    	
     	
     	try {
         	while (rsg.getEventType() != XmlPullParser.END_DOCUMENT) {
