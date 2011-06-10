@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,10 +16,12 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
 	ArrayList<View> views = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle _savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.levelselect);
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
 		/* OPTIMOINNIN HOMMIA!!!!!!!
 		for(int i = 0; i < 15; ++i) {
@@ -84,46 +87,46 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
         mainmenuButton.setOnClickListener(this); 
 	}
 
-	public void onClick(View v) {
-		switch(v.getId()) {
-    	case R.id.button_level1:
-    		Intent i_game = new Intent(this, GameActivity.class);
-    		startActivity(i_game);
-    		finish();
-    		break;
-    	case R.id.button_level2:
-    		break;
-    	case R.id.button_level3:
-    		break;
-    	case R.id.button_level4:
-    		break;
-    	case R.id.button_level5:
-    		break;
-    	case R.id.button_level6:
-    		break;
-    	case R.id.button_level7:
-    		break;
-    	case R.id.button_level8:
-    		break;
-    	case R.id.button_level9:
-    		break;
-    	case R.id.button_level10:
-    		break;
-    	case R.id.button_level11:
-    		break;
-    	case R.id.button_level12:
-    		break;
-    	case R.id.button_level13:
-    		break;
-    	case R.id.button_level14:
-    		break;
-    	case R.id.button_level15:
-    		break;
-    	case R.id.button_mainmenu:
-    		Intent i_mainmenu = new Intent(this, MainActivity.class);			// VAATII OPTIMOINTIA - KÄYNNISTÄÄ JOKA KERTA LUOKAN UUDELLEEN
-    		startActivity(i_mainmenu);
-    		finish();
-    		break;  		
+	public void onClick(View _v) {
+		switch(_v.getId()) {
+	    	case R.id.button_level1:
+	    		Intent i_game = new Intent(this, GameActivity.class);
+	    		startActivity(i_game);
+	    		finish();
+	    		break;
+	    	case R.id.button_level2:
+	    		break;
+	    	case R.id.button_level3:
+	    		break;
+	    	case R.id.button_level4:
+	    		break;
+	    	case R.id.button_level5:
+	    		break;
+	    	case R.id.button_level6:
+	    		break;
+	    	case R.id.button_level7:
+	    		break;
+	    	case R.id.button_level8:
+	    		break;
+	    	case R.id.button_level9:
+	    		break;
+	    	case R.id.button_level10:
+	    		break;
+	    	case R.id.button_level11:
+	    		break;
+	    	case R.id.button_level12:
+	    		break;
+	    	case R.id.button_level13:
+	    		break;
+	    	case R.id.button_level14:
+	    		break;
+	    	case R.id.button_level15:
+	    		break;
+	    	case R.id.button_mainmenu:
+	    		Intent i_mainmenu = new Intent(this, MainActivity.class); // VAATII OPTIMOINTIA - KÄYNNISTÄÄ JOKA KERTA LUOKAN UUDELLEEN
+	    		startActivity(i_mainmenu);
+	    		finish();
+	    		break;  		
 		}	
 	}	
 }

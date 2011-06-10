@@ -6,6 +6,9 @@ public class WeaponDefault extends Weapon {
 	// Ammukset ja niiden tilat
 	private ArrayList<ProjectileLaser> projectiles;
 	
+	/*
+	 * Rakentaja
+	 */
 	public WeaponDefault() {
 		super();
 		
@@ -20,6 +23,9 @@ public class WeaponDefault extends Weapon {
 		}
 	}
 
+	/*
+	 * Aktivoidaan ammukset
+	 */
 	public void activate(int _xTouchPosition, int _yTouchPosition) {
 		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
 			if (projectiles.get(i).active == false) {

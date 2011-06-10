@@ -16,20 +16,15 @@ import android.content.res.XmlResourceParser;
 public class XmlReader 
 {
 	private Context context;
-	private GLRenderer renderer;
-	private GL10 gl;
 	
-	
-	
-	public XmlReader(Context _context, GLRenderer _renderer, GL10 _gl)
+	public XmlReader(Context _context)
 	{
 		context = _context;
-		renderer = _renderer;
-		gl = _gl;
 	}
-	
 
-	
+	/*
+	 * Lukee kentän tiedot.
+	 */
 	public void readLevel(int _id)
 	{
 		XmlResourceParser level = null;
@@ -39,8 +34,7 @@ public class XmlReader
 			e.printStackTrace();
 		}
 
-		
-        // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
+        //( Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         try {
             while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
                 if (level.getEventType() == XmlPullParser.START_TAG) {
@@ -48,9 +42,7 @@ public class XmlReader
                         /*renderer.players.add(new Player(gl, context, level.getAttributeResourceValue(null, "id", 0),
                         								level.getAttributeIntValue(null, "health", 10),
                         								level.getAttributeIntValue(null, "defence", 0)));*/
-
                     }
- 
                     else if (level.getName().equals("enemy")) {
                     	//renderer.enemies.add(new Enemy(gl, context, level.getAttributeResourceValue(null, "id", 0),
 						//								level.getAttributeIntValue(null, "rank", 1));
@@ -74,6 +66,9 @@ public class XmlReader
         }
 	}
  	
+	/*
+	 * Lukee HUDin tiedot.
+	 */
 	public void readHUD()
 	{
 		/*XmlResourceParser level = context.getResources().getXml(R.xml.HUD);
@@ -100,7 +95,9 @@ public class XmlReader
         }*/
 	}
 	
-	// Luetaan XML-tiedosto pelin asetuksia varten.
+	/*
+	 * Lukee asetukset.
+	 */
 	public boolean[] readSettings() {
 		XmlResourceParser settings = null;
 		boolean particles = false, music = false, sounds = false;
@@ -149,7 +146,7 @@ public class XmlReader
 	 */
 	public ArrayList<Integer> readRanks() {
 		XmlResourceParser ranks = null;
-		ArrayList<Integer> enemyStats = null;
+		ArrayList<Integer> enemyStats = new ArrayList<Integer>();
 		
 		ranks = context.getResources().getXml(R.xml.ranks);
 		
@@ -206,10 +203,10 @@ public class XmlReader
         				 * saadut arvot.
         				 */
         				_survivalMode.enemies.add(new Enemy(_survivalMode.enemyStats[rankTemp][0],
-        													_survivalMode.enemyStats[rankTemp][1],
-        													_survivalMode.enemyStats[rankTemp][2],
-        													_survivalMode.enemyStats[rankTemp][3],
-        													_survivalMode.enemyStats[rankTemp][4]));
+        												    _survivalMode.enemyStats[rankTemp][1],
+        												    _survivalMode.enemyStats[rankTemp][2],
+        												    _survivalMode.enemyStats[rankTemp][3],
+        												    _survivalMode.enemyStats[rankTemp][4]));
         			}
         			if (rsm.getName().equals("wave")) {
         				
@@ -291,25 +288,24 @@ public class XmlReader
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
     }
     
     /*
      * readSavedGame()-luokka.
      */
     public void readSavedGame() {
-    	XmlResourceParser rsg = null;
-		//rsg = context.getResources().getXml(R.xml.savedgame);
+    	/*XmlResourceParser rsg = null;
+		rsg = context.getResources().getXml(R.xml.savedgame);
     	
     	try {
         	while (rsg.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (rsg.getEventType() == XmlPullParser.START_TAG) {
-        			/*if (rsg().equals("")) {
+        			if (rsg().equals("")) {
         				
         			}
         			if (rsg().equals("")) {
         				
-        			}*/
+        			}
                 }
                 else if (rsg.getEventType() == XmlPullParser.END_TAG) {
                     // ...
@@ -322,6 +318,6 @@ public class XmlReader
         } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     }
 }

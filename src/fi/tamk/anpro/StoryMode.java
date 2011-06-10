@@ -1,7 +1,4 @@
 package fi.tamk.anpro;
-import java.util.ArrayList;
-
-import fi.tamk.anpro.R;
 
 public class StoryMode {
     private static StoryMode instance = null;
@@ -21,7 +18,6 @@ public class StoryMode {
     int screenWidth = GLRenderer.width;
     int screenHeight = GLRenderer.height;
     
-    
     // Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen määrän mukaan
     // 		{ {vasen reuna X,Y}, {vasen yläreuna X,Y}, {yläreuna X,Y}, {oikea yläreuna X,Y},
     // 		  {oikea reuna X,Y}, {oikea alareuna X,Y}, {alareuna X,Y}, {vasen alareuna X,Y} }
@@ -35,30 +31,30 @@ public class StoryMode {
     						    {( 0 /*+ KAMERANMUUTOKSEN_X_MÄÄRÄ*/), (-(screenHeight / 2) /*+ KAMERANMUUTOKSEN_Y_MÄÄRÄ*/)}, // alareuna
     						    {(-(screenWidth / 2) /*+ KAMERANMUUTOKSEN_X_MÄÄRÄ*/), (-(screenHeight / 2) /*+ KAMERANMUUTOKSEN_Y_MÄÄRÄ*/)}  // vasen alareuna
     };
+    
     /*
      * Hakee, satunnoi ja asettaa vihollisten aloituspisteet
      */
     /*public void setSpawnPoints() {
     	for (int index = 0; index < 8; ++index) {
     		if (spawnPoints[][][] == {0) {
-    		// Asettele viholliset randomilla ympäri kenttää
+    			// Asettele viholliset randomilla ympäri kenttää
+	    	}
+	    	else if(spawnPoints[][][] == 1) {
+	    		// Asettele viholliset kentän vasempaan reunaan
+	    	}
+	    	else if(spawnPoints[][][] == 2) {
+	    		// Asettele viholliset kentän yläreunaan
+	    	}
+	    	else if(spawnPoints[][][] == 3) {
+	    		// Asettele viholliset kentän oikeaan reunaan
+	    	}
+	    	else if(spawnPoints[][][] == 4) {
+	    		// Asettele viholliset kentän alareunaan
+	    	}
     	}
-    	else if(spawnPoints[][][] == 1) {
-    		// Asettele viholliset kentän vasempaan reunaan
-    	}
-    	else if(spawnPoints[][][] == 2) {
-    		// Asettele viholliset kentän yläreunaan
-    	}
-    	else if(spawnPoints[][][] == 3) {
-    		// Asettele viholliset kentän oikeaan reunaan
-    	}
-    	else if(spawnPoints[][][] == 4) {
-    		// Asettele viholliset kentän alareunaan
-    	}
-    	}
-    	
-    }
-    */
+    }*/
+    
     /*
        1. [mille reunalle viholliset tulevat] <- hae tämä xmlReaderilla
 	   2. [spawnpointin järjestysnumero] <- näitä aluksi 3 jokaiselle spawnpointille
@@ -77,10 +73,9 @@ public class StoryMode {
     
     // [2][1][0] = x-koord.
     
-
-    
-    
-    //StoryModen rakentaja
+    /*
+     * Rakentaja
+     */
     protected StoryMode() { 
     	/*
     	 * XmlReader reader = new XmlReader();
@@ -95,7 +90,6 @@ public class StoryMode {
         return instance;
     }
     
-
     /*Hae Xml-Readerilla XML-tiedostosta tallennetut tiedot
     
     //Avataan läpäistyt kentät pelaajalle
@@ -109,6 +103,4 @@ public class StoryMode {
     	}
     
     */
-    
-    
 }

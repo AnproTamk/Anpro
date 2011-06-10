@@ -1,14 +1,5 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
-import fi.tamk.anpro.R;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-
 /* 
  * - Pitää sisällään pelinaikaisten valikkojen toiminnallisuuden. 
  *   Grafiikat ovat renderöijässä, mutta HUD-luokka hallitsee kosketuksien 
@@ -32,7 +23,8 @@ public class HUD
 	public static final int BUTTON_1 			  = 2;
 	public static final int BUTTON_2 			  = 3;
 	
-	private static HUD instance   = null;
+	private static HUD instance = null;
+	
 	public int[] weapons;
 
 	public GuiObject gameScore    = null;
@@ -40,14 +32,19 @@ public class HUD
 	public GuiObject gunButton1   = null;
 	public GuiObject gunButton2   = null;
 	
-	WeaponStorage weaponStorage  = null;
+	private WeaponStorage weaponStorage;
 	
-	// HUD:in rakentaja
+	/*
+	 * Rakentaja
+	 */
 	public HUD()
 	{
-		
+		weaponStorage = WeaponStorage.getInstance();
 	}
 
+	/*
+	 * Palauttaa pointterin tähän luokkaan
+	 */
 	public static HUD getInstance()
 	{
 	    if(instance == null){
@@ -55,13 +52,12 @@ public class HUD
 	    }
 	    return instance;
 	}
-	// HUD:in rakentajan loppu
-
-
-
-	public void upDateCooldowns(WeaponStorage _weaponStorage)
+	
+	/*
+	 * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja)
+	 */
+	public void updateCooldowns()
 	{
-		_weaponStorage  = weaponStorage;
 		int coolConsume = weaponStorage.cooldownLeft[0];
 		int coolLeft    = weaponStorage.cooldownLeft[0];
 		long coolTime;
@@ -80,7 +76,9 @@ public class HUD
 		}
 	}
 
-	
+	/*
+	 * Käsittelee napin painalluksen
+	 */
 	public void triggerClick(int _buttonId)
 	{
 		// Asettaa WeaponStorage-luokkaan perusaseen ja tallentaa tiedon myös HUD:iin.

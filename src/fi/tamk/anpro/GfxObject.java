@@ -2,10 +2,6 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-
 public class GfxObject {
 	// Animaatiot ja tekstuurit
 	public ArrayList<Animation> animations;
@@ -27,26 +23,30 @@ public class GfxObject {
     // Staattinen tekstuuri
     public int usedTexture = 0;
     
-    // Konteksti
-    private Context context;
-    
-    /** Rakentaja */
+    /*
+     * Rakentaja
+     */
     public GfxObject() {
     	// ...
     }
     
+    /*
+     * Päivittää animaation
+     */
     public void update() {
-    	if (animationLoops > 0) {
-    		if (currentFrame + 1 > animationLength[usedAnimation]) {
-    			currentFrame = 0;
-    			++currentLoop;
-    		}
-    		else {
-    			++currentFrame;
-    		}
-    	}
-    	else {
-    		
+    	if (usedAnimation > -1) {
+	    	if (animationLoops > 0) {
+	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
+	    			currentFrame = 0;
+	    			++currentLoop;
+	    		}
+	    		else {
+	    			++currentFrame;
+	    		}
+	    	}
+	    	else {
+	    		
+	    	}
     	}
     }
 }
