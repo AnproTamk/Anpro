@@ -2,7 +2,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 public class SurvivalMode {
-	public static final int AMOUNT_OF_WAVES = 100;
+	public static final int AMOUNT_OF_WAVES            = 100;
 	public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
 	
     private static SurvivalMode instance = null;
@@ -26,7 +26,7 @@ public class SurvivalMode {
     //StoryModen rakentaja
     protected SurvivalMode() {
     	waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
-    	scoreCounter = new GuiObject("");
+    	scoreCounter = new GuiObject();
     }
     
     public static SurvivalMode getInstance() {

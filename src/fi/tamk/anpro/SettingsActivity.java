@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import fi.tamk.anpro.R;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -14,6 +15,8 @@ public class SettingsActivity extends PreferenceActivity {
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.settings);
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
 		// Preference particlesPref = findPreference("particles");
 		// particlesPref.setOnPreferenceClickListener((OnPreferenceClickListener) this);  WHAAAT? 

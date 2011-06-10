@@ -11,10 +11,12 @@ import android.opengl.GLU;
 
 public class GLRenderer implements Renderer {
     // Piirrettävät objektit
-    public ArrayList<Animation> playerAnimations; // 3
-    public ArrayList<Texture>   playerTextures;   // 2
-    public ArrayList<Animation> enemyAnimations;  // 3 per rank
-    public ArrayList<Texture>   enemyTextures;    // 2 per rank
+    public static ArrayList<Animation> playerAnimations; // 3
+    public static ArrayList<Texture>   playerTextures;   // 2
+    public static ArrayList<Animation> enemyAnimations;  // 3 per rank
+    public static ArrayList<Texture>   enemyTextures;    // 2 per rank
+    public static ArrayList<Animation> hudAnimations;
+    public static ArrayList<Texture>   hudTextures;
     
     public StringTexture testText = null;
 
@@ -22,12 +24,14 @@ public class GLRenderer implements Renderer {
     
     private Wrapper wrapper;
     
-    // Ruudunpäivityksen ajastus
-    private long lastDraw;
-    private long time;
+	public GameThread gameThread = null;
     
+    // Näytön tiedot
     public static int width;
     public static int height;
+    
+    // Lataustiedot
+    public boolean allLoaded = false;
 
     /** Rakentaja */
     public GLRenderer(Context _context)
@@ -41,8 +45,10 @@ public class GLRenderer implements Renderer {
         // Määritetään taulukoiden koot
         playerAnimations = new ArrayList<Animation>(3);
         playerTextures   = new ArrayList<Texture>(2);
-        enemyAnimations = new ArrayList<Animation>(15);
-        enemyTextures   = new ArrayList<Texture>(10);
+        enemyAnimations  = new ArrayList<Animation>(3);
+        enemyTextures    = new ArrayList<Texture>(2);
+        hudAnimations    = new ArrayList<Animation>();
+        hudTextures      = new ArrayList<Texture>();
     }
 
     /** Kutsutaan, kun pinta luodaan. */
@@ -66,8 +72,14 @@ public class GLRenderer implements Renderer {
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
         
         // Ladataan graffat (väliaikainen)
-        enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-        testText = new StringTexture(_gl, context, "testi");
+        if (gameThread != null) {
+        	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+        	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+
+        	allLoaded = true;
+            
+            gameThread.start();
+        }
     }
 
     /** Kutsutaan, kun pinta muuttuu (kännykkää käännetään tai muuten vain koko muuttuu) */
@@ -103,24 +115,33 @@ public class GLRenderer implements Renderer {
     {
     	_gl.glEnable(GL10.GL_TEXTURE_2D);
     	
-    	//time = android.os.SystemClock.uptimeMillis();
-    	
-    	//if (time - lastDraw >= 20) {
-	        // Tyhjätään ruutu ja syvyyspuskuri
-	        _gl.glClearColor(0, 0, 0, 0);
-	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-	
-	        // Käydään läpi piirtolistat
-	        for (int i = wrapper.players.size()-1; i >= 0; --i) {
-	            wrapper.players.get(0).draw(_gl);
+        // Tyhjätään ruutu ja syvyyspuskuri
+        _gl.glClearColor(0, 0, 0, 0);
+        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
+        // Käydään läpi piirtolistat
+        if (allLoaded) {
+	        if (wrapper.player != null && wrapper.playerState == 1) {
+	        	wrapper.player.draw(_gl);
 	        }
+	        
 	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	            wrapper.enemies.get(i).draw(_gl);
+	        	if (wrapper.enemyStates.get(i) == 1) {
+	        		wrapper.enemies.get(i).draw(_gl);
+	        	}
 	        }
 	        
-	        wrapper.testText.draw(_gl);
-	        
-	        //lastDraw = time;
-    	//}
+	        /*for (int i = wrapper.projectileLasers.size()-1; i >= 0; --i) {
+	            wrapper.projectileLasers.get(i).draw(_gl);
+	        }*/
+        }
+        else {
+        	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+        	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+        	
+        	allLoaded = true;
+        	
+        	gameThread.start();
+        }
     }
 }

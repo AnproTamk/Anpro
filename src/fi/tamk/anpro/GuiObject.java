@@ -3,8 +3,6 @@ package fi.tamk.anpro;
 import javax.microedition.khronos.opengles.GL10;
 
 public class GuiObject extends GfxObject {
-	private String text;
-	
 	public StringTexture stringTexture = null;
 	
 	private Wrapper wrapper;
@@ -19,12 +17,7 @@ public class GuiObject extends GfxObject {
 
     public void draw(GL10 _gl)
     {
-    	try {
-    		stringTexture.draw(_gl, x, y);
-    	}
-    	catch (Exception e) {
-    		// juu...
-    	}
+    	GLRenderer.hudTextures.get(usedTexture).draw(_gl, x, y, 0);
     }
 	
 	public void setDrawables(StringTexture _texture)

@@ -65,6 +65,13 @@ public class Animation {
         vertexBuffer = byteBuffer.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
+        
+        // Sama kuin ylh‰‰ll‰, mutta tekstuurille vektoreiden sijaan.
+        byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        textureBuffer = byteBuffer.asFloatBuffer();
+        textureBuffer.put(texture);
+        textureBuffer.position(0);
     }
 
     public void loadFrame(GL10 gl, Context context, int[] var, int offset, int id)

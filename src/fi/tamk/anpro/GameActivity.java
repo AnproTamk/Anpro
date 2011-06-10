@@ -56,14 +56,10 @@ public class GameActivity extends Activity
         setContentView(glSurfaceView);
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(this, getResources(), glSurfaceView, glRenderer);
+        gameThread = new GameThread(glSurfaceView, glRenderer);
+
         gameThread.setRunning(true);
-        try {
-            gameThread.start();
-        }
-        catch (IllegalThreadStateException exc) {
-            finish();
-        }
+        glRenderer.gameThread = gameThread;
     }
     
     /** Kutsutaan kun ohjelma palaa taustalta tai k‰nnykk‰ palaa valmiustilasta */

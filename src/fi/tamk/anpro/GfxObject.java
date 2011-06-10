@@ -27,9 +27,6 @@ public class GfxObject {
     // Staattinen tekstuuri
     public int usedTexture = 0;
     
-    // Konteksti
-    private Context context;
-    
     /** Rakentaja */
     public GfxObject() {
     	// ...

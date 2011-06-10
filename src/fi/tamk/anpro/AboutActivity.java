@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.app.Dialog;
 import java.lang.Object;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 
 public class AboutActivity extends Activity {
 
@@ -17,6 +18,8 @@ public class AboutActivity extends Activity {
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
 	}
 }

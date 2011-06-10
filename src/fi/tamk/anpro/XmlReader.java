@@ -149,7 +149,7 @@ public class XmlReader
 	 */
 	public ArrayList<Integer> readRanks() {
 		XmlResourceParser ranks = null;
-		ArrayList<Integer> enemyStats = null;
+		ArrayList<Integer> enemyStats = new ArrayList<Integer>();
 		
 		ranks = context.getResources().getXml(R.xml.ranks);
 		
@@ -298,18 +298,18 @@ public class XmlReader
      * readSavedGame()-luokka.
      */
     public void readSavedGame() {
-    	XmlResourceParser rsg = null;
-		//rsg = context.getResources().getXml(R.xml.savedgame);
+    	/*XmlResourceParser rsg = null;
+		rsg = context.getResources().getXml(R.xml.savedgame);
     	
     	try {
         	while (rsg.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (rsg.getEventType() == XmlPullParser.START_TAG) {
-        			/*if (rsg().equals("")) {
+        			if (rsg().equals("")) {
         				
         			}
         			if (rsg().equals("")) {
         				
-        			}*/
+        			}
                 }
                 else if (rsg.getEventType() == XmlPullParser.END_TAG) {
                     // ...
@@ -322,6 +322,6 @@ public class XmlReader
         } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
     }
 }

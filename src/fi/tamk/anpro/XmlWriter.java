@@ -17,16 +17,6 @@ import org.xmlpull.v1.XmlSerializer;
  * achievemintit, kyvyt yms.
  */
 public class XmlWriter {
-	
-	/*
-	 * private Context context;
-	 * 
-	 * public XmlWriter(Context _context) {
-	 *     context = _context;
-	 * }
-	 */
-	
-	
 	/*
 	 * Tämä funktio tallentaa StoryModen tiedot XML-tiedostoon.
 	 */

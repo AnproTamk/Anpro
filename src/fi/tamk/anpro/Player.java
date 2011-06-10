@@ -13,7 +13,6 @@ public class Player extends GameObject
     SurvivalMode survivalMode;
     
     Wrapper wrapper;
-    int     listId;
     
     // Luokan muuttujien rakentaja.
     public Player(int _health, int _defence)
@@ -28,24 +27,20 @@ public class Player extends GameObject
         
         wrapper = Wrapper.getInstance();
         
-        listId = wrapper.addToList(this);
+        wrapper.addToList(this);
     }
 
 
     // Funktio vihollisen "aktiivisuuden" toteuttamiseen.
     public void setActive()
     {
-        if (health > 0) {
-            wrapper.playerStates.set(listId, 1);
-        }
+    	wrapper.playerState = 0;
     }
 
     // Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
     public void setUnactive()
     {
-        if (health == 0) {
-            wrapper.playerStates.set(listId, 1);
-        }
+    	wrapper.playerState = 1;
     }
 
     public void draw(GL10 _gl)
@@ -54,14 +49,9 @@ public class Player extends GameObject
             //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
         }
         else{
-            textures.get(usedTexture).draw(_gl, x, y, direction);
+        	GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
+            //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
-    }
-
-    public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
-    {
-        animations = _animations;
-        textures   = _textures;
     }
 
 	public void triggerImpact(int _damage) {

@@ -5,13 +5,19 @@ import java.util.ArrayList;
 
 public class Enemy extends GameObject
 {
+    public int attackMax;
+    public int speedMax;
+    public int defenceMax;
+    public int healthMax;
+    
     public int attack;
     public int speed;
     public int defence;
     public int health;
+    
     public int rank;
     
-    public GenericAI ai;
+    public GenericAi ai;
     
     ArrayList<Animation> animations;
     ArrayList<Texture> textures;
@@ -23,13 +29,15 @@ public class Enemy extends GameObject
     public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
     {
         super();
-        attack   = _attack;
-        speed    = _speed;
-        defence  = _defence;
-        health   = _health;
-        rank     = _rank;
-        
-        ai = new EnemyAI();
+        healthMax  = _health;
+        health     = _health;
+        attackMax  = _attack;
+        attack     = _attack;
+        speedMax   = _speed;
+        speed      = _speed;
+        defenceMax = _defence;
+        defence    = _defence;
+        rank       = _rank;
     
         animationLength = new int[3];
 
@@ -42,25 +50,20 @@ public class Enemy extends GameObject
         wrapper = Wrapper.getInstance();
         
         listId = wrapper.addToList(this);
-		
-		// TODO: Ota tekoäly käyttöön
+        
+        ai = new LinearAi(listId);
     }
 
 	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
 	public void setActive()
 	{
 		wrapper.enemyStates.set(listId, 1);
-		
-		// TODO: Ota tekoäly käyttöön
 	}
 
 	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
 	public void setUnactive()
 	{
 		wrapper.enemyStates.set(listId, 0);
-		
-		// TODO: Poista tekoäly käytöstä
-		// TODO: Tarkista pelitila ja päivitä enemiesLeft-muuttuja
 	}
 	
 	public void draw(GL10 _gl)
@@ -72,14 +75,9 @@ public class Enemy extends GameObject
 			}
 		
 		else{
-			textures.get(usedTexture).draw(_gl, x, y, direction);
+			//textures.get(usedTexture).draw(_gl, x, y, direction);
+			GLRenderer.enemyTextures.get(0).draw(_gl, x, y, direction);
 		}
-	}
-	
-	public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
-	{
-		textures   = _textures;
-		animations = _animations;
 	}
 	
 	// Käsitellään räjähdyksien aiheuttamat osumat
@@ -103,19 +101,36 @@ public class Enemy extends GameObject
 			}
 		}
 		else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-			wrapper.players.get(0).health -= attack * 3;
+			wrapper.player.health -= attack * 3;
 			setUnactive();
 		}
 	}
 
 	public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
-		health = _health;
-		speed = _speed;
-		attack = _attack;
-		defence = _defence;
-		rank = _rank;
-		
-		
-		// TODO: Ota uusi tekoäly käyttöön
+		// Tallennetaan uudet tiedot
+		healthMax  = _health;
+		health     = _health;
+		speedMax   = _speed;
+		speed      = _speed;
+		attackMax  = _attack;
+		attack     = _attack;
+		defenceMax = _defence;
+		defence    = _defence;
+		rank       = _rank;
+
+		// Otetaan uusi tekoäly käyttöön
+		/*ai = null;
+		if (_ai == 1) {
+			ai = new LinearAi(listId);
+		}
+		else if (_ai == 2) {
+			ai = new LinearAi(listId);
+		}
+		else if (_ai == 3) {
+			ai = new LinearAi(listId);
+		}
+		else if (_ai == 4) {
+			ai = new LinearAi(listId);
+		}*/
 	}
 }
