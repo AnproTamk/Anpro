@@ -25,7 +25,9 @@ public class Enemy extends GameObject
     Wrapper wrapper;
     int     listId;
     
-    // Luokan muuttujien rakentaja.
+    /*
+     * Rakentaja
+     */
     public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
     {
         super();
@@ -54,18 +56,25 @@ public class Enemy extends GameObject
         ai = new LinearAi(listId);
     }
 
-	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
+	/*
+	 * Aktivoi vihollisen
+	 */
 	public void setActive()
 	{
 		wrapper.enemyStates.set(listId, 1);
 	}
 
-	// Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
+	/*
+	 * Poistaa vihollisen käytöstä
+	 */
 	public void setUnactive()
 	{
 		wrapper.enemyStates.set(listId, 0);
 	}
 	
+	/*
+	 * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle
+	 */
 	public void draw(GL10 _gl)
 	{
 		// 1. Tarkistaa onko animaatio päällä.
@@ -80,7 +89,9 @@ public class Enemy extends GameObject
 		}
 	}
 	
-	// Käsitellään räjähdyksien aiheuttamat osumat
+	/*
+	 * Käsitelee räjähdyksien aiheuttamat osumat
+	 */
 	public void triggerImpact(int _damage)
 	{
 		health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
@@ -90,7 +101,9 @@ public class Enemy extends GameObject
 		}
 	}
 	
-	// Käsitellään törmäykset
+	/*
+	 * Käsitelee törmäykset
+	 */
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
 	{
 		if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
@@ -106,6 +119,9 @@ public class Enemy extends GameObject
 		}
 	}
 
+	/*
+	 * Asettaa tiedot
+	 */
 	public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
 		// Tallennetaan uudet tiedot
 		healthMax  = _health;

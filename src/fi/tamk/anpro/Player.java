@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
 
 public class Player extends GameObject
@@ -9,7 +7,7 @@ public class Player extends GameObject
     public int health;
     public int defence;
     public int spawnPoint;
-        
+    
     SurvivalMode survivalMode;
     
     Wrapper wrapper;
@@ -18,6 +16,7 @@ public class Player extends GameObject
     public Player(int _health, int _defence)
     {
         super();
+        
         health  = _health;
         defence = _defence;
         

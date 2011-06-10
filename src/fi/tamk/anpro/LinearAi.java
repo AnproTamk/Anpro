@@ -9,6 +9,9 @@ public class LinearAi extends GenericAi {
 	// Tekoälyä käyttävän vihollisen tunnus wrapperissa
 	private int parentId;
 	
+	/*
+	 * Rakentaja
+	 */
 	public LinearAi(int _id) {
 		super(_id);
 		
@@ -17,6 +20,9 @@ public class LinearAi extends GenericAi {
 		wrapper = Wrapper.getInstance();
 	}
 
+	/*
+	 * Käsittelee tekoälyn
+	 */
 	public void handleAi() {
 		/* Lineaarinen eteneminen
 		 * 

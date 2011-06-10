@@ -11,9 +11,9 @@ import android.preference.PreferenceActivity;
 public class SettingsActivity extends PreferenceActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle _savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(_savedInstanceState);
 		addPreferencesFromResource(R.layout.settings);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -22,26 +22,26 @@ public class SettingsActivity extends PreferenceActivity {
 		// particlesPref.setOnPreferenceClickListener((OnPreferenceClickListener) this);  WHAAAT? 
 	}
 	
-	public void onClick(CheckBoxPreference p) {
+	public void onClick(CheckBoxPreference _p) {
 		XmlWriter writer = new XmlWriter();
 		boolean particleState = false, musicState = false, soundState = false;
 		
-		if (p.getKey().equals("particles")) {
-			if (p.isChecked()) {
+		if (_p.getKey().equals("particles")) {
+			if (_p.isChecked()) {
 				particleState = true;
 			}
 			else
 				particleState = false;
 		}
-		else if (p.getKey().equals("music")) {
-			if (p.isChecked()) {
+		else if (_p.getKey().equals("music")) {
+			if (_p.isChecked()) {
 				musicState = true;
 			}
 			else
 				musicState = false;
 		}
-		else if (p.getKey().equals("sounds")) {
-			if (p.isChecked()) {
+		else if (_p.getKey().equals("sounds")) {
+			if (_p.isChecked()) {
 				soundState = true;
 			}
 			else

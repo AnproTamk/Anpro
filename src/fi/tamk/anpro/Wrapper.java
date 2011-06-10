@@ -22,9 +22,9 @@ public class Wrapper {
     
     //Wrapperin rakentaja
     protected Wrapper() {
-    	enemies = new ArrayList<Enemy>();
-    	projectileLasers = new ArrayList<ProjectileLaser>();
-    	enemyStates = new ArrayList<Integer>();
+    	enemies               = new ArrayList<Enemy>();
+    	projectileLasers      = new ArrayList<ProjectileLaser>();
+    	enemyStates           = new ArrayList<Integer>();
     	projectileLaserStates = new ArrayList<Integer>();
     }
     

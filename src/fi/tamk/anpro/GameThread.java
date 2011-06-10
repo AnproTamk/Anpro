@@ -1,12 +1,6 @@
 package fi.tamk.anpro;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.gesture.GestureLibrary;
 import android.opengl.GLSurfaceView;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 
 class GameThread extends Thread {
     private boolean running = false;
@@ -21,18 +15,25 @@ class GameThread extends Thread {
     private long lastMovementUpdate = 0;
     private long lastAiUpdate       = 0;
     
-    GestureLibrary mLibrary;
-    
+    /*
+     * Rakentaja
+     */
     public GameThread(GLSurfaceView _glSurfaceView, GLRenderer _glRenderer) {
     	surface  = _glSurfaceView;
         renderer = _glRenderer;
         wrapper  = Wrapper.getInstance();
     }
 
-    public void setRunning(boolean run) {
-        running = run;
+    /*
+     * M‰‰ritt‰‰ s‰ikeen p‰‰lle tai pois
+     */
+    public void setRunning(boolean _run) {
+        running = _run;
     }
 
+    /*
+     * Suoritt‰‰ s‰ikeen
+     */
     @Override
     public void run() {
         player = new Player(5, 1);

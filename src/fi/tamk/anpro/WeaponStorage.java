@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class WeaponStorage
 {
-	public static final int SURVIVAL_MODE = 1;
+	public static final int SURVIVAL_MODE      = 1;
 	public static final int STORY_MODE_LEVEL_1 = 1;
 	
 	private static WeaponStorage instance = null;
@@ -23,13 +23,15 @@ public class WeaponStorage
 	public ArrayList<Weapon> playerWeapons = null;
 	
 	// Cooldownit
-	public int cooldownMax[] = { 0 };
-	public int cooldownLeft[] = { 0 };
+	public int cooldownMax[];
+	public int cooldownLeft[];
 
 	// WeaponStoragen rakentaja
 	protected WeaponStorage()
     {
 		playerWeapons = new ArrayList<Weapon>();
+		cooldownMax   = new int[10];
+		cooldownLeft  = new int[10];
     }
 
 	// Lataa pointteri tähän luokkaan
@@ -45,6 +47,8 @@ public class WeaponStorage
     {
     	if (cooldownLeft[currentWeapon] == 0) {
     		playerWeapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
+    		
+    		cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
     	}
     }
     

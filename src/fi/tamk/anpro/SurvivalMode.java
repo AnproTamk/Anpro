@@ -23,12 +23,17 @@ public class SurvivalMode {
     private long newTime;  // Nykyisen pisteen lis‰yksen aika
     
     
-    //StoryModen rakentaja
+    /*
+     * Rakentaja
+     */
     protected SurvivalMode() {
     	waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
     	scoreCounter = new GuiObject();
     }
     
+    /*
+     * Palauttaa pointterin t‰h‰n luokkaan
+     */
     public static SurvivalMode getInstance() {
         if(instance == null) {
             instance = new SurvivalMode();
@@ -37,7 +42,7 @@ public class SurvivalMode {
     }
     
     /*
-     * Pisteiden p‰ivitys
+     * P‰ivitt‰‰ pisteet
      */
     public void updateScore(int _rank) {
     	// P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina

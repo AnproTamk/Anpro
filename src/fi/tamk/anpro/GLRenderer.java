@@ -33,7 +33,9 @@ public class GLRenderer implements Renderer {
     // Lataustiedot
     public boolean allLoaded = false;
 
-    /** Rakentaja */
+    /*
+     * Rakentaja
+     */
     public GLRenderer(Context _context)
     {
         context = _context;
@@ -51,7 +53,9 @@ public class GLRenderer implements Renderer {
         hudTextures      = new ArrayList<Texture>();
     }
 
-    /** Kutsutaan, kun pinta luodaan. */
+    /*
+     * Kutsutaan, kun pinta luodaan.
+     */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
         // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
@@ -82,7 +86,9 @@ public class GLRenderer implements Renderer {
         }
     }
 
-    /** Kutsutaan, kun pinta muuttuu (k‰nnykk‰‰ k‰‰nnet‰‰n tai muuten vain koko muuttuu) */
+    /*
+     * Kutsutaan, kun pinta muuttuu (k‰nnykk‰‰ k‰‰nnet‰‰n tai muuten vain koko muuttuu)
+     */
     public void onSurfaceChanged(GL10 _gl, int _width, int _height)
     {
         // Estet‰‰n nollalla jakaminen
@@ -106,11 +112,15 @@ public class GLRenderer implements Renderer {
         _gl.glLoadIdentity();
     }
 
-    /** Kutsutaan, kun pinta tuhoutuu */
+    /*
+     * Kutsutaan, kun pinta tuhoutuu
+     */
     public void onSurfaceDestroyed() {
     }
 
-    /** Kutsutaan, kun pinta p‰ivitet‰‰n. */
+    /*
+     * Kutsutaan, kun pinta p‰ivitet‰‰n.
+     */
     public void onDrawFrame(GL10 _gl)
     {
     	_gl.glEnable(GL10.GL_TEXTURE_2D);

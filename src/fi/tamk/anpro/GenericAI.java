@@ -3,10 +3,14 @@ package fi.tamk.anpro;
 
 abstract public class GenericAi {
 	
-	// Rakentaja
+	/*
+	 * Rakentaja
+	 */
 	public GenericAi(int _id) {}
 	
-	// Käsittele tekoäly
+	/*
+	 * Käsittelee tekoälyn
+	 */
 	abstract public void handleAi();
 	
 }

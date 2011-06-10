@@ -9,7 +9,13 @@ abstract public class Weapon {
 	// Sijainti HUDissa
 	public int locationOnHUD = 0;
 	
+	/*
+	 * Rakentaja
+	 */
 	public Weapon() { }
 	
+	/*
+	 * Aktivoidaan ammukset
+	 */
 	abstract public void activate(int _x, int _y);
 }

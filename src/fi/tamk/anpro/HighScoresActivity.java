@@ -12,9 +12,9 @@ import android.view.View.OnClickListener;
 public class HighScoresActivity extends Activity implements OnClickListener {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle _savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.highscores);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -25,17 +25,16 @@ public class HighScoresActivity extends Activity implements OnClickListener {
         View mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this); 
 	}
-	public void onClick(View v) {
+	public void onClick(View _v) {
     	
-    	switch(v.getId()) {
-    	case R.id.button_reset:
-    		break;
-    	case R.id.button_mainmenu:
-    		Intent i_mainmenu = new Intent(this, MainActivity.class);
-    		startActivity(i_mainmenu);
-    		finish();
-    		break;
-
+    	switch(_v.getId()) {
+	    	case R.id.button_reset:
+	    		break;
+	    	case R.id.button_mainmenu:
+	    		Intent i_mainmenu = new Intent(this, MainActivity.class);
+	    		startActivity(i_mainmenu);
+	    		finish();
+	    		break;
     	}
 	}
 }

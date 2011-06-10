@@ -26,7 +26,7 @@ public class LogWriter {
 	
 
 	/*
-	 *  LogWriterin rakentaja
+	 * Rakentaja
 	 */
 	protected LogWriter() {
 		if (activeTags == null) {
@@ -35,7 +35,7 @@ public class LogWriter {
     }
 	
 	/*
-	 * Alusta kaikki taulukot
+	 * Alustaa kaikki taulukot
 	 */
 	private static void initializeAll() {
 		clockTags = new ArrayList<String>();
@@ -51,7 +51,7 @@ public class LogWriter {
 	}
 
 	/*
-	 *  Lataa pointteri tähän luokkaan
+	 *  Palauttaa pointterin tähän luokkaan
 	 */
     public static LogWriter getInstance() {
         if(instance == null){
@@ -60,7 +60,9 @@ public class LogWriter {
         return instance;
     }
     
-    // Aloita ajanotto
+    /*
+     * Aloittaa ajanoton
+     */
     public static void startClock(String _tag) {
     	if (activeTags == null) {
     		initializeAll();
@@ -72,7 +74,7 @@ public class LogWriter {
     }
     
     /*
-     *  Lopeta ajanotto
+     *  Lopettaa ajanoton
      */
     public static void stopClock(String _tag) {
     	if (activeTags.contains(_tag)) {
@@ -126,7 +128,7 @@ public class LogWriter {
     }
     
     /*
-     * Tallenna tiedot
+     * Tallentaa tiedot
      */
     public static void saveData() {
     	FileWriter fileWriter;

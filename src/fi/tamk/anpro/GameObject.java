@@ -41,24 +41,34 @@ abstract public class GameObject extends GfxObject {
 	private long turningTime  = 0;
 	private long movementTime = 0;
 	
-	/**
+	/*
 	 * Rakentaja
 	 */
 	public GameObject() {
 		super();
 	}
 	
-	/**
+	/*
+	 * Aktivoi objekti
+	 */
+	abstract public void setActive();
+	
+	/*
+	 * Poista objekti k‰ytˆst‰
+	 */
+	abstract public void setUnactive();
+	
+	/*
 	 * Tekee osumalaskennat r‰j‰hdyksiss‰ (ei kahden objektin osumisessa toisiinsa)
 	 */
 	abstract public void triggerImpact(int _damage);
 	
-	/**
+	/*
 	 * Tekee osumalaskennat suorassa osumassa toiseen objektiin
 	 */
 	abstract public void triggerCollision(int _eventType, int _damage, int _armorPiercing);
 	
-	/**
+	/*
 	 * P‰ivitet‰‰n liikkuminen
 	 */
 	public void updateMovement(long _time) {
@@ -97,7 +107,7 @@ abstract public class GameObject extends GfxObject {
 		}
 	}
 	
-	/**
+	/*
 	 * M‰‰ritt‰‰ objektin tekstuurit ja animaatiot
 	 */
     public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
