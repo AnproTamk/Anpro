@@ -15,8 +15,8 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.layout.settings);
 		
-		Preference particlesPref = findPreference("particles");
-		particlesPref.setOnPreferenceClickListener((OnPreferenceClickListener) this);
+		// Preference particlesPref = findPreference("particles");
+		// particlesPref.setOnPreferenceClickListener((OnPreferenceClickListener) this);  WHAAAT? 
 	}
 	
 	public void onClick(CheckBoxPreference p) {
