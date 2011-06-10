@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -33,6 +34,9 @@ public class GameActivity extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         
         // Luodaan OpenGL-n‰kym‰ ja renderˆij‰
         glSurfaceView = new GLSurfaceView(this);
@@ -67,7 +71,7 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        glSurfaceView.onResume();
+        /*glSurfaceView.onResume();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -79,7 +83,7 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }
+        }*/
     }
     
     /** Kutsutaan kun ohjelma pys‰ytet‰‰n */
@@ -87,7 +91,7 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
-        glSurfaceView.onPause();
+        /*glSurfaceView.onPause();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -99,6 +103,6 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }
+        }*/
     }
 }

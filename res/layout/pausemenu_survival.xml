@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" 
+              android:layout_height="480dip" 
+              android:layout_width="320dip">
+        
+         <TextView
+            android:layout_width="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/pause_title" 
+            android:layout_height="75dip"/>
+            
+         <Button android:text="@string/button_resume" 
+                 android:layout_height="wrap_content" 
+                 android:id="@+id/button_resume" 
+                 android:layout_width="150dip" 
+                 android:layout_marginLeft="85dip" 
+                 android:layout_marginBottom="25dip">
+         </Button>
+                 
+         <RadioButton android:text="Sounds on/off" 
+                      android:id="@+id/sounds_button"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
+         </RadioButton>
+         
+         <RadioButton android:id="@+id/music_button"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Music on/off"
+                      android:layout_marginBottom="25dip">
+         
+         </RadioButton>
+         
+         <Button android:text="Main Menu" 
+                 android:layout_height="wrap_content" 
+                 android:id="@+id/button_main_menu" 
+                 android:layout_marginLeft="85dip" 
+                 android:layout_width="150dip">
+         </Button>
+                
+</LinearLayout>

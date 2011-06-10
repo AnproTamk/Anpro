@@ -2,26 +2,30 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-
-public class WeaponDefault {
-	private ArrayList<ProjectileLaser> projectileLaser;
+public class WeaponDefault extends Weapon {
+	// Ammukset ja niiden tilat
+	private ArrayList<ProjectileLaser> projectiles;
 	
 	public WeaponDefault() {
+		super();
 		
-		/*projectileLaser.add(new ProjectileLaser()); // Id 0
-		projectileLaser.add(new ProjectileLaser()); // Id 1
-		projectileLaser.add(new ProjectileLaser()); // Id 2*/
-	}
+		// M‰‰ritet‰‰n aseen sijainti HUDissa
+		locationOnHUD = 1;
+		
+		// Alustetaan ammukset
+		projectiles = new ArrayList<ProjectileLaser>(AMOUNT_OF_PROJECTILES);
 
-	public void activate(int _xTouchPosition, int _yTouchPosition) {
-		for (int i = 0; i <= 2; ++i) {
-			if (projectileLaser.get(i).active == false) {
-				projectileLaser.get(i).activate( _xTouchPosition, _yTouchPosition);
-			}
+		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
+			projectiles.add(new ProjectileLaser());
 		}
 	}
 
+	public void activate(int _xTouchPosition, int _yTouchPosition) {
+		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
+			if (projectiles.get(i).active == false) {
+				projectiles.get(i).activate( _xTouchPosition, _yTouchPosition);
+				projectiles.get(i).active = true;
+			}
+		}
+	}
 }

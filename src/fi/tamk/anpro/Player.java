@@ -4,43 +4,72 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-
 public class Player extends GameObject
 {
-	public int health;
-	public int defence;
-	private int currentWeapon;
-	public int spawnPoint;
-	private ArrayList<Integer> cooldownLeft;
-	private ArrayList<Integer> cooldownTime;
-	
-	SurvivalMode survivalMode;
-	
-	
-	// Luokan muuttujien rakentaja.
-	public Player(GL10 _gl, Context _context, int _id, int _health, int _defence)
-	{
-		super(_gl, _context, _id);
-		health = _health;
-		defence = _defence;
-		currentWeapon = -1;
-		
-		survivalMode = SurvivalMode.getInstance();
-		
-		for (int i = survivalMode.cooldownTime.size()-1; i >= 0; i++) {
-			cooldownTime.add(i, survivalMode.cooldownTime.get(i));
-			
-			cooldownLeft.add(i, 0);
-		}
+    public int health;
+    public int defence;
+    public int spawnPoint;
+        
+    SurvivalMode survivalMode;
+    
+    Wrapper wrapper;
+    int     listId;
+    
+    // Luokan muuttujien rakentaja.
+    public Player(int _health, int _defence)
+    {
+        super();
+        health  = _health;
+        defence = _defence;
+        
+        /*animationLength[0] = wrapper.renderer.playerAnimations.get(0).length;
+        animationLength[1] = wrapper.renderer.playerAnimations.get(1).length;
+        animationLength[2] = wrapper.renderer.playerAnimations.get(2).length;*/
+        
+        wrapper = Wrapper.getInstance();
+        
+        listId = wrapper.addToList(this);
+    }
+
+
+    // Funktio vihollisen "aktiivisuuden" toteuttamiseen.
+    public void setActive()
+    {
+        if (health > 0) {
+            wrapper.playerStates.set(listId, 1);
+        }
+    }
+
+    // Funktio vihollisen "ep‰aktiivisuuden" toteuttamiseen.
+    public void setUnactive()
+    {
+        if (health == 0) {
+            wrapper.playerStates.set(listId, 1);
+        }
+    }
+
+    public void draw(GL10 _gl)
+    {
+        if (usedAnimation >= 0){
+            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
+        }
+        else{
+            textures.get(usedTexture).draw(_gl, x, y, direction);
+        }
+    }
+
+    public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
+    {
+        animations = _animations;
+        textures   = _textures;
+    }
+
+	public void triggerImpact(int _damage) {
+		// R‰j‰hdykset eiv‰t vaikuta pelaajaan
 	}
 	
-	// Funktio pelaajan laukauksen toteuttamiseen.
-	public void triggerShoot(int _xTouchPosition, int _yTouchPosition)
-	{
-		if (cooldownLeft.get(currentWeapon) == 0) {
-			survivalMode.weapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
-			cooldownLeft.add(currentWeapon, cooldownTime.get(currentWeapon));
-		}
+	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+		// Osumat playeriin k‰sitell‰‰n Enemy-luokassa
 	}
 }
+

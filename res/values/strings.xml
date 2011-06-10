@@ -7,8 +7,9 @@
     <string name="button_options">Options</string>
     <string name="button_help">Help</string>
     <string name="button_quit">Quit</string>
-    <string name="button_mainmenu">Back to Main Menu</string>
-    <string name="hello">Help</string>
+    <string name="button_mainmenu">Main Menu</string>
+    <string name="hello">About</string>
+    <string name="help">Help</string>
     <string name="about_text">
     Testiteksti. Nyt voidaan kirjoittaa apuneuvoja 
     pelaajalle pelin toiminnoista ja aseista. PASLDJAGPHHOPASDAÅOGS
@@ -33,6 +34,8 @@
     ASHGPAOSKJFÅJASGJP^PASFJPAOSGHJPÄASDHKLPÄASJGPÄASJASD
     </string>
     
+    <string name="levelselect_title">Level Select</string>
+    
     <string name="particles_title">Particles</string>
     <string name="particles_summary">Particle Effects</string>
     <string name="settings_title">Settings</string>
@@ -42,6 +45,14 @@
     
     <string name="sounds_title">Sounds</string>
     <string name="sounds_summary">Turn sounds on/off</string>
+   
+    <string name="highscores_title">Highscores</string>
+    <string name="highscores">Highscores</string>
+    <string name="button_reset">Reset all scores</string>
+    
+    <string name="pause_title">Pause</string>
+    <string name="button_resume">Resume game</string>
+    <string name="button_pause_menu">Pause menu</string>
     
     <color name="background">#6291c0</color>
 </resources>

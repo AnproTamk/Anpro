@@ -9,26 +9,40 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 class GameThread extends Thread {
-    private boolean _running = false;
+    private boolean running = false;
     
-    private Context       _context;
-    private Resources     _resources;
-    private GLSurfaceView _surface;
-    private GLRenderer    _renderer;
+    private Context       context;
+    private Resources     resources;
+    private GLSurfaceView surface;
+    private GLRenderer    renderer;
+    
+    public Enemy enemy;
+    public GuiObject testText;
     
     private long _lastUpdate = 0;
     
     GestureLibrary mLibrary;
     
-    public GameThread(Context context, Resources resources, GLSurfaceView glSurfaceView, GLRenderer glRenderer) {
-        _context    = context;
-        _resources  = resources;
-        _surface    = glSurfaceView;
-        _renderer   = glRenderer;
+    public GameThread(Context _context, Resources _resources, GLSurfaceView _glSurfaceView, GLRenderer _glRenderer) {
+        context    = _context;
+        resources  = _resources;
+        renderer   = _glRenderer;
+        
+        enemy = new Enemy(5, 1, 1, 1, 1);
+        enemy.setDrawables(null, renderer.enemyTextures);
+        enemy.direction = 0;
+        enemy.x = 240;
+        enemy.y = 400;
+        enemy.turningDirection = 0;
+        
+        testText = new GuiObject();
+        testText.setDrawables(renderer.testText);
+        testText.x = 240;
+        testText.y = 400;
     }
 
     public void setRunning(boolean run) {
-        _running = run;
+        running = run;
     }
 
     @Override
@@ -39,12 +53,17 @@ class GameThread extends Thread {
          * vaadittuja muuttujia)
          */
         _lastUpdate = android.os.SystemClock.uptimeMillis();
-        
-        while (_running) {
+
+        while (running) {
             long currentTime = android.os.SystemClock.uptimeMillis();
             
-            if (currentTime - _lastUpdate >= 30) {
+            // Tarkista sijainnit
+            //if (true) {
+            if (currentTime - _lastUpdate >= 20) {
                 _lastUpdate = currentTime;
+                enemy.updateMovement(currentTime);
+                //enemy.x += 10;
+                
                 
                 /*
                  * PELIN PÄÄSILMUKKA ALKAA TÄSTÄ
@@ -55,6 +74,13 @@ class GameThread extends Thread {
                 /*
                  * PELIN PÄÄSILMUKKA LOPPUU TÄHÄN
                  */
+                
+                try {
+					this.sleep(20);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
     }
