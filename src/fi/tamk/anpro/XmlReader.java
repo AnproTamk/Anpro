@@ -181,6 +181,11 @@ public class XmlReader
 		return enemyStats;
 	}
 	
+	/*
+	 * Funktio ranks- ja survivalmode -xml-tiedostot ja ottaa
+	 * niistä arvot talteen. Funktion "osoittajana" on SurvivalMode-luokasta
+	 * tehty olio _survivalmode.
+	 */
 	public void readSurvivalMode(SurvivalMode _survivalMode) {
 		XmlResourceParser rsm = null;
 		rsm = context.getResources().getXml(R.xml.survivalmode);
@@ -190,8 +195,16 @@ public class XmlReader
         	while (rsm.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (rsm.getEventType() == XmlPullParser.START_TAG) {
         			if (rsm.getName().equals("enemy")) {
+        				/*
+        				 * Tilapäinen "rankTemp" muuttuja, joka saa survivalmode-xml-tiedostosta
+        				 * string-arvon muutettuna int-arvoksi.
+        				 */ 
         				int rankTemp = Integer.parseInt(rsm.getAttributeValue(null, "rank"));
         				
+        				/*
+        				 * _survivalmode-olio/osoittaja asettaa enemies-taulukon arvoksi enemyStats-taulukosta
+        				 * saadut arvot.
+        				 */
         				_survivalMode.enemies.add(new Enemy(_survivalMode.enemyStats[rankTemp][0],
         													_survivalMode.enemyStats[rankTemp][1],
         													_survivalMode.enemyStats[rankTemp][2],
@@ -199,14 +212,18 @@ public class XmlReader
         													_survivalMode.enemyStats[rankTemp][4]));
         			}
         			if (rsm.getName().equals("wave")) {
-        				// int enemisTemp = Integer.parseInt(rsm.getAttributeValue(null, "enemies"));
         				
+        				/*
+        				 *  Tallennetaan waveTemp-muuttujaan survivalmode-xml-tiedostosta enemies-
+        				 *  attribuutin tiedot string-tyyppinä.
+        				 */
         				String waveTemp = rsm.getAttributeValue(null, "enemies");
+        				// Jaetaan waveTemp-muuttujan tiedot yksittäisiksi merkeiksi ja tallennetaan string-taulukkoon "wave".
         				String wave[] = waveTemp.split("\\,");
         				
         				// Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
         				int index = 0;
-        				for (int i = wave.length - 1; i >= 0 ; --i) {
+        				for (int i = wave.length - 1; i > 0 ; --i) {
         					_survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
         					++index;
         				}
@@ -229,4 +246,82 @@ public class XmlReader
 		}
         
 	}
+	
+	 /*
+     * Luokka readStoryMode()
+     * @param StoryMode _storyMode
+     */
+    public void readStoryMode(StoryMode _storyMode){
+    	XmlResourceParser rStoryMode = null;
+		rStoryMode = context.getResources().getXml(R.xml.storymode);
+		int currentWave = 0;
+    	
+    	try {
+        	while (rStoryMode.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		if (rStoryMode.getEventType() == XmlPullParser.START_TAG) {
+        			if (rStoryMode.getName().equals("enemy")) {
+        				int rankTemp = Integer.parseInt(rStoryMode.getAttributeValue(null, "rank"));
+        				
+        				/*_storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rankTemp][0],
+        						_storyMode.enemyStats[rankTemp][1],
+        						_storyMode.enemyStats[rankTemp][2],
+        						_storyMode.enemyStats[rankTemp][3],
+        						_storyMode.enemyStats[rankTemp][4]));*/
+        				
+        			}
+        			if (rStoryMode.getName().equals("story")) {
+        				// Tähän funktio "chapterin" tallentamiseksi.
+        				// int currentChapter = blaa...
+        				
+        				if (rStoryMode.getName().equals("level")) {
+        					// Tähän funktio "levelin" tallentamiseksi.
+            				// int levelType = ...
+        				}
+        			}
+                }
+                else if (rStoryMode.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+        		
+        		rStoryMode.next();
+        	}
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    /*
+     * readSavedGame()-luokka.
+     */
+    public void readSavedGame() {
+    	XmlResourceParser rsg = null;
+		//rsg = context.getResources().getXml(R.xml.savedgame);
+    	
+    	try {
+        	while (rsg.getEventType() != XmlPullParser.END_DOCUMENT) {
+        		if (rsg.getEventType() == XmlPullParser.START_TAG) {
+        			/*if (rsg().equals("")) {
+        				
+        			}
+        			if (rsg().equals("")) {
+        				
+        			}*/
+                }
+                else if (rsg.getEventType() == XmlPullParser.END_TAG) {
+                    // ...
+                }
+        		
+        		rsg.next();
+        	}
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }
