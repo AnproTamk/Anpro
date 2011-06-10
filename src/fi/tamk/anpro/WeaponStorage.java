@@ -15,7 +15,7 @@ public class WeaponStorage
 	private static WeaponStorage instance = null;
 
 	// Käytössä oleva ase
-	private int currentWeapon;
+	public int currentWeapon;
 
 	// Aseet
 	public ArrayList<Weapon> allyWeapons   = null;
