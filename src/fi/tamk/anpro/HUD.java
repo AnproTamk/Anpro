@@ -45,7 +45,7 @@ public class HUD
 	// HUD:in rakentaja
 	public HUD()
 	{
-
+		
 	}
 
 	public static HUD getInstance()
@@ -61,9 +61,9 @@ public class HUD
 
 	public void upDateCooldowns(WeaponStorage _weaponStorage)
 	{
-		_weaponStorage = weaponStorage;
-		int coolConsume    = weaponStorage.cooldownLeft[0];
-		int coolLeft   = weaponStorage.cooldownLeft[0];
+		_weaponStorage  = weaponStorage;
+		int coolConsume = weaponStorage.cooldownLeft[0];
+		int coolLeft    = weaponStorage.cooldownLeft[0];
 		long coolTime;
 		
 		// jos cooldown > 0, cooldown laskee
@@ -71,7 +71,7 @@ public class HUD
 	        --coolLeft;
 	        	        
 	        // odottaa ajastetusti, koska laskee cooldownia
-	        //coolTime = android.os.SystemClock.uptimeMillis();
+	        coolTime = android.os.SystemClock.uptimeMillis();
 		}
 		
 		// kun cooldown = 0, ilmoitetaan WeaponStorageen, että kyky on taas käytössä
@@ -81,28 +81,25 @@ public class HUD
 	}
 
 	
-	 
 	public void triggerClick(int _buttonId)
 	{
-		
+		// Asettaa WeaponStorage-luokkaan perusaseen ja tallentaa tiedon myös HUD:iin.
 		if(_buttonId == BUTTON_DEFAULT_WEAPON){
 			weaponStorage.currentWeapon = 0;
+			weapons[0] = BUTTON_DEFAULT_WEAPON;
 		}
 
+		// Asettaa WeaponStorage-luokkaan 2. aseen ja tallentaa tiedon myös HUD:iin.
 		else if(_buttonId == BUTTON_1){
 			weaponStorage.currentWeapon = 1;
+			weapons[1] = BUTTON_1;
 		}
 
+		// Asettaa WeaponStorage-luokkaan 3. aseen ja tallentaa tiedon myös HUD:iin.
 		else if(_buttonId == BUTTON_2){
 			weaponStorage.currentWeapon = 2;
+			weapons[2] = BUTTON_2;
 		}
-
-		// - Tunnistaa painamistapahtuman ja tulkitsee, tapahtuuko se 
-		//   näytön vai HUD:n alueella.
-
-		//
-		//   -> jos tunnistaa kosketuksen HUD:iin, ohjaa eteenpäin
-		//
 	}
 
 }
