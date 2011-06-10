@@ -15,11 +15,11 @@ import android.media.SoundPool;
 
 public class SoundManager {
 
-	static private SoundManager instance;
-	private static SoundPool soundPool; // Objekti, jolla luodaan ja toistetaan ‰‰net
-	private static HashMap soundPoolMap; // Hashmappi, johon tallennetaan ‰‰net kun ne on ensin ladattu
-	private static AudioManager audioManager; // Kahva palveluun, joka toistaa ‰‰nen, joka halutaan toistaa
-	private static Context context; // Kahva ohjelman kontekstiin
+	static private SoundManager              instance;
+	private static SoundPool                 soundPool;    // Objekti, jolla luodaan ja toistetaan ‰‰net
+	private static HashMap<Integer, Integer> soundPoolMap; // Hashmappi, johon tallennetaan ‰‰net kun ne on ensin ladattu
+	private static AudioManager              audioManager; // Kahva palveluun, joka toistaa ‰‰nen, joka halutaan toistaa
+	private static Context                   context;      // Kahva ohjelman kontekstiin
 	
 	// SoundManagerin rakentaja
 	private SoundManager() {
@@ -48,7 +48,7 @@ public class SoundManager {
 		context = theContext;
 		// Ensimm‰inen argumentti(4) m‰‰ritt‰‰, kuinka monta ‰‰nt‰ voidaan toistaa samaan aikaan
 		soundPool = new SoundPool(4,AudioManager.STREAM_MUSIC,0);
-		soundPoolMap = new HashMap();
+		soundPoolMap = new HashMap<Integer, Integer>();
 		audioManager = (AudioManager)context.getSystemService(context.AUDIO_SERVICE);
 	}
 	
@@ -104,4 +104,14 @@ public class SoundManager {
 		audioManager.unloadSoundEffects();
 		instance = null;
 	}
+	
+	//Luo, alusta ja sitten lataa SoundManager <- tee t‰m‰ MainActivityssa
+    //SoundManager.getInstance();
+    //SoundManager.initSounds(this);
+    //SoundManager.loadSounds();
+	
+	//SoundManager.playSound(2, 1);
+	
+	
+	
 }

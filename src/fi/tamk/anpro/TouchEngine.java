@@ -63,7 +63,10 @@ public class TouchEngine {
 	        	//if (Math.abs(event.getX() - xClickOffset) < tileSize / 2
 	            // && Math.abs(event.getY() - yClickOffset) < tileSize / 2){
 	        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
-	        		weaponStorage.triggerShoot((int)event.getX(), (int)event.getY());
+	        		// Jos painetaan HUD:n alueella
+	        		// if (xClickOffset > HANKI NAPPULAN X-SIJAINTI && xClickOffset < HANKI NAPPULAN X-SIJAINTI JA LEVEYS
+	        		//  && yClickOffset < HANKI NAPPULAN Y-SIJAINTI && yClickOffset > HANKI NAPPULAN 
+	        		// weaponStorage.triggerShoot((int)event.getX(), (int)event.getY());
 	        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
 	            //}
 	        }

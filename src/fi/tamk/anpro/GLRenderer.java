@@ -25,6 +25,9 @@ public class GLRenderer implements Renderer {
     // Ruudunpäivityksen ajastus
     private long lastDraw;
     private long time;
+    
+    public static int width;
+    public static int height;
 
     /** Rakentaja */
     public GLRenderer(Context _context)
