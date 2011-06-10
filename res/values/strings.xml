@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pelin nimi</string>
+    <string name="app_name">Anpro 0.2 - Lazy Pony</string>
     <string name="button_story">Story</string>
     <string name="button_survival">Survival</string>
     <string name="button_highscores">Highscores</string>

@@ -7,12 +7,12 @@ public class ProjectileLaser extends GameObject {
 	// Efektit
 	public static final int MULTIPLY_ON_TIMER = 1;
 	public static final int MULTIPLY_ON_TOUCH = 2;
-	public static final int EXPLODE_ON_TIMER = 3;
-	public static final int EXPLODE_ON_TOUCH = 4;
-	public static final int DAMAGE_ON_TOUCH = 5;
+	public static final int EXPLODE_ON_TIMER  = 3;
+	public static final int EXPLODE_ON_TOUCH  = 4;
+	public static final int DAMAGE_ON_TOUCH   = 5;
 	
 	// Aseiden tiedot
-	public int damageOnTouch = 2;
+	public int damageOnTouch   = 2;
 	public int damageOnExplode = 0;
 	
 	public int damageType = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
@@ -20,12 +20,12 @@ public class ProjectileLaser extends GameObject {
 	public int armorPiercing = 0;
 	
 	public boolean causePassiveDamage = false;
-	public int     damageOnRadius = 0;
-	public int     damageRadius = 0; // Passiiviselle AoE-vahingolle
+	public int     damageOnRadius     = 0;
+	public int     damageRadius       = 0; // Passiiviselle AoE-vahingolle
 	
-	public int     explodeTime = 0;
-	public long    startTime = 0;
-	public long    currentTime;
+	public int     explodeTime  = 0;
+	public long    startTime    = 0;
+	public long    currentTime  = 0;
 	
 	// Wrapper
 	private Wrapper wrapper;
@@ -40,7 +40,10 @@ public class ProjectileLaser extends GameObject {
 	
 	int listId;
 
-	public ProjectileLaser(){
+	/*
+	 * Rakentaja
+	 */
+	public ProjectileLaser() {
 		super();
 		
 		wrapper = Wrapper.getInstance();
@@ -48,21 +51,25 @@ public class ProjectileLaser extends GameObject {
         listId = wrapper.addToList(this);
 	}
 
-	// Funktio vihollisen "aktiivisuuden" toteuttamiseen.
-	public void setActive()
-	{
+	/*
+	 * Aktivoidaan ammus
+	 */
+	public void setActive() {
 		wrapper.projectileLaserStates.set(listId, 1);
 		active = true;
 	}
 
-	// Funktio vihollisen "ep‰aktiivisuuden" toteuttamiseen.
-	public void setUnactive()
-	{
+	/*
+	 * Poistetaan vihollinen k‰ytˆst‰
+	 */
+	public void setUnactive() {
 		wrapper.projectileLaserStates.set(listId, 0);
 		active = false;
 	}
 	
-	// Aktivoidaan ammus
+	/*
+	 * Aktivoidaan ammus
+	 */
 	public void activate(int _xTouchPosition, int _yTouchPosition) {
 		// Tarkistetaan ajastus
 		if (explodeTime > 0) {
@@ -99,6 +106,9 @@ public class ProjectileLaser extends GameObject {
 		active = true;
 	}
 	
+	/*
+	 * K‰sitell‰‰n ammuksen teko‰ly.
+	 */
 	public void handleAi() {
 		// Tarkistetaan osumatyyppi ja et‰isyydet
 		// Kutsutaan osumatarkistuksia tarvittaessa
@@ -133,6 +143,9 @@ public class ProjectileLaser extends GameObject {
 		//...
 	}
 	
+	/*
+	 * Kutsutaan triggerImpact-funktiota muista objekteista, jotka ovat r‰j‰hdyksen vaikutusalueella.
+	 */
 	public void causeExplosion() {
 		// Tarkistetaan et‰isyydet
 		// Kutsutaan osumatarkistuksia tarvittaessa
@@ -144,11 +157,17 @@ public class ProjectileLaser extends GameObject {
 			}
 		}
 	}
-
+	
+	/*
+	 * K‰sitell‰‰n r‰j‰hdykset
+	 */
 	public void triggerImpact(int _damage) {
 		// R‰j‰hdykset eiv‰t vaikuta t‰h‰n ammukseen
 	}
 
+	/*
+	 * K‰sitell‰‰n osumat
+	 */
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
 		// Osumat eiv‰t vaikuta t‰h‰n ammukseen
 	}

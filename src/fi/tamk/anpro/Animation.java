@@ -32,7 +32,9 @@ public class Animation {
         1.0f, 0.0f		// alaoikea
     };
 
-    // Rakentaja
+    /*
+     * Rakentaja
+     */
     public Animation(GL10 _gl, Context context, String _id, int _length) {
         frames = new int[_length];
         length = _length;
@@ -65,8 +67,18 @@ public class Animation {
         vertexBuffer = byteBuffer.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
+        
+        // Sama kuin ylh‰‰ll‰, mutta tekstuurille vektoreiden sijaan.
+        byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        textureBuffer = byteBuffer.asFloatBuffer();
+        textureBuffer.put(texture);
+        textureBuffer.position(0);
     }
 
+    /*
+     * Lataa framen tekstuurin muistiin
+     */
     public void loadFrame(GL10 gl, Context context, int[] var, int offset, int id)
     {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
@@ -87,6 +99,9 @@ public class Animation {
         bitmap.recycle();
     }
     
+    /*
+     * Piirt‰‰ framen ruudulle
+     */
     public void draw(GL10 _gl, float _x, float _y, int _direction, int _frame) {
         // Resetoidaan mallimatriisi
         _gl.glLoadIdentity();

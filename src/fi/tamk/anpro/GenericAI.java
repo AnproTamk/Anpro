@@ -1,16 +1,16 @@
 package fi.tamk.anpro;
 
 
-abstract public class GenericAI {
+abstract public class GenericAi {
 	
-	// constructor
-	public GenericAI() {}
+	/*
+	 * Rakentaja
+	 */
+	public GenericAi(int _id) {}
 	
-	// activate AI
-	abstract public void activate();
-	
-	abstract public void unActivate();
-	
-	abstract public void handleAI();
+	/*
+	 * Käsittelee tekoälyn
+	 */
+	abstract public void handleAi();
 	
 }

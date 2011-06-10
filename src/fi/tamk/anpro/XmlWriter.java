@@ -1,14 +1,10 @@
 package fi.tamk.anpro;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Xml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.xmlpull.v1.XmlSerializer;
 
 /*
@@ -17,15 +13,6 @@ import org.xmlpull.v1.XmlSerializer;
  * achievemintit, kyvyt yms.
  */
 public class XmlWriter {
-	
-	/*
-	 * private Context context;
-	 * 
-	 * public XmlWriter(Context _context) {
-	 *     context = _context;
-	 * }
-	 */
-	
 	
 	/*
 	 * Tämä funktio tallentaa StoryModen tiedot XML-tiedostoon.
@@ -100,14 +87,14 @@ public class XmlWriter {
 	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
 	 * @param boolean[] settingStates
 	 **/
-	public void saveSettings(boolean[] settingStates) {
+	public void saveSettings(boolean[] _settingStates) {
 		// Luodaan uusi XML-tiedosto asetuksille.
 		File xmlStoreSettings = new File(Environment.getExternalStorageDirectory()+"/settings.xml");
 		
 		String[] stateId = {"0", "0", "0"};
 		
 		for (int i = 0; i < 3; i++) {
-			if (settingStates[i] == false) {
+			if (_settingStates[i] == false) {
 				stateId[i] = "0";
 			}
 			else

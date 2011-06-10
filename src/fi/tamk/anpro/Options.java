@@ -14,17 +14,22 @@ public class Options {
 	
 	private static Options instance = null;
 	
-	private static boolean particles;
-	private static boolean sounds;
-	private static boolean music;
+	private static boolean   particles;
+	private static boolean   sounds;
+	private static boolean   music;
 	private static boolean[] settings;
 	
-	//Optionsin rakentaja
-    protected Options() { 
-    	XmlReader reader = new XmlReader(null, null, null);
+	/*
+	 * Rakentaja
+	 */
+    protected Options() {
+    	XmlReader reader = new XmlReader(null);
     	settings = (boolean[])reader.readSettings();
     }
     
+    /*
+     * Palauttaa pointterin tästä luokkaan
+     */
     public static Options getInstance() {
         if(instance == null) {
             instance = new Options();
@@ -32,6 +37,9 @@ public class Options {
         return instance;
     }
     
+    /*
+     * Asettaa asetukset
+     */
     public void setSettings() {
     	particles = settings[0];
     	music = settings[1];

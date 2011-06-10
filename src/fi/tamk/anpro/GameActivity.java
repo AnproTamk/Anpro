@@ -1,22 +1,13 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
-import android.gesture.GestureOverlayView;
-import android.gesture.GestureOverlayView.OnGesturePerformedListener;
-import android.gesture.Prediction;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class GameActivity extends Activity
 {
@@ -24,11 +15,13 @@ public class GameActivity extends Activity
     private GLRenderer    glRenderer;
     private GameThread    gameThread;
     
-    /** P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰. */
+    /*
+     * P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰.
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onCreate(Bundle _savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(_savedInstanceState);
         
         // Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -49,24 +42,19 @@ public class GameActivity extends Activity
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        //Options options = Options.getInstance();
-        //options.screenWidth  = dm.widthPixels;
-        //options.screenHeight = dm.heightPixels;
         
         setContentView(glSurfaceView);
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(this, getResources(), glSurfaceView, glRenderer);
+        gameThread = new GameThread(glSurfaceView, glRenderer);
+
         gameThread.setRunning(true);
-        try {
-            gameThread.start();
-        }
-        catch (IllegalThreadStateException exc) {
-            finish();
-        }
+        glRenderer.gameThread = gameThread;
     }
     
-    /** Kutsutaan kun ohjelma palaa taustalta tai k‰nnykk‰ palaa valmiustilasta */
+    /*
+     * Kutsutaan kun ohjelma palaa taustalta tai k‰nnykk‰ palaa valmiustilasta
+     */
     @Override
     protected void onResume()
     {
@@ -86,7 +74,9 @@ public class GameActivity extends Activity
         }*/
     }
     
-    /** Kutsutaan kun ohjelma pys‰ytet‰‰n */
+    /*
+     * Kutsutaan kun ohjelma pys‰ytet‰‰n
+     */
     @Override
     protected void onPause()
     {

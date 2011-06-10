@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,11 +12,13 @@ import android.view.View.OnClickListener;
 public class PauseMenuActivity extends Activity implements OnClickListener {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle _savedInstanceState)
 	{
 		// if(storyMode == true) {
-			super.onCreate(savedInstanceState);
+			super.onCreate(_savedInstanceState);
 			setContentView(R.layout.pausemenu);
+	        
+	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		//}
 		
 			/*else if() {
@@ -34,20 +37,20 @@ public class PauseMenuActivity extends Activity implements OnClickListener {
 		
 	}
 
-	public void onClick(View v) {
-		if(v.getId() == R.id.button_main_menu) {
+	public void onClick(View _v) {
+		if(_v.getId() == R.id.button_main_menu) {
 			Intent i_mainmenu = new Intent(this, MainActivity.class);
     		startActivity(i_mainmenu);
     		finish();
 		}
     	
-    	else if(v.getId() == R.id.button_level_select) {
+    	else if(_v.getId() == R.id.button_level_select) {
     		Intent i_level_select = new Intent(this, LevelSelectActivity.class);
     		startActivity(i_level_select);
     		finish();
     	}
 		
-    	else if(v.getId() == R.id.button_resume) {
+    	else if(_v.getId() == R.id.button_resume) {
     		finish();
     	}
 	}

@@ -25,10 +25,10 @@ public class Texture {
     // Puskuri ja taulukko tekstuuria varten
     private FloatBuffer textureBuffer;
     private float texture[] = {
-        0.0f, 1.0f,		// ylävasen
-        0.0f, 0.0f,		// alavasen
-        1.0f, 1.0f,		// yläoikea
-        1.0f, 0.0f		// alaoikea
+        0.0f, 1.0f, // ylävasen
+        0.0f, 0.0f, // alavasen
+        1.0f, 1.0f, // yläoikea
+        1.0f, 0.0f  // alaoikea
     };
 
     public Texture(GL10 _gl, Context context, int _id) {

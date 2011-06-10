@@ -28,12 +28,15 @@ public class StringTexture {
     // Puskuri ja taulukko tekstuuria varten
     private FloatBuffer textureBuffer;
     private float texture[] = {
-        0.0f, 1.0f,		// yl‰vasen
-        0.0f, 0.0f,		// alavasen
-        1.0f, 1.0f,		// yl‰oikea
-        1.0f, 0.0f		// alaoikea
+        0.0f, 1.0f, // yl‰vasen
+        0.0f, 0.0f, // alavasen
+        1.0f, 1.0f, // yl‰oikea
+        1.0f, 0.0f  // alaoikea
     };
 
+    /*
+     * Rakentaja
+     */
     public StringTexture(GL10 _gl, Context _context, String _text) {
         sprite = new int[1];
         
@@ -96,6 +99,9 @@ public class StringTexture {
         textureBuffer.position(0);
     }
     
+    /*
+     * Piirt‰‰ tekstuurin ruudulle
+     */
     public void draw(GL10 _gl, float _x, float _y) {
         // Resetoidaan mallimatriisi
     	_gl.glLoadIdentity();
