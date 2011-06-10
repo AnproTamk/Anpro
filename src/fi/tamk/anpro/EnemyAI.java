@@ -9,11 +9,11 @@ public class EnemyAI extends GenericAI {
 	public EnemyAI() {
 		super();
 		
+		wrapper = Wrapper.getInstance();
 	}
 
 	// Activating AI
 	public void activate() {
-		
 		/* Lineaarinen eteneminen
 		 * 
 		 * Etsitään pelaajan sijainti, verrataan omaan vihollisen omaan sijaintiin. X- ja Y-arvojen erotuksen itseisarvoilla
@@ -24,9 +24,9 @@ public class EnemyAI extends GenericAI {
 		 * 
 		 */
 		
-		for (int i = wrapper.enemies.size(); i >= 0; --i) {
-			double _xDiff = Math.abs((double)(wrapper.enemies.get(i).x - wrapper.players.get(i).x));
-			double _yDiff = Math.abs((double)(wrapper.enemies.get(i).y - wrapper.players.get(i).y));
+		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+			double _xDiff = Math.abs((double)(wrapper.enemies.get(i).x - wrapper.players.get(0).x));
+			double _yDiff = Math.abs((double)(wrapper.enemies.get(i).y - wrapper.players.get(0).y));
 			
 			
 			// Eliminoidaan nollalla jakaminen
@@ -35,7 +35,7 @@ public class EnemyAI extends GenericAI {
 				_xDiff = 1;
 			}
 			
-			wrapper.enemies.get(i).direction = (int)(Math.PI*Math.atan((_yDiff/_xDiff))/180);
+			wrapper.enemies.get(i).direction = (int)((Math.PI*Math.atan(_yDiff/_xDiff))*720);
 		
 		}
 	}

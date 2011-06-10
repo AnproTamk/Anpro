@@ -35,7 +35,7 @@ class GameThread extends Thread {
         enemy.y = 400;
         enemy.turningDirection = 0;
         
-        testText = new GuiObject("testi");
+        testText = new GuiObject();
         testText.setDrawables(renderer.testText);
         testText.x = 240;
         testText.y = 400;

@@ -40,10 +40,6 @@
             android:layout_height="wrap_content"
             
             android:gravity="center_vertical">
-            <Button android:layout_height="wrap_content"
-                    android:id="@+id/button_mainmenu" 
-                    android:text="@string/button_mainmenu" 
-                    android:layout_width="fill_parent"></Button>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

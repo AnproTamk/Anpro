@@ -87,6 +87,9 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch(v.getId()) {
     	case R.id.button_level1:
+    		Intent i_game = new Intent(this, GameActivity.class);
+    		startActivity(i_game);
+    		finish();
     		break;
     	case R.id.button_level2:
     		break;
