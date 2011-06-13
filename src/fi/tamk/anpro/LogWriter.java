@@ -133,32 +133,33 @@ public class LogWriter {
     public static void saveData() {
     	FileWriter fileWriter;
     	String     line;
-    	
-    	// Laske keskiarvot ja prioriteetit
-    	for (int i = 0; i < clockTags.size(); ++i) {
-    		average.add((long)((double)totalTime.get(i) / (double)calls.get(i)));
-    		priority.add(average.get(i) * calls.get(i));
         	
-        	// Tallennetaan tiedosto
-        	try {
-        		// Avataan tiedosto
-        		fileWriter = new FileWriter("/sdcard/anpro_debug.txt");
-        		
-        		// Kasataan kirjoitettava rivi yhteen
-        		line = clockTags.get(i) + ":" +Long.toString(calls.get(i)) + ":" +
-        			   Long.toString(shortest.get(i)) + ":" +Long.toString(longest.get(i)) + ":" +
-        			   Long.toString(average.get(i)) + ":" + Long.toString(priority.get(i));
-        		
-        		// Kirjoitetaan rivi
-        		fileWriter.write(line);
-        		
-        		// Tyhjätään puskuri ja suljetaan tiedosto
-        		fileWriter.flush();
-        		fileWriter.close();
+    	// Tallennetaan tiedosto
+    	try {
+    		// Avataan tiedosto
+    		fileWriter = new FileWriter("/sdcard/anpro_debug.txt");
+    		
+        	// Laske keskiarvot ja prioriteetit
+        	for (int i = 0; i < clockTags.size(); ++i) {
+        		average.add((long)((double)totalTime.get(i) / (double)calls.get(i)));
+        		priority.add(average.get(i) * calls.get(i));
+	    		
+	    		// Kasataan kirjoitettava rivi yhteen
+	    		line = clockTags.get(i) + ":" +Long.toString(calls.get(i)) + ":" +
+	    			   Long.toString(shortest.get(i)) + ":" +Long.toString(longest.get(i)) + ":" +
+	    			   Long.toString(average.get(i)) + ":" + Long.toString(priority.get(i));
+	    		
+	    		// Kirjoitetaan rivi
+	    		fileWriter.write(line);
+	    		fileWriter.write("\r\n");
         	}
-        	catch (Exception e) {
-        		e.printStackTrace();
-        	}
+    		
+    		// Tyhjätään puskuri ja suljetaan tiedosto
+    		fileWriter.flush();
+    		fileWriter.close();
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
     	}
     }
 }
