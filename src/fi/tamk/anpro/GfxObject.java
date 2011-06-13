@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class GfxObject {
 	// Animaatiot ja tekstuurit
-	public ArrayList<Animation> animations;
-	public ArrayList<Texture>   textures;
+	//public ArrayList<Animation> animations;
+	//public ArrayList<Texture>   textures;
 	
     // Objektin sijainti
     public float x = 0.0f;
@@ -45,7 +45,9 @@ public class GfxObject {
 	    		}
 	    	}
 	    	else {
-	    		
+	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
+	    			
+	    		}
 	    	}
     	}
     }

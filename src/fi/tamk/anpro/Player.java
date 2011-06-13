@@ -8,8 +8,6 @@ public class Player extends GameObject
     public int defence;
     public int spawnPoint;
     
-    SurvivalMode survivalMode;
-    
     Wrapper wrapper;
     
     // Luokan muuttujien rakentaja.
