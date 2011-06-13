@@ -23,7 +23,7 @@ public class Options {
 	 * Rakentaja
 	 */
     protected Options() {
-    	XmlReader reader = new XmlReader(null);
+    	XmlReader reader = new XmlReader(MainActivity.context);
     	settings = (boolean[])reader.readSettings();
     }
     
