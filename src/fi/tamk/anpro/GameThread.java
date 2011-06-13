@@ -38,14 +38,14 @@ class GameThread extends Thread {
     public void run() {
         player = new Player(5, 1);
         player.setDrawables(null, renderer.playerTextures);
-        player.x = 0;
-        player.y = 0;
+        player.x = 500;
+        player.y = 300;
         
         enemy = new Enemy(5, 1, 1, 1, 1);
         enemy.setDrawables(null, renderer.enemyTextures);
         enemy.direction = 0;
-        enemy.x = 240;
-        enemy.y = 400;
+        enemy.x = 200;
+        enemy.y = 100;
         enemy.turningDirection = 0;
         
     	lastMovementUpdate = android.os.SystemClock.uptimeMillis();
