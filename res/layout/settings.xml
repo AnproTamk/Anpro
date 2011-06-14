@@ -14,4 +14,3 @@
         android:summary="@string/sounds_summary"
         android:defaultValue="true" />
 </PreferenceScreen>
-
