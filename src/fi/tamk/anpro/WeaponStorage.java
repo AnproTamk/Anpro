@@ -9,8 +9,11 @@ import java.util.ArrayList;
 
 public class WeaponStorage
 {
+	// 
 	public static final int SURVIVAL_MODE      = 1;
 	public static final int STORY_MODE_LEVEL_1 = 1;
+	
+	public static final int GLOBAL_COOLDOWN = 500;
 	
 	private static WeaponStorage instance = null;
 
@@ -49,6 +52,13 @@ public class WeaponStorage
     		playerWeapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
     		
     		cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
+    		
+    		// Asetetaan globaali cooldown
+    		for (int i = 9; i>= 0; --i) {
+    			if (cooldownLeft[i] == 0) {
+        			cooldownLeft[i] = GLOBAL_COOLDOWN;
+    			}
+    		}
     	}
     }
     
@@ -62,4 +72,15 @@ public class WeaponStorage
     		playerWeapons.add(new WeaponDefault());
     	}
     }
+
+    /*
+     * Päivittää coolDownit.
+     */
+	public void updateCooldowns()
+	{
+		// Asetetaan globaali cooldown
+		for (int i = 9; i>= 0; --i) {
+    		cooldownLeft[i] -= 100;
+		}
+	}
 }

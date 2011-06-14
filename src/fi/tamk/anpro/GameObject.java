@@ -89,16 +89,16 @@ abstract public class GameObject extends GfxObject {
 			turningTime = _time;
 			// Jos objektin k‰‰ntymissuunta on vasemmalle
 			if (turningDirection == TO_THE_LEFT) {
-				--direction;
-				if (direction < 0) {
-					direction = 359;
+				++direction;
+				if (direction == 360) {
+					direction = 0;
 				}
 			}
 			// Jos objektin k‰‰ntymissuunta on oikealle
 			else if (turningDirection == TO_THE_RIGHT) {
-				++direction;
-				if (direction == 360) {
-					direction = 0;
+				--direction;
+				if (direction < 0) {
+					direction = 359;
 				}
 			}
 			
