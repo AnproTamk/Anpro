@@ -17,6 +17,8 @@ public class GLRenderer implements Renderer {
     public static ArrayList<Texture>   enemyTextures;    // 2 per rank
     public static ArrayList<Animation> hudAnimations;
     public static ArrayList<Texture>   hudTextures;
+    public static ArrayList<Animation> projectileAnimations; // 2 per projectile
+    public static ArrayList<Texture>   projectileTextures;   // 1 per projectile
     
     public StringTexture testText = null;
 
@@ -45,12 +47,14 @@ public class GLRenderer implements Renderer {
         wrapper.setRenderer(this);
         
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations = new ArrayList<Animation>(3);
-        playerTextures   = new ArrayList<Texture>(2);
-        enemyAnimations  = new ArrayList<Animation>(3);
-        enemyTextures    = new ArrayList<Texture>(2);
-        hudAnimations    = new ArrayList<Animation>();
-        hudTextures      = new ArrayList<Texture>();
+        playerAnimations     = new ArrayList<Animation>(3);
+        playerTextures       = new ArrayList<Texture>(2);
+        enemyAnimations      = new ArrayList<Animation>(3);
+        enemyTextures        = new ArrayList<Texture>(2);
+        hudAnimations        = new ArrayList<Animation>();
+        hudTextures          = new ArrayList<Texture>();
+        projectileAnimations = new ArrayList<Animation>(2);
+        projectileTextures   = new ArrayList<Texture>(1);
     }
 
     /*
@@ -79,9 +83,11 @@ public class GLRenderer implements Renderer {
         if (gameThread != null) {
         	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
         	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+        	projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
 
         	allLoaded = true;
-            
+
+            gameThread.setRunning(true);
             gameThread.start();
         }
     }
@@ -105,7 +111,7 @@ public class GLRenderer implements Renderer {
         
         // Muutetaan ruudun koko
         //GLU.gluOrtho2D(_gl, (-1)*(_width/2), (_width/2), (-1)*(_height/2), (_height/2));
-        GLU.gluOrtho2D(_gl, 0, _width, 0, _height);
+        GLU.gluOrtho2D(_gl, -(_width / 2), (_width / 2), -(_height / 2), (_height/ 2));
 
         // Valitaan ja resetoidaan mallimatriisi
         _gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -141,17 +147,21 @@ public class GLRenderer implements Renderer {
 	        	}
 	        }
 	        
-	        /*for (int i = wrapper.projectileLasers.size()-1; i >= 0; --i) {
-	            wrapper.projectileLasers.get(i).draw(_gl);
-	        }*/
+	        for (int i = wrapper.projectileLasers.size()-1; i >= 0; --i) {
+	        	if (wrapper.projectileLaserStates.get(i) == 1) {
+	        		wrapper.projectileLasers.get(i).draw(_gl);
+	        	}
+	        }
         }
         else {
         	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
         	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-        	
+        	projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
+
         	allLoaded = true;
-        	
-        	gameThread.start();
+
+            gameThread.setRunning(true);
+            gameThread.start();
         }
     }
 }

@@ -18,9 +18,11 @@ public class Player extends GameObject
         health  = _health;
         defence = _defence;
         
-        animationLength[0] = wrapper.renderer.playerAnimations.get(0).length;
-        animationLength[1] = wrapper.renderer.playerAnimations.get(1).length;
-        animationLength[2] = wrapper.renderer.playerAnimations.get(2).length;
+        collisionRadius = 25;
+        
+        /*animationLength[0] = GLRenderer.playerAnimations.get(0).length;
+        animationLength[1] = GLRenderer.playerAnimations.get(1).length;
+        animationLength[2] = GLRenderer.playerAnimations.get(2).length;*/
         
         wrapper = Wrapper.getInstance();
         
