@@ -53,103 +53,103 @@ public class Enemy extends GameObject
         
         wrapper = Wrapper.getInstance();
         
-        listId = wrapper.addToList(this);
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY);
         
         ai = new LinearAi(listId);
     }
 
-	/*
-	 * Aktivoi vihollisen
-	 */
-	public void setActive()
-	{
-		wrapper.enemyStates.set(listId, 1);
-	}
+    /*
+     * Aktivoi vihollisen
+     */
+    public void setActive()
+    {
+        wrapper.enemyStates.set(listId, 1);
+    }
 
-	/*
-	 * Poistaa vihollisen käytöstä
-	 */
-	public void setUnactive()
-	{
-		wrapper.enemyStates.set(listId, 0);
-	}
-	
-	/*
-	 * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle
-	 */
-	public void draw(GL10 _gl)
-	{
-		// Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
-		if (usedAnimation >= 0){
-			GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
-		}
-		else{
-			GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
-		}
-	}
-	
-	/*
-	 * Käsittelee räjähdyksien aiheuttamat osumat
-	 */
-	public void triggerImpact(int _damage)
-	{
-		health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
-		
-		if (health <= 0) {
-			setUnactive();
-		}
-	}
-	
-	/*
-	 * Käsitelee törmäykset pelaajan ja ammusten kanssa
-	 */
-	public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
-	{
-		if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-			health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
-			
-			//if (health <= 0) {
-				setUnactive();
-			//}
-		}
-		else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-			wrapper.player.health -= attack * 3;
-			setUnactive();
-		}
-	}
+    /*
+     * Poistaa vihollisen käytöstä
+     */
+    public void setUnactive()
+    {
+        wrapper.enemyStates.set(listId, 0);
+    }
+    
+    /*
+     * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle
+     */
+    public void draw(GL10 _gl)
+    {
+        // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
+        if (usedAnimation >= 0){
+            GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
+        }
+        else{
+            GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
+        }
+    }
+    
+    /*
+     * Käsittelee räjähdyksien aiheuttamat osumat
+     */
+    public void triggerImpact(int _damage)
+    {
+        health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
+        
+        if (health <= 0) {
+            setUnactive();
+        }
+    }
+    
+    /*
+     * Käsitelee törmäykset pelaajan ja ammusten kanssa
+     */
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    {
+        if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
+            health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
+            
+            //if (health <= 0) {
+                setUnactive();
+            //}
+        }
+        else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
+            wrapper.player.health -= attack * 3;
+            setUnactive();
+        }
+    }
 
-	/*
-	 * Asettaa tiedot
-	 */
-	public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
-		// Tallennetaan uudet tiedot
-		healthMax  = _health;
-		health     = _health;
-		speedMax   = _speed;
-		speed      = _speed;
-		attackMax  = _attack;
-		attack     = _attack;
-		defenceMax = _defence;
-		defence    = _defence;
-		rank       = _rank;
+    /*
+     * Asettaa tiedot
+     */
+    public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
+        // Tallennetaan uudet tiedot
+        healthMax  = _health;
+        health     = _health;
+        speedMax   = _speed;
+        speed      = _speed;
+        attackMax  = _attack;
+        attack     = _attack;
+        defenceMax = _defence;
+        defence    = _defence;
+        rank       = _rank;
 
-		// Otetaan uusi tekoäly käyttöön
+        // Otetaan uusi tekoäly käyttöön
 
-		ai = null;
+        ai = null;
 
-		if (_ai == 1) {
-			ai = new LinearAi(listId);
-		}
-		/*
-		else if (_ai == 2) {
-			ai = new SguigglyAi(listId);
-		}
-		else if (_ai == 3) {
-			ai = new ApproachAndStopAi(listId);
-		}
-		else if (_ai == 4) {
-			ai = new RotaryAi(listId);
-		}
-		*/
-	}
+        if (_ai == 1) {
+            ai = new LinearAi(listId);
+        }
+        /*
+        else if (_ai == 2) {
+            ai = new SguigglyAi(listId);
+        }
+        else if (_ai == 3) {
+            ai = new ApproachAndStopAi(listId);
+        }
+        else if (_ai == 4) {
+            ai = new RotaryAi(listId);
+        }
+        */
+    }
 }

@@ -11,14 +11,15 @@ import android.opengl.GLU;
 
 public class GLRenderer implements Renderer {
     // Piirrettävät objektit
-    public static ArrayList<Animation> playerAnimations; // 3
-    public static ArrayList<Texture>   playerTextures;   // 2
-    public static ArrayList<Animation> enemyAnimations;  // 3 per rank
-    public static ArrayList<Texture>   enemyTextures;    // 2 per rank
+    public static ArrayList<Animation> playerAnimations;     // 3
+    public static ArrayList<Texture>   playerTextures;       // 2
+    public static ArrayList<Animation> enemyAnimations;      // 3 per vihollistyyppi
+    public static ArrayList<Texture>   enemyTextures;        // 2 per vihollistyyppi
+    public static ArrayList<Animation> projectileAnimations; // 2 per ammus
+    public static ArrayList<Texture>   projectileTextures;   // 1 per ammus
+    
     public static ArrayList<Animation> hudAnimations;
     public static ArrayList<Texture>   hudTextures;
-    public static ArrayList<Animation> projectileAnimations; // 2 per projectile
-    public static ArrayList<Texture>   projectileTextures;   // 1 per projectile
     
     public StringTexture testText = null;
 
@@ -26,7 +27,7 @@ public class GLRenderer implements Renderer {
     
     private Wrapper wrapper;
     
-	public GameThread gameThread = null;
+    public GameThread gameThread = null;
     
     // Näytön tiedot
     public static int width;
@@ -49,12 +50,13 @@ public class GLRenderer implements Renderer {
         // Määritetään taulukoiden koot
         playerAnimations     = new ArrayList<Animation>(3);
         playerTextures       = new ArrayList<Texture>(2);
-        enemyAnimations      = new ArrayList<Animation>(3);
-        enemyTextures        = new ArrayList<Texture>(2);
-        hudAnimations        = new ArrayList<Animation>();
-        hudTextures          = new ArrayList<Texture>();
+        enemyAnimations      = new ArrayList<Animation>(15);
+        enemyTextures        = new ArrayList<Texture>(10);
         projectileAnimations = new ArrayList<Animation>(2);
         projectileTextures   = new ArrayList<Texture>(1);
+        
+        hudAnimations        = new ArrayList<Animation>();
+        hudTextures          = new ArrayList<Texture>();
     }
 
     /*
@@ -81,11 +83,11 @@ public class GLRenderer implements Renderer {
         
         // Ladataan graffat (väliaikainen)
         if (gameThread != null) {
-        	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
-        	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-        	projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
+            playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+            enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+            projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
 
-        	allLoaded = true;
+            allLoaded = true;
 
             gameThread.setRunning(true);
             gameThread.start();
@@ -129,36 +131,36 @@ public class GLRenderer implements Renderer {
      */
     public void onDrawFrame(GL10 _gl)
     {
-    	_gl.glEnable(GL10.GL_TEXTURE_2D);
-    	
+        _gl.glEnable(GL10.GL_TEXTURE_2D);
+        
         // Tyhjätään ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
         // Käydään läpi piirtolistat
         if (allLoaded) {
-	        if (wrapper.player != null && wrapper.playerState == 1) {
-	        	wrapper.player.draw(_gl);
-	        }
-	        
-	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	        	if (wrapper.enemyStates.get(i) == 1) {
-	        		wrapper.enemies.get(i).draw(_gl);
-	        	}
-	        }
-	        
-	        for (int i = wrapper.projectileLasers.size()-1; i >= 0; --i) {
-	        	if (wrapper.projectileLaserStates.get(i) == 1) {
-	        		wrapper.projectileLasers.get(i).draw(_gl);
-	        	}
-	        }
+            if (wrapper.player != null && wrapper.playerState == 1) {
+                wrapper.player.draw(_gl);
+            }
+            
+            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+                if (wrapper.enemyStates.get(i) == 1) {
+                    wrapper.enemies.get(i).draw(_gl);
+                }
+            }
+            
+            for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+                if (wrapper.projectileStates.get(i) == 1) {
+                    wrapper.projectiles.get(i).draw(_gl);
+                }
+            }
         }
         else {
-        	playerTextures.add(new Texture(_gl, context, R.drawable.icon));
-        	enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-        	projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
+            playerTextures.add(new Texture(_gl, context, R.drawable.icon));
+            enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
+            projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
 
-        	allLoaded = true;
+            allLoaded = true;
 
             gameThread.setRunning(true);
             gameThread.start();
