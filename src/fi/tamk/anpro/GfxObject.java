@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class GfxObject {
 	// Animaatiot ja tekstuurit
-	public ArrayList<Animation> animations;
-	public ArrayList<Texture>   textures;
+	//public ArrayList<Animation> animations;
+	//public ArrayList<Texture>   textures;
 	
     // Objektin sijainti
     public float x = 0.0f;
@@ -31,6 +31,30 @@ public class GfxObject {
     }
     
     /*
+     * Käynnistää animaation
+     */
+    public void startAnimation(int _animation, int _loops) {
+    	usedAnimation  = _animation;
+    	animationLoops = _loops;
+		currentFrame   = 0;
+    	
+    	if (_loops > 0) {
+    		currentLoop = 1;
+    	}
+    	else {
+    		currentLoop = 0;
+    	}
+    }
+    
+    /*
+     * Lopettaa animaation
+     */
+    public void stopAnimation(int _texture) {
+    	usedAnimation = -1;
+    	usedTexture   = _texture;
+    }
+    
+    /*
      * Päivittää animaation
      */
     public void update() {
@@ -39,13 +63,22 @@ public class GfxObject {
 	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
 	    			currentFrame = 0;
 	    			++currentLoop;
+	    			if (currentLoop > animationLoops) {
+	    				usedAnimation = -1;
+	    				usedTexture   = 0;
+	    			}
 	    		}
 	    		else {
 	    			++currentFrame;
 	    		}
 	    	}
 	    	else {
-	    		
+	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
+	    			currentFrame = 0;
+	    		}
+	    		else {
+	    			++currentFrame;
+	    		}
 	    	}
     	}
     }
