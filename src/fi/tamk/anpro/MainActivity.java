@@ -2,6 +2,7 @@ package fi.tamk.anpro;
 
 import fi.tamk.anpro.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -9,11 +10,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity implements OnClickListener {
+	public static Context context;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle _savedInstanceState) {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.main);
+        
+        context = getApplicationContext();
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         

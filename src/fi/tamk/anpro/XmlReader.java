@@ -108,21 +108,21 @@ public class XmlReader
         	while (settings.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (settings.getEventType() == XmlPullParser.START_TAG) {
                     if (settings.getName().equals("particles")) {
-                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    	if (settings.getAttributeValue(null, "value") == "1") {
                     		particles = true;
                     	}
                     	else
                     		particles = false;
                     }
                     else if (settings.getName().equals("music")) {
-                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    	if (settings.getAttributeValue(null, "value") == "1") {
                     		music = true;
                     	}
                     	else
                     		music = false;
                     }
                     else if (settings.getName().equals("sounds")) {
-                    	if (settings.getAttributeValue(null, "value") == "true") {
+                    	if (settings.getAttributeValue(null, "value") == "1") {
                     		sounds = true;
                     	}
                     	else

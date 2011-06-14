@@ -54,5 +54,7 @@
     <string name="button_resume">Resume game</string>
     <string name="button_pause_menu">Pause menu</string>
     
+    <string name="button_savesettings">Save Settings</string>
+    
     <color name="background">#6291c0</color>
 </resources>
