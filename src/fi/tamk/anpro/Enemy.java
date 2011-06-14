@@ -17,7 +17,7 @@ public class Enemy extends GameObject
     
     public int rank;
     
-    public GenericAi ai;
+    public AbstractAi ai;
     
     //ArrayList<Animation> animations;
     //ArrayList<Texture> textures;

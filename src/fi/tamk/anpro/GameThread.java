@@ -23,7 +23,7 @@ class GameThread extends Thread {
     private long lastCooldownUpdate  = 0;
     private long lastAnimationUpdate = 0;
     
-    public static ArrayList<GenericAi> criticalUpdates;
+    public static ArrayList<AbstractAi> criticalUpdates;
 
     /*
      * Rakentaja
@@ -34,7 +34,7 @@ class GameThread extends Thread {
         wrapper       = Wrapper.getInstance();
         weaponStorage = WeaponStorage.getInstance();
         
-        criticalUpdates = new ArrayList<GenericAi>();
+        criticalUpdates = new ArrayList<AbstractAi>();
 
         /** DEBUG-HÄRPÄKKEITÄ!!!! */
         player = new Player(50, 1);
