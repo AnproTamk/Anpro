@@ -8,20 +8,23 @@ class GameThread extends Thread {
     private GLSurfaceView surface;
     private GLRenderer    renderer;
     private Wrapper       wrapper;
+    private WeaponStorage weaponStorage;
     
     public Enemy  enemy;
     public Player player;
     
     private long lastMovementUpdate = 0;
     private long lastAiUpdate       = 0;
-    
+    private long lastCooldownUpdate = 0;
+
     /*
      * Rakentaja
      */
     public GameThread(GLSurfaceView _glSurfaceView, GLRenderer _glRenderer) {
-    	surface  = _glSurfaceView;
-        renderer = _glRenderer;
-        wrapper  = Wrapper.getInstance();
+    	surface       = _glSurfaceView;
+        renderer      = _glRenderer;
+        wrapper       = Wrapper.getInstance();
+        weaponStorage = WeaponStorage.getInstance();
     }
 
     /*
@@ -37,19 +40,21 @@ class GameThread extends Thread {
     @Override
     public void run() {
         player = new Player(5, 1);
-        player.setDrawables(null, renderer.playerTextures);
+        // player.setDrawables(null, renderer.playerTextures);
         player.x = 500;
         player.y = 300;
-        
+
         enemy = new Enemy(5, 1, 1, 1, 1);
-        enemy.setDrawables(null, renderer.enemyTextures);
+        // enemy.setDrawables(null, renderer.enemyTextures);
         enemy.direction = 0;
         enemy.x = 200;
         enemy.y = 100;
         enemy.turningDirection = 0;
-        
+
+        // Haetaan päivityksille aloitusajat
     	lastMovementUpdate = android.os.SystemClock.uptimeMillis();
     	lastAiUpdate       = android.os.SystemClock.uptimeMillis();
+    	lastCooldownUpdate = android.os.SystemClock.uptimeMillis();
     	
         while (running) {
             long currentTime = android.os.SystemClock.uptimeMillis();
@@ -77,7 +82,12 @@ class GameThread extends Thread {
 	                }
 	            }
             }
-            
+
+            // Päivitetään aseiden cooldownit
+            if (currentTime - lastCooldownUpdate >= 100) {
+            	weaponStorage.updateCooldowns();
+            }
+
             // Hidastetaan säiettä pakottamalla se odottamaan 20 ms
             try {
 				Thread.sleep(20);

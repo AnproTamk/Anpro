@@ -135,18 +135,22 @@ public class Enemy extends GameObject
 		rank       = _rank;
 
 		// Otetaan uusi tekoäly käyttöön
-		/*ai = null;
+
+		ai = null;
+
 		if (_ai == 1) {
 			ai = new LinearAi(listId);
 		}
+		/*
 		else if (_ai == 2) {
-			ai = new LinearAi(listId);
+			ai = new SguigglyAi(listId);
 		}
 		else if (_ai == 3) {
-			ai = new LinearAi(listId);
+			ai = new ApproachAndStopAi(listId);
 		}
 		else if (_ai == 4) {
-			ai = new LinearAi(listId);
-		}*/
+			ai = new RotaryAi(listId);
+		}
+		*/
 	}
 }
