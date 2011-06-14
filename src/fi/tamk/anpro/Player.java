@@ -18,9 +18,9 @@ public class Player extends GameObject
         health  = _health;
         defence = _defence;
         
-        /*animationLength[0] = wrapper.renderer.playerAnimations.get(0).length;
+        animationLength[0] = wrapper.renderer.playerAnimations.get(0).length;
         animationLength[1] = wrapper.renderer.playerAnimations.get(1).length;
-        animationLength[2] = wrapper.renderer.playerAnimations.get(2).length;*/
+        animationLength[2] = wrapper.renderer.playerAnimations.get(2).length;
         
         wrapper = Wrapper.getInstance();
         
@@ -43,7 +43,8 @@ public class Player extends GameObject
     public void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
-            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
+        	GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
         	GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
