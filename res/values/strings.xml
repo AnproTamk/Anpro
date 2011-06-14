@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Anpro 0.2 - Lazy Pony</string>
+    <string name="app_name">Anpro 0.2.2</string>
     <string name="button_story">Story</string>
     <string name="button_survival">Survival</string>
     <string name="button_highscores">Highscores</string>
@@ -55,6 +55,4 @@
     <string name="button_pause_menu">Pause menu</string>
     
     <string name="button_savesettings">Save Settings</string>
-    
-    <color name="background">#6291c0</color>
 </resources>

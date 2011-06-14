@@ -20,12 +20,12 @@
     </LinearLayout>
 </TableLayout>
 <LinearLayout android:id="@+id/linearLayout2" android:layout_width="fill_parent" android:layout_height="wrap_content">
-    <Button android:layout_height="wrap_content" android:id="@+id/button_highscores" android:text="@string/button_highscores" android:layout_width="125dip"></Button>
-    <Button android:layout_height="wrap_content" android:id="@+id/button_options" android:text="@string/button_options" android:layout_width="fill_parent"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/button_highscores" android:text="@string/button_highscores" android:layout_width="125dip" android:background="@color/button_bg" android:textColor="@color/button_text"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/button_options" android:text="@string/button_options" android:layout_width="fill_parent" android:background="@color/button_bg" android:textColor="@color/button_text"></Button>
 </LinearLayout>
 <LinearLayout android:id="@+id/linearLayout3" android:layout_width="fill_parent" android:layout_height="wrap_content">
-    <Button android:layout_height="wrap_content" android:id="@+id/button_help" android:text="@string/button_help" android:layout_width="125dip"></Button>
-    <Button android:layout_height="wrap_content" android:id="@+id/button_quit" android:text="@string/button_quit" android:layout_width="fill_parent"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/button_help" android:text="@string/button_help" android:layout_width="125dip" android:background="@color/button_bg" android:textColor="@color/button_text"></Button>
+    <Button android:layout_height="wrap_content" android:id="@+id/button_quit" android:text="@string/button_quit" android:layout_width="fill_parent" android:background="@color/button_bg" android:textColor="@color/button_text"></Button>
 </LinearLayout>     
 
 </LinearLayout>

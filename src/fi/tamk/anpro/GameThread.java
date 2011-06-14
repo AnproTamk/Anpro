@@ -39,14 +39,14 @@ class GameThread extends Thread {
         /** DEBUG-HÄRPÄKKEITÄ!!!! */
         player = new Player(50, 1);
         // player.setDrawables(null, renderer.playerTextures);
-        player.x = 400;
-        player.y = 240;
+        player.x = 0;
+        player.y = 0;
 
         enemy = new Enemy(5, 1, 1, 1, 1);
         // enemy.setDrawables(null, renderer.enemyTextures);
         enemy.direction = 0;
-        enemy.x = 100;
-        enemy.y = 100;
+        enemy.x = -390;
+        enemy.y = -230;
 
         weaponStorage.initialize(1);
         /** DEBUG LOPPUU!!!! */
@@ -67,9 +67,9 @@ class GameThread extends Thread {
 
         // Haetaan päivityksille aloitusajat
         lastMovementUpdate  = android.os.SystemClock.uptimeMillis();
-        lastAiUpdate        = android.os.SystemClock.uptimeMillis();
-        lastCooldownUpdate  = android.os.SystemClock.uptimeMillis();
-        lastAnimationUpdate = android.os.SystemClock.uptimeMillis();
+        lastAiUpdate        = lastMovementUpdate;
+        lastCooldownUpdate  = lastMovementUpdate;
+        lastAnimationUpdate = lastMovementUpdate;
         
         while (running) {
             long currentTime = android.os.SystemClock.uptimeMillis();

@@ -83,9 +83,9 @@ public class GLRenderer implements Renderer {
         
         // Ladataan graffat (väliaikainen)
         if (gameThread != null) {
-            playerTextures.add(new Texture(_gl, context, R.drawable.icon));
-            enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-            projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
+            playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
+            enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
+            projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
 
             allLoaded = true;
 
@@ -156,9 +156,9 @@ public class GLRenderer implements Renderer {
             }
         }
         else {
-            playerTextures.add(new Texture(_gl, context, R.drawable.icon));
-            enemyTextures.add(new Texture(_gl, context, R.drawable.icon));
-            projectileTextures.add(new Texture(_gl, context, R.drawable.icon));
+            playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
+            enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
+            projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
 
             allLoaded = true;
 
