@@ -40,6 +40,8 @@ public class Enemy extends GameObject
         defenceMax = _defence;
         defence    = _defence;
         rank       = _rank;
+        
+        collisionRadius = 15;
     
         animationLength = new int[3];
 
@@ -87,7 +89,7 @@ public class Enemy extends GameObject
 	}
 	
 	/*
-	 * Käsitelee räjähdyksien aiheuttamat osumat
+	 * Käsittelee räjähdyksien aiheuttamat osumat
 	 */
 	public void triggerImpact(int _damage)
 	{
@@ -99,16 +101,16 @@ public class Enemy extends GameObject
 	}
 	
 	/*
-	 * Käsitelee törmäykset
+	 * Käsitelee törmäykset pelaajan ja ammusten kanssa
 	 */
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
 	{
 		if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
 			health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
 			
-			if (health <= 0) {
+			//if (health <= 0) {
 				setUnactive();
-			}
+			//}
 		}
 		else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
 			wrapper.player.health -= attack * 3;

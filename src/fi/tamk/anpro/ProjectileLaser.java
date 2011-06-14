@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import java.lang.Math;
 
+import javax.microedition.khronos.opengles.GL10;
+
 public class ProjectileLaser extends GameObject {
 	/** Vakioita ammuksen tietoja varten */
 	// Efektit
@@ -30,11 +32,9 @@ public class ProjectileLaser extends GameObject {
 	// Wrapper
 	private Wrapper wrapper;
 	
-	// Ammuksen tiedot
-	private int speed = 3;
+	// Kohteen tiedot
 	private int targetX;
 	private int targetY;
-	private int direction;
 	
 	public boolean active = false;
 	
@@ -76,29 +76,47 @@ public class ProjectileLaser extends GameObject {
 			startTime = android.os.SystemClock.uptimeMillis();
 		}
 		
-		// Tallennetaan koordinaatit
+		// Asetetaan aloituspiste
+		x = wrapper.player.x;
+		y = wrapper.player.y;
+		
+		// Tallennetaan kohteen koordinaatit
 		targetX = _xTouchPosition;
 		targetY = _yTouchPosition;
 
-		// Valitaan suunta (missä kohde on pelaajaan nähden)
-		// Jos vihollinen on pelaajasta katsottuna oikealla ja ylhäällä
-		if (_xTouchPosition > 0 && _yTouchPosition > 0){
-			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition ));
+		// Valitaan suunta
+		double xDiff = Math.abs((double)(x - targetX));
+		double yDiff = Math.abs((double)(y - targetY));
+		
+		if (x < targetX) {
+			if (y < targetY) {
+				direction = (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
+			}
+			else if (y > targetY) {
+				direction = (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			}
+			else {
+				direction = 0;
+			}
 		}
-		// Jos vihollinen on pelaajasta katsottuna oikealla ja alhaalla
-		else if (_xTouchPosition > 0 && _yTouchPosition < 0){
-			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
-		}
-		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja ylhäällä
-		else if (_xTouchPosition < 0 && _yTouchPosition > 0){
-			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
-		}
-		// Jos vihollinen on pelaajasta katsottuna vasemmalla ja alhaalla
-		else if (_xTouchPosition < 0 && _yTouchPosition < 0){
-			direction = (int) (Math.atan(_xTouchPosition / _yTouchPosition)) + 180;
+		else if (x > targetX) {
+			if (y > targetY) {
+				direction = (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			}
+			else if (y < targetY) {
+				direction = (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			}
+			else {
+				direction = 180;
+			}
 		}
 		else {
-			direction = 0;
+			if (y > targetY) {
+				direction = 270;
+			}
+			else {
+				direction = 90;
+			}
 		}
 		
 		// Aktivoidaan ammus
@@ -110,10 +128,11 @@ public class ProjectileLaser extends GameObject {
 	 * Käsitellään ammuksen tekoäly.
 	 */
 	public void handleAi() {
-		// Tarkistetaan osumatyyppi ja etäisyydet
-		// Kutsutaan osumatarkistuksia tarvittaessa
-		for (int i = wrapper.enemies.size(); i >= 0; --i) {
-			int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+		// Tarkistetaan osumatyyppi ja etäisyydet ja kutsutaan osumatarkistuksia tarvittaessa
+		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+			
+			double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
+			
 			if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
 				// Osuma ja räjähdys
 				if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
@@ -122,6 +141,9 @@ public class ProjectileLaser extends GameObject {
 				else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
 					causeExplosion();
 				}
+
+				setUnactive();
+				break;
 			}
 			
 			// Passiivinen vahinko
@@ -136,6 +158,7 @@ public class ProjectileLaser extends GameObject {
 			
 			if (currentTime - startTime >= explodeTime) {
 				causeExplosion();
+				setUnactive();
 			}
 		}
 		
@@ -170,5 +193,16 @@ public class ProjectileLaser extends GameObject {
 	 */
 	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
 		// Osumat eivät vaikuta tähän ammukseen
+	}
+
+	public void draw(GL10 _gl) {
+        if (usedAnimation >= 0){
+        	GLRenderer.projectileAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+        }
+        else{
+        	GLRenderer.projectileTextures.get(usedTexture).draw(_gl, x, y, direction);
+            //textures.get(usedTexture).draw(_gl, x, y, direction);
+        }
 	}
 }

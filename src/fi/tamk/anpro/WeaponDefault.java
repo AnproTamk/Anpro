@@ -26,11 +26,12 @@ public class WeaponDefault extends Weapon {
 	/*
 	 * Aktivoidaan ammukset
 	 */
-	public void activate(int _xTouchPosition, int _yTouchPosition) {
+	public void activate(int _x, int _y) {
 		for (int i = AMOUNT_OF_PROJECTILES-1; i >= 0; --i) {
 			if (projectiles.get(i).active == false) {
-				projectiles.get(i).activate( _xTouchPosition, _yTouchPosition);
+				projectiles.get(i).activate( _x, _y);
 				projectiles.get(i).active = true;
+				break;
 			}
 		}
 	}
