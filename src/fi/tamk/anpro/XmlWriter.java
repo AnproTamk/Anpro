@@ -87,20 +87,20 @@ public class XmlWriter {
 	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
 	 * @param boolean[] settingStates
 	 **/
-	public void saveSettings(boolean[] _settingStates) {
+	public void saveSettings(boolean particleState, boolean musicState, boolean soundState) {
 		// Luodaan uusi XML-tiedosto asetuksille.
-		File xmlStoreSettings = new File(Environment.getExternalStorageDirectory()+"/settings.xml");
+		//File xmlStoreSettings = new File(Environment.getDataDirectory()+"/settings.xml");
+		File xmlStoreSettings = new File("HWUserData/Android/settings.xml");
 		
 		String[] stateId = {"0", "0", "0"};
 		
-		for (int i = 0; i < 3; i++) {
-			if (_settingStates[i] == false) {
-				stateId[i] = "0";
-			}
-			else
-				stateId[i] = "1";
-		}
-		
+		if (particleState == true)
+			stateId[0] = "1";
+		if (musicState == true)
+			stateId[1] = "1";
+		if (soundState == true)
+			stateId[2] = "1";
+
 		try {
 			xmlStoreSettings.createNewFile();
 		} catch (Exception e) {
@@ -130,6 +130,7 @@ public class XmlWriter {
 			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
 			serializer.startTag(null, "res");
 			
+			
 			/* 
 			 * Tästä alkaa xml-tiedoston sisempi osuus.
 			 * 
@@ -138,8 +139,8 @@ public class XmlWriter {
 			 * käytössä vai ei.
 			 */
 			
-			/*
-			 * 'Particles'-elementin sisällä on attribuutti, jonka nimenä on 'value'.
+			
+			 /* 'Particles'-elementin sisällä on attribuutti, jonka nimenä on 'value'.
 			 * 'Value' tallentaa string-tiedon siitä, onko partikkelit käytössä vai ei.
 			 */
 			serializer.startTag(null, "particles");
@@ -156,6 +157,7 @@ public class XmlWriter {
 			
 			serializer.endTag(null, "res");
 			serializer.endDocument();
+						
 			
 			//Kirjoitetaan xml-data FileOutputStreamiin.
 			serializer.flush();
@@ -164,7 +166,6 @@ public class XmlWriter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/*
