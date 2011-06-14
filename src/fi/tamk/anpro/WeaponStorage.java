@@ -35,6 +35,9 @@ public class WeaponStorage
 		playerWeapons = new ArrayList<Weapon>();
 		cooldownMax   = new int[10];
 		cooldownLeft  = new int[10];
+		
+		cooldownMax[0]  = 0;
+		cooldownLeft[0] = 0;
     }
 
 	// Lataa pointteri tähän luokkaan
@@ -46,15 +49,16 @@ public class WeaponStorage
         return instance;
     }
     
-    public void triggerShoot(int _xTouchPosition, int _yTouchPosition)
+    public void triggerShoot(int _x, int _y)
     {
-    	if (cooldownLeft[currentWeapon] == 0) {
-    		playerWeapons.get(currentWeapon).activate(_xTouchPosition, _yTouchPosition);
+	//	System.exit(0);
+    	if (cooldownLeft[currentWeapon] <= 0) {
+    		playerWeapons.get(currentWeapon).activate(_x, _y);
     		
     		cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
     		
     		// Asetetaan globaali cooldown
-    		for (int i = 9; i>= 0; --i) {
+    		for (int i = 9; i >= 0; --i) {
     			if (cooldownLeft[i] == 0) {
         			cooldownLeft[i] = GLOBAL_COOLDOWN;
     			}
@@ -80,7 +84,9 @@ public class WeaponStorage
 	{
 		// Asetetaan globaali cooldown
 		for (int i = 9; i>= 0; --i) {
-    		cooldownLeft[i] -= 100;
+			if (cooldownLeft[i] >= 0) {
+				cooldownLeft[i] -= 100;
+			}
 		}
 	}
 }

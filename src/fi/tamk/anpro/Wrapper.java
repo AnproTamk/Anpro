@@ -8,8 +8,8 @@ public class Wrapper {
     public GLRenderer renderer;
 	
 	// Listat piirrettävistä objekteista
-	public Player           player                     = null;
-	public ArrayList<Enemy> enemies                    = null;
+	public Player                     player           = null;
+	public ArrayList<Enemy>           enemies          = null;
 	public ArrayList<ProjectileLaser> projectileLasers = null;
 
 	// Listat objektien tiloista
@@ -48,7 +48,7 @@ public class Wrapper {
 		}
 		else if (_object instanceof ProjectileLaser) {
 			projectileLasers.add((ProjectileLaser)_object);
-			projectileLaserStates.add(1);
+			projectileLaserStates.add(0);
 
 			return projectileLaserStates.size()-1;
 		}

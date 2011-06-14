@@ -27,15 +27,15 @@ abstract public class GameObject extends GfxObject {
 	public int selectionRadius = 0;
 	
 	// Liikkeen muuttujat
-	private int movementSpeed        = 1;  // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
+	private int movementSpeed        = 2;  // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
 	private int movementDelay        = 20; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
 	private int movementAcceleration = 0;  // Liikkeen kiihtyminen ja hidastuminen
 	
 	// Suunnan ja k‰‰ntymisen muuttujat
-	public  int direction           = 0;   // 0 on suoraan ylˆsp‰in, 90 oikealle
+	public  int direction           = 0;  // 0 on suoraan ylˆsp‰in, 90 oikealle
 	private int turningDelay        = 20; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
-	private int turningAcceleration = 0;   // K‰‰ntymisen kiihtyvyys
-	public  int turningDirection    = 0;   // 0 ei k‰‰nny, 1 vasen, 2 oikea
+	private int turningAcceleration = 0;  // K‰‰ntymisen kiihtyvyys
+	public  int turningDirection    = 0;  // 0 ei k‰‰nny, 1 vasen, 2 oikea
 	
 	// Tallennetaan aika
 	private long turningTime  = 0;
@@ -77,8 +77,8 @@ abstract public class GameObject extends GfxObject {
 		if (_time - movementTime >= movementDelay) {
 			movementTime = _time;
 			
-			x += (Math.cos((direction * Math.PI)/180) * movementSpeed);
-			y += (Math.sin((direction * Math.PI)/180) * movementSpeed);
+			x += Math.cos((direction * Math.PI)/180) * movementSpeed;
+			y += Math.sin((direction * Math.PI)/180) * movementSpeed;
 
 			// P‰ivitet‰‰n nopeus kiihtyvyyden avulla
 			movementDelay -= movementAcceleration;

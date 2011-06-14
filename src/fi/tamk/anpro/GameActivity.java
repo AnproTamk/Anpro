@@ -14,6 +14,7 @@ public class GameActivity extends Activity
     private GLSurfaceView glSurfaceView;
     private GLRenderer    glRenderer;
     private GameThread    gameThread;
+    private TouchEngine   touchEngine;
     
     /*
      * P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰.
@@ -47,9 +48,10 @@ public class GameActivity extends Activity
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
         gameThread = new GameThread(glSurfaceView, glRenderer);
-
-        gameThread.setRunning(true);
         glRenderer.gameThread = gameThread;
+        
+        touchEngine = TouchEngine.getInstance();
+        touchEngine.setSurfaceListeners(glSurfaceView);
     }
     
     /*
@@ -59,7 +61,7 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
-        /*glSurfaceView.onResume();
+        glSurfaceView.onResume();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -71,7 +73,7 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }*/
+        }
     }
     
     /*
@@ -81,7 +83,7 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
-        /*glSurfaceView.onPause();
+        glSurfaceView.onPause();
         
         // Pys‰ytet‰‰n s‰ie
         boolean retry = true;
@@ -93,6 +95,6 @@ public class GameActivity extends Activity
             } catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }*/
+        }
     }
 }

@@ -8,9 +8,8 @@ public class GfxObject {
 	//public ArrayList<Texture>   textures;
 	
     // Objektin sijainti
-    public float x = 0.0f;
-    public float y = 0.0f;
-    public float z = 0.0f;
+    public float x = 0;
+    public float y = 0;
     
     // Käytössä oleva animaatio ja sen tiedot
     public int   usedAnimation = -1;
@@ -27,7 +26,7 @@ public class GfxObject {
      * Rakentaja
      */
     public GfxObject() {
-    	// ...
+    	animationLength = new int[3];
     }
     
     /*
