@@ -19,8 +19,8 @@ public class Enemy extends GameObject
     
     public GenericAi ai;
     
-    ArrayList<Animation> animations;
-    ArrayList<Texture> textures;
+    //ArrayList<Animation> animations;
+    //ArrayList<Texture> textures;
     
     Wrapper wrapper;
     int     listId;
@@ -77,15 +77,12 @@ public class Enemy extends GameObject
 	 */
 	public void draw(GL10 _gl)
 	{
-		// 1. Tarkistaa onko animaatio päällä.
-		// 2. kutsuu animaatioita/tekstuureita
+		// Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
 		if (usedAnimation >= 0){
-			animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);	
-			}
-		
+			GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
+		}
 		else{
-			//textures.get(usedTexture).draw(_gl, x, y, direction);
-			GLRenderer.enemyTextures.get(0).draw(_gl, x, y, direction);
+			GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
 		}
 	}
 	

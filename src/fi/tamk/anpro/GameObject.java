@@ -110,10 +110,10 @@ abstract public class GameObject extends GfxObject {
 	/*
 	 * M‰‰ritt‰‰ objektin tekstuurit ja animaatiot
 	 */
-    public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
+    /*public void setDrawables(ArrayList<Animation> _animations, ArrayList<Texture> _textures)
     {
         animations = _animations;
         textures   = _textures;
-    }
+    }*/
 }
 
