@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
@@ -23,6 +24,8 @@ public class GameActivity extends Activity
     public static int	  activeMode = 1;
     
     public static DisplayMetrics dm;
+    
+    public static Context context;
     
     /*
      * P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰.
@@ -53,6 +56,8 @@ public class GameActivity extends Activity
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         setContentView(glSurfaceView);
+        
+        context = this.getBaseContext();
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
         gameThread = new GameThread(glSurfaceView, glRenderer);

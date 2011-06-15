@@ -29,9 +29,11 @@ public class SurvivalMode extends AbstractMode {
     private int HalfOfScreenWidth  = GLRenderer.width / 2;  // Puolet ruudun leveydestä
     private int HalfOfScreenHeight = GLRenderer.height / 2; // Puolet ruudun korkeudesta
     
-    private XmlReader reader = new XmlReader(null);
+    private XmlReader reader = new XmlReader(GameActivity.context);
     
     public static Random randomGen = new Random(); // Generaattori satunnaisluvuille
+    
+    private WeaponStorage weaponStorage;
     
     /*
      * Rakentaja
@@ -39,6 +41,8 @@ public class SurvivalMode extends AbstractMode {
     protected SurvivalMode() {
         waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         scoreCounter = new GuiObject();
+        
+        enemies = new ArrayList<Enemy>();
         
         spawnPoints = new int[9][3][2];
         
@@ -53,6 +57,9 @@ public class SurvivalMode extends AbstractMode {
         }
         
         reader.readSurvivalMode(this);
+        
+        weaponStorage = WeaponStorage.getInstance();
+        weaponStorage.initialize(WeaponStorage.SURVIVAL_MODE);
     }
     
     /*

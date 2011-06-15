@@ -16,7 +16,6 @@ class GameThread extends Thread {
     private WeaponStorage weaponStorage;
     private SurvivalMode  survivalMode;
     
-    public Enemy  enemy;
     public Player player;
     
     private long lastMovementUpdate  = 0;
@@ -38,6 +37,13 @@ class GameThread extends Thread {
         criticalUpdates = new ArrayList<AbstractAi>();
 
         survivalMode = SurvivalMode.getInstance();
+        
+        /*
+         * DEBUGGIA!!!!
+         */
+        player = new Player(5, 2);
+        player.x = 0;
+        player.y = 0;
     }
 
     /*

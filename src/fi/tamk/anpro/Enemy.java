@@ -81,10 +81,12 @@ public class Enemy extends GameObject
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
+            //GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
+        	GLRenderer.enemyAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
+            //GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
+        	GLRenderer.enemyTextures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
     
