@@ -14,6 +14,7 @@ class GameThread extends Thread {
     private GLRenderer    renderer;
     private Wrapper       wrapper;
     private WeaponStorage weaponStorage;
+    private SurvivalMode  survivalMode;
     
     public Enemy  enemy;
     public Player player;
@@ -36,20 +37,7 @@ class GameThread extends Thread {
         
         criticalUpdates = new ArrayList<AbstractAi>();
 
-        /** DEBUG-HÄRPÄKKEITÄ!!!! */
-        player = new Player(50, 1);
-        // player.setDrawables(null, renderer.playerTextures);
-        player.x = 0;
-        player.y = 0;
-
-        enemy = new Enemy(5, 1, 1, 1, 1);
-        // enemy.setDrawables(null, renderer.enemyTextures);
-        enemy.direction = 0;
-        enemy.x = -390;
-        enemy.y = -230;
-
-        weaponStorage.initialize(1);
-        /** DEBUG LOPPUU!!!! */
+        survivalMode = SurvivalMode.getInstance();
     }
 
     /*
