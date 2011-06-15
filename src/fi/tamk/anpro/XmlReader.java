@@ -67,32 +67,52 @@ public class XmlReader
 	}
  	
 	/*
-	 * Lukee HUDin tiedot.
+	 * Lukee HUDin tiedot. Riippuen pelimodesta, luetaan tarvittavat tiedot 
+	 * xml-tiedostosta joko story- tai survival-modea varten.
+	 * 
+	 * @param HUD _hud
 	 */
-	public void readHUD()
+	public void readHUD(HUD _hud)
 	{
-		/*XmlResourceParser level = context.getResources().getXml(R.xml.HUD);
-
-        // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
+		XmlResourceParser hud = null;
+		
+		// Ehto, joka tarkistaa, mikä pelitila on valittuna.
+		if (GameActivity.activeMode == GameActivity.SURVIVAL_MODE) {
+			hud = context.getResources().getXml(R.xml.hud_survival);
+		}
+		else {
+			hud = context.getResources().getXml(R.xml.hud_story);
+		}
+		
+		// Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         try {
-            while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
-                if (level.getEventType() == XmlPullParser.START_TAG) {
+            while (hud.getEventType() != XmlPullParser.END_DOCUMENT) {
+                if (hud.getEventType() == XmlPullParser.START_TAG) {
+                    if (hud.getName().equals("button")) {
+                    	// NÄILLE RIVEILLE TEHDÄÄN GuiObject LUOKKAAN VASTAAVAT KOHTANSA MYÖHEMMIN!
+                    	//_hud.guiObjects.add(new GuiObject(Integer.parseInt(hud.getAttributeValue(null, "x")));
+                    	//_hud.guiObjects.add(new GuiObject(Integer.parseInt(hud.getAttributeValue(null, "y")));
+                    	//_hud.guiObjects.add(new GuiObject(hud.getAttributeValue(null, "texture_set"));
+                    }
+                    if (hud.getName().equals("counter")) {
+                    	
+                    }
+                }
+                else if (hud.getEventType() == XmlPullParser.END_TAG) {
                     // ...
                 }
-                else if (level.getEventType() == XmlPullParser.END_TAG) {
-                    // ...
-                }
-                else if (level.getEventType() == XmlPullParser.TEXT) {
+                else if (hud.getEventType() == XmlPullParser.TEXT) {
                     // ...
                 }
 
-                level.next();
+                hud.next();
             }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
+		
 	}
 	
 	/*
@@ -142,7 +162,7 @@ public class XmlReader
 	
 	/*
 	 * Funktio lukee ranks.xml-tiedostosta vihollisten tason
-	 * ja sijoittaa ne kaksiulotteiseen taulukkoon.
+	 * ja sijoittaa ne ArrayList-taulukkoon.
 	 */
 	public ArrayList<Integer> readRanks() {
 		XmlResourceParser ranks = null;

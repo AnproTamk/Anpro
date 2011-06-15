@@ -12,10 +12,10 @@ public class SurvivalMode extends AbstractMode {
     public  int waves[][];       // Vihollisaallot [aalto][lista vihollisista]
     private int currentWave = 0; // Nykyinen vihollisaalto
     
-    public  ArrayList<Enemy> enemies;         // Viholliset
-    public  int              enemiesLeft = 0; // Vihollisiä jäljellä kentällä
-    public  int              enemyStats[][];  // Vihollisten (rankkien) statsit [rank][statsit]
-    private int              rankTemp;
+    public  ArrayList<Enemy> 	enemies;         // Viholliset
+    public  int             	enemiesLeft = 0; // Vihollisiä jäljellä kentällä
+    public  int[][]  enemyStats;  // Vihollisten (rankkien) statsit [rank][statsit]
+    private int              	rankTemp;
     
     public  GuiObject scoreCounter;        // Pistelaskuri
     private long      score;               // Pisteet
@@ -26,8 +26,10 @@ public class SurvivalMode extends AbstractMode {
     
     private int spawnPoints[][][]; // Vihollisten spawnpointit
     
-    int HalfOfScreenWidth  = GLRenderer.width / 2;  // Puolet ruudun leveydestä
-    int HalfOfScreenHeight = GLRenderer.height / 2; // Puolet ruudun korkeudesta
+    private int HalfOfScreenWidth  = GLRenderer.width / 2;  // Puolet ruudun leveydestä
+    private int HalfOfScreenHeight = GLRenderer.height / 2; // Puolet ruudun korkeudesta
+    
+    private XmlReader reader = new XmlReader(null);
     
     public static Random randomGen = new Random(); // Generaattori satunnaisluvuille
     
@@ -38,7 +40,19 @@ public class SurvivalMode extends AbstractMode {
         waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         scoreCounter = new GuiObject();
         
-        spawnPoints = new int[8][3][2];
+        spawnPoints = new int[9][3][2];
+        
+        enemyStats = new int[5][5];
+        
+        ArrayList<Integer> enemyStatsTemp = reader.readRanks();
+        int rank = 0;
+        for (int i = 0; i < enemyStatsTemp.size()-1; ++i) {
+        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
+        	
+        	rank = (int)(i / 5);
+        }
+        
+        reader.readSurvivalMode(this);
     }
     
     /*
@@ -99,8 +113,17 @@ public class SurvivalMode extends AbstractMode {
         }
         
         // Aktivoidaan viholliset
+        int temp;
+        int tempRandA, tempRandB;
         for (int index = AMOUNT_OF_ENEMIES_PER_WAVE-1; index > 0; --index) {
-            enemies.get(waves[currentWave][index]).setActive();
+        	temp = waves[currentWave][index];
+        	
+        	tempRandA = randomGen.nextInt(7)+1;
+        	tempRandB = randomGen.nextInt(2);
+        	
+            enemies.get(temp).setActive();
+            enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
         }
     }
 
