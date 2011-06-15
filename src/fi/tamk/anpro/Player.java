@@ -26,40 +26,40 @@ public class Player extends GameObject
         
         wrapper = Wrapper.getInstance();
         
-        wrapper.addToList(this);
+        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER);
     }
 
 
     // Funktio vihollisen "aktiivisuuden" toteuttamiseen.
     public void setActive()
     {
-    	wrapper.playerState = 0;
+        wrapper.playerState = 0;
     }
 
     // Funktio vihollisen "ep‰aktiivisuuden" toteuttamiseen.
     public void setUnactive()
     {
-    	wrapper.playerState = 1;
+        wrapper.playerState = 1;
     }
 
     public void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
-        	GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
             //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
-        	GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
+            GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
             //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
 
-	public void triggerImpact(int _damage) {
-		// R‰j‰hdykset eiv‰t vaikuta pelaajaan
-	}
-	
-	public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
-		// Osumat playeriin k‰sitell‰‰n Enemy-luokassa
-	}
+    public void triggerImpact(int _damage) {
+        // R‰j‰hdykset eiv‰t vaikuta pelaajaan
+    }
+    
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+        // Osumat playeriin k‰sitell‰‰n Enemy-luokassa
+    }
 }
 

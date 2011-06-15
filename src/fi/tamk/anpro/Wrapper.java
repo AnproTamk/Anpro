@@ -3,29 +3,34 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 public class Wrapper {
+    public static final int CLASS_TYPE_PLAYER     = 1;
+    public static final int CLASS_TYPE_ENEMY      = 2;
+    public static final int CLASS_TYPE_PROJECTILE = 3;
+    public static final int CLASS_TYPE_GUI        = 4;
+    
     private static Wrapper instance = null;
     
     public GLRenderer renderer;
-	
-	// Listat piirrettävistä objekteista
-	public Player                     player           = null;
-	public ArrayList<Enemy>           enemies          = null;
-	public ArrayList<ProjectileLaser> projectileLasers = null;
+    
+    // Listat piirrettävistä objekteista
+    public Player                        player      = null;
+    public ArrayList<Enemy>              enemies     = null;
+    public ArrayList<AbstractProjectile> projectiles = null;
 
-	// Listat objektien tiloista
-	public int                playerState           = 0;
-	public ArrayList<Integer> enemyStates           = null;
-	public ArrayList<Integer> projectileLaserStates = null;
-	
-	// HUD-objektit
-	//...
+    // Listat objektien tiloista
+    public int                playerState      = 0;
+    public ArrayList<Integer> enemyStates      = null;
+    public ArrayList<Integer> projectileStates = null;
+    
+    // HUD-objektit
+    //...
     
     //Wrapperin rakentaja
     protected Wrapper() {
-    	enemies               = new ArrayList<Enemy>();
-    	projectileLasers      = new ArrayList<ProjectileLaser>();
-    	enemyStates           = new ArrayList<Integer>();
-    	projectileLaserStates = new ArrayList<Integer>();
+        enemies          = new ArrayList<Enemy>();
+        projectiles      = new ArrayList<AbstractProjectile>();
+        enemyStates      = new ArrayList<Integer>();
+        projectileStates = new ArrayList<Integer>();
     }
     
     public static Wrapper getInstance() {
@@ -34,32 +39,29 @@ public class Wrapper {
         }
         return instance;
     }
-	
-	public int addToList(Object _object){
-		if (_object instanceof Player) {
-			player      = (Player)_object;
-			playerState = 1;
-		}
-		else if (_object instanceof Enemy) {
-			enemies.add((Enemy)_object);
-			enemyStates.add(1);
+    
+    public int addToList(Object _object, int _classType){
+        if (_classType == CLASS_TYPE_PLAYER) {
+            player      = (Player)_object;
+            playerState = 1;
+        }
+        else if (_classType == CLASS_TYPE_ENEMY) {
+            enemies.add((Enemy)_object);
+            enemyStates.add(1);
 
-			return enemyStates.size()-1;
-		}
-		else if (_object instanceof ProjectileLaser) {
-			projectileLasers.add((ProjectileLaser)_object);
-			projectileLaserStates.add(0);
+            return enemyStates.size()-1;
+        }
+        else if (_classType == CLASS_TYPE_PROJECTILE) {
+            projectiles.add((AbstractProjectile)_object);
+            projectileStates.add(0);
 
-			return projectileLaserStates.size()-1;
-		}
-		else if (_object instanceof GuiObject) {
-			// ...
-		}
-		
-		return 0;
-	}
-	
-	public void setRenderer(GLRenderer _renderer) {
-		renderer = _renderer;
-	}
+            return projectileStates.size()-1;
+        }
+        
+        return 0;
+    }
+    
+    public void setRenderer(GLRenderer _renderer) {
+        renderer = _renderer;
+    }
 }
