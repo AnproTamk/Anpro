@@ -90,39 +90,55 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
 	public void onClick(View _v) {
 		switch(_v.getId()) {
 	    	case R.id.button_level1:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_game = new Intent(this, GameActivity.class);
 	    		startActivity(i_game);
 	    		finish();
 	    		break;
 	    	case R.id.button_level2:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level3:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level4:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level5:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level6:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level7:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level8:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level9:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level10:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level11:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level12:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level13:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level14:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_level15:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_mainmenu:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_mainmenu = new Intent(this, MainActivity.class); // VAATII OPTIMOINTIA - KÄYNNISTÄÄ JOKA KERTA LUOKAN UUDELLEEN
 	    		startActivity(i_mainmenu);
 	    		finish();
