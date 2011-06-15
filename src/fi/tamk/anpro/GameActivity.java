@@ -11,11 +11,16 @@ import android.view.WindowManager;
 
 public class GameActivity extends Activity
 {
+	public static final int SURVIVAL_MODE = 1;
+	public static final int STORY_MODE = 2;
+	
     private GLSurfaceView glSurfaceView;
     private GLRenderer    glRenderer;
     private GameThread    gameThread;
     private TouchEngine   touchEngine;
     private HUD           hud;
+    
+    public static int	  activeMode = 1;
     
     public static DisplayMetrics dm;
     
