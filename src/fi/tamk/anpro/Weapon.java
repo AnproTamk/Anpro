@@ -1,19 +1,23 @@
 package fi.tamk.anpro;
 
-abstract public class Weapon {
-	// Ammusten m‰‰r‰
-	public static final int AMOUNT_OF_PROJECTILES = 3;
-	
-	// Sijainti HUDissa
-	public int locationOnHUD = 0;
-	
-	/*
-	 * Rakentaja
-	 */
+/**
+ * Sis‰lt‰‰ kaikkien aseiden yhteiset ominaisuudet.
+ * 
+ * T‰m‰ luokka on abstrakti, joten siit‰ ei voi luoda olioita.
+ */
+abstract public class Weapon
+{
+    /**
+     * Alustaa luokan muuttujat.
+     */
 	public Weapon() { }
-	
-	/*
-	 * Aktivoidaan ammukset
-	 */
+    
+    /**
+     * Aktivoi ammukset. T‰st‰ eteenp‰in ammusten oma teko‰ly hoitaa niiden
+     * p‰ivitt‰misen.
+     * 
+     * @param int Kohteen X-koordinaatti
+     * @param int Kohteen Y-koordinaatti
+     */
 	abstract public void activate(int _x, int _y);
 }

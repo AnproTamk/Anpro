@@ -2,46 +2,71 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * Sisältää pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
+ * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
+ * 
+ * @extends GameObject
+ */
 public class Player extends GameObject
 {
+	/* Pelaajan tiedot */
     public int health;
     public int defence;
-    public int spawnPoint;
     
+    /* Osoittimet muihin luokkiin */
     Wrapper wrapper;
     
-    // Luokan muuttujien rakentaja.
+    /**
+     * Alustaa luokan muuttujat.
+     * 
+     * @param int Pelaajan elämät/kestävyys
+     * @param int Pelaajan puolustus
+     */
     public Player(int _health, int _defence)
     {
         super();
         
+        // Tallennetaan tiedot
         health  = _health;
         defence = _defence;
         
+        // Asetetaan törmäystunnistuksen säde
         collisionRadius = 25;
         
+        // Haetaan käytettävien animaatioiden pituudet
         /*animationLength[0] = GLRenderer.playerAnimations.get(0).length;
         animationLength[1] = GLRenderer.playerAnimations.get(1).length;
         animationLength[2] = GLRenderer.playerAnimations.get(2).length;*/
         
+        // Haetaan osoitin Wrapper-luokkaan
         wrapper = Wrapper.getInstance();
         
+        // Lisätään pelaaja piirtolistalle
         wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER);
     }
 
-
-    // Funktio vihollisen "aktiivisuuden" toteuttamiseen.
+    /**
+     * Asettaa pelaajan aktiiviseksi.
+     */
     public void setActive()
-    {
-        wrapper.playerState = 0;
-    }
-
-    // Funktio vihollisen "epäaktiivisuuden" toteuttamiseen.
-    public void setUnactive()
     {
         wrapper.playerState = 1;
     }
 
+    /**
+     * Asettaa pelaajan epäaktiiviseksi.
+     */
+    public void setUnactive()
+    {
+        wrapper.playerState = 0;
+    }
+
+    /**
+     * Piirtää käytössä olevan animaation tai tekstuurin ruudulle.
+     * 
+     * @param GL10 OpenGL-konteksti
+     */
     public void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
@@ -54,12 +79,27 @@ public class Player extends GameObject
         }
     }
 
-    public void triggerImpact(int _damage) {
-        // Räjähdykset eivät vaikuta pelaajaan
+    /**
+     * Käsittelee räjähdyksien vaikutukset pelaajaan.
+     * 
+     * @param int Räjähdyksen aiheuttama vahinko
+     */
+    public void triggerImpact(int _damage)
+    {
+        // Räjähdykset eivät toistaiseksi vaikuta pelaajaan
     }
-    
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
-        // Osumat playeriin käsitellään Enemy-luokassa
+
+    /**
+     * Käsittelee törmäyksien vaikutukset pelaajaan.
+     * 
+     * @param int Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
+     * @param int Osuman aiheuttama vahinko
+     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     */
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    {
+        // Osumat pelaajaan käsitellään tällä hetkellä Enemy-luokassa
+    	// TODO: Siirrä käsittely tänne
     }
 }
 

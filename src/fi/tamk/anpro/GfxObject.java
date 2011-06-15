@@ -1,42 +1,52 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
-public class GfxObject {
-	// Animaatiot ja tekstuurit
+/**
+ * Sisältää kaikkien graafisten objektien yhteiset ominaisuudet ja tiedot.
+ * Hallitsee esimerkiksi animaatioiden päivittämisen, käytössä olevat tekstuurit
+ * (tunnukset) ja objektin sijainnin.
+ */
+public class GfxObject
+{
+	/* Animaatiot ja tekstuurit */
 	//public ArrayList<Animation> animations;
 	//public ArrayList<Texture>   textures;
 	
-    // Objektin sijainti
+    /* Objektin sijainti */
     public float x = 0;
     public float y = 0;
     
-    // Käytössä oleva animaatio ja sen tiedot
-    public int   usedAnimation = -1;
-    public int[] animationLength;
+    /* Käytössä oleva animaatio ja sen tiedot */
+    public  int   usedAnimation    = -1;
+    public  int[] animationLength;
+    public  int   currentFrame     = 0;
+    private int   currentLoop      = 0;
+    private int   animationLoops   = 0;
     
-    public  int currentFrame   = 0;
-    private int currentLoop    = 0;
-    private int animationLoops = 0;
-    
-    // Staattinen tekstuuri
+    /* Staattinen käytössä oleva tekstuuri */
     public int usedTexture = 0;
     
-    /*
-     * Rakentaja
+    /**
+     * Alustaa luokan muuttujat.
      */
-    public GfxObject() {
+    public GfxObject()
+    {
     	animationLength = new int[3];
     }
     
-    /*
-     * Käynnistää animaation
+    /**
+     * Käynnistää animaation ja määrittää toistokerrat.
+     * 
+     * @param int Animaation tunnus
+     * @param int Toistokerrat
      */
-    public void startAnimation(int _animation, int _loops) {
+    public void startAnimation(int _animation, int _loops)
+    {
+    	// Tallennetaan muuttujat
     	usedAnimation  = _animation;
     	animationLoops = _loops;
 		currentFrame   = 0;
     	
+		// Määritetään ensimmäinen toistokerta
     	if (_loops > 0) {
     		currentLoop = 1;
     	}
@@ -45,20 +55,31 @@ public class GfxObject {
     	}
     }
     
-    /*
-     * Lopettaa animaation
+    /**
+     * Lopettaa animaation ja ottaa halutun tekstuurin käyttöön.
+     * 
+     * @param int Tekstuurin tunnus
      */
-    public void stopAnimation(int _texture) {
+    public void stopAnimation(int _texture)
+    {
     	usedAnimation = -1;
+    	
     	usedTexture   = _texture;
     }
     
-    /*
-     * Päivittää animaation
+    /**
+     * Päivittää animaation seuraavaan kuvaruutuun. Hallitsee myös toistokerrat
+     * ja mahdollisen palautuksen vakiotekstuuriin (tunnus 0).
      */
-    public void update() {
+    public void update()
+    {
+    	// Animaatio on käytössä
     	if (usedAnimation > -1) {
+    		
+    		// Animaatiolle on määritetty toistokerrat
 	    	if (animationLoops > 0) {
+	    		
+	    		// Tarkistetaan, päättyykö animaation toistokerta ja toimitaan sen mukaisesti.
 	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
 	    			currentFrame = 0;
 	    			++currentLoop;
@@ -71,7 +92,11 @@ public class GfxObject {
 	    			++currentFrame;
 	    		}
 	    	}
+	    	// Animaatio on päättymätön
 	    	else {
+	    		
+	    		// Tarkistetaan, päättyykö animaation toistokerta. Kelataan takaisin alkuun
+	    		// tarvittaessa.
 	    		if (currentFrame + 1 > animationLength[usedAnimation]) {
 	    			currentFrame = 0;
 	    		}
