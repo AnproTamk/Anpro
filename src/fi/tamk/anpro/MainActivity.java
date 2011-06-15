@@ -39,31 +39,43 @@ public class MainActivity extends Activity implements OnClickListener {
         
         View quitButton = findViewById(R.id.button_quit);
         quitButton.setOnClickListener(this);
+        
+    	//Luo, alusta ja lataa SoundManager
+        SoundManager.getInstance();
+        SoundManager.initSounds(this);
+        SoundManager.loadSounds();
+        
     }
     
     public void onClick(View _v) {
     	switch(_v.getId()) {
 	    	case R.id.button_story:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_story = new Intent(this, LevelSelectActivity.class);
-	    		startActivity(i_story);;
+	    		startActivity(i_story);
 	    		finish();
 	    		break;
 	    	case R.id.button_survival:
+	    		SoundManager.playSound(2, 1);
 	    		break;
 	    	case R.id.button_options:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_settings = new Intent(this, SettingsActivity.class);
 	    		startActivity(i_settings);
 	    		break;
 	    	case R.id.button_highscores:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_highscores = new Intent(this, HighScoresActivity.class);
 	    		startActivity(i_highscores);
 	    		finish();
 	    		break;
 	    	case R.id.button_help:
+	    		SoundManager.playSound(2, 1);
 	    		Intent i_help = new Intent(this, AboutActivity.class);
 	    		startActivity(i_help);
 	    		break;
 	    	case R.id.button_quit:
+	    		SoundManager.playSound(2, 1);
 	    		android.os.Process.killProcess(android.os.Process.myPid());
 	    		break;
     	}
