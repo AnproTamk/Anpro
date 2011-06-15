@@ -15,6 +15,9 @@ public class GameActivity extends Activity
     private GLRenderer    glRenderer;
     private GameThread    gameThread;
     private TouchEngine   touchEngine;
+    private HUD           hud;
+    
+    public static DisplayMetrics dm;
     
     /*
      * P‰‰funktio, joka kutsutaan aktiviteetin k‰ynnistyess‰.
@@ -41,7 +44,7 @@ public class GameActivity extends Activity
         glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         glSurfaceView.setRenderer(glRenderer);
 
-        DisplayMetrics dm = new DisplayMetrics();
+        dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         setContentView(glSurfaceView);
@@ -52,6 +55,9 @@ public class GameActivity extends Activity
         
         touchEngine = TouchEngine.getInstance();
         touchEngine.setSurfaceListeners(glSurfaceView);
+        
+        hud = HUD.getInstance();
+        hud.loadHud(this);
     }
     
     /*
