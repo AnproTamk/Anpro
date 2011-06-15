@@ -124,6 +124,7 @@ public class TouchEngine {
 	        		
 	        		// Painetaan pelikentältä
 	        		else {
+	        			SoundManager.playSound(3, 1);
 	        			weaponStorage.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
     					//Log.v(TAG, "***** PELIKENTTÄ *****");
 	        		}
