@@ -168,18 +168,18 @@ public class XmlReader
 		XmlResourceParser ranks = null;
 		ArrayList<Integer> enemyStats = new ArrayList<Integer>();
 		
-		ranks = context.getResources().getXml(R.xml.ranks);
+		ranks = GameActivity.context.getResources().getXml(R.xml.ranks);
 		
 		try {
         	while (ranks.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (ranks.getEventType() == XmlPullParser.START_TAG) {
                     if (ranks.getName().equals("ranks")) {
                     	// Muunnetaan saatujen attribuuttien tiedot integer-arvoiksi, jotka sijoitetaan taulukkoon.
-                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "health")));
-                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "speed")));
-                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "attack")));
-                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "defence")));
-                    	enemyStats.add(Integer.parseInt(ranks.getAttributeValue(null, "ai")));
+                    	enemyStats.add(ranks.getAttributeIntValue(null, "health", 0));
+                    	enemyStats.add(ranks.getAttributeIntValue(null, "speed", 0));
+                    	enemyStats.add(ranks.getAttributeIntValue(null, "attack", 0));
+                    	enemyStats.add(ranks.getAttributeIntValue(null, "defence", 0));
+                    	enemyStats.add(ranks.getAttributeIntValue(null, "ai", 0));
                     }
                 }
                 else if (ranks.getEventType() == XmlPullParser.END_TAG) {
