@@ -49,11 +49,11 @@ public class WeaponStorage
         return instance;
     }
     
-    public void triggerShoot(int _x, int _y)
+    public void triggerShoot(int[] _coords)
     {
 	//	System.exit(0);
     	if (cooldownLeft[currentWeapon] <= 0) {
-    		playerWeapons.get(currentWeapon).activate(_x, _y);
+    		playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1]);
     		
     		cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
     		

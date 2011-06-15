@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import android.opengl.GLSurfaceView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,7 @@ public class TouchEngine {
 	// Muuttujat
 	private GLSurfaceView surface;
 	public  WeaponStorage weaponStorage;
+	public  HUD hud;
 	public  int xTouch;
 	public  int yTouch;
 	public  int xClickOffset;
@@ -24,10 +26,10 @@ public class TouchEngine {
 	//public  int xOffset;
 	//public  int yOffset;
 	public  int touchMarginal = 16; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen kosketuksen pelkäksi painallukseksi
-   
-	int screenWidth  = GLRenderer.width;  // Ruudun leveys
-    int screenHeight = GLRenderer.height; // Ruudun korkeus
-    
+	
+	private int screenWidth;  // Ruudun leveys
+    private int screenHeight; // Ruudun korkeus
+	
     private static final String TAG = "TouchEngine"; // Loggaus
 	
 	/*
@@ -35,6 +37,11 @@ public class TouchEngine {
 	 */
     protected TouchEngine() {
     	weaponStorage = WeaponStorage.getInstance();
+    	hud = HUD.getInstance();
+    	//Log.v(TAG, "PREscreenWidth=" + screenWidth + "PREscreenHeight=" + screenHeight + "Density=" + GameActivity.dm.densityDpi);
+    	screenWidth  = GameActivity.dm.widthPixels;
+        screenHeight = GameActivity.dm.heightPixels;
+       // Log.v(TAG, "POSTscreenWidth=" + screenWidth + "POSTscreenHeight=" + screenHeight);
     }
     
     /*
@@ -51,96 +58,18 @@ public class TouchEngine {
      * Käsittelee kosketustapahtumat
      */
 
-	/*public boolean onTouchEvent(MotionEvent event) {
-		// Painamisen aloitus
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        	//xTouch = (int) event.getX();
-            //yTouch = (int) event.getY();
-            //xClickOffset = xTouch;
-            //yClickOffset = yTouch;
-        	xClickOffset = (int) event.getX();
-        	yClickOffset = (int) event.getY();
-        }
-        // Liikutetaan sormea
-        else if(event.getAction() == MotionEvent.ACTION_MOVE) {
-            //xOffset += xTouch - (int) event.getX();
-            //yOffset += yTouch - (int) event.getY();
-
-            //xTouch = (int) event.getX();
-            //yTouch = (int) event.getY();
-        	
-        	// TÄHÄN KOHTAAN LIIKUTUKSESSA TAPAHTUVAT ASIAT
-        	//
-        	// TÄHÄN KOHTAAN LIIKUTUKSESSA TAPAHTUVAT ASIAT
-        	
-        }
-        // Painamisen loputtua
-        else if (event.getAction() == MotionEvent.ACTION_UP) {
-        	if (Math.abs(event.getX() - xClickOffset) < touchMarginal
-             && Math.abs(event.getY() - yClickOffset) < touchMarginal) {
-        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
-        		// Jos painetaan oikealla HUD:n alueella
-        		// Oikean reunan ylin nappula
-        		if (xClickOffset > screenWidth - 48 && xClickOffset < screenWidth
-        	     && yClickOffset < screenHeight / 2 && yClickOffset > 0) {
-        			
-        			// Oikean reunan alin nappula
-        			if (xClickOffset < screenWidth - 48 && xClickOffset < screenWidth
-               	          && yClickOffset < screenHeight / 2 - 96 && yClickOffset > 48) {
-        				int a = 0;
-        			}
-        			
-        			// Oikean reunan keskimmäinen nappula
-        			else if (xClickOffset < screenWidth - 48 && xClickOffset < screenWidth
-        	         && yClickOffset < screenHeight / 2 - 48 && yClickOffset > 96) {
-        				int a = 1;
-        			}
-
-        			// Oikean reunan ylin nappula
-        			else {
-        				int a = 2;
-        			}
-        		}
-        		 
-        		// Painetaan vasemmalla HUD:n alueella
-        		// Vasemman reunan ylin nappula
-        		else if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 48
-        			  && yClickOffset < -screenHeight / 2 + 96 && yClickOffset > -screenHeight / 2) {
-        				// Vasemman reunan alempi nappula
-        				if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 48
-        	        	 && yClickOffset < -screenHeight / 2 + 48 && yClickOffset > -screenHeight / 2) {
-        					int b = 0;
-        				}
-        				
-        				// Vasemman reunan ylempi nappula
-        				else {
-        					int b = 1;
-        				}
-        			}
-        		
-        		// Painetaan pelikentältä
-        		else {
-        			int b = 3;
-        			//weaponStorage.triggerShoot((int)event.getX(), (int)event.getY());
-        		}
-        		// TÄHÄN KOHTAAN PAINALLUKSESTA TAPAHTUVAT ASIAT
-            }
-        }
-        return true;
-	}*/
-
 	public void setSurfaceListeners(GLSurfaceView _glSurfaceView) {
 		
-		Log.v(TAG, "setSurfaceListeners()-funktion sisällä");
+		//Log.v(TAG, "setSurfaceListeners()-funktion sisällä");
 		
 		surface = _glSurfaceView;
 		
-		Log.v(TAG, "Mennään surface.setOnTouchListener():n sisälle");
+		//Log.v(TAG, "Mennään surface.setOnTouchListener():n sisälle");
 		
 		surface.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				
-				Log.v(TAG, "onTouchin sisällä ^___^!");
+				//Log.v(TAG, "onTouchin sisällä");
 				
 				// Painamisen aloitus
 		        if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -148,21 +77,63 @@ public class TouchEngine {
 		            //yTouch = (int) event.getY();
 		            //xClickOffset = xTouch;
 		            //yClickOffset = yTouch;
-		        	Log.v(TAG, "ACTION_DOWN:n sisällä :OO");
+		        	//Log.v(TAG, "ACTION_DOWN:n sisällä");
 		        	
-		        	Log.v(TAG, "PRExClickOffset=" + xClickOffset + " PREyClickOffset=" + yClickOffset);
+		        	//Log.v(TAG, "PRExClickOffset=" + xClickOffset + " PREyClickOffset=" + yClickOffset);
 		        	
 		        	xClickOffset = (int) event.getX();
-		        	yClickOffset = (int) event.getY();
+		        	yClickOffset = screenHeight - (int) event.getY();
 		        	
-		        	Log.v(TAG, "POSTxClickOffset=" + xClickOffset + " POSTyClickOffset=" + yClickOffset);
+		        	//Log.v(TAG, "POSTxClickOffset=" + xClickOffset + " POSTyClickOffset=" + yClickOffset);
+		        	
+		        	// Oikean reunan napit
+		        	if (xClickOffset > screenWidth - 100 && xClickOffset < screenWidth &&
+			            yClickOffset < screenHeight / 2 && yClickOffset > 0) {
+			        			
+	        			// Oikean reunan alin nappula
+	        			if (yClickOffset < screenHeight / 2 - 106 && yClickOffset > 0) {
+	        				//Log.v(TAG, "***** OIKEAN REUNAN ALIN NAPPULA *****");
+	        				hud.triggerClick(HUD.BUTTON_1);
+	        			}
+	        			
+	        			// Oikean reunan keskimmäinen nappula
+	        			else if (yClickOffset < screenHeight / 2 - 53 && yClickOffset > 53) {
+	        				//Log.v(TAG, "***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****");
+	        				hud.triggerClick(HUD.BUTTON_1);
+	        			}
+
+	        			// Oikean reunan ylin nappula
+	        			else if (yClickOffset < screenHeight / 2 && yClickOffset > 106) {
+	        				//Log.v(TAG, "***** OIKEAN REUNAN YLIN NAPPULA *****");
+	        				hud.triggerClick(HUD.BUTTON_2);
+	        			}
+	        		}
+		        		 
+	        		// Vasemman reunan napit
+	        		else if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 100 &&
+	        			     yClickOffset < -screenHeight / 2 + 96 && yClickOffset > -screenHeight / 2) {
+	        				// Vasemman reunan alempi nappula
+	        				if (yClickOffset < -screenHeight / 2 + 48 && yClickOffset > -screenHeight / 2) {
+	        					//Log.v(TAG, "***** VASEMMAN REUNAN ALEMPI NAPPULA *****");
+	        				}
+	        				// Vasemman reunan ylempi nappula
+	        				else {
+	        					//Log.v(TAG, "***** VASEMMAN REUNAN YLEMPI NAPPULA *****");
+	        				}
+	        			}
+	        		
+	        		// Painetaan pelikentältä
+	        		else {
+	        			weaponStorage.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
+    					//Log.v(TAG, "***** PELIKENTTÄ *****");
+	        		}
 		        	return true;
 		        }
 		        // Liikutetaan sormea
-		        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+		        /*if (event.getAction() == MotionEvent.ACTION_MOVE) {
 		            //xOffset += xTouch - (int) event.getX();
 		            //yOffset += yTouch - (int) event.getY();
-		        	Log.v(TAG, "ACTION_MOVE:n sisällä D:::");
+		        	Log.v(TAG, "ACTION_MOVE:n sisällä");
 		            //xTouch = (int) event.getX();
 		            //yTouch = (int) event.getY();
 		        	
@@ -171,61 +142,30 @@ public class TouchEngine {
 		        	// TÄHÄN KOHTAAN LIIKUTUKSESSA TAPAHTUVAT ASIAT
 		        	return true;
 		        }
-		        // Painamisen loputtua
+		        // Painamisen loputtua*/
 		        if (event.getAction() == MotionEvent.ACTION_UP) {
 		        	
-		        	Log.v(TAG, "Painamisen lopettaminen alkaa nyt.");
+		        	//Log.v(TAG, "Painamisen lopettaminen alkaa nyt.");
 		        	
-		        	if (Math.abs(event.getX() - xClickOffset) < touchMarginal
-		             && Math.abs(event.getY() - yClickOffset) < touchMarginal) {
-		        		// Jos painetaan oikealla HUD:n alueella
-		        		// Oikean reunan ylin nappula
-		        		if (xClickOffset > screenWidth - 48 && xClickOffset < screenWidth
-		        	     && yClickOffset < screenHeight / 2 && yClickOffset > 0) {
-		        			
-		        			// Oikean reunan alin nappula
-		        			if (xClickOffset < screenWidth - 48 && xClickOffset < screenWidth
-		               	          && yClickOffset < screenHeight / 2 - 96 && yClickOffset > 48) {
-		        				Log.v(TAG, "Oikean reunan alin nappula.");
-		        			}
-		        			
-		        			// Oikean reunan keskimmäinen nappula
-		        			else if (xClickOffset < screenWidth - 48 && xClickOffset < screenWidth
-		        	         && yClickOffset < screenHeight / 2 - 48 && yClickOffset > 96) {
-		        				Log.v(TAG, "Oikean reunan keskimmäinen nappula.");
-		        			}
+		        	if (Math.abs(event.getX() - xClickOffset) < touchMarginal &&
+		                Math.abs(event.getY() - yClickOffset) < touchMarginal) {
 
-		        			// Oikean reunan ylin nappula
-		        			else {
-		        				Log.v(TAG, "Oikean reunan ylin nappula.");
-		        			}
-		        		}
-		        		 
-		        		// Painetaan vasemmalla HUD:n alueella
-		        		// Vasemman reunan ylin nappula
-		        		else if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 48
-		        			  && yClickOffset < -screenHeight / 2 + 96 && yClickOffset > -screenHeight / 2) {
-		        				// Vasemman reunan alempi nappula
-		        				if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 48
-		        	        	 && yClickOffset < -screenHeight / 2 + 48 && yClickOffset > -screenHeight / 2) {
-		        				}
-		        				
-		        				// Vasemman reunan ylempi nappula
-		        				else {
-		        				}
-		        			}
-		        		
-		        		// Painetaan pelikentältä
-		        		else {
-		        			//weaponStorage.triggerShoot((int)event.getX(), (int)event.getY());
-		        		}
 		            }
-		        	Log.v(TAG, "Painaminen loppu NY.");
+		        	//Log.v(TAG, "Painaminen loppu NY.");
 		        	return true;
 		        }
-		        Log.v(TAG, "Returnoidaanpa täältä FALSE..");
+		        //Log.v(TAG, "Returnoidaanpa täältä FALSE..");
 				return false;
 			}
         });
+	}
+	
+	// Muuntaa näytön koordinaatit pelimaailman koordinaateiksi
+	private int[] convertCoords(int _x, int _y)
+	{
+		//Log.v(TAG, "screenCoords[{" + (_x - (screenWidth/ 2)) + ", " + -((-screenHeight / 2) + _y) + "}]");
+		int screenCoords[] = { _x - (screenWidth / 2),
+							   -((-screenHeight / 2) + _y)};
+		return screenCoords;
 	}
 }
