@@ -87,6 +87,8 @@ public class GLRenderer implements Renderer {
             enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
             projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
 
+            hudTextures.add(new Texture(_gl, context, R.drawable.icon));
+            
             allLoaded = true;
 
             gameThread.setRunning(true);

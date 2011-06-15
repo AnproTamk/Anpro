@@ -1,5 +1,12 @@
 package fi.tamk.anpro;
 
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+
 /* 
  * - Pitää sisällään pelinaikaisten valikkojen toiminnallisuuden. 
  *   Grafiikat ovat renderöijässä, mutta HUD-luokka hallitsee kosketuksien 
@@ -19,27 +26,27 @@ package fi.tamk.anpro;
 
 public class HUD
 {
-	public static final int BUTTON_DEFAULT_WEAPON = 1;
-	public static final int BUTTON_1 			  = 2;
-	public static final int BUTTON_2 			  = 3;
-	
+	public static final int BUTTON_1  = 0;
+	public static final int BUTTON_2  = 1;
+	public static final int BUTTON_3  = 2;
+	public static final int SPECIAL_1 = 2;
+	public static final int SPECIAL_2 = 2;
+
 	private static HUD instance = null;
-	
+
 	public int[] weapons;
 
-	public GuiObject gameScore    = null;
-	public GuiObject cooldownBar1 = null;
-	public GuiObject gunButton1   = null;
-	public GuiObject gunButton2   = null;
-	
+	public ArrayList<GuiObject> guiObjects = null;
+
 	private WeaponStorage weaponStorage;
-	
+
 	/*
 	 * Rakentaja
 	 */
 	public HUD()
 	{
 		weaponStorage = WeaponStorage.getInstance();
+		weapons = new int[5];
 	}
 
 	/*
@@ -52,52 +59,39 @@ public class HUD
 	    }
 	    return instance;
 	}
-	
+
+	public void loadHud(Context _context)
+	{
+		XmlReader reader = new XmlReader(_context );
+		//reader.readHUD(this);
+	}
+
 	/*
 	 * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja)
 	 */
 	public void updateCooldowns()
 	{
-		int coolConsume = weaponStorage.cooldownLeft[0];
-		int coolLeft    = weaponStorage.cooldownLeft[0];
-		long coolTime;
+		// TODO: Animaation lisääminen 
 		
-		// jos cooldown > 0, cooldown laskee
-		for(coolLeft = coolConsume; coolConsume>0; coolConsume--){
-	        --coolLeft;
-	        	        
-	        // odottaa ajastetusti, koska laskee cooldownia
-	        coolTime = android.os.SystemClock.uptimeMillis();
-		}
-		
-		// kun cooldown = 0, ilmoitetaan WeaponStorageen, että kyky on taas käytössä
-		if(coolLeft == 0){
-			++coolLeft;
+		for(int i = 4; i >= 0; --i) {
+			if(weaponStorage.cooldownLeft[weapons[i]] > 0 ) {
+				guiObjects.get(i).usedTexture = 1;
+			}
+			else {
+				guiObjects.get(i).usedTexture = 0;
+			}
 		}
 	}
 
+
 	/*
-	 * Käsittelee napin painalluksen
+	 * Käsittelee napin painalluksen & Asettaa WeaponStorage-luokkaan aseen.
 	 */
 	public void triggerClick(int _buttonId)
 	{
-		// Asettaa WeaponStorage-luokkaan perusaseen ja tallentaa tiedon myös HUD:iin.
-		if(_buttonId == BUTTON_DEFAULT_WEAPON){
-			weaponStorage.currentWeapon = 0;
-			weapons[0] = BUTTON_DEFAULT_WEAPON;
-		}
-
-		// Asettaa WeaponStorage-luokkaan 2. aseen ja tallentaa tiedon myös HUD:iin.
-		else if(_buttonId == BUTTON_1){
-			weaponStorage.currentWeapon = 1;
-			weapons[1] = BUTTON_1;
-		}
-
-		// Asettaa WeaponStorage-luokkaan 3. aseen ja tallentaa tiedon myös HUD:iin.
-		else if(_buttonId == BUTTON_2){
-			weaponStorage.currentWeapon = 2;
-			weapons[2] = BUTTON_2;
+		// Tarkistus, jolla estetään cooldownereiden valinta
+		if (weaponStorage.cooldownLeft[weapons[_buttonId]] <=0 ) {
+			weaponStorage.currentWeapon = weapons[_buttonId];
 		}
 	}
-
 }
