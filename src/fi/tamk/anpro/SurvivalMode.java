@@ -3,51 +3,57 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SurvivalMode extends AbstractMode {
-    public static final int AMOUNT_OF_WAVES            = 100;
-    public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
+import android.content.Context;
+import android.util.DisplayMetrics;
+
+/**
+ * Survival-pelitila. Sisältää peliobjektit, WeaponManagerin ja AchievementManagerin.
+ * Hallitsee vihollisaaltojen kutsumisen ja pistelaskurin päivittämisen.
+ * 
+ * @extends AbstractMode
+ */
+public class SurvivalMode extends AbstractMode
+{
+    /* Vihollisaallot */
+    public  int waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
+    private int currentWave = 0;
     
-    private static SurvivalMode instance = null;
+    /* Pistelaskuri ja pisteet */
+    public  GuiObject scoreCounter;
+    private long      score;
     
-    public  int waves[][];       // Vihollisaallot [aalto][lista vihollisista]
-    private int currentWave = 0; // Nykyinen vihollisaalto
+    /* Combot */
+    private int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
+    private long lastTime        = 0; // Edellisen pisteen lisäyksen aika
+    private long newTime;             // Uuden pisteen lisäyksen aika
     
-    public  ArrayList<Enemy> 	enemies;         // Viholliset
-    public  int             	enemiesLeft = 0; // Vihollisiä jäljellä kentällä
-    public  int[][]  enemyStats;  // Vihollisten (rankkien) statsit [rank][statsit]
-    private int              	rankTemp;
+    /* Vihollisten aloituspaikat */
+    private int spawnPoints[][][]; // [rykelmä][paikka][x/y] = [koordinaatti]
     
-    public  GuiObject scoreCounter;        // Pistelaskuri
-    private long      score;               // Pisteet
-    private int       comboMultiplier = 2; // Combokerroin
+    /* Satunnaisgeneraattori */
+    public static Random randomGen = new Random();
     
-    private long lastTime; // Edellisen pisteen lisäyksen aika
-    private long newTime;  // Nykyisen pisteen lisäyksen aika
-    
-    private int spawnPoints[][][]; // Vihollisten spawnpointit
-    
-    private int HalfOfScreenWidth  = GLRenderer.width / 2;  // Puolet ruudun leveydestä
-    private int HalfOfScreenHeight = GLRenderer.height / 2; // Puolet ruudun korkeudesta
-    
-    private XmlReader reader = new XmlReader(GameActivity.context);
-    
-    public static Random randomGen = new Random(); // Generaattori satunnaisluvuille
-    
-    private WeaponStorage weaponStorage;
-    
-    /*
-     * Rakentaja
+    /**
+     * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja käynnistää pelin.
+     * 
+     * @param DisplayMetrics Näytön tiedot
+     * @param Context		 Ohjelman konteksti
      */
-    protected SurvivalMode() {
-        waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+    public SurvivalMode(DisplayMetrics _dm, Context _context)
+    {
+    	// Alustetaan muuttujat
+        waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+        enemies      = new ArrayList<Enemy>();
+        enemyStats   = new int[5][5];
         scoreCounter = new GuiObject();
+        spawnPoints  = new int[9][3][2];
         
-        enemies = new ArrayList<Enemy>();
+        // Tallennetaan näytön tiedot
+        halfOfScreenWidth  = _dm.widthPixels;
+        halfOfScreenHeight = _dm.heightPixels;
         
-        spawnPoints = new int[9][3][2];
-        
-        enemyStats = new int[5][5];
-        
+        // Luetaan vihollistyyppien tiedot
+        XmlReader reader = new XmlReader(_context);
         ArrayList<Integer> enemyStatsTemp = reader.readRanks();
         int rank = 0;
         for (int i = 0; i < enemyStatsTemp.size()-1; ++i) {
@@ -56,27 +62,22 @@ public class SurvivalMode extends AbstractMode {
         	rank = (int)(i / 5);
         }
         
+        // Luetaan pelitilan tiedot
         reader.readSurvivalMode(this);
         
-        weaponStorage = WeaponStorage.getInstance();
-        weaponStorage.initialize(WeaponStorage.SURVIVAL_MODE);
+        // Luodaan WeaponManager ja ladataan aseet
+        weaponManager = new WeaponManager();
+        weaponManager.initialize(WeaponManager.SURVIVAL_MODE);
         
+        // Päivitetään aloituspisteet ja käynnistetään ensimmäinen vihollisaalto
         updateSpawnPoints();
         startWave();
     }
     
-    /*
-     * Palauttaa pointterin tähän luokkaan
-     */
-    public static SurvivalMode getInstance() {
-        if(instance == null) {
-            instance = new SurvivalMode();
-        }
-        return instance;
-    }
-    
-    /*
-     * Päivittää pisteet
+    /**
+     * Päivittää pisteet.
+     * 
+     * @param int Tuhotun vihollisen taso, jonka perusteella pisteitä lisätään
      */
     public void updateScore(int _rank) {
         // Päivitetään lastTime nykyisellä ajalla millisekunteina
@@ -140,52 +141,52 @@ public class SurvivalMode extends AbstractMode {
 
     @Override
     protected void updateSpawnPoints() {
-    /* 
-     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen määrän mukaan (CameraManager.camX ja CameraManager.camY)
-     * { {vasen reuna X,Y}, {vasen yläreuna X,Y}, {yläreuna X,Y}, {oikea yläreuna X,Y},
-     *	 {oikea reuna X,Y}, {oikea alareuna X,Y}, {alareuna X,Y}, {vasen alareuna X,Y} }
-     * index: 	  1   0/1           2       0/1        3    0/1             4	  0/1
-     * index: 	  5   0/1           6       0/1        7    0/1             8	  0/1
-     * 
-     */
-    
-    // Vihollisten syntypisteiden koordinaatit
-    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
-    //					 X								   				      Y
-    // Vasen reuna
-    spawnPoints[1][0][0] = -HalfOfScreenWidth + cameraX; 	  spawnPoints[1][0][1] = cameraY;
-    spawnPoints[1][1][0] = -HalfOfScreenWidth + cameraX; 	  spawnPoints[1][1][1] = cameraY + 128;
-    spawnPoints[1][2][0] = -HalfOfScreenWidth + cameraX; 	  spawnPoints[1][2][1] = cameraY - 128;
-    // Vasen yläkulma
-    spawnPoints[2][0][0] = -HalfOfScreenWidth + cameraX; 	  spawnPoints[2][0][1] = HalfOfScreenHeight + cameraY;
-    spawnPoints[2][1][0] = -HalfOfScreenWidth + cameraX + 64; spawnPoints[2][1][1] = HalfOfScreenHeight + cameraY + 64;
-    spawnPoints[2][2][0] = -HalfOfScreenWidth + cameraX - 64; spawnPoints[2][2][1] = HalfOfScreenHeight + cameraY - 64;
-    // Yläreuna
-    spawnPoints[3][0][0] = cameraX; 					 	  spawnPoints[3][0][1] = HalfOfScreenHeight + cameraY;
-    spawnPoints[3][1][0] = cameraX + 128; 				 	  spawnPoints[3][1][1] = HalfOfScreenHeight + cameraY;
-    spawnPoints[3][2][0] = cameraX - 128; 				 	  spawnPoints[3][2][1] = HalfOfScreenHeight + cameraY;
-    // Oikea yläkulma
-    spawnPoints[4][0][0] = HalfOfScreenWidth + cameraX;  	  spawnPoints[3][0][1] = HalfOfScreenHeight + cameraY;
-    spawnPoints[4][1][0] = HalfOfScreenWidth + cameraX + 64;  spawnPoints[3][1][1] = HalfOfScreenHeight + cameraY - 64;
-    spawnPoints[4][2][0] = HalfOfScreenWidth + cameraX - 64;  spawnPoints[3][2][1] = HalfOfScreenHeight + cameraY + 64;
-    // Oikea reuna
-    spawnPoints[5][0][0] = HalfOfScreenWidth + cameraX;  	  spawnPoints[4][0][1] = 0 + cameraY;
-    spawnPoints[5][1][0] = HalfOfScreenWidth + cameraX;  	  spawnPoints[4][1][1] = 0 + cameraY + 128;
-    spawnPoints[5][2][0] = HalfOfScreenWidth + cameraX;  	  spawnPoints[4][2][1] = 0 + cameraY - 128;
-    // Oikea alakulma
-    spawnPoints[6][0][0] = HalfOfScreenWidth + cameraX;  	  spawnPoints[5][0][1] = -HalfOfScreenHeight + cameraY;
-    spawnPoints[6][1][0] = HalfOfScreenWidth + cameraX + 64;  spawnPoints[5][1][1] = -HalfOfScreenHeight + cameraY + 64;
-    spawnPoints[6][2][0] = HalfOfScreenWidth + cameraX - 64;  spawnPoints[5][2][1] = -HalfOfScreenHeight + cameraY - 64;
-    // Alareuna
-    spawnPoints[7][0][0] = cameraX; 				 		  spawnPoints[7][0][1] = -HalfOfScreenHeight + cameraY;
-    spawnPoints[7][1][0] = cameraX + 128;			 	 	  spawnPoints[7][1][1] = -HalfOfScreenHeight + cameraY;
-    spawnPoints[7][2][0] = cameraX - 128;					  spawnPoints[7][2][1] = -HalfOfScreenHeight + cameraY;
-    // Vasen alareuna
-    spawnPoints[8][0][0] = -HalfOfScreenWidth + cameraX; spawnPoints[8][0][1] = -HalfOfScreenHeight + cameraY;
-    spawnPoints[8][1][0] = -HalfOfScreenWidth + cameraX + 64; spawnPoints[8][1][1] = -HalfOfScreenHeight + cameraY - 64;
-    spawnPoints[8][2][0] = -HalfOfScreenWidth + cameraX - 64; spawnPoints[8][2][1] = -HalfOfScreenHeight + cameraY + 64;
-    // Random reuna
-    // spawnPoints[0][0][0] = ...
+	    /* 
+	     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen määrän mukaan (CameraManager.camX ja CameraManager.camY)
+	     * { {vasen reuna X,Y}, {vasen yläreuna X,Y}, {yläreuna X,Y}, {oikea yläreuna X,Y},
+	     *	 {oikea reuna X,Y}, {oikea alareuna X,Y}, {alareuna X,Y}, {vasen alareuna X,Y} }
+	     * index: 	  1   0/1           2       0/1        3    0/1             4	  0/1
+	     * index: 	  5   0/1           6       0/1        7    0/1             8	  0/1
+	     * 
+	     */
+	    
+	    // Vihollisten syntypisteiden koordinaatit
+	    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
+	    //					 X								   				      Y
+	    // Vasen reuna
+	    spawnPoints[1][0][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][0][1] = cameraY;
+	    spawnPoints[1][1][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][1][1] = cameraY + 128;
+	    spawnPoints[1][2][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][2][1] = cameraY - 128;
+	    // Vasen yläkulma
+	    spawnPoints[2][0][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[2][0][1] = halfOfScreenHeight + cameraY;
+	    spawnPoints[2][1][0] = -halfOfScreenWidth + cameraX + 64; spawnPoints[2][1][1] = halfOfScreenHeight + cameraY + 64;
+	    spawnPoints[2][2][0] = -halfOfScreenWidth + cameraX - 64; spawnPoints[2][2][1] = halfOfScreenHeight + cameraY - 64;
+	    // Yläreuna
+	    spawnPoints[3][0][0] = cameraX; 					 	  spawnPoints[3][0][1] = halfOfScreenHeight + cameraY;
+	    spawnPoints[3][1][0] = cameraX + 128; 				 	  spawnPoints[3][1][1] = halfOfScreenHeight + cameraY;
+	    spawnPoints[3][2][0] = cameraX - 128; 				 	  spawnPoints[3][2][1] = halfOfScreenHeight + cameraY;
+	    // Oikea yläkulma
+	    spawnPoints[4][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[3][0][1] = halfOfScreenHeight + cameraY;
+	    spawnPoints[4][1][0] = halfOfScreenWidth + cameraX + 64;  spawnPoints[3][1][1] = halfOfScreenHeight + cameraY - 64;
+	    spawnPoints[4][2][0] = halfOfScreenWidth + cameraX - 64;  spawnPoints[3][2][1] = halfOfScreenHeight + cameraY + 64;
+	    // Oikea reuna
+	    spawnPoints[5][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][0][1] = 0 + cameraY;
+	    spawnPoints[5][1][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][1][1] = 0 + cameraY + 128;
+	    spawnPoints[5][2][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][2][1] = 0 + cameraY - 128;
+	    // Oikea alakulma
+	    spawnPoints[6][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[5][0][1] = -halfOfScreenHeight + cameraY;
+	    spawnPoints[6][1][0] = halfOfScreenWidth + cameraX + 64;  spawnPoints[5][1][1] = -halfOfScreenHeight + cameraY + 64;
+	    spawnPoints[6][2][0] = halfOfScreenWidth + cameraX - 64;  spawnPoints[5][2][1] = -halfOfScreenHeight + cameraY - 64;
+	    // Alareuna
+	    spawnPoints[7][0][0] = cameraX; 				 		  spawnPoints[7][0][1] = -halfOfScreenHeight + cameraY;
+	    spawnPoints[7][1][0] = cameraX + 128;			 	 	  spawnPoints[7][1][1] = -halfOfScreenHeight + cameraY;
+	    spawnPoints[7][2][0] = cameraX - 128;					  spawnPoints[7][2][1] = -halfOfScreenHeight + cameraY;
+	    // Vasen alareuna
+	    spawnPoints[8][0][0] = -halfOfScreenWidth + cameraX;      spawnPoints[8][0][1] = -halfOfScreenHeight + cameraY;
+	    spawnPoints[8][1][0] = -halfOfScreenWidth + cameraX + 64; spawnPoints[8][1][1] = -halfOfScreenHeight + cameraY - 64;
+	    spawnPoints[8][2][0] = -halfOfScreenWidth + cameraX - 64; spawnPoints[8][2][1] = -halfOfScreenHeight + cameraY + 64;
+	    // Random reuna
+	    // spawnPoints[0][0][0] = ...
     }
     
     /*

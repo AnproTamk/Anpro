@@ -10,25 +10,35 @@ import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
+/**
+ * Pelitilan alkupiste. Luo renderöijän, pelisäikeen, HUDin ja TouchManagerin.
+ */
 public class GameActivity extends Activity
 {
+	/* Pelitilat */
 	public static final int SURVIVAL_MODE = 1;
-	public static final int STORY_MODE = 2;
+	public static final int STORY_MODE    = 2;
 	
-    private GLSurfaceView glSurfaceView;
-    private GLRenderer    glRenderer;
-    private GameThread    gameThread;
-    private TouchEngine   touchEngine;
-    private HUD           hud;
+	/* Renderöijä ja OpenGL-pinta */
+    private GLSurfaceView surfaceView;
+    private GLRenderer    renderer;
     
-    public static int	  activeMode = 1;
+    /* Muut luokat */
+    private GameThread   gameThread;
+    private TouchManager touchManager;
+    private HUD          hud;
     
+    /* Aktiivinen pelitila (asetetaan päävalikossa) */
+    public static int activeMode = 1;
+    
+    /* Näytön koot */
     public static DisplayMetrics dm;
     
-    public static Context context;
-    
-    /*
-     * Pääfunktio, joka kutsutaan aktiviteetin käynnistyessä.
+    /**
+     * Määrittää asetukset ja luo tarvittavat oliot, kuten renderöijän, HUDin,
+     * GameThreadin ja TouchManagerin.
+     * 
+     * @param Bundle Pelin aiempi tila
      */
     @Override
     public void onCreate(Bundle _savedInstanceState)
@@ -39,45 +49,42 @@ public class GameActivity extends Activity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         
-        // Luodaan OpenGL-näkymä ja renderöijä
-        glSurfaceView = new GLSurfaceView(this);
-        glRenderer    = new GLRenderer(this);
+        // Luodaan OpenGL-pinta ja renderöijä
+        surfaceView = new GLSurfaceView(this);
+        renderer    = new GLRenderer(this);
         
         // Määritetään renderöijän asetukset ja otetaan se käyttöön
-        glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
-        glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-        glSurfaceView.setRenderer(glRenderer);
+        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
+        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceView.setRenderer(renderer);
 
+        // Ladataan näytön tiedot
         dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
-        setContentView(glSurfaceView);
-        
-        context = this.getBaseContext();
+        // Asetetaan käytettävä pinta
+        setContentView(surfaceView);
         
         // Luodaan ja käynnistetään pelin säie
-        gameThread = new GameThread(glSurfaceView, glRenderer);
-        glRenderer.gameThread = gameThread;
+        gameThread = new GameThread(dm, getBaseContext());
+        renderer.connectToGameThread(gameThread);
         
-        touchEngine = TouchEngine.getInstance();
-        touchEngine.setSurfaceListeners(glSurfaceView);
-        
-        hud = HUD.getInstance();
-        hud.loadHud(this);
+        // Luodaan TouchManager ja HUD
+        touchManager = new TouchManager(surfaceView, getBaseContext());
+        hud          = new HUD(getBaseContext());
     }
     
-    /*
-     * Kutsutaan kun ohjelma palaa taustalta tai kännykkä palaa valmiustilasta
+    /**
+     * Palauttaa pelin taukotilasta.
      */
     @Override
     protected void onResume()
     {
         super.onResume();
-        glSurfaceView.onResume();
+        
+        surfaceView.onResume();
         
         // Pysäytetään säie
         boolean retry = true;
@@ -86,20 +93,22 @@ public class GameActivity extends Activity
             try {
                 gameThread.join();
                 retry = false;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 // Yritetään uudelleen kunnes onnistuu
             }
         }
     }
     
-    /*
-     * Kutsutaan kun ohjelma pysäytetään
+    /**
+     * Siirtää pelin taukotilaan. 
      */
     @Override
     protected void onPause()
     {
         super.onPause();
-        glSurfaceView.onPause();
+        
+        surfaceView.onPause();
         
         // Pysäytetään säie
         boolean retry = true;
@@ -108,7 +117,8 @@ public class GameActivity extends Activity
             try {
                 gameThread.join();
                 retry = false;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e) {
                 // Yritetään uudelleen kunnes onnistuu
             }
         }
