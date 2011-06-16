@@ -106,7 +106,7 @@ public class SurvivalMode extends AbstractMode
      */
     @Override
     public void startWave() {
-        ++currentWave;
+    	
         
         // Tarkastaa onko kaikki wavet käyty läpi
         if (currentWave == AMOUNT_OF_WAVES) { // TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tietää wavejen määrä)
@@ -126,17 +126,19 @@ public class SurvivalMode extends AbstractMode
         // Aktivoidaan viholliset
         int temp;
         int tempRandA, tempRandB;
-        for (int index = AMOUNT_OF_ENEMIES_PER_WAVE-1; index > 0; --index) {
+        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
         	temp = waves[currentWave][index];
         	
         	tempRandA = randomGen.nextInt(7)+1;
         	tempRandB = randomGen.nextInt(2);
         	
-            enemies.get(temp).setActive();
+        	enemies.get(temp).setActive();
             enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
             enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
-            
+            //enemies.get(temp).x = -200 + index * 20;
+            //enemies.get(temp).y = 200;
         }
+        ++currentWave;
     }
 
     @Override
