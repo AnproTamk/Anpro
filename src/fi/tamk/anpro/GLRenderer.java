@@ -37,6 +37,8 @@ public class GLRenderer implements Renderer {
 
     /**
      * Alustaa luokan muuttujat.
+     * 
+     * @param Context Ohjelman konteksti
      */
     public GLRenderer(Context _context)
     {
@@ -60,6 +62,9 @@ public class GLRenderer implements Renderer {
     /**
      * Määrittää OpenGL-asetukset ja lataa tekstuurit.
      * Android kutsuu tätä automaattisesti.
+     * 
+     * @param GL10      OpenGL-konteksti
+     * @param EGLConfig OpenGL-asetukset
      */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
@@ -94,6 +99,10 @@ public class GLRenderer implements Renderer {
     /**
      * Määrittää pinnan uudet asetukset.
      * Android kutsuu tätä automaattisesti.
+     * 
+     * @param GL10 OpenGL-konteksti
+     * @param int  Näytön leveys
+     * @param int  Näytön korkeus
      */
     public void onSurfaceChanged(GL10 _gl, int _width, int _height)
     {
@@ -127,6 +136,8 @@ public class GLRenderer implements Renderer {
     /**
      * Käy läpi piirtolistat ja piirtää tarvittavat tekstuurit ruudulle.
      * Android kutsuu tätä automaattisesti (maks. 60 kertaa sekunnissa).
+     * 
+     * @param GL10 OpenGL-konteksti
      */
     public void onDrawFrame(GL10 _gl)
     {
@@ -168,6 +179,8 @@ public class GLRenderer implements Renderer {
 
     /**
      * Yhdistää renderöijän pelisäikeeseen tallentamalla pelisäikeen pointterin muistiin.
+     * 
+     * @param GameThread Osoitin pelisäikeeseen
      */
 	public final void connectToGameThread(GameThread _gameThread) {
 		gameThread = _gameThread;
@@ -175,6 +188,10 @@ public class GLRenderer implements Renderer {
 
     /**
      * Lataa kaikki tekstuurit.
+     * 
+     * @param GL10 OpenGL-konteksti
+     * 
+     * @return boolean Onnistuiko lataaminen?
      */
 	private final boolean loadTextures(GL10 _gl)
 	{
