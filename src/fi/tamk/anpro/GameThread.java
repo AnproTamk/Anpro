@@ -3,11 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
 
 /**
  * Huolehtii ajanotosta ja tekoälyjen ja sijaintien päivittämisestä.

@@ -59,7 +59,6 @@ public class LinearAi extends AbstractAi {
         }
         
         // Määritetään suunta
-        int eAngle = wrapper.enemies.get(parentId).direction;
         double angle2 = angle -wrapper.enemies.get(parentId).direction;
 
         if (angle2 >= -10 && angle2 <= 10) {
