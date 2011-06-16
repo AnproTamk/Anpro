@@ -1,28 +1,35 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 import fi.tamk.anpro.R;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
+import android.widget.Toast;
 
-
-public class LevelSelectActivity extends Activity implements OnClickListener {
-	
-	ArrayList<View> views = null;
-
+public abstract class LevelSelectActivity extends Activity implements OnItemClickListener
+{
 	@Override
-	protected void onCreate(Bundle _savedInstanceState)
+	public void onCreate(Bundle _savedInstanceState)
 	{
 		super.onCreate(_savedInstanceState);
-		setContentView(R.layout.levelselect);
-        
+	    setContentView(R.layout.levelselect);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		
+
+	    Gallery g = (Gallery) findViewById(R.id.gallery);
+	    g.setAdapter(new ImageAdapter(this));
+
+	    g.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView parent, View v, int position, long id) {
+	            Toast.makeText(LevelSelectActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+	        }
+
+	    });
+
 		/* OPTIMOINNIN HOMMIA!!!!!!!
 		for(int i = 0; i < 15; ++i) {
 			try {
@@ -38,6 +45,7 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
 		
 		// View level_1Button = findViewById(R.id.button1);
         
+       /*
 		View level1_Button = findViewById(R.id.button_level1);
         level1_Button.setOnClickListener(this);
         
@@ -85,9 +93,10 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
         
         View mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this); 
+        */
 	}
 
-	public void onClick(View _v) {
+/*	public void onClick(View _v) {
 		switch(_v.getId()) {
 	    	case R.id.button_level1:
 	    		SoundManager.playSound(2, 1);
@@ -143,6 +152,6 @@ public class LevelSelectActivity extends Activity implements OnClickListener {
 	    		startActivity(i_mainmenu);
 	    		finish();
 	    		break;  		
-		}	
-	}	
+		}
+	}*/
 }
