@@ -46,6 +46,7 @@ public class WeaponDefault extends Weapon
 			if (projectiles.get(i).active == false) {
 				Log.v(TAG, "# " + i);
 				projectiles.get(i).activate( _x, _y);
+				SoundManager.playSound(3, 1);
 				break;
 			}
 		}

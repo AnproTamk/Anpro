@@ -11,22 +11,23 @@ import android.media.SoundPool;
  * 
  * K‰yttˆ:
  * 
- * 	
- *	//Luo, alusta ja sitten lataa SoundManager <- tee t‰m‰ MainActivityssa
+ *	//Luo, alusta ja lataa SoundManager <- tee t‰m‰ MainActivityssa
  *  //SoundManager.getInstance();
  *  //SoundManager.initSounds(this);
  *  //SoundManager.loadSounds();
  *	//SoundManager.playSound(2, 1);
  * 
  * playSound(‰‰nen indeksinumero(int), toistonopeus(float));
+ * 
+ * Lopussa muista kutsua cleanup()-funktiota
  */
 public class SoundManager
 {
 	private static SoundManager              instance;
 	private static SoundPool                 soundPool;    // Objekti, jolla luodaan ja toistetaan ‰‰net
 	private static HashMap<Integer, Integer> soundPoolMap; // Hashmappi, johon tallennetaan ‰‰net kun ne on ensin ladattu
-	private static AudioManager              audioManager; // Kahva palveluun, joka toistaa ‰‰nen, joka halutaan toistaa
-	private static Context                   context;      // Kahva ohjelman kontekstiin
+	private static AudioManager              audioManager; // Osoitin palveluun, joka toistaa ‰‰nen, joka halutaan toistaa
+	private static Context                   context;      // Osoitin ohjelman kontekstiin
 	
 	// SoundManagerin rakentaja
 	private SoundManager()
@@ -51,16 +52,18 @@ public class SoundManager
 	/*
 	 * Valmistellaan s‰ilytyspaikka ‰‰nille
 	 * 
-	 * @param theContext - Ohjelman contexti
+	 * @param theContext - Ohjelman konteksti
 	 */
-	public static void initSounds(Context _context)
+	public static final void initSounds(Context _context)
 	{
 		context = _context;
 		
 		// Ensimm‰inen argumentti(4) m‰‰ritt‰‰, kuinka monta ‰‰nt‰ voidaan toistaa samaan aikaan
 		soundPool = new SoundPool(4,AudioManager.STREAM_MUSIC,0);
 		soundPoolMap = new HashMap<Integer, Integer>();
-		audioManager = (AudioManager)context.getSystemService(context.AUDIO_SERVICE);
+		audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		
+        loadSounds();
 	}
 	
 	/*
@@ -69,7 +72,7 @@ public class SoundManager
 	 * @param index - Indeksi ‰‰nen hakemiselle
 	 * @param soundId - Androidin ID ‰‰nelle
 	 */
-	public static void addSound(int _index, int _soundId)
+	public static final void addSound(int _index, int _soundId)
 	{
 		soundPoolMap.put(_index, soundPool.load(context, _soundId, 1));
 	}
@@ -78,7 +81,7 @@ public class SoundManager
 	 * Lataa eri ‰‰net varastosta
 	 * T‰ll‰ hetkell‰ 'kovakoodattu', mutta t‰m‰n voi muuttaa joustavaksi
 	 */
-	public static void loadSounds()
+	public static final void loadSounds()
 	{
 		// (‰‰nen indeksinumero, ‰‰nen nimi, prioriteetti)
 		soundPoolMap.put(1, soundPool.load(context, R.raw.sound1, 1));
@@ -92,10 +95,10 @@ public class SoundManager
 	 * @param index - Indeksi ‰‰nelle, joka toistetaan
 	 * @param speed - ƒ‰nen toistonopeus (ei k‰ytˆss‰ viel‰)
 	 */
-	public static void playSound(int _index, float _speed)
+	public static final void playSound(int _index, float _speed)
 	{
 		float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-		streamVolume = streamVolume / audioManager.getStreamMaxVolume(audioManager.STREAM_MUSIC);
+		streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
 	}
 	
@@ -104,7 +107,7 @@ public class SoundManager
 	 * 
 	 * @param index - Indeksi ‰‰nelle, joka pys‰ytet‰‰n
 	 */
-	public static void stopSound(int _index)
+	public static final void stopSound(int _index)
 	{
 		soundPool.stop((Integer) soundPoolMap.get(_index));
 	}
@@ -113,7 +116,7 @@ public class SoundManager
 	 * Tyhjent‰‰ resurssit ja SoundManagerin instanssin
 	 * KƒYTƒ TƒTƒ, KUN OHJELMA TUHOTAAN!
 	 */
-	public static void cleanup()
+	public static final void cleanup()
 	{
 		soundPool.release();
 		soundPool = null;
