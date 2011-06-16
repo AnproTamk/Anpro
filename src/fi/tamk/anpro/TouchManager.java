@@ -32,9 +32,9 @@ public class TouchManager
 	/*
 	 * Rakentaja
 	 */
-    protected TouchManager(GLSurfaceView _glSurfaceView, Context _context) {
+    protected TouchManager(GLSurfaceView _glSurfaceView, Context _context, HUD _hud) {
     	weaponManager = WeaponManager.getConnection();
-    	hud           = HUD.getConnection();
+    	hud           = _hud;
     	//Log.v(TAG, "PREscreenWidth=" + screenWidth + "PREscreenHeight=" + screenHeight + "Density=" + GameActivity.dm.densityDpi);
     	screenWidth  = GameActivity.dm.widthPixels;
         screenHeight = GameActivity.dm.heightPixels;
