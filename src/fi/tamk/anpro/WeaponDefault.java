@@ -2,8 +2,13 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 public class WeaponDefault extends Weapon
 {
+	
+	private static final String TAG = "TouchEngine"; // Loggaus
+	
 	// Ammukset
 	private ArrayList<ProjectileLaser> projectiles;
 
@@ -15,10 +20,10 @@ public class WeaponDefault extends Weapon
 		super();
 		
 		// Alustetaan ammukset
-		projectiles = new ArrayList<ProjectileLaser>(2);
+		projectiles = new ArrayList<ProjectileLaser>(10);
 		
 		// Luodaan tarvittava määrä ammuksia
-		for (int i = 2; i >= 0; --i) {
+		for (int i = 0; i < 10; ++i) {
 			projectiles.add(new ProjectileLaser());
 		}
 	}
@@ -32,11 +37,15 @@ public class WeaponDefault extends Weapon
      */
 	public void activate(int _x, int _y)
 	{
+		
+		//Log.v(TAG, "WeaponDefault.activate()=" + _x + " " + _y);
+		
 		// Käydään läpi ammukset ja aktivoidaan ensimmäinen epäaktiivinen
-		for (int i = 2; i >= 0; --i) {
+		for (int i = 0; i < 10; ++i) {
+			
 			if (projectiles.get(i).active == false) {
+				Log.v(TAG, "# " + i);
 				projectiles.get(i).activate( _x, _y);
-				projectiles.get(i).active = true;
 				break;
 			}
 		}

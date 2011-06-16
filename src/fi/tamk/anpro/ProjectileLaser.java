@@ -4,8 +4,12 @@ import java.lang.Math;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 public class ProjectileLaser extends AbstractProjectile {
 
+	private static final String TAG = "TouchEngine"; // Loggaus
+	
     /*
      * Rakentaja
      */
@@ -18,6 +22,9 @@ public class ProjectileLaser extends AbstractProjectile {
      */
     @Override
     public void activate(int _x, int _y) {
+    	
+    	//Log.v(TAG, "ProjectileLaser.activate()=" + _x + " " + _y);
+    	
         // Tarkistetaan ajastus
         if (explodeTime > 0) {
             startTime = android.os.SystemClock.uptimeMillis();
@@ -78,25 +85,27 @@ public class ProjectileLaser extends AbstractProjectile {
     public void handleAi() {
         // Tarkistetaan osumatyyppi ja etäisyydet ja kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-            
-            double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-            
-            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-                // Osuma ja räjähdys
-                if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-                    wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
-                }
-                else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-                    causeExplosion();
-                }
+            if (wrapper.enemyStates.get(i) == 1) {
+	            double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
+	            
+	            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
 
-                setUnactive();
-                break;
-            }
-            
-            // Passiivinen vahinko
-            if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
-                wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+	                // Osuma ja räjähdys
+	                if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+	                    wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+	                }
+	                else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+	                    causeExplosion();
+	                }
+	
+	                setUnactive();
+	                break;
+	            }
+	            
+	            // Passiivinen vahinko
+	            if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
+	                wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+	            }
             }
         }
         
@@ -118,14 +127,20 @@ public class ProjectileLaser extends AbstractProjectile {
      * Kutsutaan triggerImpact-funktiota muista objekteista, jotka ovat räjähdyksen vaikutusalueella.
      */
     public void causeExplosion() {
+    	
+		Log.v(TAG, "***** causeExplosion *****");
+    	
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size(); i >= 0; --i) {
-            int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
-            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-                // Osuma ja räjähdys
-                wrapper.enemies.get(i).triggerImpact(damageOnTouch);
-            }
+        	if (wrapper.enemyStates.get(i) == 1) {
+	            int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+	            
+	            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+	                // Osuma ja räjähdys
+	                wrapper.enemies.get(i).triggerImpact(damageOnTouch);
+	            }
+        	}
         }
     }
     
