@@ -147,10 +147,15 @@ public class XmlReader
                 else if (settings.getEventType() == XmlPullParser.END_TAG) {
                     // ...
                 }
+        		
+        		settings.next();
         	}
         } catch (XmlPullParserException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
 		boolean settingValues[] = {particles, music, sounds};
 		return settingValues;
 	}
