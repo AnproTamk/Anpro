@@ -42,7 +42,7 @@ public class HUD
 
 	/* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
 	   asetta WeaponManagerista) */
-	private WeaponManager weaponManager;
+	private final WeaponManager weaponManager;
 	
 	private static HUD pointerToSelf;
 
@@ -61,7 +61,7 @@ public class HUD
 	/**
 	 * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja).
 	 */
-	public void updateCooldowns()
+	public final void updateCooldowns()
 	{
 		for(int i = 4; i >= 0; --i) {
 			if(weaponManager.cooldownLeft[weapons[i]] > 0 ) {
@@ -78,7 +78,7 @@ public class HUD
 	 * 
 	 * @param int Painetun napin tunnus
 	 */
-	public void triggerClick(int _buttonId)
+	public final void triggerClick(int _buttonId)
 	{
 		// Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
 		if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
@@ -86,7 +86,7 @@ public class HUD
 		}
 	}
 	
-	public static HUD getConnection()
+	public final static HUD getConnection()
 	{
 		return pointerToSelf;
 	}

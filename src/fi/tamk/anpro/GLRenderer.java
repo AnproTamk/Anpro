@@ -20,18 +20,12 @@ public class GLRenderer implements Renderer {
     
     public static ArrayList<Animation> hudAnimations;
     public static ArrayList<Texture>   hudTextures;
-    
-    public StringTexture testText = null;
 
     private Context context;
     
     private Wrapper wrapper;
     
     public GameThread gameThread = null;
-    
-    // Näytön tiedot
-    public static int width;
-    public static int height;
     
     // Lataustiedot
     public boolean allLoaded = false;
@@ -169,7 +163,7 @@ public class GLRenderer implements Renderer {
         }
     }
 
-	public void connectToGameThread(GameThread _gameThread) {
+	public final void connectToGameThread(GameThread _gameThread) {
 		gameThread = _gameThread;
 	}
 }

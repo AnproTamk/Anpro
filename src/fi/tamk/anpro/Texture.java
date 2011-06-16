@@ -18,7 +18,7 @@ public class Texture
 {
     /* Kuvan tiedot */
     private int[] sprite;    // Kuva
-    private float imageSize; // Kuvan koko
+    private final float imageSize; // Kuvan koko
     
     /* Puskuri ja taulukko vektoreille */
     public FloatBuffer vertexBuffer;
@@ -109,7 +109,7 @@ public class Texture
      * @param float Tekstuurin Y-koordinaatti
      * @param int   Tekstuurin suunta (0 = oikealle)
      */
-    public void draw(GL10 _gl, float _x, float _y, int _direction)
+    public final void draw(GL10 _gl, float _x, float _y, int _direction)
     {
         // Resetoidaan mallimatriisi
         _gl.glLoadIdentity();

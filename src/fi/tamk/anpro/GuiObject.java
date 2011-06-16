@@ -19,7 +19,7 @@ public class GuiObject extends GfxObject {
     /*
      * Piirtää käytössä olevan tekstuurin ruudulle
      */
-    public void draw(GL10 _gl)
+    public final void draw(GL10 _gl)
     {
         GLRenderer.hudTextures.get(usedTexture).draw(_gl, x, y, 0);
     }
