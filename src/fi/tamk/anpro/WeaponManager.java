@@ -2,20 +2,13 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-/*
- * TODO:
- *  - Pitää ottaa huomioon kykypuun tiedot aseita luodessa.
- */
-
-public class WeaponStorage
+public class WeaponManager
 {
 	// 
 	public static final int SURVIVAL_MODE      = 1;
 	public static final int STORY_MODE_LEVEL_1 = 1;
 	
 	public static final int GLOBAL_COOLDOWN = 500;
-	
-	private static WeaponStorage instance = null;
 
 	// Käytössä oleva ase
 	public int currentWeapon;
@@ -28,9 +21,11 @@ public class WeaponStorage
 	// Cooldownit
 	public int cooldownMax[];
 	public int cooldownLeft[];
+	
+	public static WeaponManager pointerToSelf;
 
 	// WeaponStoragen rakentaja
-	protected WeaponStorage()
+	public WeaponManager()
     {
 		playerWeapons = new ArrayList<Weapon>();
 		cooldownMax   = new int[10];
@@ -38,15 +33,8 @@ public class WeaponStorage
 		
 		cooldownMax[0]  = 0;
 		cooldownLeft[0] = 0;
-    }
-
-	// Lataa pointteri tähän luokkaan
-    public static WeaponStorage getInstance()
-    {
-        if(instance == null){
-            instance = new WeaponStorage();
-        }
-        return instance;
+		
+		pointerToSelf = this;
     }
     
     public void triggerShoot(int[] _coords)
@@ -88,5 +76,10 @@ public class WeaponStorage
 				cooldownLeft[i] -= 100;
 			}
 		}
+	}
+	
+	public static WeaponManager getConnection()
+	{
+		return pointerToSelf;
 	}
 }

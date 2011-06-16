@@ -1,5 +1,6 @@
 package fi.tamk.anpro;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,14 +12,12 @@ import android.view.View.OnTouchListener;
  * Hoitaa kosketuksen lisäämällä OpenGL-pintaan tarvittavat
  * TouchListenerit ja tutkii jokaisen kosketuksen
  */
-public class TouchEngine {
-	
-	private static TouchEngine instance = null;
-	
+public class TouchManager
+{
 	// Muuttujat
 	private GLSurfaceView surface;
-	public  WeaponStorage weaponStorage;
-	public  HUD hud;
+	public  WeaponManager weaponManager;
+	public  HUD           hud;
 	public  int xTouch;
 	public  int yTouch;
 	public  int xClickOffset;
@@ -30,39 +29,31 @@ public class TouchEngine {
 	private int screenWidth;  // Ruudun leveys
     private int screenHeight; // Ruudun korkeus
 	
-    private static final String TAG = "TouchEngine"; // Loggaus
+    //private static final String TAG = "TouchEngine"; // Loggaus
 	
 	/*
 	 * Rakentaja
 	 */
-    protected TouchEngine() {
-    	weaponStorage = WeaponStorage.getInstance();
-    	hud = HUD.getInstance();
+    protected TouchManager(GLSurfaceView _glSurfaceView, Context _context) {
+    	weaponManager = WeaponManager.getConnection();
+    	hud           = HUD.getConnection();
     	//Log.v(TAG, "PREscreenWidth=" + screenWidth + "PREscreenHeight=" + screenHeight + "Density=" + GameActivity.dm.densityDpi);
     	screenWidth  = GameActivity.dm.widthPixels;
         screenHeight = GameActivity.dm.heightPixels;
        // Log.v(TAG, "POSTscreenWidth=" + screenWidth + "POSTscreenHeight=" + screenHeight);
-    }
-    
-    /*
-     * Palauttaa pointterin tästä luokasta
-     */
-    public static TouchEngine getInstance() {
-        if(instance == null) {
-            instance = new TouchEngine();
-        }
-        return instance;
+        
+        setSurfaceListeners(_glSurfaceView);
     }
     
     /*
      * Käsittelee kosketustapahtumat
      */
 
-	public void setSurfaceListeners(GLSurfaceView _glSurfaceView) {
+	public void setSurfaceListeners(GLSurfaceView _surface) {
 		
 		//Log.v(TAG, "setSurfaceListeners()-funktion sisällä");
 		
-		surface = _glSurfaceView;
+		surface = _surface;
 		
 		//Log.v(TAG, "Mennään surface.setOnTouchListener():n sisälle");
 		
@@ -124,8 +115,7 @@ public class TouchEngine {
 	        		
 	        		// Painetaan pelikentältä
 	        		else {
-	        			SoundManager.playSound(3, 1);
-	        			weaponStorage.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
+	        			weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
     					//Log.v(TAG, "***** PELIKENTTÄ *****");
 	        		}
 		        	return true;

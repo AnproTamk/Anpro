@@ -168,4 +168,8 @@ public class GLRenderer implements Renderer {
             gameThread.start();
         }
     }
+
+	public void connectToGameThread(GameThread _gameThread) {
+		gameThread = _gameThread;
+	}
 }

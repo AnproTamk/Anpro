@@ -168,7 +168,7 @@ public class XmlReader
 		XmlResourceParser ranks = null;
 		ArrayList<Integer> enemyStats = new ArrayList<Integer>();
 		
-		ranks = GameActivity.context.getResources().getXml(R.xml.ranks);
+		ranks = context.getResources().getXml(R.xml.ranks);
 		
 		try {
         	while (ranks.getEventType() != XmlPullParser.END_DOCUMENT) {

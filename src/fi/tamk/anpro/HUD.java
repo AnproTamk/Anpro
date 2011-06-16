@@ -26,55 +26,45 @@ import android.view.View.OnClickListener;
 
 public class HUD
 {
+	/* Painikkeiden tunnukset */
 	public static final int BUTTON_1  = 0;
 	public static final int BUTTON_2  = 1;
 	public static final int BUTTON_3  = 2;
 	public static final int SPECIAL_1 = 2;
 	public static final int SPECIAL_2 = 2;
 
-	private static HUD instance = null;
-
+	/* Painikkeisiin sijoitettujen aseiden tunnukset (viittaa WeaponManagerin
+	   asetaulukoiden soluihin */
 	public int[] weapons;
-
+	
+	/* Käyttöliittymän objektit */
 	public ArrayList<GuiObject> guiObjects = null;
 
-	private WeaponStorage weaponStorage;
+	/* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
+	   asetta WeaponManagerista) */
+	private WeaponManager weaponManager;
+	
+	private static HUD pointerToSelf;
 
-	/*
-	 * Rakentaja
+	/**
+	 * Alustaa luokan muuttujat ja kutsuu XmlReaderia.
 	 */
-	public HUD()
+	public HUD(Context _context)
 	{
-		weaponStorage = WeaponStorage.getInstance();
+		weaponManager = WeaponManager.getConnection();
 		weapons = new int[5];
-	}
-
-	/*
-	 * Palauttaa pointterin tähän luokkaan
-	 */
-	public static HUD getInstance()
-	{
-	    if(instance == null){
-	       instance = new HUD();
-	    }
-	    return instance;
-	}
-
-	public void loadHud(Context _context)
-	{
+		
 		XmlReader reader = new XmlReader(_context );
-		//reader.readHUD(this);
+		reader.readHUD(this);
 	}
 
-	/*
-	 * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja)
+	/**
+	 * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja).
 	 */
 	public void updateCooldowns()
 	{
-		// TODO: Animaation lisääminen 
-		
 		for(int i = 4; i >= 0; --i) {
-			if(weaponStorage.cooldownLeft[weapons[i]] > 0 ) {
+			if(weaponManager.cooldownLeft[weapons[i]] > 0 ) {
 				guiObjects.get(i).usedTexture = 1;
 			}
 			else {
@@ -83,15 +73,21 @@ public class HUD
 		}
 	}
 
-
-	/*
-	 * Käsittelee napin painalluksen & Asettaa WeaponStorage-luokkaan aseen.
+	/**
+	 * Käsittelee napin painalluksen ja asettaa uuden aseen käyttöön WeaponManageriin.
+	 * 
+	 * @param int Painetun napin tunnus
 	 */
 	public void triggerClick(int _buttonId)
 	{
-		// Tarkistus, jolla estetään cooldownereiden valinta
-		if (weaponStorage.cooldownLeft[weapons[_buttonId]] <=0 ) {
-			weaponStorage.currentWeapon = weapons[_buttonId];
+		// Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
+		if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
+			weaponManager.currentWeapon = weapons[_buttonId];
 		}
+	}
+	
+	public static HUD getConnection()
+	{
+		return pointerToSelf;
 	}
 }
