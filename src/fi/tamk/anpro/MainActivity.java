@@ -57,6 +57,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	    		break;
 	    	case R.id.button_survival:
 	    		SoundManager.playSound(2, 1);
+	    		Intent i_game = new Intent(this, GameActivity.class);
+	    		startActivity(i_game);
 	    		break;
 	    	case R.id.button_options:
 	    		SoundManager.playSound(2, 1);
