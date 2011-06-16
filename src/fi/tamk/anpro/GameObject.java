@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 abstract public class GameObject extends GfxObject {
 	// Vakioita suuntiin
 	public static final int TO_THE_LEFT  = 1;
