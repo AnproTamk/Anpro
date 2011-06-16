@@ -12,7 +12,7 @@ import android.view.View.OnClickListener;
 public class MainActivity extends Activity implements OnClickListener {
 	public static Context context;
 	
-    /** Called when the activity is first created. */
+    /** Kutsutaan kun aktiviteetti luodaan. */
     @Override
     public void onCreate(Bundle _savedInstanceState) {
         super.onCreate(_savedInstanceState);
@@ -40,11 +40,9 @@ public class MainActivity extends Activity implements OnClickListener {
         View quitButton = findViewById(R.id.button_quit);
         quitButton.setOnClickListener(this);
         
-    	//Luo, alusta ja lataa SoundManager
+    	//Luo ja alusta SoundManager
         SoundManager.getInstance();
         SoundManager.initSounds(this);
-        SoundManager.loadSounds();
-        
     }
     
     public void onClick(View _v) {
