@@ -4,10 +4,10 @@ public class Options {
 	
 	private static Options instance = null;
 	
-	private static boolean   particles;
-	private static boolean   sounds;
-	private static boolean   music;
-	private static boolean[] settings;
+	public static boolean   particles;
+	public static boolean   sounds;
+	public static boolean   music;
+	public static boolean[] settings;
 	
 	/*
 	 * Rakentaja

@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener {
     	//Luo ja alusta SoundManager
         SoundManager.getInstance();
         SoundManager.initSounds(this);
+        SoundManager.loadSounds();
     }
     
     public void onClick(View _v) {
