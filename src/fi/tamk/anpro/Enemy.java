@@ -1,7 +1,6 @@
 package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
-import java.util.ArrayList;
 
 public class Enemy extends GameObject
 {
@@ -45,9 +44,9 @@ public class Enemy extends GameObject
     
         animationLength = new int[3];
 
-        int offset = rank *3;
+        /*int offset = rank *3;
 
-        /*animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
+        animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
         animationLength[1] = wrapper.renderer.playerAnimations.get(offset - 2).length;
         animationLength[2] = wrapper.renderer.playerAnimations.get(offset - 1).length;*/
         

@@ -3,14 +3,9 @@ package fi.tamk.anpro;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.content.res.XmlResourceParser;
 
 public class XmlReader 

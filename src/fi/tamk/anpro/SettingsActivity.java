@@ -1,24 +1,12 @@
 package fi.tamk.anpro;
 
-import java.io.IOException;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import fi.tamk.anpro.R;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.KeyEvent;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class SettingsActivity extends PreferenceActivity {
 	private boolean particleState;
