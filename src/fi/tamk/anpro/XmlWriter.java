@@ -17,7 +17,7 @@ public class XmlWriter {
 	/*
 	 * Tämä funktio tallentaa StoryModen tiedot XML-tiedostoon.
 	 */
-	public boolean saveGame() {
+	public final boolean saveGame() {
 		// Luodaan uusi XML-tiedosto pelin tallennukselle
 		File xmlSaveGame = new File(Environment.getExternalStorageDirectory()+"/storymode.xml");
 		
@@ -80,14 +80,14 @@ public class XmlWriter {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return true;
 	}
 	
 	/*
 	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
 	 * @param boolean[] settingStates
 	 **/
-	public void saveSettings(boolean particleState, boolean musicState, boolean soundState) {
+	public final void saveSettings(boolean particleState, boolean musicState, boolean soundState) {
 		// Luodaan uusi XML-tiedosto asetuksille.
 		//File xmlStoreSettings = new File(Environment.getDataDirectory()+"/settings.xml");
 		File xmlStoreSettings = new File("HWUserData/Android/settings.xml");
@@ -171,7 +171,7 @@ public class XmlWriter {
 	/*
 	 * Tämä funktio tallentaa pelaajan saavutukset XML-tiedostoon.
 	 */
-	public boolean saveAchievements() {
+	public final boolean saveAchievements() {
 		// Luodaan uusi XML-tiedosto achievementeille.
 		File xmlSaveAchievements = new File(Environment.getExternalStorageDirectory()+"/achievements.xml");
 		
@@ -183,7 +183,7 @@ public class XmlWriter {
 		
 		
 		
-		return false;
+		return true;
 	}
 	
 }
