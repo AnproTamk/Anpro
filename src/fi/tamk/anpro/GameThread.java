@@ -2,73 +2,84 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-class GameThread extends Thread {
+/**
+ * Huolehtii ajanotosta ja tekoälyjen ja sijaintien päivittämisestä.
+ */
+class GameThread extends Thread
+{
+	/* Säikeen tila */
     private boolean running = false;
     
-    private GLSurfaceView surface;
-    private GLRenderer    renderer;
-    private Wrapper       wrapper;
-    private WeaponStorage weaponStorage;
-    private SurvivalMode  survivalMode;
+    /* Tarvittavat luokat */
+    private Wrapper      wrapper;
+    private AbstractMode gameMode;
     
+    /* Pelaaja (VÄLIAIKAINEN!!!) */
     public Player player;
     
+    /* Ajanoton muuttujat */
     private long lastMovementUpdate  = 0;
     private long lastAiUpdate        = 0;
     private long lastCooldownUpdate  = 0;
     private long lastAnimationUpdate = 0;
     
+    /* Kriittisten päivitysten lista tekoälyjä varten */
     public static ArrayList<AbstractAi> criticalUpdates;
 
-    /*
-     * Rakentaja
+    /**
+     * Alustaa luokan muuttujat ja luo pelitilan.
+     * 
+     * @param DisplayMetrics Näytön tiedot
+     * @param Context		 Ohjelman konteksti
      */
-    public GameThread(GLSurfaceView _glSurfaceView, GLRenderer _glRenderer) {
-        surface       = _glSurfaceView;
-        renderer      = _glRenderer;
-        wrapper       = Wrapper.getInstance();
-        weaponStorage = WeaponStorage.getInstance();
+    public GameThread(DisplayMetrics _dm, Context _context)
+    {
+        wrapper = Wrapper.getInstance();
         
         criticalUpdates = new ArrayList<AbstractAi>();
 
-        survivalMode = SurvivalMode.getInstance();
+        gameMode = new SurvivalMode(_dm, _context);
         
-        /*
-         * DEBUGGIA!!!!
-         */
+        /* DEBUGGIA!!!! */
         player = new Player(5, 2);
         player.x = 0;
         player.y = 0;
     }
 
-    /*
+    /**
      * Määrittää säikeen päälle tai pois
      */
-    public void setRunning(boolean _run) {
+    public void setRunning(boolean _run)
+    {
         running = _run;
     }
 
-    /*
-     * Suorittää säikeen
+    /**
+     * Suorittää säikeen.
      */
     @Override
-    public void run() {
-
+    public void run()
+    {
         // Haetaan päivityksille aloitusajat
         lastMovementUpdate  = android.os.SystemClock.uptimeMillis();
         lastAiUpdate        = lastMovementUpdate;
         lastCooldownUpdate  = lastMovementUpdate;
         lastAnimationUpdate = lastMovementUpdate;
         
+        // Suoritetaan säiettä kunnes se määritetään pysäytettäväksi
         while (running) {
+        	
+        	// Haetaan tämänhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();
             
-            // Päivitä sijainnit ja liikkuminen
+            // Päivitetään sijainnit ja liikkuminen
             if (currentTime - lastMovementUpdate >= 20) {
                 lastMovementUpdate = currentTime;
                 
@@ -85,7 +96,7 @@ class GameThread extends Thread {
                 }
             }
             
-            // Päivitä animaatiot
+            // Päivitetään animaatiot
             if (currentTime - lastAnimationUpdate >= 40) {
                 lastAnimationUpdate = currentTime;
                 
@@ -94,22 +105,20 @@ class GameThread extends Thread {
                     wrapper.player.update();
                 }
                 
-                // käydään viholliset läpi
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                     if (wrapper.enemyStates.get(i) == 1 && wrapper.enemies.get(i).usedAnimation != -1) {
                         wrapper.enemies.get(i).update();
                     }
                 }
                 
-                // käydään 1. ammusluokka läpi
                 for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                     if (wrapper.projectileStates.get(i) == 1 && wrapper.projectiles.get(i).usedAnimation != -1) {
                         wrapper.projectiles.get(i).update();
                     }
                 }
             }
-                        
-            // päivitä kriittiset tekoälyt
+            
+            // Päivitetään kriittiset tekoälyt
             if (wrapper.player != null) {
                 if (currentTime - lastAiUpdate >= 50) {
                     for (int i = criticalUpdates.size()-1; i >= 0; --i) {
@@ -117,22 +126,21 @@ class GameThread extends Thread {
                     }
                 }
                 
+                // Tyhjennetään päivityslista
                 criticalUpdates.clear();
             }
             
-            // Päivitä tekoälyt
+            // Päivitetään tekoälyt
             if (wrapper.player != null) {
                 if (currentTime - lastAiUpdate >= 100) {
                     lastAiUpdate = currentTime;
                     
-                    // Käydään viholliset läpi
                     for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                         if (wrapper.enemyStates.get(i) == 1) {
                             wrapper.enemies.get(i).ai.handleAi();
                         }
                     }
                     
-                    // käydään 1. ammusluokka läpi
                     for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                         if (wrapper.projectileStates.get(i) == 1) {
                             wrapper.projectiles.get(i).handleAi();
@@ -140,10 +148,10 @@ class GameThread extends Thread {
                     }
                 }
             }
-
+            
             // Päivitetään aseiden cooldownit
             if (currentTime - lastCooldownUpdate >= 100) {
-                weaponStorage.updateCooldowns();
+            	gameMode.weaponManager.updateCooldowns();
             }
 
             // Hidastetaan säiettä pakottamalla se odottamaan 20 ms
