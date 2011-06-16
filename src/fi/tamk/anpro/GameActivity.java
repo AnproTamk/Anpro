@@ -71,8 +71,8 @@ public class GameActivity extends Activity
         renderer.connectToGameThread(gameThread);
         
         // Luodaan TouchManager ja HUD
-        touchManager = new TouchManager(surfaceView, getBaseContext());
         hud          = new HUD(getBaseContext());
+        touchManager = new TouchManager(surfaceView, getBaseContext(), hud);
     }
     
     /**

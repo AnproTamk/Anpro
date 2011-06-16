@@ -62,8 +62,6 @@ public class SoundManager
 		soundPool = new SoundPool(4,AudioManager.STREAM_MUSIC,0);
 		soundPoolMap = new HashMap<Integer, Integer>();
 		audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-		
-        loadSounds();
 	}
 	
 	/*
@@ -83,6 +81,8 @@ public class SoundManager
 	 */
 	public static final void loadSounds()
 	{
+		// 1-9 efektejä
+		// 10-19 musiikkeja
 		// (äänen indeksinumero, äänen nimi, prioriteetti)
 		soundPoolMap.put(1, soundPool.load(context, R.raw.sound1, 1));
 		soundPoolMap.put(2, soundPool.load(context, R.raw.sound2, 1));
@@ -97,9 +97,26 @@ public class SoundManager
 	 */
 	public static final void playSound(int _index, float _speed)
 	{
-		float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-		streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
+		if (Options.sounds) {
+			float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+			streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+			soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
+		}
+	}
+	
+	/*
+	 * Toistaa musiikin
+	 * 
+	 * @param index - Indeksi musiikille, joka toistetaan
+	 * @param speed - Musiikin toistonopeus (ei käytössä vielä)
+	 */
+	public static final void playMusic(int _index, float _speed)
+	{
+		if (Options.music) {
+			float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+			streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+			soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
+		}
 	}
 	
 	/*
