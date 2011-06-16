@@ -26,7 +26,7 @@ public class Wrapper {
     //...
     
     //Wrapperin rakentaja
-    protected Wrapper() {
+    private Wrapper() {
         enemies          = new ArrayList<Enemy>();
         projectiles      = new ArrayList<AbstractProjectile>();
         enemyStates      = new ArrayList<Integer>();
@@ -40,7 +40,7 @@ public class Wrapper {
         return instance;
     }
     
-    public int addToList(Object _object, int _classType){
+    public final int addToList(Object _object, int _classType){
         if (_classType == CLASS_TYPE_PLAYER) {
             player      = (Player)_object;
             playerState = 1;
@@ -61,7 +61,7 @@ public class Wrapper {
         return 0;
     }
     
-    public void setRenderer(GLRenderer _renderer) {
+    public final void setRenderer(GLRenderer _renderer) {
         renderer = _renderer;
     }
 }

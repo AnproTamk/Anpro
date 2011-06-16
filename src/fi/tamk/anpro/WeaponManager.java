@@ -14,9 +14,9 @@ public class WeaponManager
 	public int currentWeapon;
 
 	// Aseet
-	public ArrayList<Weapon> allyWeapons   = null;
-	public ArrayList<Weapon> enemyWeapons  = null;
-	public ArrayList<Weapon> playerWeapons = null;
+	public ArrayList<AbstractWeapon> allyWeapons   = null;
+	public ArrayList<AbstractWeapon> enemyWeapons  = null;
+	public ArrayList<AbstractWeapon> playerWeapons = null;
 	
 	// Cooldownit
 	public int cooldownMax[];
@@ -27,7 +27,7 @@ public class WeaponManager
 	// WeaponStoragen rakentaja
 	public WeaponManager()
     {
-		playerWeapons = new ArrayList<Weapon>();
+		playerWeapons = new ArrayList<AbstractWeapon>();
 		cooldownMax   = new int[10];
 		cooldownLeft  = new int[10];
 		
@@ -37,7 +37,7 @@ public class WeaponManager
 		pointerToSelf = this;
     }
     
-    public void triggerShoot(int[] _coords)
+    public final void triggerShoot(int[] _coords)
     {
 	//	System.exit(0);
     	if (cooldownLeft[currentWeapon] <= 0) {
@@ -54,7 +54,7 @@ public class WeaponManager
     	}
     }
     
-    public void initialize(int _id)
+    public final void initialize(int _id)
     {
     	// Ladataan tarvittavat aseluokat muistiin
     	if (_id == SURVIVAL_MODE) {
@@ -68,7 +68,7 @@ public class WeaponManager
     /*
      * Päivittää coolDownit.
      */
-	public void updateCooldowns()
+	public final void updateCooldowns()
 	{
 		// Asetetaan globaali cooldown
 		for (int i = 9; i>= 0; --i) {
@@ -78,7 +78,7 @@ public class WeaponManager
 		}
 	}
 	
-	public static WeaponManager getConnection()
+	public final static WeaponManager getConnection()
 	{
 		return pointerToSelf;
 	}

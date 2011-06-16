@@ -14,7 +14,7 @@ public class LinearAi extends AbstractAi {
     /*
      * K‰sittelee teko‰lyn
      */
-    public void handleAi() {
+    public final void handleAi() {
         /** M‰‰ritet‰‰n liikkuminen */
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));

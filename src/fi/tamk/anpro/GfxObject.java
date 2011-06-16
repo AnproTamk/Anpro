@@ -39,7 +39,7 @@ public class GfxObject
      * @param int Animaation tunnus
      * @param int Toistokerrat
      */
-    public void startAnimation(int _animation, int _loops)
+    public final void startAnimation(int _animation, int _loops)
     {
     	// Tallennetaan muuttujat
     	usedAnimation  = _animation;
@@ -60,7 +60,7 @@ public class GfxObject
      * 
      * @param int Tekstuurin tunnus
      */
-    public void stopAnimation(int _texture)
+    public final void stopAnimation(int _texture)
     {
     	usedAnimation = -1;
     	
@@ -71,7 +71,7 @@ public class GfxObject
      * Päivittää animaation seuraavaan kuvaruutuun. Hallitsee myös toistokerrat
      * ja mahdollisen palautuksen vakiotekstuuriin (tunnus 0).
      */
-    public void update()
+    public final void update()
     {
     	// Animaatio on käytössä
     	if (usedAnimation > -1) {

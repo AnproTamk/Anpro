@@ -79,7 +79,7 @@ public class Animation {
     /*
      * Lataa framen tekstuurin muistiin
      */
-    public void loadFrame(GL10 gl, Context context, int[] var, int offset, int id)
+    public final void loadFrame(GL10 gl, Context context, int[] var, int offset, int id)
     {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
         
@@ -102,7 +102,7 @@ public class Animation {
     /*
      * Piirt‰‰ framen ruudulle
      */
-    public void draw(GL10 _gl, float _x, float _y, int _direction, int _frame) {
+    public final void draw(GL10 _gl, float _x, float _y, int _direction, int _frame) {
         // Resetoidaan mallimatriisi
         _gl.glLoadIdentity();
         

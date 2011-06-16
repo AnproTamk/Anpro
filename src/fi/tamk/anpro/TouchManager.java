@@ -49,7 +49,7 @@ public class TouchManager
      * Käsittelee kosketustapahtumat
      */
 
-	public void setSurfaceListeners(GLSurfaceView _surface) {
+	public final void setSurfaceListeners(GLSurfaceView _surface) {
 		
 		//Log.v(TAG, "setSurfaceListeners()-funktion sisällä");
 		
@@ -152,7 +152,7 @@ public class TouchManager
 	}
 	
 	// Muuntaa näytön koordinaatit pelimaailman koordinaateiksi
-	private int[] convertCoords(int _x, int _y)
+	private final int[] convertCoords(int _x, int _y)
 	{
 		//Log.v(TAG, "screenCoords[{" + (_x - (screenWidth/ 2)) + ", " + -((-screenHeight / 2) + _y) + "}]");
 		int screenCoords[] = { _x - (screenWidth / 2),

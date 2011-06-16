@@ -1,13 +1,12 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
+//import android.util.Log;
 
-import android.util.Log;
-
-public class WeaponDefault extends Weapon
+public class WeaponDefault extends AbstractWeapon
 {
 	
-	private static final String TAG = "TouchEngine"; // Loggaus
+	//private static final String TAG = "TouchEngine"; // Loggaus
 	
 	// Ammukset
 	private ArrayList<ProjectileLaser> projectiles;
@@ -35,7 +34,7 @@ public class WeaponDefault extends Weapon
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
      */
-	public void activate(int _x, int _y)
+	public final void activate(int _x, int _y)
 	{
 		
 		//Log.v(TAG, "WeaponDefault.activate()=" + _x + " " + _y);
@@ -44,7 +43,7 @@ public class WeaponDefault extends Weapon
 		for (int i = 0; i < 10; ++i) {
 			
 			if (projectiles.get(i).active == false) {
-				Log.v(TAG, "# " + i);
+				//Log.v(TAG, "# " + i);
 				projectiles.get(i).activate( _x, _y);
 				SoundManager.playSound(3, 1);
 				break;

@@ -5,12 +5,12 @@ package fi.tamk.anpro;
  * 
  * Tämä luokka on abstrakti, joten siitä ei voi luoda olioita.
  */
-abstract public class Weapon
+abstract public class AbstractWeapon
 {
     /**
      * Alustaa luokan muuttujat.
      */
-	public Weapon() { }
+	public AbstractWeapon() { }
     
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
