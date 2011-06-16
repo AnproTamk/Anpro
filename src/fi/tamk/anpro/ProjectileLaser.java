@@ -22,9 +22,7 @@ public class ProjectileLaser extends AbstractProjectile {
      */
     @Override
     public void activate(int _x, int _y) {
-    	
-    	//Log.v(TAG, "ProjectileLaser.activate()=" + _x + " " + _y);
-    	
+ 
         // Tarkistetaan ajastus
         if (explodeTime > 0) {
             startTime = android.os.SystemClock.uptimeMillis();
@@ -121,6 +119,14 @@ public class ProjectileLaser extends AbstractProjectile {
         
         // Tarkistetaan suunta ja k‰‰ntyminen
         //...
+        
+
+        // K‰sitell‰‰n reuna-alueet panosten tuhoamiseksi
+        if (wrapper.player.x + x < -400 || wrapper.player.x + x > 400 ||
+        	wrapper.player.y + y < -240 || wrapper.player.y + y > 240 ) {
+        	setUnactive();
+        }
+
     }
     
     /*
