@@ -22,8 +22,8 @@ public class Enemy extends GameObject
     //ArrayList<Animation> animations;
     //ArrayList<Texture> textures;
     
-    Wrapper wrapper;
-    int     listId;
+    private Wrapper wrapper;
+    private int     listId;
     
     /*
      * Rakentaja
@@ -61,7 +61,7 @@ public class Enemy extends GameObject
     /*
      * Aktivoi vihollisen
      */
-    public void setActive()
+    public final void setActive()
     {
         wrapper.enemyStates.set(listId, 1);
     }
@@ -69,7 +69,7 @@ public class Enemy extends GameObject
     /*
      * Poistaa vihollisen käytöstä
      */
-    public void setUnactive()
+    public final void setUnactive()
     {
         wrapper.enemyStates.set(listId, 0);
     }
@@ -77,7 +77,7 @@ public class Enemy extends GameObject
     /*
      * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle
      */
-    public void draw(GL10 _gl)
+    public final void draw(GL10 _gl)
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
@@ -93,7 +93,7 @@ public class Enemy extends GameObject
     /*
      * Käsittelee räjähdyksien aiheuttamat osumat
      */
-    public void triggerImpact(int _damage)
+    public final void triggerImpact(int _damage)
     {
         health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
         
@@ -105,7 +105,7 @@ public class Enemy extends GameObject
     /*
      * Käsitelee törmäykset pelaajan ja ammusten kanssa
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
@@ -123,7 +123,7 @@ public class Enemy extends GameObject
     /*
      * Asettaa tiedot
      */
-    public void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
+    public final void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
         // Tallennetaan uudet tiedot
         healthMax  = _health;
         health     = _health;

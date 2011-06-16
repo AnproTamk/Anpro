@@ -30,7 +30,7 @@ public class Options {
     /*
      * Palauttaa pointterin tästä luokkaan
      */
-    public static Options getInstance() {
+    public final static Options getInstance() {
         if(instance == null) {
             instance = new Options();
         }
@@ -40,7 +40,7 @@ public class Options {
     /*
      * Asettaa asetukset
      */
-    public void setSettings() {
+    public final void setSettings() {
     	particles = settings[0];
     	music = settings[1];
     	sounds = settings[2];

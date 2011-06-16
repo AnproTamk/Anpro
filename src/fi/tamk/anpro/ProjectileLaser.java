@@ -1,9 +1,6 @@
 package fi.tamk.anpro;
 
 import java.lang.Math;
-
-import javax.microedition.khronos.opengles.GL10;
-
 import android.util.Log;
 
 public class ProjectileLaser extends AbstractProjectile {
@@ -21,7 +18,7 @@ public class ProjectileLaser extends AbstractProjectile {
      * Aktivoidaan ammus
      */
     @Override
-    public void activate(int _x, int _y) {
+    public final void activate(int _x, int _y) {
  
         // Tarkistetaan ajastus
         if (explodeTime > 0) {
@@ -80,7 +77,7 @@ public class ProjectileLaser extends AbstractProjectile {
      * K‰sitell‰‰n ammuksen teko‰ly.
      */
     @Override
-    public void handleAi() {
+    public final void handleAi() {
         // Tarkistetaan osumatyyppi ja et‰isyydet ja kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             if (wrapper.enemyStates.get(i) == 1) {
@@ -132,7 +129,7 @@ public class ProjectileLaser extends AbstractProjectile {
     /*
      * Kutsutaan triggerImpact-funktiota muista objekteista, jotka ovat r‰j‰hdyksen vaikutusalueella.
      */
-    public void causeExplosion() {
+    public final void causeExplosion() {
     	
 		Log.v(TAG, "***** causeExplosion *****");
     	
@@ -153,14 +150,14 @@ public class ProjectileLaser extends AbstractProjectile {
     /*
      * K‰sitell‰‰n r‰j‰hdykset
      */
-    public void triggerImpact(int _damage) {
+    public final void triggerImpact(int _damage) {
         // R‰j‰hdykset eiv‰t vaikuta t‰h‰n ammukseen
     }
 
     /*
      * K‰sitell‰‰n osumat
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing) {
         // Osumat eiv‰t vaikuta t‰h‰n ammukseen
     }
 }

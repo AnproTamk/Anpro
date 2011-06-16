@@ -15,7 +15,7 @@ public class Player extends GameObject
     public int defence;
     
     /* Osoittimet muihin luokkiin */
-    Wrapper wrapper;
+    private Wrapper wrapper;
     
     /**
      * Alustaa luokan muuttujat.
@@ -49,7 +49,7 @@ public class Player extends GameObject
     /**
      * Asettaa pelaajan aktiiviseksi.
      */
-    public void setActive()
+    public final void setActive()
     {
         wrapper.playerState = 1;
     }
@@ -57,7 +57,7 @@ public class Player extends GameObject
     /**
      * Asettaa pelaajan epäaktiiviseksi.
      */
-    public void setUnactive()
+    public final void setUnactive()
     {
         wrapper.playerState = 0;
     }
@@ -67,7 +67,7 @@ public class Player extends GameObject
      * 
      * @param GL10 OpenGL-konteksti
      */
-    public void draw(GL10 _gl)
+    public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
             GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
@@ -84,7 +84,7 @@ public class Player extends GameObject
      * 
      * @param int Räjähdyksen aiheuttama vahinko
      */
-    public void triggerImpact(int _damage)
+    public final void triggerImpact(int _damage)
     {
         // Räjähdykset eivät toistaiseksi vaikuta pelaajaan
     }
@@ -96,7 +96,7 @@ public class Player extends GameObject
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         // Osumat pelaajaan käsitellään tällä hetkellä Enemy-luokassa
     	// TODO: Siirrä käsittely tänne

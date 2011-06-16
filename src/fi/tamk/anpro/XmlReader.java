@@ -268,7 +268,7 @@ public class XmlReader
      * Luokka readStoryMode()
      * @param StoryMode _storyMode
      */
-    public final void readStoryMode(StoryMode _storyMode){
+    /*public final void readStoryMode(StoryMode _storyMode){
     	XmlResourceParser rStoryMode = null;
 		rStoryMode = context.getResources().getXml(R.xml.storymode);
 		int currentWave = 0;
@@ -279,11 +279,11 @@ public class XmlReader
         			if (rStoryMode.getName().equals("enemy")) {
         				int rankTemp = Integer.parseInt(rStoryMode.getAttributeValue(null, "rank"));
         				
-        				/*_storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rankTemp][0],
+        				_storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rankTemp][0],
         						_storyMode.enemyStats[rankTemp][1],
         						_storyMode.enemyStats[rankTemp][2],
         						_storyMode.enemyStats[rankTemp][3],
-        						_storyMode.enemyStats[rankTemp][4]));*/
+        						_storyMode.enemyStats[rankTemp][4]));
         				
         			}
         			if (rStoryMode.getName().equals("story")) {
@@ -308,7 +308,7 @@ public class XmlReader
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+    }*/
     
     /*
      * readSavedGame()-luokka.
