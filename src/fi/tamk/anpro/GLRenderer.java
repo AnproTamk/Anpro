@@ -9,37 +9,42 @@ import android.content.Context;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
+/**
+ * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
+ * 
+ * @implements Renderer
+ */
 public class GLRenderer implements Renderer {
-    // Piirrettävät objektit
+    /* Piirrettävät animaatiot ja objektit */
     public static ArrayList<Animation> playerAnimations;     // 3
     public static ArrayList<Texture>   playerTextures;       // 2
     public static ArrayList<Animation> enemyAnimations;      // 3 per vihollistyyppi
     public static ArrayList<Texture>   enemyTextures;        // 2 per vihollistyyppi
     public static ArrayList<Animation> projectileAnimations; // 2 per ammus
     public static ArrayList<Texture>   projectileTextures;   // 1 per ammus
-    
     public static ArrayList<Animation> hudAnimations;
     public static ArrayList<Texture>   hudTextures;
 
+    /* Ohjelman konteksti */
     private Context context;
     
-    private Wrapper wrapper;
+    /* Tarvittavat oliot */
+    private Wrapper    wrapper;
+    private GameThread gameThread = null;
     
-    public GameThread gameThread = null;
-    
-    // Lataustiedot
+    /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public boolean allLoaded = false;
 
-    /*
-     * Rakentaja
+    /**
+     * Alustaa luokan muuttujat.
      */
     public GLRenderer(Context _context)
     {
+    	// Tallennetaan konteksti
         context = _context;
         
+        // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
-        
-        wrapper.setRenderer(this);
         
         // Määritetään taulukoiden koot
         playerAnimations     = new ArrayList<Animation>(3);
@@ -48,13 +53,13 @@ public class GLRenderer implements Renderer {
         enemyTextures        = new ArrayList<Texture>(10);
         projectileAnimations = new ArrayList<Animation>(2);
         projectileTextures   = new ArrayList<Texture>(1);
-        
         hudAnimations        = new ArrayList<Animation>();
         hudTextures          = new ArrayList<Texture>();
     }
 
-    /*
-     * Kutsutaan, kun pinta luodaan.
+    /**
+     * Määrittää OpenGL-asetukset ja lataa tekstuurit.
+     * Android kutsuu tätä automaattisesti.
      */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
@@ -65,33 +70,30 @@ public class GLRenderer implements Renderer {
         // Piirretään tausta mustaksi
         _gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 
-        // Syvyyspuskurin oletusarvo
-        //_gl.glClearDepthf(1.0f);
+        /*// Määritetään syvyyspuskurin oletusarvo
+        _gl.glClearDepthf(1.0f);
 
-        // Perspektiivilaskennat
-        //_gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
+        // Määritetään perspektiivilaskennat
+        _gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);*/
 
         // Määritetään läpinäkyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
         
         // Ladataan graffat (väliaikainen)
-        if (gameThread != null) {
-            playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
-            enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
-            projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
-
-            hudTextures.add(new Texture(_gl, context, R.drawable.icon));
-            
-            allLoaded = true;
-
-            gameThread.setRunning(true);
-            gameThread.start();
+        if (!allLoaded && gameThread != null) {
+        	if (loadTextures(_gl)) {
+        		startThread();
+        	}
+        	else {
+        		// TODO: Käsittele virhe
+        	}
         }
     }
 
-    /*
-     * Kutsutaan, kun pinta muuttuu (kännykkää käännetään tai muuten vain koko muuttuu)
+    /**
+     * Määrittää pinnan uudet asetukset.
+     * Android kutsuu tätä automaattisesti.
      */
     public void onSurfaceChanged(GL10 _gl, int _width, int _height)
     {
@@ -107,8 +109,7 @@ public class GLRenderer implements Renderer {
         _gl.glMatrixMode(GL10.GL_PROJECTION);
         _gl.glLoadIdentity();
         
-        // Muutetaan ruudun koko
-        //GLU.gluOrtho2D(_gl, (-1)*(_width/2), (_width/2), (-1)*(_height/2), (_height/2));
+        // Määritetään ruudun koko (OpenGL:ää varten)
         GLU.gluOrtho2D(_gl, -(_width / 2), (_width / 2), -(_height / 2), (_height/ 2));
 
         // Valitaan ja resetoidaan mallimatriisi
@@ -116,54 +117,83 @@ public class GLRenderer implements Renderer {
         _gl.glLoadIdentity();
     }
 
-    /*
-     * Kutsutaan, kun pinta tuhoutuu
+    /**
+     * Tuhoaa pinnan.
+     * Android kutsuu tätä automaattisesti.
      */
     public void onSurfaceDestroyed() {
     }
 
-    /*
-     * Kutsutaan, kun pinta päivitetään.
+    /**
+     * Käy läpi piirtolistat ja piirtää tarvittavat tekstuurit ruudulle.
+     * Android kutsuu tätä automaattisesti (maks. 60 kertaa sekunnissa).
      */
     public void onDrawFrame(GL10 _gl)
     {
+    	// Otetaan 2D-piirtäminen käyttöön
         _gl.glEnable(GL10.GL_TEXTURE_2D);
         
         // Tyhjätään ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
-        // Käydään läpi piirtolistat
+        // Tekstuurit on ladattu
         if (allLoaded) {
+        	
+        	/* Käydään läpi piirtolistat */
             if (wrapper.player != null && wrapper.playerState == 1) {
                 wrapper.player.draw(_gl);
             }
-            
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                 if (wrapper.enemyStates.get(i) == 1) {
                     wrapper.enemies.get(i).draw(_gl);
                 }
             }
-            
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                 if (wrapper.projectileStates.get(i) == 1) {
                     wrapper.projectiles.get(i).draw(_gl);
                 }
             }
         }
+        // Tekstuureja ei ole vielä ladattu
         else {
-            playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
-            enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
-            projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
-
-            allLoaded = true;
-
-            gameThread.setRunning(true);
-            gameThread.start();
+        	if (loadTextures(_gl)) {
+        		startThread();
+        	}
+        	else {
+        		// TODO: Käsittele virhe
+        	}
         }
     }
 
+    /**
+     * Yhdistää renderöijän pelisäikeeseen tallentamalla pelisäikeen pointterin muistiin.
+     */
 	public final void connectToGameThread(GameThread _gameThread) {
 		gameThread = _gameThread;
+	}
+
+    /**
+     * Lataa kaikki tekstuurit.
+     */
+	private final boolean loadTextures(GL10 _gl)
+	{
+        playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
+        enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
+        projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
+
+        allLoaded = true;
+        
+        return true;
+        // TODO: Palauta FALSE virheiden tapahtuessa.
+	}
+
+    /**
+     * Käynnistää pelisäikeen
+     */
+	private final void startThread()
+	{
+		gameThread.setRunning(true);
+		gameThread.start();
 	}
 }

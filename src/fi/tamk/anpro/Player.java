@@ -98,8 +98,9 @@ public class Player extends GameObject
      */
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-        // Osumat pelaajaan k‰sitell‰‰n t‰ll‰ hetkell‰ Enemy-luokassa
-    	// TODO: Siirr‰ k‰sittely t‰nne
+    	if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
+    		health -= _damage;
+    	}
     }
 }
 
