@@ -60,6 +60,9 @@ public class SurvivalMode extends AbstractMode {
         
         weaponStorage = WeaponStorage.getInstance();
         weaponStorage.initialize(WeaponStorage.SURVIVAL_MODE);
+        
+        updateSpawnPoints();
+        startWave();
     }
     
     /*
@@ -131,6 +134,7 @@ public class SurvivalMode extends AbstractMode {
             enemies.get(temp).setActive();
             enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
             enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+            
         }
     }
 
