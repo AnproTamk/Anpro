@@ -1,18 +1,19 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
-//import android.util.Log;
 
+/**
+ * Sis‰lt‰‰ #1 aseen, eli perusaseen toteutuksen.
+ * 
+ * @extends AbstractWeapon
+ */
 public class WeaponDefault extends AbstractWeapon
 {
-	
-	//private static final String TAG = "TouchEngine"; // Loggaus
-	
-	// Ammukset
+	/* Ammukset */
 	private ArrayList<ProjectileLaser> projectiles;
 
     /**
-     * Alustaa luokan muuttujat.
+     * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
 	public WeaponDefault()
 	{
@@ -37,16 +38,17 @@ public class WeaponDefault extends AbstractWeapon
 	@Override
 	public final void activate(int _x, int _y)
 	{
-		
-		//Log.v(TAG, "WeaponDefault.activate()=" + _x + " " + _y);
-		
 		// K‰yd‰‰n l‰pi ammukset ja aktivoidaan ensimm‰inen ep‰aktiivinen
 		for (int i = 0; i < 10; ++i) {
-			
 			if (projectiles.get(i).active == false) {
-				//Log.v(TAG, "# " + i);
+				
+				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
 				projectiles.get(i).activate( _x, _y);
+				
+				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);
+				
+				// Keskeytet‰‰n silmukka
 				break;
 			}
 		}

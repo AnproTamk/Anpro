@@ -7,6 +7,8 @@ package fi.tamk.anpro;
  */
 abstract public class AbstractWeapon
 {
+	
+	
     /**
      * Alustaa luokan muuttujat.
      */

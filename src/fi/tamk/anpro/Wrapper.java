@@ -2,7 +2,11 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-public class Wrapper {
+/**
+ * Yhdistää peliobjektit ja renderöijän toisiinsa. Ylläpitää piirtolistoja.
+ */
+public class Wrapper
+{
     public static final int CLASS_TYPE_PLAYER     = 1;
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
