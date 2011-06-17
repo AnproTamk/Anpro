@@ -6,20 +6,8 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-/*
- * SoundManager-class
- * 
- * Käyttö:
- * 
- *	//Luo, alusta ja lataa SoundManager <- tee tämä MainActivityssa
- *  //SoundManager.getInstance();
- *  //SoundManager.initSounds(this);
- *  //SoundManager.loadSounds();
- *	//SoundManager.playSound(2, 1);
- * 
- * playSound(äänen indeksinumero(int), toistonopeus(float));
- * 
- * Lopussa muista kutsua cleanup()-funktiota
+/**
+ * Hallitsee pelin äänien lataamisen, niiden poistamisen ja äänentoiston.
  */
 public class SoundManager
 {
@@ -136,7 +124,7 @@ public class SoundManager
 	 * Tyhjentää resurssit ja SoundManagerin instanssin
 	 * KÄYTÄ TÄTÄ, KUN OHJELMA TUHOTAAN!
 	 */
-	public static final void cleanup()
+	public static final void cleanUp()
 	{
 		soundPool.release();
 		soundPool = null;

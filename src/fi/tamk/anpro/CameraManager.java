@@ -1,14 +1,35 @@
 package fi.tamk.anpro;
 
-public class CameraManager {
-
-	public static int camX = 0; 	// Kameran x-koordinaatti
-	public static int camY = 0; 	// Kameran y-koordinaatti
-	public static int zoom; 		// Kameran zoomi
+/**
+ * Hallitsee kameraa tallentamalla sen tiedot.
+ */
+public class CameraManager
+{
+	/* Kameran sijainti */
+	public int x = 0; // Kameran x-koordinaatti
+	public int y = 0; // Kameran y-koordinaatti
+	public int zoom;  // Kameran zoomi
 	
-	public static int speed; 		// Kameran nopeus
-	public static int acceleration; // Kameran kiihtyvyys
-
-	public static int targetX;		// Kameran kohteen x-koordinaatti
-	public static int targetY;		// Kameran kohteen y-koordinaatti
+	/* Kameran liikkuminen */
+	public int speed; 		 // Kameran nopeus
+	public int acceleration; // Kameran kiihtyvyys
+	public int targetX;		 // Kameran kohteen x-koordinaatti
+	public int targetY;		 // Kameran kohteen y-koordinaatti
+	
+	/* Osoitin tähän luokkaan */
+    private static CameraManager instance = null;
+    
+    //Wrapperin rakentaja
+    private CameraManager()
+    {
+    	// ...
+    }
+    
+    public static CameraManager getInstance()
+    {
+        if(instance == null) {
+            instance = new CameraManager();
+        }
+        return instance;
+    }
 }
