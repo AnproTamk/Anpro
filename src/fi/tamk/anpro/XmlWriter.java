@@ -7,17 +7,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import org.xmlpull.v1.XmlSerializer;
 
-/*
- * Tämä luokka tallentaa pelin asetukset
- * sekä StoryModen pisteet, kentän, 
- * achievemintit, kyvyt yms.
+/**
+ * Tallentaa tietoja XML-tiedostoihin, kuten asetukset ja pelitilan.
  */
 public class XmlWriter {
 	
-	/*
-	 * Tämä funktio tallentaa StoryModen tiedot XML-tiedostoon.
+	/**
+	 * Tallentaa pelitilan.
 	 */
-	public final boolean saveGame() {
+	public final boolean saveGame()
+	{
 		// Luodaan uusi XML-tiedosto pelin tallennukselle
 		File xmlSaveGame = new File(Environment.getExternalStorageDirectory()+"/storymode.xml");
 		
@@ -83,13 +82,16 @@ public class XmlWriter {
 		return true;
 	}
 	
-	/*
-	 * Tämä funktio tallentaa pelin asetukset XML-tiedostoon.
-	 * @param boolean[] settingStates
+	/**
+	 * Tallentaa globaalit asetukset.
+	 * 
+	 * @param boolean Partikkeliasetus
+	 * @param boolean Musiikkiasetus
+	 * @param boolean Ääniasetus
 	 **/
-	public final void saveSettings(boolean particleState, boolean musicState, boolean soundState) {
+	public final void saveSettings(boolean particleState, boolean musicState, boolean soundState)
+	{
 		// Luodaan uusi XML-tiedosto asetuksille.
-		//File xmlStoreSettings = new File(Environment.getDataDirectory()+"/settings.xml");
 		File xmlStoreSettings = new File("HWUserData/Android/settings.xml");
 		
 		String[] stateId = {"0", "0", "0"};
@@ -130,7 +132,6 @@ public class XmlWriter {
 			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
 			serializer.startTag(null, "res");
 			
-			
 			/* 
 			 * Tästä alkaa xml-tiedoston sisempi osuus.
 			 * 
@@ -168,10 +169,13 @@ public class XmlWriter {
 		}
 	}
 	
-	/*
-	 * Tämä funktio tallentaa pelaajan saavutukset XML-tiedostoon.
+	/**
+	 * Tallentaa achievementit.
+	 * 
+	 * @return boolean Onnistuiko tallennus?
 	 */
-	public final boolean saveAchievements() {
+	public final boolean saveAchievements()
+	{
 		// Luodaan uusi XML-tiedosto achievementeille.
 		File xmlSaveAchievements = new File(Environment.getExternalStorageDirectory()+"/achievements.xml");
 		
@@ -181,9 +185,6 @@ public class XmlWriter {
 			e.printStackTrace();
 		}
 		
-		
-		
 		return true;
 	}
-	
 }

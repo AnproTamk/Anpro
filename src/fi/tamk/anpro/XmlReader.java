@@ -8,17 +8,28 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 
+/**
+ * Lukee XML-tiedostot.
+ */
 public class XmlReader 
 {
+	/* Ohjelman konteksti */
 	private Context context;
 	
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param Context Ohjelman konteksti
+	 */
 	public XmlReader(Context _context)
 	{
 		context = _context;
 	}
 
-	/*
-	 * Lukee kentän tiedot.
+	/**
+	 * Lukee yhden kentän tiedot. (VANHENTUNUT!)
+	 * 
+	 * @param int Kentän järjestysnumero
 	 */
 	public final void readLevel(int _id)
 	{
@@ -61,11 +72,11 @@ public class XmlReader
         }
 	}
  	
-	/*
-	 * Lukee HUDin tiedot. Riippuen pelimodesta, luetaan tarvittavat tiedot 
-	 * xml-tiedostosta joko story- tai survival-modea varten.
+	/**
+	 * Lukee HUDin tiedot. Riippuen pelimodesta, lukee tarvittavat tiedot 
+	 * XML-tiedostosta joko story- tai survival-modea varten.
 	 * 
-	 * @param HUD _hud
+	 * @param Hud Osoitin käyttöliittymään
 	 */
 	public final void readHud(Hud _hud)
 	{
@@ -110,10 +121,13 @@ public class XmlReader
 		
 	}
 	
-	/*
-	 * Lukee asetukset.
+	/**
+	 * Lukee globaalit asetukset.
+	 * 
+	 * @return boolean[] Asetukset
 	 */
-	public final boolean[] readSettings() {
+	public final boolean[] readSettings()
+	{
 		XmlResourceParser settings = null;
 		boolean particles = false, music = false, sounds = false;
 		
@@ -160,11 +174,13 @@ public class XmlReader
 		return settingValues;
 	}
 	
-	/*
-	 * Funktio lukee ranks.xml-tiedostosta vihollisten tason
-	 * ja sijoittaa ne ArrayList-taulukkoon.
+	/**
+	 * Lukee vihollistyyppien tiedot.
+	 * 
+	 * @return ArrayList<Integer> Vihollistyyppien tiedot
 	 */
-	public final ArrayList<Integer> readRanks() {
+	public final ArrayList<Integer> readRanks()
+	{
 		XmlResourceParser ranks = null;
 		ArrayList<Integer> enemyStats = new ArrayList<Integer>();
 		
@@ -198,12 +214,13 @@ public class XmlReader
 		return enemyStats;
 	}
 	
-	/*
-	 * Funktio ranks- ja survivalmode -xml-tiedostot ja ottaa
-	 * niistä arvot talteen. Funktion "osoittajana" on SurvivalMode-luokasta
-	 * tehty olio _survivalmode.
+	/**
+	 * Lukee Survival-pelitilan tiedot.
+	 * 
+	 * @param SurvivalMode Osoitin pelitilaan
 	 */
-	public final void readSurvivalMode(SurvivalMode _survivalMode) {
+	public final void readSurvivalMode(SurvivalMode _survivalMode)
+	{
 		XmlResourceParser rsm = null;
 		rsm = context.getResources().getXml(R.xml.survivalmode);
 		int currentWave = 0;
@@ -264,10 +281,11 @@ public class XmlReader
         
 	}
 	
-	 /*
-     * Luokka readStoryMode()
-     * @param StoryMode _storyMode
-     */
+	/**
+	 * Lukee Story-pelitilan tiedot.
+	 * 
+	 * @param StoryMode Osoitin pelitilaan
+	 */
     /*public final void readStoryMode(StoryMode _storyMode){
     	XmlResourceParser rStoryMode = null;
 		rStoryMode = context.getResources().getXml(R.xml.storymode);
@@ -310,8 +328,8 @@ public class XmlReader
 		}
     }*/
     
-    /*
-     * readSavedGame()-luokka.
+    /**
+     * Lukee vanhan pelitilanteen.
      */
     public final void readSavedGame() {
     	/*XmlResourceParser rsg = null;
