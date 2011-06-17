@@ -173,7 +173,7 @@ public class XmlReader
 		try {
         	while (ranks.getEventType() != XmlPullParser.END_DOCUMENT) {
         		if (ranks.getEventType() == XmlPullParser.START_TAG) {
-                    if (ranks.getName().equals("ranks")) {
+                    if (ranks.getName().equals("rank")) {
                     	// Muunnetaan saatujen attribuuttien tiedot integer-arvoiksi, jotka sijoitetaan taulukkoon.
                     	enemyStats.add(ranks.getAttributeIntValue(null, "health", 0));
                     	enemyStats.add(ranks.getAttributeIntValue(null, "speed", 0));
