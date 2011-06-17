@@ -10,7 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
 import android.widget.Toast;
 
-public abstract class LevelSelectActivity extends Activity implements OnItemClickListener
+public class LevelSelectActivity extends Activity implements OnItemClickListener
 {
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
@@ -94,6 +94,10 @@ public abstract class LevelSelectActivity extends Activity implements OnItemClic
         View mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this); 
         */
+	}
+
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
 	}
 
 /*	public void onClick(View _v) {
