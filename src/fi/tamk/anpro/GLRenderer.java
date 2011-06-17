@@ -210,7 +210,9 @@ public class GLRenderer implements Renderer {
      */
 	private final void startThread()
 	{
-		gameThread.setRunning(true);
-		gameThread.start();
+		if (gameThread != null) {
+			gameThread.setRunning(true);
+			gameThread.start();
+		}
 	}
 }

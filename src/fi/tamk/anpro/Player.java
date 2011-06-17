@@ -35,9 +35,14 @@ public class Player extends GameObject
         collisionRadius = 25;
         
         // Haetaan käytettävien animaatioiden pituudet
-        /*animationLength[0] = GLRenderer.playerAnimations.get(0).length;
-        animationLength[1] = GLRenderer.playerAnimations.get(1).length;
-        animationLength[2] = GLRenderer.playerAnimations.get(2).length;*/
+        try {
+        	animationLength[0] = GLRenderer.playerAnimations.get(0).length;
+        	animationLength[1] = GLRenderer.playerAnimations.get(1).length;
+        	animationLength[2] = GLRenderer.playerAnimations.get(2).length;
+        }
+        catch (Exception e) {
+        	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
+        }
         
         // Haetaan osoitin Wrapper-luokkaan
         wrapper = Wrapper.getInstance();
@@ -73,11 +78,9 @@ public class Player extends GameObject
     {
         if (usedAnimation >= 0){
             GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
-            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
             GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
-            //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
 
