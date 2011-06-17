@@ -4,6 +4,7 @@ import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 
 public class AboutActivity extends Activity {
 
@@ -15,5 +16,7 @@ public class AboutActivity extends Activity {
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
+        // Asetetaan äänensäätönapit muuttamaan media volumea
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	}
 }

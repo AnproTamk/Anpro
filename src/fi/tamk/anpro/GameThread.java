@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Huolehtii ajanotosta ja tekoälyjen ja sijaintien päivittämisestä.
@@ -69,6 +70,8 @@ class GameThread extends Thread
         lastCooldownUpdate  = lastMovementUpdate;
         lastAnimationUpdate = lastMovementUpdate;
         
+        //int debugTimes = 0;
+        
         // Suoritetaan säiettä kunnes se määritetään pysäytettäväksi
         while (running) {
         	
@@ -77,6 +80,9 @@ class GameThread extends Thread
             
             // Päivitetään sijainnit ja liikkuminen
             if (currentTime - lastMovementUpdate >= 20) {
+            	
+            	//LogWriter.startClock("SijaintiJaLiikkuminen");
+            	
                 lastMovementUpdate = currentTime;
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -90,10 +96,14 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).updateMovement(currentTime);
                     }
                 }
+                //LogWriter.stopClock("SijaintiJaLiikkuminen");
             }
             
             // Päivitetään animaatiot
             if (currentTime - lastAnimationUpdate >= 40) {
+                
+            	//LogWriter.startClock("Animaatiot");
+            	
                 lastAnimationUpdate = currentTime;
                 
                 // päivitetään pelaajan animaatio
@@ -112,10 +122,15 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).update();
                     }
                 }
+                
+                //LogWriter.stopClock("Animaatiot");
             }
             
             // Päivitetään kriittiset tekoälyt
-            if (wrapper.player != null) {
+            if (wrapper.player != null && criticalUpdates.size() > 0) {
+            	
+            	//LogWriter.startClock("KriittisetTekoalyt");
+            	
                 if (currentTime - lastAiUpdate >= 50) {
                     for (int i = criticalUpdates.size()-1; i >= 0; --i) {
                         criticalUpdates.get(i).handleAi();
@@ -124,18 +139,28 @@ class GameThread extends Thread
                 
                 // Tyhjennetään päivityslista
                 criticalUpdates.clear();
+                
+                //LogWriter.stopClock("KriittisetTekoalyt");
             }
-            
+           
             // Päivitetään tekoälyt
             if (wrapper.player != null) {
+            	
+            	LogWriter.startClock("PaivitetaanTekoalyt");
+            	
                 if (currentTime - lastAiUpdate >= 100) {
                     lastAiUpdate = currentTime;
                     
+                    //int testAmount = 0;
                     for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                         if (wrapper.enemyStates.get(i) == 1) {
                             wrapper.enemies.get(i).ai.handleAi();
+                            //++testAmount;
                         }
                     }
+                    /*if (testAmount == 0) {
+                    	debugTimes = 500;
+                    }*/
                     
                     for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                         if (wrapper.projectileStates.get(i) == 1) {
@@ -143,11 +168,19 @@ class GameThread extends Thread
                         }
                     }
                 }
+                
+                //LogWriter.stopClock("PaivitetaanTekoalyt");    
             }
             
             // Päivitetään aseiden cooldownit
             if (currentTime - lastCooldownUpdate >= 100) {
+            	
+            	//LogWriter.startClock("PaivitetaanCooldownit");
+            	
             	gameMode.weaponManager.updateCooldowns();
+            	
+            	//LogWriter.stopClock("PaivitetaanCooldownit");
+            	
             }
 
             // Hidastetaan säiettä pakottamalla se odottamaan 20 ms
@@ -156,6 +189,14 @@ class GameThread extends Thread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            
+            /*++debugTimes;
+            Log.v("GameThread", "debugTimes" + debugTimes);
+            
+            if (debugTimes >= 500) {
+            	LogWriter.saveData();
+            	System.exit(0);
+            }*/
         }
     }
 }
