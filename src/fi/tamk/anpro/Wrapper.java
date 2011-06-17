@@ -7,42 +7,59 @@ import java.util.ArrayList;
  */
 public class Wrapper
 {
+	/* Luokan tyyppi */
     public static final int CLASS_TYPE_PLAYER     = 1;
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
     
+    /* Osoitin t‰h‰n luokasta */
     private static Wrapper instance = null;
     
-    // Listat piirrett‰vist‰ objekteista
+    /* Piirtolistat */
     public Player                        player      = null;
     public ArrayList<Enemy>              enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
 
-    // Listat objektien tiloista
+    /* Peliobjektien tilat */
     public int                playerState      = 0;
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;
     
-    // HUD-objektit
-    //...
-    
-    //Wrapperin rakentaja
-    private Wrapper() {
+    /**
+     * Alustaa luokan muuttujat.
+     */
+    private Wrapper()
+    {
         enemies          = new ArrayList<Enemy>();
         projectiles      = new ArrayList<AbstractProjectile>();
         enemyStates      = new ArrayList<Integer>();
         projectileStates = new ArrayList<Integer>();
     }
     
-    public static Wrapper getInstance() {
+    /**
+     * Palauttaa osoittimen t‰h‰n luokkaan.
+     * 
+     * @return Wrapper Osoitin t‰h‰n luokkaan
+     */
+    public static Wrapper getInstance()
+    {
         if(instance == null) {
             instance = new Wrapper();
         }
         return instance;
     }
     
-    public final int addToList(Object _object, int _classType){
+    /**
+     * Lis‰‰ parametrina annetun luokan piirtolistalle.
+     * 
+     * @param Object Lis‰tt‰v‰ olio
+     * @param int    Lis‰tt‰v‰n olion tyyppi
+     * 
+     * @return int Lis‰tyn olion tunnus piirtolistalla
+     */
+    public final int addToList(Object _object, int _classType)
+    {
         if (_classType == CLASS_TYPE_PLAYER) {
             player      = (Player)_object;
             playerState = 1;
