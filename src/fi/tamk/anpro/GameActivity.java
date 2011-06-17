@@ -25,14 +25,11 @@ public class GameActivity extends Activity
     /* Muut luokat */
     private GameThread   gameThread;
     private TouchManager touchManager;
-    private HUD          hud;
+    private Hud          hud;
     
     /* Aktiivinen pelitila (asetetaan päävalikossa) */
     public static int activeMode = 1;
-    
-    /* Näytön koot */
-    public static DisplayMetrics dm;
-    
+        
     /**
      * Määrittää asetukset ja luo tarvittavat oliot, kuten renderöijän, HUDin,
      * GameThreadin ja TouchManagerin.
@@ -60,7 +57,7 @@ public class GameActivity extends Activity
         surfaceView.setRenderer(renderer);
 
         // Ladataan näytön tiedot
-        dm = new DisplayMetrics();
+        DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         // Asetetaan käytettävä pinta
@@ -71,8 +68,8 @@ public class GameActivity extends Activity
         renderer.connectToGameThread(gameThread);
         
         // Luodaan TouchManager ja HUD
-        hud          = new HUD(getBaseContext());
-        touchManager = new TouchManager(surfaceView, getBaseContext(), hud);
+        hud          = new Hud(getBaseContext());
+        touchManager = new TouchManager(dm, surfaceView, getBaseContext(), hud);
     }
     
     /**
