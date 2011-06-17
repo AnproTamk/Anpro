@@ -1,29 +1,35 @@
 package fi.tamk.anpro;
 
-
-abstract public class AbstractAi {
-    
+/**
+ * Sisältää kaikille vihollisten tekoälyille yhteiset ominaisuudet.
+ */
+abstract public class AbstractAi
+{
+	/* Osoitin Wrapperiin */
     protected Wrapper wrapper;
     
-    // Tekoälyä käyttävän vihollisen tunnus wrapperissa
+    /* Vihollisen tunnus piirtolistalla */
     protected int parentId;
     
-    /*
-     * Rakentaja
+    /**
+     * Alustaa luokan muuttujat.
+     * 
+     * @param int Vihollisen tunnus piirtolistalla
      */
-    public AbstractAi(int _id) {
+    public AbstractAi(int _id)
+    {
         parentId = _id;
         
         wrapper = Wrapper.getInstance();
     }
     
-    /*
-     * Käsittelee tekoälyn
+    /**
+     * Käsittelee tekoälyn.
      */
     abstract public void handleAi();
     
-    /*
-     * Tarkistaa törmäyksen pelaajan kanssa
+    /**
+     * Tarkistaa törmäyksen pelaajan kanssa.
      */
     protected final void checkCollisionWithPlayer() {
         Enemy enemyTemp = wrapper.enemies.get(parentId);

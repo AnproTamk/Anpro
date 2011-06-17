@@ -19,12 +19,19 @@ public class CameraManager
 	/* Osoitin tähän luokkaan */
     private static CameraManager instance = null;
     
-    //Wrapperin rakentaja
+    /**
+     * Alustaa luokan muuttujat.
+     */
     private CameraManager()
     {
     	// ...
     }
     
+    /**
+     * Palauttaa osoittimen tästä luokasta.
+     * 
+     * @return CameraManager
+     */
     public static CameraManager getInstance()
     {
         if(instance == null) {
