@@ -32,6 +32,7 @@ abstract public class AbstractAi {
         
         if (distance - wrapper.player.collisionRadius - enemyTemp.collisionRadius <= 0) {
             enemyTemp.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
+            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, enemyTemp.attack * 3, 0);
         }
     }
 }
