@@ -11,23 +11,27 @@ import android.media.SoundPool;
  */
 public class SoundManager
 {
+	/* Äänimuuttujat */
 	private static SoundManager              instance;
 	private static SoundPool                 soundPool;    // Objekti, jolla luodaan ja toistetaan äänet
 	private static HashMap<Integer, Integer> soundPoolMap; // Hashmappi, johon tallennetaan äänet kun ne on ensin ladattu
 	private static AudioManager              audioManager; // Osoitin palveluun, joka toistaa äänen, joka halutaan toistaa
-	private static Context                   context;      // Osoitin ohjelman kontekstiin
 	
-	// SoundManagerin rakentaja
+	/* Ohjelman konteksti */
+	private static Context context;
+	
+	/**
+	 * Alustaa luokan muuttujat.
+	 */
 	private SoundManager()
 	{
 		// ...
 	}
 	
-	/*
-	 * Pyydä Sound Managerista instanssi.
-	 * Luo se, jos sitä ei ole jo valmiiksi olemassa.
+	/**
+	 * Palauttaa osoittimen tähän luokkaan.
 	 * 
-	 * @return Palauttaa yhden SoundManagerin
+	 * @return SoundManager Osoitin tähän luokkaan
 	 */
 	static synchronized public SoundManager getInstance()
 	{
@@ -37,10 +41,10 @@ public class SoundManager
 		return instance;
 	}
 	
-	/*
-	 * Valmistellaan säilytyspaikka äänille
+	/**
+	 * Valmistelee säilytyspaikan äänille.
 	 * 
-	 * @param theContext - Ohjelman konteksti
+	 * @param Context Ohjelman konteksti
 	 */
 	public static final void initSounds(Context _context)
 	{
@@ -55,20 +59,19 @@ public class SoundManager
 		loadSounds();
 	}
 	
-	/*
-	 * Lisätään uusi ääni soundPooliin
+	/**
+	 * Lisää uuden äänen soundPooliin.
 	 * 
-	 * @param index - Indeksi äänen hakemiselle
-	 * @param soundId - Androidin ID äänelle
+	 * @param int Indeksi äänen hakemiselle
+	 * @param int Androidin ID äänelle
 	 */
 	public static final void addSound(int _index, int _soundId)
 	{
 		soundPoolMap.put(_index, soundPool.load(context, _soundId, 1));
 	}
 	
-	/*
-	 * Lataa eri äänet varastosta
-	 * Tällä hetkellä 'kovakoodattu', mutta tämän voi muuttaa joustavaksi
+	/**
+	 * Lataa eri äänet varastosta.
 	 */
 	public static final void loadSounds()
 	{
@@ -80,11 +83,11 @@ public class SoundManager
 		soundPoolMap.put(3, soundPool.load(context, R.raw.default_weapon, 1));
 	}
 	
-	/*
-	 * Toistaa äänen
+	/**
+	 * Toistaa äänen.
 	 * 
-	 * @param index - Indeksi äänelle, joka toistetaan
-	 * @param speed - Äänen toistonopeus (ei käytössä vielä)
+	 * @param int Soitettavan äänen indeksi
+	 * @param int Äänen toistonopeus (ei käytössä vielä)
 	 */
 	public static final void playSound(int _index, float _speed)
 	{
@@ -95,11 +98,11 @@ public class SoundManager
 		}
 	}
 	
-	/*
+	/**
 	 * Toistaa musiikin
 	 * 
-	 * @param index - Indeksi musiikille, joka toistetaan
-	 * @param speed - Musiikin toistonopeus (ei käytössä vielä)
+	 * @param int Soitettavan äänen indeksi
+	 * @param int Äänen toistonopeus (ei käytössä vielä)
 	 */
 	public static final void playMusic(int _index, float _speed)
 	{
@@ -110,19 +113,18 @@ public class SoundManager
 		}
 	}
 	
-	/*
-	 * Pysäyttää äänen
+	/**
+	 * Pysäyttää äänen.
 	 * 
-	 * @param index - Indeksi äänelle, joka pysäytetään
+	 * @param int Pysäytettävän äänen indeksi
 	 */
 	public static final void stopSound(int _index)
 	{
 		soundPool.stop((Integer) soundPoolMap.get(_index));
 	}
 	
-	/*
-	 * Tyhjentää resurssit ja SoundManagerin instanssin
-	 * KÄYTÄ TÄTÄ, KUN OHJELMA TUHOTAAN!
+	/**
+	 * Tyhjentää resurssit ja SoundManagerin instanssin.
 	 */
 	public static final void cleanUp()
 	{
