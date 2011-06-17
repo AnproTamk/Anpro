@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.media.AudioManager;
 
 public class SettingsActivity extends PreferenceActivity {
 	private boolean particleState;
@@ -28,6 +29,9 @@ public class SettingsActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.layout.settings);
         
 		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		
+		// Asetetaan äänensäätönapit muuttamaan media volumea
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 		final Preference particlesPref = (Preference) findPreference("particles");
 	    final Preference musicPref = (Preference) findPreference("music");

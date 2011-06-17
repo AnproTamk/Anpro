@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+import android.media.AudioManager;
 
 /**
  * Pelitilan alkupiste. Luo renderöijän, pelisäikeen, HUDin ja TouchManagerin.
@@ -46,6 +47,9 @@ public class GameActivity extends Activity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
+        // Asetetaan äänensäätönapit muuttamaan media volumea
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
         // Luodaan OpenGL-pinta ja renderöijä
         surfaceView = new GLSurfaceView(this);
