@@ -114,7 +114,6 @@ public class Enemy extends GameObject
             //}
         }
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-            wrapper.player.health -= attack * 3;
             setUnactive();
         }
     }

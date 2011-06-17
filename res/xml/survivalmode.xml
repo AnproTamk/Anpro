@@ -10,8 +10,6 @@
         <enemy rank="3" />
     </enemies>
     <waves>
-        <wave enemies="0,1,2" />
-        <wave enemies="3,4,5" />
-        <wave enemies="0,1,2,3,4" />    
+        <wave enemies="0,1,2,3,4,5,6" />
     </waves>
 </res>
