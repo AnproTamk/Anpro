@@ -56,10 +56,10 @@ public class SurvivalMode extends AbstractMode
         XmlReader reader = new XmlReader(_context);
         ArrayList<Integer> enemyStatsTemp = reader.readRanks();
         int rank = 0;
-        for (int i = 0; i < enemyStatsTemp.size()-1; ++i) {
-        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
-        	
+        for (int i = 0; i < enemyStatsTemp.size(); ++i) {
         	rank = (int)(i / 5);
+        	
+        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
         }
         
         // Luetaan pelitilan tiedot
