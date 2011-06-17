@@ -2,6 +2,9 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+/**
+ * Sis‰lt‰‰ pelitilojen yhteiset ominaisuudet.
+ */
 abstract public class AbstractMode
 {
 	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
@@ -18,14 +21,17 @@ abstract public class AbstractMode
     protected int halfOfScreenWidth;
     protected int halfOfScreenHeight;
     
-    /* WeaponManager */
+    /* Muiden olioiden pointterit */
     protected WeaponManager weaponManager;
+    protected CameraManager camera;
     
-    /* Kameran koordinaatit */
-    protected int cameraX = CameraManager.camX;
-    protected int cameraY = CameraManager.camY;
-    
+    /**
+     * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
+     */
     abstract public void startWave();
     
+    /**
+     * P‰ivitt‰‰ vihollisten aloituspisteet kameran koordinaattien perusteella.
+     */
     abstract protected void updateSpawnPoints();
 }

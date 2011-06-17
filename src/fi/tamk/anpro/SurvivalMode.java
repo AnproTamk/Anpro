@@ -69,6 +69,9 @@ public class SurvivalMode extends AbstractMode
         weaponManager = new WeaponManager();
         weaponManager.initialize(WeaponManager.SURVIVAL_MODE);
         
+        // Otetaan CameraManager k‰yttˆˆn
+        camera = CameraManager.getInstance();
+        
         // P‰ivitet‰‰n aloituspisteet ja k‰ynnistet‰‰n ensimm‰inen vihollisaalto
         updateSpawnPoints();
         startWave();
@@ -101,13 +104,12 @@ public class SurvivalMode extends AbstractMode
         // scoreCounter.updateText(score);
     }
     
-    /*
-     * K‰ynnist‰‰ seuraavan waven, nostaa vihollisten tasoa ja aktivoi viholliset
+    /**
+     * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
      */
     @Override
     public void startWave() {
     	
-        
         // Tarkastaa onko kaikki wavet k‰yty l‰pi
         if (currentWave == AMOUNT_OF_WAVES) { // TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
             currentWave = 0;
@@ -140,7 +142,10 @@ public class SurvivalMode extends AbstractMode
         }
         ++currentWave;
     }
-
+    
+    /**
+     * P‰ivitt‰‰ vihollisten aloituspisteet kameran koordinaattien perusteella.
+     */
     @Override
     protected void updateSpawnPoints() {
 	    /* 
@@ -156,73 +161,72 @@ public class SurvivalMode extends AbstractMode
 	    // [rykelm‰n j‰rjestysnumero][spawnpointin j‰rjestysnumero][pisteen x- ja y-koordinaatit]
 	    //					 X								   				      Y
 	    // Vasen reuna
-	    spawnPoints[1][0][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][0][1] = cameraY;
-	    spawnPoints[1][1][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][1][1] = cameraY + 128;
-	    spawnPoints[1][2][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[1][2][1] = cameraY - 128;
+	    spawnPoints[1][0][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][0][1] = camera.y;
+	    spawnPoints[1][1][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][1][1] = camera.y + 128;
+	    spawnPoints[1][2][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][2][1] = camera.y - 128;
 	    // Vasen yl‰kulma
-	    spawnPoints[2][0][0] = -halfOfScreenWidth + cameraX; 	  spawnPoints[2][0][1] = halfOfScreenHeight + cameraY;
-	    spawnPoints[2][1][0] = -halfOfScreenWidth + cameraX + 64; spawnPoints[2][1][1] = halfOfScreenHeight + cameraY + 64;
-	    spawnPoints[2][2][0] = -halfOfScreenWidth + cameraX - 64; spawnPoints[2][2][1] = halfOfScreenHeight + cameraY - 64;
+	    spawnPoints[2][0][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[2][0][1] = halfOfScreenHeight + camera.y;
+	    spawnPoints[2][1][0] = -halfOfScreenWidth + camera.x + 64; spawnPoints[2][1][1] = halfOfScreenHeight + camera.y + 64;
+	    spawnPoints[2][2][0] = -halfOfScreenWidth + camera.x - 64; spawnPoints[2][2][1] = halfOfScreenHeight + camera.y - 64;
 	    // Yl‰reuna
-	    spawnPoints[3][0][0] = cameraX; 					 	  spawnPoints[3][0][1] = halfOfScreenHeight + cameraY;
-	    spawnPoints[3][1][0] = cameraX + 128; 				 	  spawnPoints[3][1][1] = halfOfScreenHeight + cameraY;
-	    spawnPoints[3][2][0] = cameraX - 128; 				 	  spawnPoints[3][2][1] = halfOfScreenHeight + cameraY;
+	    spawnPoints[3][0][0] = camera.x; 					 	  spawnPoints[3][0][1] = halfOfScreenHeight + camera.y;
+	    spawnPoints[3][1][0] = camera.x + 128; 				 	  spawnPoints[3][1][1] = halfOfScreenHeight + camera.y;
+	    spawnPoints[3][2][0] = camera.x - 128; 				 	  spawnPoints[3][2][1] = halfOfScreenHeight + camera.y;
 	    // Oikea yl‰kulma
-	    spawnPoints[4][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[3][0][1] = halfOfScreenHeight + cameraY;
-	    spawnPoints[4][1][0] = halfOfScreenWidth + cameraX + 64;  spawnPoints[3][1][1] = halfOfScreenHeight + cameraY - 64;
-	    spawnPoints[4][2][0] = halfOfScreenWidth + cameraX - 64;  spawnPoints[3][2][1] = halfOfScreenHeight + cameraY + 64;
+	    spawnPoints[4][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[3][0][1] = halfOfScreenHeight + camera.y;
+	    spawnPoints[4][1][0] = halfOfScreenWidth + camera.x + 64;  spawnPoints[3][1][1] = halfOfScreenHeight + camera.y - 64;
+	    spawnPoints[4][2][0] = halfOfScreenWidth + camera.x - 64;  spawnPoints[3][2][1] = halfOfScreenHeight + camera.y + 64;
 	    // Oikea reuna
-	    spawnPoints[5][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][0][1] = 0 + cameraY;
-	    spawnPoints[5][1][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][1][1] = 0 + cameraY + 128;
-	    spawnPoints[5][2][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[4][2][1] = 0 + cameraY - 128;
+	    spawnPoints[5][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][0][1] = 0 + camera.y;
+	    spawnPoints[5][1][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][1][1] = 0 + camera.y + 128;
+	    spawnPoints[5][2][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][2][1] = 0 + camera.y - 128;
 	    // Oikea alakulma
-	    spawnPoints[6][0][0] = halfOfScreenWidth + cameraX;  	  spawnPoints[5][0][1] = -halfOfScreenHeight + cameraY;
-	    spawnPoints[6][1][0] = halfOfScreenWidth + cameraX + 64;  spawnPoints[5][1][1] = -halfOfScreenHeight + cameraY + 64;
-	    spawnPoints[6][2][0] = halfOfScreenWidth + cameraX - 64;  spawnPoints[5][2][1] = -halfOfScreenHeight + cameraY - 64;
+	    spawnPoints[6][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[5][0][1] = -halfOfScreenHeight + camera.y;
+	    spawnPoints[6][1][0] = halfOfScreenWidth + camera.x + 64;  spawnPoints[5][1][1] = -halfOfScreenHeight + camera.y + 64;
+	    spawnPoints[6][2][0] = halfOfScreenWidth + camera.x - 64;  spawnPoints[5][2][1] = -halfOfScreenHeight + camera.y - 64;
 	    // Alareuna
-	    spawnPoints[7][0][0] = cameraX; 				 		  spawnPoints[7][0][1] = -halfOfScreenHeight + cameraY;
-	    spawnPoints[7][1][0] = cameraX + 128;			 	 	  spawnPoints[7][1][1] = -halfOfScreenHeight + cameraY;
-	    spawnPoints[7][2][0] = cameraX - 128;					  spawnPoints[7][2][1] = -halfOfScreenHeight + cameraY;
+	    spawnPoints[7][0][0] = camera.x; 				 		  spawnPoints[7][0][1] = -halfOfScreenHeight + camera.y;
+	    spawnPoints[7][1][0] = camera.x + 128;			 	 	  spawnPoints[7][1][1] = -halfOfScreenHeight + camera.y;
+	    spawnPoints[7][2][0] = camera.x - 128;					  spawnPoints[7][2][1] = -halfOfScreenHeight + camera.y;
 	    // Vasen alareuna
-	    spawnPoints[8][0][0] = -halfOfScreenWidth + cameraX;      spawnPoints[8][0][1] = -halfOfScreenHeight + cameraY;
-	    spawnPoints[8][1][0] = -halfOfScreenWidth + cameraX + 64; spawnPoints[8][1][1] = -halfOfScreenHeight + cameraY - 64;
-	    spawnPoints[8][2][0] = -halfOfScreenWidth + cameraX - 64; spawnPoints[8][2][1] = -halfOfScreenHeight + cameraY + 64;
+	    spawnPoints[8][0][0] = -halfOfScreenWidth + camera.x;      spawnPoints[8][0][1] = -halfOfScreenHeight + camera.y;
+	    spawnPoints[8][1][0] = -halfOfScreenWidth + camera.x + 64; spawnPoints[8][1][1] = -halfOfScreenHeight + camera.y - 64;
+	    spawnPoints[8][2][0] = -halfOfScreenWidth + camera.x - 64; spawnPoints[8][2][1] = -halfOfScreenHeight + camera.y + 64;
 	    // Random reuna
 	    // spawnPoints[0][0][0] = ...
-    }
-    
-    /*
-     * Hakee, satunnoi ja asettaa vihollisten aloituspisteet
-     * 
-     * @param alignPoint - M‰‰ritt‰‰ reunan, jolle viholliset tulevat
-     * @param specificPoint - M‰‰ritt‰‰ tarkempia koordinaatteja 3:lle eri vihollisen spawnpointille
-     */
-    /*public void setSpawnPoints(int spawnPointCoords[][]) {
-        for (int alignPoint = 1; alignPoint <= 8; ++alignPoint) {
-            for (int specificPoint = 0; specificPoint < 3; ++specificPoint) {
-                spawnPoints[alignPoint][specificPoint][0] = spawnPointCoords[alignPoint][0]; // Spawnpointin tarkan sijainnin x-koordinaatti
-                spawnPoints[alignPoint][specificPoint][1] = spawnPointCoords[alignPoint][1]; // Spawnpointin tarkan sijainnin y-koordinaatti
-            }
-        }
-    }*/
-    
-    /*
-       1. [mille reunalle viholliset tulevat] <- hae t‰m‰ xmlReaderilla
-       2. [spawnpointin j‰rjestysnumero] <- n‰it‰ aluksi 3 jokaiselle spawnpointille
-       3. [vihollisen x- ja y-sijainnit] <- esim. vasempaan reunaan esim‰‰ritettyjen x- ja y-koordinaattien lis‰ksi n‰m‰
-           (leftSpawnPointX + joko -1* tai 1* spawnPoints[][][x,y] (x- ja y-arvot taulukosta)
-    */
+	    
+	    /*
+	     * Hakee, satunnoi ja asettaa vihollisten aloituspisteet
+	     * 
+	     * @param alignPoint - M‰‰ritt‰‰ reunan, jolle viholliset tulevat
+	     * @param specificPoint - M‰‰ritt‰‰ tarkempia koordinaatteja 3:lle eri vihollisen spawnpointille
+	     */
+	    /*public void setSpawnPoints(int spawnPointCoords[][]) {
+	        for (int alignPoint = 1; alignPoint <= 8; ++alignPoint) {
+	            for (int specificPoint = 0; specificPoint < 3; ++specificPoint) {
+	                spawnPoints[alignPoint][specificPoint][0] = spawnPointCoords[alignPoint][0]; // Spawnpointin tarkan sijainnin x-koordinaatti
+	                spawnPoints[alignPoint][specificPoint][1] = spawnPointCoords[alignPoint][1]; // Spawnpointin tarkan sijainnin y-koordinaatti
+	            }
+	        }
+	    }*/
+	    
+	    /*
+	       1. [mille reunalle viholliset tulevat] <- hae t‰m‰ xmlReaderilla
+	       2. [spawnpointin j‰rjestysnumero] <- n‰it‰ aluksi 3 jokaiselle spawnpointille
+	       3. [vihollisen x- ja y-sijainnit] <- esim. vasempaan reunaan esim‰‰ritettyjen x- ja y-koordinaattien lis‰ksi n‰m‰
+	           (leftSpawnPointX + joko -1* tai 1* spawnPoints[][][x,y] (x- ja y-arvot taulukosta)
+	    */
 
-    // [1][0][0] = vasempaan reunaan ilmestyv‰n vihollisen x-koord. (ensimm‰inen spawnpoint)
-    // [1][0][1] = vasempaan reunaan ilmestyv‰n vihollisen y-koord. (ensimm‰inen spawnpoint)
-    
-    // [1][1][0] = vasempaan reunaan ilmestyv‰n vihollisen x-koord. (toinen spawnpoint)
-    // [1][1][1] = vasempaan reunaan ilmestyv‰n vihollisen y-koord. (toinen spawnpoint)
-    
-    // [4][2][0] = alareunaan ilmestyv‰n vihollisen x-koord. (kolmas spawnpoint)
-    // [4][2][1] = alareunaan ilmestyv‰n vihollisen y-koord. (kolmas spawnpoint)
-    
-    // [2][1][0] = x-koord.
-    
+	    // [1][0][0] = vasempaan reunaan ilmestyv‰n vihollisen x-koord. (ensimm‰inen spawnpoint)
+	    // [1][0][1] = vasempaan reunaan ilmestyv‰n vihollisen y-koord. (ensimm‰inen spawnpoint)
+	    
+	    // [1][1][0] = vasempaan reunaan ilmestyv‰n vihollisen x-koord. (toinen spawnpoint)
+	    // [1][1][1] = vasempaan reunaan ilmestyv‰n vihollisen y-koord. (toinen spawnpoint)
+	    
+	    // [4][2][0] = alareunaan ilmestyv‰n vihollisen x-koord. (kolmas spawnpoint)
+	    // [4][2][1] = alareunaan ilmestyv‰n vihollisen y-koord. (kolmas spawnpoint)
+	    
+	    // [2][1][0] = x-koord.
+    }
 }
 
