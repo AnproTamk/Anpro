@@ -21,7 +21,7 @@ import android.content.Context;
  * 
  */
 
-public class HUD
+public class Hud
 {
 	/* Painikkeiden tunnukset */
 	public static final int BUTTON_1  = 0;
@@ -41,18 +41,18 @@ public class HUD
 	   asetta WeaponManagerista) */
 	private final WeaponManager weaponManager;
 	
-	private static HUD pointerToSelf;
+	private static Hud pointerToSelf;
 
 	/**
 	 * Alustaa luokan muuttujat ja kutsuu XmlReaderia.
 	 */
-	public HUD(Context _context)
+	public Hud(Context _context)
 	{
 		weaponManager = WeaponManager.getConnection();
 		weapons = new int[5];
 		
 		XmlReader reader = new XmlReader(_context );
-		reader.readHUD(this);
+		reader.readHud(this);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class HUD
 		}
 	}
 	
-	public final static HUD getConnection()
+	public final static Hud getConnection()
 	{
 		return pointerToSelf;
 	}

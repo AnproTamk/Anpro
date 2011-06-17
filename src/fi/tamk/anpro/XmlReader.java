@@ -67,7 +67,7 @@ public class XmlReader
 	 * 
 	 * @param HUD _hud
 	 */
-	public final void readHUD(HUD _hud)
+	public final void readHud(Hud _hud)
 	{
 		XmlResourceParser hud = null;
 		
