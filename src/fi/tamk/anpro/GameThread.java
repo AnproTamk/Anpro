@@ -151,16 +151,16 @@ class GameThread extends Thread
                 if (currentTime - lastAiUpdate >= 100) {
                     lastAiUpdate = currentTime;
                     
-                    int testAmount = 0;
+                    //int testAmount = 0;
                     for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                         if (wrapper.enemyStates.get(i) == 1) {
                             wrapper.enemies.get(i).ai.handleAi();
-                            ++testAmount;
+                            //++testAmount;
                         }
                     }
-                    if (testAmount == 0) {
+                    /*if (testAmount == 0) {
                     	debugTimes = 500;
-                    }
+                    }*/
                     
                     for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                         if (wrapper.projectileStates.get(i) == 1) {
