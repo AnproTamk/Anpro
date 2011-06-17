@@ -2,13 +2,21 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * Sisältää vihollisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
+ * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
+ * 
+ * @extends GameObject
+ */
 public class Enemy extends GameObject
 {
+	/* Alkuperäiset tiedot (maksimit) */
     public int attackMax;
     public int speedMax;
     public int defenceMax;
     public int healthMax;
     
+    /* Nykyiset tiedot */
     public int attack;
     public int speed;
     public int defence;
@@ -16,16 +24,23 @@ public class Enemy extends GameObject
     
     public int rank;
     
+    /* Tekoäly */
     public AbstractAi ai;
     
-    //ArrayList<Animation> animations;
-    //ArrayList<Texture> textures;
-    
+    /* Muut tarvittavat oliot */
     private Wrapper wrapper;
-    private int     listId;
     
-    /*
-     * Rakentaja
+    /* Vihollisen tila */
+    private int     listId;
+
+    /**
+     * Alustaa luokan muuttujat.
+     * 
+     * @param int Elämät/kestävyys
+     * @param int Puolustus
+     * @param int Nopeus
+     * @param int Hyökkäysvoima törmätessä pelaajaan
+     * @param int Taso
      */
     public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
     {
@@ -44,11 +59,16 @@ public class Enemy extends GameObject
     
         animationLength = new int[3];
 
-        /*int offset = rank *3;
+        int offset = rank *3;
 
-        animationLength[0] = wrapper.renderer.playerAnimations.get(offset - 3).length;
-        animationLength[1] = wrapper.renderer.playerAnimations.get(offset - 2).length;
-        animationLength[2] = wrapper.renderer.playerAnimations.get(offset - 1).length;*/
+        try {
+        	animationLength[0] = GLRenderer.playerAnimations.get(offset - 3).length;
+        	animationLength[1] = GLRenderer.playerAnimations.get(offset - 2).length;
+        	animationLength[2] = GLRenderer.playerAnimations.get(offset - 1).length;
+        }
+        catch (Exception e) {
+        	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
+        }
         
         wrapper = Wrapper.getInstance();
         
@@ -57,41 +77,46 @@ public class Enemy extends GameObject
         ai = new LinearAi(listId);
     }
 
-    /*
-     * Aktivoi vihollisen
+    /**
+     * Määrittää vihollisen aktiiviseksi.
      */
+    @Override
     public final void setActive()
     {
         wrapper.enemyStates.set(listId, 1);
     }
 
-    /*
-     * Poistaa vihollisen käytöstä
+    /**
+     * Määrittää vihollisen epäaktiiviseksi.
      */
+    @Override
     public final void setUnactive()
     {
         wrapper.enemyStates.set(listId, 0);
     }
     
-    /*
-     * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle
+    /**
+     * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle.
+     * 
+     * @param GL10 OpenGL-konteksti
      */
     public final void draw(GL10 _gl)
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            //GLRenderer.enemyAnimations.get(usedAnimation+3*(rank-1)).draw(_gl, x, y, direction, currentFrame);
         	GLRenderer.enemyAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            //GLRenderer.enemyTextures.get(usedTexture+2*(rank-1)).draw(_gl, x, y, direction);
         	GLRenderer.enemyTextures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
     
-    /*
-     * Käsittelee räjähdyksien aiheuttamat osumat
+    /**
+     * Käsittelee räjähdyksien aiheuttamat osumat.
+     * 
+     * @param int Vahinko
      */
+    @Override
     public final void triggerImpact(int _damage)
     {
         health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
@@ -101,27 +126,41 @@ public class Enemy extends GameObject
         }
     }
     
-    /*
-     * Käsitelee törmäykset pelaajan ja ammusten kanssa
+    /**
+     * Käsitelee törmäykset pelaajan ja ammusten kanssa.
+     * 
+     * @param int Törmäystyyppi
+     * @param int Vahinko
+     * @param int Panssarinläpäisykyky
      */
+    @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
             
-            //if (health <= 0) {
+            if (health <= 0) {
                 setUnactive();
-            //}
+            }
         }
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
             setUnactive();
         }
     }
 
-    /*
-     * Asettaa tiedot
+    /**
+     * Asettaa vihollisen tiedot. Käytetään, kun vihollisen tasoa halutaan nostaa, ei vihollista
+     * luodessa.
+     * 
+     * @param int Elämät/kestävyys
+     * @param int Nopeus
+     * @param int Hyökkäysvoima törmätessä pelaajaan
+     * @param int Puolustus
+     * @param int Tekoälyn tunnus
+     * @param int Taso
      */
-    public final void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank) {
+    public final void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank)
+    {
         // Tallennetaan uudet tiedot
         healthMax  = _health;
         health     = _health;
@@ -134,7 +173,6 @@ public class Enemy extends GameObject
         rank       = _rank;
 
         // Otetaan uusi tekoäly käyttöön
-
         ai = null;
 
         if (_ai == 1) {

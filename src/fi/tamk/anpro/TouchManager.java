@@ -2,6 +2,7 @@ package fi.tamk.anpro;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -15,7 +16,7 @@ public class TouchManager
 	// Muuttujat
 	private GLSurfaceView surface;
 	public  WeaponManager weaponManager;
-	public  HUD           hud;
+	public  Hud           hud;
 	public  int xTouch;
 	public  int yTouch;
 	public  int xClickOffset;
@@ -32,12 +33,13 @@ public class TouchManager
 	/*
 	 * Rakentaja
 	 */
-    protected TouchManager(GLSurfaceView _glSurfaceView, Context _context, HUD _hud) {
+    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud) {
     	weaponManager = WeaponManager.getConnection();
     	hud           = _hud;
     	//Log.v(TAG, "PREscreenWidth=" + screenWidth + "PREscreenHeight=" + screenHeight + "Density=" + GameActivity.dm.densityDpi);
-    	screenWidth  = GameActivity.dm.widthPixels;
-        screenHeight = GameActivity.dm.heightPixels;
+    	//screenWidth  = GameActivity.dm.widthPixels;
+    	screenWidth  = _dm.widthPixels;
+        screenHeight = _dm.heightPixels;
        // Log.v(TAG, "POSTscreenWidth=" + screenWidth + "POSTscreenHeight=" + screenHeight);
         
         setSurfaceListeners(_glSurfaceView);
@@ -82,19 +84,19 @@ public class TouchManager
 	        			// Oikean reunan alin nappula
 	        			if (yClickOffset < screenHeight / 2 - 106 && yClickOffset > 0) {
 	        				//Log.v(TAG, "***** OIKEAN REUNAN ALIN NAPPULA *****");
-	        				hud.triggerClick(HUD.BUTTON_1);
+	        				hud.triggerClick(Hud.BUTTON_1);
 	        			}
 	        			
 	        			// Oikean reunan keskimmäinen nappula
 	        			else if (yClickOffset < screenHeight / 2 - 53 && yClickOffset > 53) {
 	        				//Log.v(TAG, "***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****");
-	        				hud.triggerClick(HUD.BUTTON_1);
+	        				hud.triggerClick(Hud.BUTTON_1);
 	        			}
 
 	        			// Oikean reunan ylin nappula
 	        			else if (yClickOffset < screenHeight / 2 && yClickOffset > 106) {
 	        				//Log.v(TAG, "***** OIKEAN REUNAN YLIN NAPPULA *****");
-	        				hud.triggerClick(HUD.BUTTON_2);
+	        				hud.triggerClick(Hud.BUTTON_2);
 	        			}
 	        		}
 		        		 

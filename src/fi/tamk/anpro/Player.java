@@ -35,9 +35,14 @@ public class Player extends GameObject
         collisionRadius = 25;
         
         // Haetaan käytettävien animaatioiden pituudet
-        /*animationLength[0] = GLRenderer.playerAnimations.get(0).length;
-        animationLength[1] = GLRenderer.playerAnimations.get(1).length;
-        animationLength[2] = GLRenderer.playerAnimations.get(2).length;*/
+        try {
+        	animationLength[0] = GLRenderer.playerAnimations.get(0).length;
+        	animationLength[1] = GLRenderer.playerAnimations.get(1).length;
+        	animationLength[2] = GLRenderer.playerAnimations.get(2).length;
+        }
+        catch (Exception e) {
+        	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
+        }
         
         // Haetaan osoitin Wrapper-luokkaan
         wrapper = Wrapper.getInstance();
@@ -49,6 +54,7 @@ public class Player extends GameObject
     /**
      * Asettaa pelaajan aktiiviseksi.
      */
+    @Override
     public final void setActive()
     {
         wrapper.playerState = 1;
@@ -57,6 +63,7 @@ public class Player extends GameObject
     /**
      * Asettaa pelaajan epäaktiiviseksi.
      */
+    @Override
     public final void setUnactive()
     {
         wrapper.playerState = 0;
@@ -71,11 +78,9 @@ public class Player extends GameObject
     {
         if (usedAnimation >= 0){
             GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
-            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
             GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
-            //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
 
@@ -84,6 +89,7 @@ public class Player extends GameObject
      * 
      * @param int Räjähdyksen aiheuttama vahinko
      */
+    @Override
     public final void triggerImpact(int _damage)
     {
         // Räjähdykset eivät toistaiseksi vaikuta pelaajaan
@@ -96,6 +102,7 @@ public class Player extends GameObject
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
+    @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
     	if (_eventType == GameObject.COLLISION_WITH_ENEMY) {

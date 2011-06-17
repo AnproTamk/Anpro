@@ -67,7 +67,7 @@ public class XmlReader
 	 * 
 	 * @param HUD _hud
 	 */
-	public final void readHUD(HUD _hud)
+	public final void readHud(Hud _hud)
 	{
 		XmlResourceParser hud = null;
 		
@@ -147,10 +147,15 @@ public class XmlReader
                 else if (settings.getEventType() == XmlPullParser.END_TAG) {
                     // ...
                 }
+        		
+        		settings.next();
         	}
         } catch (XmlPullParserException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
 		boolean settingValues[] = {particles, music, sounds};
 		return settingValues;
 	}
