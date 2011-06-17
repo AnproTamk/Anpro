@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.media.AudioManager;
 
 
 public class HighScoresActivity extends Activity implements OnClickListener {
@@ -19,6 +20,9 @@ public class HighScoresActivity extends Activity implements OnClickListener {
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
+        // Asetetaan äänensäätönapit muuttamaan media volumea
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        
 		View resetButton = findViewById(R.id.button_reset);
         resetButton.setOnClickListener(this);
         

@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.media.AudioManager;
 
 
 public class PauseMenuActivity extends Activity implements OnClickListener {
@@ -19,6 +20,10 @@ public class PauseMenuActivity extends Activity implements OnClickListener {
 			setContentView(R.layout.pausemenu);
 	        
 	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	        
+	        // Asetetaan äänensäätönapit muuttamaan media volumea
+	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+	        
 		//}
 		
 			/*else if() {
