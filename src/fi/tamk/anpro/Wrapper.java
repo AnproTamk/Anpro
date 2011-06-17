@@ -10,8 +10,6 @@ public class Wrapper {
     
     private static Wrapper instance = null;
     
-    public GLRenderer renderer;
-    
     // Listat piirrettävistä objekteista
     public Player                        player      = null;
     public ArrayList<Enemy>              enemies     = null;
@@ -59,9 +57,5 @@ public class Wrapper {
         }
         
         return 0;
-    }
-    
-    public final void setRenderer(GLRenderer _renderer) {
-        renderer = _renderer;
     }
 }
