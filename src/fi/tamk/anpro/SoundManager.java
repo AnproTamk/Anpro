@@ -62,6 +62,9 @@ public class SoundManager
 		soundPool = new SoundPool(4,AudioManager.STREAM_MUSIC,0);
 		soundPoolMap = new HashMap<Integer, Integer>();
 		audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		
+		// Ladataan ‰‰net.
+		loadSounds();
 	}
 	
 	/*

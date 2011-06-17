@@ -60,6 +60,7 @@ public class Enemy extends GameObject
     /*
      * Aktivoi vihollisen
      */
+    @Override
     public final void setActive()
     {
         wrapper.enemyStates.set(listId, 1);
@@ -68,6 +69,7 @@ public class Enemy extends GameObject
     /*
      * Poistaa vihollisen käytöstä
      */
+    @Override
     public final void setUnactive()
     {
         wrapper.enemyStates.set(listId, 0);
@@ -92,6 +94,7 @@ public class Enemy extends GameObject
     /*
      * Käsittelee räjähdyksien aiheuttamat osumat
      */
+    @Override
     public final void triggerImpact(int _damage)
     {
         health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
@@ -104,6 +107,7 @@ public class Enemy extends GameObject
     /*
      * Käsitelee törmäykset pelaajan ja ammusten kanssa
      */
+    @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {

@@ -34,6 +34,7 @@ public class WeaponDefault extends AbstractWeapon
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
      */
+	@Override
 	public final void activate(int _x, int _y)
 	{
 		

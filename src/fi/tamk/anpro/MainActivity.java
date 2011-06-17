@@ -20,6 +20,8 @@ public class MainActivity extends Activity implements OnClickListener {
         
         context = getApplicationContext();
         
+        Options options = Options.getInstance();
+        
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
         View storyButton = findViewById(R.id.button_story);
@@ -43,7 +45,6 @@ public class MainActivity extends Activity implements OnClickListener {
     	//Luo ja alusta SoundManager
         SoundManager.getInstance();
         SoundManager.initSounds(this);
-        SoundManager.loadSounds();
     }
     
     public void onClick(View _v) {

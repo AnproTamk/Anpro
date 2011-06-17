@@ -52,7 +52,7 @@ public class SettingsActivity extends PreferenceActivity {
 				musicState = ((CheckBoxPreference) musicPref).isChecked();
 				soundState = ((CheckBoxPreference) soundsPref).isChecked();
 				
-				
+				Options.particles = ((CheckBoxPreference) particlesPref).isChecked();
 				writer.saveSettings(particleState, musicState, soundState);
 			
 				return true;
@@ -66,7 +66,7 @@ public class SettingsActivity extends PreferenceActivity {
 				musicState = ((CheckBoxPreference) musicPref).isChecked();
 				soundState = ((CheckBoxPreference) soundsPref).isChecked();
 				
-				XmlWriter writer = new XmlWriter();
+				Options.music = ((CheckBoxPreference) soundsPref).isChecked();
 				writer.saveSettings(particleState, musicState, soundState);
 			
 				return true;
@@ -80,7 +80,7 @@ public class SettingsActivity extends PreferenceActivity {
 				musicState = ((CheckBoxPreference) musicPref).isChecked();
 				soundState = ((CheckBoxPreference) soundsPref).isChecked();
 				
-				XmlWriter writer = new XmlWriter();
+				Options.sounds = ((CheckBoxPreference) soundsPref).isChecked();
 				writer.saveSettings(particleState, musicState, soundState);
 			
 				return true;
