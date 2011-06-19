@@ -7,12 +7,10 @@ package fi.tamk.anpro;
  */
 abstract public class AbstractWeapon
 {
-	
-	
     /**
      * Alustaa luokan muuttujat.
      */
-	public AbstractWeapon() { }
+    public AbstractWeapon() { }
     
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
@@ -21,5 +19,5 @@ abstract public class AbstractWeapon
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
      */
-	abstract public void activate(int _x, int _y);
+    abstract public void activate(int _x, int _y);
 }
