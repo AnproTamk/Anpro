@@ -10,7 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Enemy extends GameObject
 {
-	/* Alkuperäiset tiedot (maksimit) */
+    /* Alkuperäiset tiedot (maksimit) */
     public int attackMax;
     public int speedMax;
     public int defenceMax;
@@ -45,6 +45,8 @@ public class Enemy extends GameObject
     public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
     {
         super();
+        
+        /* Tallennetaan tiedot */
         healthMax  = _health;
         health     = _health;
         attackMax  = _attack;
@@ -55,26 +57,34 @@ public class Enemy extends GameObject
         defence    = _defence;
         rank       = _rank;
         
-        collisionRadius = 15;
+        /* Asetetaan törmäysetäisyys */
+        if (rank == 1) {
+            collisionRadius = 20;
+        }
+        else if (rank == 2) {
+            
+        }
     
+        /* Haetaan animaatioiden pituudet */
         animationLength = new int[3];
 
         int offset = rank *3;
 
         try {
-        	animationLength[0] = GLRenderer.playerAnimations.get(offset - 3).length;
-        	animationLength[1] = GLRenderer.playerAnimations.get(offset - 2).length;
-        	animationLength[2] = GLRenderer.playerAnimations.get(offset - 1).length;
+            animationLength[0] = GLRenderer.playerAnimations.get(offset - 3).length;
+            animationLength[1] = GLRenderer.playerAnimations.get(offset - 2).length;
+            animationLength[2] = GLRenderer.playerAnimations.get(offset - 1).length;
         }
         catch (Exception e) {
-        	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
+            // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
         }
         
+        /* Otetaan Wrapper käyttöön */
         wrapper = Wrapper.getInstance();
         
+        /* Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön */
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY);
-        
-        ai = new LinearAi(listId);
+        ai     = new LinearAi(listId);
     }
 
     /**
@@ -104,10 +114,10 @@ public class Enemy extends GameObject
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-        	GLRenderer.enemyAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.enemyAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
-        	GLRenderer.enemyTextures.get(usedTexture).draw(_gl, x, y, direction);
+            GLRenderer.enemyTextures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
     

@@ -2,23 +2,37 @@ package fi.tamk.anpro;
 
 import java.lang.Math;
 
-public class LinearAi extends AbstractAi {
-    
-    /*
-     * Rakentaja
+/**
+ * Toteutus lineaarisen reitinhaun tekoälylle. Tekoäly hakeutuu kohteenseensa
+ * mahdollisimman suoraa reittiä pitkin, eikä reagoi pelikentän tapahtumiin.
+ * 
+ * Käytetään ainoastaan vihollisille.
+ * 
+ * @extends AbstractAi
+ */
+public class LinearAi extends AbstractAi
+{
+    /**
+     * Alustaa luokan muuttujat.
+     * 
+     * @param int Vihollisen tunnus piirtolistalla
      */
-    public LinearAi(int _id) {
+    public LinearAi(int _id)
+    {
         super(_id);
     }
-
-    /*
-     * Käsittelee tekoälyn
+    
+    /**
+     * Käsittelee tekoälyn.
      */
     @Override
-    public final void handleAi() {
-        /** Määritetään liikkuminen */
+    public final void handleAi()
+    {
+        /* Verrataan pelaajan sijaintia vihollisen sijaintiin */
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
+        
+        /* Määritetään objektien välinen kulma */
         double angle;
         
         // Jos vihollinen on pelaajan vasemmalla puolella:
@@ -59,7 +73,7 @@ public class LinearAi extends AbstractAi {
             }
         }
         
-        // Määritetään suunta
+        /* Määritetään kääntymissuunta */
         double angle2 = angle -wrapper.enemies.get(parentId).direction;
 
         if (angle2 >= -10 && angle2 <= 10) {
@@ -72,7 +86,7 @@ public class LinearAi extends AbstractAi {
             wrapper.enemies.get(parentId).turningDirection = 2;
         }
         
-        /** Tarkistetaan törmäykset pelaajan kanssa */
+        /* Tarkistetaan törmäykset pelaajan kanssa */
         checkCollisionWithPlayer();
     }
 }
