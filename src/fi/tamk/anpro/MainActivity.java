@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,9 +35,6 @@ public class MainActivity extends Activity implements OnClickListener {
         View highscoresButton = findViewById(R.id.button_highscores);
         highscoresButton.setOnClickListener(this);
         
-        View optionsButton = findViewById(R.id.button_options);
-        optionsButton.setOnClickListener(this);
-        
         View quitButton = findViewById(R.id.button_quit);
         quitButton.setOnClickListener(this);
         
@@ -59,11 +55,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	    		SoundManager.playSound(2, 1);
 	    		Intent i_game = new Intent(this, GameActivity.class);
 	    		startActivity(i_game);
-	    		break;
-	    	case R.id.button_options:
-	    		SoundManager.playSound(2, 1);
-	    		Intent i_settings = new Intent(this, SettingsActivity.class);
-	    		startActivity(i_settings);
 	    		break;
 	    	case R.id.button_highscores:
 	    		SoundManager.playSound(2, 1);
