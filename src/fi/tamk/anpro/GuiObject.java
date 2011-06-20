@@ -10,10 +10,10 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GuiObject extends GfxObject
 {
-	/* Objektin tiedot*/
-	private int type;
-	
-	/* Osoitin Wrapperiin */
+    /* Objektin tiedot*/
+    private int type;
+    
+    /* Osoitin Wrapperiin */
     private Wrapper wrapper;
     
     /* Objektin tunnus piirtolistalla */
@@ -24,19 +24,19 @@ public class GuiObject extends GfxObject
      */
     public GuiObject(int _x, int _y, String _type)
     {
-    	x = _x;
-    	y = _y;
-    	
-    	if (_type.equals("weapon")) {
-    		type = 0;
-    	}
-    	else {
-    		type = 1;
-    	}
-    	
-        wrapper = Wrapper.getInstance();
+        x = _x;
+        y = _y;
         
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI);
+        if (_type.equals("weapon")) {
+            type = 0;
+        }
+        else {
+            type = 1;
+        }
+        
+        wrapper = Wrapper.getInstance();
+
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, 1);
     }
 
     /**

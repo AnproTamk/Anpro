@@ -31,7 +31,8 @@ public class Enemy extends GameObject
     private Wrapper wrapper;
     
     /* Vihollisen tila */
-    private int     listId;
+    private int listId;
+    private int priority;
 
     /**
      * Alustaa luokan muuttujat.
@@ -63,16 +64,16 @@ public class Enemy extends GameObject
             collisionRadius = 20;
         }
         else if (rank == 2) {
-            
+            // TODO:
         }
     
         /* Haetaan animaatioiden pituudet */
         animationLength = new int[3];
 
         try {
-        	for (int i = 0; i < 4; ++i) {
-        		animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
-        	}
+            for (int i = 0; i < 4; ++i) {
+                animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
+            }
         }
         catch (Exception e) {
             // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
@@ -81,15 +82,31 @@ public class Enemy extends GameObject
         /* Otetaan Wrapper käyttöön */
         wrapper = Wrapper.getInstance();
         
-        /* Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön */
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY);
+        /* Lisätään objekti piirtolistalle */
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
         
+        /* Otetaan tekoäly käyttöön */
         if (_ai == 0) {
-        	ai = new LinearAi(listId);
+            priority = 1;
+            ai = new LinearAi(listId);
         }
-        else {
-        	ai = new LinearAi(listId);
+        /*
+        else if (_ai == 2) {
+            state = 4;
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
+            ai = new SguigglyAi(listId);
         }
+        else if (_ai == 3) {
+            state = 3;
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
+            ai = new ApproachAndStopAi(listId);
+        }
+        else if (_ai == 4) {
+            state = 1;
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
+            ai = new RotaryAi(listId);
+        }
+        */
     }
 
     /**

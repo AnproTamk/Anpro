@@ -30,9 +30,9 @@ abstract public class AbstractProjectile extends GameObject
     public int     damageRadius       = 0;
     
     // Räjähdyksen ajastus
-    public int     explodeTime  = 0;
-    public long    startTime    = 0;
-    public long    currentTime  = 0;
+    public int  explodeTime  = 0;
+    public long startTime    = 0;
+    public long currentTime  = 0;
     
     /* Muut tarvittavat oliot */
     protected Wrapper wrapper;
@@ -42,8 +42,9 @@ abstract public class AbstractProjectile extends GameObject
     protected int targetY;
     
     /* Ammuksen tila */
-    public boolean active = false;
-    int listId;                    // Tunnus Wrapperin piirtolistalla
+    public  boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
+    private int     listId;         // Tunnus Wrapperin piirtolistalla
+    private int     priority;
 
     /**
      * Alustaa luokan muuttujat ja lisää ammuksen piirtolistalle.
@@ -54,7 +55,8 @@ abstract public class AbstractProjectile extends GameObject
         
         wrapper = Wrapper.getInstance();
         
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE);
+        priority = 1; // TODO: Tämä pitää tarkistaa AI:n perusteella!
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, priority);
     }
     
     /**
@@ -99,8 +101,8 @@ abstract public class AbstractProjectile extends GameObject
     public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         // Aseiden tekoäly tarkistaa törmäykset muihin objekteihin ja kutsuu niiden
-    	// triggerCollision-funktioita. Tekoäly myös poistaa ammuksen heti käytöstä,
-    	// jolloin tätä funktiota ei tarvitse kutsua.
+        // triggerCollision-funktioita. Tekoäly myös poistaa ammuksen heti käytöstä,
+        // jolloin tätä funktiota ei tarvitse kutsua.
     }
 
     /**
@@ -157,31 +159,31 @@ abstract public class AbstractProjectile extends GameObject
     {
         /* Tarkistetaan osumat vihollisiin */
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-        	
-        	// Tarkistetaan, onko vihollinen aktiivinen
+            
+            // Tarkistetaan, onko vihollinen aktiivinen
             if (wrapper.enemyStates.get(i) == 1) {
-            	
-            	// Lasketaan etäisyys pelaajaan
-	            double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-	            
-	            // Aiheutetaan osuma/räjähdys, mikäli etäisyys on tarpeeksi pieni
-	            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-	                if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-	                    wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
-	                }
-	                else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-	                    causeExplosion();
-	                }
-	
-	                // Asetetaan ammus epäaktiiviseksi
-	                setUnactive();
-	                break;
-	            }
-	            
-	            // Käsitellään passiivinen vahinko
-	            if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
-	                wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
-	            }
+                
+                // Lasketaan etäisyys pelaajaan
+                double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
+                
+                // Aiheutetaan osuma/räjähdys, mikäli etäisyys on tarpeeksi pieni
+                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+                        wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+                    }
+                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+                        causeExplosion();
+                    }
+    
+                    // Asetetaan ammus epäaktiiviseksi
+                    setUnactive();
+                    break;
+                }
+                
+                // Käsitellään passiivinen vahinko
+                if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
+                    wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+                }
             }
         }
         
@@ -200,8 +202,8 @@ abstract public class AbstractProjectile extends GameObject
         
         /* Käsitellään reuna-alueet panosten tuhoamiseksi */
         if (wrapper.player.x + x < -400 || wrapper.player.x + x > 400 ||
-        	wrapper.player.y + y < -240 || wrapper.player.y + y > 240 ) {
-        	setUnactive();
+            wrapper.player.y + y < -240 || wrapper.player.y + y > 240 ) {
+            setUnactive();
         }
     }
 
