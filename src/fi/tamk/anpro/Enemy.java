@@ -42,7 +42,7 @@ public class Enemy extends GameObject
      * @param int Hyökkäysvoima törmätessä pelaajaan
      * @param int Taso
      */
-    public Enemy(int _health, int _defence, int _speed, int _attack, int _rank)
+    public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank)
     {
         super();
         
@@ -55,6 +55,7 @@ public class Enemy extends GameObject
         speed      = _speed;
         defenceMax = _defence;
         defence    = _defence;
+        
         rank       = _rank;
         
         /* Asetetaan törmäysetäisyys */
@@ -68,12 +69,10 @@ public class Enemy extends GameObject
         /* Haetaan animaatioiden pituudet */
         animationLength = new int[3];
 
-        int offset = rank *3;
-
         try {
-            animationLength[0] = GLRenderer.playerAnimations.get(offset - 3).length;
-            animationLength[1] = GLRenderer.playerAnimations.get(offset - 2).length;
-            animationLength[2] = GLRenderer.playerAnimations.get(offset - 1).length;
+        	for (int i = 0; i < 4; ++i) {
+        		animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
+        	}
         }
         catch (Exception e) {
             // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
@@ -84,7 +83,13 @@ public class Enemy extends GameObject
         
         /* Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön */
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY);
-        ai     = new LinearAi(listId);
+        
+        if (_ai == 0) {
+        	ai = new LinearAi(listId);
+        }
+        else {
+        	ai = new LinearAi(listId);
+        }
     }
 
     /**
@@ -114,10 +119,10 @@ public class Enemy extends GameObject
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.enemyAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.enemyAnimations[rank-1][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.enemyTextures.get(usedTexture).draw(_gl, x, y, direction);
+            GLRenderer.enemyTextures[rank-1][usedTexture].draw(_gl, x, y, direction);
         }
     }
     

@@ -96,12 +96,12 @@ public class XmlReader
                 if (hud.getEventType() == XmlPullParser.START_TAG) {
                     if (hud.getName().equals("button")) {
                     	// NÄILLE RIVEILLE TEHDÄÄN GuiObject LUOKKAAN VASTAAVAT KOHTANSA MYÖHEMMIN!
-                    	//_hud.guiObjects.add(new GuiObject(Integer.parseInt(hud.getAttributeValue(null, "x")));
-                    	//_hud.guiObjects.add(new GuiObject(Integer.parseInt(hud.getAttributeValue(null, "y")));
-                    	//_hud.guiObjects.add(new GuiObject(hud.getAttributeValue(null, "texture_set"));
+                    	_hud.guiObjects.add(new GuiObject(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                    									  Integer.parseInt(hud.getAttributeValue(null, "y")),
+                    	                                  hud.getAttributeValue(null, "type")));
                     }
                     if (hud.getName().equals("counter")) {
-                    	
+                    	// ...
                     }
                 }
                 else if (hud.getEventType() == XmlPullParser.END_TAG) {
@@ -243,7 +243,8 @@ public class XmlReader
         												    _survivalMode.enemyStats[rankTemp][1],
         												    _survivalMode.enemyStats[rankTemp][2],
         												    _survivalMode.enemyStats[rankTemp][3],
-        												    _survivalMode.enemyStats[rankTemp][4]));
+        												    _survivalMode.enemyStats[rankTemp][4],
+        												    rankTemp));
         			}
         			if (rsm.getName().equals("wave")) {
         				

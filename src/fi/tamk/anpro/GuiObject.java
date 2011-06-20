@@ -10,6 +10,9 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GuiObject extends GfxObject
 {
+	/* Objektin tiedot*/
+	private int type;
+	
 	/* Osoitin Wrapperiin */
     private Wrapper wrapper;
     
@@ -24,11 +27,11 @@ public class GuiObject extends GfxObject
     	x = _x;
     	y = _y;
     	
-    	if (_type == "weapon") {
-    		usedTexture = 0;
+    	if (_type.equals("weapon")) {
+    		type = 0;
     	}
-    	else if (_type == "special") {
-    		usedTexture = 0;
+    	else {
+    		type = 1;
     	}
     	
         wrapper = Wrapper.getInstance();
@@ -43,6 +46,6 @@ public class GuiObject extends GfxObject
      */
     public final void draw(GL10 _gl)
     {
-        GLRenderer.hudTextures.get(usedTexture).draw(_gl, x, y, 0);
+        GLRenderer.hudTextures[type][usedTexture].draw(_gl, x, y, 0);
     }
 }
