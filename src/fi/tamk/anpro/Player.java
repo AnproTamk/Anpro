@@ -10,7 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Player extends GameObject
 {
-	/* Pelaajan tiedot */
+    /* Pelaajan tiedot */
     public int health;
     public int defence;
     
@@ -36,19 +36,19 @@ public class Player extends GameObject
         
         // Haetaan käytettävien animaatioiden pituudet
         try {
-        	for (int i = 0; i < 4; ++i) {
-        		animationLength[i] = GLRenderer.playerAnimations[i].length;
-        	}
+            for (int i = 0; i < 4; ++i) {
+                animationLength[i] = GLRenderer.playerAnimations[i].length;
+            }
         }
         catch (Exception e) {
-        	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
+            // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
         }
         
         // Haetaan osoitin Wrapper-luokkaan
         wrapper = Wrapper.getInstance();
         
-        // Lisätään pelaaja piirtolistalle
-        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER);
+        // Lisätään pelaaja piirtolistalle ja määritetään tila
+        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, 1);
     }
 
     /**
@@ -105,9 +105,9 @@ public class Player extends GameObject
     @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-    	if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
-    		health -= _damage;
-    	}
+        if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
+            health -= _damage;
+        }
     }
 }
 

@@ -66,8 +66,6 @@ public class Hud
      */
     public final void triggerClick(int _buttonId)
     {
-    	System.exit(0);
-    	
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
         if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
             weaponManager.currentWeapon = weapons[_buttonId];
