@@ -11,7 +11,7 @@ import android.util.Log;
  */
 class GameThread extends Thread
 {
-	/* Säikeen tila */
+    /* Säikeen tila */
     private boolean running = false;
     
     /* Tarvittavat luokat */
@@ -22,13 +22,13 @@ class GameThread extends Thread
     public Player player;
     
     /* Ajanoton muuttujat */
-    private long lastMovementUpdate  = 0;
-    private long lastAiUpdate        = 0;
-    private long lastCooldownUpdate  = 0;
-    private long lastAnimationUpdate = 0;
-    
-    /* Kriittisten päivitysten lista tekoälyjä varten */
-    public static ArrayList<AbstractAi> criticalUpdates;
+    private long lastMovementUpdate     = 0;
+    private long lastAiUpdateStateOne   = 0;
+    private long lastAiUpdateStateTwo   = 0;
+    private long lastAiUpdateStateThree = 0;
+    private long lastAiUpdateStateFour  = 0;
+    private long lastCooldownUpdate     = 0;
+    private long lastAnimationUpdate    = 0;
 
     /**
      * Alustaa luokan muuttujat ja luo pelitilan.
@@ -39,8 +39,6 @@ class GameThread extends Thread
     public GameThread(DisplayMetrics _dm, Context _context)
     {
         wrapper = Wrapper.getInstance();
-        
-        criticalUpdates = new ArrayList<AbstractAi>();
 
         gameMode = new SurvivalMode(_dm, _context);
         
@@ -64,25 +62,24 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-        // Haetaan päivityksille aloitusajat
-        lastMovementUpdate  = android.os.SystemClock.uptimeMillis();
-        lastAiUpdate        = lastMovementUpdate;
-        lastCooldownUpdate  = lastMovementUpdate;
-        lastAnimationUpdate = lastMovementUpdate;
+        /* Haetaan päivityksille aloitusajat */
+        lastMovementUpdate     = android.os.SystemClock.uptimeMillis();
+        lastAiUpdateStateOne   = lastMovementUpdate;
+        lastAiUpdateStateTwo   = lastMovementUpdate;
+        lastAiUpdateStateThree = lastMovementUpdate;
+        lastAiUpdateStateFour  = lastMovementUpdate;
+        lastCooldownUpdate     = lastMovementUpdate;
+        lastAnimationUpdate    = lastMovementUpdate;
         
-        //int debugTimes = 0;
-        
-        // Suoritetaan säiettä kunnes se määritetään pysäytettäväksi
+        /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
-        	
-        	// Haetaan tämänhetkinen aika
+            
+            // Haetaan tämänhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();
             
-            // Päivitetään sijainnit ja liikkuminen
+            /* Päivitetään sijainnit ja liikkuminen */
             if (currentTime - lastMovementUpdate >= 20) {
-            	
-            	//LogWriter.startClock("SijaintiJaLiikkuminen");
-            	
+                
                 lastMovementUpdate = currentTime;
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -96,17 +93,13 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).updateMovement(currentTime);
                     }
                 }
-                //LogWriter.stopClock("SijaintiJaLiikkuminen");
             }
             
-            // Päivitetään animaatiot
+            /* Päivitetään animaatiot */
             if (currentTime - lastAnimationUpdate >= 40) {
                 
-            	//LogWriter.startClock("Animaatiot");
-            	
                 lastAnimationUpdate = currentTime;
                 
-                // päivitetään pelaajan animaatio
                 if (wrapper.player.usedAnimation != -1) {
                     wrapper.player.update();
                 }
@@ -122,81 +115,91 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).update();
                     }
                 }
-                
-                //LogWriter.stopClock("Animaatiot");
-            }
-            
-            // Päivitetään kriittiset tekoälyt
-            if (wrapper.player != null && criticalUpdates.size() > 0) {
-            	
-            	//LogWriter.startClock("KriittisetTekoalyt");
-            	
-                if (currentTime - lastAiUpdate >= 50) {
-                    for (int i = criticalUpdates.size()-1; i >= 0; --i) {
-                        criticalUpdates.get(i).handleAi();
-                    }
-                }
-                
-                // Tyhjennetään päivityslista
-                criticalUpdates.clear();
-                
-                //LogWriter.stopClock("KriittisetTekoalyt");
             }
            
-            // Päivitetään tekoälyt
+            /* Päivitetään tekoälyt */
             if (wrapper.player != null) {
-            	
-            	LogWriter.startClock("PaivitetaanTekoalyt");
-            	
-                if (currentTime - lastAiUpdate >= 100) {
-                    lastAiUpdate = currentTime;
+
+                // Päivitetään tila 1
+                if (currentTime - lastAiUpdateStateOne >= 50) {
+                    lastAiUpdateStateOne = currentTime;
                     
-                    //int testAmount = 0;
-                    for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+                    for (int i : wrapper.priorityOneEnemies) {
                         if (wrapper.enemyStates.get(i) == 1) {
                             wrapper.enemies.get(i).ai.handleAi();
-                            //++testAmount;
                         }
                     }
-                    /*if (testAmount == 0) {
-                    	debugTimes = 500;
-                    }*/
                     
-                    for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+                    for (int i : wrapper.priorityOneProjectiles) {
                         if (wrapper.projectileStates.get(i) == 1) {
                             wrapper.projectiles.get(i).handleAi();
                         }
                     }
                 }
-                
-                //LogWriter.stopClock("PaivitetaanTekoalyt");    
+
+                // Päivitetään tila 2
+                if (currentTime - lastAiUpdateStateTwo >= 100) {
+                    lastAiUpdateStateTwo = currentTime;
+                    
+                    for (int i : wrapper.priorityTwoEnemies) {
+                        if (wrapper.enemyStates.get(i) == 1) {
+                            wrapper.enemies.get(i).ai.handleAi();
+                        }
+                    }
+                    
+                    for (int i : wrapper.priorityTwoProjectiles) {
+                        if (wrapper.projectileStates.get(i) == 1) {
+                            wrapper.projectiles.get(i).handleAi();
+                        }
+                    }
+                }
+
+                // Päivitetään tila 3
+                if (currentTime - lastAiUpdateStateThree >= 200) {
+                    lastAiUpdateStateThree = currentTime;
+                    
+                    for (int i : wrapper.priorityThreeEnemies) {
+                        if (wrapper.enemyStates.get(i) == 1) {
+                            wrapper.enemies.get(i).ai.handleAi();
+                        }
+                    }
+                    
+                    for (int i : wrapper.priorityThreeProjectiles) {
+                        if (wrapper.projectileStates.get(i) == 1) {
+                            wrapper.projectiles.get(i).handleAi();
+                        }
+                    }
+                }
+
+                // Päivitetään tila 4
+                if (currentTime - lastAiUpdateStateFour >= 400) {
+                    lastAiUpdateStateFour = currentTime;
+                    
+                    for (int i : wrapper.priorityFourEnemies) {
+                        if (wrapper.enemyStates.get(i) == 1) {
+                            wrapper.enemies.get(i).ai.handleAi();
+                        }
+                    }
+                    
+                    for (int i : wrapper.priorityFourProjectiles) {
+                        if (wrapper.projectileStates.get(i) == 1) {
+                            wrapper.projectiles.get(i).handleAi();
+                        }
+                    }
+                }
             }
             
-            // Päivitetään aseiden cooldownit
+            /* Päivitetään aseiden cooldownit */
             if (currentTime - lastCooldownUpdate >= 100) {
-            	
-            	//LogWriter.startClock("PaivitetaanCooldownit");
-            	
-            	gameMode.weaponManager.updateCooldowns();
-            	
-            	//LogWriter.stopClock("PaivitetaanCooldownit");
-            	
+                gameMode.weaponManager.updateCooldowns();
             }
 
-            // Hidastetaan säiettä pakottamalla se odottamaan 20 ms
+            /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            
-            /*++debugTimes;
-            Log.v("GameThread", "debugTimes" + debugTimes);
-            
-            if (debugTimes >= 500) {
-            	LogWriter.saveData();
-            	System.exit(0);
-            }*/
         }
     }
 }
