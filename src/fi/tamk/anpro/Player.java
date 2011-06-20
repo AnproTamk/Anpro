@@ -36,9 +36,9 @@ public class Player extends GameObject
         
         // Haetaan käytettävien animaatioiden pituudet
         try {
-        	animationLength[0] = GLRenderer.playerAnimations.get(0).length;
-        	animationLength[1] = GLRenderer.playerAnimations.get(1).length;
-        	animationLength[2] = GLRenderer.playerAnimations.get(2).length;
+        	for (int i = 0; i < 4; ++i) {
+        		animationLength[i] = GLRenderer.playerAnimations[i].length;
+        	}
         }
         catch (Exception e) {
         	// Animaatioita ei oltu luotu. Jatketaan eteenpäin.
@@ -77,10 +77,10 @@ public class Player extends GameObject
     public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
-            GLRenderer.playerAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.playerAnimations[usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.playerTextures.get(usedTexture).draw(_gl, x, y, direction);
+            GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction);
         }
     }
 
