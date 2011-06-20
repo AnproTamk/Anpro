@@ -68,8 +68,6 @@ public class Enemy extends GameObject
         }
     
         /* Haetaan animaatioiden pituudet */
-        animationLength = new int[3];
-
         try {
             for (int i = 0; i < 4; ++i) {
                 animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
@@ -221,5 +219,17 @@ public class Enemy extends GameObject
             ai = new RotaryAi(listId);
         }
         */
+    }
+
+    /**
+     * Käsittelee jonkin toiminnon päättymisen. Kutsutaan animaation loputtua, mikäli
+     * actionActivated on TRUE.
+     * 
+     * (lue lisää GfxObject-luokasta!)
+     */
+    @Override
+    protected void triggerEndOfAction()
+    {
+        // TODO:
     }
 }

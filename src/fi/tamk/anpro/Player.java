@@ -109,5 +109,17 @@ public class Player extends GameObject
             health -= _damage;
         }
     }
+
+    /**
+     * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
+     * actionActivated on TRUE.
+     * 
+     * (lue lis‰‰ GfxObject-luokasta!)
+     */
+    @Override
+    protected void triggerEndOfAction()
+    {
+        // TODO:
+    }
 }
 

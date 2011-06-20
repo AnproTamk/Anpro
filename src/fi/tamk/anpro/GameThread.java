@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -17,6 +18,8 @@ class GameThread extends Thread
     /* Tarvittavat luokat */
     private Wrapper      wrapper;
     private AbstractMode gameMode;
+    private TouchManager touchManager;
+    private Hud          hud;
     
     /* Pelaaja (VÄLIAIKAINEN!!!) */
     public Player player;
@@ -29,18 +32,27 @@ class GameThread extends Thread
     private long lastAiUpdateStateFour  = 0;
     private long lastCooldownUpdate     = 0;
     private long lastAnimationUpdate    = 0;
+    
+    /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
+       luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
+    private DisplayMetrics dm;
+    private Context        context;
+    private GLSurfaceView  surface;
 
     /**
      * Alustaa luokan muuttujat ja luo pelitilan.
      * 
      * @param DisplayMetrics Näytön tiedot
      * @param Context		 Ohjelman konteksti
+     * @param GLSurfaceView  OpenGL-pinta
      */
-    public GameThread(DisplayMetrics _dm, Context _context)
+    public GameThread(DisplayMetrics _dm, Context _context, GLSurfaceView _surface)
     {
         wrapper = Wrapper.getInstance();
-
-        gameMode = new SurvivalMode(_dm, _context);
+        
+        dm      = _dm;
+        context = _context;
+        surface = _surface;
         
         /* DEBUGGIA!!!! */
         player = new Player(5, 2);
@@ -70,6 +82,13 @@ class GameThread extends Thread
         lastAiUpdateStateFour  = lastMovementUpdate;
         lastCooldownUpdate     = lastMovementUpdate;
         lastAnimationUpdate    = lastMovementUpdate;
+
+        /* Luodaan pelitila */
+        gameMode = new SurvivalMode(dm, context);
+        
+        /* Luodaan TouchManager ja HUD */
+        hud          = new Hud(context);
+        touchManager = new TouchManager(dm, surface, context, hud);
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
@@ -105,13 +124,13 @@ class GameThread extends Thread
                 }
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) == 1 && wrapper.enemies.get(i).usedAnimation != -1) {
+                    if (wrapper.enemyStates.get(i) > 0 && wrapper.enemies.get(i).usedAnimation != -1) {
                         wrapper.enemies.get(i).update();
                     }
                 }
                 
                 for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) == 1 && wrapper.projectiles.get(i).usedAnimation != -1) {
+                    if (wrapper.projectileStates.get(i) > 0 && wrapper.projectiles.get(i).usedAnimation != -1) {
                         wrapper.projectiles.get(i).update();
                     }
                 }

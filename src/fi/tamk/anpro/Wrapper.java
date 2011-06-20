@@ -13,6 +13,11 @@ public class Wrapper
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
     
+    /* Eri tilat */
+    public static final int STATE_INACTIVE = 0;
+    public static final int STATE_ACTIVE   = 1;
+    public static final int STATE_ACTION   = 2;
+    
     /* Osoitin t‰h‰n luokasta */
     private static Wrapper instance = null;
     
@@ -25,8 +30,7 @@ public class Wrapper
     /* Peliobjektien tilat
              0. Ei piirret‰, ei p‰ivitet‰
              1. Piirret‰‰n, p‰ivitet‰‰n kaikki
-             2. Piirret‰‰n, p‰ivitet‰‰n vain liike
-             3. Piirret‰‰n, p‰ivitet‰‰n vain teko‰ly */
+             2. Piirret‰‰n, p‰ivitet‰‰n vain animaatio */
     public int                playerState      = 0;
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;
