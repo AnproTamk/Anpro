@@ -45,7 +45,7 @@ public class SurvivalMode extends AbstractMode
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         enemies      = new ArrayList<Enemy>();
         enemyStats   = new int[5][5];
-        scoreCounter = new GuiObject();
+        //scoreCounter = new GuiObject();
         spawnPoints  = new int[9][3][2];
         
         // Tallennetaan näytön tiedot
