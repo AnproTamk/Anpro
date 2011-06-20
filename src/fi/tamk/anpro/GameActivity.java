@@ -12,14 +12,16 @@ import android.media.AudioManager;
 
 /**
  * Pelitilan alkupiste. Luo renderöijän, pelisäikeen, HUDin ja TouchManagerin.
+ * 
+ * @extends Activity
  */
 public class GameActivity extends Activity
 {
-	/* Pelitilat */
-	public static final int SURVIVAL_MODE = 1;
-	public static final int STORY_MODE    = 2;
-	
-	/* Renderöijä ja OpenGL-pinta */
+    /* Pelitilat */
+    public static final int SURVIVAL_MODE = 1;
+    public static final int STORY_MODE    = 2;
+    
+    /* Renderöijä ja OpenGL-pinta */
     private GLSurfaceView surfaceView;
     private GLRenderer    renderer;
     
@@ -33,7 +35,7 @@ public class GameActivity extends Activity
         
     /**
      * Määrittää asetukset ja luo tarvittavat oliot, kuten renderöijän, HUDin,
-     * GameThreadin ja TouchManagerin.
+     * GameThreadin ja TouchManagerin. Android kutsuu tätä automaattisesti.
      * 
      * @param Bundle Pelin aiempi tila
      */
@@ -75,9 +77,29 @@ public class GameActivity extends Activity
         hud          = new Hud(getBaseContext());
         touchManager = new TouchManager(dm, surfaceView, getBaseContext(), hud);
     }
+        
+    /**
+     * Android kutsuu tätä automaattisesti onCreaten jälkeen.
+     */
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        // TODO: Tee toteutus
+    }
+        
+    /**
+     * Android kutsuu tätä automaattisesti kun ohjelma käynnistyy uudelleen.
+     */
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+        // TODO: Tee toteutus
+    }
     
     /**
-     * Palauttaa pelin taukotilasta.
+     * Palauttaa pelin taukotilasta. Android kutsuu tätä automaattisesti.
      */
     @Override
     protected void onResume()
@@ -101,7 +123,8 @@ public class GameActivity extends Activity
     }
     
     /**
-     * Siirtää pelin taukotilaan. 
+     * Siirtää pelin taukotilaan ja tallentaa ohjelman tilan, sillä onPausen jälkeen prosessi
+     * saatetaan keskeyttää kokonaan. Android kutsuu tätä automaattisesti.
      */
     @Override
     protected void onPause()
@@ -122,5 +145,26 @@ public class GameActivity extends Activity
                 // Yritetään uudelleen kunnes onnistuu
             }
         }
+    }
+        
+    /**
+     * Tallentaa ohjelman tilan, sillä onStopin jälkeen prosessi saatetaan keskeyttää kokonaan.
+     * Android kutsuu tätä automaattisesti kun ohjelma ei ole enää aktiivinen.
+     */
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        // TODO: Tee toteutus
+    }
+        
+    /**
+     * Android kutsuu tätä automaattisesti kun ohjelma lopetetaan kokonaan.
+     */
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        // TODO: Tee toteutus
     }
 }

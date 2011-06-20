@@ -14,8 +14,14 @@ import android.opengl.GLU;
  * 
  * @implements Renderer
  */
-public class GLRenderer implements Renderer {
-    /* Piirrett‰v‰t animaatiot ja objektit */
+public class GLRenderer implements Renderer
+{
+    public static final int ANIMATION_STATIC = 0;
+    public static final int ANIMATION_MOVE = 1;
+    public static final int ANIMATION_SHOOT = 2;
+    public static final int ANIMATION_DESTROY = 3;
+	
+	/* Piirrett‰v‰t animaatiot ja objektit */
     public static ArrayList<Animation> playerAnimations;     // 3
     public static ArrayList<Texture>   playerTextures;       // 2
     public static ArrayList<Animation> enemyAnimations;      // 3 per vihollistyyppi
@@ -42,7 +48,7 @@ public class GLRenderer implements Renderer {
      */
     public GLRenderer(Context _context)
     {
-    	// Tallennetaan konteksti
+        // Tallennetaan konteksti
         context = _context;
         
         // Otetaan Wrapper k‰yttˆˆn
@@ -87,12 +93,12 @@ public class GLRenderer implements Renderer {
         
         // Ladataan graffat (v‰liaikainen)
         if (!allLoaded && gameThread != null) {
-        	if (loadTextures(_gl)) {
-        		startThread();
-        	}
-        	else {
-        		// TODO: K‰sittele virhe
-        	}
+            if (loadTextures(_gl)) {
+                startThread();
+            }
+            else {
+                // TODO: K‰sittele virhe
+            }
         }
     }
 
@@ -141,7 +147,7 @@ public class GLRenderer implements Renderer {
      */
     public void onDrawFrame(GL10 _gl)
     {
-    	// Otetaan 2D-piirt‰minen k‰yttˆˆn
+        // Otetaan 2D-piirt‰minen k‰yttˆˆn
         _gl.glEnable(GL10.GL_TEXTURE_2D);
         
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
@@ -150,11 +156,8 @@ public class GLRenderer implements Renderer {
 
         // Tekstuurit on ladattu
         if (allLoaded) {
-        	
-        	/* K‰yd‰‰n l‰pi piirtolistat */
-            if (wrapper.player != null && wrapper.playerState == 1) {
-                wrapper.player.draw(_gl);
-            }
+            
+            /* K‰yd‰‰n l‰pi piirtolistat */
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                 if (wrapper.enemyStates.get(i) == 1) {
                     wrapper.enemies.get(i).draw(_gl);
@@ -165,15 +168,23 @@ public class GLRenderer implements Renderer {
                     wrapper.projectiles.get(i).draw(_gl);
                 }
             }
+            for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
+                if (wrapper.guiObjectStates.get(i) == 1) {
+                    wrapper.guiObjects.get(i).draw(_gl);
+                }
+            }
+            if (wrapper.player != null && wrapper.playerState == 1) {
+                wrapper.player.draw(_gl);
+            }
         }
         // Tekstuureja ei ole viel‰ ladattu
         else {
-        	if (loadTextures(_gl)) {
-        		startThread();
-        	}
-        	else {
-        		// TODO: K‰sittele virhe
-        	}
+            if (loadTextures(_gl)) {
+                startThread();
+            }
+            else {
+                // TODO: K‰sittele virhe
+            }
         }
     }
 
@@ -182,9 +193,9 @@ public class GLRenderer implements Renderer {
      * 
      * @param GameThread Osoitin pelis‰ikeeseen
      */
-	public final void connectToGameThread(GameThread _gameThread) {
-		gameThread = _gameThread;
-	}
+    public final void connectToGameThread(GameThread _gameThread) {
+        gameThread = _gameThread;
+    }
 
     /**
      * Lataa kaikki tekstuurit.
@@ -193,26 +204,29 @@ public class GLRenderer implements Renderer {
      * 
      * @return boolean Onnistuiko lataaminen?
      */
-	private final boolean loadTextures(GL10 _gl)
-	{
-        playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0));
-        enemyTextures.add(new Texture(_gl, context, R.drawable.enemy_tex0));
+    private final boolean loadTextures(GL10 _gl)
+    {
+        playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0)); 
+        enemyTextures.add(new Texture(_gl, context, R.drawable.enemy1_tex0));
         projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
-
+        
+        hudTextures.add(new Texture(_gl, context, R.drawable.button_tex0));
+        
+        
         allLoaded = true;
         
         return true;
         // TODO: Palauta FALSE virheiden tapahtuessa.
-	}
+    }
 
     /**
-     * K‰ynnist‰‰ pelis‰ikeen
+     * K‰ynnist‰‰ pelis‰ikeen.
      */
-	private final void startThread()
-	{
-		if (gameThread != null) {
-			gameThread.setRunning(true);
-			gameThread.start();
-		}
-	}
+    private final void startThread()
+    {
+        if (gameThread != null) {
+            gameThread.setRunning(true);
+            gameThread.start();
+        }
+    }
 }
