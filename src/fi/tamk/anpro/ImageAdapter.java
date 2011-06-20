@@ -13,11 +13,12 @@ public class ImageAdapter extends BaseAdapter
     int galleryItemBackground;
     private Context mContext;
 
-    private Integer[] mImageIds = {
+    public static Integer[] mImageIds = {
+            R.drawable.player_tex0,
             R.drawable.icon,
+            R.drawable.enemy1_tex0,
             R.drawable.icon,
-            R.drawable.icon,
-            R.drawable.icon,
+            R.drawable.projectilelaser_tex0,
             R.drawable.icon
     };
 
