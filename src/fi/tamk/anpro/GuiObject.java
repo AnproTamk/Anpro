@@ -19,8 +19,18 @@ public class GuiObject extends GfxObject
     /**
      * Alustaa luokan muuttujat.
      */
-    public GuiObject()
+    public GuiObject(int _x, int _y, String _type)
     {
+    	x = _x;
+    	y = _y;
+    	
+    	if (_type == "weapon") {
+    		usedTexture = 0;
+    	}
+    	else if (_type == "special") {
+    		usedTexture = 0;
+    	}
+    	
         wrapper = Wrapper.getInstance();
         
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI);

@@ -38,7 +38,9 @@ public class Hud
         weaponManager = WeaponManager.getConnection();
         weapons = new int[5];
         
-        XmlReader reader = new XmlReader(_context );
+        guiObjects = new ArrayList<GuiObject>();
+        
+        XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
     }
 
@@ -64,9 +66,12 @@ public class Hud
      */
     public final void triggerClick(int _buttonId)
     {
+    	System.exit(0);
+    	
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
         if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
             weaponManager.currentWeapon = weapons[_buttonId];
+            guiObjects.get(_buttonId).startAnimation(0, 1);
         }
     }
     

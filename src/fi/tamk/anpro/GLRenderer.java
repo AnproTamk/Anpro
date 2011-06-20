@@ -16,7 +16,12 @@ import android.opengl.GLU;
  */
 public class GLRenderer implements Renderer
 {
-    /* Piirrettävät animaatiot ja objektit */
+    public static final int ANIMATION_STATIC = 0;
+    public static final int ANIMATION_MOVE = 1;
+    public static final int ANIMATION_SHOOT = 2;
+    public static final int ANIMATION_DESTROY = 3;
+	
+	/* Piirrettävät animaatiot ja objektit */
     public static ArrayList<Animation> playerAnimations;     // 3
     public static ArrayList<Texture>   playerTextures;       // 2
     public static ArrayList<Animation> enemyAnimations;      // 3 per vihollistyyppi
@@ -163,6 +168,11 @@ public class GLRenderer implements Renderer
                     wrapper.projectiles.get(i).draw(_gl);
                 }
             }
+            for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
+                if (wrapper.guiObjectStates.get(i) == 1) {
+                    wrapper.guiObjects.get(i).draw(_gl);
+                }
+            }
             if (wrapper.player != null && wrapper.playerState == 1) {
                 wrapper.player.draw(_gl);
             }
@@ -199,7 +209,10 @@ public class GLRenderer implements Renderer
         playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0)); 
         enemyTextures.add(new Texture(_gl, context, R.drawable.enemy1_tex0));
         projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
-
+        
+        hudTextures.add(new Texture(_gl, context, R.drawable.button_tex0));
+        
+        
         allLoaded = true;
         
         return true;
