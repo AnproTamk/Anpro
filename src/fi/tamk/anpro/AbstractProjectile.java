@@ -111,11 +111,11 @@ abstract public class AbstractProjectile extends GameObject
     public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
-            GLRenderer.projectileAnimations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.projectileAnimations[0][usedAnimation].draw(_gl, x, y, direction, currentFrame);
             //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.projectileTextures.get(usedTexture).draw(_gl, x, y, direction);
+            GLRenderer.projectileTextures[0][usedTexture].draw(_gl, x, y, direction);
             //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }

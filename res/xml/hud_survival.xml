@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <button id="weapon_button_1" x="100" y="100" type="weapon"/>
-        <button id="weapon_button_2" x="200" y="200" type="special"/>
-        <button id="weapon_button_3" x="300" y="300" type="special"/>    
-        <button id="special_button_1" x="400" y="400" type="special"/>
-        <button id="special_button_2" x="0" y="0" type="special"/>
+        <button id="weapon_button_1" x="100" y="100" type="weapon" />
+        <button id="weapon_button_2" x="200" y="200" type="weapon" />
+        <button id="weapon_button_3" x="300" y="300" type="weapon" />    
+        <button id="special_button_1" x="400" y="400" type="weapon" />
+        <button id="special_button_2" x="0" y="0" type="weapon" />
 
         <counter id="score_counter" x="300" y="300" type="counter_numbers" />
 </hud>

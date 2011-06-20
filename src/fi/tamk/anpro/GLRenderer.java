@@ -16,21 +16,33 @@ import android.opengl.GLU;
  */
 public class GLRenderer implements Renderer
 {
-    public static final int ANIMATION_STATIC = 0;
-    public static final int ANIMATION_MOVE = 1;
-    public static final int ANIMATION_SHOOT = 2;
-    public static final int ANIMATION_DESTROY = 3;
+	/* Vakiot peliobjektien tekstuureille ja animaatioille */
+	public static final int TEXTURE_STATIC   = 0;
+	public static final int TEXTURE_INACTIVE = 1;
 	
-	/* Piirrett‰v‰t animaatiot ja objektit */
-    public static ArrayList<Animation> playerAnimations;     // 3
-    public static ArrayList<Texture>   playerTextures;       // 2
-    public static ArrayList<Animation> enemyAnimations;      // 3 per vihollistyyppi
-    public static ArrayList<Texture>   enemyTextures;        // 2 per vihollistyyppi
-    public static ArrayList<Animation> projectileAnimations; // 2 per ammus
-    public static ArrayList<Texture>   projectileTextures;   // 1 per ammus
-    public static ArrayList<Animation> hudAnimations;
-    public static ArrayList<Texture>   hudTextures;
+    public static final int ANIMATION_STATIC  = 0;
+    public static final int ANIMATION_MOVE    = 1;
+    public static final int ANIMATION_SHOOT   = 2;
+    public static final int ANIMATION_DESTROY = 3;
 
+	/* Vakiot HUDin tekstuureille ja animaatioille */
+	public static final int TEXTURE_READY    = 0;
+	public static final int TEXTURE_COOLDOWN = 1;
+	
+    public static final int ANIMATION_CLICK = 0;
+    public static final int ANIMATION_READY = 1;
+
+	/* Piirrett‰v‰t animaatiot ja objektit */
+    public static Texture[]     playerTextures;
+    public static Animation[]   playerAnimations;
+    public static Texture[][]   enemyTextures;
+    public static Animation[][] enemyAnimations;
+    public static Texture[][]   projectileTextures;
+    public static Animation[][] projectileAnimations;
+    
+    public static Texture[][]   hudTextures;
+    public static Animation[][] hudAnimations;
+	
     /* Ohjelman konteksti */
     private Context context;
     
@@ -55,14 +67,14 @@ public class GLRenderer implements Renderer
         wrapper = Wrapper.getInstance();
         
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations     = new ArrayList<Animation>(3);
-        playerTextures       = new ArrayList<Texture>(2);
-        enemyAnimations      = new ArrayList<Animation>(15);
-        enemyTextures        = new ArrayList<Texture>(10);
-        projectileAnimations = new ArrayList<Animation>(2);
-        projectileTextures   = new ArrayList<Texture>(1);
-        hudAnimations        = new ArrayList<Animation>();
-        hudTextures          = new ArrayList<Texture>();
+        playerAnimations     = new Animation[2];
+        playerTextures       = new Texture[4];
+        enemyAnimations      = new Animation[5][2];
+        enemyTextures        = new Texture[5][4];
+        projectileAnimations = new Animation[5][2];
+        projectileTextures   = new Texture[5][4];
+        hudAnimations        = new Animation[2][2];
+        hudTextures          = new Texture[2][2];
     }
 
     /**
@@ -206,12 +218,11 @@ public class GLRenderer implements Renderer
      */
     private final boolean loadTextures(GL10 _gl)
     {
-        playerTextures.add(new Texture(_gl, context, R.drawable.player_tex0)); 
-        enemyTextures.add(new Texture(_gl, context, R.drawable.enemy1_tex0));
-        projectileTextures.add(new Texture(_gl, context, R.drawable.projectilelaser_tex0));
+        playerTextures[0] = new Texture(_gl, context, R.drawable.player_tex0); 
+        enemyTextures[0][0] = new Texture(_gl, context, R.drawable.enemy1_tex0);
+        projectileTextures[0][0] = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
         
-        hudTextures.add(new Texture(_gl, context, R.drawable.button_tex0));
-        
+        hudTextures[0][0] = new Texture(_gl, context, R.drawable.button_tex0);
         
         allLoaded = true;
         
