@@ -20,11 +20,13 @@ public class Wrapper
     public Player                        player      = null;
     public ArrayList<Enemy>              enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
+    public ArrayList<GuiObject> 		 guiObjects  = null;
 
     /* Peliobjektien tilat */
     public int                playerState      = 0;
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;
+    public ArrayList<Integer> guiObjectStates  = null;
     
     /**
      * Alustaa luokan muuttujat.
@@ -33,8 +35,11 @@ public class Wrapper
     {
         enemies          = new ArrayList<Enemy>();
         projectiles      = new ArrayList<AbstractProjectile>();
+        guiObjects       = new ArrayList<GuiObject>();
+        
         enemyStates      = new ArrayList<Integer>();
         projectileStates = new ArrayList<Integer>();
+        guiObjectStates  = new ArrayList<Integer>();
     }
     
     /**
@@ -75,6 +80,12 @@ public class Wrapper
             projectileStates.add(0);
 
             return projectileStates.size()-1;
+        }
+        else if (_classType == CLASS_TYPE_GUI) {
+        	guiObjects.add((GuiObject)_object);
+        	guiObjectStates.add(1);
+
+            return guiObjectStates.size()-1;
         }
         
         return 0;
