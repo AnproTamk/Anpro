@@ -35,13 +35,10 @@ public class Player extends GameObject
         collisionRadius = 25;
         
         // Haetaan käytettävien animaatioiden pituudet
-        try {
-            for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
+            if (GLRenderer.playerAnimations[i] != null) {
                 animationLength[i] = GLRenderer.playerAnimations[i].length;
             }
-        }
-        catch (Exception e) {
-            // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
         }
         
         // Haetaan osoitin Wrapper-luokkaan
