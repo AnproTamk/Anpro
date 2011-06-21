@@ -12,27 +12,19 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"/>
 
- <Button android:textSize="20sp" 
-         android:background="@drawable/icon" 
-         android:textColor="@color/button_text" 
-         android:id="@+id/button_mainmenu" 
-         android:layout_height="wrap_content" 
-         android:layout_width="wrap_content"
-         android:gravity="center" 
-         android:padding="10dip"/>
-
- <Button android:id="@+id/button_story" 
-         android:textSize="20sp" 
-         android:text="@string/button_story" 
-         android:textColor="@color/button_text" 
-         android:gravity="center" 
-         android:background="@color/button_bg" 
-         android:layout_height="wrap_content"
-         android:padding="5dip" 
-         android:layout_width="wrap_content"  
-         android:layout_marginRight="25dip"
-         android:layout_marginLeft="25dip"/>
-
+ <ImageButton android:id="@+id/button_story" 
+              android:gravity="center" 
+              android:src="@drawable/play"
+              android:layout_height="wrap_content"
+              android:padding="5dip" 
+              android:layout_width="wrap_content"/>
+         
+ <ImageButton android:id="@+id/button_mainmenu" 
+              android:src="@drawable/mainmenu" 
+              android:layout_height="wrap_content" 
+              android:layout_width="wrap_content"
+              android:gravity="center" 
+              android:padding="5dip"/>
 </LinearLayout>
 
 <!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
