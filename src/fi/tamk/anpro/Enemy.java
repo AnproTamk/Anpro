@@ -152,7 +152,9 @@ public class Enemy extends GameObject
         health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
         
         if (health <= 0) {
-            setUnactive();
+        	wrapper.enemyStates.set(listId, 2);
+        	
+            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
         }
     }
     
@@ -170,11 +172,15 @@ public class Enemy extends GameObject
             health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
             
             if (health <= 0) {
-                setUnactive();
+            	wrapper.enemyStates.set(listId, 2);
+            	
+                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
             }
         }
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-            setUnactive();
+        	wrapper.enemyStates.set(listId, 2);
+        	
+            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
         }
     }
 
@@ -230,6 +236,9 @@ public class Enemy extends GameObject
     @Override
     protected void triggerEndOfAction()
     {
-        // TODO:
+        /* Tuhoutuminen */
+        if (actionId == 1) {
+            setUnactive();
+        }
     }
 }

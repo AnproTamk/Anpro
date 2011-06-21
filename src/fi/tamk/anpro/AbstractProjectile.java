@@ -166,20 +166,19 @@ abstract public class AbstractProjectile extends GameObject
                 
                 // Aiheutetaan osuma/r‰j‰hdys, mik‰li et‰isyys on tarpeeksi pieni
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+                    wrapper.projectileStates.set(listId, 2);
+                    
                     if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
                         wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 
-                        /*wrapper.projectileStates.set(listId, 2);
-                        startAnimation(GLRenderer.ANIMATION_DESTROY, 1);
-                        actionActivated = true;
-                        actionId = 1;*/
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
                     }
                     else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                        
                         causeExplosion();
                     }
-    
-                    // Asetetaan ammus ep‰aktiiviseksi
-                    //setUnactive();
+                    
                     break;
                 }
                 
@@ -195,8 +194,10 @@ abstract public class AbstractProjectile extends GameObject
             currentTime = android.os.SystemClock.uptimeMillis();
             
             if (currentTime - startTime >= explodeTime) {
+                wrapper.projectileStates.set(listId, 2);
+                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                
                 causeExplosion();
-                setUnactive();
             }
         }
         
@@ -210,7 +211,7 @@ abstract public class AbstractProjectile extends GameObject
         }
     }
 
-    /**
+	/**
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
      * actionActivated on TRUE.
      * 

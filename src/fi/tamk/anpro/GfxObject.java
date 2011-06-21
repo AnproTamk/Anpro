@@ -75,40 +75,49 @@ abstract public class GfxObject
      */
     public final void update()
     {
-        // Animaatiolle on m‰‰ritetty toistokerrat
-        if (animationLoops > 0) {
-            
-            // Tarkistetaan, p‰‰ttyykˆ animaation toistokerta ja toimitaan sen mukaisesti.
-            if (currentFrame + 1 > animationLength[usedAnimation]) {
-                currentFrame = 0;
-                ++currentLoop;
-                if (currentLoop > animationLoops) {
-                    usedAnimation = -1;
-                    usedTexture   = 0;
-                    
-                    if (actionActivated) {
-                        actionActivated = false;
-                        triggerEndOfAction();
-                    }
-                }
-            }
-            else {
-                ++currentFrame;
-            }
-        }
-        // Animaatio on p‰‰ttym‰tˆn
-        else {
-            
-            // Tarkistetaan, p‰‰ttyykˆ animaation toistokerta. Kelataan takaisin alkuun
-            // tarvittaessa.
-            if (currentFrame + 1 > animationLength[usedAnimation]) {
-                currentFrame = 0;
-            }
-            else {
-                ++currentFrame;
-            }
-        }
+    	if (usedAnimation != -1) {
+	        // Animaatiolle on m‰‰ritetty toistokerrat
+	        if (animationLoops > 0) {
+	            
+	            // Tarkistetaan, p‰‰ttyykˆ animaation toistokerta ja toimitaan sen mukaisesti.
+	            if (currentFrame + 1 > animationLength[usedAnimation]) {
+	                currentFrame = 0;
+	                ++currentLoop;
+	                if (currentLoop > animationLoops) {
+	                    usedAnimation = -1;
+	                    usedTexture   = 0;
+	                    
+	                    if (actionActivated) {
+	                        actionActivated = false;
+	                        triggerEndOfAction();
+	                    }
+	                }
+	            }
+	            else {
+	                ++currentFrame;
+	            }
+	        }
+	        // Animaatio on p‰‰ttym‰tˆn
+	        else {
+	            
+	            // Tarkistetaan, p‰‰ttyykˆ animaation toistokerta. Kelataan takaisin alkuun
+	            // tarvittaessa.
+	            if (currentFrame + 1 > animationLength[usedAnimation]) {
+	                currentFrame = 0;
+	            }
+	            else {
+	                ++currentFrame;
+	            }
+	        }
+    	}
     }
+    
+    protected void setAction(int _animation, int _loops, int _actionId)
+    {
+        startAnimation(_animation, _loops);
+        actionActivated = true;
+        actionId = _actionId;
+	}
 
     /**
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li

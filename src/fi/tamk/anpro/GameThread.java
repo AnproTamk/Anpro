@@ -115,7 +115,7 @@ class GameThread extends Thread
             }
             
             /* Päivitetään animaatiot */
-            if (currentTime - lastAnimationUpdate >= 40) {
+            if (currentTime - lastAnimationUpdate >= 500) {
                 
                 lastAnimationUpdate = currentTime;
                 
