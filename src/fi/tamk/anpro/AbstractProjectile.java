@@ -112,13 +112,11 @@ abstract public class AbstractProjectile extends GameObject
      */
     public final void draw(GL10 _gl)
     {
-        if (usedAnimation >= 0){
+        if (usedAnimation >= 0) {
             GLRenderer.projectileAnimations[0][usedAnimation].draw(_gl, x, y, direction, currentFrame);
-            //animations.get(usedAnimation).draw(_gl, x, y, direction, currentFrame);
         }
-        else{
+        else {
             GLRenderer.projectileTextures[0][usedTexture].draw(_gl, x, y, direction);
-            //textures.get(usedTexture).draw(_gl, x, y, direction);
         }
     }
     
@@ -170,13 +168,18 @@ abstract public class AbstractProjectile extends GameObject
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
                     if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
                         wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+
+                        /*wrapper.projectileStates.set(listId, 2);
+                        startAnimation(GLRenderer.ANIMATION_DESTROY, 1);
+                        actionActivated = true;
+                        actionId = 1;*/
                     }
                     else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
                         causeExplosion();
                     }
     
                     // Asetetaan ammus ep‰aktiiviseksi
-                    setUnactive();
+                    //setUnactive();
                     break;
                 }
                 
@@ -203,6 +206,21 @@ abstract public class AbstractProjectile extends GameObject
         /* K‰sitell‰‰n reuna-alueet panosten tuhoamiseksi */
         if (wrapper.player.x + x < -400 || wrapper.player.x + x > 400 ||
             wrapper.player.y + y < -240 || wrapper.player.y + y > 240 ) {
+            setUnactive();
+        }
+    }
+
+    /**
+     * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
+     * actionActivated on TRUE.
+     * 
+     * (lue lis‰‰ GfxObject-luokasta!)
+     */
+    @Override
+    protected void triggerEndOfAction()
+    {
+        /* Tuhoutuminen */
+        if (actionId == 1) {
             setUnactive();
         }
     }

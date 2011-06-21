@@ -15,6 +15,13 @@ public class ProjectileLaser extends AbstractProjectile
     public ProjectileLaser()
     {
         super();
+    
+        /* Haetaan animaatioiden pituudet */
+        for (int i = 0; i < 4; ++i) {
+            if (GLRenderer.projectileAnimations[0][i] != null) {
+                animationLength[i] = GLRenderer.projectileAnimations[0][i].length;
+            }
+        }
     }
     
     /**
@@ -68,14 +75,14 @@ public class ProjectileLaser extends AbstractProjectile
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size(); i >= 0; --i) {
-        	if (wrapper.enemyStates.get(i) == 1) {
-	            int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
-	            
-	            if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-	                // Osuma ja räjähdys
-	                wrapper.enemies.get(i).triggerImpact(damageOnTouch);
-	            }
-        	}
+            if (wrapper.enemyStates.get(i) == 1) {
+                int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+                
+                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+                    // Osuma ja räjähdys
+                    wrapper.enemies.get(i).triggerImpact(damageOnTouch);
+                }
+            }
         }
     }
 }

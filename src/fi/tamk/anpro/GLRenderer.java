@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -16,23 +14,23 @@ import android.opengl.GLU;
  */
 public class GLRenderer implements Renderer
 {
-	/* Vakiot peliobjektien tekstuureille ja animaatioille */
-	public static final int TEXTURE_STATIC   = 0;
-	public static final int TEXTURE_INACTIVE = 1;
-	
+    /* Vakiot peliobjektien tekstuureille ja animaatioille */
+    public static final int TEXTURE_STATIC   = 0;
+    public static final int TEXTURE_INACTIVE = 1;
+    
     public static final int ANIMATION_STATIC  = 0;
     public static final int ANIMATION_MOVE    = 1;
     public static final int ANIMATION_SHOOT   = 2;
     public static final int ANIMATION_DESTROY = 3;
 
-	/* Vakiot HUDin tekstuureille ja animaatioille */
-	public static final int TEXTURE_READY    = 0;
-	public static final int TEXTURE_COOLDOWN = 1;
-	
+    /* Vakiot HUDin tekstuureille ja animaatioille */
+    public static final int TEXTURE_READY    = 0;
+    public static final int TEXTURE_COOLDOWN = 1;
+    
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
 
-	/* Piirrettävät animaatiot ja objektit */
+    /* Piirrettävät animaatiot ja objektit */
     public static Texture[]     playerTextures;
     public static Animation[]   playerAnimations;
     public static Texture[][]   enemyTextures;
@@ -42,7 +40,7 @@ public class GLRenderer implements Renderer
     
     public static Texture[][]   hudTextures;
     public static Animation[][] hudAnimations;
-	
+    
     /* Ohjelman konteksti */
     private Context context;
     
@@ -71,7 +69,7 @@ public class GLRenderer implements Renderer
         playerTextures       = new Texture[4];
         enemyAnimations      = new Animation[5][2];
         enemyTextures        = new Texture[5][4];
-        projectileAnimations = new Animation[5][2];
+        projectileAnimations = new Animation[5][4];
         projectileTextures   = new Texture[5][4];
         hudAnimations        = new Animation[2][2];
         hudTextures          = new Texture[2][2];
@@ -171,21 +169,21 @@ public class GLRenderer implements Renderer
             
             /* Käydään läpi piirtolistat */
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                if (wrapper.enemyStates.get(i) == 1) {
+                if (wrapper.enemyStates.get(i) > 0) {
                     wrapper.enemies.get(i).draw(_gl);
                 }
             }
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                if (wrapper.projectileStates.get(i) == 1) {
+                if (wrapper.projectileStates.get(i) > 0) {
                     wrapper.projectiles.get(i).draw(_gl);
                 }
             }
             for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
-                if (wrapper.guiObjectStates.get(i) == 1) {
+                if (wrapper.guiObjectStates.get(i) > 0) {
                     wrapper.guiObjects.get(i).draw(_gl);
                 }
             }
-            if (wrapper.player != null && wrapper.playerState == 1) {
+            if (wrapper.player != null && wrapper.playerState > 0) {
                 wrapper.player.draw(_gl);
             }
         }
@@ -219,8 +217,11 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         playerTextures[0] = new Texture(_gl, context, R.drawable.player_tex0); 
+        
         enemyTextures[0][0] = new Texture(_gl, context, R.drawable.enemy1_tex0);
-        projectileTextures[0][0] = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
+        
+        projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
+        projectileAnimations[0][3] = new Animation(_gl, context, "destroy", 5);
         
         hudTextures[0][0] = new Texture(_gl, context, R.drawable.button_tex0);
         

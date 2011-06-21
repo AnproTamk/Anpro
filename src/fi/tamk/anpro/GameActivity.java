@@ -27,8 +27,6 @@ public class GameActivity extends Activity
     
     /* Muut luokat */
     private GameThread   gameThread;
-    private TouchManager touchManager;
-    private Hud          hud;
     
     /* Aktiivinen pelitila (asetetaan p‰‰valikossa) */
     public static int activeMode = 1;
@@ -70,12 +68,8 @@ public class GameActivity extends Activity
         setContentView(surfaceView);
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext());
+        gameThread = new GameThread(dm, getBaseContext(), surfaceView);
         renderer.connectToGameThread(gameThread);
-        
-        // Luodaan TouchManager ja HUD
-        hud          = new Hud(getBaseContext());
-        touchManager = new TouchManager(dm, surfaceView, getBaseContext(), hud);
     }
         
     /**
