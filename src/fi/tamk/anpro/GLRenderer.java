@@ -4,6 +4,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 
@@ -41,8 +42,9 @@ public class GLRenderer implements Renderer
     public static Texture[][]   hudTextures;
     public static Animation[][] hudAnimations;
     
-    /* Ohjelman konteksti */
-    private Context context;
+    /* Ohjelman konteksti ja resurssit */
+    private Context   context;
+    private Resources resources;
     
     /* Tarvittavat oliot */
     private Wrapper    wrapper;
@@ -54,12 +56,14 @@ public class GLRenderer implements Renderer
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param Context Ohjelman konteksti
+     * @param Context   Ohjelman konteksti
+     * @param Resources Ohjelman resurssit
      */
-    public GLRenderer(Context _context)
+    public GLRenderer(Context _context, Resources _resources)
     {
-        // Tallennetaan konteksti
-        context = _context;
+        // Tallennetaan konteksti ja resurssit
+        context   = _context;
+        resources = _resources;
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
@@ -67,7 +71,7 @@ public class GLRenderer implements Renderer
         // Määritetään taulukoiden koot
         playerAnimations     = new Animation[2];
         playerTextures       = new Texture[4];
-        enemyAnimations      = new Animation[5][2];
+        enemyAnimations      = new Animation[5][4];
         enemyTextures        = new Texture[5][4];
         projectileAnimations = new Animation[5][4];
         projectileTextures   = new Texture[5][4];
@@ -218,12 +222,14 @@ public class GLRenderer implements Renderer
     {
         playerTextures[0] = new Texture(_gl, context, R.drawable.player_tex0); 
         
-        enemyTextures[0][0] = new Texture(_gl, context, R.drawable.enemy1_tex0);
+        enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
+        enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         
         projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
-        projectileAnimations[0][3] = new Animation(_gl, context, "destroy", 5);
+        projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
         
         hudTextures[0][0] = new Texture(_gl, context, R.drawable.button_tex0);
+        hudTextures[0][1] = new Texture(_gl, context, R.drawable.button_tex1);
         
         allLoaded = true;
         
