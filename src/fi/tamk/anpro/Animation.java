@@ -7,6 +7,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
@@ -37,25 +38,38 @@ public class Animation
     /**
      * Alustaa luokan muuttujat ja kutsuu loadFramea jokaista ruutua varten.
      * 
-     * @param GL10    OpenGL-konteksti
-     * @param Context Ohjelman konteksti
-     * @param String  Tekstuurin tunnus
-     * @paran int     Animaation pituus
+     * @param GL10      OpenGL-konteksti
+     * @param Context   Ohjelman konteksti
+     * @param Resources Ohjelman resurssit
+     * @param String    Tekstuurin tunnus
+     * @paran int       Animaation pituus
      */
-    public Animation(GL10 _gl, Context context, String _id, int _length)
+    public Animation(GL10 _gl, Context context, Resources _resources, String _id, int _length)
     {
         frames = new int[_length];
-        length = _length;
+        length = _length - 1;
+        
+        _gl.glGenTextures(1, frames, 0);
 
         // Ladataan tekstuurit
         try {
-            String idField = _id + "_anim_";
-            for (int i = 0; i < frames.length; ++i) {
-                loadFrame(_gl, context, frames, i, R.drawable.class.getField(idField+"_"+i).getInt(getClass()));
+            for (int i = 0; i < length; ++i) {
+            	String test = _id+"_anim_"+i;
+                //loadFrame(_gl, context, frames, i, R.drawable.class.getField(idField+"_"+i).getInt(getClass()));
+            	loadFrame(_gl, context, frames, i, _resources.getIdentifier(_id+"_anim_"+i, "drawable", "fi.tamk.anpro"));
             }
+            /*loadFrame(_gl, context, frames, 0, R.drawable.destroy_anim_0);
+            loadFrame(_gl, context, frames, 1, R.drawable.destroy_anim_1);
+            loadFrame(_gl, context, frames, 2, R.drawable.destroy_anim_2);
+            loadFrame(_gl, context, frames, 3, R.drawable.destroy_anim_3);
+            loadFrame(_gl, context, frames, 4, R.drawable.destroy_anim_4);*/
         } catch (Exception e) {
             // TODO: Käsittele tämä
         }
+        
+        // destroy
+        // destroy_anim_
+        // destroy_anim_(1-4)
         
         // Määritä vektorit
         vertices = new float[12];
@@ -95,10 +109,10 @@ public class Animation
      * @paran int     Kuvaruudun järjestysnumero
      * @param int     Tekstuurin tunnus resursseissa
      */
-    public final void loadFrame(GL10 gl, Context context, int[] var, int offset, int id)
+    public final void loadFrame(GL10 _gl, Context _context, int[] _var, int _offset, int _id)
     {
     	// Ladataan bitmap muistiin
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), id);
+        Bitmap bitmap = BitmapFactory.decodeResource(_context.getResources(), _id);
         
         // Asetetaan mitat
         if (imageSize == 0) {
@@ -106,11 +120,10 @@ public class Animation
         }
 
         // Muunnetaan bitmap OpenGL-tekstuuriksi
-        gl.glGenTextures(1, var, 0);
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, var[offset]);
+        _gl.glBindTexture(GL10.GL_TEXTURE_2D, _var[_offset]);
 
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
 
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
@@ -134,6 +147,9 @@ public class Animation
         
         // Siirretään ja käännetään mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
+        _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
+        
+        // Valitaan tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, frames[_frame]);
         
         // Avataan tekstuuri- ja vektoritaulukot käyttöön
