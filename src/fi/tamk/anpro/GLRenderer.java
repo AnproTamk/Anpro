@@ -69,7 +69,7 @@ public class GLRenderer implements Renderer
         wrapper = Wrapper.getInstance();
         
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations     = new Animation[2];
+        playerAnimations     = new Animation[4];
         playerTextures       = new Texture[4];
         enemyAnimations      = new Animation[5][4];
         enemyTextures        = new Texture[5][4];
@@ -220,7 +220,8 @@ public class GLRenderer implements Renderer
      */
     private final boolean loadTextures(GL10 _gl)
     {
-        playerTextures[0] = new Texture(_gl, context, R.drawable.player_tex0); 
+        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex0); 
+        playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         
         enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
