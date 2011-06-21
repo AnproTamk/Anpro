@@ -23,6 +23,9 @@ public class TouchManager
 	public  int yTouch;
 	public  int xClickOffset;
 	public  int yClickOffset;
+	public 	int yClickFirstBorder;
+	public 	int yClickSecondBorder;
+	public 	int yClickThirdBorder;
 	public  int touchMarginal = 16; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen kosketuksen pelkäksi painallukseksi
 	
 	/* Kuvan tiedot */
@@ -43,6 +46,10 @@ public class TouchManager
     	hud           = _hud;
     	screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
+        
+        yClickFirstBorder = screenHeight / 2 - 176;
+        yClickSecondBorder = screenHeight / 2 - 110;
+        yClickThirdBorder = screenHeight / 2 - 44;
         
         setSurfaceListeners(_glSurfaceView);
     }
@@ -65,38 +72,40 @@ public class TouchManager
 		        	yClickOffset = screenHeight - (int) event.getY();
 		        	
 		        	// Oikean reunan napit
-		        	if (xClickOffset > screenWidth - 100 && xClickOffset < screenWidth &&
-			            yClickOffset < screenHeight / 2 && yClickOffset > 0) {
+		        	//      750           800        700 &&      750          800 
+		        	if (xClickOffset > screenWidth - 100 && xClickOffset < screenWidth) {
 			        			
 	        			// Oikean reunan alin nappula
-	        			if (yClickOffset < screenHeight / 2 - 106 && yClickOffset > 0) {
+	        			if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
 	        				// ***** OIKEAN REUNAN ALIN NAPPULA *****
-	        				hud.triggerClick(Hud.BUTTON_1);
+	        				hud.triggerClick(Hud.BUTTON_3);
 	        			}
 	        			
 	        			// Oikean reunan keskimmäinen nappula
-	        			else if (yClickOffset < screenHeight / 2 - 53 && yClickOffset > 53) {
+	        			else if (yClickOffset < yClickSecondBorder && yClickOffset > 66) {
 	        				// ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
-	        				hud.triggerClick(Hud.BUTTON_1);
+	        				hud.triggerClick(Hud.BUTTON_2);
 	        			}
 
 	        			// Oikean reunan ylin nappula
-	        			else if (yClickOffset < screenHeight / 2 && yClickOffset > 106) {
+	        			else if (yClickOffset < yClickThirdBorder && yClickOffset > 132) {
 	        				// ***** OIKEAN REUNAN YLIN NAPPULA *****
-	        				hud.triggerClick(Hud.BUTTON_2);
+	        				hud.triggerClick(Hud.BUTTON_1);
 	        			}
 	        		}
 	        		// Vasemman reunan napit
-	        		else if (xClickOffset > -screenWidth / 2 && xClickOffset < -screenWidth / 2 + 100 &&
-	        			     yClickOffset < -screenHeight / 2 + 96 && yClickOffset > -screenHeight / 2) {
+		        	//            20              -400
+	        		else if (xClickOffset < 64 && xClickOffset > 0) {
 	        			
         				// Vasemman reunan alempi nappula
-        				if (yClickOffset < -screenHeight / 2 + 48 && yClickOffset > -screenHeight / 2) {
+        				if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
         					// ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
+        					hud.triggerClick(Hud.SPECIAL_2);
         				}
         				// Vasemman reunan ylempi nappula
-        				else {
+        				else if (yClickOffset < yClickSecondBorder && yClickOffset > 66) {
         					// ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
+        					hud.triggerClick(Hud.SPECIAL_1);
         				}
         			}
 	        		// Painetaan pelikentältä
