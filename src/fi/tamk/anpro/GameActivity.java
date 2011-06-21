@@ -53,7 +53,7 @@ public class GameActivity extends Activity
         
         // Luodaan OpenGL-pinta ja renderöijä
         surfaceView = new GLSurfaceView(this);
-        renderer    = new GLRenderer(this);
+        renderer    = new GLRenderer(this, getResources());
         
         // Määritetään renderöijän asetukset ja otetaan se käyttöön
         surfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
