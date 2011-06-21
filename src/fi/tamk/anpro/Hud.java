@@ -14,8 +14,8 @@ public class Hud
     public static final int BUTTON_1  = 0;
     public static final int BUTTON_2  = 1;
     public static final int BUTTON_3  = 2;
-    public static final int SPECIAL_1 = 2;
-    public static final int SPECIAL_2 = 2;
+    public static final int SPECIAL_1 = 3;
+    public static final int SPECIAL_2 = 4;
 
     /* Painikkeisiin sijoitettujen aseiden tunnukset (viittaa WeaponManagerin
        asetaulukoiden soluihin */
@@ -69,7 +69,13 @@ public class Hud
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
         if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
             weaponManager.currentWeapon = weapons[_buttonId];
-            guiObjects.get(_buttonId).startAnimation(0, 1);
+            //guiObjects.get(_buttonId).startAnimation(0, 1);
+            if (guiObjects.get(_buttonId).usedTexture == 0) {
+            	guiObjects.get(_buttonId).usedTexture = 1;
+            }
+            else {
+            	guiObjects.get(_buttonId).usedTexture = 0;
+            }
         }
     }
     
