@@ -68,13 +68,10 @@ public class Enemy extends GameObject
         }
     
         /* Haetaan animaatioiden pituudet */
-        try {
-            for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
+            if (GLRenderer.enemyAnimations[rank-1][i] != null) {
                 animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
             }
-        }
-        catch (Exception e) {
-            // Animaatioita ei oltu luotu. Jatketaan eteenpäin.
         }
         
         /* Otetaan Wrapper käyttöön */
