@@ -52,37 +52,12 @@ public class Animation
         _gl.glGenTextures(_length, frames, 0);
 
         // Ladataan tekstuurit
-        if (_id.equals("enemy1_destroy")) {
-        	loadFrame(_gl, _context, frames, 0, R.drawable.enemy1_destroy_anim_0);
-        	loadFrame(_gl, _context, frames, 1, R.drawable.enemy1_destroy_anim_1);
-        	loadFrame(_gl, _context, frames, 2, R.drawable.enemy1_destroy_anim_2);
-        	loadFrame(_gl, _context, frames, 3, R.drawable.enemy1_destroy_anim_3);
-        	loadFrame(_gl, _context, frames, 4, R.drawable.enemy1_destroy_anim_4);
-        	loadFrame(_gl, _context, frames, 5, R.drawable.enemy1_destroy_anim_5);
-        	loadFrame(_gl, _context, frames, 6, R.drawable.enemy1_destroy_anim_6);
-        	loadFrame(_gl, _context, frames, 7, R.drawable.enemy1_destroy_anim_7);
-        	loadFrame(_gl, _context, frames, 8, R.drawable.enemy1_destroy_anim_8);
-        	loadFrame(_gl, _context, frames, 9, R.drawable.enemy1_destroy_anim_9);
-        	loadFrame(_gl, _context, frames, 10, R.drawable.enemy1_destroy_anim_10);
-        	loadFrame(_gl, _context, frames, 11, R.drawable.enemy1_destroy_anim_11);
-        	loadFrame(_gl, _context, frames, 12, R.drawable.enemy1_destroy_anim_12);
-        	loadFrame(_gl, _context, frames, 13, R.drawable.enemy1_destroy_anim_13);
-        	loadFrame(_gl, _context, frames, 14, R.drawable.enemy1_destroy_anim_14);
-        	loadFrame(_gl, _context, frames, 15, R.drawable.enemy1_destroy_anim_15);
-        	loadFrame(_gl, _context, frames, 16, R.drawable.enemy1_destroy_anim_16);
-        	loadFrame(_gl, _context, frames, 17, R.drawable.enemy1_destroy_anim_17);
-        	loadFrame(_gl, _context, frames, 18, R.drawable.enemy1_destroy_anim_18);
-        	loadFrame(_gl, _context, frames, 19, R.drawable.enemy1_destroy_anim_19);
-        } 
-        else {
         try {
-            for (int i = 0; i < length; ++i) {
-            	String test = _id+"_anim_"+i;
+            for (int i = 0; i < _length; ++i) {
             	loadFrame(_gl, _context, frames, i, _resources.getIdentifier(_id+"_anim_"+i, "drawable", "fi.tamk.anpro"));
             }
         } catch (Exception e) {
             // TODO: Käsittele tämä
-        }
         }
         
         // Määritä vektorit
