@@ -25,6 +25,7 @@ class GameThread extends Thread
     public Player player;
     
     /* Ajanoton muuttujat */
+    private long waveStartTime          = 0;
     private long lastMovementUpdate     = 0;
     private long lastAiUpdateStateOne   = 0;
     private long lastAiUpdateStateTwo   = 0;
@@ -33,6 +34,9 @@ class GameThread extends Thread
     private long lastCooldownUpdate     = 0;
     private long lastAnimationUpdate    = 0;
     private long lastGameModeUpdate		= 0;
+    
+    /* Tekoälyn nopeutus */
+    private float updateSpeedUp = 1;
     
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
        luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
@@ -75,18 +79,19 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-        /* Haetaan päivityksille aloitusajat */
-        lastMovementUpdate     = android.os.SystemClock.uptimeMillis();
-        lastAiUpdateStateOne   = lastMovementUpdate;
-        lastAiUpdateStateTwo   = lastMovementUpdate;
-        lastAiUpdateStateThree = lastMovementUpdate;
-        lastAiUpdateStateFour  = lastMovementUpdate;
-        lastCooldownUpdate     = lastMovementUpdate;
-        lastAnimationUpdate    = lastMovementUpdate;
-        lastGameModeUpdate	   = lastMovementUpdate;
-
         /* Luodaan pelitila */
         gameMode = new SurvivalMode(dm, context);
+        
+        /* Haetaan päivityksille aloitusajat */
+    	waveStartTime		   = android.os.SystemClock.uptimeMillis();
+        lastMovementUpdate     = waveStartTime;
+        lastAiUpdateStateOne   = waveStartTime;
+        lastAiUpdateStateTwo   = waveStartTime;
+        lastAiUpdateStateThree = waveStartTime;
+        lastAiUpdateStateFour  = waveStartTime;
+        lastCooldownUpdate     = waveStartTime;
+        lastAnimationUpdate    = waveStartTime;
+        lastGameModeUpdate	   = waveStartTime;
         
         /* Luodaan TouchManager ja HUD */
         hud          = new Hud(context);
@@ -137,12 +142,17 @@ class GameThread extends Thread
                     }
                 }
             }
+            
+            /* Päivitetään tekoälyjen päivitysvälit */
+            if (currentTime - waveStartTime >= 3000) {
+            	updateSpeedUp = 2;
+            }
            
             /* Päivitetään tekoälyt */
             if (wrapper.player != null) {
 
                 // Päivitetään tila 1
-                if (currentTime - lastAiUpdateStateOne >= 50) {
+                if (currentTime - lastAiUpdateStateOne >= (400 / updateSpeedUp)) {
                     lastAiUpdateStateOne = currentTime;
                     
                     for (int i : wrapper.priorityOneEnemies) {
@@ -159,7 +169,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 2
-                if (currentTime - lastAiUpdateStateTwo >= 100) {
+                if (currentTime - lastAiUpdateStateTwo >= (200 / updateSpeedUp)) {
                     lastAiUpdateStateTwo = currentTime;
                     
                     for (int i : wrapper.priorityTwoEnemies) {
@@ -176,7 +186,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 3
-                if (currentTime - lastAiUpdateStateThree >= 200) {
+                if (currentTime - lastAiUpdateStateThree >= (100 / updateSpeedUp)) {
                     lastAiUpdateStateThree = currentTime;
                     
                     for (int i : wrapper.priorityThreeEnemies) {
@@ -193,7 +203,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 4
-                if (currentTime - lastAiUpdateStateFour >= 400) {
+                if (currentTime - lastAiUpdateStateFour >= (50 / updateSpeedUp)) {
                     lastAiUpdateStateFour = currentTime;
                     
                     for (int i : wrapper.priorityFourEnemies) {
@@ -219,6 +229,9 @@ class GameThread extends Thread
             if (currentTime - lastGameModeUpdate >= 1000) {
                 if (SurvivalMode.enemiesLeft == 0) {
                 	// TODO:
+                	waveStartTime = android.os.SystemClock.uptimeMillis();
+                	updateSpeedUp = 1;
+                	
                 	gameMode.startWave();
                 }
             }
