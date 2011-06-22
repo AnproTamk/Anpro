@@ -33,9 +33,6 @@ public class Texture
         1.0f, 0.0f  // alaoikea
     };
     
-    /* Kuvan skaalaus */
-    public static final float scale = Options.scale;
-
     /**
      * Alustaa luokan muuttujat.
      * 
@@ -120,7 +117,7 @@ public class Texture
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        _gl.glScalef(scale, scale, scale);
+        _gl.glScalef(Options.scale, Options.scale, Options.scale);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprite[0]);

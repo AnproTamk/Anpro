@@ -32,7 +32,7 @@ public class Player extends GameObject
         defence = _defence;
         
         // Asetetaan törmäystunnistuksen säde
-        collisionRadius = 25;
+        collisionRadius = (int) (25 * Options.scale);
         
         // Haetaan käytettävien animaatioiden pituudet
         for (int i = 0; i < 4; ++i) {

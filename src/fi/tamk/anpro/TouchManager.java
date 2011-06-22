@@ -73,37 +73,37 @@ public class TouchManager
 		        	
 		        	// Oikean reunan napit
 		        	//      750           800        700 &&      750          800 
-		        	if (xClickOffset > screenWidth - 100 && xClickOffset < screenWidth) {
+		        	if (xClickOffset > screenWidth - 100 * Options.scale && xClickOffset < screenWidth) {
 			        			
 	        			// Oikean reunan alin nappula
-	        			if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
+	        			if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
 	        				// ***** OIKEAN REUNAN ALIN NAPPULA *****
 	        				hud.triggerClick(Hud.BUTTON_3);
 	        			}
 	        			
 	        			// Oikean reunan keskimmäinen nappula
-	        			else if (yClickOffset < yClickSecondBorder && yClickOffset > 66) {
+	        			else if (yClickOffset < yClickSecondBorder * Options.scale && yClickOffset > 66 * Options.scale) {
 	        				// ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
 	        				hud.triggerClick(Hud.BUTTON_2);
 	        			}
 
 	        			// Oikean reunan ylin nappula
-	        			else if (yClickOffset < yClickThirdBorder && yClickOffset > 132) {
+	        			else if (yClickOffset < yClickThirdBorder * Options.scale && yClickOffset > 132 * Options.scale) {
 	        				// ***** OIKEAN REUNAN YLIN NAPPULA *****
 	        				hud.triggerClick(Hud.BUTTON_1);
 	        			}
 	        		}
 	        		// Vasemman reunan napit
 		        	//            20              -400
-	        		else if (xClickOffset < 64 && xClickOffset > 0) {
+	        		else if (xClickOffset < 64 * Options.scale && xClickOffset > 0) {
 	        			
         				// Vasemman reunan alempi nappula
-        				if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
+        				if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
         					// ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
         					hud.triggerClick(Hud.SPECIAL_2);
         				}
         				// Vasemman reunan ylempi nappula
-        				else if (yClickOffset < yClickSecondBorder && yClickOffset > 66) {
+        				else if (yClickOffset < yClickSecondBorder * Options.scale && yClickOffset > 66 * Options.scale) {
         					// ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
         					hud.triggerClick(Hud.SPECIAL_1);
         				}

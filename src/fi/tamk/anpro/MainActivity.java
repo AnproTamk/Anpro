@@ -12,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -37,8 +38,12 @@ public class MainActivity extends Activity implements OnClickListener
         
         context = getApplicationContext();
 
+        // Ladataan näytön tiedot
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        
         // Ladataan Options käyttöön
-        Options options = Options.getInstance();
+        Options.getInstance().scaleConversion(dm.densityDpi);
 
     	// Ladataan SoundManager käyttöön ja alustetaan se
         SoundManager.getInstance();
