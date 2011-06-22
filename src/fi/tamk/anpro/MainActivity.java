@@ -12,6 +12,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -36,9 +37,13 @@ public class MainActivity extends Activity implements OnClickListener
     	setContentView(R.layout.main);
         
         context = getApplicationContext();
+        
+        // Ladataan näytön tiedot
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         // Ladataan Options käyttöön
-        Options options = Options.getInstance();
+        Options.getInstance().scaleConversion(dm.densityDpi);
 
     	// Ladataan SoundManager käyttöön ja alustetaan se
         SoundManager.getInstance();
@@ -70,9 +75,10 @@ public class MainActivity extends Activity implements OnClickListener
                 // Perform action on clicks, depending on whether it's now checked
                 if (((CheckBox) v).isChecked()) {
                     Toast.makeText(MainActivity.this, "Particles Enabled", Toast.LENGTH_SHORT).show();
-                    Options.settings[0]=false;
+                    // TODO Options.settings[0]=true;
                 } else {
                     Toast.makeText(MainActivity.this, "Particles Disabled", Toast.LENGTH_SHORT).show();
+                    // TODO  Options.settings[0]=false;
                 }
             }
         });
@@ -83,10 +89,11 @@ public class MainActivity extends Activity implements OnClickListener
                 // Perform action on clicks, depending on whether it's now checked
                 if (((CheckBox) v).isChecked()) {
                     Toast.makeText(MainActivity.this, "Music Enabled", Toast.LENGTH_SHORT).show();
-                    Options.settings[1]=false;
+                    // TODO Options.settings[1]=false;
                     
                 } else {
                     Toast.makeText(MainActivity.this, "Music Disabled", Toast.LENGTH_SHORT).show();
+                    // TODO Options.settings[1]=false;
                 }
             }
         });
@@ -97,14 +104,15 @@ public class MainActivity extends Activity implements OnClickListener
                 // Perform action on clicks, depending on whether it's now checked
                 if (((CheckBox) v).isChecked()) {
                     Toast.makeText(MainActivity.this, "Sounds Enabled", Toast.LENGTH_SHORT).show();
-                    
+                    // TODO Options.settings[2]=false;
                 } else {
                     Toast.makeText(MainActivity.this, "Sounds Disabled", Toast.LENGTH_SHORT).show();
+                    // TODO Options.settings[2]=false;
                 }
             }
         });
-        // ladataan asetukset, jos niitä ei ole ladattu 
 
+        // ladataan asetukset, jos niitä ei ole ladattu 
         if (!settingsLoaded) {
         	XmlReader reader = new XmlReader(getBaseContext());
         	boolean[] settingsTemp = reader.readSettings();

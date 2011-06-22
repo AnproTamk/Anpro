@@ -55,6 +55,7 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 */
 	            // storyButton.setVisibility(View.VISIBLE);
 	            Toast.makeText(LevelSelectActivity.this, "level" + " " + (position + 1), Toast.LENGTH_LONG).show();
+	            //storybutton.
 	            }
 	    });
 	}
@@ -71,8 +72,8 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 		}
 		*/
 
-	    
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+	public void onItemClick(AdapterView<?> arg0, View _v, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		
 	}

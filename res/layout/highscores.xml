@@ -14,17 +14,22 @@
     android:textSize="35sp"
     android:layout_marginBottom="25dip" android:layout_width="wrap_content">
 </TextView>
-<LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="100dip"></LinearLayout>
-<LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout2">
+<LinearLayout android:layout_height="wrap_content" 
+              android:layout_width="fill_parent" 
+              android:id="@+id/linearLayout2"
+              android:layout_gravity="center"
+              android:gravity="center">
     <ImageButton android:id="@+id/button_reset" 
                  android:layout_height="wrap_content" 
                  android:layout_width="wrap_content" 
                  android:src="@drawable/reset" 
+                 android:background="@drawable/checkbox_on_background"
                  android:padding="5dip"/>
     <ImageButton android:id="@+id/button_mainmenu" 
                  android:layout_height="wrap_content" 
                  android:layout_width="wrap_content"  
-                 android:src="@drawable/mainmenu" 
+                 android:src="@drawable/mainmenu"
+                 android:background="@drawable/checkbox_on_background" 
                  android:padding="5dip"/>
 </LinearLayout>     
 
