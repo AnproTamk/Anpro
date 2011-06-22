@@ -235,6 +235,8 @@ public class Enemy extends GameObject
     {
         /* Tuhoutuminen */
         if (actionId == 1) {
+        	--SurvivalMode.enemiesLeft;
+        	SurvivalMode.updateScore(rank);
             setUnactive();
         }
     }
