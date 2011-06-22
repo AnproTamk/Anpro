@@ -16,16 +16,16 @@ public class SurvivalMode extends AbstractMode
 {
     /* Vihollisaallot */
     public  int waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
-    private int currentWave = 0;
+    private static int currentWave = 0;
     
     /* Pistelaskuri ja pisteet */
     public  GuiObject scoreCounter;
-    private long      score;
+    private static long      score;
     
     /* Combot */
-    private int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
-    private long lastTime        = 0; // Edellisen pisteen lis‰yksen aika
-    private long newTime;             // Uuden pisteen lis‰yksen aika
+    private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
+    private static long lastTime        = 0; // Edellisen pisteen lis‰yksen aika
+    private static long newTime;             // Uuden pisteen lis‰yksen aika
     
     /* Vihollisten aloituspaikat */
     private int spawnPoints[][][]; // [rykelm‰][paikka][x/y] = [koordinaatti]
@@ -43,6 +43,11 @@ public class SurvivalMode extends AbstractMode
     {
     	// Alustetaan muuttujat
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+        for (int j = 0; j < AMOUNT_OF_WAVES; ++j) {
+        	for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
+        		waves[j][i] = -1;
+        	}
+        }
         enemies      = new ArrayList<Enemy>();
         enemyStats   = new int[5][5];
         //scoreCounter = new GuiObject();
@@ -82,10 +87,11 @@ public class SurvivalMode extends AbstractMode
      * 
      * @param int Tuhotun vihollisen taso, jonka perusteella pisteit‰ lis‰t‰‰n
      */
-    public void updateScore(int _rank) {
+    public static void updateScore(int _rank) {
         // P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina
         if (lastTime == 0) {
             lastTime = android.os.SystemClock.uptimeMillis();
+            score += (10 * _rank + 5 * _rank * currentWave);
         }
         else {
             newTime = android.os.SystemClock.uptimeMillis();
@@ -99,8 +105,10 @@ public class SurvivalMode extends AbstractMode
             else {
                 score += (10 * _rank + 5 * _rank * currentWave);
                 comboMultiplier = 2;
+                lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
+        int a = 0;
         // scoreCounter.updateText(score);
     }
     
@@ -129,17 +137,21 @@ public class SurvivalMode extends AbstractMode
         int temp;
         int tempRandA, tempRandB;
         for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
-        	temp = waves[currentWave][index];
-        	
-        	tempRandA = randomGen.nextInt(7)+1;
-        	tempRandB = randomGen.nextInt(2);
-        	
-        	enemies.get(temp).setActive();
-            enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
-            //enemies.get(temp).x = -200 + index * 20;
-            //enemies.get(temp).y = 200;
+        	if (waves[currentWave][index] != -1) {
+	        	temp = waves[currentWave][index];
+	        	
+	        	tempRandA = randomGen.nextInt(7)+1;
+	        	tempRandB = randomGen.nextInt(2);
+	        	
+	        	enemies.get(temp).setActive();
+	        	++enemiesLeft;
+	            enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+	            //enemies.get(temp).x = -200 + index * 20;
+	            //enemies.get(temp).y = 200;
+        	}
         }
+        int a = enemiesLeft;
         ++currentWave;
     }
     
@@ -227,6 +239,8 @@ public class SurvivalMode extends AbstractMode
 	    // [4][2][1] = alareunaan ilmestyv‰n vihollisen y-koord. (kolmas spawnpoint)
 	    
 	    // [2][1][0] = x-koord.
+	    
+	    
     }
 }
 
