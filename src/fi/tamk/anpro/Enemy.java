@@ -61,7 +61,7 @@ public class Enemy extends GameObject
         
         /* Asetetaan törmäysetäisyys */
         if (rank == 1) {
-            collisionRadius = 20;
+            collisionRadius = (int) (20 * Options.scale);
         }
         else if (rank == 2) {
             // TODO:
