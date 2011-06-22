@@ -258,7 +258,7 @@ public class XmlReader
                         
                         // Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
                         int index = 0;
-                        for (int i = wave.length - 1; i > 0 ; --i) {
+                        for (int i = wave.length - 1; i >= 0 ; --i) {
                             _survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
                             ++index;
                         }

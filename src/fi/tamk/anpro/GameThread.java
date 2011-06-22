@@ -32,6 +32,7 @@ class GameThread extends Thread
     private long lastAiUpdateStateFour  = 0;
     private long lastCooldownUpdate     = 0;
     private long lastAnimationUpdate    = 0;
+    private long lastGameModeUpdate		= 0;
     
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
        luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
@@ -82,6 +83,7 @@ class GameThread extends Thread
         lastAiUpdateStateFour  = lastMovementUpdate;
         lastCooldownUpdate     = lastMovementUpdate;
         lastAnimationUpdate    = lastMovementUpdate;
+        lastGameModeUpdate	   = lastMovementUpdate;
 
         /* Luodaan pelitila */
         gameMode = new SurvivalMode(dm, context);
@@ -211,6 +213,14 @@ class GameThread extends Thread
             /* Päivitetään aseiden cooldownit */
             if (currentTime - lastCooldownUpdate >= 100) {
                 gameMode.weaponManager.updateCooldowns();
+            }
+            
+            /* Päivitetään vihollisaallot */
+            if (currentTime - lastGameModeUpdate >= 1000) {
+                if (SurvivalMode.enemiesLeft == 0) {
+                	// TODO:
+                	gameMode.startWave();
+                }
             }
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */

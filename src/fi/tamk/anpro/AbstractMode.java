@@ -14,7 +14,7 @@ abstract public class AbstractMode
     /* Viholliset */
     public    ArrayList<Enemy> enemies;         // Viholliset
     protected int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
-    protected int              enemiesLeft = 0; // Vihollisiä jäljellä kentällä
+    protected static int       enemiesLeft = 0; // Vihollisiä jäljellä kentällä
     protected int 			   rankTemp;
     
     /* Kentän koko */
