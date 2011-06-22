@@ -137,6 +137,7 @@ public class Animation
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
+        _gl.glScalef(Options.scale, Options.scale, Options.scale);
         
         // Valitaan tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, frames[_frame]);
