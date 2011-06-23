@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -24,6 +25,13 @@ public class MainActivity extends Activity implements OnClickListener
     
     private boolean settingsLoaded = false;
     
+    public static final String PREFS_NAME = "SharedPrefs";
+    public static final String PREF_STRING = "PrefString";
+    public static final String PREF_BOOL_PAR = "PrefBoolPar";
+    public static final String PREF_BOOL_MUS = "PrefBoolMUS";
+    public static final String PREF_BOOL_SOU = "PrefBoolSOU";
+    private SharedPreferences mPrefs;
+    
     private CheckBox particleCheckBox;
     private CheckBox musicCheckBox;
     private CheckBox soundCheckBox;
@@ -37,6 +45,7 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.main);
         
         context = getApplicationContext();
+        mPrefs = getSharedPreferences(PREFS_NAME,0);
         
         // Ladataan näytön tiedot
         DisplayMetrics dm = new DisplayMetrics();
@@ -131,26 +140,28 @@ public class MainActivity extends Activity implements OnClickListener
                 SoundManager.playSound(2, 1);
                 Intent i_story = new Intent(this, LevelSelectActivity.class);
                 startActivity(i_story);
-                finish();
+                super.onStop();
                 break;
                 
             case R.id.button_survival:
                 SoundManager.playSound(2, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
                 startActivity(i_game);
+                super.onStop();
                 break;
                 
             case R.id.button_highscores:
                 SoundManager.playSound(2, 1);
                 Intent i_highscores = new Intent(this, HighScoresActivity.class);
                 startActivity(i_highscores);
-                finish();
+                super.onStop();
                 break;
                 
             case R.id.button_help:
                 SoundManager.playSound(2, 1);
                 Intent i_help = new Intent(this, AboutActivity.class);
                 startActivity(i_help);
+                super.onPause();
                 break;
                 
             case R.id.button_quit:
@@ -158,5 +169,30 @@ public class MainActivity extends Activity implements OnClickListener
                 android.os.Process.killProcess(android.os.Process.myPid());
                 break;
         }
+    }
+    
+    @Override
+    protected void onResume() {
+    	particleCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_PAR,false));
+        musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, false));
+        soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, false));
+        super.onResume();
+    }
+    
+    @Override
+    protected void onPause() {
+    	Editor e = mPrefs.edit();
+    	e.putBoolean(PREF_BOOL_PAR, particleCheckBox.isChecked());
+    	e.putBoolean(PREF_BOOL_MUS, musicCheckBox.isChecked());
+    	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
+    	e.commit();
+    	
+    	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
+    	super.onPause();
+    }
+    
+    @Override
+    protected void onStop() {
+    	super.onStop();
     }
 }
