@@ -97,10 +97,14 @@ public class XmlReader
                     if (hud.getName().equals("button")) {
                         // NÄILLE RIVEILLE TEHDÄÄN GuiObject LUOKKAAN VASTAAVAT KOHTANSA MYÖHEMMIN!
                         _hud.buttons.add(new Button(Integer.parseInt(hud.getAttributeValue(null, "x")),
-                                                       Integer.parseInt(hud.getAttributeValue(null, "y"))));
+                                                    Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
                     if (hud.getName().equals("counter")) {
                         // ...
+                    }
+                    if (hud.getName().equals("icon")) {
+                    	_hud.bars.add(new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                    						  Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
                 }
                 else if (hud.getEventType() == XmlPullParser.END_TAG) {
