@@ -234,6 +234,8 @@ public class GLRenderer implements Renderer
         hudTextures[0][1] = new Texture(_gl, context, R.drawable.button_tex1);
         hudTextures[0][2] = new Texture(_gl, context, R.drawable.joystick);
         
+        hudAnimations[0][0] = new Animation(_gl, context, resources, "button_press", 9);
+        
         allLoaded = true;
         
         return true;

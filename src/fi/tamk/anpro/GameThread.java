@@ -141,6 +141,10 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).update();
                     }
                 }
+                
+                for (int i = hud.buttons.size()-1; i >= 0; --i) {
+                	hud.buttons.get(i).update();
+                }
             }
             
             /* P‰ivitet‰‰n teko‰lyjen p‰ivitysv‰lit */
