@@ -42,9 +42,9 @@ abstract public class AbstractProjectile extends GameObject
     protected int targetY;
     
     /* Ammuksen tila */
-    public  boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
-    private int     listId;         // Tunnus Wrapperin piirtolistalla
-    private int     priority;
+    public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
+    protected int     listId;         // Tunnus Wrapperin piirtolistalla
+    private   int     priority;
 
     /**
      * Alustaa luokan muuttujat ja lis‰‰ ammuksen piirtolistalle.
@@ -55,7 +55,7 @@ abstract public class AbstractProjectile extends GameObject
         
         wrapper = Wrapper.getInstance();
         
-        priority = 1; // TODO: T‰m‰ pit‰‰ tarkistaa AI:n perusteella!
+        priority = 1; // TODO: T‰m‰ pit‰‰ tarkistaa AI:n perusteella ja jokaiselle ammukselle erikseen!
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, priority);
     }
     
@@ -211,7 +211,7 @@ abstract public class AbstractProjectile extends GameObject
         }
     }
 
-	/**
+    /**
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
      * actionActivated on TRUE.
      * 
