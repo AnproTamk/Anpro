@@ -112,7 +112,8 @@ public class TouchManager
 
                     // Oikean reunan napit
                     //      750           800        700 &&      750          800
-                    if (xClickOffset > screenWidth - 100 * Options.scale && xClickOffset < screenWidth) {
+                    if (xClickOffset > screenWidth - 100 * Options.scale && xClickOffset < screenWidth &&
+                    	yClickOffset < yClickThirdBorder * Options.scale) {
 
                         // Oikean reunan alin nappula
                         if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
@@ -134,7 +135,8 @@ public class TouchManager
                     }
                     // Vasemman reunan napit
                     //            20              -400
-                    else if (xClickOffset < 64 * Options.scale && xClickOffset > 0) {
+                    else if (xClickOffset < screenWidth - 700 * Options.scale && xClickOffset > 0 &&
+                    		 yClickOffset < yClickThirdBorder * Options.scale) {
 
                         // Vasemman reunan alempi nappula
                         if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
