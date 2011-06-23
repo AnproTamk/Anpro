@@ -22,7 +22,8 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public ArrayList<GuiObject> guiObjects = null;
+    public ArrayList<Button> buttons  = null;
+    public Joystick          joystick = null;
 
     /* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
        asetta WeaponManagerista) */
@@ -38,10 +39,12 @@ public class Hud
         weaponManager = WeaponManager.getConnection();
         weapons = new int[5];
         
-        guiObjects = new ArrayList<GuiObject>();
+        buttons = new ArrayList<Button>();
         
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
+        
+        joystick = new Joystick(200, -140);
     }
 
     /**
@@ -49,12 +52,9 @@ public class Hud
      */
     public final void updateCooldowns()
     {
-        for(int i = 4; i >= 0; --i) {
-            if(weaponManager.cooldownLeft[weapons[i]] > 0 ) {
-                guiObjects.get(i).usedTexture = 1;
-            }
-            else {
-                guiObjects.get(i).usedTexture = 0;
+        for (int i = buttons.size()-1; i >= 0; --i) {
+            if (weaponManager.cooldownLeft[weapons[i]] > 0 ) {
+                // TODO:
             }
         }
     }
@@ -69,13 +69,12 @@ public class Hud
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
         if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
             weaponManager.currentWeapon = weapons[_buttonId];
-            //guiObjects.get(_buttonId).startAnimation(0, 1);
-            if (guiObjects.get(_buttonId).usedTexture == 0) {
-            	guiObjects.get(_buttonId).usedTexture = 1;
+
+            for (Button object : buttons) {
+                object.setSelected(false);
             }
-            else {
-            	guiObjects.get(_buttonId).usedTexture = 0;
-            }
+            
+            buttons.get(_buttonId).setSelected(true);
         }
     }
     

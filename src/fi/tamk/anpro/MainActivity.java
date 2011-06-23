@@ -20,28 +20,24 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener
 {
-	public static Context context;
-	
-	private boolean settingsLoaded = false;
-	
-	private CheckBox particleCheckBox;
-	private CheckBox musicCheckBox;
-	private CheckBox soundCheckBox;
-	
+    public static Context context;
+    
+    private boolean settingsLoaded = false;
+    
+    private CheckBox particleCheckBox;
+    private CheckBox musicCheckBox;
+    private CheckBox soundCheckBox;
+    
     /** Kutsutaan kun aktiviteetti luodaan. */
     @Override
     public void onCreate(Bundle _savedInstanceState)
     {	
-    	super.onCreate(_savedInstanceState);
-    	
-    	setContentView(R.layout.main);
+        super.onCreate(_savedInstanceState);
+        
+        setContentView(R.layout.main);
         
         context = getApplicationContext();
         
-        // Ladataan näytön tiedot
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
         // Ladataan näytön tiedot
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -49,15 +45,15 @@ public class MainActivity extends Activity implements OnClickListener
         // Ladataan Options käyttöön
         Options.getInstance().scaleConversion(dm.densityDpi);
 
-    	// Ladataan SoundManager käyttöön ja alustetaan se
+        // Ladataan SoundManager käyttöön ja alustetaan se
         SoundManager.getInstance();
         SoundManager.initSounds(this);
         
         // Määritetään aktiviteetin asetukset
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
-		// Ladataan valikon painikkeet käyttöön
+        // Ladataan valikon painikkeet käyttöön
         View storyButton = findViewById(R.id.button_story);
         storyButton.setOnClickListener(this);
         
@@ -118,49 +114,49 @@ public class MainActivity extends Activity implements OnClickListener
 
         // ladataan asetukset, jos niitä ei ole ladattu 
         if (!settingsLoaded) {
-        	XmlReader reader = new XmlReader(getBaseContext());
-        	boolean[] settingsTemp = reader.readSettings();
-        	
-        	particleCheckBox.setChecked(settingsTemp[0]);
-        	musicCheckBox.setChecked(settingsTemp[1]);
-        	soundCheckBox.setChecked(settingsTemp[2]);
-        	
-        	settingsLoaded = true;
+            XmlReader reader = new XmlReader(getBaseContext());
+            boolean[] settingsTemp = reader.readSettings();
+            
+            particleCheckBox.setChecked(settingsTemp[0]);
+            musicCheckBox.setChecked(settingsTemp[1]);
+            soundCheckBox.setChecked(settingsTemp[2]);
+            
+            settingsLoaded = true;
         }   
     }
     
     public void onClick(View _v) {
-    	switch(_v.getId()) {
-	    	case R.id.button_story:
-	    		SoundManager.playSound(2, 1);
-	    		Intent i_story = new Intent(this, LevelSelectActivity.class);
-	    		startActivity(i_story);
-	    		finish();
-	    		break;
-	    		
-	    	case R.id.button_survival:
-	    		SoundManager.playSound(2, 1);
-	    		Intent i_game = new Intent(this, GameActivity.class);
-	    		startActivity(i_game);
-	    		break;
-	    		
-	    	case R.id.button_highscores:
-	    		SoundManager.playSound(2, 1);
-	    		Intent i_highscores = new Intent(this, HighScoresActivity.class);
-	    		startActivity(i_highscores);
-	    		finish();
-	    		break;
-	    		
-	    	case R.id.button_help:
-	    		SoundManager.playSound(2, 1);
-	    		Intent i_help = new Intent(this, AboutActivity.class);
-	    		startActivity(i_help);
-	    		break;
-	    		
-	    	case R.id.button_quit:
-	    		SoundManager.playSound(2, 1);
-	    		android.os.Process.killProcess(android.os.Process.myPid());
-	    		break;
-    	}
+        switch(_v.getId()) {
+            case R.id.button_story:
+                SoundManager.playSound(2, 1);
+                Intent i_story = new Intent(this, LevelSelectActivity.class);
+                startActivity(i_story);
+                finish();
+                break;
+                
+            case R.id.button_survival:
+                SoundManager.playSound(2, 1);
+                Intent i_game = new Intent(this, GameActivity.class);
+                startActivity(i_game);
+                break;
+                
+            case R.id.button_highscores:
+                SoundManager.playSound(2, 1);
+                Intent i_highscores = new Intent(this, HighScoresActivity.class);
+                startActivity(i_highscores);
+                finish();
+                break;
+                
+            case R.id.button_help:
+                SoundManager.playSound(2, 1);
+                Intent i_help = new Intent(this, AboutActivity.class);
+                startActivity(i_help);
+                break;
+                
+            case R.id.button_quit:
+                SoundManager.playSound(2, 1);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                break;
+        }
     }
 }

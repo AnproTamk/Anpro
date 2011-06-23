@@ -25,8 +25,9 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_DESTROY = 3;
 
     /* Vakiot HUDin tekstuureille ja animaatioille */
-    public static final int TEXTURE_READY    = 0;
-    public static final int TEXTURE_COOLDOWN = 1;
+    public static final int TEXTURE_BUTTON_NOTSELECTED = 0;
+    public static final int TEXTURE_BUTTON_SELECTED    = 1;
+    public static final int TEXTURE_JOYSTICK           = 2;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -76,7 +77,7 @@ public class GLRenderer implements Renderer
         projectileAnimations = new Animation[5][4];
         projectileTextures   = new Texture[5][4];
         hudAnimations        = new Animation[2][2];
-        hudTextures          = new Texture[2][2];
+        hudTextures          = new Texture[2][3];
     }
 
     /**
@@ -231,6 +232,7 @@ public class GLRenderer implements Renderer
         
         hudTextures[0][0] = new Texture(_gl, context, R.drawable.button_tex0);
         hudTextures[0][1] = new Texture(_gl, context, R.drawable.button_tex1);
+        hudTextures[0][2] = new Texture(_gl, context, R.drawable.joystick);
         
         allLoaded = true;
         

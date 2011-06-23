@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
  * 
  * @extends GfxObject
  */
-public class GuiObject extends GfxObject
+abstract public class GuiObject extends GfxObject
 {
     /* Objektin tiedot*/
     private int type;
@@ -21,18 +21,14 @@ public class GuiObject extends GfxObject
     
     /**
      * Alustaa luokan muuttujat.
+     * 
+     * @param int Objektin X-koordinaatti
+     * @param int Objektin Y-koordinaatti
      */
-    public GuiObject(int _x, int _y, String _type)
+    public GuiObject(int _x, int _y)
     {
         x = _x;
         y = _y;
-        
-        if (_type.equals("weapon")) {
-            type = 0;
-        }
-        else {
-            type = 1;
-        }
         
         wrapper = Wrapper.getInstance();
 
