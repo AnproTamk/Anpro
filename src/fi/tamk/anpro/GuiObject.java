@@ -35,9 +35,9 @@ abstract public class GuiObject extends GfxObject
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, 1);
     
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 2; ++i) {
-            if (GLRenderer.hudAnimations[0][i] != null) {
-                animationLength[i] = GLRenderer.hudAnimations[0][i].length;
+        for (int i = 0; i < 4; ++i) {
+            if (GLRenderer.hudAnimations[i] != null) {
+                animationLength[i] = GLRenderer.hudAnimations[i].length;
             }
         }
     }
@@ -51,10 +51,10 @@ abstract public class GuiObject extends GfxObject
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.hudAnimations[0][usedAnimation].draw(_gl, x, y, 90, currentFrame);
+            GLRenderer.hudAnimations[usedAnimation].draw(_gl, x, y, 90, currentFrame);
         }
         else{
-        	GLRenderer.hudTextures[0][usedTexture].draw(_gl, x, y, 90);
+        	GLRenderer.hudTextures[usedTexture].draw(_gl, x, y, 90);
         }
         
     }
