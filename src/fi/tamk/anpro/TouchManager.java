@@ -63,9 +63,9 @@ public class TouchManager
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
 
-        yClickFirstBorder = screenHeight / 2 - 176;
-        yClickSecondBorder = screenHeight / 2 - 110;
-        yClickThirdBorder = screenHeight / 2 - 44;
+        yClickFirstBorder = screenHeight / 2 - (int)(176 * Options.scaleY + 0.5f);
+        yClickSecondBorder = screenHeight / 2 - (int)(110 * Options.scaleY + 0.5f);
+        yClickThirdBorder = screenHeight / 2 - (int)(44 * Options.scaleY + 0.5f);
         
         wrapper = Wrapper.getInstance();
 
@@ -155,40 +155,38 @@ public class TouchManager
                     yClickOffset = screenHeight - (int) event.getY();
 
                     // Oikean reunan napit
-                    //      750           800        700 &&      750          800
-                    if (xClickOffset > screenWidth - 100 * Options.scale && xClickOffset < screenWidth &&
-                    	yClickOffset < yClickThirdBorder * Options.scale) {
+                    if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
+                    	yClickOffset < yClickThirdBorder) {
 
                         // Oikean reunan alin nappula
-                        if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
+                        if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
                             // ***** OIKEAN REUNAN ALIN NAPPULA *****
                             hud.triggerClick(Hud.BUTTON_3);
                         }
 
                         // Oikean reunan keskimmäinen nappula
-                        else if (yClickOffset < yClickSecondBorder * Options.scale && yClickOffset > 66 * Options.scale) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scale) {
                             // ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
                             hud.triggerClick(Hud.BUTTON_2);
                         }
 
                         // Oikean reunan ylin nappula
-                        else if (yClickOffset < yClickThirdBorder * Options.scale && yClickOffset > 132 * Options.scale) {
+                        else if (yClickOffset < yClickThirdBorder && yClickOffset > 132 * Options.scale) {
                             // ***** OIKEAN REUNAN YLIN NAPPULA *****
                             hud.triggerClick(Hud.BUTTON_1);
                         }
                     }
                     // Vasemman reunan napit
-                    //            20              -400
                     else if (xClickOffset < screenWidth - 700 * Options.scale && xClickOffset > 0 &&
-                    		 yClickOffset < yClickThirdBorder * Options.scale) {
+                    		 yClickOffset < yClickThirdBorder) {
 
                         // Vasemman reunan alempi nappula
-                        if (yClickOffset < yClickFirstBorder * Options.scale && yClickOffset > 0) {
+                        if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
                             // ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
                             hud.triggerClick(Hud.SPECIAL_2);
                         }
                         // Vasemman reunan ylempi nappula
-                        else if (yClickOffset < yClickSecondBorder * Options.scale && yClickOffset > 66 * Options.scale) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scale) {
                             // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
                             hud.triggerClick(Hud.SPECIAL_1);
                         }

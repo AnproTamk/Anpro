@@ -19,7 +19,6 @@ class GameThread extends Thread
     private Wrapper      wrapper;
     private AbstractMode gameMode;
     private TouchManager touchManager;
-    private Hud          hud;
     
     /* Pelaaja (VÄLIAIKAINEN!!!) */
     public Player player;
@@ -90,10 +89,6 @@ class GameThread extends Thread
         lastAiUpdateStateFour  = waveStartTime;
         lastCooldownUpdate     = waveStartTime;
         lastGameModeUpdate	   = waveStartTime;
-        
-        /* Luodaan TouchManager ja HUD */
-        hud          = new Hud(context);
-        touchManager = new TouchManager(dm, surface, context, hud);
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
