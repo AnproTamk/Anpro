@@ -52,10 +52,9 @@ public class GLRenderer implements Renderer
     private Resources resources;
     
     /* Tarvittavat oliot */
-    private Wrapper      wrapper;
-    private GameThread   gameThread = null;
-    private Hud          hud;
-    private TouchManager touchManager;
+    private       Wrapper    wrapper;
+    private       GameThread gameThread = null;
+    public static Hud        hud;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public boolean allLoaded = false;
@@ -71,17 +70,6 @@ public class GLRenderer implements Renderer
      */
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
-        // Tallennetaan konteksti ja resurssit
-        context   = _context;
-        resources = _resources;
-        
-        // Luodaan TouchManager ja HUD
-        hud          = new Hud(_context);
-        touchManager = new TouchManager(_dm, _surface, _context, hud);
-        
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
-        
         // Määritetään taulukoiden koot
         playerAnimations     = new Animation[5];
         playerTextures       = new Texture[4];
@@ -91,6 +79,16 @@ public class GLRenderer implements Renderer
         projectileTextures   = new Texture[5][4];
         hudAnimations        = new Animation[4];
         hudTextures          = new Texture[4];
+        
+        // Tallennetaan konteksti ja resurssit
+        context   = _context;
+        resources = _resources;
+        
+        // Luodaan HUD
+        hud = new Hud(_context);
+        
+        // Otetaan Wrapper käyttöön
+        wrapper = Wrapper.getInstance();
     }
 
     /**

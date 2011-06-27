@@ -1,18 +1,10 @@
 package fi.tamk.anpro;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.opengl.GLSurfaceView;
-import android.os.Handler;
-import android.os.Message;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 
 /**
@@ -56,10 +48,10 @@ public class TouchManager
      * @param Context		 Ohjelman konteksti
      * @param Hud			 Pelin käyttöliittymä
      */
-    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud)
+    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context)
     {
         weaponManager = WeaponManager.getConnection();
-        hud           = _hud;
+        hud           = GLRenderer.hud;
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
 
