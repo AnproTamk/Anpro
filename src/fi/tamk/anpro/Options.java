@@ -56,30 +56,11 @@ public class Options
 	 * 
 	 * @param _screenDpi näytön DPI-lukema (320, 240, 160, 120)
 	 */
-	/*public void scaleConversion(int _screenDpi)
-	{	
-		if (_screenDpi >= 320) {
-			scale = 2.0f;
-		}
-		else if (_screenDpi > 240 && _screenDpi < 320) {
-			scale = 1.5f;
-		}
-		else if (_screenDpi > 160 && _screenDpi <= 240) {
-			scale = 1.0f;
-		}
-		else if (_screenDpi > 120 && _screenDpi <= 160) {
-			scale = 0.75f;
-		}
-		else {
-			System.exit(0);
-			scale = 0.0f;
-		}
-	}*/
     public void scaleConversion(int _screenWidth, int _screenHeight)
 	{	
     	scaleX = (float)_screenWidth / 800;
     	scaleY = (float)_screenHeight / 480;
-    	scale = (float)(scaleX + scaleY) / 2;
+    	scale = 1.0f; // TODO:
 	}
 
 	/**
