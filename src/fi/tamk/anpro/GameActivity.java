@@ -50,19 +50,19 @@ public class GameActivity extends Activity
         
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        // Ladataan näytön tiedot
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         // Luodaan OpenGL-pinta ja renderöijä
         surfaceView = new GLSurfaceView(this);
-        renderer    = new GLRenderer(this, getResources());
+        renderer    = new GLRenderer(this, surfaceView, getResources(), dm);
         
         // Määritetään renderöijän asetukset ja otetaan se käyttöön
         surfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
         surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceView.setRenderer(renderer);
-
-        // Ladataan näytön tiedot
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         // Asetetaan käytettävä pinta
         setContentView(surfaceView);
