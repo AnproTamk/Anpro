@@ -86,7 +86,7 @@ class GameThread extends Thread
         player.y = 0;
         
         /* Haetaan päivityksille aloitusajat */
-    	waveStartTime		   = android.os.SystemClock.uptimeMillis();
+        waveStartTime		   = android.os.SystemClock.uptimeMillis();
         lastMovementUpdate     = waveStartTime;
         lastAiUpdateStateOne   = waveStartTime;
         lastAiUpdateStateTwo   = waveStartTime;
@@ -107,13 +107,17 @@ class GameThread extends Thread
                 lastMovementUpdate = currentTime;
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) == 1) {
+                    if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
+                        wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+                        
                         wrapper.enemies.get(i).updateMovement(currentTime);
                     }
                 }
                 
                 for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) == 1) {
+                    if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY ||
+                        wrapper.projectileStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+                        
                         wrapper.projectiles.get(i).updateMovement(currentTime);
                     }
                 }
@@ -121,7 +125,7 @@ class GameThread extends Thread
             
             /* Päivitetään tekoälyjen päivitysvälit */
             if (currentTime - waveStartTime >= 3000) {
-            	updateSpeedUp = 2;
+                updateSpeedUp = 2;
             }
            
             /* Päivitetään tekoälyt */
@@ -132,13 +136,13 @@ class GameThread extends Thread
                     lastAiUpdateStateOne = currentTime;
                     
                     for (int i : wrapper.priorityOneEnemies) {
-                        if (wrapper.enemyStates.get(i) == 1) {
+                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.enemies.get(i).ai.handleAi();
                         }
                     }
                     
                     for (int i : wrapper.priorityOneProjectiles) {
-                        if (wrapper.projectileStates.get(i) == 1) {
+                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.projectiles.get(i).handleAi();
                         }
                     }
@@ -149,13 +153,13 @@ class GameThread extends Thread
                     lastAiUpdateStateTwo = currentTime;
                     
                     for (int i : wrapper.priorityTwoEnemies) {
-                        if (wrapper.enemyStates.get(i) == 1) {
+                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.enemies.get(i).ai.handleAi();
                         }
                     }
                     
                     for (int i : wrapper.priorityTwoProjectiles) {
-                        if (wrapper.projectileStates.get(i) == 1) {
+                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.projectiles.get(i).handleAi();
                         }
                     }
@@ -166,13 +170,13 @@ class GameThread extends Thread
                     lastAiUpdateStateThree = currentTime;
                     
                     for (int i : wrapper.priorityThreeEnemies) {
-                        if (wrapper.enemyStates.get(i) == 1) {
+                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.enemies.get(i).ai.handleAi();
                         }
                     }
                     
                     for (int i : wrapper.priorityThreeProjectiles) {
-                        if (wrapper.projectileStates.get(i) == 1) {
+                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.projectiles.get(i).handleAi();
                         }
                     }
@@ -183,13 +187,13 @@ class GameThread extends Thread
                     lastAiUpdateStateFour = currentTime;
                     
                     for (int i : wrapper.priorityFourEnemies) {
-                        if (wrapper.enemyStates.get(i) == 1) {
+                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.enemies.get(i).ai.handleAi();
                         }
                     }
                     
                     for (int i : wrapper.priorityFourProjectiles) {
-                        if (wrapper.projectileStates.get(i) == 1) {
+                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
                             wrapper.projectiles.get(i).handleAi();
                         }
                     }
@@ -204,11 +208,11 @@ class GameThread extends Thread
             /* Päivitetään vihollisaallot */
             if (currentTime - lastGameModeUpdate >= 1000) {
                 if (SurvivalMode.enemiesLeft == 0) {
-                	// TODO:
-                	waveStartTime = android.os.SystemClock.uptimeMillis();
-                	updateSpeedUp = 1;
-                	
-                	gameMode.startWave();
+                    // TODO:
+                    waveStartTime = android.os.SystemClock.uptimeMillis();
+                    updateSpeedUp = 1;
+                    
+                    gameMode.startWave();
                 }
             }
 
