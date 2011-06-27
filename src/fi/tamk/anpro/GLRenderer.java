@@ -19,10 +19,11 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_STATIC   = 0;
     public static final int TEXTURE_INACTIVE = 1;
     
-    public static final int ANIMATION_STATIC  = 0;
-    public static final int ANIMATION_MOVE    = 1;
-    public static final int ANIMATION_SHOOT   = 2;
-    public static final int ANIMATION_DESTROY = 3;
+    public static final int ANIMATION_STATIC   = 0;
+    public static final int ANIMATION_MOVE     = 1;
+    public static final int ANIMATION_SHOOT    = 2;
+    public static final int ANIMATION_DESTROY  = 3;
+    public static final int ANIMATION_DISABLED = 4;
 
     /* Vakiot HUDin tekstuureille ja animaatioille */
     public static final int TEXTURE_BUTTON_NOTSELECTED = 0;
@@ -70,11 +71,11 @@ public class GLRenderer implements Renderer
         wrapper = Wrapper.getInstance();
         
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations     = new Animation[4];
+        playerAnimations     = new Animation[5];
         playerTextures       = new Texture[4];
-        enemyAnimations      = new Animation[5][4];
+        enemyAnimations      = new Animation[5][5];
         enemyTextures        = new Texture[5][4];
-        projectileAnimations = new Animation[5][4];
+        projectileAnimations = new Animation[5][5];
         projectileTextures   = new Texture[5][4];
         hudAnimations        = new Animation[2][2];
         hudTextures          = new Texture[2][3];
@@ -90,17 +91,17 @@ public class GLRenderer implements Renderer
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
         // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
-        _gl.glEnable(GL10.GL_TEXTURE_2D);
+        //_gl.glEnable(GL10.GL_TEXTURE_2D);
         _gl.glShadeModel(GL10.GL_SMOOTH);
 
         // Piirret‰‰n tausta mustaksi
         _gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 
-        /*// M‰‰ritet‰‰n syvyyspuskurin oletusarvo
-        _gl.glClearDepthf(1.0f);
+        // M‰‰ritet‰‰n syvyyspuskurin oletusarvo
+        //_gl.glClearDepthf(0.0f);
 
         // M‰‰ritet‰‰n perspektiivilaskennat
-        _gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);*/
+        //_gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
@@ -140,7 +141,8 @@ public class GLRenderer implements Renderer
         _gl.glLoadIdentity();
         
         // M‰‰ritet‰‰n ruudun koko (OpenGL:‰‰ varten)
-        GLU.gluOrtho2D(_gl, -(_width / 2), (_width / 2), -(_height / 2), (_height/ 2));
+        GLU.gluOrtho2D(_gl, 0, _width, _height, 0);
+        //_gl.glOrthof(0, 800, 480, 0, -1, 1);
 
         // Valitaan ja resetoidaan mallimatriisi
         _gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -229,6 +231,8 @@ public class GLRenderer implements Renderer
         
         projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
         projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
+        projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
+        projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 26);
         
         hudTextures[0][0] = new Texture(_gl, context, R.drawable.button_tex0);
         hudTextures[0][1] = new Texture(_gl, context, R.drawable.button_tex1);

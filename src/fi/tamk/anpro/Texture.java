@@ -63,8 +63,8 @@ public class Texture
         _gl.glGenTextures(1, sprite, 0);
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprite[0]);
 
-        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
@@ -117,7 +117,8 @@ public class Texture
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        _gl.glScalef(Options.scale, Options.scale, Options.scale);
+        //_gl.glScalef(Options.scale, Options.scale, 0.0f);
+        _gl.glScalef(0.5f, 0.5f, 1.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprite[0]);

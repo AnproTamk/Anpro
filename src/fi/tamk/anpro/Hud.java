@@ -44,7 +44,7 @@ public class Hud
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
-        joystick = new Joystick(200, -140);
+        joystick = new Joystick(800, 480);
     }
 
     /**

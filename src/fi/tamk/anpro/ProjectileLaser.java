@@ -15,11 +15,13 @@ public class ProjectileLaser extends AbstractProjectile
     public ProjectileLaser()
     {
         super();
+        
+        weaponId = 0;
     
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 4; ++i) {
-            if (GLRenderer.projectileAnimations[0][i] != null) {
-                animationLength[i] = GLRenderer.projectileAnimations[0][i].length;
+        for (int i = 0; i < 5; ++i) {
+            if (GLRenderer.projectileAnimations[weaponId][i] != null) {
+                animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
     }
@@ -75,7 +77,7 @@ public class ProjectileLaser extends AbstractProjectile
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size(); i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) == 1) {
+            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
                 int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
                 
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
@@ -84,5 +86,14 @@ public class ProjectileLaser extends AbstractProjectile
                 }
             }
         }
+    }
+    
+    /**
+     * Aiheuttaa ammuksen erikoistoiminnon.
+     */
+    @Override
+    protected void triggerSpecialAction()
+    {
+    	// ...
     }
 }
