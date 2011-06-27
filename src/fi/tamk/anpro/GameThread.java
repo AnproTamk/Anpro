@@ -32,7 +32,6 @@ class GameThread extends Thread
     private long lastAiUpdateStateThree = 0;
     private long lastAiUpdateStateFour  = 0;
     private long lastCooldownUpdate     = 0;
-    private long lastAnimationUpdate    = 0;
     private long lastGameModeUpdate		= 0;
     
     /* Tekoälyn nopeutus */
@@ -90,7 +89,6 @@ class GameThread extends Thread
         lastAiUpdateStateThree = waveStartTime;
         lastAiUpdateStateFour  = waveStartTime;
         lastCooldownUpdate     = waveStartTime;
-        lastAnimationUpdate    = waveStartTime;
         lastGameModeUpdate	   = waveStartTime;
         
         /* Luodaan TouchManager ja HUD */
@@ -118,32 +116,6 @@ class GameThread extends Thread
                     if (wrapper.projectileStates.get(i) == 1) {
                         wrapper.projectiles.get(i).updateMovement(currentTime);
                     }
-                }
-            }
-            
-            /* Päivitetään animaatiot */
-            if (currentTime - lastAnimationUpdate >= 40) {
-                
-                lastAnimationUpdate = currentTime;
-                
-                if (wrapper.player.usedAnimation != -1) {
-                    wrapper.player.update();
-                }
-                
-                for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) > 0 && wrapper.enemies.get(i).usedAnimation != -1) {
-                        wrapper.enemies.get(i).update();
-                    }
-                }
-                
-                for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) > 0 && wrapper.projectiles.get(i).usedAnimation != -1) {
-                        wrapper.projectiles.get(i).update();
-                    }
-                }
-                
-                for (int i = hud.buttons.size()-1; i >= 0; --i) {
-                	hud.buttons.get(i).update();
                 }
             }
             

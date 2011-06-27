@@ -117,8 +117,7 @@ public class Texture
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        //_gl.glScalef(Options.scale, Options.scale, 0.0f);
-        _gl.glScalef(0.5f, 0.5f, 1.0f);
+        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprite[0]);
