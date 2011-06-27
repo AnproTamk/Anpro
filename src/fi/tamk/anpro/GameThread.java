@@ -57,11 +57,6 @@ class GameThread extends Thread
         dm      = _dm;
         context = _context;
         surface = _surface;
-        
-        /* DEBUGGIA!!!! */
-        player = new Player(5, 2);
-        player.x = 0;
-        player.y = 0;
     }
 
     /**
@@ -84,6 +79,11 @@ class GameThread extends Thread
         /* Luodaan Hud ja TouchManager */
         hud = new Hud(context);
         touchManager = new TouchManager(dm, surface, context, hud);
+        
+        /* DEBUGGIA!!!! */
+        player = new Player(5, 2);
+        player.x = 0;
+        player.y = 0;
         
         /* Haetaan päivityksille aloitusajat */
     	waveStartTime		   = android.os.SystemClock.uptimeMillis();

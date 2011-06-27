@@ -42,8 +42,6 @@ public class Hud
         
         buttons = new ArrayList<Button>();
         
-        healthBar = new Bar(0, 0);
-        
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
