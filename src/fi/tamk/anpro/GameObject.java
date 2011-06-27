@@ -94,8 +94,8 @@ abstract public class GameObject extends GfxObject
         if (_time - movementTime >= movementDelay) {
             movementTime = _time;
             
-            x += Math.cos((direction * Math.PI)/180) * movementSpeed * Options.scale;
-            y += Math.sin((direction * Math.PI)/180) * movementSpeed * Options.scale;
+            x += Math.cos((direction * Math.PI)/180) * movementSpeed * Options.scaleX;
+            y += Math.sin((direction * Math.PI)/180) * movementSpeed * Options.scaleY;
 
             // P‰ivitet‰‰n nopeus kiihtyvyyden avulla
             movementDelay -= movementAcceleration;

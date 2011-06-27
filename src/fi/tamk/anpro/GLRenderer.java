@@ -5,8 +5,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
+import android.util.DisplayMetrics;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
@@ -50,8 +52,10 @@ public class GLRenderer implements Renderer
     private Resources resources;
     
     /* Tarvittavat oliot */
-    private Wrapper    wrapper;
-    private GameThread gameThread = null;
+    private Wrapper      wrapper;
+    private GameThread   gameThread = null;
+    private Hud          hud;
+    private TouchManager touchManager;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public boolean allLoaded = false;
@@ -65,11 +69,15 @@ public class GLRenderer implements Renderer
      * @param Context   Ohjelman konteksti
      * @param Resources Ohjelman resurssit
      */
-    public GLRenderer(Context _context, Resources _resources)
+    public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
         // Tallennetaan konteksti ja resurssit
         context   = _context;
         resources = _resources;
+        
+        // Luodaan TouchManager ja HUD
+        hud          = new Hud(_context);
+        touchManager = new TouchManager(_dm, _surface, _context, hud);
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
