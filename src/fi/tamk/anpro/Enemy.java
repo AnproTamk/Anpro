@@ -233,11 +233,15 @@ public class Enemy extends GameObject
     @Override
     protected void triggerEndOfAction()
     {
-        /* Tuhoutuminen */
+        /* Tuhotaan vihollinen */
         if (actionId == 1) {
         	--SurvivalMode.enemiesLeft;
         	SurvivalMode.updateScore(rank);
             setUnactive();
+        }
+        /* Aktivoidaan vihollinen (EMPin jälkeen) */
+        else if (actionId == 2) {
+        	wrapper.enemyStates.set(listId, 1);
         }
     }
 }

@@ -17,6 +17,8 @@ abstract public class AbstractProjectile extends GameObject
     public static final int DAMAGE_ON_TOUCH   = 5;
     
     /* Aseen tiedot */
+    protected int weaponId;
+    
     public int damageOnTouch   = 2;
     public int damageOnExplode = 0;
     
@@ -113,10 +115,10 @@ abstract public class AbstractProjectile extends GameObject
     public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0) {
-            GLRenderer.projectileAnimations[0][usedAnimation].draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.projectileAnimations[weaponId][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else {
-            GLRenderer.projectileTextures[0][usedTexture].draw(_gl, x, y, direction);
+            GLRenderer.projectileTextures[weaponId][usedTexture].draw(_gl, x, y, direction);
         }
     }
     
@@ -159,7 +161,7 @@ abstract public class AbstractProjectile extends GameObject
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             
             // Tarkistetaan, onko vihollinen aktiivinen
-            if (wrapper.enemyStates.get(i) == 1) {
+            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
                 
                 // Lasketaan etäisyys pelaajaan
                 double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
@@ -175,7 +177,8 @@ abstract public class AbstractProjectile extends GameObject
                     }
                     else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
                         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
-                        
+
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
                         causeExplosion();
                     }
                     
@@ -235,4 +238,9 @@ abstract public class AbstractProjectile extends GameObject
      * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
     abstract protected void causeExplosion();
+    
+    /**
+     * Aiheuttaa ammuksen erikoistoiminnon.
+     */
+    abstract protected void triggerSpecialAction();
 }
