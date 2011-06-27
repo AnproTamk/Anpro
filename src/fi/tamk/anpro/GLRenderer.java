@@ -114,14 +114,14 @@ public class GLRenderer implements Renderer
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
         
         // Ladataan graffat (väliaikainen)
-        if (!allLoaded && gameThread != null) {
+        /*if (!allLoaded && gameThread != null) {
             if (loadTextures(_gl)) {
                 startThread();
             }
             else {
                 // TODO: Käsittele virhe
             }
-        }
+        }*/
     }
 
     /**
@@ -181,7 +181,7 @@ public class GLRenderer implements Renderer
         long currentTime = android.os.SystemClock.uptimeMillis();
         
         // Tekstuurit on ladattu
-        if (allLoaded) {
+        if (allLoaded && wrapper.player != null) {
             
             /* Käydään läpi piirtolistat */
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -208,7 +208,7 @@ public class GLRenderer implements Renderer
                 
                 lastAnimationUpdate = currentTime;
                 
-                if (wrapper.player.usedAnimation != -1) {
+                if (wrapper.player != null && wrapper.player.usedAnimation != -1) {
                     wrapper.player.update();
                 }
                 
@@ -230,13 +230,13 @@ public class GLRenderer implements Renderer
             }
         }
         // Tekstuureja ei ole vielä ladattu
-        else {
-            if (loadTextures(_gl)) {
-                startThread();
-            }
-            else {
-                // TODO: Käsittele virhe
-            }
+        if (!allLoaded && gameThread != null) {
+	        if (loadTextures(_gl)) {
+	            startThread();
+	        }
+	        else {
+	            // TODO: Käsittele virhe
+	        }
         }
     }
 
