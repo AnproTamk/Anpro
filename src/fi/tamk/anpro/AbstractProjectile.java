@@ -214,8 +214,8 @@ abstract public class AbstractProjectile extends GameObject
         //...
         
         /* K‰sitell‰‰n reuna-alueet panosten tuhoamiseksi */
-        if (wrapper.player.x + x < -400 * Options.scale || wrapper.player.x + x > 400 * Options.scale ||
-            wrapper.player.y + y < -240 * Options.scale || wrapper.player.y + y > 240 * Options.scale ) {
+        if (wrapper.player.x + x < -Options.scaledScreenWidth || wrapper.player.x + x > Options.scaledScreenWidth ||
+            wrapper.player.y + y < -Options.scaledScreenHeight || wrapper.player.y + y > Options.scaledScreenHeight ) {
             setUnactive();
         }
     }
