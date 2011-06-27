@@ -55,6 +55,9 @@ public class GLRenderer implements Renderer
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public boolean allLoaded = false;
+    
+    /* Animaatiopäivitysten muuttujat */
+	private long lastAnimationUpdate;
 
     /**
      * Alustaa luokan muuttujat.
@@ -142,7 +145,7 @@ public class GLRenderer implements Renderer
         _gl.glLoadIdentity();
         
         // Määritetään ruudun koko (OpenGL:ää varten)
-        GLU.gluOrtho2D(_gl, 0, _width, _height, 0);
+        GLU.gluOrtho2D(_gl, -(_width/2), (_width/2), -(_height/2), (_height/2));
         //_gl.glOrthof(0, 800, 480, 0, -1, 1);
 
         // Valitaan ja resetoidaan mallimatriisi
@@ -172,6 +175,9 @@ public class GLRenderer implements Renderer
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
+        // Haetaan tämänhetkinen aika
+        long currentTime = android.os.SystemClock.uptimeMillis();
+        
         // Tekstuurit on ladattu
         if (allLoaded) {
             
@@ -193,6 +199,32 @@ public class GLRenderer implements Renderer
             }
             if (wrapper.player != null && wrapper.playerState > 0) {
                 wrapper.player.draw(_gl);
+            }
+            
+            /* Päivitetään animaatiot */
+            if (currentTime - lastAnimationUpdate >= 40) {
+                
+                lastAnimationUpdate = currentTime;
+                
+                if (wrapper.player.usedAnimation != -1) {
+                    wrapper.player.update();
+                }
+                
+                for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+                    if (wrapper.enemyStates.get(i) > 0 && wrapper.enemies.get(i).usedAnimation != -1) {
+                        wrapper.enemies.get(i).update();
+                    }
+                }
+                
+                for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+                    if (wrapper.projectileStates.get(i) > 0 && wrapper.projectiles.get(i).usedAnimation != -1) {
+                        wrapper.projectiles.get(i).update();
+                    }
+                }
+                
+                /*for (int i = hud.buttons.size()-1; i >= 0; --i) {
+                	hud.buttons.get(i).update();
+                }*/
             }
         }
         // Tekstuureja ei ole vielä ladattu
