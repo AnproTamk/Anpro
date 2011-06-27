@@ -19,7 +19,7 @@ class GameThread extends Thread
     private Wrapper      wrapper;
     private AbstractMode gameMode;
     private TouchManager touchManager;
-    private Hud          hud;
+    public  Hud          hud;
     
     /* Pelaaja (VÄLIAIKAINEN!!!) */
     public Player player;

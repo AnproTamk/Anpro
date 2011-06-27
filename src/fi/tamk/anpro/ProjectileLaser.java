@@ -19,7 +19,9 @@ public class ProjectileLaser extends AbstractProjectile
         weaponId = 0;
     
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 5; ++i) {
+        animationLength = new int[GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS; ++i) {
             if (GLRenderer.projectileAnimations[weaponId][i] != null) {
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
@@ -78,7 +80,7 @@ public class ProjectileLaser extends AbstractProjectile
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size(); i >= 0; --i) {
             if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
-                int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
                 
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
                     // Osuma ja räjähdys

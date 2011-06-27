@@ -43,7 +43,7 @@ public class WeaponDefault extends AbstractWeapon
 			if (projectiles.get(i).active == false) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-				projectiles.get(i).activate( _x, _y);
+				projectiles.get(i).activate( _x, _y, false);
 				
 				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);

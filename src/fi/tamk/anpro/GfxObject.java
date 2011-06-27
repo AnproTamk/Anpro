@@ -17,6 +17,7 @@ abstract public class GfxObject
     public  int   currentFrame     = 0;
     private int   currentLoop      = 0;
     private int   animationLoops   = 0;
+    public  int   animationSpeed   = 0;
     
     /* Staattinen käytössä oleva tekstuuri */
     public int usedTexture = 0;
@@ -32,7 +33,6 @@ abstract public class GfxObject
      */
     public GfxObject()
     {
-        animationLength = new int[4];
     }
     
     /**
@@ -41,11 +41,12 @@ abstract public class GfxObject
      * @param int Animaation tunnus
      * @param int Toistokerrat
      */
-    public final void startAnimation(int _animation, int _loops)
+    public final void startAnimation(int _animation, int _loops, int _speed)
     {
         // Tallennetaan muuttujat
         usedAnimation  = _animation;
         animationLoops = _loops;
+        animationSpeed = _speed;
         currentFrame   = 0;
         
         // Määritetään ensimmäinen toistokerta
@@ -112,11 +113,12 @@ abstract public class GfxObject
     	}
     }
     
-    protected void setAction(int _animation, int _loops, int _actionId)
+    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId)
     {
-        startAnimation(_animation, _loops);
+        startAnimation(_animation, _loops, _animationSpeed);
+        
         actionActivated = true;
-        actionId = _actionId;
+        actionId        = _actionId;
 	}
 
     /**

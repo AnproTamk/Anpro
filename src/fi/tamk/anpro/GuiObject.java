@@ -35,7 +35,9 @@ abstract public class GuiObject extends GfxObject
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, 1);
     
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 4; ++i) {
+        animationLength = new int[GLRenderer.AMOUNT_OF_HUD_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_HUD_ANIMATIONS; ++i) {
             if (GLRenderer.hudAnimations[i] != null) {
                 animationLength[i] = GLRenderer.hudAnimations[i].length;
             }
