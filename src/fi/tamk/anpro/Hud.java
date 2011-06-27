@@ -22,9 +22,9 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public ArrayList<Button> buttons  = null;
-    public ArrayList<Bar>	 bars     = null;
-    public Joystick          joystick = null;
+    public ArrayList<Button> buttons   = null;
+    public Joystick          joystick  = null;
+    public static Bar		 healthBar = null;
 
     /* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
        asetta WeaponManagerista) */
@@ -41,7 +41,8 @@ public class Hud
         weapons = new int[5];
         
         buttons = new ArrayList<Button>();
-        bars = new ArrayList<Bar>();
+        
+        healthBar = new Bar(0, 0);
         
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
@@ -88,5 +89,15 @@ public class Hud
     public final static Hud getConnection()
     {
         return pointerToSelf;
+    }
+    
+    /**
+     * Palauttaa osoittimen healthBarista.
+     * 
+     * @return Bar Osoitin healthBarista.
+     */
+    public final static Bar getHealthBar()
+    {
+        return healthBar;
     }
 }

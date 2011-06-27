@@ -5,7 +5,10 @@ package fi.tamk.anpro;
  * 
  * @extends GuiObject
  */
-public class Bar extends GuiObject {
+public class Bar extends GuiObject
+{
+	private int max;
+	private int value;
 	
 	public Bar(int _x, int _y)
     {
@@ -13,4 +16,18 @@ public class Bar extends GuiObject {
         
         usedTexture = GLRenderer.TEXTURE_HEALTH;
     }
+
+	public void initHealthBar(int _max)
+	{
+		max = _max;
+	}
+
+	public void updateValue(int _value)
+	{
+		value = _value;
+		
+		// laskee jotain
+		
+		usedTexture = 0;
+	}
 }
