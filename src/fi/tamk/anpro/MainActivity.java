@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements OnClickListener
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         // Ladataan Options käyttöön
-        Options.getInstance().scaleConversion(dm.densityDpi);
+        Options.getInstance().scaleConversion(dm.widthPixels, dm.heightPixels);
 
         // Ladataan SoundManager käyttöön ja alustetaan se
         SoundManager.getInstance();

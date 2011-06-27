@@ -16,6 +16,8 @@ public class Options
 	
 	/* Skaalausmuuttujat */
 	public static float scale;
+	public static float scaleX;
+	public static float scaleY;
 
 	/**
 	 * Alustaa luokan muuttujat ja lukee asetukset.
@@ -54,7 +56,7 @@ public class Options
 	 * 
 	 * @param _screenDpi näytön DPI-lukema (320, 240, 160, 120)
 	 */
-	public void scaleConversion(int _screenDpi)
+	/*public void scaleConversion(int _screenDpi)
 	{	
 		if (_screenDpi >= 320) {
 			scale = 2.0f;
@@ -72,6 +74,12 @@ public class Options
 			System.exit(0);
 			scale = 0.0f;
 		}
+	}*/
+    public void scaleConversion(int _screenWidth, int _screenHeight)
+	{	
+    	scaleX = (float)_screenWidth / 800;
+    	scaleY = (float)_screenHeight / 480;
+    	scale = (float)(scaleX + scaleY) / 2;
 	}
 
 	/**
