@@ -68,7 +68,9 @@ public class Enemy extends GameObject
         }
     
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 4; ++i) {
+        animationLength = new int[GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS; ++i) {
             if (GLRenderer.enemyAnimations[rank-1][i] != null) {
                 animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
             }
@@ -151,7 +153,7 @@ public class Enemy extends GameObject
         if (health <= 0) {
         	wrapper.enemyStates.set(listId, 2);
         	
-            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
         }
     }
     
@@ -171,13 +173,13 @@ public class Enemy extends GameObject
             if (health <= 0) {
             	wrapper.enemyStates.set(listId, 2);
             	
-                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
             }
         }
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
         	wrapper.enemyStates.set(listId, 2);
         	
-            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
         }
     }
 

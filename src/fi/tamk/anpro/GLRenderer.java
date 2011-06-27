@@ -12,6 +12,20 @@ import android.util.DisplayMetrics;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
+package fi.tamk.anpro;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.opengl.GLSurfaceView;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLU;
+import android.util.DisplayMetrics;
+
+/**
+ * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
  * 
  * @implements Renderer
  */
@@ -35,6 +49,17 @@ public class GLRenderer implements Renderer
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
+    
+    /* Animaatioiden ja tekstuurien m‰‰r‰t */
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS = 5;
+    public static final int AMOUNT_OF_ENEMY_ANIMATIONS = 5;
+    public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS = 4;
+
+    public static final int AMOUNT_OF_PLAYER_TEXTURES = 4;
+    public static final int AMOUNT_OF_PENEMY_TEXTURES = 4;
+    public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
+    public static final int AMOUNT_OF_HUD_TEXTURES = 14;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -60,6 +85,7 @@ public class GLRenderer implements Renderer
     
     /* Animaatiop‰ivitysten muuttujat */
 	private long lastAnimationUpdate;
+	private int  updateBeat = 1;
 
     /**
      * Alustaa luokan muuttujat.
@@ -70,14 +96,14 @@ public class GLRenderer implements Renderer
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations     = new Animation[5];
-        playerTextures       = new Texture[4];
-        enemyAnimations      = new Animation[5][5];
-        enemyTextures        = new Texture[5][4];
-        projectileAnimations = new Animation[5][5];
-        projectileTextures   = new Texture[5][4];
-        hudAnimations        = new Animation[4];
-        hudTextures          = new Texture[14];
+        playerAnimations     = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
+        playerTextures       = new Texture[AMOUNT_OF_PLAYER_TEXTURES];
+        enemyAnimations      = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
+        enemyTextures        = new Texture[5][AMOUNT_OF_PENEMY_TEXTURES];
+        projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        projectileTextures   = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
+        hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
+        hudTextures          = new Texture[AMOUNT_OF_HUD_TEXTURES];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;
@@ -112,16 +138,6 @@ public class GLRenderer implements Renderer
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
-        
-        // Ladataan graffat (v‰liaikainen)
-        /*if (!allLoaded && gameThread != null) {
-            if (loadTextures(_gl)) {
-                startThread();
-            }
-            else {
-                // TODO: K‰sittele virhe
-            }
-        }*/
     }
 
     /**
@@ -176,9 +192,6 @@ public class GLRenderer implements Renderer
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
-        // Haetaan t‰m‰nhetkinen aika
-        long currentTime = android.os.SystemClock.uptimeMillis();
         
         // Tekstuurit on ladattu
         if (allLoaded && wrapper.player != null) {
@@ -204,33 +217,51 @@ public class GLRenderer implements Renderer
             }
             
             /* P‰ivitet‰‰n animaatiot */
+            // Haetaan t‰m‰nhetkinen aika
+            long currentTime = android.os.SystemClock.uptimeMillis();
+            
             if (currentTime - lastAnimationUpdate >= 40) {
                 
                 lastAnimationUpdate = currentTime;
                 
                 if (wrapper.player != null && wrapper.player.usedAnimation != -1) {
-                    wrapper.player.update();
+                	if (updateBeat % wrapper.player.animationSpeed == 0) {
+                		wrapper.player.update();
+                	}
                 }
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                     if (wrapper.enemyStates.get(i) > 0 && wrapper.enemies.get(i).usedAnimation != -1) {
-                        wrapper.enemies.get(i).update();
+                    	if (updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+                    		wrapper.enemies.get(i).update();
+                		}
                     }
                 }
                 
                 for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
                     if (wrapper.projectileStates.get(i) > 0 && wrapper.projectiles.get(i).usedAnimation != -1) {
-                        wrapper.projectiles.get(i).update();
+                    	if (updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
+                    		wrapper.projectiles.get(i).update();
+                		}
                     }
                 }
                 
-                /*for (int i = hud.buttons.size()-1; i >= 0; --i) {
-                	hud.buttons.get(i).update();
-                }*/
+                for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
+                	gameThread.hud.buttons.get(i).update();
+                }
+                
+                ++updateBeat;
+                int a = updateBeat;
+                
+                if (updateBeat > 8) {
+                	updateBeat = 1;
+                }
             }
         }
+    
         // Tekstuureja ei ole viel‰ ladattu
         if (!allLoaded && gameThread != null) {
+        	// Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
 	        if (loadTextures(_gl)) {
 	            startThread();
 	        }
@@ -263,11 +294,12 @@ public class GLRenderer implements Renderer
         
         enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
         projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
         projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
         projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
-        projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 26);
+        projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 10);
         
         hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex0);
         hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex1);

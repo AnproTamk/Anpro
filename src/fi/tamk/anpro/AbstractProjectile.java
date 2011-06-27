@@ -126,10 +126,11 @@ abstract public class AbstractProjectile extends GameObject
      * Aktivoi ammuksen, eli määrittää sen aloituspisteen, kohteen, suunnan ja lisää
      * ammuksen Wrapperin piirtolistalle.
      * 
-     * @param int Kohteen X-koordinaatti
-     * @param int Kohteen Y-koordinaatti
+     * @param int     Kohteen X-koordinaatti
+     * @param int     Kohteen Y-koordinaatti
+     * @param boolean Onko ammuksen tarkoitus aktivoida erikoistoiminto heti (esim. EMP)?
      */
-    public final void activate(int _x, int _y)
+    public final void activate(int _x, int _y, boolean _autoSpecial)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
         if (explodeTime > 0) {
@@ -150,6 +151,11 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
         active = true;
+        
+        // Aktivoidaan erikoistoiminto
+        if (_autoSpecial) {
+        	triggerSpecialAction();
+        }
     }
     
     /**
@@ -173,12 +179,12 @@ abstract public class AbstractProjectile extends GameObject
                     if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
                         wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 
-                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                     }
                     else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 
-                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                         causeExplosion();
                     }
                     
@@ -198,7 +204,7 @@ abstract public class AbstractProjectile extends GameObject
             
             if (currentTime - startTime >= explodeTime) {
                 wrapper.projectileStates.set(listId, 2);
-                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                 
                 causeExplosion();
             }
@@ -226,6 +232,7 @@ abstract public class AbstractProjectile extends GameObject
         /* Tuhoutuminen */
         if (actionId == 1) {
             setUnactive();
+            active = false;
         }
     }
 

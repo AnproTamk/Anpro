@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class WeaponEmp extends AbstractWeapon
 {
     /* Ammukset */
-    private ArrayList<ProjectileEmp> projectiles;
+    private ProjectileEmp projectile;
 
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
@@ -19,13 +19,8 @@ public class WeaponEmp extends AbstractWeapon
     {
         super();
         
-        // Alustetaan ammukset
-        projectiles = new ArrayList<ProjectileEmp>(10);
-        
-        // Luodaan tarvittava m‰‰r‰ ammuksia
-        for (int i = 0; i < 10; ++i) {
-            projectiles.add(new ProjectileEmp());
-        }
+        // Luodaan ammus
+        projectile = new ProjectileEmp();
     }
 
     /**
@@ -38,19 +33,13 @@ public class WeaponEmp extends AbstractWeapon
     @Override
     public final void activate(int _x, int _y)
     {
-        // K‰yd‰‰n l‰pi ammukset ja aktivoidaan ensimm‰inen ep‰aktiivinen
-        for (int i = 0; i < 10; ++i) {
-            if (projectiles.get(i).active == false) {
-                
-                // Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-                projectiles.get(i).activate( _x, _y);
-                
-                // Soitetaan ‰‰ni
-                SoundManager.playSound(3, 1);
-                
-                // Keskeytet‰‰n silmukka
-                break;
-            }
-        }
+    	// Tarkistetaan onko ammus jo aktiivinen
+    	if (!projectile.active) {
+    		// Aktivoidaan ammus
+    		projectile.activate(_x, _y, true);
+            
+            // Soitetaan ‰‰ni
+            SoundManager.playSound(3, 1);
+    	}
     }
 }
