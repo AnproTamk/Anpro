@@ -17,7 +17,9 @@ public class Options
 	/* Skaalausmuuttujat */
 	public static float scale;
 	public static float scaleX;
-	public static float scaleY;
+	public static float scaleY;	
+	public static int   scaledScreenWidth;
+	public static int   scaledScreenHeight;
 
 	/**
 	 * Alustaa luokan muuttujat ja lukee asetukset.
@@ -58,18 +60,20 @@ public class Options
 	 */
     public void scaleConversion(int _screenWidth, int _screenHeight)
 	{	
-    	scaleX = (float)_screenWidth / 800;
-    	scaleY = (float)_screenHeight / 480;
-    	scale = 1.0f; // TODO:
+    	scaleX      	   = (float)_screenWidth / 800;
+    	scaleY             = (float)_screenHeight / 480;
+    	scale	           = 1.0f; // TODO:
+    	scaledScreenWidth  = _screenWidth / 2;  // Tätä käytetään AbstractProjectile-luokassa
+    	scaledScreenHeight = _screenHeight / 2; // Tätä käytetään AbstractProjectile-luokassa
 	}
 
 	/**
 	 * Etäisyyksien skaalaus
 	 */
-	public static int pixelConversion(int _pixels)
+	/*public static int pixelConversion(int _pixels)
 	{
 		// Muunnetaan dps:t pikseleiksi tiheyden skaalauksen mukaan ja pyöristetään ylöspäin
 		return ((int)(_pixels * scale + 0.5f));
-	}
+	}*/
 	
 }
