@@ -54,7 +54,6 @@ public class GLRenderer implements Renderer
     /* Tarvittavat oliot */
     private       Wrapper    wrapper;
     private       GameThread gameThread = null;
-    public static Hud        hud;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public boolean allLoaded = false;
@@ -83,9 +82,6 @@ public class GLRenderer implements Renderer
         // Tallennetaan konteksti ja resurssit
         context   = _context;
         resources = _resources;
-        
-        // Luodaan HUD
-        hud = new Hud(_context);
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();

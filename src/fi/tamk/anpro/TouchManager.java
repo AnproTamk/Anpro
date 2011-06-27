@@ -48,10 +48,10 @@ public class TouchManager
      * @param Context		 Ohjelman konteksti
      * @param Hud			 Pelin käyttöliittymä
      */
-    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context)
+    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud)
     {
         weaponManager = WeaponManager.getConnection();
-        hud           = GLRenderer.hud;
+        hud           = _hud;
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
 
