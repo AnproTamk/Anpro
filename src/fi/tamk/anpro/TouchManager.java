@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -55,9 +56,13 @@ public class TouchManager
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
 
-        yClickFirstBorder = screenHeight / 2 - (int)(176 * Options.scaleY + 0.5f);
-        yClickSecondBorder = screenHeight / 2 - (int)(110 * Options.scaleY + 0.5f);
-        yClickThirdBorder = screenHeight / 2 - (int)(44 * Options.scaleY + 0.5f);
+        yClickFirstBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);
+        yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32;
+        yClickThirdBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 64;
+        
+        Log.v("TouchManager", "FirstBorder="  + yClickFirstBorder +
+        	                  " SecondBorder=" + yClickSecondBorder +
+        	                  " ThirdBorder="  + yClickThirdBorder);
         
         wrapper = Wrapper.getInstance();
 
@@ -145,31 +150,34 @@ public class TouchManager
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     xClickOffset = (int) event.getX();
                     yClickOffset = screenHeight - (int) event.getY();
-
+                    Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset);
                     // Oikean reunan napit
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
-                    	yClickOffset < yClickThirdBorder) {
-
+                    	yClickOffset < yClickFirstBorder) {
+                    	
                         // Oikean reunan alin nappula
-                        if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
+                        if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
+                        	Log.v("TouchManager", "**Oikean reunan alin nappula**");
                             // ***** OIKEAN REUNAN ALIN NAPPULA *****
-                            hud.triggerClick(Hud.BUTTON_3);
+                            hud.triggerClick(Hud.BUTTON_1);
                         }
 
                         // Oikean reunan keskimmäinen nappula
-                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scale) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickFirstBorder) {
                             // ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
+                        	Log.v("TouchManager", "**Oikean reunan keskimmäinen nappula**");
                             hud.triggerClick(Hud.BUTTON_2);
                         }
 
                         // Oikean reunan ylin nappula
-                        else if (yClickOffset < yClickThirdBorder && yClickOffset > 132 * Options.scale) {
+                        else if (yClickOffset < yClickFirstBorder && yClickOffset > yClickSecondBorder) {
                             // ***** OIKEAN REUNAN YLIN NAPPULA *****
-                            hud.triggerClick(Hud.BUTTON_1);
+                        	Log.v("TouchManager", "**Oikean reunan ylin nappula**");
+                            hud.triggerClick(Hud.BUTTON_3);
                         }
                     }
                     // Vasemman reunan napit
-                    else if (xClickOffset < screenWidth - 700 * Options.scale && xClickOffset > 0 &&
+                    else if (xClickOffset < screenWidth - 700 * Options.scaleX && xClickOffset > 0 &&
                     		 yClickOffset < yClickThirdBorder) {
 
                         // Vasemman reunan alempi nappula
@@ -178,7 +186,7 @@ public class TouchManager
                             hud.triggerClick(Hud.SPECIAL_2);
                         }
                         // Vasemman reunan ylempi nappula
-                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scale) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scaleY) {
                             // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
