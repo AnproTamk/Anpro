@@ -18,17 +18,17 @@ public class ProjectileEmp extends AbstractProjectile
         weaponId = 1;
         
         /* Haetaan animaatioiden pituudet */
-        for (int i = 0; i < 5; ++i) {
+        animationLength = new int[GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS; ++i) {
             if (GLRenderer.projectileAnimations[weaponId][i] != null) {
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
         
         movementSpeed   = 0;
-        collisionRadius = 100;
-        damageOnTouch   = 100;
-        
-        triggerSpecialAction();
+        collisionRadius = 200;
+        damageOnTouch   = 0;
     }
     
     /**
@@ -37,7 +37,7 @@ public class ProjectileEmp extends AbstractProjectile
     @Override
     protected final void setDirection()
     {
-        // ...
+    	// ...
     }
     
     /**
@@ -50,7 +50,7 @@ public class ProjectileEmp extends AbstractProjectile
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             if (wrapper.enemyStates.get(i) == 1) {
-                int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
                 
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
                     // Osuma ja räjähdys
@@ -68,16 +68,16 @@ public class ProjectileEmp extends AbstractProjectile
     {
         wrapper.projectileStates.set(listId, 2);
         
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
         
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             if (wrapper.enemyStates.get(i) == 1) {
-                int distance = (int) Math.sqrt(((int)(x - wrapper.enemies.get(i).x))^2 + ((int)(y - wrapper.enemies.get(i).y))^2);
+                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
                 
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
                 	wrapper.enemyStates.set(i, 3);
-                    wrapper.enemies.get(i).setAction(GLRenderer.ANIMATION_DISABLED, 1, 2);
+                    wrapper.enemies.get(i).setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
                 }
             }
         }

@@ -40,7 +40,9 @@ public class Player extends GameObject
         collisionRadius = (int) (25 * Options.scale);
         
         // Haetaan käytettävien animaatioiden pituudet
-        for (int i = 0; i < 4; ++i) {
+        animationLength = new int[GLRenderer.AMOUNT_OF_PLAYER_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_PLAYER_ANIMATIONS; ++i) {
             if (GLRenderer.playerAnimations[i] != null) {
                 animationLength[i] = GLRenderer.playerAnimations[i].length;
             }
@@ -114,7 +116,7 @@ public class Player extends GameObject
             
             if (health <= 0) {
             	wrapper.playerState = 2;
-            	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1);
+            	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
             }
         }
     }
