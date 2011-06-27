@@ -19,6 +19,7 @@ class GameThread extends Thread
     private Wrapper      wrapper;
     private AbstractMode gameMode;
     private TouchManager touchManager;
+    private Hud          hud;
     
     /* Pelaaja (VÄLIAIKAINEN!!!) */
     public Player player;
@@ -80,7 +81,9 @@ class GameThread extends Thread
         /* Luodaan pelitila */
         gameMode = new SurvivalMode(dm, context);
         
-        touchManager = new TouchManager(dm, surface, context);
+        /* Luodaan Hud ja TouchManager */
+        hud = new Hud(context);
+        touchManager = new TouchManager(dm, surface, context, hud);
         
         /* Haetaan päivityksille aloitusajat */
     	waveStartTime		   = android.os.SystemClock.uptimeMillis();
