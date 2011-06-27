@@ -80,6 +80,8 @@ class GameThread extends Thread
         /* Luodaan pelitila */
         gameMode = new SurvivalMode(dm, context);
         
+        touchManager = new TouchManager(dm, surface, context);
+        
         /* Haetaan päivityksille aloitusajat */
     	waveStartTime		   = android.os.SystemClock.uptimeMillis();
         lastMovementUpdate     = waveStartTime;
