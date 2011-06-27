@@ -77,7 +77,7 @@ public class GLRenderer implements Renderer
         projectileAnimations = new Animation[5][5];
         projectileTextures   = new Texture[5][4];
         hudAnimations        = new Animation[4];
-        hudTextures          = new Texture[4];
+        hudTextures          = new Texture[14];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;
@@ -269,10 +269,21 @@ public class GLRenderer implements Renderer
         projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
         projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 26);
         
-        hudTextures[0] = new Texture(_gl, context, R.drawable.button_tex0);
-        hudTextures[1] = new Texture(_gl, context, R.drawable.button_tex1);
-        hudTextures[2] = new Texture(_gl, context, R.drawable.joystick);
-        hudTextures[3] = new Texture(_gl, context, R.drawable.health_bar);
+        hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex0);
+        hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex1);
+        hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick);
+        hudTextures[3]  = new Texture(_gl, context, R.drawable.health_bar);
+        hudTextures[4]  = new Texture(_gl, context, R.drawable.health_bar_2);
+        hudTextures[5]  = new Texture(_gl, context, R.drawable.health_bar_3);
+        hudTextures[6]  = new Texture(_gl, context, R.drawable.health_bar_4);
+        hudTextures[7]  = new Texture(_gl, context, R.drawable.health_bar_5);
+        hudTextures[8]  = new Texture(_gl, context, R.drawable.health_bar_6);
+        hudTextures[9]  = new Texture(_gl, context, R.drawable.health_bar_7);
+        hudTextures[10] = new Texture(_gl, context, R.drawable.health_bar_8);
+        hudTextures[11] = new Texture(_gl, context, R.drawable.health_bar_9);
+        hudTextures[12] = new Texture(_gl, context, R.drawable.health_bar_10);
+        hudTextures[13] = new Texture(_gl, context, R.drawable.health_bar_11);
+
         
         hudAnimations[0] = new Animation(_gl, context, resources, "button_press", 9);
         
