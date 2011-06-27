@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <button id="weapon_button_1" x="224" y="-144" type="weapon" />
-        <button id="weapon_button_2" x="224" y="-112" type="weapon" />
-        <button id="weapon_button_3" x="224" y="-80" type="weapon" />    
+        <button id="weapon_button_1" x="384" y="-224" type="weapon" />
+        <button id="weapon_button_2" x="384" y="-192" type="weapon" />
+        <button id="weapon_button_3" x="384" y="-160" type="weapon" />    
         <button id="special_button_1" x="-368" y="-143" type="weapon" />
         <button id="special_button_2" x="-368" y="-208" type="weapon" />
         
-        <icon id="health_bar" x="-303" y="-208" type="" />
+        <health_bar x="-303" y="-208" type="" />
         
         <counter id="score_counter" x="300" y="300" type="counter_numbers" />
 </hud>

@@ -16,6 +16,7 @@ public class Player extends GameObject
     
     /* Osoittimet muihin luokkiin */
     private Wrapper wrapper;
+    private Bar     healthBar;
     
     /**
      * Alustaa luokan muuttujat.
@@ -30,6 +31,10 @@ public class Player extends GameObject
         // Tallennetaan tiedot
         health  = _health;
         defence = _defence;
+        
+        // Määritetään healthBarin tiedot
+        healthBar = Hud.getHealthBar();
+        healthBar.initHealthBar(health);
         
         // Asetetaan törmäystunnistuksen säde
         collisionRadius = (int) (25 * Options.scale);
@@ -104,6 +109,8 @@ public class Player extends GameObject
     {
         if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
             health -= _damage;
+            
+            healthBar.updateValue(health);
             
             if (health <= 0) {
             	wrapper.playerState = 2;
