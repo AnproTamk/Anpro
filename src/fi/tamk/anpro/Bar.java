@@ -26,8 +26,16 @@ public class Bar extends GuiObject
 	{
 		value = _value;
 		
-		// laskee jotain
+		// Lasketaan, paljonko pelaajalla on on healthia jäljellä, minkä mukaan
+		// piirretään oikea healthBar-kuva ruudulle.
+		/*for (int i = max; i >= 0; --i) {
+			if (value == max - i)
+				
+		}*/
 		
-		usedTexture = 0;
+		usedTexture = GLRenderer.TEXTURE_HEALTH + (int)((1 - (float)value / (float)max) * 10);
+		
+		if (usedTexture > 13)
+			usedTexture = 13;
 	}
 }
