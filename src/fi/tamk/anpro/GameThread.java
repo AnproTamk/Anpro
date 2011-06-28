@@ -101,7 +101,7 @@ class GameThread extends Thread
             long currentTime = android.os.SystemClock.uptimeMillis();
             
             /* Päivitetään sijainnit ja liikkuminen */
-            if (currentTime - lastMovementUpdate >= 20) {
+            if (currentTime - lastMovementUpdate >= 10) {
                 
                 lastMovementUpdate = currentTime;
                 
