@@ -1,6 +1,8 @@
 package fi.tamk.anpro;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
@@ -30,6 +32,8 @@ public class GameActivity extends Activity
     
     /* Aktiivinen pelitila (asetetaan p‰‰valikossa) */
     public static int activeMode = 1;
+    
+    private static Context context;
         
     /**
      * M‰‰ritt‰‰ asetukset ja luo tarvittavat oliot, kuten renderˆij‰n, HUDin,
@@ -50,6 +54,8 @@ public class GameActivity extends Activity
         
         // Asetetaan ‰‰nens‰‰tˆnapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        
+        context = getBaseContext();
 
         // Ladataan n‰ytˆn tiedot
         DisplayMetrics dm = new DisplayMetrics();
@@ -68,7 +74,7 @@ public class GameActivity extends Activity
         setContentView(surfaceView);
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext(), surfaceView);
+        gameThread = new GameThread(dm, getBaseContext(), surfaceView, this);
         renderer.connectToGameThread(gameThread);
     }
         
@@ -161,4 +167,26 @@ public class GameActivity extends Activity
         super.onDestroy();
         // TODO: Tee toteutus
     }
+    
+    /**
+     * Ottaa pelaajan pisteet vastaan parametrina, l‰hett‰‰ pisteet 
+     * ja siirtyy HighScoresActivityyn.
+     * 
+     * @param score
+     */
+	public void continueToHighscores(long _score) {
+		
+		
+		Intent i_highscores = new Intent(this, HighScoresActivity.class);
+		
+		// Luodaan uusi Bundle
+		Bundle bundle = new Bundle();
+		
+		// L‰hetet‰‰n pelaajan pisteet Bundlessa HighScoresActivitylle
+		bundle.putLong("Scores", _score);
+		i_highscores.putExtras(bundle);
+		
+		startActivity(i_highscores);
+		finish();
+	}
 }
