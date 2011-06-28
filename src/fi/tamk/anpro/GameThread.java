@@ -1,11 +1,8 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Huolehtii ajanotosta ja tekoälyjen ja sijaintien päivittämisestä.
@@ -13,8 +10,8 @@ import android.util.Log;
 class GameThread extends Thread
 {
     /* Säikeen tila */
-    private boolean running   = false;
-    public  boolean allLoaded = false;
+    private boolean running   = false; // Onko säie käynnissä?
+    public  boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Tarvittavat luokat */
     private Wrapper      wrapper;
@@ -22,10 +19,7 @@ class GameThread extends Thread
     private TouchManager touchManager;
     public  Hud          hud;
     
-    /* Pelaaja (VÄLIAIKAINEN!!!) */
-    public Player player;
-    
-    /* Ajanoton muuttujat */
+    /* Ajastuksen muuttujat */
     private long waveStartTime          = 0;
     private long lastMovementUpdate     = 0;
     private long lastAiUpdateStateOne   = 0;
@@ -35,7 +29,7 @@ class GameThread extends Thread
     private long lastCooldownUpdate     = 0;
     private long lastGameModeUpdate		= 0;
     
-    /* Tekoälyn nopeutus */
+    /* Tekoälyn nopeutus vihollisaaltojen aikana */
     private float updateSpeedUp = 1;
     
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
@@ -51,6 +45,7 @@ class GameThread extends Thread
      * @param DisplayMetrics Näytön tiedot
      * @param Context		 Ohjelman konteksti
      * @param GLSurfaceView  OpenGL-pinta
+     * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GLSurfaceView _surface, GameActivity _gameActivity)
     {
@@ -63,7 +58,9 @@ class GameThread extends Thread
     }
 
     /**
-     * Määrittää säikeen päälle tai pois
+     * Määrittää säikeen päälle tai pois.
+     * 
+     * @param boolean Päälle/pois
      */
     public void setRunning(boolean _run)
     {
@@ -76,16 +73,17 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-    	/* Luodaan Hud */
+    	/* Ladataan pelitila */
+    	// Luodaan Hud
         hud = new Hud(context);
     	
-        /* Luodaan pelitila */
-        gameMode = new SurvivalMode(dm, context, gameActivity);
+        // Luodaan SurvivalMode
+        gameMode = new SurvivalMode(gameActivity, dm, context);
         
-        /* Luodaan TouchManager */
+        // Luodaan TouchManager
         touchManager = new TouchManager(dm, surface, context, hud);
         
-        /* Merkataan kaikki ladatuksi */
+        // Merkitään kaikki ladatuiksi
         allLoaded = true;
         
         /* Haetaan päivityksille aloitusajat */
@@ -212,7 +210,6 @@ class GameThread extends Thread
             /* Päivitetään vihollisaallot */
             if (currentTime - lastGameModeUpdate >= 1000) {
                 if (SurvivalMode.enemiesLeft == 0) {
-                    // TODO:
                     waveStartTime = android.os.SystemClock.uptimeMillis();
                     updateSpeedUp = 1;
                     

@@ -12,20 +12,6 @@ import android.util.DisplayMetrics;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
-package fi.tamk.anpro;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-import android.content.res.Resources;
-import android.opengl.GLSurfaceView;
-import android.opengl.GLSurfaceView.Renderer;
-import android.opengl.GLU;
-import android.util.DisplayMetrics;
-
-/**
- * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
  * 
  * @implements Renderer
  */
@@ -51,15 +37,15 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_READY = 1;
     
     /* Animaatioiden ja tekstuurien m‰‰r‰t */
-    public static final int AMOUNT_OF_PLAYER_ANIMATIONS = 5;
-    public static final int AMOUNT_OF_ENEMY_ANIMATIONS = 5;
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
+    public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS = 4;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
 
-    public static final int AMOUNT_OF_PLAYER_TEXTURES = 4;
-    public static final int AMOUNT_OF_PENEMY_TEXTURES = 4;
+    public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
+    public static final int AMOUNT_OF_PENEMY_TEXTURES     = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES = 14;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 14;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -90,8 +76,10 @@ public class GLRenderer implements Renderer
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param Context   Ohjelman konteksti
-     * @param Resources Ohjelman resurssit
+     * @param Context        Ohjelman konteksti
+     * @param GLSurfaceView  OpenGL-pinta
+     * @param Resources      Ohjelman resurssit
+     * @param DisplayMetrics N‰ytˆn tiedot
      */
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
@@ -122,18 +110,11 @@ public class GLRenderer implements Renderer
      */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
-        // Otetaan k‰yttˆˆn 2D-tekstuurit ja shademalli
-        //_gl.glEnable(GL10.GL_TEXTURE_2D);
+        // Otetaan k‰yttˆˆn shademalli
         _gl.glShadeModel(GL10.GL_SMOOTH);
 
         // Piirret‰‰n tausta mustaksi
         _gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-
-        // M‰‰ritet‰‰n syvyyspuskurin oletusarvo
-        //_gl.glClearDepthf(0.0f);
-
-        // M‰‰ritet‰‰n perspektiivilaskennat
-        //_gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
@@ -164,7 +145,6 @@ public class GLRenderer implements Renderer
         
         // M‰‰ritet‰‰n ruudun koko (OpenGL:‰‰ varten)
         GLU.gluOrtho2D(_gl, -(_width/2), (_width/2), -(_height/2), (_height/2));
-        //_gl.glOrthof(0, 800, 480, 0, -1, 1);
 
         // Valitaan ja resetoidaan mallimatriisi
         _gl.glMatrixMode(GL10.GL_MODELVIEW);
@@ -172,10 +152,11 @@ public class GLRenderer implements Renderer
     }
 
     /**
-     * Tuhoaa pinnan.
+     * K‰sittelee pinnan tuhoamisen j‰lkeiset toiminnot.
      * Android kutsuu t‰t‰ automaattisesti.
      */
     public void onSurfaceDestroyed() {
+    	// ...
     }
 
     /**
@@ -193,7 +174,7 @@ public class GLRenderer implements Renderer
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
-        // Tekstuurit on ladattu
+        /* Tarkastetaan onko tekstuurit ladattu */
         if (allLoaded && gameThread.allLoaded) {
             
             /* K‰yd‰‰n l‰pi piirtolistat */
@@ -217,7 +198,6 @@ public class GLRenderer implements Renderer
             }
             
             /* P‰ivitet‰‰n animaatiot */
-            // Haetaan t‰m‰nhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();
             
             if (currentTime - lastAnimationUpdate >= 40) {
@@ -250,17 +230,19 @@ public class GLRenderer implements Renderer
                     gameThread.hud.buttons.get(i).update();
                 }
                 
+                // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mik‰li raja ylitet‰‰n.
+                // T‰ll‰ animaatioiden p‰ivitt‰minen tahdistetaan; Animaatiot voivat n‰ky‰ joko
+                // joka kierroksella, joka toisella, joka nelj‰nnell‰ tai joka kahdeksannella
+                // kierroksella.
                 ++updateBeat;
-                int a = updateBeat;
                 
                 if (updateBeat > 8) {
                     updateBeat = 1;
                 }
             }
         }
-    
-        // Tekstuureja ei ole viel‰ ladattu
-        if (!allLoaded && gameThread != null) {
+        /* Tekstuureja ei ole viel‰ ladattu */
+        else if (!allLoaded && gameThread != null) {
             // Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
             if (loadTextures(_gl)) {
                 startThread();
@@ -281,7 +263,7 @@ public class GLRenderer implements Renderer
     }
 
     /**
-     * Lataa kaikki tekstuurit.
+     * Lataa kaikki tekstuurit ja animaatiot.
      * 
      * @param GL10 OpenGL-konteksti
      * 
@@ -294,6 +276,7 @@ public class GLRenderer implements Renderer
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
 
         /* Ladataan vihollisten grafiikat */
+        // Enemy #1
         enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
@@ -337,7 +320,7 @@ public class GLRenderer implements Renderer
         hudTextures[12] = new Texture(_gl, context, R.drawable.health_bar_10);
         hudTextures[13] = new Texture(_gl, context, R.drawable.health_bar_11);
         
-        // Merkit‰‰n kaikki ladatuiksi
+        /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;
         
         return true; // TODO: K‰sittele virheet ja palauta FALSE virheiden tapahtuessa.
