@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<hud>
+        <button id="weapon_button_1" x="224" y="-96" type="weapon" />   <!--  ALIN NAPPULA -->
+        <button id="weapon_button_2" x="224" y="-120" type="weapon" /> <!--  KESKIMMÄINEN NAPPULA -->
+        <button id="weapon_button_3" x="224" y="-144" type="weapon" /> <!--  YLIN NAPPULA -->   
+        <button id="special_button_1" x="-224" y="-120" type="weapon" />
+        <button id="special_button_2" x="-224" y="-144" type="weapon" />
+        
+        <health_bar x="-192" y="-132" type="" />
+        
+        <counter id="score_counter" x="300" y="300" type="counter_numbers" />
+</hud>

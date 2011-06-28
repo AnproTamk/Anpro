@@ -55,10 +55,22 @@ public class TouchManager
         hud           = _hud;
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
-
-        yClickFirstBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);
-        yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32;
-        yClickThirdBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 64;
+        
+        if (screenHeight == 320) {
+        	yClickFirstBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);		// 96
+        	yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32; // 64
+        	yClickThirdBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 64; // 32
+        }
+        else if (screenHeight == 480) {
+        	yClickFirstBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f);		 // 96
+        	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
+        	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
+        }
+        
+        /*
+         *  <button id="weapon_button_1" x="384" y="-224" type="weapon" />
+         *  <button id="weapon_button_2" x="384" y="-192" type="weapon" />
+         */
         
         Log.v("TouchManager", "FirstBorder="  + yClickFirstBorder +
         	                  " SecondBorder=" + yClickSecondBorder +
@@ -159,11 +171,11 @@ public class TouchManager
                         if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
                         	Log.v("TouchManager", "**Oikean reunan alin nappula**");
                             // ***** OIKEAN REUNAN ALIN NAPPULA *****
-                            hud.triggerClick(Hud.BUTTON_1);
+                            hud.triggerClick(Hud.BUTTON_3);
                         }
 
                         // Oikean reunan keskimmäinen nappula
-                        else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickFirstBorder) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
                             // ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
                         	Log.v("TouchManager", "**Oikean reunan keskimmäinen nappula**");
                             hud.triggerClick(Hud.BUTTON_2);
@@ -173,7 +185,7 @@ public class TouchManager
                         else if (yClickOffset < yClickFirstBorder && yClickOffset > yClickSecondBorder) {
                             // ***** OIKEAN REUNAN YLIN NAPPULA *****
                         	Log.v("TouchManager", "**Oikean reunan ylin nappula**");
-                            hud.triggerClick(Hud.BUTTON_3);
+                            hud.triggerClick(Hud.BUTTON_1);
                         }
                     }
                     // Vasemman reunan napit
@@ -181,12 +193,12 @@ public class TouchManager
                     		 yClickOffset < yClickThirdBorder) {
 
                         // Vasemman reunan alempi nappula
-                        if (yClickOffset < yClickFirstBorder && yClickOffset > 0) {
+                        if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
                             // ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
                             hud.triggerClick(Hud.SPECIAL_2);
                         }
                         // Vasemman reunan ylempi nappula
-                        else if (yClickOffset < yClickSecondBorder && yClickOffset > 66 * Options.scaleY) {
+                        else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
                             // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
