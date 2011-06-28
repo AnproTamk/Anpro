@@ -42,6 +42,7 @@ class GameThread extends Thread
     private DisplayMetrics dm;
     private Context        context;
     private GLSurfaceView  surface;
+    private GameActivity   gameActivity;
 
     /**
      * Alustaa luokan muuttujat ja luo pelitilan.
@@ -50,13 +51,14 @@ class GameThread extends Thread
      * @param Context		 Ohjelman konteksti
      * @param GLSurfaceView  OpenGL-pinta
      */
-    public GameThread(DisplayMetrics _dm, Context _context, GLSurfaceView _surface)
+    public GameThread(DisplayMetrics _dm, Context _context, GLSurfaceView _surface, GameActivity _gameActivity)
     {
         wrapper = Wrapper.getInstance();
         
-        dm      = _dm;
-        context = _context;
-        surface = _surface;
+        dm      	 = _dm;
+        context 	 = _context;
+        surface 	 = _surface;
+        gameActivity = _gameActivity;
     }
 
     /**
@@ -74,16 +76,11 @@ class GameThread extends Thread
     public void run()
     {
         /* Luodaan pelitila */
-        gameMode = new SurvivalMode(dm, context);
+        gameMode = new SurvivalMode(dm, context, gameActivity);
         
         /* Luodaan Hud ja TouchManager */
         hud = new Hud(context);
         touchManager = new TouchManager(dm, surface, context, hud);
-        
-        /* DEBUGGIA!!!! */
-        player = new Player(5, 2);
-        player.x = 0;
-        player.y = 0;
         
         /* Haetaan päivityksille aloitusajat */
         waveStartTime		   = android.os.SystemClock.uptimeMillis();

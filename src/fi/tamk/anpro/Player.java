@@ -18,15 +18,20 @@ public class Player extends GameObject
     private Wrapper wrapper;
     private Bar     healthBar;
     
+    private SurvivalMode survivalMode;
+    
     /**
      * Alustaa luokan muuttujat.
+     * @param _survivalMode 
      * 
      * @param int Pelaajan elämät/kestävyys
      * @param int Pelaajan puolustus
      */
-    public Player(int _health, int _defence)
+    public Player(int _health, int _defence, SurvivalMode _survivalMode)
     {
         super();
+        
+        survivalMode = _survivalMode;
         
         // Tallennetaan tiedot
         health  = _health;
@@ -134,7 +139,9 @@ public class Player extends GameObject
         if (actionId == 1) {
             setUnactive();
             
-            System.exit(0); // TODO
+            survivalMode.endGameMode();
+            
+            // System.exit(0); // TODO
         }
     }
 }

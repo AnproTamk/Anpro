@@ -14,9 +14,14 @@ import android.util.DisplayMetrics;
  */
 public class SurvivalMode extends AbstractMode
 {
+    private GameActivity gameActivity;
+    
     /* Vihollisaallot */
     public  int waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
     private static int currentWave = 0;
+    
+    /* Pelaaja */
+    public Player player;
     
     /* Pistelaskuri ja pisteet */
     public  GuiObject scoreCounter;
@@ -39,8 +44,15 @@ public class SurvivalMode extends AbstractMode
      * @param DisplayMetrics Näytön tiedot
      * @param Context		 Ohjelman konteksti
      */
-    public SurvivalMode(DisplayMetrics _dm, Context _context)
+    public SurvivalMode(DisplayMetrics _dm, Context _context, GameActivity _gameActivity)
     {
+        gameActivity = _gameActivity;
+        
+    	// Alustetaan pelaaja
+    	player = new Player(10, 2, this);
+    	player.x = 0;
+    	player.y = 0;
+    	
     	// Alustetaan muuttujat
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         for (int j = 0; j < AMOUNT_OF_WAVES; ++j) {
@@ -242,5 +254,10 @@ public class SurvivalMode extends AbstractMode
 	    
 	    
     }
+
+	public void endGameMode() {
+		// TODO Auto-generated method stub
+		gameActivity.continueToHighscores(score);
+	}
 }
 

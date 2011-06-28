@@ -16,7 +16,16 @@ public class HighScoresActivity extends Activity implements OnClickListener {
 	{
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.highscores);
-        
+		
+		// Luodaan Bundle
+		Bundle bundle = getIntent().getExtras();
+		
+		/* VÄLIAIKAINEN!!!
+		 * Otetaan talteen GameActivitysta lähetetyt pelaajan pisteet 
+		 * Luodaan funktio, joka tulostaa pisteet näkyviin.
+		 */ 
+		long scores = bundle.getLong("Scores");
+		
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
         // Asetetaan äänensäätönapit muuttamaan media volumea
