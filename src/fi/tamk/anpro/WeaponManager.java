@@ -81,7 +81,8 @@ public class WeaponManager
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
             playerWeapons.add(new WeaponDefault());
-            //playerWeapons.add(new WeaponEmp());
+            //playerWeapons.add(new WeaponEmp()); (TOIMII, MUTTA POISSA KÄYTÖSTÄ KUNNES HUD ON VALMIS!)
+            //playerWeapons.add(new WeaponSpinningLaser()); (KESKEN!)
         }
         else if (_id == STORY_MODE_LEVEL_1) {
             playerWeapons.add(new WeaponDefault());

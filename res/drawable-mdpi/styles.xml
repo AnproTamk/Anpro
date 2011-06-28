@@ -1,7 +1,0 @@
-    <style name="Widget.CompoundButton.CheckBox">
-
-        <item name="android:background">@android:drawable/btn_check_label_background</item>
-
-        <item name="android:button">@android:drawable/btn_check</item>
-
-    </style>

@@ -84,8 +84,8 @@ public class GLRenderer implements Renderer
     public boolean allLoaded = false;
     
     /* Animaatiopäivitysten muuttujat */
-	private long lastAnimationUpdate;
-	private int  updateBeat = 1;
+    private long lastAnimationUpdate;
+    private int  updateBeat = 1;
 
     /**
      * Alustaa luokan muuttujat.
@@ -198,21 +198,21 @@ public class GLRenderer implements Renderer
             
             /* Käydään läpi piirtolistat */
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                if (wrapper.enemyStates.get(i) > 0) {
+                if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.enemies.get(i).draw(_gl);
                 }
             }
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                if (wrapper.projectileStates.get(i) > 0) {
+                if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.projectiles.get(i).draw(_gl);
                 }
             }
             for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
-                if (wrapper.guiObjectStates.get(i) > 0) {
+                if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.guiObjects.get(i).draw(_gl);
                 }
             }
-            if (wrapper.player != null && wrapper.playerState > 0) {
+            if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
                 wrapper.player.draw(_gl);
             }
             
@@ -224,50 +224,50 @@ public class GLRenderer implements Renderer
                 
                 lastAnimationUpdate = currentTime;
                 
-                if (wrapper.player != null && wrapper.player.usedAnimation != -1) {
-                	if (updateBeat % wrapper.player.animationSpeed == 0) {
-                		wrapper.player.update();
-                	}
+                if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE && wrapper.player.usedAnimation != -1) {
+                    if (updateBeat % wrapper.player.animationSpeed == 0) {
+                        wrapper.player.update();
+                    }
                 }
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) > 0 && wrapper.enemies.get(i).usedAnimation != -1) {
-                    	if (updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
-                    		wrapper.enemies.get(i).update();
-                		}
+                    if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE && wrapper.enemies.get(i).usedAnimation != -1) {
+                        if (updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+                            wrapper.enemies.get(i).update();
+                        }
                     }
                 }
                 
                 for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) > 0 && wrapper.projectiles.get(i).usedAnimation != -1) {
-                    	if (updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
-                    		wrapper.projectiles.get(i).update();
-                		}
+                    if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE && wrapper.projectiles.get(i).usedAnimation != -1) {
+                        if (updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
+                            wrapper.projectiles.get(i).update();
+                        }
                     }
                 }
                 
                 for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
-                	gameThread.hud.buttons.get(i).update();
+                    gameThread.hud.buttons.get(i).update();
                 }
                 
                 ++updateBeat;
                 int a = updateBeat;
                 
                 if (updateBeat > 8) {
-                	updateBeat = 1;
+                    updateBeat = 1;
                 }
             }
         }
     
         // Tekstuureja ei ole vielä ladattu
         if (!allLoaded && gameThread != null) {
-        	// Ladataan grafiikat ja käynnistetään pelisäie
-	        if (loadTextures(_gl)) {
-	            startThread();
-	        }
-	        else {
-	            // TODO: Käsittele virhe
-	        }
+            // Ladataan grafiikat ja käynnistetään pelisäie
+            if (loadTextures(_gl)) {
+                startThread();
+            }
+            else {
+                // TODO: Käsittele virhe
+            }
         }
     }
 
@@ -289,21 +289,38 @@ public class GLRenderer implements Renderer
      */
     private final boolean loadTextures(GL10 _gl)
     {
+        /* Ladataan pelaajan grafiikat */
         playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex0); 
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        
+
+        /* Ladataan vihollisten grafiikat */
         enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
-        
+
+        /* Ladataan ammusten grafiikat */
+        // Vakioase
         projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
         projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
+        
+        // EMP
         projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
         projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 10);
         
+        // Pyörivä laser
+        projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
+        projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 11);
+
+        /* Ladataan käyttöliittymän grafiikat */
+        // Napit
         hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex0);
         hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex1);
+        hudAnimations[0] = new Animation(_gl, context, resources, "button_press", 9);
+        
+        // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick);
+        
+        // Elämäpalkki
         hudTextures[3]  = new Texture(_gl, context, R.drawable.health_bar);
         hudTextures[4]  = new Texture(_gl, context, R.drawable.health_bar_2);
         hudTextures[5]  = new Texture(_gl, context, R.drawable.health_bar_3);
@@ -315,14 +332,11 @@ public class GLRenderer implements Renderer
         hudTextures[11] = new Texture(_gl, context, R.drawable.health_bar_9);
         hudTextures[12] = new Texture(_gl, context, R.drawable.health_bar_10);
         hudTextures[13] = new Texture(_gl, context, R.drawable.health_bar_11);
-
         
-        hudAnimations[0] = new Animation(_gl, context, resources, "button_press", 9);
-        
+        // Merkitään kaikki ladatuiksi
         allLoaded = true;
         
-        return true;
-        // TODO: Palauta FALSE virheiden tapahtuessa.
+        return true; // TODO: Käsittele virheet ja palauta FALSE virheiden tapahtuessa.
     }
 
     /**
