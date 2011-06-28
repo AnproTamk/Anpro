@@ -31,6 +31,8 @@ public class Player extends GameObject
     {
         super();
         
+        VibrateManager.getInstance();
+        
         survivalMode = _survivalMode;
         
         // Tallennetaan tiedot
@@ -115,7 +117,9 @@ public class Player extends GameObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
-            health -= _damage;
+            VibrateManager.vibrateOnHit();
+        	
+        	health -= _damage;
             
             healthBar.updateValue(health);
             
