@@ -244,6 +244,27 @@ public class Enemy extends GameObject
         /* Aktivoidaan vihollinen (EMPin jälkeen) */
         else if (actionId == 2) {
         	wrapper.enemyStates.set(listId, 1);
+        	movementAcceleration = 0;
+        	movementDelay = 20;
         }
     }
+
+	public void triggerDisabled()
+	{
+    	wrapper.enemyStates.set(listId, 3);
+
+    	movementAcceleration = -8;
+    	turningDirection     = 0;
+    	
+        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
+	}
+
+	public void triggerDestroyed()
+	{
+    	wrapper.enemyStates.set(listId, 3);
+
+    	movementAcceleration = -9;
+    	
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+	}
 }
