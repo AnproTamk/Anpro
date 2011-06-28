@@ -242,6 +242,7 @@ public class Enemy extends GameObject
         
     	movementAcceleration = 0;
     	movementDelay = 20;
+    	movementSpeed = 2;
     }
 
 	public void triggerDisabled()
