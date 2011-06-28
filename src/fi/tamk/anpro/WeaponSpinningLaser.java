@@ -1,24 +1,24 @@
 package fi.tamk.anpro;
 
 /**
- * Sis‰lt‰‰ #2 aseen, eli EMP:n toteutuksen.
+ * Sis‰lt‰‰ #3 aseen, eli Spinning Laserin toteutuksen.
  * 
  * @extends AbstractWeapon
  */
-public class WeaponEmp extends AbstractWeapon
+public class WeaponSpinningLaser extends AbstractWeapon
 {
     /* Ammukset */
-    private ProjectileEmp projectile;
+    private ProjectileSpinningLaser projectile;
 
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-    public WeaponEmp()
+    public WeaponSpinningLaser()
     {
         super();
         
         // Luodaan ammus
-        projectile = new ProjectileEmp();
+        projectile = new ProjectileSpinningLaser();
     }
 
     /**
