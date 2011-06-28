@@ -20,6 +20,8 @@ public class Options
 	public static float scaleY;	
 	public static int   scaledScreenWidth;
 	public static int   scaledScreenHeight;
+	public static int   screenWidth;
+	public static int   screenHeight;
 
 	/**
 	 * Alustaa luokan muuttujat ja lukee asetukset.
@@ -63,6 +65,8 @@ public class Options
     	scaleX      	   = (float)_screenWidth / 800;
     	scaleY             = (float)_screenHeight / 480;
     	scale	           = 1.0f; // TODO:
+    	screenWidth        = _screenWidth;
+    	screenHeight       = _screenHeight;
     	scaledScreenWidth  = _screenWidth / 2;  // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa
     	scaledScreenHeight = _screenHeight / 2; // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa
 	}

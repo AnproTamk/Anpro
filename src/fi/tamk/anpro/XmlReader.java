@@ -84,7 +84,13 @@ public class XmlReader
         
         // Ehto, joka tarkistaa, mikä pelitila on valittuna.
         if (GameActivity.activeMode == GameActivity.SURVIVAL_MODE) {
-            hud = context.getResources().getXml(R.xml.hud_survival);
+        	try {
+                hud = context.getResources().getXml(R.xml.class.getField("hud_survival_" + Options.screenWidth + "_" + Options.screenHeight).getInt(getClass()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        		//								   .class.getField("level_"+_id).getInt(getClass()));
+            	//hud = context.getResources().getXml(R.xml."hud_survival_");
         }
         else {
             hud = context.getResources().getXml(R.xml.hud_story);
@@ -225,7 +231,9 @@ public class XmlReader
     public final void readSurvivalMode(SurvivalMode _survivalMode)
     {
         XmlResourceParser rsm = null;
+        // Haetaan oikea xml-tiedosto resoluution perusteella
         rsm = context.getResources().getXml(R.xml.survivalmode);
+
         int currentWave = 0;
         
         try {
