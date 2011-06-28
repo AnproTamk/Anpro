@@ -3,21 +3,21 @@ package fi.tamk.anpro;
 import java.lang.Math;
 
 /**
- * Toteutus lineaarisen reitinhaun tekoälylle. Tekoäly hakeutuu kohteenseensa
- * mahdollisimman suoraa reittiä pitkin, eikä reagoi pelikentän tapahtumiin.
+ * Toteutus hyökkäys-pysähdys -tekoälylle. Tekoäly hyökkää pelaajaa kohti
+ * mahdollisimman suoraa reittiä pitkin, mutta pysähtyy ennen törmäystä pelaajaan
  * 
  * Käytetään ainoastaan vihollisille.
  * 
  * @extends AbstractAi
  */
-public class LinearAi extends AbstractAi
+public class ApproachAndStopAi extends AbstractAi
 {
     /**
      * Alustaa luokan muuttujat.
      * 
      * @param int Vihollisen tunnus piirtolistalla
      */
-    public LinearAi(int _id)
+    public ApproachAndStopAi(int _id)
     {
         super(_id);
     }
@@ -74,12 +74,13 @@ public class LinearAi extends AbstractAi
         }
         
         /* Määritetään kääntymissuunta */
-        double angle2 = angle -wrapper.enemies.get(parentId).direction;
-
-        if(angle == 0 || angle == 90 || angle == 180) {
+        
+        if(angle == 0 || angle == 90 || angle == 270) {
         	wrapper.enemies.get(parentId).turningDirection = 0;
         }
         
+        double angle2 = angle -wrapper.enemies.get(parentId).direction;
+
         if (angle2 >= -10 && angle2 <= 10) {
             wrapper.enemies.get(parentId).turningDirection = 0;
         }
@@ -89,10 +90,5 @@ public class LinearAi extends AbstractAi
         else {
             wrapper.enemies.get(parentId).turningDirection = 2;
         }
-        
-        /* Tarkistetaan törmäykset pelaajan kanssa */
-        checkCollisionWithPlayer();
     }
 }
-
-
