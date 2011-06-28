@@ -9,5 +9,7 @@
         
         <health_bar x="-303" y="-208" type="" />
         
+        <joystick x="352" y="-192" type="" />
+        
         <counter id="score_counter" x="300" y="300" type="counter_numbers" />
 </hud>

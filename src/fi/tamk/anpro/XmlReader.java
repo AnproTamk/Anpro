@@ -112,6 +112,10 @@ public class XmlReader
                     	Hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
                     						     Integer.parseInt(hud.getAttributeValue(null, "y")));
                     }
+                    else if (hud.getName().equals("joystick")) {
+                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                    						        Integer.parseInt(hud.getAttributeValue(null, "y")));
+                    }
                 }
                 else if (hud.getEventType() == XmlPullParser.END_TAG) {
                     // ...
