@@ -35,11 +35,11 @@ public class TouchManager
     private int screenHeight; // Ruudun korkeus
 
     /* Joystickin tiedot */
-    private static float   joystickX;
-    private static float   joystickY;
-    private static boolean joystickActivated = false;
-    private static boolean joystickInUse     = false;
-    private long           startTime         = 0;
+    private static float     joystickX;
+    private static float     joystickY;
+    private static boolean 	 joystickActivated = false;
+    private static boolean   joystickInUse     = false;
+    private long             startTime         = 0;
 
     /**
      * Alustaa luokan muuttujat.
@@ -100,7 +100,7 @@ public class TouchManager
                             startTime = android.os.SystemClock.uptimeMillis();
                             return true;
                         }
-                        else if (android.os.SystemClock.uptimeMillis() - startTime >= 1000) {
+                        else if (android.os.SystemClock.uptimeMillis() - startTime >= 750) {
                             joystickInUse = true;
                         }
                     }
@@ -108,20 +108,20 @@ public class TouchManager
                     if (joystickInUse) {
                     	
                     	/* Verrataan sormen sijaintia joystickin sijaintiin */
-                        double xDiff = Math.abs((double)(event.getRawX() - 600));
-                        double yDiff = Math.abs((double)(event.getRawY() - 360));
+                        double xDiff = Math.abs((double)(event.getRawX() - joystickX));
+                        double yDiff = Math.abs((double)(event.getRawY() - joystickY));
                         
                         /* Määritetään sormen ja joystickin välinen kulma */
                         int angle;
                         
                         // Jos sormi on pelaajan joystickin puolella:
-                        if (event.getRawX() > 600) {
+                        if (event.getRawX() > joystickX) {
                             // Jos sormi on joystickin alapuolella:
-                            if (event.getRawY() < 360) {
+                            if (event.getRawY() < joystickY) {
                                 angle = (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             // Jos sormi on joystickin yläpuolella:
-                            else if (event.getRawY() > 360) {
+                            else if (event.getRawY() > joystickY) {
                                 angle = (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             else {
@@ -129,13 +129,13 @@ public class TouchManager
                             }
                         }
                         // Jos sormi on joystickin oikealla puolella:
-                        else if (event.getRawX() < 600) {
+                        else if (event.getRawX() < joystickX) {
                             // Jos sormi on joystickin yläpuolella:
-                            if (event.getRawY() > 360) {
+                            if (event.getRawY() > joystickY) {
                                 angle = (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             // Jos sormi on joystickin alapuolella:
-                            else if (event.getRawY() < 360) {
+                            else if (event.getRawY() < joystickY) {
                                 angle = (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             else {
@@ -144,7 +144,7 @@ public class TouchManager
                         }
                         // Jos sormi on suoraan joystickin ylä- tai alapuolella
                         else {
-                            if (event.getRawY() > 360) {
+                            if (event.getRawY() > joystickY) {
                                 angle = 270;
                             }
                             else {
@@ -162,7 +162,8 @@ public class TouchManager
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     xClickOffset = (int) event.getX();
                     yClickOffset = screenHeight - (int) event.getY();
-                    Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset);
+                    // Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset + "rawX=" + event.getRawX() + " rawY=" + event.getRawY());
+                    // Log.v("TouchManager", "getX()=" + event.getX() + " getY()" + event.getY() + " rawX=" + event.getRawX() + " rawY=" + event.getRawY());
                     // Oikean reunan napit
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
                     	yClickOffset < yClickFirstBorder) {

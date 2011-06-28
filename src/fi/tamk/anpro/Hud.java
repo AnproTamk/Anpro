@@ -23,7 +23,7 @@ public class Hud
     
     /* Käyttöliittymän objektit */
     public ArrayList<Button> buttons   = null;
-    public Joystick          joystick  = null;
+    public static Joystick   joystick  = null;
     public static Bar		 healthBar = null;
 
     /* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
@@ -45,7 +45,7 @@ public class Hud
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
-        joystick = new Joystick(800, 480);
+        //joystick = new Joystick(800, 480);
     }
 
     /**
