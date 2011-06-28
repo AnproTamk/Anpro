@@ -151,9 +151,7 @@ public class Enemy extends GameObject
         health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
         
         if (health <= 0) {
-        	wrapper.enemyStates.set(listId, 2);
-        	
-            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        	triggerDestroyed();
         }
     }
     
@@ -171,15 +169,11 @@ public class Enemy extends GameObject
             health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
             
             if (health <= 0) {
-            	wrapper.enemyStates.set(listId, 2);
-            	
-                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+            	triggerDestroyed();
             }
         }
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-        	wrapper.enemyStates.set(listId, 2);
-        	
-            setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        	triggerDestroyed();
         }
     }
 
