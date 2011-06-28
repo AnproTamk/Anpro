@@ -238,9 +238,10 @@ public class Enemy extends GameObject
         /* Aktivoidaan vihollinen (EMPin jälkeen) */
         else if (actionId == 2) {
         	wrapper.enemyStates.set(listId, 1);
-        	movementAcceleration = 0;
-        	movementDelay = 20;
         }
+        
+    	movementAcceleration = 0;
+    	movementDelay = 20;
     }
 
 	public void triggerDisabled()
