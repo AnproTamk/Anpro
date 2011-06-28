@@ -32,6 +32,16 @@ public class ApproachAndStopAi extends AbstractAi
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
         
+        
+        // Lasketaan pelaajan ja vihollisen välinen etäisyys
+        double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
+        
+        // Vihollinen pysähtyy tietylle etäisyydelle pelaajasta
+        if(distance <= 150)
+        {
+        	wrapper.enemies.get(parentId).movementSpeed = 0;
+        }
+        
         /* Määritetään objektien välinen kulma */
         double angle;
         
@@ -74,12 +84,11 @@ public class ApproachAndStopAi extends AbstractAi
         }
         
         /* Määritetään kääntymissuunta */
-        
-        if(angle == 0 || angle == 90 || angle == 270) {
+        double angle2 = angle -wrapper.enemies.get(parentId).direction;
+
+        if(angle == 0 || angle == 90 || angle == 180 || angle == 270) {
         	wrapper.enemies.get(parentId).turningDirection = 0;
         }
-        
-        double angle2 = angle -wrapper.enemies.get(parentId).direction;
 
         if (angle2 >= -10 && angle2 <= 10) {
             wrapper.enemies.get(parentId).turningDirection = 0;
