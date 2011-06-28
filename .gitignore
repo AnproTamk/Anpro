@@ -5,3 +5,4 @@ gen/
 *.xcf
 *.settings/
 ohjelmakaavio.zargo~
+.project

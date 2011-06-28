@@ -32,6 +32,7 @@ public class LinearAi extends AbstractAi
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
         
+        
         /* M‰‰ritet‰‰n objektien v‰linen kulma */
         double angle;
         
@@ -76,7 +77,7 @@ public class LinearAi extends AbstractAi
         /* M‰‰ritet‰‰n k‰‰ntymissuunta */
         double angle2 = angle -wrapper.enemies.get(parentId).direction;
 
-        if(angle == 0 || angle == 90 || angle == 180) {
+        if(angle == 0 || angle == 90 || angle == 180 || angle == 270) {
         	wrapper.enemies.get(parentId).turningDirection = 0;
         }
         
