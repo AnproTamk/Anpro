@@ -40,8 +40,7 @@ public class Player extends GameObject
         defence = _defence;
         
         // Määritetään healthBarin tiedot
-        healthBar = Hud.getHealthBar();
-        healthBar.initHealthBar(health);
+        Hud.healthBar.initHealthBar(health);
         
         // Asetetaan törmäystunnistuksen säde
         collisionRadius = (int) (25 * Options.scale);
@@ -120,8 +119,8 @@ public class Player extends GameObject
             VibrateManager.vibrateOnHit();
         	
         	health -= _damage;
-            
-            healthBar.updateValue(health);
+
+            Hud.healthBar.updateValue(health);
             
             if (health <= 0) {
             	wrapper.playerState = 2;
