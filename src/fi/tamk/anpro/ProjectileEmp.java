@@ -76,8 +76,7 @@ public class ProjectileEmp extends AbstractProjectile
                 int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
                 
                 if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-                	wrapper.enemyStates.set(i, 3);
-                    wrapper.enemies.get(i).setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
+                	wrapper.enemies.get(i).triggerDisabled();
                 }
             }
         }
