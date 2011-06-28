@@ -75,11 +75,13 @@ class GameThread extends Thread
     @Override
     public void run()
     {
+    	/* Luodaan Hud */
+        hud = new Hud(context);
+    	
         /* Luodaan pelitila */
         gameMode = new SurvivalMode(dm, context, gameActivity);
         
-        /* Luodaan Hud ja TouchManager */
-        hud = new Hud(context);
+        /* Luodaan TouchManager */
         touchManager = new TouchManager(dm, surface, context, hud);
         
         /* Haetaan päivityksille aloitusajat */
