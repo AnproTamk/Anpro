@@ -24,6 +24,8 @@ abstract public class AbstractProjectile extends GameObject
     
     public int damageType = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
     
+    public boolean explodeOnTarget = false;
+    
     public int armorPiercing = 0;
     
     // Passiivinen AoE-vahinko
@@ -38,6 +40,7 @@ abstract public class AbstractProjectile extends GameObject
     
     /* Muut tarvittavat oliot */
     protected Wrapper wrapper;
+    protected AbstractWeapon parent;
     
     /* Kohteen tiedot */
     protected int targetX;
@@ -130,7 +133,7 @@ abstract public class AbstractProjectile extends GameObject
      * @param int     Kohteen Y-koordinaatti
      * @param boolean Onko ammuksen tarkoitus aktivoida erikoistoiminto heti (esim. EMP)?
      */
-    public final void activate(int _x, int _y, boolean _autoSpecial)
+    public final void activate(int _x, int _y, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
         if (explodeTime > 0) {
@@ -138,8 +141,11 @@ abstract public class AbstractProjectile extends GameObject
         }
         
         // Asetetaan aloituspiste
-        x = wrapper.player.x;
-        y = wrapper.player.y;
+        x = _startX;
+        y = _startY;
+        
+        // Tallennetaan isäntäluokan osoitisn 
+        parent = _parent;
         
         // Tallennetaan kohteen koordinaatit
         targetX = _x;
@@ -147,6 +153,39 @@ abstract public class AbstractProjectile extends GameObject
         
         // Määritetään aloitussuunta
         setDirection();
+        
+        // Otetaan kohteessa räjähtäminen käyttöön
+        explodeOnTarget = true;
+        
+        // Aktivoidaan ammus
+        wrapper.projectileStates.set(listId, 1);
+        active = true;
+        
+        // Aktivoidaan erikoistoiminto
+        if (_autoSpecial) {
+        	triggerSpecialAction();
+        }
+    }
+    
+    public final void activate(int _direction, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    {
+        // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
+        if (explodeTime > 0) {
+            startTime = android.os.SystemClock.uptimeMillis();
+        }
+        
+        // Asetetaan aloituspiste
+        x = _startX;
+        y = _startY;
+        
+        // Tallennetaan isäntäluokan osoitisn 
+        parent = _parent;
+        
+        // Määritetään aloitussuunta
+        direction = _direction;
+        
+        // Poistetaan kohteessa räjähtäminen käytöstä
+        explodeOnTarget = false;
         
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
@@ -163,6 +202,18 @@ abstract public class AbstractProjectile extends GameObject
      */
     public final void handleAi()
     {
+    	
+    	/* Tarkistetaan räjähdys kohteessa */
+    	if (explodeOnTarget) {
+    		double distance = Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));
+    		
+    		if (distance - collisionRadius - 20 <= 0) {
+    			setUnactive();
+	    	    active = false;
+	    		parent.triggerCluster(8, x, y);
+    		}
+    	}
+    		
         /* Tarkistetaan osumat vihollisiin */
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             
@@ -179,12 +230,17 @@ abstract public class AbstractProjectile extends GameObject
                     if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
                         wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 
+                    	if (explodeOnTarget) {
+                		    setUnactive();
+            	    	    active = false;
+            	    		parent.triggerCluster(8, x, y);
+                    	}
+                    	
                         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                     }
                     else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
                         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 
-                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                         causeExplosion();
                     }
                     

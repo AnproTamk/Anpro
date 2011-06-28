@@ -13,9 +13,9 @@ public class WeaponEmp extends AbstractWeapon
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-    public WeaponEmp()
+    public WeaponEmp(Wrapper _wrapper)
     {
-        super();
+        super(_wrapper);
         
         // Luodaan ammus
         projectile = new ProjectileEmp();
@@ -34,7 +34,7 @@ public class WeaponEmp extends AbstractWeapon
         // Tarkistetaan onko ammus jo aktiivinen
         if (!projectile.active) {
             // Aktivoidaan ammus
-            projectile.activate(_x, _y, true);
+            projectile.activate(_x, _y, true, this, wrapper.player.x, wrapper.player.y);
             
             // Soitetaan ‰‰ni
             SoundManager.playSound(3, 1);

@@ -194,7 +194,7 @@ public class GLRenderer implements Renderer
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
         // Tekstuurit on ladattu
-        if (allLoaded && wrapper.player != null) {
+        if (allLoaded && gameThread.allLoaded) {
             
             /* Käydään läpi piirtolistat */
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -310,6 +310,10 @@ public class GLRenderer implements Renderer
         // Pyörivä laser
         projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
         projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
+        
+        // Cluster
+        projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_tex0);
+        projectileAnimations[3][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit

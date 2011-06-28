@@ -41,7 +41,7 @@ public class Hud
         weapons = new int[5];
         
         buttons = new ArrayList<Button>();
-        
+
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
