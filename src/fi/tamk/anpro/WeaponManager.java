@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 /**
  * Hallitsee aseiden cooldowneja, varastoi aseiden oliot ja välittää kutsupyynnöt
  * eri aseisiin.
@@ -16,7 +18,7 @@ public class WeaponManager
     public static final int GLOBAL_COOLDOWN = 500;
 
     /* Käytössä oleva ase */
-    public int currentWeapon; // Viittaa alla olevien taulukoiden soluihin
+    public int currentWeapon = 0; // Viittaa alla olevien taulukoiden soluihin
 
     /* Aseiden oliot */
     public ArrayList<AbstractWeapon> allyWeapons   = null;
@@ -57,14 +59,16 @@ public class WeaponManager
      */
     public final void triggerShoot(int[] _coords)
     {
+        Log.e("cd", "TRIGGER SHOOT!");
         if (cooldownLeft[currentWeapon] <= 0) {
+            Log.e("cd", "WEAPON ACTIVATED!");
             playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1]);
             
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
             
             // Asetetaan globaali cooldown
             for (int i = 9; i >= 0; --i) {
-                if (cooldownLeft[i] == 0) {
+                if (cooldownLeft[i] <= 0) {
                     cooldownLeft[i] = GLOBAL_COOLDOWN;
                 }
             }
@@ -78,14 +82,17 @@ public class WeaponManager
      */
     public final void initialize(int _id)
     {
+    	Wrapper wrapper = Wrapper.getInstance();
+    	
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
-            //playerWeapons.add(new WeaponDefault());
-            //playerWeapons.add(new WeaponEmp()); // (TOIMII, MUTTA POISSA KÄYTÖSTÄ KUNNES HUD ON VALMIS!)
-            playerWeapons.add(new WeaponSpinningLaser()); // (KESKEN!)
+            playerWeapons.add(new WeaponDefault(wrapper));
+            //playerWeapons.add(new WeaponEmp(wrapper));
+            //playerWeapons.add(new WeaponSpinningLaser(wrapper));
+        	//playerWeapons.add(new WeaponCluster(wrapper));
         }
         else if (_id == STORY_MODE_LEVEL_1) {
-            playerWeapons.add(new WeaponDefault());
+            playerWeapons.add(new WeaponDefault(wrapper));
         }
     }
 
@@ -94,12 +101,14 @@ public class WeaponManager
      */
     public final void updateCooldowns()
     {
-        // Asetetaan globaali cooldown
         for (int i = 9; i>= 0; --i) {
-            if (cooldownLeft[i] >= 0) {
+            if (cooldownLeft[i] > 0) {
                 cooldownLeft[i] -= 100;
             }
         }
+        Log.e("cd", "Cooldown left: " + cooldownLeft[0]);
+        
+        int a = 0;
     }
     
     /**

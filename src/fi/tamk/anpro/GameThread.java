@@ -13,7 +13,8 @@ import android.util.Log;
 class GameThread extends Thread
 {
     /* Säikeen tila */
-    private boolean running = false;
+    private boolean running   = false;
+    public  boolean allLoaded = false;
     
     /* Tarvittavat luokat */
     private Wrapper      wrapper;
@@ -83,6 +84,9 @@ class GameThread extends Thread
         
         /* Luodaan TouchManager */
         touchManager = new TouchManager(dm, surface, context, hud);
+        
+        /* Merkataan kaikki ladatuksi */
+        allLoaded = true;
         
         /* Haetaan päivityksille aloitusajat */
         waveStartTime		   = android.os.SystemClock.uptimeMillis();
@@ -201,6 +205,7 @@ class GameThread extends Thread
             
             /* Päivitetään aseiden cooldownit */
             if (currentTime - lastCooldownUpdate >= 100) {
+            	lastCooldownUpdate = currentTime;
                 gameMode.weaponManager.updateCooldowns();
             }
             

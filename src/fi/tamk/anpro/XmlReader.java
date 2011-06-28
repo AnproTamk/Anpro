@@ -95,7 +95,7 @@ public class XmlReader
         else {
             hud = context.getResources().getXml(R.xml.hud_story);
         }
-        
+
         // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         try {
             while (hud.getEventType() != XmlPullParser.END_DOCUMENT) {
@@ -105,11 +105,11 @@ public class XmlReader
                         _hud.buttons.add(new Button(Integer.parseInt(hud.getAttributeValue(null, "x")),
                                                     Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
-                    if (hud.getName().equals("counter")) {
+                    else if (hud.getName().equals("counter")) {
                         // ...
                     }
-                    if (hud.getName().equals("health_bar")) {
-                    	_hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                    else if (hud.getName().equals("health_bar")) {
+                    	Hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
                     						     Integer.parseInt(hud.getAttributeValue(null, "y")));
                     }
                 }

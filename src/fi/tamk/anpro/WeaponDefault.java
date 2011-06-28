@@ -15,9 +15,9 @@ public class WeaponDefault extends AbstractWeapon
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-	public WeaponDefault()
+	public WeaponDefault(Wrapper _wrapper)
 	{
-		super();
+		super(_wrapper);
 		
 		// Alustetaan ammukset
 		projectiles = new ArrayList<ProjectileLaser>(10);
@@ -43,7 +43,7 @@ public class WeaponDefault extends AbstractWeapon
 			if (projectiles.get(i).active == false) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-				projectiles.get(i).activate( _x, _y, false);
+				projectiles.get(i).activate(_x, _y, false, this, wrapper.player.x, wrapper.player.y);
 				
 				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);
