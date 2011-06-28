@@ -309,7 +309,7 @@ public class GLRenderer implements Renderer
         
         // Pyörivä laser
         projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
-        projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 11);
+        projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit

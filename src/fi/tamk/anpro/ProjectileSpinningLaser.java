@@ -30,7 +30,7 @@ public class ProjectileSpinningLaser extends AbstractProjectile
         collisionRadius  = 200;
         damageOnTouch    = 40;
         turningDirection = 1;
-        turningSpeed     = 8;
+        turningSpeed     = 9;
     }
     
     /**
