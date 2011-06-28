@@ -20,6 +20,11 @@ public class SoundManager
 	/* Ohjelman konteksti */
 	private static Context context;
 	
+	/* ƒ‰nien vakiot */
+	public static final int SOUND_EXPLOSION   = 1;
+	public static final int SOUND_BUTTONCLICK = 2;
+	public static final int SOUND_LASER       = 3;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 */
@@ -78,9 +83,9 @@ public class SoundManager
 		// 1-9 efektej‰
 		// 10-19 musiikkeja
 		// (‰‰nen indeksinumero, ‰‰nen nimi, prioriteetti)
-		soundPoolMap.put(1, soundPool.load(context, R.raw.sound1, 1));
-		soundPoolMap.put(2, soundPool.load(context, R.raw.sound2, 1));
-		soundPoolMap.put(3, soundPool.load(context, R.raw.default_weapon, 1));
+		soundPoolMap.put(SOUND_EXPLOSION, soundPool.load(context, R.raw.sound1, 1));
+		soundPoolMap.put(SOUND_BUTTONCLICK, soundPool.load(context, R.raw.sound2, 1));
+		soundPoolMap.put(SOUND_LASER, soundPool.load(context, R.raw.default_weapon, 1));
 	}
 	
 	/**
