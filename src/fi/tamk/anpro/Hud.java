@@ -23,24 +23,26 @@ public class Hud
     
     /* Käyttöliittymän objektit */
     public        ArrayList<Button> buttons   = null;
+    public		  ArrayList<Icon>	icons	  = null;
     public static Joystick          joystick  = null;
     public static Bar		        healthBar = null;
 
     /* Osoittimet WeaponManageriin ja Hudiin itseensä */
     private final  WeaponManager weaponManager;
-    private static Hud          pointerToSelf;
 
     /**
      * Alustaa luokan muuttujat ja lukee Hudin ulkoasun XmlReaderin avulla.
      * 
-     * @param Context Ohjelman konteksti
+     * @param Context       Ohjelman konteksti
+     * @param WeaponManager Osoitin WeaponManageriin
      */
-    public Hud(Context _context)
+    public Hud(Context _context, WeaponManager _weaponManager)
     {
-        weaponManager = WeaponManager.getConnection();
+        weaponManager = _weaponManager;
         weapons = new int[5];
         
         buttons = new ArrayList<Button>();
+        icons	= new ArrayList<Icon>();
 
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
@@ -53,9 +55,11 @@ public class Hud
      */
     public final void updateCooldowns()
     {
-        for (int i = buttons.size()-1; i >= 0; --i) {
+    	 for (int i = buttons.size()-1; i >= 0; --i) {
             if (weaponManager.cooldownLeft[weapons[i]] > 0) {
                 // TODO:
+            	int a = 0;
+            	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[weapons[i]]);
             }
         }
     }
@@ -79,16 +83,6 @@ public class Hud
             weaponManager.currentWeapon = weapons[_buttonId];
             buttons.get(_buttonId).setSelected(true);
         }
-    }
-    
-    /**
-     * Palauttaa osoittimen tästä luokasta.
-     * 
-     * @return Hud Osoitin tähän luokkaan
-     */
-    public final static Hud getConnection()
-    {
-        return pointerToSelf;
     }
     
     /**

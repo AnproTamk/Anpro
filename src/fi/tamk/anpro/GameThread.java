@@ -14,10 +14,11 @@ class GameThread extends Thread
     public  boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Tarvittavat luokat */
-    private Wrapper      wrapper;
-    private AbstractMode gameMode;
-    private TouchManager touchManager;
-    public  Hud          hud;
+    private Wrapper       wrapper;
+    private AbstractMode  gameMode;
+    private WeaponManager weaponManager;
+    private TouchManager  touchManager;
+    public  Hud           hud;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime          = 0;
@@ -75,14 +76,18 @@ class GameThread extends Thread
     public void run()
     {
     	/* Ladataan pelitila */
+    	// Luodaan WeaponManager
+    	weaponManager = new WeaponManager();
+        weaponManager.initialize(GameActivity.activeMode);
+    	
     	// Luodaan Hud
-        hud = new Hud(context);
+        hud = new Hud(context, weaponManager);
     	
         // Luodaan SurvivalMode
-        gameMode = new SurvivalMode(gameActivity, dm, context);
+        gameMode = new SurvivalMode(gameActivity, dm, context, weaponManager);
         
         // Luodaan TouchManager
-        touchManager = new TouchManager(dm, surface, context, hud);
+        touchManager = new TouchManager(dm, surface, context, hud, weaponManager);
         
         // Merkit‰‰n kaikki ladatuiksi
         allLoaded = true;
