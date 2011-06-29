@@ -1,6 +1,10 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import android.content.Context;
+import android.util.DisplayMetrics;
 
 /**
  * Sisältää pelitilojen yhteiset ominaisuudet.
@@ -24,14 +28,36 @@ abstract public class AbstractMode
     /* Muiden olioiden pointterit */
     protected WeaponManager weaponManager;
     protected CameraManager camera;
+    protected GameActivity  gameActivity;
+    
+    /* Satunnaisgeneraattori */
+    public static Random randomGen = new Random();
+    
+    /**
+     * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja käynnistää pelin.
+     * 
+     * @param GameActivity   Pelitilan aloittava aktiviteetti
+     * @param DisplayMetrics Näytön tiedot
+     */
+    public AbstractMode(GameActivity _gameActivity, DisplayMetrics _dm)
+    {
+    	// Tallennetaan osoitin peliaktiviteettiin
+        gameActivity = _gameActivity;
+        
+        // Tallennetaan näytön tiedot
+        halfOfScreenWidth  = _dm.widthPixels;
+        halfOfScreenHeight = _dm.heightPixels;
+        
+        // Luodaan WeaponManager ja ladataan aseet
+        weaponManager = new WeaponManager();
+        weaponManager.initialize(gameActivity.activeMode);
+        
+        // Otetaan CameraManager käyttöön
+        camera = CameraManager.getInstance();
+    }
     
     /**
      * Käynnistää uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
      */
-    abstract public void startWave();
-    
-    /**
-     * Päivittää vihollisten aloituspisteet kameran koordinaattien perusteella.
-     */
-    abstract protected void updateSpawnPoints();
+    public void startWave() { }
 }

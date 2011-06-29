@@ -21,14 +21,15 @@ public class TouchManager
     private Wrapper       wrapper;
 
     /* Kosketuksen tiedot */
-    public  int xTouch;
-    public  int yTouch;
-    public  int xClickOffset;
-    public  int yClickOffset;
-    public 	int yClickFirstBorder;
-    public 	int yClickSecondBorder;
-    public 	int yClickThirdBorder;
-    public  int touchMarginal = 16; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen kosketuksen pelkäksi painallukseksi
+    private int xTouch;
+    private int yTouch;
+    private int xClickOffset;
+    private int yClickOffset;
+    private int yClickFirstBorder;
+    private int yClickSecondBorder;
+    private int yClickThirdBorder;
+    private int touchMarginal      = 16; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen
+    									 // kosketuksen pelkäksi painallukseksi
 
     /* Kuvan tiedot */
     private int screenWidth;  // Ruudun leveys
@@ -44,18 +45,26 @@ public class TouchManager
     /**
      * Alustaa luokan muuttujat.
      *
-     * @param DisplayMetrics Kuvan tiedot
+     * @param DisplayMetrics Näytön tiedot
      * @param GLSurfaceView  OpenGL-pinta
      * @param Context		 Ohjelman konteksti
      * @param Hud			 Pelin käyttöliittymä
      */
-    protected TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud)
+    public TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud)
     {
+    	// Tallennetaan tarvittavien luokkien osoittimet
         weaponManager = WeaponManager.getConnection();
+        wrapper       = Wrapper.getInstance();
         hud           = _hud;
+        
+        // Tallennetaan pinta
+        surface = _glSurfaceView;
+        
+        // Tallennetaan näytön koot
         screenWidth   = _dm.widthPixels;
         screenHeight  = _dm.heightPixels;
         
+        // Määritetään kentän rajat
         if (screenHeight == 320) {
         	yClickFirstBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);		// 96
         	yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32; // 64
@@ -76,21 +85,18 @@ public class TouchManager
         	                  " SecondBorder=" + yClickSecondBorder +
         	                  " ThirdBorder="  + yClickThirdBorder);
         
-        wrapper = Wrapper.getInstance();
-
-        setSurfaceListeners(_glSurfaceView);
+        // Käsitellään kosketustapahtumat
+        setSurfaceListeners();
     }
 
     /**
      * Asettaa TouchListenerit ja käsittelee kosketustapahtumat.
-     *
-     * @param GLSurfaceView OpenGL-pinta
      */
-    public final void setSurfaceListeners(GLSurfaceView _surface)
+    private final void setSurfaceListeners()
     {
-        surface = _surface;
 
         surface.setOnTouchListener(new OnTouchListener() {
+        	
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -251,6 +257,7 @@ public class TouchManager
      */
     private final int[] convertCoords(int _x, int _y)
     {
+    	// TODO: Pitää keksiä toinen tapa tietojen palauttamiseen. int-taulukko jää muistiin :(
         int screenCoords[] = {_x - (screenWidth / 2),
                               -((-screenHeight / 2) + _y)};
 
@@ -267,6 +274,6 @@ public class TouchManager
     {
         joystickX         = _x;
         joystickY         = _y;
-        joystickActivated = true;
+        joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
 }

@@ -13,7 +13,8 @@ import android.view.WindowManager;
 import android.media.AudioManager;
 
 /**
- * Pelitilan alkupiste. Luo renderöijän, pelisäikeen, HUDin ja TouchManagerin.
+ * Pelitilan alkupiste. Luo renderöijän ja pelisäikeen. Hallitsee myös
+ * pelin keskeyttämisen ja palautumisen.
  * 
  * @extends Activity
  */
@@ -32,8 +33,6 @@ public class GameActivity extends Activity
     
     /* Aktiivinen pelitila (asetetaan päävalikossa) */
     public static int activeMode = 1;
-    
-    private static Context context;
         
     /**
      * Määrittää asetukset ja luo tarvittavat oliot, kuten renderöijän, HUDin,
@@ -54,8 +53,6 @@ public class GameActivity extends Activity
         
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        
-        context = getBaseContext();
 
         // Ladataan näytön tiedot
         DisplayMetrics dm = new DisplayMetrics();
@@ -172,11 +169,10 @@ public class GameActivity extends Activity
      * Ottaa pelaajan pisteet vastaan parametrina, lähettää pisteet 
      * ja siirtyy HighScoresActivityyn.
      * 
-     * @param score
+     * @param int Survival-pelitilan pisteet
      */
-	public void continueToHighscores(long _score) {
-		
-		
+	public void continueToHighscores(long _score)
+	{
 		Intent i_highscores = new Intent(this, HighScoresActivity.class);
 		
 		// Luodaan uusi Bundle
@@ -186,6 +182,7 @@ public class GameActivity extends Activity
 		bundle.putLong("Scores", _score);
 		i_highscores.putExtras(bundle);
 		
+		// Käynnistetään HighScoresActivity ja sammutetaan GameActivity
 		startActivity(i_highscores);
 		finish();
 	}

@@ -14,7 +14,6 @@ import android.util.DisplayMetrics;
  */
 public class SurvivalMode extends AbstractMode
 {
-    private GameActivity gameActivity;
     
     /* Vihollisaallot */
     public  int waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
@@ -24,8 +23,7 @@ public class SurvivalMode extends AbstractMode
     public Player player;
     
     /* Pistelaskuri ja pisteet */
-    public  GuiObject scoreCounter;
-    private static long      score;
+    private static long score;
     
     /* Combot */
     private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
@@ -35,17 +33,17 @@ public class SurvivalMode extends AbstractMode
     /* Vihollisten aloituspaikat */
     private int spawnPoints[][][]; // [rykelm‰][paikka][x/y] = [koordinaatti]
     
-    /* Satunnaisgeneraattori */
-    public static Random randomGen = new Random();
-    
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
      * 
+     * @param GameActivity   Pelitilan aloittava aktiviteetti
      * @param DisplayMetrics N‰ytˆn tiedot
      * @param Context		 Ohjelman konteksti
      */
-    public SurvivalMode(DisplayMetrics _dm, Context _context, GameActivity _gameActivity)
+    public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context)
     {
+    	super(_gameActivity, _dm);
+    	
         gameActivity = _gameActivity;
         
     	// Alustetaan pelaaja
@@ -54,7 +52,7 @@ public class SurvivalMode extends AbstractMode
     	player.y = 0;
     	
     	// Alustetaan muuttujat
-        waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+        waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         for (int j = 0; j < AMOUNT_OF_WAVES; ++j) {
         	for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
         		waves[j][i] = -1;
@@ -62,12 +60,7 @@ public class SurvivalMode extends AbstractMode
         }
         enemies      = new ArrayList<Enemy>();
         enemyStats   = new int[5][5];
-        //scoreCounter = new GuiObject();
         spawnPoints  = new int[9][3][2];
-        
-        // Tallennetaan n‰ytˆn tiedot
-        halfOfScreenWidth  = _dm.widthPixels;
-        halfOfScreenHeight = _dm.heightPixels;
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
@@ -82,13 +75,6 @@ public class SurvivalMode extends AbstractMode
         // Luetaan pelitilan tiedot
         reader.readSurvivalMode(this);
         
-        // Luodaan WeaponManager ja ladataan aseet
-        weaponManager = new WeaponManager();
-        weaponManager.initialize(WeaponManager.SURVIVAL_MODE);
-        
-        // Otetaan CameraManager k‰yttˆˆn
-        camera = CameraManager.getInstance();
-        
         // P‰ivitet‰‰n aloituspisteet ja k‰ynnistet‰‰n ensimm‰inen vihollisaalto
         updateSpawnPoints();
         startWave();
@@ -99,7 +85,8 @@ public class SurvivalMode extends AbstractMode
      * 
      * @param int Tuhotun vihollisen taso, jonka perusteella pisteit‰ lis‰t‰‰n
      */
-    public static void updateScore(int _rank) {
+    public static void updateScore(int _rank)
+    {
         // P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina
         if (lastTime == 0) {
             lastTime = android.os.SystemClock.uptimeMillis();
@@ -120,18 +107,19 @@ public class SurvivalMode extends AbstractMode
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
-        int a = 0;
-        // scoreCounter.updateText(score);
     }
     
     /**
      * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
+     * 
+     * @definedBy AbstractMode
      */
     @Override
-    public void startWave() {
-    	
-        // Tarkastaa onko kaikki wavet k‰yty l‰pi
-        if (currentWave == AMOUNT_OF_WAVES) { // TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
+    public void startWave()
+    {
+        /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
+        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
+        	
             currentWave = 0;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
@@ -145,9 +133,10 @@ public class SurvivalMode extends AbstractMode
             }
         }
         
-        // Aktivoidaan viholliset
+        /* Aktivoidaan viholliset */
         int temp;
         int tempRandA, tempRandB;
+        
         for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
         	if (waves[currentWave][index] != -1) {
 	        	temp = waves[currentWave][index];
@@ -159,19 +148,17 @@ public class SurvivalMode extends AbstractMode
 	        	++enemiesLeft;
 	            enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
 	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
-	            //enemies.get(temp).x = -200 + index * 20;
-	            //enemies.get(temp).y = 200;
         	}
         }
-        int a = enemiesLeft;
+        
         ++currentWave;
     }
     
     /**
      * P‰ivitt‰‰ vihollisten aloituspisteet kameran koordinaattien perusteella.
      */
-    @Override
-    protected void updateSpawnPoints() {
+    protected void updateSpawnPoints()
+    {
 	    /* 
 	     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen m‰‰r‰n mukaan (CameraManager.camX ja CameraManager.camY)
 	     * { {vasen reuna X,Y}, {vasen yl‰reuna X,Y}, {yl‰reuna X,Y}, {oikea yl‰reuna X,Y},
@@ -255,8 +242,11 @@ public class SurvivalMode extends AbstractMode
 	    
     }
 
-	public void endGameMode() {
-		// TODO Auto-generated method stub
+    /**
+     * L‰hett‰‰ pisteet GameActivitylle, joka siirt‰‰ pelin Highscores-valikkoon.
+     */
+	public void endGameMode()
+	{
 		gameActivity.continueToHighscores(score);
 	}
 }
