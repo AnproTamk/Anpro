@@ -42,7 +42,7 @@ public class WeaponCluster extends AbstractWeapon
 			if (!projectiles.get(i).active) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-				projectiles.get(i).activate( _x, _y, false, this, wrapper.player.x, wrapper.player.y);
+				projectiles.get(i).activate( _x, _y, true, false, this, wrapper.player.x, wrapper.player.y);
 				
 				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);
@@ -69,7 +69,7 @@ public class WeaponCluster extends AbstractWeapon
 			if (!projectiles.get(i).active) {
 				
 				// Aktivoidaan ammus ja asetetaan ammuksen suunta
-				projectiles.get(i).activate(loopAmount * 45, false, this, _startX, _startY);
+				projectiles.get(i).activate(loopAmount * 45, false, false, this, _startX, _startY);
 				
     			// M‰‰ritet‰‰n silmukan kiertom‰‰r‰ suurentamalla muuttujan arvoa
 				++loopAmount;
