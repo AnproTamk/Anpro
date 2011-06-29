@@ -8,8 +8,9 @@ abstract public class AbstractAi
 	/* Osoitin Wrapperiin */
     protected Wrapper wrapper;
     
-    /* Vihollisen tunnus piirtolistalla */
+    /* Objektin tunnus piirtolistalla ja sen tyyppi */
     protected int parentId;
+    protected int type;
     
     /* Tekoälyn tila (toistaiseksi ainoastaan ammusten tekoälyt käyttävät tätä) */
 	public boolean active = false;
@@ -23,28 +24,92 @@ abstract public class AbstractAi
      * Alustaa luokan muuttujat.
      * 
      * @param int Objektin tunnus piirtolistalla
+     * @param int Objektin tyyppi
      */
-    public AbstractAi(int _id)
+    public AbstractAi(int _id, int _type)
     {
         parentId = _id;
+        type     = _type;
         
         wrapper = Wrapper.getInstance();
     }
 
     /**
      * Asettaa tekoälyn aktiiviseksi.
+     * 
+     * @param int X-koordinaatti
+     * @param int Y-koordinaatti
      */
-    public void setActive() { }
+    public void setActive(int _x, int _y) { }
+    public void setActive(int _direction) { }
 
     /**
      * Asettaa tekoälyn epäaktiiviseksi.
      */
     public void setUnactive() { }
+
+	/**
+     * Määrittää objektin aloitussuunnan.
+     * 
+     * @param int X-koordinaatti
+     * @param int Y-koordinaatti
+     * 
+     * @return int Objektin suunta
+     */
+    protected int setDirection(int _x, int _y)
+    {
+    	float objectX;
+    	float objectY;
+    	
+    	if (type == Wrapper.CLASS_TYPE_ENEMY) {
+    		objectX = wrapper.enemies.get(parentId).x;
+    		objectY = wrapper.enemies.get(parentId).y;
+    	}
+    	else {
+    		objectX = wrapper.projectiles.get(parentId).x;
+    		objectY = wrapper.projectiles.get(parentId).y;
+    	}
+    	
+        // Valitaan suunta
+        float xDiff = Math.abs((float)(objectX - _x));
+        float yDiff = Math.abs((float)(objectY - _y));
+        
+        if (objectX < _x) {
+            if (objectY < _y) {
+                return (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
+            }
+            else if (objectY > _y) {
+            	return (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+            }
+            else {
+            	return 0;
+            }
+        }
+        else if (objectX > _x) {
+            if (objectY > _y) {
+            	return (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
+            }
+            else if (objectY < _y) {
+            	return (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+            }
+            else {
+            	return 180;
+            }
+        }
+        else {
+            if (objectY > _y) {
+            	return 270;
+            }
+            else {
+            	return 90;
+            }
+        }
+    }
     
     /**
      * Käsittelee tekoälyn.
      */
-    abstract public void handleAi();
+    public void handleAi() { }
     
     /**
      * Tarkistaa törmäyksen pelaajan kanssa.

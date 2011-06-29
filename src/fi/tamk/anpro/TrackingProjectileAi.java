@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  * Toteutus lineaarisen kohdetta seuraavan reitinhaun teko‰lylle. Teko‰ly hakeutuu
  * kohteenseensa mahdollisimman suoraa reitti‰ pitkin ja reagoi ainoastaan kohteen
@@ -24,25 +22,22 @@ public class TrackingProjectileAi extends AbstractAi
 	 * Alustaa luokan muuttujat.
 	 * 
      * @param int Objektin tunnus piirtolistalla
+     * @param int Objektin tyyppi
 	 */
-	public TrackingProjectileAi(int _id)
+	public TrackingProjectileAi(int _id, int _type)
 	{
-		super(_id);
-
-		Log.i("AMMUS", "Luodaan teko‰ly");
-		setActive();
+		super(_id, _type);
 	}
 
     /**
      * Asettaa teko‰lyn aktiiviseksi.
      */
 	@Override
-    public final void setActive()
+    public final void setActive(int _direction)
     {
 		startTime = android.os.SystemClock.uptimeMillis();
 		
 		active = true;
-		Log.i("AMMUS", "Asetetaan teko‰ly aktiiviseksi");
     }
 
     /**
@@ -53,7 +48,6 @@ public class TrackingProjectileAi extends AbstractAi
     {
 		isTracking = false;
 		active     = false;
-		Log.e("AMMUS", "Asetetaan teko‰ly ep‰aktiiviseksi");
     }
     
     /**
@@ -66,24 +60,20 @@ public class TrackingProjectileAi extends AbstractAi
 		
 		/* Odotetaan hetki ennen teko‰lyn aktivoimista */
 		if (!isTracking) {
-			Log.e("AMMUS", "Aktivoidaan isTracking");
 			if (currentTime - startTime >= 150) {
 				isTracking = true;
 			}
 		}
 		/* K‰sitell‰‰n teko‰ly */
 		else {
-			Log.e("AMMUS", "K‰sitell‰‰n teko‰ly");
 			// Tarkistetaan kauanko ammus on ollut kent‰ll‰
 			if (currentTime - startTime < 5000) {
 				/* Etsit‰‰n l‰hin vihollinen */
 				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemyStates.get(indexOfClosestEnemy) != Wrapper.FULL_ACTIVITY)) {
 					findClosestEnemy();
-					Log.e("AMMUS", "Etsit‰‰n vihollinen");
 				}
 				/* M‰‰ritet‰‰n k‰‰ntyminen */
 				else {
-					Log.e("AMMUS", "M‰‰ritet‰‰n k‰‰ntyminen");
 			        // Verrataan kohteen sijaintia ammuksen sijaintiin
 			        float xDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).x - wrapper.enemies.get(indexOfClosestEnemy).x));
 			        float yDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).y - wrapper.enemies.get(indexOfClosestEnemy).y));
@@ -147,7 +137,6 @@ public class TrackingProjectileAi extends AbstractAi
 			}
 			// Ammus on ollut tarpeeksi kauan kent‰ll‰, joten teko‰ly ohjaa sen ulos
 			else {
-				Log.e("AMMUS", "Ohjataan pois");
 				wrapper.projectiles.get(parentId).turningDirection = 0;
 			}
 		}
