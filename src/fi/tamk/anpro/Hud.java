@@ -22,18 +22,18 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public ArrayList<Button> buttons   = null;
-    public static Joystick   joystick  = null;
-    public static Bar		 healthBar = null;
+    public        ArrayList<Button> buttons   = null;
+    public static Joystick          joystick  = null;
+    public static Bar		        healthBar = null;
 
-    /* Osoitin WeaponManageriin (HUDin tehtävänä on muuttaa käytössä olevaa
-       asetta WeaponManagerista) */
-    private final WeaponManager weaponManager;
-    
-    private static Hud pointerToSelf;
+    /* Osoittimet WeaponManageriin ja Hudiin itseensä */
+    private final  WeaponManager weaponManager;
+    private static Hud          pointerToSelf;
 
     /**
-     * Alustaa luokan muuttujat ja kutsuu XmlReaderia.
+     * Alustaa luokan muuttujat ja lukee Hudin ulkoasun XmlReaderin avulla.
+     * 
+     * @param Context Ohjelman konteksti
      */
     public Hud(Context _context)
     {
@@ -49,12 +49,12 @@ public class Hud
     }
 
     /**
-     * Päivittää cooldownit (HUD:ssa näkyvät, ei "oikeita" cooldowneja).
+     * Päivittää cooldownit (HUD:ssa näkyvät, ei oikeita cooldowneja).
      */
     public final void updateCooldowns()
     {
         for (int i = buttons.size()-1; i >= 0; --i) {
-            if (weaponManager.cooldownLeft[weapons[i]] > 0 ) {
+            if (weaponManager.cooldownLeft[weapons[i]] > 0) {
                 // TODO:
             }
         }
@@ -68,13 +68,15 @@ public class Hud
     public final void triggerClick(int _buttonId)
     {
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
-        if (weaponManager.cooldownLeft[weapons[_buttonId]] <=0 ) {
-            weaponManager.currentWeapon = weapons[_buttonId];
-
+        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0) {
+            
+            // Otetaan muut aseet pois käytöstä
             for (Button object : buttons) {
-                object.setSelected(false);
+                object.setSelected(false); // TODO: Poista pelkästään valittuna ollut ase käytöstä
             }
             
+        	// Otetaan uusi ase käyttöön
+            weaponManager.currentWeapon = weapons[_buttonId];
             buttons.get(_buttonId).setSelected(true);
         }
     }
@@ -82,7 +84,7 @@ public class Hud
     /**
      * Palauttaa osoittimen tästä luokasta.
      * 
-     * @return Hud Osoitin tähän luokkaan.
+     * @return Hud Osoitin tähän luokkaan
      */
     public final static Hud getConnection()
     {
@@ -92,7 +94,7 @@ public class Hud
     /**
      * Palauttaa osoittimen healthBarista.
      * 
-     * @return Bar Osoitin healthBarista.
+     * @return Bar Osoitin healthBariin
      */
     public final static Bar getHealthBar()
     {
