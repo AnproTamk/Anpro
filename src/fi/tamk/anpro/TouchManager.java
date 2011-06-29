@@ -49,11 +49,12 @@ public class TouchManager
      * @param GLSurfaceView  OpenGL-pinta
      * @param Context		 Ohjelman konteksti
      * @param Hud			 Pelin käyttöliittymä
+     * @param WeaponManager  Osoitin WeaponManageriin
      */
-    public TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud)
+    public TouchManager(DisplayMetrics _dm, GLSurfaceView _glSurfaceView, Context _context, Hud _hud, WeaponManager _weaponManager)
     {
     	// Tallennetaan tarvittavien luokkien osoittimet
-        weaponManager = WeaponManager.getConnection();
+        weaponManager = _weaponManager;
         wrapper       = Wrapper.getInstance();
         hud           = _hud;
         
@@ -213,6 +214,7 @@ public class TouchManager
                     // Painetaan pelikentältä
                     else {
                         weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
+                        hud.updateCooldowns();
                         // ***** PELIKENTTÄ *****
                     }
 

@@ -26,7 +26,10 @@ public class ProjectileLaser extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
+        
+        ai = new TrackingProjectileAi(listId);
     }
+    
     
     /**
      * M‰‰ritt‰‰ ammuksen aloitussuunnan.
