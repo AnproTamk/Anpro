@@ -11,6 +11,9 @@ abstract public class AbstractAi
     /* Vihollisen tunnus piirtolistalla */
     protected int parentId;
     
+    /* Tekoälyn tila (toistaiseksi ainoastaan ammusten tekoälyt käyttävät tätä) */
+	public boolean active = false;
+    
     /**
      * Alustaa luokan muuttujat.
      * 
@@ -22,6 +25,16 @@ abstract public class AbstractAi
         
         wrapper = Wrapper.getInstance();
     }
+
+    /**
+     * Asettaa tekoälyn aktiiviseksi.
+     */
+    public void setActive() { }
+
+    /**
+     * Asettaa tekoälyn epäaktiiviseksi.
+     */
+    public void setUnactive() { }
     
     /**
      * Käsittelee tekoälyn.

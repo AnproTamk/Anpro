@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Toteutus lineaarisen kohdetta seuraavan reitinhaun teko‰lylle. Teko‰ly hakeutuu
  * kohteenseensa mahdollisimman suoraa reitti‰ pitkin ja reagoi ainoastaan kohteen
@@ -12,7 +14,7 @@ package fi.tamk.anpro;
 public class TrackingProjectileAi extends AbstractAi
 {
 	private long    startTime;
-	private boolean activated = false;
+	private boolean isTracking = false;
 	
 	private int   indexOfClosestEnemy = -1;
 	private float distanceToEnemy     = -1;
@@ -26,9 +28,33 @@ public class TrackingProjectileAi extends AbstractAi
 	public TrackingProjectileAi(int _id)
 	{
 		super(_id);
-		
-		startTime = android.os.SystemClock.uptimeMillis();
+
+		Log.i("AMMUS", "Luodaan teko‰ly");
+		setActive();
 	}
+
+    /**
+     * Asettaa teko‰lyn aktiiviseksi.
+     */
+	@Override
+    public final void setActive()
+    {
+		startTime = android.os.SystemClock.uptimeMillis();
+		
+		active = true;
+		Log.i("AMMUS", "Asetetaan teko‰ly aktiiviseksi");
+    }
+
+    /**
+     * Asettaa teko‰lyn ep‰aktiiviseksi.
+     */
+	@Override
+    public final void setUnactive()
+    {
+		isTracking = false;
+		active     = false;
+		Log.e("AMMUS", "Asetetaan teko‰ly ep‰aktiiviseksi");
+    }
     
     /**
      * K‰sittelee teko‰lyn.
@@ -36,81 +62,93 @@ public class TrackingProjectileAi extends AbstractAi
 	@Override
 	public void handleAi()
 	{
+		long currentTime = android.os.SystemClock.uptimeMillis();
+		
 		/* Odotetaan hetki ennen teko‰lyn aktivoimista */
-		if (!activated) {
-			long currentTime = android.os.SystemClock.uptimeMillis();
-			
-			if (currentTime - startTime >= 400) {
-				activated = true;
+		if (!isTracking) {
+			Log.e("AMMUS", "Aktivoidaan isTracking");
+			if (currentTime - startTime >= 150) {
+				isTracking = true;
 			}
 		}
 		/* K‰sitell‰‰n teko‰ly */
 		else {
-			/* Etsit‰‰n l‰hin vihollinen */
-			if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemyStates.get(indexOfClosestEnemy) != Wrapper.FULL_ACTIVITY)) {
-				findClosestEnemy();
+			Log.e("AMMUS", "K‰sitell‰‰n teko‰ly");
+			// Tarkistetaan kauanko ammus on ollut kent‰ll‰
+			if (currentTime - startTime < 5000) {
+				/* Etsit‰‰n l‰hin vihollinen */
+				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemyStates.get(indexOfClosestEnemy) != Wrapper.FULL_ACTIVITY)) {
+					findClosestEnemy();
+					Log.e("AMMUS", "Etsit‰‰n vihollinen");
+				}
+				/* M‰‰ritet‰‰n k‰‰ntyminen */
+				else {
+					Log.e("AMMUS", "M‰‰ritet‰‰n k‰‰ntyminen");
+			        // Verrataan kohteen sijaintia ammuksen sijaintiin
+			        float xDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).x - wrapper.enemies.get(indexOfClosestEnemy).x));
+			        float yDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).y - wrapper.enemies.get(indexOfClosestEnemy).y));
+			        
+			        float angle;
+			        
+			        // Jos ammus on kohteen vasemmalla puolella:
+			        if (wrapper.projectiles.get(parentId).x < wrapper.enemies.get(indexOfClosestEnemy).x) {
+			            // Jos vihollinen on pelaajan alapuolella:
+			            if (wrapper.projectiles.get(parentId).y < wrapper.enemies.get(indexOfClosestEnemy).y) {
+			                angle = (float)((Math.atan(yDiff/xDiff)*180)/Math.PI);
+			            }
+			            // Jos vihollinen on pelaajan yl‰puolella:
+			            else if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
+			                angle = (float)(360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			            }
+			            else {
+			                angle = 0;
+			            }
+			        }
+			        // Jos ammus on kohteen oikealla puolella:
+			        else if (wrapper.projectiles.get(parentId).x > wrapper.enemies.get(indexOfClosestEnemy).x) {
+			            // Jos vihollinen on pelaajan yl‰puolella:
+			            if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
+			                angle = (float)(180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			            }
+			            // Jos vihollinen on pelaajan alapuolella:
+			            else if (wrapper.projectiles.get(parentId).y < wrapper.enemies.get(indexOfClosestEnemy).y) {
+			                angle = (float)(180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
+			            }
+			            else {
+			                angle = 180;
+			            }
+			        }
+			        // Jos ammus on suoraan kohteen yl‰- tai alapuolella
+			        else {
+			            if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
+			                angle = 270;
+			            }
+			            else {
+			                angle = 90;
+			            }
+			        }
+			        
+			        // M‰‰ritet‰‰n k‰‰ntymissuunta
+			        float angle2 = angle - wrapper.projectiles.get(parentId).direction;
+		
+			        if (angle == 0 || angle == 90 || angle == 180 || angle == 270) {
+			        	wrapper.projectiles.get(parentId).turningDirection = 0;
+			        }
+			        else if (angle2 >= -10 && angle2 <= 10) {
+			            wrapper.projectiles.get(parentId).turningDirection = 0;
+			        }
+			        else if (angle2 > 0 && angle2 <= 180) {
+			            wrapper.projectiles.get(parentId).turningDirection = 1;
+			        }
+			        else {
+			            wrapper.projectiles.get(parentId).turningDirection = 2;
+			        }
+				}
 			}
-			/* M‰‰ritet‰‰n k‰‰ntyminen */
+			// Ammus on ollut tarpeeksi kauan kent‰ll‰, joten teko‰ly ohjaa sen ulos
 			else {
-		        // Verrataan kohteen sijaintia ammuksen sijaintiin
-		        float xDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).x - wrapper.enemies.get(indexOfClosestEnemy).x));
-		        float yDiff = (float)Math.abs((double)(wrapper.projectiles.get(parentId).y - wrapper.enemies.get(indexOfClosestEnemy).y));
-		        
-		        float angle;
-		        
-		        // Jos ammus on kohteen vasemmalla puolella:
-		        if (wrapper.projectiles.get(parentId).x < wrapper.enemies.get(indexOfClosestEnemy).x) {
-		            // Jos vihollinen on pelaajan alapuolella:
-		            if (wrapper.projectiles.get(parentId).y < wrapper.enemies.get(indexOfClosestEnemy).y) {
-		                angle = (float)((Math.atan(yDiff/xDiff)*180)/Math.PI);
-		            }
-		            // Jos vihollinen on pelaajan yl‰puolella:
-		            else if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
-		                angle = (float)(360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-		            }
-		            else {
-		                angle = 0;
-		            }
-		        }
-		        // Jos ammus on kohteen oikealla puolella:
-		        else if (wrapper.projectiles.get(parentId).x > wrapper.enemies.get(indexOfClosestEnemy).x) {
-		            // Jos vihollinen on pelaajan yl‰puolella:
-		            if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
-		                angle = (float)(180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
-		            }
-		            // Jos vihollinen on pelaajan alapuolella:
-		            else if (wrapper.projectiles.get(parentId).y < wrapper.enemies.get(indexOfClosestEnemy).y) {
-		                angle = (float)(180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-		            }
-		            else {
-		                angle = 180;
-		            }
-		        }
-		        // Jos ammus on suoraan kohteen yl‰- tai alapuolella
-		        else {
-		            if (wrapper.projectiles.get(parentId).y > wrapper.enemies.get(indexOfClosestEnemy).y) {
-		                angle = 270;
-		            }
-		            else {
-		                angle = 90;
-		            }
-		        }
-		        
-		        // M‰‰ritet‰‰n k‰‰ntymissuunta
-		        float angle2 = angle - wrapper.projectiles.get(parentId).direction;
-	
-		        if (angle == 0 || angle == 90 || angle == 180 || angle == 270) {
-		        	wrapper.projectiles.get(parentId).turningDirection = 0;
-		        }
-		        else if (angle2 >= -10 && angle2 <= 10) {
-		            wrapper.projectiles.get(parentId).turningDirection = 0;
-		        }
-		        else if (angle2 > 0 && angle2 <= 180) {
-		            wrapper.projectiles.get(parentId).turningDirection = 1;
-		        }
-		        else {
-		            wrapper.projectiles.get(parentId).turningDirection = 2;
-		        }
+				Log.e("AMMUS", "Ohjataan pois");
+				wrapper.projectiles.get(parentId).turningDirection = 0;
 			}
 		}
 	}

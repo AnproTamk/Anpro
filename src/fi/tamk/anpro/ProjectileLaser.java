@@ -69,33 +69,4 @@ public class ProjectileLaser extends AbstractProjectile
             }
         }
     }
-    
-    /**
-     * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
-     */
-    @Override
-    protected final void causeExplosion()
-    {
-        // Tarkistetaan etäisyydet
-        // Kutsutaan osumatarkistuksia tarvittaessa
-        for (int i = wrapper.enemies.size(); i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
-                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-                
-                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-                    // Osuma ja räjähdys
-                    wrapper.enemies.get(i).triggerImpact(damageOnTouch);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Aiheuttaa ammuksen erikoistoiminnon.
-     */
-    @Override
-    protected void triggerSpecialAction()
-    {
-    	// ...
-    }
 }

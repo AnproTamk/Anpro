@@ -28,6 +28,7 @@ class GameThread extends Thread
     private long lastAiUpdateStateFour  = 0;
     private long lastCooldownUpdate     = 0;
     private long lastGameModeUpdate		= 0;
+    private long lastCollisionUpdate    = 0;
     
     /* Teko‰lyn nopeutus vihollisaaltojen aikana */
     private float updateSpeedUp = 1;
@@ -95,6 +96,7 @@ class GameThread extends Thread
         lastAiUpdateStateFour  = waveStartTime;
         lastCooldownUpdate     = waveStartTime;
         lastGameModeUpdate	   = waveStartTime;
+        lastCollisionUpdate    = waveStartTime;
         
         /* Suoritetaan s‰iett‰ kunnes se m‰‰ritet‰‰n pys‰ytett‰v‰ksi */
         while (running) {
@@ -144,7 +146,9 @@ class GameThread extends Thread
                     
                     for (int i : wrapper.priorityOneProjectiles) {
                         if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.projectiles.get(i).handleAi();
+                        	if (wrapper.projectiles.get(i).ai.active) {
+                        		wrapper.projectiles.get(i).ai.handleAi();
+                        	}
                         }
                     }
                 }
@@ -161,7 +165,9 @@ class GameThread extends Thread
                     
                     for (int i : wrapper.priorityTwoProjectiles) {
                         if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.projectiles.get(i).handleAi();
+                        	if (wrapper.projectiles.get(i).ai.active) {
+                        		wrapper.projectiles.get(i).ai.handleAi();
+                        	}
                         }
                     }
                 }
@@ -178,7 +184,9 @@ class GameThread extends Thread
                     
                     for (int i : wrapper.priorityThreeProjectiles) {
                         if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.projectiles.get(i).handleAi();
+                        	if (wrapper.projectiles.get(i).ai.active) {
+                        		wrapper.projectiles.get(i).ai.handleAi();
+                        	}
                         }
                     }
                 }
@@ -195,10 +203,28 @@ class GameThread extends Thread
                     
                     for (int i : wrapper.priorityFourProjectiles) {
                         if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.projectiles.get(i).handleAi();
+                        	if (wrapper.projectiles.get(i).ai.active) {
+                        		wrapper.projectiles.get(i).ai.handleAi();
+                        	}
                         }
                     }
                 }
+            }
+            
+            /* Tarkistetaan tˆrm‰ykset */
+            if (currentTime - lastCollisionUpdate >= 50) {
+            	lastCollisionUpdate = currentTime;
+            	
+            	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+            		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+            			wrapper.projectiles.get(i).checkCollision();
+            		}
+            	}
+            	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+            		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+            			//wrapper.enemies.get(i).checkCollision();
+            		}
+            	}
             }
             
             /* P‰ivitet‰‰n aseiden cooldownit */
