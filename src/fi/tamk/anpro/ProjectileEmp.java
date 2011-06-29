@@ -11,9 +11,9 @@ public class ProjectileEmp extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileEmp()
+    public ProjectileEmp(int _ai)
     {
-        super();
+        super(_ai);
     
         weaponId = 1;
         
@@ -25,8 +25,6 @@ public class ProjectileEmp extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        ai = new TrackingProjectileAi(listId);
         
         movementSpeed   = 0;
         collisionRadius = (int)(200 * Options.scale);

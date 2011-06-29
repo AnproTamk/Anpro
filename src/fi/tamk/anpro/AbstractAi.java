@@ -14,6 +14,11 @@ abstract public class AbstractAi
     /* Tekoälyn tila (toistaiseksi ainoastaan ammusten tekoälyt käyttävät tätä) */
 	public boolean active = false;
     
+    /* Ammusten tekoälyt */
+    public static final int NO_AI                  = 0;
+    public static final int LINEAR_PROJECTILE_AI   = 1;
+    public static final int TRACKING_PROJECTILE_AI = 2;
+    
     /**
      * Alustaa luokan muuttujat.
      * 

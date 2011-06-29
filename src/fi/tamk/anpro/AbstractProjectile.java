@@ -62,7 +62,7 @@ abstract public class AbstractProjectile extends GameObject
     /**
      * Alustaa luokan muuttujat ja lis‰‰ ammuksen piirtolistalle.
      */
-    public AbstractProjectile()
+    public AbstractProjectile(int _ai)
     {
         super();
         
@@ -70,6 +70,16 @@ abstract public class AbstractProjectile extends GameObject
         
         priority = 1; // TODO: T‰m‰ pit‰‰ tarkistaa AI:n perusteella ja jokaiselle ammukselle erikseen!
         listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, priority);
+        
+        if (_ai == AbstractAi.NO_AI) {
+        	ai = null;
+        }
+        else if (_ai == AbstractAi.LINEAR_PROJECTILE_AI) {
+        	ai = new LinearProjectileAi(listId);
+        }
+        else if (_ai == AbstractAi.TRACKING_PROJECTILE_AI) {
+        	ai = new TrackingProjectileAi(listId);
+        }
     }
     
     /**
@@ -172,6 +182,7 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
         active = true;
+        ai.setActive();
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
@@ -202,6 +213,7 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
+        ai.setActive();
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {

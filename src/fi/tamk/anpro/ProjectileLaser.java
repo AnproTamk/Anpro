@@ -12,9 +12,9 @@ public class ProjectileLaser extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileLaser()
+    public ProjectileLaser(int _ai)
     {
-        super();
+        super(_ai);
         
         weaponId = 0;
     
@@ -26,8 +26,6 @@ public class ProjectileLaser extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        ai = new TrackingProjectileAi(listId);
     }
     
     
