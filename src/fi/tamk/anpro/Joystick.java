@@ -7,7 +7,11 @@ package fi.tamk.anpro;
  */
 public class Joystick extends GuiObject
 {
-
+	
+	private static boolean 	 joystickActivated;
+	public static int 		 joystickX;
+	public static int		 joystickY;
+	
     /**
      * Alustaa luokan muuttujat.
      * 
@@ -18,9 +22,22 @@ public class Joystick extends GuiObject
     {
         super(_x, _y);
         
-        usedTexture = GLRenderer.TEXTURE_JOYSTICK;
+        joystickX         = _x;
+        joystickY         = _y;
+        joystickActivated = false;
         
-        TouchManager.initJoystick(x, y);
+        usedTexture = GLRenderer.TEXTURE_JOYSTICK;
+    }
+    
+    /**
+     * Ottaa Joystickin käyttöön ja tallentaa sen koordinaatit.
+     *
+     * @param int X-koordinaatti
+     * @param int Y-koordinaatti
+     */
+    public static void initJoystick()
+    {
+        joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
 
 }
