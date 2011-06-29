@@ -1,7 +1,7 @@
 package fi.tamk.anpro;
 
 /**
- * Sis‰lt‰‰ kaikille vihollisten teko‰lyille yhteiset ominaisuudet.
+ * Sis‰lt‰‰ kaikille teko‰lyille yhteiset ominaisuudet.
  */
 abstract public class AbstractAi
 {
@@ -14,7 +14,7 @@ abstract public class AbstractAi
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param int Vihollisen tunnus piirtolistalla
+     * @param int Objektin tunnus piirtolistalla
      */
     public AbstractAi(int _id)
     {
