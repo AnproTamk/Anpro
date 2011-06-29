@@ -36,9 +36,8 @@ public class TouchManager
     private int screenHeight; // Ruudun korkeus
 
     /* Joystickin tiedot */
-    private static float     joystickX;
-    private static float     joystickY;
-    private static boolean 	 joystickActivated = false;
+    private static int     joystickX = Joystick.joystickX;
+    private static int     joystickY = Joystick.joystickY;
     private static boolean   joystickInUse     = false;
     private long             startTime         = 0;
 
@@ -76,18 +75,16 @@ public class TouchManager
         	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
         	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
         }
-        
-        /*
-         *  <button id="weapon_button_1" x="384" y="-224" type="weapon" />
-         *  <button id="weapon_button_2" x="384" y="-192" type="weapon" />
-         */
-        
-        Log.v("TouchManager", "FirstBorder="  + yClickFirstBorder +
+         
+        Log.v("TouchManager", "FirstBorder="   + yClickFirstBorder +
         	                  " SecondBorder=" + yClickSecondBorder +
         	                  " ThirdBorder="  + yClickThirdBorder);
         
         // Käsitellään kosketustapahtumat
         setSurfaceListeners();
+        
+        // Käynnistetään joystick
+        Joystick.initJoystick();
     }
 
     /**
@@ -114,35 +111,43 @@ public class TouchManager
                     
                     if (joystickInUse) {
                     	
+                    	xClickOffset = (int) event.getX() - screenWidth / 2;
+                        yClickOffset = screenHeight / 2 - (int) event.getY();
+                    	
                     	/* Verrataan sormen sijaintia joystickin sijaintiin */
-                        double xDiff = Math.abs((double)(event.getRawX() - joystickX));
-                        double yDiff = Math.abs((double)(event.getRawY() - joystickY));
+                        double xDiff = Math.abs((double)(xClickOffset - joystickX));
+                        double yDiff = Math.abs((double)(yClickOffset - joystickY));
                         
                         /* Määritetään sormen ja joystickin välinen kulma */
                         int angle;
                         
-                        // Jos sormi on pelaajan joystickin puolella:
-                        if (event.getRawX() > joystickX) {
+                        /*Log.v("TouchManager", "x:" + (int) event.getX() + " y:" + (int) event.getY() +
+                        					  " xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset +
+                        					  " xDiff=" + xDiff + " yDiff=" + yDiff +
+                        					  " jX=" + joystickX + "jY=" + joystickY);*/
+                        
+                        // Jos sormi on joystickin oikealla puolella:
+                        if (xClickOffset > joystickX) {
                             // Jos sormi on joystickin alapuolella:
-                            if (event.getRawY() < joystickY) {
+                            if (yClickOffset > joystickY) {
                                 angle = (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             // Jos sormi on joystickin yläpuolella:
-                            else if (event.getRawY() > joystickY) {
+                            else if (yClickOffset < joystickY) {
                                 angle = (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             else {
                                 angle = 0;
                             }
                         }
-                        // Jos sormi on joystickin oikealla puolella:
-                        else if (event.getRawX() < joystickX) {
+                        // Jos sormi on joystickin vasemmalla puolella:
+                        else if (xClickOffset < joystickX) {
                             // Jos sormi on joystickin yläpuolella:
-                            if (event.getRawY() > joystickY) {
+                            if (yClickOffset < joystickY) {
                                 angle = (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             // Jos sormi on joystickin alapuolella:
-                            else if (event.getRawY() < joystickY) {
+                            else if (yClickOffset > joystickY) {
                                 angle = (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
                             }
                             else {
@@ -151,11 +156,11 @@ public class TouchManager
                         }
                         // Jos sormi on suoraan joystickin ylä- tai alapuolella
                         else {
-                            if (event.getRawY() > joystickY) {
-                                angle = 270;
+                            if (yClickOffset > joystickY) {
+                                angle = 90;
                             }
                             else {
-                                angle = 90;
+                                angle = 270;
                             }
                         }
                 
@@ -214,7 +219,6 @@ public class TouchManager
                     // Painetaan pelikentältä
                     else {
                         weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
-                        hud.updateCooldowns();
                         // ***** PELIKENTTÄ *****
                     }
 
@@ -264,18 +268,5 @@ public class TouchManager
                               -((-screenHeight / 2) + _y)};
 
         return screenCoords;
-    }
-
-    /**
-     * Ottaa Joystickin käyttöön ja tallentaa sen koordinaatit.
-     *
-     * @param int X-koordinaatti
-     * @param int Y-koordinaatti
-     */
-    public static void initJoystick(float _x, float _y)
-    {
-        joystickX         = _x;
-        joystickY         = _y;
-        joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
 }
