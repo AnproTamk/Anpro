@@ -34,7 +34,7 @@ public class WeaponSpinningLaser extends AbstractWeapon
         // Tarkistetaan onko ammus jo aktiivinen
         if (!projectile.active) {
             // Aktivoidaan ammus
-            projectile.activate(_x, _y, true, this, wrapper.player.x, wrapper.player.y);
+            projectile.activate(_x, _y, false, true, this, wrapper.player.x, wrapper.player.y);
             
             // Soitetaan ‰‰ni
             SoundManager.playSound(3, 1);

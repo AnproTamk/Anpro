@@ -133,7 +133,7 @@ abstract public class AbstractProjectile extends GameObject
      * @param int     Kohteen Y-koordinaatti
      * @param boolean Onko ammuksen tarkoitus aktivoida erikoistoiminto heti (esim. EMP)?
      */
-    public final void activate(int _x, int _y, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    public final void activate(int _x, int _y, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
         if (explodeTime > 0) {
@@ -155,7 +155,7 @@ abstract public class AbstractProjectile extends GameObject
         setDirection();
         
         // Otetaan kohteessa räjähtäminen käyttöön
-        explodeOnTarget = true;
+        explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
@@ -167,7 +167,7 @@ abstract public class AbstractProjectile extends GameObject
         }
     }
     
-    public final void activate(int _direction, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    public final void activate(int _direction, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
         if (explodeTime > 0) {
@@ -185,7 +185,7 @@ abstract public class AbstractProjectile extends GameObject
         direction = _direction;
         
         // Poistetaan kohteessa räjähtäminen käytöstä
-        explodeOnTarget = false;
+        explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
@@ -218,7 +218,7 @@ abstract public class AbstractProjectile extends GameObject
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             
             // Tarkistetaan, onko vihollinen aktiivinen
-            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
+            if (wrapper.enemyStates.get(i) == wrapper.FULL_ACTIVITY) {
                 
                 // Lasketaan etäisyys pelaajaan
                 double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
