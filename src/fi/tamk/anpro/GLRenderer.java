@@ -32,7 +32,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_BUTTON_SELECTED    = 1;
     public static final int TEXTURE_JOYSTICK           = 2;
     public static final int TEXTURE_HEALTH             = 3;
-    public static final int TEXTURE_COOLDOWN           = 14;
+    public static final int TEXTURE_COOLDOWN           = 13;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;

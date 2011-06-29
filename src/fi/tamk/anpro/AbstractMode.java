@@ -26,7 +26,7 @@ abstract public class AbstractMode
     protected int halfOfScreenHeight;
     
     /* Muiden olioiden pointterit */
-    protected static WeaponManager weaponManager;
+    protected WeaponManager weaponManager;
     protected CameraManager camera;
     protected GameActivity  gameActivity;
     
