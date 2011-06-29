@@ -75,10 +75,10 @@ abstract public class AbstractProjectile extends GameObject
         	ai = null;
         }
         else if (_ai == AbstractAi.LINEAR_PROJECTILE_AI) {
-        	ai = new LinearProjectileAi(listId);
+        	ai = new LinearProjectileAi(listId, Wrapper.CLASS_TYPE_PROJECTILE);
         }
         else if (_ai == AbstractAi.TRACKING_PROJECTILE_AI) {
-        	ai = new TrackingProjectileAi(listId);
+        	ai = new TrackingProjectileAi(listId, Wrapper.CLASS_TYPE_PROJECTILE);
         }
     }
     
@@ -90,8 +90,6 @@ abstract public class AbstractProjectile extends GameObject
     {
         wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
-        
-        ai.setActive();
     }
     
     /**
@@ -173,16 +171,13 @@ abstract public class AbstractProjectile extends GameObject
         targetX = _x;
         targetY = _y;
         
-        // M‰‰ritet‰‰n aloitussuunta
-        setDirection();
-        
         // Otetaan kohteessa r‰j‰ht‰minen k‰yttˆˆn
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
         active = true;
-        ai.setActive();
+        ai.setActive(_x, _y);
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
@@ -213,7 +208,7 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
-        ai.setActive();
+        ai.setActive(_direction);
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
@@ -333,11 +328,6 @@ abstract public class AbstractProjectile extends GameObject
             }
         }
     }
-
-    /**
-     * M‰‰ritt‰‰ ammuksen aloitussuunnan.
-     */
-    protected void setDirection() { }    
     
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.

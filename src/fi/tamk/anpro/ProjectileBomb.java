@@ -29,46 +29,4 @@ public class ProjectileBomb extends AbstractProjectile
         explodeOnTarget = true;
         collisionRadius = (int)(10 * Options.scale);
     }
-
-    /**
-     * M‰‰ritt‰‰ ammuksen aloitussuunnan.
-     */
-    @Override
-    protected final void setDirection()
-    {
-        // Valitaan suunta
-        double xDiff = Math.abs((double)(x - targetX));
-        double yDiff = Math.abs((double)(y - targetY));
-        
-        if (x < targetX) {
-            if (y < targetY) {
-                direction = (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else if (y > targetY) {
-                direction = (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-                direction = 0;
-            }
-        }
-        else if (x > targetX) {
-            if (y > targetY) {
-                direction = (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else if (y < targetY) {
-                direction = (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-                direction = 180;
-            }
-        }
-        else {
-            if (y > targetY) {
-                direction = 270;
-            }
-            else {
-                direction = 90;
-            }
-        }
-    }
 }
