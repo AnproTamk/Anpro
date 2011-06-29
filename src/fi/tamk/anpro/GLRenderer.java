@@ -294,9 +294,13 @@ public class GLRenderer implements Renderer
         projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
         projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
         
-        // Cluster
+        // Bomb
         projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_tex0);
         projectileAnimations[3][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
+        
+        // Missile
+        projectileTextures[4][0]   = new Texture(_gl, context, R.drawable.projectilemissile_tex0);
+        projectileAnimations[4][3] = new Animation(_gl, context, resources, "projectilemissile_destroy", 1);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit

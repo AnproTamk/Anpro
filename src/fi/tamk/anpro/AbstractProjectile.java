@@ -19,13 +19,15 @@ abstract public class AbstractProjectile extends GameObject
     /* Aseen tiedot */
     protected int weaponId;
     
+    // Vahinko ja sen tyyppi
     public int damageOnTouch   = 2;
     public int damageOnExplode = 0;
+    public int damageType      = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
     
-    public int damageType = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
-    
+    // Räjähtäminen kohteen päällä
     public boolean explodeOnTarget = false;
     
+    // Panssarien läpäisykyky
     public int armorPiercing = 0;
     
     // Passiivinen AoE-vahinko
@@ -34,9 +36,12 @@ abstract public class AbstractProjectile extends GameObject
     public int     damageRadius       = 0;
     
     // Räjähdyksen ajastus
-    public int  explodeTime  = 0;
-    public long startTime    = 0;
-    public long currentTime  = 0;
+    private int  explodeTime  = 0;
+    private long startTime    = 0;
+    private long currentTime  = 0;
+    
+    // Räjähdyksen vaikutusalue
+    protected int explosionRadius = 0;
     
     /* Muut tarvittavat oliot */
     protected Wrapper wrapper;
@@ -52,7 +57,7 @@ abstract public class AbstractProjectile extends GameObject
     private   int     priority;
     
     /* Ammuksen tekoäly */
-    private AbstractAi ai;
+    protected AbstractAi ai;
 
     /**
      * Alustaa luokan muuttujat ja lisää ammuksen piirtolistalle.
@@ -73,8 +78,10 @@ abstract public class AbstractProjectile extends GameObject
     @Override
     final public void setActive()
     {
-        wrapper.projectileStates.set(listId, 1);
+        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
+        
+        ai.setActive();
     }
     
     /**
@@ -83,8 +90,10 @@ abstract public class AbstractProjectile extends GameObject
     @Override
     final public void setUnactive()
     {
-        wrapper.projectileStates.set(listId, 0);
+        wrapper.projectileStates.set(listId, Wrapper.INACTIVE);
         active = false;
+        
+        ai.setUnactive();
     }
     
     /**
@@ -191,7 +200,7 @@ abstract public class AbstractProjectile extends GameObject
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
-        wrapper.projectileStates.set(listId, 1);
+        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
         
         // Aktivoidaan erikoistoiminto
@@ -201,11 +210,10 @@ abstract public class AbstractProjectile extends GameObject
     }
     
     /**
-     * Käsittelee ammuksen tekoälyn.
+     * Käsittelee ammuksen törmäystarkistukset.
      */
-    public final void handleAi()
+    public final void checkCollision()
     {
-    	
     	/* Tarkistetaan räjähdys kohteessa */
     	if (explodeOnTarget) {
     		double distance = Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));
@@ -221,7 +229,7 @@ abstract public class AbstractProjectile extends GameObject
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             
             // Tarkistetaan, onko vihollinen aktiivinen
-            if (wrapper.enemyStates.get(i) == wrapper.FULL_ACTIVITY) {
+            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
                 
                 // Lasketaan etäisyys pelaajaan
                 double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
@@ -294,19 +302,33 @@ abstract public class AbstractProjectile extends GameObject
             active = false;
         }
     }
-
-    /**
-     * Määrittää ammuksen aloitussuunnan.
-     */
-    abstract protected void setDirection();
     
     /**
      * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
-    abstract protected void causeExplosion();
+    private final void causeExplosion()
+    {
+        // Tarkistetaan etäisyydet
+        // Kutsutaan osumatarkistuksia tarvittaessa
+        for (int i = wrapper.enemies.size() - 1; i >= 0; --i) {
+            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
+                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
+
+                if (distance - wrapper.enemies.get(i).collisionRadius - explosionRadius <= 0) {
+                    // Osuma ja räjähdys
+                    wrapper.enemies.get(i).triggerImpact(damageOnExplode);
+                }
+            }
+        }
+    }
+
+    /**
+     * Määrittää ammuksen aloitussuunnan.
+     */
+    protected void setDirection() { }    
     
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.
      */
-    abstract protected void triggerSpecialAction();
+    protected void triggerSpecialAction() { }
 }
