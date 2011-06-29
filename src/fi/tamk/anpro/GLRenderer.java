@@ -32,6 +32,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_BUTTON_SELECTED    = 1;
     public static final int TEXTURE_JOYSTICK           = 2;
     public static final int TEXTURE_HEALTH             = 3;
+    public static final int TEXTURE_COOLDOWN           = 14;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -45,7 +46,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
     public static final int AMOUNT_OF_PENEMY_TEXTURES     = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 14;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 24;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -323,6 +324,18 @@ public class GLRenderer implements Renderer
         hudTextures[11] = new Texture(_gl, context, R.drawable.health_bar_9);
         hudTextures[12] = new Texture(_gl, context, R.drawable.health_bar_10);
         hudTextures[13] = new Texture(_gl, context, R.drawable.health_bar_11);
+        
+        // Cooldown-tekstuurit
+        hudTextures[14] = new Texture(_gl, context, R.drawable.icon_tex0);
+        hudTextures[15] = new Texture(_gl, context, R.drawable.icon_tex1);
+        hudTextures[16] = new Texture(_gl, context, R.drawable.icon_tex2);
+        hudTextures[17] = new Texture(_gl, context, R.drawable.icon_tex3);
+        hudTextures[18] = new Texture(_gl, context, R.drawable.icon_tex4);
+        hudTextures[19] = new Texture(_gl, context, R.drawable.icon_tex5);
+        hudTextures[20] = new Texture(_gl, context, R.drawable.icon_tex6);
+        hudTextures[21] = new Texture(_gl, context, R.drawable.icon_tex7);
+        hudTextures[22] = new Texture(_gl, context, R.drawable.icon_tex8);
+        hudTextures[23] = new Texture(_gl, context, R.drawable.icon_tex9);
         
         /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;

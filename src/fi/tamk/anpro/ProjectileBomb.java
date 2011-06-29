@@ -26,6 +26,8 @@ public class ProjectileBomb extends AbstractProjectile
             }
         }
         
+        ai = new TrackingProjectileAi(listId);
+        
         explodeOnTarget = true;
         collisionRadius = (int)(10 * Options.scale);
     }

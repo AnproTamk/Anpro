@@ -26,6 +26,8 @@ public class ProjectileEmp extends AbstractProjectile
             }
         }
         
+        ai = new TrackingProjectileAi(listId);
+        
         movementSpeed   = 0;
         collisionRadius = (int)(200 * Options.scale);
         damageOnTouch   = 0;

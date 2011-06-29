@@ -28,9 +28,6 @@ public class WeaponManager
     /* Cooldownit */
     public int cooldownMax[];
     public int cooldownLeft[];
-    
-    /* Osoitin tähän luokkaan */
-    public static WeaponManager pointerToSelf;
 
     /**
      * Alustaa luokan muuttujat.
@@ -46,9 +43,6 @@ public class WeaponManager
         // TODO: Lue tiedostosta
         cooldownMax[0]  = 0;
         cooldownLeft[0] = 0;
-        
-        // Tallenna osoitin tähän luokkaan
-        pointerToSelf = this;
     }
     
     /**
@@ -59,9 +53,7 @@ public class WeaponManager
      */
     public final void triggerShoot(int[] _coords)
     {
-        Log.e("cd", "TRIGGER SHOOT!");
         if (cooldownLeft[currentWeapon] <= 0) {
-            Log.e("cd", "WEAPON ACTIVATED!");
             playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1]);
             
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
@@ -94,6 +86,7 @@ public class WeaponManager
         else if (_id == STORY_MODE_LEVEL_1) {
             playerWeapons.add(new WeaponDefault(wrapper));
         }
+        int a = 0;
     }
 
     /**
@@ -106,18 +99,5 @@ public class WeaponManager
                 cooldownLeft[i] -= 100;
             }
         }
-        Log.e("cd", "Cooldown left: " + cooldownLeft[0]);
-        
-        int a = 0;
-    }
-    
-    /**
-     * Palauttaa osoittimen tästä luokasta.
-     * 
-     * @return WeaponManager Osoitin tähän luokkaan.
-     */
-    public final static WeaponManager getConnection()
-    {
-        return pointerToSelf;
     }
 }

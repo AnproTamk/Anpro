@@ -26,7 +26,7 @@ abstract public class AbstractMode
     protected int halfOfScreenHeight;
     
     /* Muiden olioiden pointterit */
-    protected WeaponManager weaponManager;
+    protected static WeaponManager weaponManager;
     protected CameraManager camera;
     protected GameActivity  gameActivity;
     
@@ -47,10 +47,6 @@ abstract public class AbstractMode
         // Tallennetaan näytön tiedot
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
-        
-        // Luodaan WeaponManager ja ladataan aseet
-        weaponManager = new WeaponManager();
-        weaponManager.initialize(gameActivity.activeMode);
         
         // Otetaan CameraManager käyttöön
         camera = CameraManager.getInstance();

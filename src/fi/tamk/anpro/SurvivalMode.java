@@ -39,12 +39,14 @@ public class SurvivalMode extends AbstractMode
      * @param GameActivity   Pelitilan aloittava aktiviteetti
      * @param DisplayMetrics Näytön tiedot
      * @param Context		 Ohjelman konteksti
+     * @param WeaponManager  Osoitin WeaponManageriin
      */
-    public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context)
+    public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
     	super(_gameActivity, _dm);
     	
-        gameActivity = _gameActivity;
+        gameActivity  = _gameActivity;
+        weaponManager = _weaponManager;
         
     	// Alustetaan pelaaja
     	player = new Player(10, 2, this);
