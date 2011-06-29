@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Hallitsee pelin käyttöliittymää eli HUDia. Ei kuitenkaan tunnista kosketustapahtumia
@@ -56,10 +57,8 @@ public class Hud
     public final void updateCooldowns()
     {
     	 for (int i = buttons.size()-1; i >= 0; --i) {
-            if (weaponManager.cooldownLeft[weapons[i]] > 0) {
-                // TODO:
-            	int a = 0;
-            	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[weapons[i]]);
+            if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
+            	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[i]);
             }
         }
     }
