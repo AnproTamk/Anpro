@@ -151,8 +151,10 @@ class GameThread extends Thread
                     
                     for (int i : wrapper.priorityOneProjectiles) {
                         if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                        	if (wrapper.projectiles.get(i).ai.active) {
-                        		wrapper.projectiles.get(i).ai.handleAi();
+                        	if (wrapper.projectiles.get(i).ai != null) {
+	                        	if (wrapper.projectiles.get(i).ai.active) {
+	                        		wrapper.projectiles.get(i).ai.handleAi();
+	                        	}
                         	}
                         }
                     }

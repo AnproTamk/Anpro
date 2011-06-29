@@ -18,7 +18,7 @@ public class WeaponSpinningLaser extends AbstractWeapon
         super(_wrapper);
         
         // Luodaan ammus
-        projectile = new ProjectileSpinningLaser();
+        projectile = new ProjectileSpinningLaser(AbstractAi.NO_AI);
     }
 
     /**

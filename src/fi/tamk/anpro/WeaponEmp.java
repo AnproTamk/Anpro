@@ -18,7 +18,7 @@ public class WeaponEmp extends AbstractWeapon
         super(_wrapper);
         
         // Luodaan ammus
-        projectile = new ProjectileEmp();
+        projectile = new ProjectileEmp(AbstractAi.NO_AI);
     }
 
     /**
