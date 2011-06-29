@@ -9,9 +9,9 @@ public class ProjectileMissile extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileMissile()
+    public ProjectileMissile(int _ai)
     {
-        super();
+        super(_ai);
         
         weaponId = 4;
     
@@ -23,8 +23,6 @@ public class ProjectileMissile extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        ai = new TrackingProjectileAi(listId);
         
         damageOnExplode = 25;
         damageType      = EXPLODE_ON_TOUCH;

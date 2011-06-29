@@ -24,7 +24,7 @@ public class WeaponCluster extends AbstractWeapon
 		
 		// Luodaan tarvittava määrä ammuksia
 		for (int i = 15; i >= 0; --i) {
-			projectiles.add(new ProjectileBomb());
+			projectiles.add(new ProjectileBomb(AbstractAi.LINEAR_PROJECTILE_AI));
 		}
 
     }

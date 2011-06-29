@@ -11,9 +11,9 @@ public class ProjectileBomb extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileBomb()
+    public ProjectileBomb(int _ai)
     {
-        super();
+        super(_ai);
         
         weaponId = 3;
     
@@ -25,8 +25,6 @@ public class ProjectileBomb extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        ai = new TrackingProjectileAi(listId);
         
         explodeOnTarget = true;
         collisionRadius = (int)(10 * Options.scale);

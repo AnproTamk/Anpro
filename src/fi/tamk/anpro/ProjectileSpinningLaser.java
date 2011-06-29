@@ -11,9 +11,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileSpinningLaser()
+    public ProjectileSpinningLaser(int _ai)
     {
-        super();
+        super(_ai);
     
         weaponId = 2;
         
@@ -25,8 +25,6 @@ public class ProjectileSpinningLaser extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        ai = new TrackingProjectileAi(listId);
         
         movementSpeed    = 0;
         collisionRadius  = (int)(200 * Options.scale);

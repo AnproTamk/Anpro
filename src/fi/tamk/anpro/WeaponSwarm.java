@@ -24,7 +24,7 @@ public class WeaponSwarm extends AbstractWeapon
 		
 		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 10; ++i) {
-			projectiles.add(new ProjectileMissile());
+			projectiles.add(new ProjectileMissile(AbstractAi.TRACKING_PROJECTILE_AI));
 		}
 	}
 
