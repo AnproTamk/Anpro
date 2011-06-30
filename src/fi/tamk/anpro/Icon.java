@@ -19,12 +19,12 @@ public class Icon extends GuiObject
 	
 	public void updateCooldownIcon(int _cooldown)
 	{
-		//							14-23
+		//							13-23
 		usedTexture = GLRenderer.TEXTURE_COOLDOWN + (int)((((float)_cooldown / (float)DEVIDER) * 20));
-    	Log.e("COOLDOWN", String.valueOf(usedTexture));
+    	//Log.e("TEXTURE", String.valueOf(usedTexture));
 		
-		/*if (_cooldown <= 0)
-			usedTexture = GLRenderer.TEXTURE_COOLDOWN;*/
+		if (_cooldown <= 0)
+			usedTexture = GLRenderer.TEXTURE_COOLDOWN;
 	}
 
 }
