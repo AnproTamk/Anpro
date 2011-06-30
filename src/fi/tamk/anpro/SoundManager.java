@@ -96,7 +96,7 @@ public class SoundManager
 	 */
 	public static final void playSound(int _index, float _speed)
 	{
-		if (Options.sounds) {
+		if (Options.sounds == true) {
 			float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
@@ -109,14 +109,14 @@ public class SoundManager
 	 * @param int Soitettavan äänen indeksi
 	 * @param int Äänen toistonopeus (ei käytössä vielä)
 	 */
-	public static final void playMusic(int _index, float _speed)
+	/*public static final void playMusic(int _index, float _speed)
 	{
 		if (Options.music) {
 			float streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			streamVolume = streamVolume / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			soundPool.play((Integer) soundPoolMap.get(_index), streamVolume, streamVolume, 1, 0, _speed);
 		}
-	}
+	}*/
 	
 	/**
 	 * Pysäyttää äänen.

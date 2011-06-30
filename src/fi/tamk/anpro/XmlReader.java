@@ -137,59 +137,6 @@ public class XmlReader
     }
     
     /**
-     * Lukee globaalit asetukset.
-     * 
-     * @return boolean[] Asetukset
-     */
-    public final boolean[] readSettings()
-    {
-        XmlResourceParser settings = null;
-        boolean particles = false, music = false, sounds = false;
-        
-        settings = context.getResources().getXml(R.xml.settings);
-        
-        try {
-            while (settings.getEventType() != XmlPullParser.END_DOCUMENT) {
-                if (settings.getEventType() == XmlPullParser.START_TAG) {
-                    if (settings.getName().equals("particles")) {
-                        if (settings.getAttributeValue(null, "value") == "1") {
-                            particles = true;
-                        }
-                        else
-                            particles = false;
-                    }
-                    else if (settings.getName().equals("music")) {
-                        if (settings.getAttributeValue(null, "value") == "1") {
-                            music = true;
-                        }
-                        else
-                            music = false;
-                    }
-                    else if (settings.getName().equals("sounds")) {
-                        if (settings.getAttributeValue(null, "value") == "1") {
-                            sounds = true;
-                        }
-                        else
-                            sounds = false;
-                    }
-                }
-                else if (settings.getEventType() == XmlPullParser.END_TAG) {
-                    // ...
-                }
-                
-                settings.next();
-            }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        boolean settingValues[] = {particles, music, sounds};
-        return settingValues;
-    }
-    
-    /**
      * Lukee vihollistyyppien tiedot.
      * 
      * @return ArrayList<Integer> Vihollistyyppien tiedot
@@ -271,13 +218,16 @@ public class XmlReader
                          */
                         String waveTemp = rsm.getAttributeValue(null, "enemies");
                         // Jaetaan waveTemp-muuttujan tiedot yksittäisiksi merkeiksi ja tallennetaan string-taulukkoon "wave".
-                        String wave[] = waveTemp.split("\\,");
+                        String[] wave = null;
+                        wave = waveTemp.split("\\,");
                         
                         // Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
                         int index = 0;
                         for (int i = wave.length - 1; i >= 0 ; --i) {
-                            _survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
-                            ++index;
+                        	if (wave[i] != null && wave[i] != "") {
+                        		_survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
+                        		++index;
+                        	}
                         }
                         
                         ++currentWave;

@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ ja hallitsee pelin globaaleja asetuksia.
  */
@@ -28,8 +30,7 @@ public class Options
 	 */
     private Options()
     {
-    	XmlReader reader = new XmlReader(MainActivity.context);
-    	settings = (boolean[])reader.readSettings();
+    	// ...
     }
     
     /**
@@ -48,11 +49,11 @@ public class Options
     /**
      * Asettaa asetukset.
      */
-    public final void setSettings()
+    public final static void setSettings(boolean _particles, boolean _music, boolean _sounds)
     {
-    	particles = settings[0];
-    	music = settings[1];
-    	sounds = settings[2];
+    	particles = _particles;
+    	music = _music;
+    	sounds = _sounds;
     }
     
 	/**
@@ -68,7 +69,7 @@ public class Options
     	screenWidth        = _screenWidth;
     	screenHeight       = _screenHeight;
     	scaledScreenWidth  = _screenWidth / 2;  // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa
-    	scaledScreenHeight = _screenHeight / 2; // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa
+    	scaledScreenHeight = _screenHeight / 2; // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa    	
 	}
 
 	/**

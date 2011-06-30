@@ -3,8 +3,11 @@ package fi.tamk.anpro;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -20,6 +23,12 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 	public void onCreate(Bundle _savedInstanceState)
 	{
 		super.onCreate(_savedInstanceState);
+		
+        // Asetetaan aktiviteetti koko näytölle
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
 	    setContentView(R.layout.levelselect);
 
         mainmenuButton = findViewById(R.id.button_mainmenu);
@@ -27,8 +36,10 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
         
         storyButton = findViewById(R.id.button_story);
         storyButton.setOnClickListener(this);
-
+        
+        // Määritetään aktiviteetin asetukset
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 	    Gallery g = (Gallery) findViewById(R.id.gallery);
 	    g.setAdapter(new ImageAdapter(this));
