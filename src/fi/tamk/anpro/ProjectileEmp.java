@@ -11,9 +11,9 @@ public class ProjectileEmp extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileEmp(int _ai)
+    public ProjectileEmp(int _ai, int _userType)
     {
-        super(_ai);
+        super(_ai, _userType);
     
         weaponId = 1;
         

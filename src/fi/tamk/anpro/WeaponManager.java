@@ -36,6 +36,7 @@ public class WeaponManager
     {
         // Alustetaan taulukot
         playerWeapons = new ArrayList<AbstractWeapon>();
+        enemyWeapons = new ArrayList<AbstractWeapon>();
         cooldownMax   = new int[10];
         cooldownLeft  = new int[10];
         
@@ -51,20 +52,25 @@ public class WeaponManager
      * 
      * @param int[] Kohteen koordinaatit
      */
-    public final void triggerShoot(int[] _coords)
+    public final void triggerShoot(int[] _coords, int _type, float _x, float _y)
     {
-        if (cooldownLeft[currentWeapon] <= 0) {
-            playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1]);
-            
-            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
-            
-            // Asetetaan globaali cooldown
-            for (int i = 9; i >= 0; --i) {
-                if (cooldownLeft[i] <= 0) {
-                    cooldownLeft[i] = GLOBAL_COOLDOWN;
-                }
-            }
-        }
+    	if(_type == Wrapper.CLASS_TYPE_PLAYER) {
+	        if (cooldownLeft[currentWeapon] <= 0) {
+	            playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1], _x, _y);
+	            
+	            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
+	            
+	            // Asetetaan globaali cooldown
+	            for (int i = 9; i >= 0; --i) {
+	                if (cooldownLeft[i] <= 0) {
+	                    cooldownLeft[i] = GLOBAL_COOLDOWN;
+	                }
+	            }
+	        }
+    	}
+    	else if(_type == Wrapper.CLASS_TYPE_ENEMY) {
+    		enemyWeapons.get(0).activate(_coords[0], _coords[1], _x, _y);
+    	}
     }
     
     /**
@@ -78,15 +84,16 @@ public class WeaponManager
     	
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
-            playerWeapons.add(new WeaponDefault(wrapper));
+            playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
             //playerWeapons.add(new WeaponEmp(wrapper));
             //playerWeapons.add(new WeaponSpinningLaser(wrapper));
         	//playerWeapons.add(new WeaponCluster(wrapper));
+
+            enemyWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_ENEMY));
         }
         else if (_id == STORY_MODE_LEVEL_1) {
-            playerWeapons.add(new WeaponDefault(wrapper));
+            playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         }
-        int a = 0;
     }
 
     /**

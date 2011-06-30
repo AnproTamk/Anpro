@@ -66,8 +66,8 @@ abstract public class AbstractAi
     		objectY = wrapper.enemies.get(parentId).y;
     	}
     	else {
-    		objectX = wrapper.projectiles.get(parentId).x;
-    		objectY = wrapper.projectiles.get(parentId).y;
+    		objectX = wrapper.player.x;
+    		objectY = wrapper.player.y;
     	}
     	
         // Valitaan suunta

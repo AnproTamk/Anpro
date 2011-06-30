@@ -75,7 +75,7 @@ public class SurvivalMode extends AbstractMode
         }
         
         // Luetaan pelitilan tiedot
-        reader.readSurvivalMode(this);
+        reader.readSurvivalMode(this, _weaponManager);
         
         // P‰ivitet‰‰n aloituspisteet ja k‰ynnistet‰‰n ensimm‰inen vihollisaalto
         updateSpawnPoints();

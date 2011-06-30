@@ -55,6 +55,7 @@ abstract public class AbstractProjectile extends GameObject
     public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
     protected int     listId;         // Tunnus Wrapperin piirtolistalla
     private   int     priority;
+    protected int     userType;
     
     /* Ammuksen teko‰ly */
     protected AbstractAi ai;
@@ -62,9 +63,11 @@ abstract public class AbstractProjectile extends GameObject
     /**
      * Alustaa luokan muuttujat ja lis‰‰ ammuksen piirtolistalle.
      */
-    public AbstractProjectile(int _ai)
+    public AbstractProjectile(int _ai, int _userType)
     {
         super();
+        
+        userType = _userType;
         
         wrapper = Wrapper.getInstance();
         

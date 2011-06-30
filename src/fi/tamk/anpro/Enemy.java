@@ -43,7 +43,7 @@ public class Enemy extends GameObject
      * @param int Hyökkäysvoima törmätessä pelaajaan
      * @param int Taso
      */
-    public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank)
+    public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
         super();
         
@@ -85,7 +85,7 @@ public class Enemy extends GameObject
         /* Otetaan tekoäly käyttöön */
         if (_ai == 0) {
             priority = 1;
-            ai = new LinearAi(listId);
+            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
         /*
         else if (_ai == 2) {
@@ -205,7 +205,7 @@ public class Enemy extends GameObject
         ai = null;
 
         if (_ai == 1) {
-            ai = new LinearAi(listId);
+            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         /*
         else if (_ai == 2) {
