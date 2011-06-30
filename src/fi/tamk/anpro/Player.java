@@ -29,7 +29,7 @@ public class Player extends GameObject
      */
     public Player(int _health, int _defence, SurvivalMode _survivalMode)
     {
-        super();
+        super(0); // TODO: Pelaaja tarvitsee nopeuden.
         
         VibrateManager.getInstance();
         
