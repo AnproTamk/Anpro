@@ -1,5 +1,9 @@
 package fi.tamk.anpro;
 
+/**
+ * Yleinen apuluokka, joka sis‰lt‰‰ usein k‰ytettyj‰ toimintoja, kuten et‰isyyksien
+ * ja kulmien laskemisen.
+ */
 public class Utility
 {
 	/**
@@ -18,8 +22,8 @@ public class Utility
 	}
 
 	/**
-	 * Laskee kahden pisteen v‰lisen kulman. Nollakulman osoittava vektori sijoitetaan ensimm‰isen
-	 * koordinaatin kohdalle.
+	 * Laskee kahden pisteen v‰lisen kulman. Nollakulman osoittava vektori sijoitetaan l‰htem‰‰n
+	 * ensimm‰isest‰ pisteest‰ oikealle.
 	 * 
 	 * @param int Pisteen #1 X-koordinaatti
 	 * @param int Pisteen #1 Y-koordinaatti
@@ -67,7 +71,8 @@ public class Utility
 	}
 	
 	/**
-	 * M‰‰ritt‰‰ k‰‰ntymissuunnan objektin ja kohteen v‰lisen kulman perusteella.
+	 * M‰‰ritt‰‰ k‰‰ntymissuunnan objektin sijainnin, sen katsomissuunnan ja kohteen
+	 * sijainnin perusteella.
 	 * 
 	 * @param int Objektin katsomissuunta
 	 * @param int Objektin ja kohteen v‰linen kulma

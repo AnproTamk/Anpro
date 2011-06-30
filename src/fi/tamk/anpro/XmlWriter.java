@@ -10,8 +10,8 @@ import org.xmlpull.v1.XmlSerializer;
 /**
  * Tallentaa tietoja XML-tiedostoihin, kuten asetukset ja pelitilan.
  */
-public class XmlWriter {
-	
+public class XmlWriter
+{
 	/**
 	 * Tallentaa pelitilan.
 	 */
@@ -42,11 +42,14 @@ public class XmlWriter {
 		try {
 			// Asetetaan FileOutputStream ulostuloksi serializerille, käyttäen UTF-8-koodausta.
 			serializer.setOutput(fileos, "UTF-8");
+			
 			// Kirjoitetaan <?xml -selite enkoodauksella (jos enkoodaus ei ole "null") 
 			//ja "standalone flag" (jos "standalone" ei ole "null").
 			serializer.startDocument(null, Boolean.valueOf(false));
+			
 			// Asetetaan sisennykset.
 			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			
 			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
 			serializer.startTag(null, "res");
 			
@@ -79,7 +82,7 @@ public class XmlWriter {
 			e.printStackTrace();
 		}
 		
-		return true;
+		return true; // TODO:
 	}
 	
 	/**
@@ -88,19 +91,21 @@ public class XmlWriter {
 	 * @param boolean Partikkeliasetus
 	 * @param boolean Musiikkiasetus
 	 * @param boolean Ääniasetus
+	 * 
+	 * @deprecated
 	 **/
-	public final void saveSettings(boolean particleState, boolean musicState, boolean soundState)
+	public final void saveSettings(boolean _particleState, boolean _musicState, boolean _soundState)
 	{
 		// Luodaan uusi XML-tiedosto asetuksille.
 		File xmlStoreSettings = new File("HWUserData/Android/settings.xml");
 		
 		String[] stateId = {"0", "0", "0"};
 		
-		if (particleState == true)
+		if (_particleState == true)
 			stateId[0] = "1";
-		if (musicState == true)
+		if (_musicState == true)
 			stateId[1] = "1";
-		if (soundState == true)
+		if (_soundState == true)
 			stateId[2] = "1";
 
 		try {

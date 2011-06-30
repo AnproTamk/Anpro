@@ -28,11 +28,7 @@ public class Wrapper
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
 
-    /* Peliobjektien tilat
-             0. Ei piirret‰, ei p‰ivitet‰
-             1. Piirret‰‰n, p‰ivitet‰‰n kaikki
-             2. Piirret‰‰n, p‰ivitet‰‰n vain animaatio
-             3. Piirret‰‰n, p‰ivitet‰‰n vain liike ja animaatio */
+    /* Peliobjektien tilat */
     public int                playerState      = 0;
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;

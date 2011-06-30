@@ -6,8 +6,6 @@ package fi.tamk.anpro;
  * liikkumiseen.
  * 
  * K‰ytet‰‰n ainoastaan ammuksille.
- * 
- * @extends AbstractAi
  */
 public class TrackingProjectileAi extends AbstractAi
 {

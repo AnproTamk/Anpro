@@ -13,8 +13,8 @@ import android.content.res.XmlResourceParser;
  */
 public class XmlReader 
 {
-    /* Ohjelman konteksti */
-    private Context context;
+    // Ohjelman konteksti.
+	private Context context;
     
     /**
      * Alustaa luokan muuttujat.
@@ -27,9 +27,11 @@ public class XmlReader
     }
 
     /**
-     * Lukee yhden kentän tiedot. (VANHENTUNUT!)
+     * Lukee yhden kentän tiedot.
      * 
      * @param int Kentän järjestysnumero
+     * 
+     * @deprecated
      */
     public final void readLevel(int _id)
     {
@@ -181,7 +183,8 @@ public class XmlReader
     /**
      * Lukee Survival-pelitilan tiedot.
      * 
-     * @param SurvivalMode Osoitin pelitilaan
+     * @param SurvivalMode  Osoitin pelitilaan
+     * @param WeaponManager Osoitin WeaponManageriin
      */
     public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
     {
@@ -255,6 +258,8 @@ public class XmlReader
      * Lukee Story-pelitilan tiedot.
      * 
      * @param StoryMode Osoitin pelitilaan
+     * 
+     * @deprecated
      */
     /*public final void readStoryMode(StoryMode _storyMode){
         XmlResourceParser rStoryMode = null;
