@@ -59,19 +59,48 @@ public class WeaponManager
 	            playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1], _x, _y);
 	            
 	            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
-	            
+
 	            // Asetetaan globaali cooldown
-	            for (int i = 9; i >= 0; --i) {
-	                if (cooldownLeft[i] <= 0) {
-	                    cooldownLeft[i] = GLOBAL_COOLDOWN;
-	                }
-	            }
+	            addGlobalCooldown();
 	        }
     	}
     	else if(_type == Wrapper.CLASS_TYPE_ENEMY) {
     		enemyWeapons.get(0).activate(_coords[0], _coords[1], _x, _y);
     	}
     }
+    
+    /**
+     * Välittää kutsupyynnön Motion-tekoälyä käyttävälle valittuna olevalle aseelle.
+     * Päivittää myös cooldownit.
+     * 
+     * @param int[] Kohteen koordinaatit
+     */
+    public final void triggerMotionShoot(int[][] _path, float _x, float _y)
+    {
+    	// TODO: Motion-tekoälyä käyttävien aseiden tunnukset pitää tallentaa erikseen,
+    	// jotta tämä funktio osaa suoraan hakea niitä käymättä läpi muita aseita.
+        if (cooldownLeft[currentWeapon] <= 0) {
+            playerWeapons.get(currentWeapon).activate(_path, _x, _y);
+            
+            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
+
+            // Asetetaan globaali cooldown
+            addGlobalCooldown();
+        }
+    }
+
+	/**
+	 * Lisää global cooldownin aseisiin.
+	 */
+	private final void addGlobalCooldown()
+	{
+        // Asetetaan globaali cooldown
+        for (int i = 9; i >= 0; --i) {
+            if (cooldownLeft[i] <= 0) {
+                cooldownLeft[i] = GLOBAL_COOLDOWN;
+            }
+        }
+	}
     
     /**
      * Lataa aseet muistiin.
@@ -85,9 +114,11 @@ public class WeaponManager
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
             playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-            //playerWeapons.add(new WeaponEmp(wrapper));
-            //playerWeapons.add(new WeaponSpinningLaser(wrapper));
-        	//playerWeapons.add(new WeaponCluster(wrapper));
+            //playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+            //playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        	//playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        	//playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        	//playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
 
             enemyWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_ENEMY));
         }

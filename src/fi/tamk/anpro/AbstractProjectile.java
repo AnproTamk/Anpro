@@ -83,6 +83,9 @@ abstract public class AbstractProjectile extends GameObject
         else if (_ai == AbstractAi.TRACKING_PROJECTILE_AI) {
         	ai = new TrackingProjectileAi(listId, Wrapper.CLASS_TYPE_PROJECTILE);
         }
+        else if (_ai == AbstractAi.MOTION_PROJECTILE_AI) {
+        	ai = new MotionProjectileAi(listId, Wrapper.CLASS_TYPE_PROJECTILE);
+        }
     }
     
     /**
@@ -187,7 +190,6 @@ abstract public class AbstractProjectile extends GameObject
         	triggerSpecialAction();
         }
     }
-    
     public final void activate(int _direction, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
@@ -212,6 +214,33 @@ abstract public class AbstractProjectile extends GameObject
         wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
         ai.setActive(_direction);
+        
+        // Aktivoidaan erikoistoiminto
+        if (_autoSpecial) {
+        	triggerSpecialAction();
+        }
+    }
+    public final void activate(int[][] _path, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    {
+        // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
+        if (explodeTime > 0) {
+            startTime = android.os.SystemClock.uptimeMillis();
+        }
+        
+        // Asetetaan aloituspiste
+        x = _startX;
+        y = _startY;
+        
+        // Tallennetaan isäntäluokan osoitisn 
+        parent = _parent;
+        
+        // Poistetaan kohteessa räjähtäminen käytöstä
+        explodeOnTarget = _explodeOnTarget;
+        
+        // Aktivoidaan ammus
+        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
+        active = true;
+        ai.setActive(_path);
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
