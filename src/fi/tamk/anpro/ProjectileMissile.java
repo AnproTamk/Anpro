@@ -9,9 +9,9 @@ public class ProjectileMissile extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileMissile(int _ai)
+    public ProjectileMissile(int _ai, int _userType)
     {
-        super(_ai);
+        super(_ai, _userType);
         
         weaponId = 4;
     

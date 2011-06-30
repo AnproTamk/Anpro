@@ -234,7 +234,7 @@ public class XmlReader
      * 
      * @param SurvivalMode Osoitin pelitilaan
      */
-    public final void readSurvivalMode(SurvivalMode _survivalMode)
+    public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
     {
         XmlResourceParser rsm = null;
         // Haetaan oikea xml-tiedosto resoluution perusteella
@@ -261,7 +261,7 @@ public class XmlReader
                                                             _survivalMode.enemyStats[rankTemp][2],
                                                             _survivalMode.enemyStats[rankTemp][3],
                                                             _survivalMode.enemyStats[rankTemp][4],
-                                                            rankTemp + 1));
+                                                            rankTemp + 1, _weaponManager));
                     }
                     if (rsm.getName().equals("wave")) {
                         

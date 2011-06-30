@@ -12,7 +12,7 @@ abstract public class AbstractWeapon
     /**
      * Alustaa luokan muuttujat.
      */
-    public AbstractWeapon(Wrapper _wrapper) {
+    public AbstractWeapon(Wrapper _wrapper, int _userType) {
     	wrapper = _wrapper;
     }
     
@@ -23,7 +23,7 @@ abstract public class AbstractWeapon
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
      */
-    abstract public void activate(int _x, int _y);
+    abstract public void activate(int _targetX, int _targetY, float _startX, float _startY);
 
     /**
      * Aktivoi räjähdyksessä tarvittavat ammukset. 

@@ -15,16 +15,16 @@ public class WeaponCluster extends AbstractWeapon
 	/**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-    public WeaponCluster(Wrapper _wrapper)
+    public WeaponCluster(Wrapper _wrapper, int _userType)
     {
-        super(_wrapper);
+        super(_wrapper, _userType);
         
         // Alustetaan ammukset
 		projectiles = new ArrayList<ProjectileBomb>(16);
 		
 		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 15; i >= 0; --i) {
-			projectiles.add(new ProjectileBomb(AbstractAi.LINEAR_PROJECTILE_AI));
+			projectiles.add(new ProjectileBomb(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
 
     }
@@ -36,13 +36,13 @@ public class WeaponCluster extends AbstractWeapon
      * @param int Kohteen Y-koordinaatti
      */
     @Override
-    public final void activate(int _x, int _y)
+    public final void activate(int _targetX, int _targetY, float _startX, float _startY)
     {
         for (int i = 15; i >= 0; --i) {
 			if (!projectiles.get(i).active) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-				projectiles.get(i).activate( _x, _y, true, false, this, wrapper.player.x, wrapper.player.y);
+				projectiles.get(i).activate( _targetX, _targetY, true, false, this, _startX, _startY);
 				
 				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);

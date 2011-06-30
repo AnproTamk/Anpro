@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 /**
  * Toteutus hyökkäys-pysähdys -tekoälylle. Tekoäly hyökkää pelaajaa kohti
@@ -12,14 +13,19 @@ import java.lang.Math;
  */
 public class ApproachAndStopAi extends AbstractAi
 {
-    /**
-     * Alustaa luokan muuttujat.
-     * 
-     * @param int Vihollisen tunnus piirtolistalla
-     */
-    public ApproachAndStopAi(int _id)
-    {
-        super(_id);
+	WeaponManager weaponManager;
+  
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+     * @param int Objektin tunnus piirtolistalla
+     * @param int Objektin tyyppi
+	 */
+	public ApproachAndStopAi(int _id, int _type, WeaponManager _weaponManager) 
+	{
+		super(_id, _type);
+        
+		weaponManager = _weaponManager;
     }
     
     /**
@@ -36,11 +42,20 @@ public class ApproachAndStopAi extends AbstractAi
         // Lasketaan pelaajan ja vihollisen välinen etäisyys
         double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
         
-        // Vihollinen pysähtyy tietylle etäisyydelle pelaajasta
-        if(distance <= 150)
-        {
-        	wrapper.enemies.get(parentId).movementSpeed = 0;
+        // Vihollinen hidastaa tietyllä etäisyydellä pelaajasta
+        if(distance <= 200 && distance >= 150) {
+        	wrapper.enemies.get(parentId).movementAcceleration = -5;	
         }
+        
+        // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta
+        if(distance < 150) {
+        	wrapper.enemies.get(parentId).movementSpeed = 0;
+        	
+        	// Käydään läpi ammukset ja aktivoidaan ensimmäinen epäaktiivinen
+        	int coords[] = {(int) wrapper.player.x,(int) wrapper.player.y};
+    		weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        }
+        	
         
         /* Määritetään objektien välinen kulma */
         double angle;
