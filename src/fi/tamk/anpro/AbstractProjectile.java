@@ -65,7 +65,7 @@ abstract public class AbstractProjectile extends GameObject
      */
     public AbstractProjectile(int _ai, int _userType)
     {
-        super();
+        super(4); // TODO: Ammuksille oma XML-tiedosto
         
         userType = _userType;
         

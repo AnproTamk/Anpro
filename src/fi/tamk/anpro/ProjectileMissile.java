@@ -30,12 +30,7 @@ public class ProjectileMissile extends AbstractProjectile
         collisionRadius = (int)(15 * Options.scale);
         explosionRadius = (int)(80 * Options.scale);
         
-        movementDelay        = 10;
-        movementSpeed        = (int)(3 * Options.scale);
         movementAcceleration = 5;
-        
-        turningDelay         = 10;
-        turningSpeed         = (int)(2 * Options.scale);
         turningAcceleration  = 10;
     }
 }
