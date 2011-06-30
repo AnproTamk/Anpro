@@ -238,6 +238,7 @@ class GameThread extends Thread
             if (currentTime - lastCooldownUpdate >= 100) {
             	lastCooldownUpdate = currentTime;
                 gameMode.weaponManager.updateCooldowns();
+                hud.updateCooldowns();
             }
             
             /* P‰ivitet‰‰n vihollisaallot */
