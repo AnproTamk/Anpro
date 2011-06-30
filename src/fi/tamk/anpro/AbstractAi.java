@@ -19,6 +19,7 @@ abstract public class AbstractAi
     public static final int NO_AI                  = 0;
     public static final int LINEAR_PROJECTILE_AI   = 1;
     public static final int TRACKING_PROJECTILE_AI = 2;
+    public static final int MOTION_PROJECTILE_AI   = 3;
     
     /**
      * Alustaa luokan muuttujat.
@@ -42,6 +43,7 @@ abstract public class AbstractAi
      */
     public void setActive(int _x, int _y) { }
     public void setActive(int _direction) { }
+    public void setActive(int[][] _path) { }
 
     /**
      * Asettaa tekoälyn epäaktiiviseksi.
@@ -58,52 +60,10 @@ abstract public class AbstractAi
      */
     protected int setDirection(int _x, int _y)
     {
-    	float objectX;
-    	float objectY;
+    	int objectX = (int) wrapper.projectiles.get(parentId).x;
+    	int objectY = (int) wrapper.projectiles.get(parentId).y;
     	
-    	if (type == Wrapper.CLASS_TYPE_ENEMY) {
-    		objectX = wrapper.enemies.get(parentId).x;
-    		objectY = wrapper.enemies.get(parentId).y;
-    	}
-    	else {
-    		objectX = wrapper.player.x;
-    		objectY = wrapper.player.y;
-    	}
-    	
-        // Valitaan suunta
-        float xDiff = Math.abs((float)(objectX - _x));
-        float yDiff = Math.abs((float)(objectY - _y));
-        
-        if (objectX < _x) {
-            if (objectY < _y) {
-                return (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else if (objectY > _y) {
-            	return (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-            	return 0;
-            }
-        }
-        else if (objectX > _x) {
-            if (objectY > _y) {
-            	return (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else if (objectY < _y) {
-            	return (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-            	return 180;
-            }
-        }
-        else {
-            if (objectY > _y) {
-            	return 270;
-            }
-            else {
-            	return 90;
-            }
-        }
+        return Utility.getAngle(objectX, objectY, _x, _y);
     }
     
     /**

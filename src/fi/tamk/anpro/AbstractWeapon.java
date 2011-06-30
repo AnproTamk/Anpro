@@ -22,8 +22,13 @@ abstract public class AbstractWeapon
      * 
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
+     * @param int Lähtöpisteen X-koordinaatti
+     * @param int Lähtöpisteen Y-koordinaatti
+     * 
+     * TODO: ...
      */
-    abstract public void activate(int _targetX, int _targetY, float _startX, float _startY);
+    public void activate(int _targetX, int _targetY, float _startX, float _startY) { }
+    public void activate(int[][] _path, float _startX, float _startY) { }
 
     /**
      * Aktivoi räjähdyksessä tarvittavat ammukset. 
