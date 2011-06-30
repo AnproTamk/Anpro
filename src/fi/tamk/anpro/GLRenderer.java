@@ -33,6 +33,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_JOYSTICK           = 2;
     public static final int TEXTURE_HEALTH             = 3;
     public static final int TEXTURE_COOLDOWN           = 14;
+    public static final int TEXTURE_COUNTER			   = 24;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -46,7 +47,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
     public static final int AMOUNT_OF_PENEMY_TEXTURES     = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 24;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 34;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -336,6 +337,18 @@ public class GLRenderer implements Renderer
         hudTextures[21] = new Texture(_gl, context, R.drawable.icon_tex2);
         hudTextures[22] = new Texture(_gl, context, R.drawable.icon_tex1);
         hudTextures[23] = new Texture(_gl, context, R.drawable.icon_tex0);
+        
+        //Counter-tekstuurit
+        hudTextures[24] = new Texture(_gl, context, R.drawable.num_0);
+        hudTextures[25] = new Texture(_gl, context, R.drawable.num_1);
+        hudTextures[26] = new Texture(_gl, context, R.drawable.num_2);
+        hudTextures[27] = new Texture(_gl, context, R.drawable.num_3);
+        hudTextures[28] = new Texture(_gl, context, R.drawable.num_4);
+        hudTextures[29] = new Texture(_gl, context, R.drawable.num_5);
+        hudTextures[30] = new Texture(_gl, context, R.drawable.num_6);
+        hudTextures[31] = new Texture(_gl, context, R.drawable.num_7);
+        hudTextures[32] = new Texture(_gl, context, R.drawable.num_8);
+        hudTextures[33] = new Texture(_gl, context, R.drawable.num_9);
         
         /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;

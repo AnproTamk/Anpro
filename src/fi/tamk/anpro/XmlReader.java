@@ -108,11 +108,13 @@ public class XmlReader
                                                     Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
                     else if (hud.getName().equals("counter")) {
-                        // ...
+                        _hud.counter.add(new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                                				     Integer.parseInt(hud.getAttributeValue(null, "y")),
+                                				     Integer.parseInt(hud.getAttributeValue(null, "value"))));
                     }
                     else if (hud.getName().equals("health_bar")) {
                     	Hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-                    						     Integer.parseInt(hud.getAttributeValue(null, "y")));
+                    						    Integer.parseInt(hud.getAttributeValue(null, "y")));
                     }
                     else if (hud.getName().equals("joystick")) {
                     	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
