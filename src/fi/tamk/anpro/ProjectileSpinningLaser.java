@@ -25,12 +25,11 @@ public class ProjectileSpinningLaser extends AbstractProjectile
                 animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
             }
         }
-        
-        movementSpeed    = 0;
+
+        setMovementSpeed(0.0f);
         collisionRadius  = (int)(200 * Options.scale);
         damageOnTouch    = 40;
         turningDirection = 1;
-        turningSpeed     = (int)(9 * Options.scale);
     }
     
     /**

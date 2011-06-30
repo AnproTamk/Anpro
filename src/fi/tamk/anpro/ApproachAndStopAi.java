@@ -1,7 +1,8 @@
 package fi.tamk.anpro;
 
 import java.lang.Math;
-import java.util.ArrayList;
+
+import android.os.Handler;
 
 /**
  * Toteutus hyökkäys-pysähdys -tekoälylle. Tekoäly hyökkää pelaajaa kohti
@@ -31,13 +32,12 @@ public class ApproachAndStopAi extends AbstractAi
     /**
      * Käsittelee tekoälyn.
      */
-    @Override
+	@Override
     public final void handleAi()
     {
         /* Verrataan pelaajan sijaintia vihollisen sijaintiin */
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
-        
         
         // Lasketaan pelaajan ja vihollisen välinen etäisyys
         double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
@@ -50,13 +50,10 @@ public class ApproachAndStopAi extends AbstractAi
         // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta
         if(distance < 150) {
         	wrapper.enemies.get(parentId).movementSpeed = 0;
-        	
-        	// Käydään läpi ammukset ja aktivoidaan ensimmäinen epäaktiivinen
         	int coords[] = {(int) wrapper.player.x,(int) wrapper.player.y};
-    		weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        	weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
         }
-        	
-        
+
         /* Määritetään objektien välinen kulma */
         double angle;
         
