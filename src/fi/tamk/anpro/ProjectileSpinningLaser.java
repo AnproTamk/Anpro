@@ -11,9 +11,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     /**
      * Alustaa luokan muuttujat.
      */
-    public ProjectileSpinningLaser(int _ai)
+    public ProjectileSpinningLaser(int _ai, int _userType)
     {
-        super(_ai);
+        super(_ai, _userType);
     
         weaponId = 2;
         

@@ -15,16 +15,16 @@ public class WeaponDefault extends AbstractWeapon
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-	public WeaponDefault(Wrapper _wrapper)
+	public WeaponDefault(Wrapper _wrapper, int _userType)
 	{
-		super(_wrapper);
+		super(_wrapper, _userType);
 		
 		// Alustetaan ammukset
 		projectiles = new ArrayList<ProjectileLaser>(10);
 		
 		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 10; ++i) {
-			projectiles.add(new ProjectileLaser(AbstractAi.LINEAR_PROJECTILE_AI));
+			projectiles.add(new ProjectileLaser(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
 	}
 
@@ -36,14 +36,14 @@ public class WeaponDefault extends AbstractWeapon
      * @param int Kohteen Y-koordinaatti
      */
 	@Override
-	public final void activate(int _x, int _y)
+	public final void activate(int _targetX, int _targetY, float _startX, float _startY)
 	{
 		// K‰yd‰‰n l‰pi ammukset ja aktivoidaan ensimm‰inen ep‰aktiivinen
 		for (int i = 0; i < 10; ++i) {
 			if (projectiles.get(i).active == false) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit
-				projectiles.get(i).activate(_x, _y, false, false, this, wrapper.player.x, wrapper.player.y);
+				projectiles.get(i).activate(_targetX, _targetY, false, false, this, _startX, _startY);
 				
 				// Soitetaan ‰‰ni
 				SoundManager.playSound(3, 1);

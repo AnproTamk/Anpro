@@ -218,7 +218,8 @@ public class TouchManager
                     }
                     // Painetaan pelikentältä
                     else {
-                        weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()));
+                        weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()), Wrapper.CLASS_TYPE_PLAYER, 
+                        						   wrapper.player.x, wrapper.player.y);
                         // ***** PELIKENTTÄ *****
                     }
 

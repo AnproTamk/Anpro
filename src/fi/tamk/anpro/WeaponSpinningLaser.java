@@ -13,12 +13,12 @@ public class WeaponSpinningLaser extends AbstractWeapon
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-    public WeaponSpinningLaser(Wrapper _wrapper)
+    public WeaponSpinningLaser(Wrapper _wrapper, int _userType)
     {
-        super(_wrapper);
+        super(_wrapper, _userType);
         
         // Luodaan ammus
-        projectile = new ProjectileSpinningLaser(AbstractAi.NO_AI);
+        projectile = new ProjectileSpinningLaser(AbstractAi.NO_AI, _userType);
     }
 
     /**
@@ -29,12 +29,12 @@ public class WeaponSpinningLaser extends AbstractWeapon
      * @param int Kohteen Y-koordinaatti
      */
     @Override
-    public final void activate(int _x, int _y)
+    public final void activate(int _targetX, int _targetY, float _startX, float _startY)
     {
         // Tarkistetaan onko ammus jo aktiivinen
         if (!projectile.active) {
             // Aktivoidaan ammus
-            projectile.activate(_x, _y, false, true, this, wrapper.player.x, wrapper.player.y);
+            projectile.activate(_targetX, _targetY, false, true, this, _startX, _startY);
             
             // Soitetaan ‰‰ni
             SoundManager.playSound(3, 1);

@@ -30,7 +30,7 @@ public class LinearProjectileAi extends AbstractAi
 	@Override
     public final void setActive(int _x, int _y)
     {
-		setDirection(_x, _y);
+		wrapper.projectiles.get(parentId).direction = setDirection(_x, _y);
 		
 		active = true;
     }

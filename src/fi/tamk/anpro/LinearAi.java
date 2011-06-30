@@ -12,16 +12,17 @@ import java.lang.Math;
  */
 public class LinearAi extends AbstractAi
 {
-    /**
-     * Alustaa luokan muuttujat.
-     * 
-     * @param int Vihollisen tunnus piirtolistalla
-     */
-    public LinearAi(int _id)
-    {
-        super(_id);
-    }
-    
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+     * @param int Objektin tunnus piirtolistalla
+     * @param int Objektin tyyppi
+	 */
+	public LinearAi(int _id, int _type) 
+	{
+		super(_id, _type);
+	}
+	
     /**
      * Käsittelee tekoälyn.
      */
@@ -75,11 +76,7 @@ public class LinearAi extends AbstractAi
         }
         
         /* Määritetään kääntymissuunta */
-        double angle2 = angle -wrapper.enemies.get(parentId).direction;
-
-        if(angle == 0 || angle == 90 || angle == 180 || angle == 270) {
-        	wrapper.enemies.get(parentId).turningDirection = 0;
-        }
+        double angle2 = angle - wrapper.enemies.get(parentId).direction;
         
         if (angle2 >= -10 && angle2 <= 10) {
             wrapper.enemies.get(parentId).turningDirection = 0;

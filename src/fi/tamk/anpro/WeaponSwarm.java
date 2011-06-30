@@ -15,16 +15,16 @@ public class WeaponSwarm extends AbstractWeapon
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
      */
-	public WeaponSwarm(Wrapper _wrapper)
+	public WeaponSwarm(Wrapper _wrapper, int _userType)
 	{
-		super(_wrapper);
+		super(_wrapper, _userType);
 		
 		// Alustetaan ammukset
 		projectiles = new ArrayList<ProjectileMissile>(10);
 		
 		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 10; ++i) {
-			projectiles.add(new ProjectileMissile(AbstractAi.TRACKING_PROJECTILE_AI));
+			projectiles.add(new ProjectileMissile(AbstractAi.TRACKING_PROJECTILE_AI, _userType));
 		}
 	}
 
@@ -36,14 +36,14 @@ public class WeaponSwarm extends AbstractWeapon
      * @param int Kohteen Y-koordinaatti
      */
 	@Override
-	public final void activate(int _x, int _y)
+	public final void activate(int _targetX, int _targetY, float _startX, float _startY)
 	{
 		// Soitetaan ‰‰ni
 		SoundManager.playSound(3, 1);
 		
         for (int index = 9; index >= 0; --index) {
         	// Aktivoidaan ammus ja asetetaan ammuksen suunta
-			projectiles.get(index).activate(36 * index, false, false, this, wrapper.player.x, wrapper.player.y);
+			projectiles.get(index).activate(36 * index, false, false, this, _startX, _startY);
 		}
 	}
 }
