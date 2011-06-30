@@ -176,6 +176,8 @@ public class TouchManager
                     yClickOffset = screenHeight - (int) event.getY();
                     // Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset + "rawX=" + event.getRawX() + " rawY=" + event.getRawY());
                     // Log.v("TouchManager", "getX()=" + event.getX() + " getY()" + event.getY() + " rawX=" + event.getRawX() + " rawY=" + event.getRawY());
+                    Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset +
+                    " y1=" + yClickFirstBorder + " y2=" + yClickSecondBorder + " y3=" + yClickThirdBorder);
                     // Oikean reunan napit
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
                     	yClickOffset < yClickFirstBorder) {
@@ -203,16 +205,18 @@ public class TouchManager
                     }
                     // Vasemman reunan napit
                     else if (xClickOffset < screenWidth - 700 * Options.scaleX && xClickOffset > 0 &&
-                    		 yClickOffset < yClickThirdBorder) {
+                    		 yClickOffset < yClickSecondBorder) {
 
                         // Vasemman reunan alempi nappula
                         if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
                             // ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
+                        	Log.v("TouchManager", "**Vasemman reunan alempi nappula**");
                             hud.triggerClick(Hud.SPECIAL_2);
                         }
                         // Vasemman reunan ylempi nappula
                         else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
                             // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
+                        	Log.v("TouchManager", "**Vasemman reunan ylempi nappula**");
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
                     }
