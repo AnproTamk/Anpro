@@ -8,6 +8,11 @@ package fi.tamk.anpro;
  */
 abstract public class GameObject extends GfxObject
 {
+    /* Objektin tiedot */
+    public int speed;
+    public int defence;
+    public int health;
+    	
     /* Vakioita */
     // K‰‰ntymissuunnat
     public static final int TO_THE_LEFT  = 1;
@@ -34,16 +39,16 @@ abstract public class GameObject extends GfxObject
     public int selectionRadius = 0;
     
     /* Lineaarinen liike */
-    protected int movementSpeed        = 2;  // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
-    protected int movementDelay        = 20; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
-    protected int movementAcceleration = 0;  // Liikkeen kiihtyminen ja hidastuminen
+    protected int movementSpeed;            // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
+    protected int movementDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
+    protected int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
     
     /* Suunta ja k‰‰ntyminen */
-    public  int direction           = 0;  // 0 on suoraan ylˆsp‰in, 90 oikealle
-    protected int turningSpeed      = 1;  // Montako astetta k‰‰nnyt‰‰n per p‰ivitys
-    protected int turningDelay        = 10; // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
-    protected int turningAcceleration = 0;  // K‰‰ntymisen kiihtyvyys
-    public  int turningDirection    = 0;  // 0 ei k‰‰nny, 1 vasen, 2 oikea
+    public    int direction           = 0; // 0 on suoraan ylˆsp‰in, 90 oikealle
+    protected int turningSpeed;            // Montako astetta k‰‰nnyt‰‰n per p‰ivitys
+    protected int turningDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
+    protected int turningAcceleration = 0; // K‰‰ntymisen kiihtyvyys
+    public    int turningDirection    = 0; // 0 ei k‰‰nny, 1 vasen, 2 oikea
     
     /* P‰ivitysajat */
     private long turningTime  = 0;
@@ -52,9 +57,17 @@ abstract public class GameObject extends GfxObject
     /**
      * Alustaa luokan muuttujat.
      */
-    public GameObject()
+    public GameObject(int _speed)
     {
         super();
+        
+        speed = _speed;
+        
+        setMovementSpeed(1.0f);
+        setMovementDelay(1.0f);
+            
+        setTurningSpeed(1.0f);
+        setTurningDelay(1.0f);
     }
     
     /**
@@ -133,6 +146,46 @@ abstract public class GameObject extends GfxObject
                 turningDelay = 0;
             }
         }
+    }
+    
+    /**
+     * Laskee objektille "nopeuden" (pikselien m‰‰r‰ / liike).
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setMovementSpeed(float _multiplier)
+    {
+    	movementSpeed = (int) (_multiplier * speed);
+    }
+
+    /**
+     * Laskee objektille liikkeen viiveen. 
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setMovementDelay(float _multiplier)
+    {
+    	movementDelay = (int) (80 / (_multiplier * speed));
+    }
+    
+    /**
+     * Laskee objektille "k‰‰ntymisnopeuden" (asteiden m‰‰r‰ / liike).
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setTurningSpeed(float _multiplier)
+    {
+    	turningSpeed = (int) (_multiplier * speed);
+    }
+
+    /**
+     * Laskee objektille k‰‰ntymisen viiveen. 
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setTurningDelay(float _multiplier)
+    {
+    	turningDelay = (int) (60 / (_multiplier * speed));
     }
 }
 

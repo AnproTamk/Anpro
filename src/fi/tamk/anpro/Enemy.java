@@ -10,18 +10,8 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Enemy extends GameObject
 {
-    /* Alkuperäiset tiedot (maksimit) */
-    public int attackMax;
-    public int speedMax;
-    public int defenceMax;
-    public int healthMax;
-    
-    /* Nykyiset tiedot */
+    /* Vihollisen tiedot */
     public int attack;
-    public int speed;
-    public int defence;
-    public int health;
-    
     public int rank;
     
     /* Tekoäly */
@@ -45,16 +35,11 @@ public class Enemy extends GameObject
      */
     public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
-        super();
+        super(_speed);
         
         /* Tallennetaan tiedot */
-        healthMax  = _health;
         health     = _health;
-        attackMax  = _attack;
         attack     = _attack;
-        speedMax   = _speed;
-        speed      = _speed;
-        defenceMax = _defence;
         defence    = _defence;
         
         rank       = _rank;
@@ -191,13 +176,9 @@ public class Enemy extends GameObject
     public final void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank)
     {
         // Tallennetaan uudet tiedot
-        healthMax  = _health;
         health     = _health;
-        speedMax   = _speed;
         speed      = _speed;
-        attackMax  = _attack;
         attack     = _attack;
-        defenceMax = _defence;
         defence    = _defence;
         rank       = _rank;
 
@@ -241,8 +222,8 @@ public class Enemy extends GameObject
         }
         
     	movementAcceleration = 0;
-    	movementDelay = 20;
-    	movementSpeed = 2;
+    	setMovementDelay(1.0f);
+    	setMovementSpeed(1.0f);
     }
 
 	public void triggerDisabled()
