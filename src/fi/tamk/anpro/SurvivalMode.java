@@ -109,6 +109,7 @@ public class SurvivalMode extends AbstractMode
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
+        Hud.updateScoreCounter(score);
     }
     
     /**

@@ -23,13 +23,14 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public        ArrayList<Button> buttons   = null;
-    public		  ArrayList<Icon>	icons	  = null;
-    public static Joystick          joystick  = null;
-    public static Bar		        healthBar = null;
+    public        ArrayList<Button>  buttons   = null;
+    public		  ArrayList<Icon>	 icons	   = null;
+    public static Joystick           joystick  = null;
+    public static Bar		         healthBar = null;
+    public static ArrayList<Counter> counter   = null;
 
-    /* Osoittimet WeaponManageriin ja Hudiin itseensä */
-    private final  WeaponManager weaponManager;
+    /* Osoittimet tarvittaviin luokkiin */
+    private final WeaponManager weaponManager;
 
     /**
      * Alustaa luokan muuttujat ja lukee Hudin ulkoasun XmlReaderin avulla.
@@ -40,10 +41,11 @@ public class Hud
     public Hud(Context _context, WeaponManager _weaponManager)
     {
         weaponManager = _weaponManager;
-        weapons = new int[5];
+        weapons 	  = new int[5];
         
         buttons = new ArrayList<Button>();
         icons	= new ArrayList<Icon>();
+        counter = new ArrayList<Counter>();
 
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
@@ -61,6 +63,19 @@ public class Hud
             	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[i]);
             }
         }
+    }
+    
+    /**
+     * Päivittää HUD:ssa näkyvän pistelaskurin.
+     * 
+     * @param _score
+     */
+    public final static void updateScoreCounter(long _score)
+    {
+    	for (int i = counter.size()-1; i >= 0; --i) {
+    		counter.get(i).parseScore(_score);
+    		int a = 0;
+    	}
     }
 
     /**

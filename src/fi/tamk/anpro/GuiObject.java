@@ -14,10 +14,10 @@ abstract public class GuiObject extends GfxObject
     private int type;
     
     /* Osoitin Wrapperiin */
-    private Wrapper wrapper;
+    protected Wrapper wrapper;
     
     /* Objektin tunnus piirtolistalla */
-    private int listId;
+    protected int listId;
     
     /**
      * Alustaa luokan muuttujat.
