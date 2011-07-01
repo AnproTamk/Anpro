@@ -18,22 +18,18 @@ import android.opengl.GLUtils;
 public class Animation
 {
     /* Kuvaruutujen tiedot */
-    public  int[] frames;
-    public  int   length;
-    private float imageSize = 0;
+    public  int[] frames;    // Tekstuurit
+    public  int   length;    // Animaation pituus
+    private float imageSize; // Kuvan koko
     
-    /* Puskuri ja taulukko vektoreita varten */
-    public FloatBuffer vertexBuffer;
-    public float[] vertices;
-
-    /* Puskuri ja taulukko tekstuuria varten */
+    /* Puskurit ja vektorit objektille ja tekstuurille */
+    public  FloatBuffer vertexBuffer;
+    public  float[]     vertices;
     private FloatBuffer textureBuffer;
-    private float texture[] = {
-        0.0f, 1.0f,		// ylävasen
-        0.0f, 0.0f,		// alavasen
-        1.0f, 1.0f,		// yläoikea
-        1.0f, 0.0f		// alaoikea
-    };
+    private float       texture[] = {0.0f, 1.0f,
+    								 0.0f, 0.0f,
+    								 1.0f, 1.0f,
+    								 1.0f, 0.0f};
 
     /**
      * Alustaa luokan muuttujat ja kutsuu loadFramea jokaista ruutua varten.

@@ -8,6 +8,9 @@ public class ProjectileMissile extends AbstractProjectile
 {
     /**
      * Alustaa luokan muuttujat.
+     *
+     * @param int Tekoälyn tunnus
+     * @param int Ammuksen käyttäjän tyyppi
      */
     public ProjectileMissile(int _ai, int _userType)
     {

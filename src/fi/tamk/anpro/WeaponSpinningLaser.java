@@ -2,16 +2,17 @@ package fi.tamk.anpro;
 
 /**
  * Sis‰lt‰‰ #3 aseen, eli Spinning Laserin toteutuksen.
- * 
- * @extends AbstractWeapon
  */
 public class WeaponSpinningLaser extends AbstractWeapon
 {
-    /* Ammukset */
+    // Ammukset
     private ProjectileSpinningLaser projectile;
 
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
+     * 
+     * @param Wrapper Osoitin Wrapperiin
+     * @param int     Aseen k‰ytt‰j‰n tyyppi
      */
     public WeaponSpinningLaser(Wrapper _wrapper, int _userType)
     {
@@ -27,6 +28,8 @@ public class WeaponSpinningLaser extends AbstractWeapon
      * 
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
+     * @param int Ampujan X-koordinaatti
+     * @param int Ampujan Y-koordinaatti
      */
     @Override
     public final void activate(int _targetX, int _targetY, float _startX, float _startY)

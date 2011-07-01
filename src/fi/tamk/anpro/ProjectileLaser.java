@@ -1,8 +1,5 @@
 package fi.tamk.anpro;
 
-import java.lang.Math;
-import android.util.Log;
-
 /**
  * Sisältää laser-ammuksen tiedot ja toiminnot, kuten aktivoinnin, tekoälyn,
  * törmäystunnistuksen ja ajastukset.
@@ -11,6 +8,9 @@ public class ProjectileLaser extends AbstractProjectile
 {
     /**
      * Alustaa luokan muuttujat.
+     *
+     * @param int Tekoälyn tunnus
+     * @param int Ammuksen käyttäjän tyyppi
      */
     public ProjectileLaser(int _ai, int _userType)
     {

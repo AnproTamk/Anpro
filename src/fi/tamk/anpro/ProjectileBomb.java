@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import java.lang.Math;
-
 /**
  * Sisältää bomb-ammuksen tiedot ja toiminnot, kuten aktivoinnin, tekoälyn,
  * törmäystunnistuksen ja ajastukset.
@@ -10,6 +8,9 @@ public class ProjectileBomb extends AbstractProjectile
 {
     /**
      * Alustaa luokan muuttujat.
+     *
+     * @param int Tekoälyn tunnus
+     * @param int Ammuksen käyttäjän tyyppi
      */
     public ProjectileBomb(int _ai, int _userType)
     {
@@ -27,6 +28,6 @@ public class ProjectileBomb extends AbstractProjectile
         }
         
         explodeOnTarget = true;
-        collisionRadius = (int)(10 * Options.scale);
+        collisionRadius = (int) (10 * Options.scale);
     }
 }

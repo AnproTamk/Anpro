@@ -13,8 +13,8 @@ import android.content.res.XmlResourceParser;
  */
 public class XmlReader 
 {
-    /* Ohjelman konteksti */
-    private Context context;
+    // Ohjelman konteksti.
+	private Context context;
     
     /**
      * Alustaa luokan muuttujat.
@@ -27,9 +27,11 @@ public class XmlReader
     }
 
     /**
-     * Lukee yhden kentän tiedot. (VANHENTUNUT!)
+     * Lukee yhden kentän tiedot.
      * 
      * @param int Kentän järjestysnumero
+     * 
+     * @deprecated
      */
     public final void readLevel(int _id)
     {
@@ -108,11 +110,13 @@ public class XmlReader
                                                     Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
                     else if (hud.getName().equals("counter")) {
-                        // ...
+                        _hud.counter.add(new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                                				     Integer.parseInt(hud.getAttributeValue(null, "y")),
+                                				     Integer.parseInt(hud.getAttributeValue(null, "value"))));
                     }
                     else if (hud.getName().equals("health_bar")) {
                     	Hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-                    						     Integer.parseInt(hud.getAttributeValue(null, "y")));
+                    						    Integer.parseInt(hud.getAttributeValue(null, "y")));
                     }
                     else if (hud.getName().equals("joystick")) {
                     	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
@@ -179,7 +183,8 @@ public class XmlReader
     /**
      * Lukee Survival-pelitilan tiedot.
      * 
-     * @param SurvivalMode Osoitin pelitilaan
+     * @param SurvivalMode  Osoitin pelitilaan
+     * @param WeaponManager Osoitin WeaponManageriin
      */
     public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
     {
@@ -253,6 +258,8 @@ public class XmlReader
      * Lukee Story-pelitilan tiedot.
      * 
      * @param StoryMode Osoitin pelitilaan
+     * 
+     * @deprecated
      */
     /*public final void readStoryMode(StoryMode _storyMode){
         XmlResourceParser rStoryMode = null;
