@@ -140,7 +140,7 @@ class GameThread extends Thread
             if (wrapper.player != null) {
 
                 // Päivitetään tila 1
-                if (currentTime - lastAiUpdateStateOne >= (400 / updateSpeedUp)) {
+                if (currentTime - lastAiUpdateStateOne >= (300 / updateSpeedUp)) {
                     lastAiUpdateStateOne = currentTime;
                     
                     for (int i : wrapper.priorityOneEnemies) {
@@ -161,7 +161,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 2
-                if (currentTime - lastAiUpdateStateTwo >= (200 / updateSpeedUp)) {
+                if (currentTime - lastAiUpdateStateTwo >= (150 / updateSpeedUp)) {
                     lastAiUpdateStateTwo = currentTime;
                     
                     for (int i : wrapper.priorityTwoEnemies) {
@@ -180,7 +180,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 3
-                if (currentTime - lastAiUpdateStateThree >= (100 / updateSpeedUp)) {
+                if (currentTime - lastAiUpdateStateThree >= (75 / updateSpeedUp)) {
                     lastAiUpdateStateThree = currentTime;
                     
                     for (int i : wrapper.priorityThreeEnemies) {
@@ -199,7 +199,7 @@ class GameThread extends Thread
                 }
 
                 // Päivitetään tila 4
-                if (currentTime - lastAiUpdateStateFour >= (50 / updateSpeedUp)) {
+                if (currentTime - lastAiUpdateStateFour >= (40 / updateSpeedUp)) {
                     lastAiUpdateStateFour = currentTime;
                     
                     for (int i : wrapper.priorityFourEnemies) {
