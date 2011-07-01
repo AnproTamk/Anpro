@@ -21,7 +21,7 @@ public class LinearAi extends AbstractAi
 	public LinearAi(int _id, int _type) 
 	{
 		super(_id, _type);
-	}
+    }
 	
     /**
      * Käsittelee tekoälyn.
@@ -77,6 +77,10 @@ public class LinearAi extends AbstractAi
         
         /* Määritetään kääntymissuunta */
         double angle2 = angle - wrapper.enemies.get(parentId).direction;
+   
+        if(angle == 0 || angle == 90 || angle == 180 || angle == 270 || angle == 360) {
+        	wrapper.enemies.get(parentId).turningDirection = 0;
+        }
         
         if (angle2 >= -10 && angle2 <= 10) {
             wrapper.enemies.get(parentId).turningDirection = 0;
@@ -89,7 +93,7 @@ public class LinearAi extends AbstractAi
         }
         
         /* Tarkistetaan törmäykset pelaajan kanssa */
-        checkCollisionWithPlayer();
+        //checkCollisionWithPlayer();
     }
 }
 

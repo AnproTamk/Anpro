@@ -67,7 +67,7 @@ public class Enemy extends GameObject
         /* Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön */
         if (_ai == 0) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
-            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == 1) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
