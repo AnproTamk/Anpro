@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 /**
  * Sis‰lt‰‰ #6 aseen, eli missilen toteutuksen.
- * 
- * @extends AbstractWeapon
  */
 public class WeaponMissile extends AbstractWeapon
 {
-	/* Ammukset */
+	// Ammukset
 	private ArrayList<ProjectileMissile> projectiles;
 
     /**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
+     * 
+     * @param Wrapper Osoitin Wrapperiin
+     * @param int     Aseen k‰ytt‰j‰n tyyppi
      */
 	public WeaponMissile(Wrapper _wrapper, int _userType)
 	{

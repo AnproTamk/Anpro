@@ -9,11 +9,14 @@ import java.util.ArrayList;
  */
 public class WeaponCluster extends AbstractWeapon
 {
-    /* Ammukset */
+    // Ammukset
 	private ArrayList<ProjectileBomb> projectiles;
 
 	/**
      * Alustaa luokan muuttujat ja luo tarvittavan m‰‰r‰n ammuksia.
+     * 
+     * @param Wrapper Osoitin Wrapperiin
+     * @param int     Aseen k‰ytt‰j‰n tyyppi
      */
     public WeaponCluster(Wrapper _wrapper, int _userType)
     {
@@ -34,6 +37,8 @@ public class WeaponCluster extends AbstractWeapon
      * 
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
+     * @param int Ampujan X-koordinaatti
+     * @param int Ampujan Y-koordinaatti
      */
     @Override
     public final void activate(int _targetX, int _targetY, float _startX, float _startY)
