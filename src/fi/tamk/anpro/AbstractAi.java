@@ -76,12 +76,18 @@ abstract public class AbstractAi
      */
     protected final void checkCollisionWithPlayer() {
         Enemy enemyTemp = wrapper.enemies.get(parentId);
+    	
+    	// Tarkistetaan, onko vihollisen ja pelaajan välinen etäisyys riittävän pieni
+    	// tarkkoja osumatarkistuksia varten
+    	if (Math.abs(wrapper.player.x - enemyTemp.x) <= Wrapper.gridSize) {
+        	if (Math.abs(wrapper.player.y - enemyTemp.y) <= Wrapper.gridSize) {
         
-        int distance = (int) Math.sqrt(Math.pow(enemyTemp.x - wrapper.player.x, 2) + Math.pow(enemyTemp.y - wrapper.player.y,2));
-        
-        if (distance - wrapper.player.collisionRadius - enemyTemp.collisionRadius <= 0) {
-            enemyTemp.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
-            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, enemyTemp.attack * 3, 0);
-        }
+        		// Lasketaan tarkka etäisyys
+		        if (Utility.getDistance(enemyTemp.x, enemyTemp.y, wrapper.player.x, wrapper.player.y) - wrapper.player.collisionRadius - enemyTemp.collisionRadius <= 0) {
+		            enemyTemp.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
+		            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, enemyTemp.attack * 3, 0);
+		        }
+        	}
+    	}
     }
 }

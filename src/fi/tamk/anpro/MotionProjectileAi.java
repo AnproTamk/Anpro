@@ -70,11 +70,11 @@ public class MotionProjectileAi extends AbstractAi
 		
 		// Lasketaan ammuksen et‰isyys kohteeseen
 		if (distanceToTarget == 0) {
-			distanceToTarget = Utility.getDistance((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y, optimizedPath[target][0], optimizedPath[target][1]);
+			distanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y, optimizedPath[target][0], optimizedPath[target][1]);
 		}
 		else {
-			int currentDistanceToTarget = Utility.getDistance((int)wrapper.projectiles.get(parentId).x,
-															  (int)wrapper.projectiles.get(parentId).y,
+			int currentDistanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x,
+															  wrapper.projectiles.get(parentId).y,
 															  optimizedPath[target][0],
 															  optimizedPath[target][1]);
 			
@@ -115,7 +115,7 @@ public class MotionProjectileAi extends AbstractAi
 		// Tallennetaan ensimm‰inen kohde
 		optimizedPath[0][0] = _path[0][0];
 		optimizedPath[0][1] = _path[0][1];
-		distanceToPlayer = Utility.getDistance((int)wrapper.player.x, (int)wrapper.player.x, _path[0][0], _path[0][1]);
+		distanceToPlayer = Utility.getDistance(wrapper.player.x, wrapper.player.x, _path[0][0], _path[0][1]);
 		
 		// Luetaan loput reitist‰ ja verrataan kohteiden et‰isyytt‰ edellisiin
 		// (vain pelaajasta loittonevat pisteet hyv‰ksyt‰‰n)
@@ -123,7 +123,7 @@ public class MotionProjectileAi extends AbstractAi
 		int index  = 1;
 		
 		for (int i = 1; i < 9; ++i) {
-			int distanceTemp = Utility.getDistance((int)wrapper.player.x, (int)wrapper.player.x, _path[i][0], _path[i][1]);
+			int distanceTemp = Utility.getDistance(wrapper.player.x, wrapper.player.x, _path[i][0], _path[i][1]);
 			
 			if (distanceTemp > distanceToPlayer) {
 				optimizedPath[index][0] = _path[i][0];
