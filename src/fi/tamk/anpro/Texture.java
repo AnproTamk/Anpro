@@ -17,21 +17,17 @@ import android.opengl.GLUtils;
 public class Texture
 {
     /* Kuvan tiedot */
-    private int[] sprite;    // Kuva
+    private       int[] sprite;    // Kuva
     private final float imageSize; // Kuvan koko
     
-    /* Puskuri ja taulukko vektoreille */
-    public FloatBuffer vertexBuffer;
-    public float[]     vertices;
-
-    /* Puskuri ja taulukko tekstuureille */
+    /* Puskurit ja vektorit objektille ja tekstuurille */
+    public  FloatBuffer vertexBuffer;
+    public  float[]     vertices;
     private FloatBuffer textureBuffer;
-    private float texture[] = {
-        0.0f, 1.0f, // ylävasen
-        0.0f, 0.0f, // alavasen
-        1.0f, 1.0f, // yläoikea
-        1.0f, 0.0f  // alaoikea
-    };
+    private float       texture[] = {0.0f, 1.0f,
+    								 0.0f, 0.0f,
+    								 1.0f, 1.0f,
+    								 1.0f, 0.0f};
     
     /**
      * Alustaa luokan muuttujat.

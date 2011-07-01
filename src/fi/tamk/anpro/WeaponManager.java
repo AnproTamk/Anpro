@@ -14,20 +14,18 @@ public class WeaponManager
     public static final int SURVIVAL_MODE      = 1;
     public static final int STORY_MODE_LEVEL_1 = 1;
     
-    /* Globaali cooldown, joka ammuttaessa lisätään jokaiseen aseeseen  */
-    public static final int GLOBAL_COOLDOWN = 500;
+    /* Cooldownit */
+    public int cooldownMax[];         // Maksimi cooldown
+    public int cooldownLeft[];        // Jäljellä oleva cooldown
 
     /* Käytössä oleva ase */
-    public int currentWeapon = 0; // Viittaa alla olevien taulukoiden soluihin
-
+    public int     currentWeapon       = 0;    // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
+    public boolean isUsingMotionEvents = true; // Käyttääkö käytössä oleva ase motioneventtejä
+    
     /* Aseiden oliot */
     public ArrayList<AbstractWeapon> allyWeapons   = null;
     public ArrayList<AbstractWeapon> enemyWeapons  = null;
     public ArrayList<AbstractWeapon> playerWeapons = null;
-    
-    /* Cooldownit */
-    public int cooldownMax[];
-    public int cooldownLeft[];
 
     /**
      * Alustaa luokan muuttujat.
@@ -51,6 +49,9 @@ public class WeaponManager
      * sille kohteen koordinaatit. Päivittää myös cooldownit.
      * 
      * @param int[] Kohteen koordinaatit
+     * @param int   Ampujan tyyppi
+     * @param float Ampujan X-koordinaatti
+     * @param float Ampujan Y-koordinaatti
      */
     public final void triggerShoot(int[] _coords, int _type, float _x, float _y)
     {
@@ -74,6 +75,8 @@ public class WeaponManager
      * Päivittää myös cooldownit.
      * 
      * @param int[] Kohteen koordinaatit
+     * @param float Ampujan X-koordinaatti
+     * @param float Ampujan Y-koordinaatti
      */
     public final void triggerMotionShoot(int[][] _path, float _x, float _y)
     {
@@ -97,7 +100,7 @@ public class WeaponManager
         // Asetetaan globaali cooldown
         for (int i = 9; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
-                cooldownLeft[i] = GLOBAL_COOLDOWN;
+                cooldownLeft[i] = 500;
             }
         }
 	}
