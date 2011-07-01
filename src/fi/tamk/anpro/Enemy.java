@@ -64,31 +64,31 @@ public class Enemy extends GameObject
         /* Otetaan Wrapper käyttöön */
         wrapper = Wrapper.getInstance();
         
-        /* Lisätään objekti piirtolistalle */
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
-        
         /* Otetaan tekoäly käyttöön */
         if (_ai == 0) {
-            priority = 1;
-            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
+            priority = 4;
+            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         /*
         else if (_ai == 2) {
-            state = 4;
+            priority = 4;
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
             ai = new SguigglyAi(listId);
         }
         else if (_ai == 3) {
-            state = 3;
+            priority = 3;
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
             ai = new ApproachAndStopAi(listId);
         }
         else if (_ai == 4) {
-            state = 1;
+            priority = 1;
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
             ai = new RotaryAi(listId);
         }
         */
+        
+        /* Lisätään objekti piirtolistalle */
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, priority);
     }
 
     /**
@@ -230,7 +230,7 @@ public class Enemy extends GameObject
 	{
     	wrapper.enemyStates.set(listId, 3);
 
-    	movementAcceleration = -8;
+    	movementAcceleration = -15;
     	turningDirection     = 0;
     	
         setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
@@ -240,7 +240,7 @@ public class Enemy extends GameObject
 	{
     	wrapper.enemyStates.set(listId, 3);
 
-    	movementAcceleration = -9;
+    	movementAcceleration = -15;
     	
         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 	}

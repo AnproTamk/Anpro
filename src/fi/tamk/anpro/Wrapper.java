@@ -47,11 +47,18 @@ public class Wrapper
     public ArrayList<Integer> priorityThreeProjectiles = null;
     public ArrayList<Integer> priorityFourProjectiles  = null;
     
+    /* Osumatarkistuksen ruudukon yhden ruudun leveys/korkeus */
+    public static int gridSize;
+    
     /**
      * Alustaa luokan muuttujat.
      */
     private Wrapper()
     {
+    	// Lasketaan osumatarkistuksessa käytettävien "ruutujen" koko
+    	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 3);
+    	
+    	// Alustetaan taulukot
         enemies     = new ArrayList<Enemy>();
         projectiles = new ArrayList<AbstractProjectile>();
         guiObjects  = new ArrayList<GuiObject>();

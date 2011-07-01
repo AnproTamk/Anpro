@@ -9,14 +9,14 @@ public class Utility
 	/**
 	 * Laskee kahden pisteen välisen etäisyyden.
 	 * 
-	 * @param int Pisteen #1 X-koordinaatti
-	 * @param int Pisteen #1 Y-koordinaatti
-	 * @param int Pisteen #2 X-koordinaatti
-	 * @param int Pisteen #2 Y-koordinaatti
+	 * @param float Pisteen #1 X-koordinaatti
+	 * @param float Pisteen #1 Y-koordinaatti
+	 * @param float Pisteen #2 X-koordinaatti
+	 * @param float Pisteen #2 Y-koordinaatti
 	 * 
 	 * @return int Etäisyys
 	 */
-	public static int getDistance(int _firstX, int _firstY, int _secondX, int _secondY)
+	public static int getDistance(float _firstX, float _firstY, float _secondX, float _secondY)
 	{
 		return (int) Math.sqrt(Math.pow(_firstX - _secondX, 2) + Math.pow(_firstY - _secondY, 2));
 	}

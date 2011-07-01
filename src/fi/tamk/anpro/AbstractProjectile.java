@@ -104,7 +104,9 @@ abstract public class AbstractProjectile extends GameObject
         wrapper.projectileStates.set(listId, Wrapper.INACTIVE);
         active = false;
         
-        ai.setUnactive();
+        if (ai != null) {
+        	ai.setUnactive();
+        }
     }
     
     /**
@@ -180,7 +182,9 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, 1);
         active = true;
-        ai.setActive(_x, _y);
+        if (ai != null) {
+        	ai.setActive(_x, _y);
+        }
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
@@ -210,7 +214,9 @@ abstract public class AbstractProjectile extends GameObject
         // Aktivoidaan ammus
         wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
-        ai.setActive(_direction);
+        if (ai != null) {
+        	ai.setActive(_direction);
+        }
         
         // Aktivoidaan erikoistoiminto
         if (_autoSpecial) {
@@ -267,38 +273,45 @@ abstract public class AbstractProjectile extends GameObject
 	            
 	            // Tarkistetaan, onko vihollinen aktiivinen
 	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	
+	            	// Tarkistetaan, onko ammuksen ja vihollisen välinen etäisyys riittävän pieni
+	            	// tarkkoja osumatarkistuksia varten
+	            	if (Math.abs(wrapper.enemies.get(i).x - x) <= Wrapper.gridSize) {
+		            	if (Math.abs(wrapper.enemies.get(i).y - y) <= Wrapper.gridSize) {
 	                
-	                // Lasketaan etäisyys pelaajaan
-	                double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x,2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-	                
-	                // Aiheutetaan osuma/räjähdys, mikäli etäisyys on tarpeeksi pieni
-	                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
-	                    wrapper.projectileStates.set(listId, 2);
-	                    
-	                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-	                        wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
-	
-	                    	if (explodeOnTarget) {
-	                		    setUnactive();
-	            	    	    active = false;
-	            	    		parent.triggerCluster(8, x, y);
-	                    	}
-	                    	
-	                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
-	                    }
-	                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-	                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
-	
-	                        causeExplosion();
-	                    }
-	                    
-	                    break;
-	                }
-	                
-	                // Käsitellään passiivinen vahinko
-	                if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
-	                    wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
-	                }
+			                // Lasketaan etäisyys pelaajaan
+			                double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
+			                
+			                // Aiheutetaan osuma/räjähdys, mikäli etäisyys on tarpeeksi pieni
+			                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+			                    wrapper.projectileStates.set(listId, 2);
+			                    
+			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+			                        wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+			
+			                    	if (explodeOnTarget) {
+			                		    setUnactive();
+			            	    	    active = false;
+			            	    		parent.triggerCluster(8, x, y);
+			                    	}
+			                    	
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+			                    }
+			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+			
+			                        causeExplosion();
+			                    }
+			                    
+			                    break;
+			                }
+			                
+			                // Käsitellään passiivinen vahinko
+			                if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
+			                    wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+			                }
+		            	}
+	            	}
 	            }
 	        }
     	}
