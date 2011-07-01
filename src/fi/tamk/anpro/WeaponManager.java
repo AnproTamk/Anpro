@@ -26,6 +26,8 @@ public class WeaponManager
     public ArrayList<AbstractWeapon> allyWeapons   = null;
     public ArrayList<AbstractWeapon> enemyWeapons  = null;
     public ArrayList<AbstractWeapon> playerWeapons = null;
+    
+    private Wrapper wrapper;
 
     /**
      * Alustaa luokan muuttujat.
@@ -42,6 +44,8 @@ public class WeaponManager
         // TODO: Lue tiedostosta
         cooldownMax[0]  = 0;
         cooldownLeft[0] = 0;
+        
+        wrapper = Wrapper.getInstance();
     }
     
     /**
@@ -75,15 +79,13 @@ public class WeaponManager
      * Päivittää myös cooldownit.
      * 
      * @param int[] Kohteen koordinaatit
-     * @param float Ampujan X-koordinaatti
-     * @param float Ampujan Y-koordinaatti
      */
-    public final void triggerMotionShoot(int[][] _path, float _x, float _y)
+    public final void triggerMotionShoot(int[][] _path)
     {
     	// TODO: Motion-tekoälyä käyttävien aseiden tunnukset pitää tallentaa erikseen,
     	// jotta tämä funktio osaa suoraan hakea niitä käymättä läpi muita aseita.
         if (cooldownLeft[currentWeapon] <= 0) {
-            playerWeapons.get(currentWeapon).activate(_path, _x, _y);
+            playerWeapons.get(currentWeapon).activate(_path, wrapper.player.x, wrapper.player.y);
             
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
