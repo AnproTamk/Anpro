@@ -23,10 +23,10 @@ public class WeaponDefault extends AbstractWeapon
 		super(_wrapper, _userType);
 		
 		// Alustetaan ammukset
-		projectiles = new ArrayList<ProjectileLaser>(10);
+		projectiles = new ArrayList<ProjectileLaser>(20);
 		
 		// Luodaan tarvittava m‰‰r‰ ammuksia
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 20; ++i) {
 			projectiles.add(new ProjectileLaser(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
 	}
@@ -44,7 +44,7 @@ public class WeaponDefault extends AbstractWeapon
 	public final void activate(int _targetX, int _targetY, float _startX, float _startY)
 	{
 		// K‰yd‰‰n l‰pi ammukset ja aktivoidaan ensimm‰inen ep‰aktiivinen
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 20; ++i) {
 			if (projectiles.get(i).active == false) {
 				
 				// Aktivoidaan ammus ja asetetaan kohteen koordinaatit

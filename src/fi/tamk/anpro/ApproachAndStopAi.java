@@ -14,6 +14,8 @@ import android.os.Handler;
  */
 public class ApproachAndStopAi extends AbstractAi
 {
+	private boolean running = false;
+	
 	WeaponManager weaponManager;
   
 	/**
@@ -29,12 +31,15 @@ public class ApproachAndStopAi extends AbstractAi
 		weaponManager = _weaponManager;
     }
     
+	
     /**
      * K‰sittelee teko‰lyn.
      */
 	@Override
     public final void handleAi()
     {
+		long lastShootingUpdateTime = android.os.SystemClock.uptimeMillis();
+		
         /* Verrataan pelaajan sijaintia vihollisen sijaintiin */
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
@@ -44,16 +49,22 @@ public class ApproachAndStopAi extends AbstractAi
         
         // Vihollinen hidastaa tietyll‰ et‰isyydell‰ pelaajasta
         if(distance <= 200 && distance >= 150) {
-        	wrapper.enemies.get(parentId).movementAcceleration = -5;	
+        	 wrapper.enemies.get(parentId).movementAcceleration = -5;	
         }
+        
         
         // Vihollinen pys‰htyy tietyll‰ et‰isyydell‰ pelaajasta
         if(distance < 150) {
         	wrapper.enemies.get(parentId).movementSpeed = 0;
         	int coords[] = {(int) wrapper.player.x,(int) wrapper.player.y};
-        	weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        		
+        	long currentTime = android.os.SystemClock.uptimeMillis();
+        	
+        	if(currentTime - lastShootingUpdateTime > 10) {
+        		lastShootingUpdateTime = currentTime;
+        		weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        	}
         }
-
         /* M‰‰ritet‰‰n objektien v‰linen kulma */
         double angle;
         
