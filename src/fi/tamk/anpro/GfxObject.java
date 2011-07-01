@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import javax.microedition.khronos.opengles.GL10;
+
 /**
  * Sisältää kaikkien graafisten objektien yhteiset ominaisuudet ja tiedot.
  * Hallitsee esimerkiksi animaatioiden päivittämisen, käytössä olevat tekstuurit
@@ -34,6 +36,13 @@ abstract public class GfxObject
     public GfxObject()
     {
     }
+    
+    /**
+     * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
+     * 
+     * @param GL10 OpenGL-konteksti
+     */
+    abstract public void draw(GL10 _gl);
     
     /**
      * Käynnistää animaation ja määrittää toistokerrat.
