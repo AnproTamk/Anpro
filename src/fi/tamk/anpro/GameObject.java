@@ -33,7 +33,7 @@ abstract public class GameObject extends GfxObject
     
     /* Törmäystunnistus */
     public int collisionType   = 0;
-    public int collisionRadius = 0;
+    public static int collisionRadius = 0;
     
     /* Valinta */
     public int selectionRadius = 0;
@@ -186,6 +186,25 @@ abstract public class GameObject extends GfxObject
     public final void setTurningDelay(float _multiplier)
     {
     	turningDelay = (int) (60 / (_multiplier * speed));
+    }
+    
+    /**
+     * Tarkastaa, tapahtuuko objektin ja kohteen välillä törmäys.
+     * 
+     * @param float Objektin X-koordinaatti
+     * @param float Objektin Y-koordinaatti
+     * @param int Kohteen X-koordinaatti
+     * @param int Kohteen Y-koordinaatti
+     * 
+     * @return boolean Onko törmäys totta
+     */
+    public final boolean isColliding(float objectX, float objectY, int targetX, int targetY)
+    {
+    	float distance = Utility.getDistance(objectX, objectY, targetX, targetY);
+	        if (distance - Enemy.collisionRadius - Player.collisionRadius <= 0) {
+	           	return true;
+	        }
+	    return false;
     }
 }
 

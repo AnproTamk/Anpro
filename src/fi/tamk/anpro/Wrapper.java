@@ -24,15 +24,15 @@ public class Wrapper
     
     /* Piirtolistat */
     public Player                        player      = null;
-    public ArrayList<Enemy>              enemies     = null;
+    public static ArrayList<Enemy>       enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
 
     /* Peliobjektien tilat */
-    public int                playerState      = 0;
-    public ArrayList<Integer> enemyStates      = null;
-    public ArrayList<Integer> projectileStates = null;
-    public ArrayList<Integer> guiObjectStates  = null;
+    public int                       playerState      = 0;
+    public static ArrayList<Integer> enemyStates      = null;
+    public ArrayList<Integer>        projectileStates = null;
+    public ArrayList<Integer>        guiObjectStates  = null;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
