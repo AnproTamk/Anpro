@@ -6,8 +6,8 @@
         <enemy rank="1" />
         <enemy rank="1" />
         <enemy rank="1" />
-        <enemy rank="1" />
-        <enemy rank="1" />
+        <enemy rank="2" />
+        <enemy rank="2" />
     </enemies>
     <waves>
         <wave enemies="0,1,2,3,4,5,6" />
