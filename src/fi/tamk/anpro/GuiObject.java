@@ -56,7 +56,7 @@ abstract public class GuiObject extends GfxObject
             GLRenderer.hudAnimations[usedAnimation].draw(_gl, x, y, 90, currentFrame);
         }
         else{
-        	//GLRenderer.hudTextures[usedTexture].draw(_gl, x, y, 90);
+        	GLRenderer.hudTextures[usedTexture].draw(_gl, x, y, 90);
         }
         
     }
