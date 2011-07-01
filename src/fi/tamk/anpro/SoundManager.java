@@ -129,7 +129,7 @@ public class SoundManager
 	}
 	
 	/**
-	 * Tyhjentää resurssit ja SoundManagerin instanssin.
+	 * Tyhjentää resurssit ja SoundManagerin pointterin
 	 */
 	public static final void cleanUp()
 	{

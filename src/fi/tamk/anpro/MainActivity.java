@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements OnClickListener
         Options.getInstance().scaleConversion(dm.widthPixels, dm.heightPixels);
         Options.particles = true;
         Options.music     = true;
-        Options.sounds    = true;
+        Options.sounds    = false;
         
         // M‰‰ritet‰‰n aktiviteetin asetukset
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -170,7 +170,7 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
                 
             case R.id.button_quit:
-                SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+            	SoundManager.cleanUp();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 break;
         }
