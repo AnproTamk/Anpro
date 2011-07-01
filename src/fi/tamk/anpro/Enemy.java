@@ -49,7 +49,7 @@ public class Enemy extends GameObject
             collisionRadius = (int) (20 * Options.scale);
         }
         else if (rank == 2) {
-            // TODO:
+        	collisionRadius = (int) (25 * Options.scale);
         }
     
         /* Haetaan animaatioiden pituudet */
@@ -69,18 +69,18 @@ public class Enemy extends GameObject
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
             ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
+        else if (_ai == 1) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
+            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
+        }
         /*
         else if (_ai == 2) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
-            ai = new SguigglyAi(listId);
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
+            ai = new SguigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == 3) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
-            ai = new ApproachAndStopAi(listId);
-        }
-        else if (_ai == 4) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
-            ai = new RotaryAi(listId);
+            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         */
     }
