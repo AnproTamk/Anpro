@@ -5,8 +5,6 @@ package fi.tamk.anpro;
  * mahdollisimman suoraa reitti‰ pitkin ja reagoi ainoastaan kohteen liikkumiseen.
  * 
  * K‰ytet‰‰n ainoastaan ammuksille.
- * 
- * @extends AbstractAi
  */
 public class LinearProjectileAi extends AbstractAi
 {
@@ -24,8 +22,8 @@ public class LinearProjectileAi extends AbstractAi
     /**
      * Asettaa teko‰lyn aktiiviseksi.
      * 
-     * @param int X-koordinaatti
-     * @param int Y-koordinaatti
+     * @param int Kohteen X-koordinaatti
+     * @param int Kohteen Y-koordinaatti
      */
 	@Override
     public final void setActive(int _x, int _y)

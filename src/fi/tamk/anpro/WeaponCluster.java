@@ -59,7 +59,7 @@ public class WeaponCluster extends AbstractWeapon
     }
 
     /**
-     * Aktivoi r‰j‰hdyksess‰ tarvittavat ammukset. 
+     * Aiheuttaa r‰j‰hdyksen, jossa ammus jakaantuu useammaksi eri ammukseksi.
      * 
      * @param int   Aktivoitavien ammusten m‰‰r‰ 
      * @param float Aloituskohdan X-koordinaatti

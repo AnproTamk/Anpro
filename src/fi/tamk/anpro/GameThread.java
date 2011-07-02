@@ -17,21 +17,24 @@ class GameThread extends Thread
     private Wrapper       wrapper;
     private AbstractMode  gameMode;
     private WeaponManager weaponManager;
-    private TouchManager  touchManager;
+    @SuppressWarnings("unused")
+	private TouchManager  touchManager; // TODO: Missä TouchManageria käytetään eniten? Pitäisikö TouchManager luoda
+    									// siellä GameThreadin sijaan, jotta vältyttäisiin staattisilta funktiokutsuilta?
     public  Hud           hud;
     
     /* Ajastuksen muuttujat */
-    private long waveStartTime          = 0;
-    private long lastMovementUpdate     = 0;
-    private long lastAiUpdateStateOne   = 0;
-    private long lastAiUpdateStateTwo   = 0;
-    private long lastAiUpdateStateThree = 0;
-    private long lastAiUpdateStateFour  = 0;
-    private long lastCooldownUpdate     = 0;
-    private long lastGameModeUpdate		= 0;
-    private long lastCollisionUpdate    = 0;
+    private long waveStartTime;
+    private long lastMovementUpdate;
+    private long lastAiUpdateStateOne;
+    private long lastAiUpdateStateTwo;
+    private long lastAiUpdateStateThree;
+    private long lastAiUpdateStateFour;
+    private long lastCooldownUpdate;
+    private long lastGameModeUpdate;
+    private long lastCollisionUpdate;
     
-    /* Tekoälyn nopeutus vihollisaaltojen aikana */
+    /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
+       että viholliset varmasti lopulta saavuttavat pelaajan) */
     private float updateSpeedUp = 1;
     
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
@@ -76,6 +79,7 @@ class GameThread extends Thread
     public void run()
     {
     	/* Ladataan pelitila */
+        // TODO: Pitää tarkistaa mikä pelitila on käynnistettävä
     	// Luodaan WeaponManager
     	weaponManager = new WeaponManager();
         weaponManager.initialize(GameActivity.activeMode);

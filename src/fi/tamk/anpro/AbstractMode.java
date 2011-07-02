@@ -3,7 +3,6 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 import java.util.Random;
 
-import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
@@ -19,7 +18,6 @@ abstract public class AbstractMode
     public    ArrayList<Enemy> enemies;         // Viholliset
     protected int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
     protected static int       enemiesLeft = 0; // Vihollisiä jäljellä kentällä
-    protected int 			   rankTemp;
     
     /* Kentän koko */
     protected int halfOfScreenWidth;

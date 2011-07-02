@@ -29,6 +29,8 @@ public class TrackingProjectileAi extends AbstractAi
 
     /**
      * Asettaa tekoälyn aktiiviseksi.
+     * 
+     * @param int Ammuksen suunta
      */
 	@Override
     public final void setActive(int _direction)
@@ -140,6 +142,9 @@ public class TrackingProjectileAi extends AbstractAi
 		}
 	}
 	
+	/**
+	 * Etsii lähimmän vihollisen ja palauttaa sen indeksin (vastaa objektin listId-muuttujaa).
+	 */
 	private void findClosestEnemy()
 	{
 		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {

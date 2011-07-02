@@ -8,13 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,8 +19,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener
 {
     public static Context context;
-    
-    /** Muistiin tallennettavat muuttujat */
+
+	// TODO: Kommentit
+    // TODO: Kaikkia n‰ist‰ ei k‰ytet‰. V‰ltet‰‰n tallentamista, mik‰li k‰ytet‰‰n vain kerran.
     public static final String PREFS_NAME = "SharedPrefs";
     public static final String PREF_STRING = "PrefString";
     public static final String PREF_BOOL_PAR = "PrefBoolPar";
@@ -34,12 +29,12 @@ public class MainActivity extends Activity implements OnClickListener
     public static final String PREF_BOOL_SOU = "PrefBoolSOU";
     private SharedPreferences mPrefs;
     
-    /** Valintanapit asetuksille */
+    /* Valintanapit asetuksille */
     private CheckBox particleCheckBox;
     private CheckBox musicCheckBox;
     private CheckBox soundCheckBox;
-    
-    /** Kutsutaan kun aktiviteetti luodaan. */
+
+	// TODO: Javadoc-kommentit
     @Override
     public void onCreate(Bundle _savedInstanceState)
     {	
@@ -104,7 +99,7 @@ public class MainActivity extends Activity implements OnClickListener
                 }
             }
         });
-        
+
         musicCheckBox = (CheckBox) findViewById(R.id.checkBoxMusic);
         musicCheckBox.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -138,8 +133,10 @@ public class MainActivity extends Activity implements OnClickListener
             }
         });
     }
-    
-    public void onClick(View _v) {
+
+	// TODO: Javadoc-kommentit
+    public void onClick(View _v)
+    {
         switch(_v.getId()) {
             case R.id.button_story:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
@@ -175,7 +172,8 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
         }
     }
-    
+
+	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
     @Override
     protected void onResume() {
     	particleCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_PAR, true));
@@ -183,7 +181,8 @@ public class MainActivity extends Activity implements OnClickListener
         soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
         super.onResume();
     }
-    
+
+	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
     @Override
     protected void onPause() {
     	Editor e = mPrefs.edit();
@@ -195,7 +194,8 @@ public class MainActivity extends Activity implements OnClickListener
     	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
-    
+
+	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
     @Override
     protected void onStop() {
     	super.onStop();

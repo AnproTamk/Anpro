@@ -52,8 +52,10 @@ public class Animation
             for (int i = 0; i < _length; ++i) {
             	loadFrame(_gl, _context, frames, i, _resources.getIdentifier(_id+"_anim_"+i, "drawable", "fi.tamk.anpro"));
             }
-        } catch (Exception e) {
-            // TODO: Käsittele tämä
+        }
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
+            e.printStackTrace();
         }
         
         // Määritä vektorit
@@ -133,7 +135,7 @@ public class Animation
         // Siirretään ja käännetään mallimatriisia
         _gl.glTranslatef(_x, _y, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        _gl.glScalef(Options.scale/2, Options.scale/2, 1.0f); // TODO:
+        _gl.glScalef(Options.scale/2, Options.scale/2, 1.0f); // TODO: Miksi pitää jakaa kahdella?
         
         // Valitaan tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, frames[_frame]);

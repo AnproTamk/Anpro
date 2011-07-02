@@ -1,7 +1,13 @@
 package fi.tamk.anpro;
 
-public class SquigglyAi extends AbstractAi {
-	
+/**
+ * Toteutus "v‰istelev‰lle" teko‰lylle. Teko‰ly seuraa l‰hes siniaallon
+ * muotoista reitti‰ kohti pelaajaa.
+ * 
+ * K‰ytet‰‰n ainoastaan vihollisille.
+ */
+public class SquigglyAi extends AbstractAi
+{
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -12,11 +18,12 @@ public class SquigglyAi extends AbstractAi {
 	{
 		super(_id, _type);
 	}
-
+    
+    /**
+     * K‰sittelee teko‰lyn.
+     */
 	@Override
 	public void handleAi() {
-		// TODO Auto-generated method stub
-		
+		// TODO: Toteutus puuttuu
 	}
-
 }

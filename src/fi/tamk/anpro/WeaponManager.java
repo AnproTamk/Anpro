@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 /**
  * Hallitsee aseiden cooldowneja, varastoi aseiden oliot ja välittää kutsupyynnöt
  * eri aseisiin.
@@ -15,8 +13,8 @@ public class WeaponManager
     public static final int STORY_MODE_LEVEL_1 = 1;
     
     /* Cooldownit */
-    public int cooldownMax[];         // Maksimi cooldown
-    public int cooldownLeft[];        // Jäljellä oleva cooldown
+    public int cooldownMax[];  // Maksimi cooldown
+    public int cooldownLeft[]; // Jäljellä oleva cooldown
 
     /* Käytössä oleva ase */
     public int     currentWeapon       = 0;    // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
@@ -27,6 +25,7 @@ public class WeaponManager
     public ArrayList<AbstractWeapon> enemyWeapons  = null;
     public ArrayList<AbstractWeapon> playerWeapons = null;
     
+    /* Osoitin Wrapperiin */
     private Wrapper wrapper;
 
     /**
@@ -36,15 +35,11 @@ public class WeaponManager
     {
         // Alustetaan taulukot
         playerWeapons = new ArrayList<AbstractWeapon>();
-        enemyWeapons = new ArrayList<AbstractWeapon>();
+        enemyWeapons  = new ArrayList<AbstractWeapon>();
         cooldownMax   = new int[10];
         cooldownLeft  = new int[10];
         
-        // Määritetään cooldownit
-        // TODO: Lue tiedostosta
-        cooldownMax[0]  = 0;
-        cooldownLeft[0] = 0;
-        
+        // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
     }
     
@@ -78,7 +73,7 @@ public class WeaponManager
      * Välittää kutsupyynnön Motion-tekoälyä käyttävälle valittuna olevalle aseelle.
      * Päivittää myös cooldownit.
      * 
-     * @param int[] Kohteen koordinaatit
+     * @param int[] Ammuksen reitti
      */
     public final void triggerMotionShoot(int[][] _path)
     {
@@ -114,11 +109,18 @@ public class WeaponManager
      */
     public final void initialize(int _id)
     {
-    	Wrapper wrapper = Wrapper.getInstance();
+    	// TODO: SurvivalModea varten aseille pitää määritellä erikseen, ovatko ne käytetttävissä
+    	// vai ei, sillä aseita tulee käyttöön vain combojen ja achievementtien yhteydessä sekä
+    	// StoryModen edetessä.
+    	
+    	// TODO: StoryModessa käytettävissä olevat aseet tulisi ladata kykypuun mukaisesti.
     	
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
+            // Ladataan aseet ja määritetään niiden cooldownit
             playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+            cooldownMax[0] = 0;
+            
             //playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
             //playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         	//playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
@@ -129,11 +131,12 @@ public class WeaponManager
         }
         else if (_id == STORY_MODE_LEVEL_1) {
             playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+            cooldownMax[0] = 0;
         }
     }
 
     /**
-     * Päivittää cooldownit.
+     * Päivittää cooldownit (vähentää 100 ms jokaisesta cooldownista).
      */
     public final void updateCooldowns()
     {

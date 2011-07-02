@@ -1,31 +1,24 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
  * Survival-pelitila. Sisältää peliobjektit, WeaponManagerin ja AchievementManagerin.
  * Hallitsee vihollisaaltojen kutsumisen ja pistelaskurin päivittämisen.
- * 
- * @extends AbstractMode
  */
 public class SurvivalMode extends AbstractMode
 {
-    
     /* Vihollisaallot */
-    public  int waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
+    public         int waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
     private static int currentWave = 0;
     
     /* Pelaaja */
     public Player player;
     
-    /* Pistelaskuri ja pisteet */
+    /* Pisteet ja combot */
     private static long score;
-    
-    /* Combot */
     private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
     private static long lastTime        = 0; // Edellisen pisteen lisäyksen aika
     private static long newTime;             // Uuden pisteen lisäyksen aika
@@ -44,7 +37,8 @@ public class SurvivalMode extends AbstractMode
     public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
     	super(_gameActivity, _dm);
-    	
+
+        VibrateManager.getInstance();
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
         
@@ -109,13 +103,12 @@ public class SurvivalMode extends AbstractMode
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
+        
         Hud.updateScoreCounter(score);
     }
     
     /**
      * Käynnistää uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
-     * 
-     * @definedBy AbstractMode
      */
     @Override
     public void startWave()
@@ -126,6 +119,8 @@ public class SurvivalMode extends AbstractMode
             currentWave = 0;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sitä yhdellä ja lähetetään sille uudet statsit
+            int rankTemp;
+            
             for (int index = enemies.size()-1; index >= 0; --index) {
                 // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
                 rankTemp = enemies.get(index).rank + 1;

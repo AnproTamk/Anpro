@@ -44,6 +44,7 @@ public class WeaponSwarm extends AbstractWeapon
 		// Soitetaan ääni
 		SoundManager.playSound(3, 1);
 		
+		// Käydään ammukset läpi
         for (int index = 9; index >= 0; --index) {
         	// Aktivoidaan ammus ja asetetaan ammuksen suunta
 			projectiles.get(index).activate(36 * index, false, false, this, _startX, _startY);

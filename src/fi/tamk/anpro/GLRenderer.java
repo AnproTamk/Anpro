@@ -12,8 +12,6 @@ import android.util.DisplayMetrics;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
- * 
- * @implements Renderer
  */
 public class GLRenderer implements Renderer
 {

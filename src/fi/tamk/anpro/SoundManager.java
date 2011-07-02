@@ -56,11 +56,11 @@ public class SoundManager
 		context = _context;
 		
 		// Ensimm‰inen argumentti(4) m‰‰ritt‰‰, kuinka monta ‰‰nt‰ voidaan toistaa samaan aikaan
-		soundPool = new SoundPool(4,AudioManager.STREAM_MUSIC,0);
+		soundPool    = new SoundPool(4, AudioManager.STREAM_MUSIC,0);
 		soundPoolMap = new HashMap<Integer, Integer>();
 		audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 		
-		// Ladataan ‰‰net.
+		// Ladataan ‰‰net
 		loadSounds();
 	}
 	
@@ -76,7 +76,7 @@ public class SoundManager
 	}
 	
 	/**
-	 * Lataa eri ‰‰net varastosta.
+	 * Lataa eri ‰‰net resursseista.
 	 */
 	public static final void loadSounds()
 	{
@@ -104,7 +104,7 @@ public class SoundManager
 	}
 	
 	/**
-	 * Toistaa musiikin
+	 * Toistaa musiikin.
 	 * 
 	 * @param int Soitettavan ‰‰nen indeksi
 	 * @param int ƒ‰nen toistonopeus (ei k‰ytˆss‰ viel‰)
@@ -129,7 +129,7 @@ public class SoundManager
 	}
 	
 	/**
-	 * Tyhjent‰‰ resurssit ja SoundManagerin pointterin
+	 * Tyhjent‰‰ resurssit ja SoundManagerin olion.
 	 */
 	public static final void cleanUp()
 	{
