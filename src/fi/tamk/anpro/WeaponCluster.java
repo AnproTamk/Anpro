@@ -66,7 +66,7 @@ public class WeaponCluster extends AbstractWeapon
      * @param float Aloituskohdan Y-koordinaatti
      */
     @Override
-    public final void triggerCluster(int _amount, float _startX, float _startY)
+    public final void triggerClusterExplosion(int _amount, float _startX, float _startY)
     {
     	int loopAmount = 0;
     	

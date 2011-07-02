@@ -25,7 +25,7 @@ public class Icon extends GuiObject
 	 * 
 	 * @param int Aseen cooldown
 	 */
-	public void updateCooldownIcon(int _cooldown)
+	public void updateCooldown(int _cooldown)
 	{
 		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri (arvot v‰lilt‰ 13-23)
 		usedTexture = GLRenderer.TEXTURE_COOLDOWN + (int)((((float)_cooldown / 1000) * 20) + 1);

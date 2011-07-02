@@ -47,5 +47,5 @@ abstract public class AbstractWeapon
      * @param float Aloituskohdan X-koordinaatti
      * @param float Aloituskohdan Y-koordinaatti
      */
-    public void triggerCluster(int _amount, float _startX, float _startY) { }
+    public void triggerClusterExplosion(int _amount, float _startX, float _startY) { }
 }

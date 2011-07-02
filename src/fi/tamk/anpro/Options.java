@@ -64,7 +64,7 @@ public class Options
 	 * @param int Näytön leveys
 	 * @param int Näytön korkeus
 	 */
-    public void scaleConversion(int _screenWidth, int _screenHeight)
+    public void getScalingConversion(int _screenWidth, int _screenHeight)
 	{	
     	scaleX      	   = (float)_screenWidth / 800;
     	scaleY             = (float)_screenHeight / 480;

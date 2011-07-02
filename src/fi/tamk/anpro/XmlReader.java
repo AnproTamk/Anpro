@@ -147,7 +147,7 @@ public class XmlReader
      * 
      * @return ArrayList<Integer> Vihollistyyppien tiedot
      */
-    public final ArrayList<Integer> readRanks()
+    public final ArrayList<Integer> readEnemyRanks()
     {
         XmlResourceParser ranks = null;
         ArrayList<Integer> enemyStats = new ArrayList<Integer>();
@@ -190,6 +190,7 @@ public class XmlReader
     public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
     {
         XmlResourceParser rsm = null;
+        
         // Haetaan oikea xml-tiedosto resoluution perusteella
         rsm = context.getResources().getXml(R.xml.survivalmode);
 

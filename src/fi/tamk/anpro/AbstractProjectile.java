@@ -272,7 +272,7 @@ abstract public class AbstractProjectile extends GameObject
     		if (distance - collisionRadius - 20 <= 0) {
     			setUnactive();
 	    	    active = false;
-	    		parent.triggerCluster(8, x, y);
+	    		parent.triggerClusterExplosion(8, x, y);
     		}
     	}
     		
@@ -301,7 +301,7 @@ abstract public class AbstractProjectile extends GameObject
 			                    	if (explodeOnTarget) {
 			                		    setUnactive();
 			            	    	    active = false;
-			            	    		parent.triggerCluster(8, x, y);
+			            	    		parent.triggerClusterExplosion(8, x, y);
 			                    	}
 			                    	
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);

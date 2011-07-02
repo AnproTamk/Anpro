@@ -60,7 +60,7 @@ public class SurvivalMode extends AbstractMode
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
-        ArrayList<Integer> enemyStatsTemp = reader.readRanks();
+        ArrayList<Integer> enemyStatsTemp = reader.readEnemyRanks();
         int rank = 0;
         for (int i = 0; i < enemyStatsTemp.size(); ++i) {
         	rank = (int)(i / 5);

@@ -59,7 +59,7 @@ public class Hud
     {
     	 for (int i = buttons.size()-1; i >= 0; --i) {
             if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-            	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[i]);
+            	icons.get(i).updateCooldown(weaponManager.cooldownLeft[i]);
             }
         }
     }

@@ -24,13 +24,7 @@ public class Joystick extends GuiObject
         joystickActivated = false;
         
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
-    }
-    
-    /**
-     * Ottaa Joystickin käyttöön ja tallentaa sen koordinaatit.
-     */
-    public static void initJoystick()
-    {
+        
         joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
 }

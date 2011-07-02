@@ -15,11 +15,11 @@ public class ImageAdapter extends BaseAdapter
     private Context mContext;
 
     public static Integer[] mImageIds = {
-            R.drawable.player_tex0,
+            R.drawable.player_tex_0,
             R.drawable.icon,
-            R.drawable.enemy1_tex0,
+            R.drawable.enemy1_tex_0,
             R.drawable.icon,
-            R.drawable.projectilelaser_tex0,
+            R.drawable.projectilelaser_tex_0,
             R.drawable.icon
     };
 

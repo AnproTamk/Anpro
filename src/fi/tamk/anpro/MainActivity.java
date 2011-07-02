@@ -59,7 +59,7 @@ public class MainActivity extends Activity implements OnClickListener
         SoundManager.initSounds(this);
         
         // Ladataan Options käyttöön ja asetetaan asetukset
-        Options.getInstance().scaleConversion(dm.widthPixels, dm.heightPixels);
+        Options.getInstance().getScalingConversion(dm.widthPixels, dm.heightPixels);
         Options.particles = true;
         Options.music     = true;
         Options.sounds    = false;
