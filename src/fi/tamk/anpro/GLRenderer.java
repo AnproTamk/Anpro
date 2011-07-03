@@ -285,6 +285,21 @@ public class GLRenderer implements Renderer
         enemyTextures[1][0]   = new Texture(_gl, context, R.drawable.enemy2_tex_0);
         enemyAnimations[1][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[1][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #3
+        enemyTextures[2][0]   = new Texture(_gl, context, R.drawable.enemy3_tex_0);
+        enemyAnimations[2][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[2][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #4
+        enemyTextures[3][0]   = new Texture(_gl, context, R.drawable.enemy4_tex_0);
+        enemyAnimations[3][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[3][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #4
+        enemyTextures[4][0]   = new Texture(_gl, context, R.drawable.enemy5_tex_0);
+        enemyAnimations[4][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[4][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
 
         /* Ladataan ammusten grafiikat */
         // Vakioase

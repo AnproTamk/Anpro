@@ -125,5 +125,8 @@ public class ApproachAndStopAi extends AbstractAi
         else {
             wrapper.enemies.get(parentId).turningDirection = 2;
         }
+        
+        /* Tarkistetaan törmäykset pelaajan kanssa */
+        checkCollisionWithPlayer();
     }
 }

@@ -37,10 +37,11 @@ public class Enemy extends GameObject
         super(_speed);
         
         // Tallennetaan tiedot
-        health     = _health;
-        attack     = _attack;
-        defence    = _defence;
-        rank       = _rank;
+        health        = _health;
+        currentHealth = _health;
+        attack        = _attack;
+        defence       = _defence;
+        rank          = _rank;
         
         // Asetetaan törmäysetäisyys
         if (rank == 1) {
@@ -91,6 +92,8 @@ public class Enemy extends GameObject
     public final void setActive()
     {
         wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
+        
+    	currentHealth = health;
     }
 
     /**
@@ -126,9 +129,9 @@ public class Enemy extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
+        currentHealth -= (int)((float)_damage * (1 - 0.15 * (float)defence));
         
-        if (health <= 0) {
+        if (currentHealth <= 0) {
         	triggerDestroyed();
         }
     }

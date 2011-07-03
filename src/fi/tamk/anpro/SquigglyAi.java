@@ -25,5 +25,8 @@ public class SquigglyAi extends AbstractAi
 	@Override
 	public void handleAi() {
 		// TODO: Toteutus puuttuu
+        
+        /* Tarkistetaan törmäykset pelaajan kanssa */
+        checkCollisionWithPlayer();
 	}
 }

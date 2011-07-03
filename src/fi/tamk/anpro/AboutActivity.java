@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;

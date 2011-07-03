@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.media.AudioManager;
 
@@ -19,6 +21,14 @@ public class HighScoresActivity extends Activity implements OnClickListener
 	protected void onCreate(Bundle _savedInstanceState)
 	{
 		super.onCreate(_savedInstanceState);
+        
+        // Asetetaan aktiviteetti koko näytölle
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
 		setContentView(R.layout.highscores);
 
 		/* VÄLIAIKAINEN!!!
@@ -30,8 +40,6 @@ public class HighScoresActivity extends Activity implements OnClickListener
 		//Bundle bundle = getIntent().getExtras();
 		
 		//long scores = bundle.getLong("Scores");
-		
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

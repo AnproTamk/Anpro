@@ -8,10 +8,13 @@ package fi.tamk.anpro;
  */
 abstract public class GameObject extends GfxObject
 {
-    /* Objektin tiedot */
+    /* Objektin tiedot (kaikille) */
     public int speed;
+    
+    /* Objektin tiedot (pelaajalle, vihollisille ja liittolaisille) */
     public int defence;
     public int health;
+    public int currentHealth;
     	
     /* Vakioita */
     // K‰‰ntymissuunnat

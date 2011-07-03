@@ -118,6 +118,8 @@ public class RotaryAi extends AbstractAi
 	            wrapper.enemies.get(parentId).turningDirection = 2;
 	        }
         }
-
+        
+        /* Tarkistetaan törmäykset pelaajan kanssa */
+        checkCollisionWithPlayer();
     }
 }
