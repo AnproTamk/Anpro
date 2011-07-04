@@ -8,6 +8,7 @@
         <button id="special_button_2" x="-384" y="-192" type="weapon" />
         
         <health_bar x="-336" y="-208" type="" />
+        <armor_bar x="-336" y="208" type="" />
         
         <joystick x="300" y="-190" type="" />
         

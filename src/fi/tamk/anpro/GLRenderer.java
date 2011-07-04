@@ -45,7 +45,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
     public static final int AMOUNT_OF_PENEMY_TEXTURES     = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 34;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 35;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -367,6 +367,9 @@ public class GLRenderer implements Renderer
         hudTextures[31] = new Texture(_gl, context, R.drawable.counter_text_7);
         hudTextures[32] = new Texture(_gl, context, R.drawable.counter_text_8);
         hudTextures[33] = new Texture(_gl, context, R.drawable.counter_text_9);
+        
+        // Armorpalkki
+        hudTextures[34] = new Texture(_gl, context, R.drawable.armorbar_tex_0);
         
         /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;
