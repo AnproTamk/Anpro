@@ -324,6 +324,49 @@ abstract public class AbstractProjectile extends GameObject
 	            }
 	        }
     	}
+    	
+    	else if(userType == Wrapper.CLASS_TYPE_ENEMY) {
+    		
+    		// Tarkistetaan, onko pelaaja aktiivinen
+    		if(wrapper.playerState == 1) {
+    			
+    			// Tarkistetaan, onko ammuksen ja pelaajan välinen etäisyys riittävän pieni
+            	// tarkkoja osumatarkistuksia varten
+    			if (Math.abs(wrapper.player.x - x) <= Wrapper.gridSize) {
+	            	if (Math.abs(wrapper.player.y - y) <= Wrapper.gridSize) {
+	            		
+	            		// Lasketaan etäisyys pelaajaan
+	            		double distance = Math.sqrt(Math.pow(x - wrapper.player.x, 2) + Math.pow(y - wrapper.player.y, 2));
+	            		
+	            		if (distance - wrapper.player.collisionRadius - collisionRadius <= 0) {
+		                    wrapper.projectileStates.set(listId, 2);
+		                    
+		                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+		                        wrapper.player.triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+		
+		                    	if (explodeOnTarget) {
+		                		    setUnactive();
+		            	    	    active = false;
+		            	    		parent.triggerClusterExplosion(8, x, y);
+		                    	}
+		                    	
+		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+		                    }
+		                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+		
+		                        triggerExplosion();
+		                    }
+	            		}
+	            		
+	            		// Käsitellään passiivinen vahinko
+		                if (distance - wrapper.player.collisionRadius - damageRadius <= 0) {
+		                    wrapper.player.health -= (damageOnRadius * (1 - 0.15 * wrapper.player.defence));
+		                }
+	            	}
+    			}
+    		}
+    	}
         
         /* Tarkistetaan ajastetut räjähdykset */
         if (explodeTime > 0) {

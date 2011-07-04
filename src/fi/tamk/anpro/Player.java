@@ -114,6 +114,19 @@ public class Player extends GameObject
             	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
             }
         }
+        
+        else if(_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
+        	VibrateManager.vibrateOnHit();
+        	
+        	health -= _damage;
+        	
+        	Hud.healthBar.updateValue(health);
+        	
+        	if (health <= 0) {
+             	wrapper.playerState = 2;
+             	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+            }
+        }
     }
 
     /**
