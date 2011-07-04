@@ -1,17 +1,12 @@
 package fi.tamk.anpro;
 
 /**
- * Sisältää pelaajan pisteiden laskemiseen tarvittavat toimenpiteet.
- * 
- * @extends GuiObject
+ * Sisältää pistelaskurin toiminnallisuudet.
  */
 public class Counter extends GuiObject
 {
-	// Luodaan taulukko numeroarvoille
-	//private int scoreArray[] = null;
-	
-	private int 	 value;
-	private int 	 temp;
+	// Laskurin laskemat pistearvot (1000, 100, 10 tai 1)
+	private int value;
 
 	/**
      * Alustaa luokan muuttujat.
@@ -25,17 +20,15 @@ public class Counter extends GuiObject
 		
 		value = _value;
 		
-		//scoreArray = new int[4];
-		
 		usedTexture = GLRenderer.TEXTURE_COUNTER;
-		wrapper.guiObjectStates.set(listId, 1);
+		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
 	}
 	
 	/**
-	 * Palastellaan pisteet yksittäisiksi numeroiksi, joiden avulla
+	 * Palastelee pisteet yksittäisiksi numeroiksi, joiden avulla
 	 * piirretään yksittäiset numerot ruudulle pisteiden muodostamiseksi.
 	 * 
-	 * @param _score
+	 * @param int Pisteet
 	 */
 	public void parseScore(long _score)
 	{
@@ -54,7 +47,7 @@ public class Counter extends GuiObject
 			}
 			else if (value == 10) {
 				if (_score >= 100) {
-					temp = (int) (_score / 100);
+					int temp = (int) (_score / 100);
 					index = (int) (_score - (value * 10 * temp));
 					if (index >= value) {
 						index /= value;
@@ -95,7 +88,7 @@ public class Counter extends GuiObject
 			usedTexture = GLRenderer.TEXTURE_COUNTER + (int)index;
 		}
 		else {
-			wrapper.guiObjectStates.set(listId, 0);
+			wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
 		}
 	}
 

@@ -10,24 +10,23 @@ import javax.microedition.khronos.opengles.GL10;
 abstract public class AbstractProjectile extends GameObject
 {
     /* Ammusten toimintatavat */
-    public static final int MULTIPLY_ON_TIMER = 1;
-    public static final int MULTIPLY_ON_TOUCH = 2;
-    public static final int EXPLODE_ON_TIMER  = 3;
-    public static final int EXPLODE_ON_TOUCH  = 4;
-    public static final int DAMAGE_ON_TOUCH   = 5;
+    public static final int MULTIPLY_ON_TIMER = 1; // TODO: Totetutus puuttuu
+    public static final int MULTIPLY_ON_TOUCH = 2; // TODO: Totetutus puuttuu
+    public static final int EXPLODE_ON_TOUCH  = 3;
+    public static final int DAMAGE_ON_TOUCH   = 4;
     
     /* Aseen tiedot */
-    protected int weaponId;
+    protected int projectileId;
     
     // Vahinko ja sen tyyppi
     public int damageOnTouch   = 2;
     public int damageOnExplode = 0;
-    public int damageType      = DAMAGE_ON_TOUCH; // EXPLODE_ON_TIMER, EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
+    public int damageType      = DAMAGE_ON_TOUCH; // Arvoksi EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
     
     // R‰j‰ht‰minen kohteen p‰‰ll‰
     public boolean explodeOnTarget = false;
     
-    // Panssarien l‰p‰isykyky
+    // Panssarien l‰p‰isykyky (lis‰‰ tehty‰ vahinkoa)
     public int armorPiercing = 0;
     
     // Passiivinen AoE-vahinko
@@ -54,33 +53,38 @@ abstract public class AbstractProjectile extends GameObject
     /* Ammuksen tila */
     public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
     protected int     listId;         // Tunnus Wrapperin piirtolistalla
-    private   int     priority;
-    protected int     userType;
+    protected int     userType;		  // Ammuksen k‰ytt‰j‰n tyyppi
     
     /* Ammuksen teko‰ly */
     protected AbstractAi ai;
 
     /**
      * Alustaa luokan muuttujat ja lis‰‰ ammuksen piirtolistalle.
+     * 
+     * @param int Teko‰lyn tyyppi
+     * @param int Ammuksen k‰ytt‰j‰ (pelaaja, liittolainen tai vihollinen)
      */
     public AbstractProjectile(int _ai, int _userType)
     {
-        super(4); // TODO: Ammuksille oma XML-tiedosto
+        super(4); // TODO: T‰m‰ pit‰isi mieluummin ladata jostain tai ottaa vastaan parametrina.
         
+        // Tallenne taan k‰ytt‰j‰n tyyppi
         userType = _userType;
         
+        // Otetaan Wrapper k‰yttˆˆn
         wrapper = Wrapper.getInstance();
         
-        priority = 1; // TODO: T‰m‰ pit‰‰ tarkistaa AI:n perusteella ja jokaiselle ammukselle erikseen!
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, priority);
-        
+        // Lis‰t‰‰n ammus piirtolistalle ja ladataan teko‰ly
         if (_ai == AbstractAi.NO_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 1);
         	ai = null;
         }
         else if (_ai == AbstractAi.LINEAR_PROJECTILE_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 1);
         	ai = new LinearProjectileAi(listId, _userType);
         }
         else if (_ai == AbstractAi.TRACKING_PROJECTILE_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 4);
         	ai = new TrackingProjectileAi(listId, _userType);
         }
     }
@@ -96,7 +100,7 @@ abstract public class AbstractProjectile extends GameObject
     }
     
     /**
-     * M‰‰ritt‰‰ ammuksen ep‰aktiiviseksi.
+     * M‰‰ritt‰‰ ammuksen ep‰aktiiviseksi. Sammuttaa myˆs teko‰lyn jos se on tarpeen.
      */
     @Override
     final public void setUnactive()
@@ -108,32 +112,6 @@ abstract public class AbstractProjectile extends GameObject
         	ai.setUnactive();
         }
     }
-    
-    /**
-     * K‰sittelee r‰j‰hdyksien vaikutukset.
-     * 
-     * @param int Vahinko
-     */
-    @Override
-    public void triggerImpact(int _damage)
-    {
-        // R‰j‰hdykset eiv‰t toistaiseksi vaikuta ammuksiin
-    }
-    
-    /**
-     * K‰sittelee tˆrm‰yksien vaikutukset.
-     * 
-     * @param int Tˆrm‰ystyyppi
-     * @param int Vahinko
-     * @param int Panssarinl‰p‰isykyky
-     */
-    @Override
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
-    {
-        // Aseiden teko‰ly tarkistaa tˆrm‰ykset muihin objekteihin ja kutsuu niiden
-        // triggerCollision-funktioita. Teko‰ly myˆs poistaa ammuksen heti k‰ytˆst‰,
-        // jolloin t‰t‰ funktiota ei tarvitse kutsua.
-    }
 
     /**
      * Piirt‰‰ ammuksen ruudulle.
@@ -143,22 +121,27 @@ abstract public class AbstractProjectile extends GameObject
     public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0) {
-            GLRenderer.projectileAnimations[weaponId][usedAnimation].draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.projectileAnimations[projectileId][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else {
-            GLRenderer.projectileTextures[weaponId][usedTexture].draw(_gl, x, y, direction);
+            GLRenderer.projectileTextures[projectileId][usedTexture].draw(_gl, x, y, direction);
         }
     }
     
     /**
      * Aktivoi ammuksen, eli m‰‰ritt‰‰ sen aloituspisteen, kohteen, suunnan ja lis‰‰
-     * ammuksen Wrapperin piirtolistalle.
+     * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
+     * erikoistoimintoa.
      * 
-     * @param int     Kohteen X-koordinaatti
-     * @param int     Kohteen Y-koordinaatti
-     * @param boolean Onko ammuksen tarkoitus aktivoida erikoistoiminto heti (esim. EMP)?
+     * @param int     		 Kohteen X-koordinaatti
+     * @param int     		 Kohteen Y-koordinaatti
+     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param AbstractWeapon Ammuksen omistava ase
+     * @param float          Ammuksen aloituspisteen X-koordinaatti
+     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
      */
-    public final void activate(int _x, int _y, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    public final void activate(int _targetX, int _targetY, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mik‰li ammuksen on r‰j‰hdett‰v‰ tietyn ajan kuluessa
         if (explodeTime > 0) {
@@ -173,8 +156,8 @@ abstract public class AbstractProjectile extends GameObject
         parent = _parent;
         
         // Tallennetaan kohteen koordinaatit
-        targetX = _x;
-        targetY = _y;
+        targetX = _targetX;
+        targetY = _targetY;
         
         // Otetaan kohteessa r‰j‰ht‰minen k‰yttˆˆn
         explodeOnTarget = _explodeOnTarget;
@@ -183,7 +166,7 @@ abstract public class AbstractProjectile extends GameObject
         wrapper.projectileStates.set(listId, 1);
         active = true;
         if (ai != null) {
-        	ai.setActive(_x, _y);
+        	ai.setActive(_targetX, _targetY);
         }
         
         // Aktivoidaan erikoistoiminto
@@ -191,6 +174,19 @@ abstract public class AbstractProjectile extends GameObject
         	triggerSpecialAction();
         }
     }
+    
+    /**
+     * Aktivoi ammuksen, eli m‰‰ritt‰‰ sen aloituspisteen, kohteen, suunnan ja lis‰‰
+     * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
+     * erikoistoimintoa.
+     * 
+     * @param int     		 Ammuksen aloitussuunta
+     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param AbstractWeapon Ammuksen omistava ase
+     * @param float          Ammuksen aloituspisteen X-koordinaatti
+     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
+     */
     public final void activate(int _direction, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mik‰li ammuksen on r‰j‰hdett‰v‰ tietyn ajan kuluessa
@@ -223,6 +219,19 @@ abstract public class AbstractProjectile extends GameObject
         	triggerSpecialAction();
         }
     }
+    
+    /**
+     * Aktivoi ammuksen, eli m‰‰ritt‰‰ sen aloituspisteen, kohteen, suunnan ja lis‰‰
+     * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
+     * erikoistoimintoa.
+     * 
+     * @param int[][]  		 Ammuksen reitti
+     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param AbstractWeapon Ammuksen omistava ase
+     * @param float          Ammuksen aloituspisteen X-koordinaatti
+     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
+     */
     public final void activate(int[][] _path, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mik‰li ammuksen on r‰j‰hdett‰v‰ tietyn ajan kuluessa
@@ -263,7 +272,7 @@ abstract public class AbstractProjectile extends GameObject
     		if (distance - collisionRadius - 20 <= 0) {
     			setUnactive();
 	    	    active = false;
-	    		parent.triggerCluster(8, x, y);
+	    		parent.triggerClusterExplosion(8, x, y);
     		}
     	}
     		
@@ -292,7 +301,7 @@ abstract public class AbstractProjectile extends GameObject
 			                    	if (explodeOnTarget) {
 			                		    setUnactive();
 			            	    	    active = false;
-			            	    		parent.triggerCluster(8, x, y);
+			            	    		parent.triggerClusterExplosion(8, x, y);
 			                    	}
 			                    	
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
@@ -300,7 +309,7 @@ abstract public class AbstractProjectile extends GameObject
 			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 			
-			                        causeExplosion();
+			                        triggerExplosion();
 			                    }
 			                    
 			                    break;
@@ -324,7 +333,7 @@ abstract public class AbstractProjectile extends GameObject
                 wrapper.projectileStates.set(listId, 2);
                 setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
                 
-                causeExplosion();
+                triggerExplosion();
             }
         }
         
@@ -342,12 +351,22 @@ abstract public class AbstractProjectile extends GameObject
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
      * actionActivated on TRUE.
      * 
-     * (lue lis‰‰ GfxObject-luokasta!)
+     * K‰ytet‰‰n esimerkiksi objektin tuhoutuessa. Objektille m‰‰ritet‰‰n animaatioksi
+     * sen tuhoutumisanimaatio, tilaksi Wrapperissa m‰‰ritet‰‰n 2 (piirret‰‰n, mutta
+     * p‰ivitet‰‰n ainoastaan animaatio) ja asetetaan actionActivatedin arvoksi TRUE.
+     * T‰llˆin GameThread p‰ivitt‰‰ objektin animaation, Renderer piirt‰‰ sen, ja kun
+     * animaatio p‰‰ttyy, kutsutaan objektin triggerEndOfAction-funktiota. T‰ss‰
+     * funktiossa objekti k‰sittelee tilansa. Tuhoutumisanimaation tapauksessa objekti
+     * m‰‰ritt‰‰ itsens‰ ep‰aktiiviseksi.
+     * 
+     * Jokainen objekti luo funktiosta oman toteutuksensa, sill‰ toimintoja voi olla
+     * useita. Objekteilla on myˆs k‰ytˆss‰‰n actionId-muuttuja, jolle voidaan asettaa
+     * haluttu arvo. T‰m‰ arvo kertoo objektille, mink‰ toiminnon se juuri suoritti.
      */
     @Override
     protected void triggerEndOfAction()
     {
-        /* Tuhoutuminen */
+        // Tuhotaan ammus
         if (actionId == 1) {
             setUnactive();
             active = false;
@@ -357,7 +376,7 @@ abstract public class AbstractProjectile extends GameObject
     /**
      * Etsii r‰j‰hdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
-    private final void causeExplosion()
+    private final void triggerExplosion()
     {
         // Tarkistetaan et‰isyydet
         // Kutsutaan osumatarkistuksia tarvittaessa

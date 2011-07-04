@@ -1,13 +1,16 @@
 package fi.tamk.anpro;
 
-import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 
-public class AboutActivity extends Activity {
-
+/**
+ * Sis‰lt‰‰ Help/About-popupin toteutuksen.
+ */
+public class AboutActivity extends Activity
+{
+	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{

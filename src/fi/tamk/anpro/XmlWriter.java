@@ -82,7 +82,7 @@ public class XmlWriter
 			e.printStackTrace();
 		}
 		
-		return true; // TODO:
+		return true; // TODO: Pit‰‰ palauttaa FALSE ja k‰sitell‰ virhe, mik‰li tallennus jostain syyst‰ ep‰onnistui.
 	}
 	
 	/**

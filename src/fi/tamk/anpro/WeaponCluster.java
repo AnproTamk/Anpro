@@ -59,14 +59,14 @@ public class WeaponCluster extends AbstractWeapon
     }
 
     /**
-     * Aktivoi r‰j‰hdyksess‰ tarvittavat ammukset. 
+     * Aiheuttaa r‰j‰hdyksen, jossa ammus jakaantuu useammaksi eri ammukseksi.
      * 
      * @param int   Aktivoitavien ammusten m‰‰r‰ 
      * @param float Aloituskohdan X-koordinaatti
      * @param float Aloituskohdan Y-koordinaatti
      */
     @Override
-    public final void triggerCluster(int _amount, float _startX, float _startY)
+    public final void triggerClusterExplosion(int _amount, float _startX, float _startY)
     {
     	int loopAmount = 0;
     	

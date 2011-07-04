@@ -5,6 +5,12 @@ package fi.tamk.anpro;
  */
 abstract public class AbstractAi
 {
+    /* Ammusten tekoälyt */
+    public static final int NO_AI                  = 0;
+    public static final int LINEAR_PROJECTILE_AI   = 1;
+    public static final int TRACKING_PROJECTILE_AI = 2;
+    public static final int MOTION_PROJECTILE_AI   = 3;
+    
 	/* Osoitin Wrapperiin */
     protected Wrapper wrapper;
     
@@ -14,12 +20,6 @@ abstract public class AbstractAi
     
     /* Tekoälyn tila (toistaiseksi ainoastaan ammusten tekoälyt käyttävät tätä) */
 	public boolean active = false;
-    
-    /* Ammusten tekoälyt */
-    public static final int NO_AI                  = 0;
-    public static final int LINEAR_PROJECTILE_AI   = 1;
-    public static final int TRACKING_PROJECTILE_AI = 2;
-    public static final int MOTION_PROJECTILE_AI   = 3;
     
     /**
      * Alustaa luokan muuttujat.
@@ -38,11 +38,23 @@ abstract public class AbstractAi
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 
-     * @param int X-koordinaatti
-     * @param int Y-koordinaatti
+     * @param int Kohteen X-koordinaatti
+     * @param int Kohteen Y-koordinaatti
      */
     public void setActive(int _x, int _y) { }
+
+    /**
+     * Asettaa tekoälyn aktiiviseksi.
+     * 
+     * @param int Ammuksen suunta
+     */
     public void setActive(int _direction) { }
+
+    /**
+     * Asettaa tekoälyn aktiiviseksi.
+     * 
+     * @param int[][] Ammuksen reitti
+     */
     public void setActive(int[][] _path) { }
 
     /**
@@ -60,10 +72,7 @@ abstract public class AbstractAi
      */
     protected int setDirection(int _x, int _y)
     {
-    	int objectX = (int) wrapper.projectiles.get(parentId).x;
-    	int objectY = (int) wrapper.projectiles.get(parentId).y;
-    	
-        return Utility.getAngle(objectX, objectY, _x, _y);
+        return Utility.getAngle((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y, _x, _y);
     }
     
     /**
@@ -74,18 +83,17 @@ abstract public class AbstractAi
     /**
      * Tarkistaa törmäyksen pelaajan kanssa.
      */
-    protected final void checkCollisionWithPlayer() {
-        Enemy enemyTemp = wrapper.enemies.get(parentId);
-    	
+    protected final void checkCollisionWithPlayer()
+    {
     	// Tarkistetaan, onko vihollisen ja pelaajan välinen etäisyys riittävän pieni
     	// tarkkoja osumatarkistuksia varten
-    	if (Math.abs(wrapper.player.x - enemyTemp.x) <= Wrapper.gridSize) {
-        	if (Math.abs(wrapper.player.y - enemyTemp.y) <= Wrapper.gridSize) {
+    	if (Math.abs(wrapper.player.x - wrapper.enemies.get(parentId).x) <= Wrapper.gridSize) {
+        	if (Math.abs(wrapper.player.y - wrapper.enemies.get(parentId).y) <= Wrapper.gridSize) {
         
         		// Lasketaan tarkka etäisyys
-		        if (Utility.getDistance(enemyTemp.x, enemyTemp.y, wrapper.player.x, wrapper.player.y) - wrapper.player.collisionRadius - enemyTemp.collisionRadius <= 0) {
-		            enemyTemp.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
-		            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, enemyTemp.attack * 3, 0);
+		        if (Utility.getDistance(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y) - wrapper.player.collisionRadius - wrapper.enemies.get(parentId).collisionRadius <= 0) {
+		        	wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
+		            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, wrapper.enemies.get(parentId).attack * 3, 0);
 		        }
         	}
     	}

@@ -2,15 +2,12 @@ package fi.tamk.anpro;
 
 /**
  * Sisältää käyttöliittymän joystickin toiminnallisuudet.
- * 
- * @extends GuiObject
  */
 public class Joystick extends GuiObject
 {
-	
 	private static boolean 	 joystickActivated;
-	public static int 		 joystickX;
-	public static int		 joystickY;
+	public  static int 		 joystickX;
+	public  static int		 joystickY;
 	
     /**
      * Alustaa luokan muuttujat.
@@ -27,17 +24,7 @@ public class Joystick extends GuiObject
         joystickActivated = false;
         
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
-    }
-    
-    /**
-     * Ottaa Joystickin käyttöön ja tallentaa sen koordinaatit.
-     *
-     * @param int X-koordinaatti
-     * @param int Y-koordinaatti
-     */
-    public static void initJoystick()
-    {
+        
         joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
-
 }

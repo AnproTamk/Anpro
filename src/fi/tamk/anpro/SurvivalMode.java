@@ -1,31 +1,24 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
  * Survival-pelitila. Sis‰lt‰‰ peliobjektit, WeaponManagerin ja AchievementManagerin.
  * Hallitsee vihollisaaltojen kutsumisen ja pistelaskurin p‰ivitt‰misen.
- * 
- * @extends AbstractMode
  */
 public class SurvivalMode extends AbstractMode
 {
-    
     /* Vihollisaallot */
-    public  int waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
+    public         int waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
     private static int currentWave = 0;
     
     /* Pelaaja */
     public Player player;
     
-    /* Pistelaskuri ja pisteet */
+    /* Pisteet ja combot */
     private static long score;
-    
-    /* Combot */
     private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
     private static long lastTime        = 0; // Edellisen pisteen lis‰yksen aika
     private static long newTime;             // Uuden pisteen lis‰yksen aika
@@ -44,12 +37,13 @@ public class SurvivalMode extends AbstractMode
     public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
     	super(_gameActivity, _dm);
-    	
+
+        VibrateManager.getInstance();
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
         
     	// Alustetaan pelaaja
-    	player = new Player(10, 2, this);
+    	player = new Player(100, 2, this);
     	player.x = 0;
     	player.y = 0;
     	
@@ -66,7 +60,7 @@ public class SurvivalMode extends AbstractMode
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
-        ArrayList<Integer> enemyStatsTemp = reader.readRanks();
+        ArrayList<Integer> enemyStatsTemp = reader.readEnemyRanks();
         int rank = 0;
         for (int i = 0; i < enemyStatsTemp.size(); ++i) {
         	rank = (int)(i / 5);
@@ -109,13 +103,12 @@ public class SurvivalMode extends AbstractMode
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
+        
         Hud.updateScoreCounter(score);
     }
     
     /**
      * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
-     * 
-     * @definedBy AbstractMode
      */
     @Override
     public void startWave()
@@ -126,6 +119,8 @@ public class SurvivalMode extends AbstractMode
             currentWave = 0;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
+            int rankTemp;
+            
             for (int index = enemies.size()-1; index >= 0; --index) {
                 // Lasketaan uusi rank, k‰ytet‰‰n v‰liaikaismuuttujana rankTemppi‰
                 rankTemp = enemies.get(index).rank + 1;

@@ -28,6 +28,7 @@ abstract public class GfxObject
     protected boolean actionActivated = false; // Kertoo, onko toiminto käynnissä (asetetaan arvoksi true,
                                                // kun halutaan kutsua objektin triggerEndOfAction-funktiota
                                                // käynnissä olevan animaation loputtua)
+    
     protected int     actionId;                // Toiminnon tunnus
     
     /**
@@ -35,6 +36,7 @@ abstract public class GfxObject
      */
     public GfxObject()
     {
+    	// ...
     }
     
     /**
@@ -49,6 +51,7 @@ abstract public class GfxObject
      * 
      * @param int Animaation tunnus
      * @param int Toistokerrat
+     * @param int Päivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
      */
     public final void startAnimation(int _animation, int _loops, int _speed)
     {
@@ -122,8 +125,19 @@ abstract public class GfxObject
     	}
     }
     
+    /**
+     * Asettaa erityistoiminnon ja animaation. Kun animaatio loppuu, kutsuu update-funktio
+     * objektin triggerEndOfAction-funktiota.
+     * 
+     * @param int Animaation tunnus
+     * @param int Toistokerrat
+     * @param int Animaation päivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
+     * @param int Toiminnon tunnus
+     */
     protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId)
     {
+    	// TODO: Toimintojen tunnuksia varten voisi olla vakiot
+    	
         startAnimation(_animation, _loops, _animationSpeed);
         
         actionActivated = true;

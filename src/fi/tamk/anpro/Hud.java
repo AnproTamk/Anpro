@@ -3,7 +3,6 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * Hallitsee pelin käyttöliittymää eli HUDia. Ei kuitenkaan tunnista kosketustapahtumia
@@ -25,9 +24,9 @@ public class Hud
     /* Käyttöliittymän objektit */
     public        ArrayList<Button>  buttons   = null;
     public		  ArrayList<Icon>	 icons	   = null;
+    public static ArrayList<Counter> counters  = null;
     public static Joystick           joystick  = null;
     public static Bar		         healthBar = null;
-    public static ArrayList<Counter> counter   = null;
 
     /* Osoittimet tarvittaviin luokkiin */
     private final WeaponManager weaponManager;
@@ -43,9 +42,9 @@ public class Hud
         weaponManager = _weaponManager;
         weapons 	  = new int[5];
         
-        buttons = new ArrayList<Button>();
-        icons	= new ArrayList<Icon>();
-        counter = new ArrayList<Counter>();
+        buttons  = new ArrayList<Button>();
+        icons	 = new ArrayList<Icon>();
+        counters = new ArrayList<Counter>();
 
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
@@ -60,7 +59,7 @@ public class Hud
     {
     	 for (int i = buttons.size()-1; i >= 0; --i) {
             if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-            	icons.get(i).updateCooldownIcon(weaponManager.cooldownLeft[i]);
+            	icons.get(i).updateCooldown(weaponManager.cooldownLeft[i]);
             }
         }
     }
@@ -68,13 +67,12 @@ public class Hud
     /**
      * Päivittää HUD:ssa näkyvän pistelaskurin.
      * 
-     * @param _score
+     * @param int Pisteet
      */
     public final static void updateScoreCounter(long _score)
     {
-    	for (int i = counter.size()-1; i >= 0; --i) {
-    		counter.get(i).parseScore(_score);
-    		int a = 0;
+    	for (int i = counters.size()-1; i >= 0; --i) {
+    		counters.get(i).parseScore(_score);
     	}
     }
 

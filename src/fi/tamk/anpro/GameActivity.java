@@ -1,7 +1,6 @@
 package fi.tamk.anpro;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
@@ -28,7 +27,7 @@ public class GameActivity extends Activity
     private GLSurfaceView surfaceView;
     private GLRenderer    renderer;
     
-    /* Muut luokat */
+    /* Pelis‰ie */
     private GameThread   gameThread;
     
     /* Aktiivinen pelitila (asetetaan p‰‰valikossa) */
@@ -96,7 +95,7 @@ public class GameActivity extends Activity
     }
     
     /**
-     * Palauttaa pelin taukotilasta. Android kutsuu t‰t‰ automaattisesti.
+     * Android kutsuu t‰t‰ automaattisesti kun ohjelma palaa taukotilasta.
      */
     @Override
     protected void onResume()

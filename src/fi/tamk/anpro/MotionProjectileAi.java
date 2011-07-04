@@ -5,8 +5,6 @@ package fi.tamk.anpro;
  * kohteenseensa toucheventill‰ m‰‰r‰tty‰ reitti‰ pitkin ja reagoi ainoastaan t‰h‰n reittiin.
  * 
  * K‰ytet‰‰n ainoastaan ammuksille.
- * 
- * @extends AbstractAi
  */
 public class MotionProjectileAi extends AbstractAi
 {
@@ -34,6 +32,8 @@ public class MotionProjectileAi extends AbstractAi
 
     /**
      * Asettaa teko‰lyn aktiiviseksi.
+     * 
+     * @param int[][] Ammuksen reitti
      */
 	@Override
     public final void setActive(int[][] _path)

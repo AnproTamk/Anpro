@@ -1,7 +1,13 @@
 package fi.tamk.anpro;
 
-public class SquigglyAi extends AbstractAi {
-	
+/**
+ * Toteutus "väistelevälle" tekoälylle. Tekoäly seuraa lähes siniaallon
+ * muotoista reittiä kohti pelaajaa.
+ * 
+ * Käytetään ainoastaan vihollisille.
+ */
+public class SquigglyAi extends AbstractAi
+{
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -12,11 +18,15 @@ public class SquigglyAi extends AbstractAi {
 	{
 		super(_id, _type);
 	}
-
+    
+    /**
+     * Käsittelee tekoälyn.
+     */
 	@Override
 	public void handleAi() {
-		// TODO Auto-generated method stub
-		
+		// TODO: Toteutus puuttuu
+        
+        /* Tarkistetaan törmäykset pelaajan kanssa */
+        checkCollisionWithPlayer();
 	}
-
 }

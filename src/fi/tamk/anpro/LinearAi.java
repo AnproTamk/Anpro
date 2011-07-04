@@ -7,17 +7,15 @@ import java.lang.Math;
  * mahdollisimman suoraa reitti‰ pitkin, eik‰ reagoi pelikent‰n tapahtumiin.
  * 
  * K‰ytet‰‰n ainoastaan vihollisille.
- * 
- * @extends AbstractAi
  */
 public class LinearAi extends AbstractAi
 {
-	/**
-	 * Alustaa luokan muuttujat.
-	 * 
-     * @param int Objektin tunnus piirtolistalla
-     * @param int Objektin tyyppi
-	 */
+    /**
+     * Asettaa teko‰lyn aktiiviseksi.
+     * 
+     * @param int Kohteen X-koordinaatti
+     * @param int Kohteen Y-koordinaatti
+     */
 	public LinearAi(int _id, int _type) 
 	{
 		super(_id, _type);
@@ -32,7 +30,6 @@ public class LinearAi extends AbstractAi
         /* Verrataan pelaajan sijaintia vihollisen sijaintiin */
         double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
         double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
-        
         
         /* M‰‰ritet‰‰n objektien v‰linen kulma */
         double angle;
@@ -93,7 +90,7 @@ public class LinearAi extends AbstractAi
         }
         
         /* Tarkistetaan tˆrm‰ykset pelaajan kanssa */
-        //checkCollisionWithPlayer();
+        checkCollisionWithPlayer();
     }
 }
 

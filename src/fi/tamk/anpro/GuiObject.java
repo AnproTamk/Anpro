@@ -5,18 +5,13 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Sisältää yhden käyttöliittymäobjektin tiedot ja osan sen toiminnallisuudesta
  * (Hud hoitaa loput).
- * 
- * @extends GfxObject
  */
 abstract public class GuiObject extends GfxObject
 {
-    /* Objektin tiedot*/
-    private int type;
-    
-    /* Osoitin Wrapperiin */
+    // Osoitin Wrapperiin
     protected Wrapper wrapper;
     
-    /* Objektin tunnus piirtolistalla */
+    // Objektin tunnus piirtolistalla */
     protected int listId;
     
     /**
@@ -27,14 +22,14 @@ abstract public class GuiObject extends GfxObject
      */
     public GuiObject(int _x, int _y)
     {
+    	// Tallennetaan koordinaatit
         x = _x;
         y = _y;
         
+        // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
-
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, 1);
     
-        /* Haetaan animaatioiden pituudet */
+        // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_HUD_ANIMATIONS];
         
         for (int i = 0; i < GLRenderer.AMOUNT_OF_HUD_ANIMATIONS; ++i) {
@@ -42,6 +37,9 @@ abstract public class GuiObject extends GfxObject
                 animationLength[i] = GLRenderer.hudAnimations[i].length;
             }
         }
+
+        // Lisätään objekti piirtolistalle ja määritetään tila
+        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, Wrapper.FULL_ACTIVITY);
     }
 
     /**
@@ -65,11 +63,21 @@ abstract public class GuiObject extends GfxObject
      * Käsittelee jonkin toiminnon päättymisen. Kutsutaan animaation loputtua, mikäli
      * actionActivated on TRUE.
      * 
-     * (lue lisää GfxObject-luokasta!)
+     * Käytetään esimerkiksi objektin tuhoutuessa. Objektille määritetään animaatioksi
+     * sen tuhoutumisanimaatio, tilaksi Wrapperissa määritetään 2 (piirretään, mutta
+     * päivitetään ainoastaan animaatio) ja asetetaan actionActivatedin arvoksi TRUE.
+     * Tällöin GameThread päivittää objektin animaation, Renderer piirtää sen, ja kun
+     * animaatio päättyy, kutsutaan objektin triggerEndOfAction-funktiota. Tässä
+     * funktiossa objekti käsittelee tilansa. Tuhoutumisanimaation tapauksessa objekti
+     * määrittää itsensä epäaktiiviseksi.
+     * 
+     * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
+     * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
+     * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
      */
     @Override
     protected void triggerEndOfAction()
     {
-        // TODO:
+        // TODO: Nutin' to do... :(
     }
 }

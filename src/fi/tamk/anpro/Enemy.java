@@ -5,8 +5,6 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Sisältää vihollisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
- * 
- * @extends GameObject
  */
 public class Enemy extends GameObject
 {
@@ -18,33 +16,34 @@ public class Enemy extends GameObject
     public AbstractAi ai;
     
     /* Muut tarvittavat oliot */
-    private Wrapper wrapper;
+    private Wrapper       wrapper;
+    private WeaponManager weaponManager;
     
     /* Vihollisen tila */
     private int listId;
-    private int priority;
 
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param int Elämät/kestävyys
-     * @param int Puolustus
-     * @param int Nopeus
-     * @param int Hyökkäysvoima törmätessä pelaajaan
-     * @param int Taso
+     * @param int           Elämät/kestävyys
+     * @param int           Puolustus
+     * @param int           Nopeus
+     * @param int           Hyökkäysvoima törmätessä pelaajaan
+     * @param int           Taso
+     * @param WeaponManager Osoitin WeaponManageriin
      */
     public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
         super(_speed);
         
-        /* Tallennetaan tiedot */
-        health     = _health;
-        attack     = _attack;
-        defence    = _defence;
+        // Tallennetaan tiedot
+        health        = _health;
+        currentHealth = _health;
+        attack        = _attack;
+        defence       = _defence;
+        rank          = _rank;
         
-        rank       = _rank;
-        
-        /* Asetetaan törmäysetäisyys */
+        // Asetetaan törmäysetäisyys
         if (rank == 1) {
             collisionRadius = (int) (20 * Options.scale);
         }
@@ -52,7 +51,7 @@ public class Enemy extends GameObject
         	collisionRadius = (int) (25 * Options.scale);
         }
     
-        /* Haetaan animaatioiden pituudet */
+        // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS];
         
         for (int i = 0; i < GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS; ++i) {
@@ -61,13 +60,14 @@ public class Enemy extends GameObject
             }
         }
         
-        /* Otetaan Wrapper käyttöön */
-        wrapper = Wrapper.getInstance();
+        // Otetaan Wrapper käyttöön ja tallennetaan WeaponManagerin osoitin
+        wrapper       = Wrapper.getInstance();
+        weaponManager = _weaponManager;
         
-        /* Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön */
+        // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
         if (_ai == 0) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
-            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == 1) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
@@ -91,16 +91,18 @@ public class Enemy extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.enemyStates.set(listId, 1);
+        wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
+        
+    	currentHealth = health;
     }
 
     /**
-     * Määrittää vihollisen epäaktiiviseksi.
+     * Määrittää objektin epäaktiiviseksi. Sammuttaa myös tekoälyn jos se on tarpeen.
      */
     @Override
     public final void setUnactive()
     {
-        wrapper.enemyStates.set(listId, 0);
+        wrapper.enemyStates.set(listId, Wrapper.INACTIVE);
     }
     
     /**
@@ -127,9 +129,9 @@ public class Enemy extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        health -= (int)((float)_damage * (1 - 0.15 * (float)defence));
+        currentHealth -= (int)((float)_damage * (1 - 0.15 * (float)defence));
         
-        if (health <= 0) {
+        if (currentHealth <= 0) {
         	triggerDestroyed();
         }
     }
@@ -178,19 +180,19 @@ public class Enemy extends GameObject
 
         // Otetaan uusi tekoäly käyttöön
         ai = null;
-
-        if (_ai == 1) {
-            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        
+        if (_ai == 0) {
+            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        }
+        else if (_ai == 1) {
+            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
         /*
         else if (_ai == 2) {
-            ai = new SguigglyAi(listId);
+            ai = new SguigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == 3) {
-            ai = new ApproachAndStopAi(listId);
-        }
-        else if (_ai == 4) {
-            ai = new RotaryAi(listId);
+            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
         }
         */
     }
@@ -199,18 +201,28 @@ public class Enemy extends GameObject
      * Käsittelee jonkin toiminnon päättymisen. Kutsutaan animaation loputtua, mikäli
      * actionActivated on TRUE.
      * 
-     * (lue lisää GfxObject-luokasta!)
+     * Käytetään esimerkiksi objektin tuhoutuessa. Objektille määritetään animaatioksi
+     * sen tuhoutumisanimaatio, tilaksi Wrapperissa määritetään 2 (piirretään, mutta
+     * päivitetään ainoastaan animaatio) ja asetetaan actionActivatedin arvoksi TRUE.
+     * Tällöin GameThread päivittää objektin animaation, Renderer piirtää sen, ja kun
+     * animaatio päättyy, kutsutaan objektin triggerEndOfAction-funktiota. Tässä
+     * funktiossa objekti käsittelee tilansa. Tuhoutumisanimaation tapauksessa objekti
+     * määrittää itsensä epäaktiiviseksi.
+     * 
+     * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
+     * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
+     * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
      */
     @Override
     protected void triggerEndOfAction()
     {
-        /* Tuhotaan vihollinen */
+        // Tuhotaan vihollinen
         if (actionId == 1) {
         	--SurvivalMode.enemiesLeft;
         	SurvivalMode.updateScore(rank);
             setUnactive();
         }
-        /* Aktivoidaan vihollinen (EMPin jälkeen) */
+        // Aktivoidaan vihollinen
         else if (actionId == 2) {
         	wrapper.enemyStates.set(listId, 1);
         }
@@ -219,7 +231,10 @@ public class Enemy extends GameObject
     	setMovementDelay(1.0f);
     	setMovementSpeed(1.0f);
     }
-
+    
+    /**
+     * Aiheuttaa objektin muuttamisen epäaktiiviseksi sitä vastaavan animaation ajaksi.
+     */
 	public void triggerDisabled()
 	{
     	wrapper.enemyStates.set(listId, 3);
@@ -229,9 +244,15 @@ public class Enemy extends GameObject
     	
         setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
 	}
-
+    
+    /**
+     * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
+     * ja hidastamalla objektia.
+     */
 	public void triggerDestroyed()
 	{
+		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
+		
     	wrapper.enemyStates.set(listId, 3);
 
     	movementAcceleration = -15;

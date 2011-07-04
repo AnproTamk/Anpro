@@ -1,13 +1,11 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
- * Sisältää ja hallitsee pelin globaaleja asetuksia.
+ * Hallitsee pelin globaaleja asetuksia.
  */
 public class Options
 {
-	/* Osoitin tähän luokkaan */
+	/* Osoitin tähän luokkaan (singleton-toimintoa varten) */
 	private static Options instance = null;
 	
 	/* Asetukset */
@@ -26,7 +24,7 @@ public class Options
 	public static int   screenHeight;
 
 	/**
-	 * Alustaa luokan muuttujat ja lukee asetukset.
+	 * Alustaa luokan muuttujat.
 	 */
     private Options()
     {
@@ -48,24 +46,29 @@ public class Options
     
     /**
      * Asettaa asetukset.
+     * 
+     * @param boolean Partikkeliefektit
+     * @param boolean Musiikit
+     * @param boolean Äänet
      */
     public final static void setSettings(boolean _particles, boolean _music, boolean _sounds)
     {
     	particles = _particles;
-    	music = _music;
-    	sounds = _sounds;
+    	music     = _music;
+    	sounds    = _sounds;
     }
     
 	/**
-	 * Asettaa skaalauksen näytön dpi-arvon mukaan ja palauttaa sen
+	 * Asettaa skaalauksen näytön dpi-arvon mukaan.
 	 * 
-	 * @param _screenDpi näytön DPI-lukema (320, 240, 160, 120)
+	 * @param int Näytön leveys
+	 * @param int Näytön korkeus
 	 */
-    public void scaleConversion(int _screenWidth, int _screenHeight)
+    public void getScalingConversion(int _screenWidth, int _screenHeight)
 	{	
     	scaleX      	   = (float)_screenWidth / 800;
     	scaleY             = (float)_screenHeight / 480;
-    	scale	           = 1.0f; // TODO:
+    	scale	           = 1.0f; // TODO: Pitäisikö olla jokin muu kuin 1.0f?
     	screenWidth        = _screenWidth;
     	screenHeight       = _screenHeight;
     	scaledScreenWidth  = _screenWidth / 2;  // Tätä käytetään AbstractProjectile-luokassa
@@ -73,12 +76,11 @@ public class Options
 	}
 
 	/**
-	 * Etäisyyksien skaalaus
+	 * Skaalaa etäisyydet.
 	 */
 	/*public static int pixelConversion(int _pixels)
 	{
 		// Muunnetaan dps:t pikseleiksi tiheyden skaalauksen mukaan ja pyöristetään ylöspäin
 		return ((int)(_pixels * scale + 0.5f));
 	}*/
-	
 }

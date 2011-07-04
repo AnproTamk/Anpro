@@ -12,34 +12,35 @@ public class Player extends GameObject
 {
     /* Pelaajan tiedot */
     public int health;
-    public int defence;
+    public int defence; // V‰hent‰‰ otettua vahinkoa
     
     /* Osoittimet muihin luokkiin */
-    private Wrapper wrapper;
-    private Bar     healthBar;
-    
+    private Wrapper      wrapper;
     private SurvivalMode survivalMode;
     
     /**
      * Alustaa luokan muuttujat.
-     * @param _survivalMode 
      * 
      * @param int Pelaajan el‰m‰t/kest‰vyys
      * @param int Pelaajan puolustus
+     * @param int Osoitin SurivalModeen
      */
     public Player(int _health, int _defence, SurvivalMode _survivalMode)
     {
-        super(0); // TODO: Pelaaja tarvitsee nopeuden.
+        super(0); // TODO: Pelaaja tarvitsee nopeuden StoryModea varten
         
-        VibrateManager.getInstance();
+        // TODO: Ei voida tiet‰‰, kumpiko pelitila Playerin on otettava vastaan.
+        // Eli ei voida ottaa vastaan suoraan SurvivalModea.
         
+        // Otetaan Wrapper k‰yttˆˆn ja tallennetaan pelitilan osoitin
+        wrapper      = Wrapper.getInstance();
         survivalMode = _survivalMode;
         
-        // Tallennetaan tiedot
+        // Tallennetaan pelaajan tiedot
         health  = _health;
         defence = _defence;
         
-        // M‰‰ritet‰‰n healthBarin tiedot
+        // M‰‰ritet‰‰n Hudin healthBarin tiedot
         Hud.healthBar.initHealthBar(health);
         
         // Asetetaan tˆrm‰ystunnistuksen s‰de
@@ -54,11 +55,8 @@ public class Player extends GameObject
             }
         }
         
-        // Haetaan osoitin Wrapper-luokkaan
-        wrapper = Wrapper.getInstance();
-        
         // Lis‰t‰‰n pelaaja piirtolistalle ja m‰‰ritet‰‰n tila
-        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, 1);
+        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, Wrapper.FULL_ACTIVITY);
     }
 
     /**
@@ -67,16 +65,16 @@ public class Player extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.playerState = 1;
+        wrapper.playerState = Wrapper.FULL_ACTIVITY;
     }
 
     /**
-     * Asettaa pelaajan ep‰aktiiviseksi.
+     * M‰‰ritt‰‰ objektin ep‰aktiiviseksi. Sammuttaa myˆs teko‰lyn jos se on tarpeen.
      */
     @Override
     public final void setUnactive()
     {
-        wrapper.playerState = 0;
+        wrapper.playerState = Wrapper.INACTIVE;
     }
 
     /**
@@ -92,17 +90,6 @@ public class Player extends GameObject
         else{
             GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction);
         }
-    }
-
-    /**
-     * K‰sittelee r‰j‰hdyksien vaikutukset pelaajaan.
-     * 
-     * @param int R‰j‰hdyksen aiheuttama vahinko
-     */
-    @Override
-    public final void triggerImpact(int _damage)
-    {
-        // R‰j‰hdykset eiv‰t toistaiseksi vaikuta pelaajaan
     }
 
     /**
@@ -133,18 +120,26 @@ public class Player extends GameObject
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
      * actionActivated on TRUE.
      * 
-     * (lue lis‰‰ GfxObject-luokasta!)
+     * K‰ytet‰‰n esimerkiksi objektin tuhoutuessa. Objektille m‰‰ritet‰‰n animaatioksi
+     * sen tuhoutumisanimaatio, tilaksi Wrapperissa m‰‰ritet‰‰n 2 (piirret‰‰n, mutta
+     * p‰ivitet‰‰n ainoastaan animaatio) ja asetetaan actionActivatedin arvoksi TRUE.
+     * T‰llˆin GameThread p‰ivitt‰‰ objektin animaation, Renderer piirt‰‰ sen, ja kun
+     * animaatio p‰‰ttyy, kutsutaan objektin triggerEndOfAction-funktiota. T‰ss‰
+     * funktiossa objekti k‰sittelee tilansa. Tuhoutumisanimaation tapauksessa objekti
+     * m‰‰ritt‰‰ itsens‰ ep‰aktiiviseksi.
+     * 
+     * Jokainen objekti luo funktiosta oman toteutuksensa, sill‰ toimintoja voi olla
+     * useita. Objekteilla on myˆs k‰ytˆss‰‰n actionId-muuttuja, jolle voidaan asettaa
+     * haluttu arvo. T‰m‰ arvo kertoo objektille, mink‰ toiminnon se juuri suoritti.
      */
     @Override
     protected void triggerEndOfAction()
-    {
-        /* Tuhoutuminen */
+    {    	
+        // Tuhotaan pelaaja ja siirryt‰‰n pois pelitilasta
         if (actionId == 1) {
             setUnactive();
             
             survivalMode.endGameMode();
-            
-            // System.exit(0); // TODO
         }
     }
 }

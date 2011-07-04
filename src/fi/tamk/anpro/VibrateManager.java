@@ -8,27 +8,29 @@ import android.os.Vibrator;
  */
 public class VibrateManager 
 {
-	private static VibrateManager instance = null;
-	
+	// V‰rin‰n kesto (ms) pelaajaan osuttaessa
 	private final static long VIB_DURATION_ON_HIT = 300;
 	
-	static Context context;
+	// Osoitin t‰h‰n luokkaan (singleton-toimintoa varten)
+	private static VibrateManager instance = null;
 	
-	static Vibrator v;
+	private static Context context;
+	
+	private static Vibrator v;
 
 	/**
-	 * Alustaa luokan muuttujat ja lukee asetukset.
+	 * Alustaa luokan muuttujat.
 	 */
 	private VibrateManager()
 	{
 		context = MainActivity.context;
-		v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+		v       = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	/**
      * Palauttaa osoittimen t‰st‰ luokasta.
      * 
-     * @return Vibratemanager Osoitin t‰h‰n luokkaan
+     * @return VibrateManager Osoitin t‰h‰n luokkaan
      */
     public final static VibrateManager getInstance()
     {
@@ -38,8 +40,14 @@ public class VibrateManager
         return instance;
     }
     
+    /**
+     * Aiheuttaa v‰rin‰n.
+     */
     public static void vibrateOnHit()
     {
+    	// TODO: Mahdollisuus m‰‰ritt‰‰ vakiolla v‰rin‰n "tyyppi", esim. tyyliin
+    	// VibrateManager.vibrate(PLAYER_HIT); tai jotain vastaavaa
+    	
     	v.vibrate(VIB_DURATION_ON_HIT);
     	//v.cancel();
     }

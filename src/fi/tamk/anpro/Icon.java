@@ -1,29 +1,38 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
- * Sis‰lt‰‰ aseiden cooldowneihin tarvittavat toiminnot.
- * 
- * @extends GuiObject
+ * Sis‰lt‰‰ Hudin painikkeiden p‰‰lle asetettavien cooldown-mittareiden
+ * toiminnallisuuden.
  */
 public class Icon extends GuiObject
 {
-	private final int DEVIDER = 1000;
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param int Objektin X-koordinaatti
+	 * @param int Objektin Y-koordinaatti
+	 */
 	public Icon(int _x, int _y)
 	{
 		super(_x, _y);
 		
+		// M‰‰ritet‰‰n aloitustekstuuri
 		usedTexture = GLRenderer.TEXTURE_COOLDOWN;
 	}
 	
-	public void updateCooldownIcon(int _cooldown)
+	/**
+	 * P‰ivitt‰‰ n‰ytett‰v‰n tekstuurin.
+	 * 
+	 * @param int Aseen cooldown
+	 */
+	public void updateCooldown(int _cooldown)
 	{
-		//							13-23
-		usedTexture = GLRenderer.TEXTURE_COOLDOWN + (int)((((float)_cooldown / (float)DEVIDER) * 20) + 1);
+		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri (arvot v‰lilt‰ 13-23)
+		usedTexture = GLRenderer.TEXTURE_COOLDOWN + (int)((((float)_cooldown / 1000) * 20) + 1);
 		
-		if (_cooldown <= 0)
+		if (_cooldown <= 0) {
 			usedTexture = GLRenderer.TEXTURE_COOLDOWN;
+		}
 	}
 
 }

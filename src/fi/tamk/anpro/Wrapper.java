@@ -3,36 +3,38 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 /**
- * Yhdist‰‰ peliobjektit ja renderˆij‰n toisiinsa. Yll‰pit‰‰ piirtolistoja.
+ * Yhdist‰‰ luokat toisiinsa yll‰pit‰m‰ll‰ piirtolistoja, objektien tiloja
+ * ja teko‰lyjen p‰ivitysnopeuksia.
  */
 public class Wrapper
 {
-    /* Luokan tyyppi */
+    /* Osoitin t‰h‰n luokkaan (singleton-toimintoa varten) */
+    private static Wrapper instance = null;
+    
+    /* Vakioita */
+    // Luokan tyyppi (k‰ytet‰‰n myˆs aseissa ja ammuksissa)
     public static final int CLASS_TYPE_PLAYER     = 1;
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
     
-    /* Eri tilat */
+    // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
     public static final int FULL_ACTIVITY          = 1;
     public static final int ONLY_ANIMATION         = 2;
     public static final int ANIMATION_AND_MOVEMENT = 3;
     
-    /* Osoitin t‰h‰n luokasta */
-    private static Wrapper instance = null;
-    
-    /* Piirtolistat */
+    /* Piirto- ja p‰ivityslistat */
     public Player                        player      = null;
-    public static ArrayList<Enemy>       enemies     = null;
+    public ArrayList<Enemy>              enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
 
     /* Peliobjektien tilat */
-    public int                       playerState      = 0;
-    public static ArrayList<Integer> enemyStates      = null;
-    public ArrayList<Integer>        projectileStates = null;
-    public ArrayList<Integer>        guiObjectStates  = null;
+    public int                playerState      = 0;
+    public ArrayList<Integer> enemyStates      = null;
+    public ArrayList<Integer> projectileStates = null;
+    public ArrayList<Integer> guiObjectStates  = null;
 
     /* Peliobjektien teko‰lyjen tasot. N‰iden taulukoiden arvot viittaavat
        piirtolistojen soluihin. N‰it‰ kutsutaan ainoastaan GameThreadin
@@ -51,7 +53,8 @@ public class Wrapper
     public static int gridSize;
     
     /**
-     * Alustaa luokan muuttujat.
+     * Alustaa luokan muuttujat ja m‰‰rittelee osumatarkistuksissa k‰ytett‰v‰n
+     * ruudukon koon.
      */
     private Wrapper()
     {
@@ -59,19 +62,16 @@ public class Wrapper
     	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 3);
     	
     	// Alustetaan taulukot
-        enemies     = new ArrayList<Enemy>();
-        projectiles = new ArrayList<AbstractProjectile>();
-        guiObjects  = new ArrayList<GuiObject>();
-        
-        enemyStates      = new ArrayList<Integer>();
-        projectileStates = new ArrayList<Integer>();
-        guiObjectStates  = new ArrayList<Integer>();
-        
-        priorityOneEnemies   = new ArrayList<Integer>();
-        priorityTwoEnemies   = new ArrayList<Integer>();
-        priorityThreeEnemies = new ArrayList<Integer>();
-        priorityFourEnemies  = new ArrayList<Integer>();
-        
+        enemies                  = new ArrayList<Enemy>();
+        projectiles              = new ArrayList<AbstractProjectile>();
+        guiObjects               = new ArrayList<GuiObject>();
+        enemyStates              = new ArrayList<Integer>();
+        projectileStates         = new ArrayList<Integer>();
+        guiObjectStates          = new ArrayList<Integer>();
+        priorityOneEnemies       = new ArrayList<Integer>();
+        priorityTwoEnemies       = new ArrayList<Integer>();
+        priorityThreeEnemies     = new ArrayList<Integer>();
+        priorityFourEnemies      = new ArrayList<Integer>();
         priorityOneProjectiles   = new ArrayList<Integer>();
         priorityTwoProjectiles   = new ArrayList<Integer>();
         priorityThreeProjectiles = new ArrayList<Integer>();
@@ -111,11 +111,11 @@ public class Wrapper
      * niiden t‰rkeyden mukaan, joita pelis‰ie lukee. T‰ll‰ pyrit‰‰n v‰ltt‰m‰‰n kaikkien
      * objektien l‰pi k‰yminen, vaikka haluttaisiin p‰ivitt‰‰ vain kriittisimm‰t.
      * 
-     * @param Object Lis‰tt‰v‰ olio
-     * @param int    Lis‰tt‰v‰n olion tyyppi
-     * @param int    Objektin t‰rkeys
+     * @param Object Lis‰tt‰v‰ objekti
+     * @param int    Lis‰tt‰v‰n objektin tyyppi
+     * @param int    Objektin t‰rkeys (m‰‰ritt‰‰ teko‰lyn p‰ivitysnopeuden)
      * 
-     * @return int Lis‰tyn olion tunnus piirtolistalla
+     * @return int Lis‰tyn objektin tunnus piirtolistalla
      */
     public final int addToList(Object _object, int _classType, int _priority)
     {

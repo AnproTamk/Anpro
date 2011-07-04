@@ -16,17 +16,18 @@ public class ProjectileBomb extends AbstractProjectile
     {
         super(_ai, _userType);
         
-        weaponId = 3;
-    
-        /* Haetaan animaatioiden pituudet */
+        projectileId = 3;
+
+        // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS];
         
         for (int i = 0; i < GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS; ++i) {
-            if (GLRenderer.projectileAnimations[weaponId][i] != null) {
-                animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
+            if (GLRenderer.projectileAnimations[projectileId][i] != null) {
+                animationLength[i] = GLRenderer.projectileAnimations[projectileId][i].length;
             }
         }
-        
+
+        // Määritetään ammuksen asetukset
         explodeOnTarget = true;
         collisionRadius = (int) (10 * Options.scale);
     }
