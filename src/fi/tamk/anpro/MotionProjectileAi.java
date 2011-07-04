@@ -15,7 +15,7 @@ public class MotionProjectileAi extends AbstractAi
 	private int distanceToTarget = 0;
 	
 	private int targetRadius = 20;
-	private int target       = 0;
+	private int targetIndex  = 0;
 	
 	private int fails = 0;
 	
@@ -53,7 +53,7 @@ public class MotionProjectileAi extends AbstractAi
 		
 		distanceToTarget = 0;
 		fails            = 0;
-		target           = 0;
+		targetIndex      = 0;
     }
     
     /**
@@ -63,25 +63,27 @@ public class MotionProjectileAi extends AbstractAi
 	public void handleAi()
 	{
 		// Lasketaan ammuksen ja nykyisen kohteen v‰linen et‰isyys
-		int angle = Utility.getAngle((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y, optimizedPath[target][0], optimizedPath[target][1]);
+		int angle = Utility.getAngle((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y,
+				                     optimizedPath[targetIndex][0], optimizedPath[targetIndex][1]);
 		
 		// M‰‰ritet‰‰n k‰‰ntymissuunta
 		wrapper.projectiles.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.projectiles.get(parentId).direction, angle);
 		
 		// Lasketaan ammuksen et‰isyys kohteeseen
 		if (distanceToTarget == 0) {
-			distanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y, optimizedPath[target][0], optimizedPath[target][1]);
+			distanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y,
+												   optimizedPath[targetIndex][0], optimizedPath[targetIndex][1]);
 		}
 		else {
 			int currentDistanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x,
 															  wrapper.projectiles.get(parentId).y,
-															  optimizedPath[target][0],
-															  optimizedPath[target][1]);
+															  optimizedPath[targetIndex][0],
+															  optimizedPath[targetIndex][1]);
 			
 			// Tarkistetaan onko kohde saavutettu
 			if (distanceToTarget <= targetRadius) {
 				// M‰‰ritet‰‰n uusi kohde
-				++target;
+				++targetIndex;
 			}
 			
 			// Tarkistetaan onko teko‰ly ep‰onnistunut saavuttamaan seuraavan kohteen

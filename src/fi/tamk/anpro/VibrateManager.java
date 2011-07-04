@@ -14,8 +14,10 @@ public class VibrateManager
 	// Osoitin tähän luokkaan (singleton-toimintoa varten)
 	private static VibrateManager instance = null;
 	
+	// Ohjelman konteksti
 	private static Context context;
 	
+	// Vibraattori
 	private static Vibrator v;
 
 	/**
