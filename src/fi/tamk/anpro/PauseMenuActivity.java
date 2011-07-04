@@ -43,7 +43,6 @@ public class PauseMenuActivity extends Activity implements OnClickListener
         
         View resumeButton = findViewById(R.id.button_resume);
         resumeButton.setOnClickListener(this);
-		
 	}
 	
 	// TODO: Javadoc-kommentit
