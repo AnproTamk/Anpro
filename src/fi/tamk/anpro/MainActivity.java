@@ -33,7 +33,11 @@ public class MainActivity extends Activity implements OnClickListener
     private CheckBox musicCheckBox;
     private CheckBox soundCheckBox;
 
-	// TODO: Javadoc-kommentit
+	/**
+	 * Luo p‰‰valikon ja aloittaa koko pelin. Android kutsuu t‰t‰ automaattisesti.
+	 * 
+	 * @param Bundle Pelin aiempi tila
+	 */
     @Override
     public void onCreate(Bundle _savedInstanceState)
     {	
@@ -132,7 +136,11 @@ public class MainActivity extends Activity implements OnClickListener
         });
     }
 
-	// TODO: Javadoc-kommentit
+	/**
+	 * K‰sittelee nappuloiden painamisen.
+	 * 
+	 * @param View Nappi jota painettiin
+	 */
     public void onClick(View _v)
     {
         switch(_v.getId()) {
@@ -170,8 +178,10 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
         }
     }
-
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+    
+    /**
+     * Android kutsuu t‰t‰ automaattisesti kun ohjelma palaa taukotilasta.
+     */
     @Override
     protected void onResume() {
     	particleCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_PAR, true));
@@ -179,8 +189,11 @@ public class MainActivity extends Activity implements OnClickListener
         soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
         super.onResume();
     }
-
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+    
+    /**
+     * Siirt‰‰ pelin taukotilaan ja tallentaa ohjelman tilan, sill‰ onPausen j‰lkeen prosessi
+     * saatetaan keskeytt‰‰ kokonaan. Android kutsuu t‰t‰ automaattisesti.
+     */
     @Override
     protected void onPause() {
     	Editor e = mPrefs.edit();
@@ -192,8 +205,11 @@ public class MainActivity extends Activity implements OnClickListener
     	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
-
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+        
+    /**
+     * Tallentaa ohjelman tilan, sill‰ onStopin j‰lkeen prosessi saatetaan keskeytt‰‰ kokonaan.
+     * Android kutsuu t‰t‰ automaattisesti kun ohjelma ei ole en‰‰ aktiivinen.
+     */
     @Override
     protected void onStop() {
     	super.onStop();

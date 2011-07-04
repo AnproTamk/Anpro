@@ -14,7 +14,11 @@ import android.media.AudioManager;
  */
 public class PauseMenuActivity extends Activity implements OnClickListener
 {
-	// TODO: Javadoc-kommentit
+	/**
+	 * Luo Pause-valikon. Android kutsuu tätä automaattisesti.
+	 * 
+	 * @param Bundle Pelin aiempi tila
+	 */
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
@@ -45,7 +49,11 @@ public class PauseMenuActivity extends Activity implements OnClickListener
         resumeButton.setOnClickListener(this);
 	}
 	
-	// TODO: Javadoc-kommentit
+	/**
+	 * Käsittelee nappuloiden painamisen.
+	 * 
+	 * @param View Nappi jota painettiin
+	 */
 	public void onClick(View _v)
 	{
 		if(_v.getId() == R.id.button_main_menu) {
