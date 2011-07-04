@@ -317,7 +317,7 @@ abstract public class AbstractProjectile extends GameObject
 			                
 			                // K‰sitell‰‰n passiivinen vahinko
 			                if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
-			                    wrapper.enemies.get(i).health -= (damageOnRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
+			                    wrapper.enemies.get(i).health -= (damageRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
 			                }
 		            	}
 	            	}

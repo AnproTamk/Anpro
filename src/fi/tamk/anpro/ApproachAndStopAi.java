@@ -49,7 +49,7 @@ public class ApproachAndStopAi extends AbstractAi
         }
         
         
-        // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta
+        // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta ja alkaa ampumaan pelaajaa kohti
         if (distance < 150) {
         	wrapper.enemies.get(parentId).movementSpeed = 0;
         	int coords[] = {(int) wrapper.player.x,(int) wrapper.player.y};
