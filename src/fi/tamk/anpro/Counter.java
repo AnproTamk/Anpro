@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ pistelaskurin toiminnallisuudet.
  */
@@ -33,21 +35,26 @@ public class Counter extends GuiObject
 	public void parseScore(long _score)
 	{
 		if (_score >= value) {
-			int index;
+			int temp = 0;
+			int index = 0;
 			wrapper.guiObjectStates.set(listId, 1);
 			
 			// Tehd‰‰n vertailut, mille pistelaskuriobjektille arvo lasketaan.
 			if (value == 1000) {
 				index = (int) (_score / value);
-				//usedTexture = GLRenderer.TEXTURE_COUNTER + index;
-				//tempScore = (int)(_score - value * index);
 			}
-			else if (value == 100 && _score < 1000) {
-				index = (int) (_score / value);
+			else if (value == 100) {
+				if (_score < 1000) {
+					index = (int) (_score / value);
+				}
+				else {
+					temp = (int) (_score - 1000);
+					index = temp / value;
+				}
 			}
 			else if (value == 10) {
 				if (_score >= 100) {
-					int temp = (int) (_score / 100);
+					temp = (int) (_score / 100);
 					index = (int) (_score - (value * 10 * temp));
 					if (index >= value) {
 						index /= value;
@@ -61,22 +68,24 @@ public class Counter extends GuiObject
 				}
 			}
 			else {
-				int multiplier;
 				if (_score >= 10 && _score < 100) {
-					multiplier = (int) (_score / 10);
-					index = (int) (_score - (10 * multiplier));
+					temp = (int) (_score / 10);
+					index = (int) (_score - (10 * temp));
 				}
 				else if (_score >= 100 && _score < 1000) {
-					//int multiplier = (int) (_score / 100);
+					//int temp = (int) (_score / 100);
 					index = (int) (_score - 100);
 					if (index >= 10) {
-						multiplier = index / 10;
-						index = index - (10 * multiplier);
+						temp = index / 10;
+						index = index - (10 * temp);
 					}
 				}
 				else if (_score >= 1000) {
-					multiplier = (int) (_score / 1000);
-					index = (int) (_score - (1000 * multiplier));
+					temp = (int) (_score / 1000);
+					temp = (int) (_score - 1000 * temp);
+					
+					temp = temp - ((temp / 100) * 100);
+					index = temp - ((temp / 10) * 10);
 				}
 				else {
 					index = (int) (_score / value);
