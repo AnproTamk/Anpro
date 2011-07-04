@@ -147,9 +147,9 @@ public class Enemy extends GameObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-            health -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
+            currentHealth -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
             
-            if (health <= 0) {
+            if (currentHealth <= 0) {
             	triggerDestroyed();
             }
         }
