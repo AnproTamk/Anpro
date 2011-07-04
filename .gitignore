@@ -4,5 +4,5 @@ testi-ignorethis.txt
 gen/
 *.xcf
 *.settings/
-ohjelmakaavio.zargo~
+*.zargo~
 .project
