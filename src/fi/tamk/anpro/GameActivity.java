@@ -7,7 +7,6 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Window;
 import android.view.WindowManager;
 import android.media.AudioManager;
 
@@ -28,7 +27,7 @@ public class GameActivity extends Activity
     private GLRenderer    renderer;
     
     /* Pelis‰ie */
-    private GameThread   gameThread;
+    private GameThread gameThread;
     
     /* Aktiivinen pelitila (asetetaan p‰‰valikossa) */
     public static int activeMode = 1;

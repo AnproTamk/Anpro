@@ -10,8 +10,7 @@ import java.lang.Math;
  */
 public class ApproachAndStopAi extends AbstractAi
 {
-	//private boolean running = false;
-	
+	// Osoitin WeaponManageriin
 	WeaponManager weaponManager;
 	
 	// Aika jolloin tekoäly viimeksi ampui

@@ -29,6 +29,7 @@ abstract public class AbstractMode
     protected GameActivity  gameActivity;
     
     /* Satunnaisgeneraattori */
+    // TODO: Voisiko siirt‰‰ Utility-luokkaan?
     public static Random randomGen = new Random();
     
     /**
