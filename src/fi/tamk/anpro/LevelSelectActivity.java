@@ -23,7 +23,11 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 	private View mainmenuButton;
 	private View storyButton;
 
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+	/**
+	 * Luo kenttävalikon. Android kutsuu tätä automaattisesti.
+	 * 
+	 * @param Bundle Pelin aiempi tila
+	 */
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
@@ -89,14 +93,17 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 		}
 		*/
 
-
-	// TODO: Javadoc-kommentit
+	// TODO: Ei käytetä, toteutus puuttuu ja pitäisi kommentoida
 	public void onItemClick(AdapterView<?> arg0, View _v, int arg2, long arg3)
 	{
-		// TODO: Toteutus puuttuu?
+		// ...
 	}
-
-	// TODO: Javadoc-kommentit
+	
+	/**
+	 * Käsittelee nappuloiden painamisen.
+	 * 
+	 * @param View Nappi jota painettiin
+	 */
 	public void onClick(View v)
 	{
 		// TODO: button_story täytyy saada kommunikoimaan gallerian kanssa
