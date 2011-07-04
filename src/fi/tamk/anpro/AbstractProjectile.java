@@ -288,16 +288,17 @@ abstract public class AbstractProjectile extends GameObject
 	            	if (Math.abs(wrapper.enemies.get(i).x - x) <= Wrapper.gridSize) {
 		            	if (Math.abs(wrapper.enemies.get(i).y - y) <= Wrapper.gridSize) {
 	                
-			                // Lasketaan etäisyys pelaajaan
-			                double distance = Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-			                
-			                // Aiheutetaan osuma/räjähdys, mikäli etäisyys on tarpeeksi pieni
-			                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+			                // Tarkistetaan osuma
+			        		if (GameObject.isColliding(wrapper.enemies.get(i), this)) {
+			        			
+			        			// Asetetaan tila
 			                    wrapper.projectileStates.set(listId, 2);
-			                    
+
+				                // Aiheutetaan osuma
 			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
 			                        wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 			
+			                        // Aiheutetaan räjähdys kohteeessa
 			                    	if (explodeOnTarget) {
 			                		    setUnactive();
 			            	    	    active = false;
@@ -306,6 +307,7 @@ abstract public class AbstractProjectile extends GameObject
 			                    	
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 			                    }
+			                    // Aiheutetaan räjähdys
 			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 			
@@ -316,7 +318,7 @@ abstract public class AbstractProjectile extends GameObject
 			                }
 			                
 			                // Käsitellään passiivinen vahinko
-			                if (distance - wrapper.enemies.get(i).collisionRadius - damageRadius <= 0) {
+			        		if (GameObject.isInDamageRadius(this, wrapper.enemies.get(i))) {
 			                    wrapper.enemies.get(i).health -= (damageRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
 			                }
 		            	}
