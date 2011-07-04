@@ -143,9 +143,12 @@ public class SurvivalMode extends AbstractMode
 	        	tempRandB = randomGen.nextInt(2);
 	        	
 	        	enemies.get(temp).setActive();
+	            //enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+	            //enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+	        	enemies.get(temp).x = spawnPoints[1][tempRandB][0];
+	            enemies.get(temp).y = spawnPoints[1][tempRandB][1];
+	            
 	        	++enemiesLeft;
-	            enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
         	}
         }
         

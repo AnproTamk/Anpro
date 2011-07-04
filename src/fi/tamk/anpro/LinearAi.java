@@ -10,12 +10,12 @@ import java.lang.Math;
  */
 public class LinearAi extends AbstractAi
 {
-    /**
-     * Asettaa tekoälyn aktiiviseksi.
-     * 
-     * @param int Kohteen X-koordinaatti
-     * @param int Kohteen Y-koordinaatti
-     */
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+     * @param int Objektin tunnus piirtolistalla
+     * @param int Objektin tyyppi
+	 */
 	public LinearAi(int _id, int _type) 
 	{
 		super(_id, _type);
@@ -73,21 +73,7 @@ public class LinearAi extends AbstractAi
         }
         
         /* Määritetään kääntymissuunta */
-        double angle2 = angle - wrapper.enemies.get(parentId).direction;
-   
-        if(angle == 0 || angle == 90 || angle == 180 || angle == 270 || angle == 360) {
-        	wrapper.enemies.get(parentId).turningDirection = 0;
-        }
-        
-        if (angle2 >= -10 && angle2 <= 10) {
-            wrapper.enemies.get(parentId).turningDirection = 0;
-        }
-        else if (angle2 > 0 && angle2 <= 180) {
-            wrapper.enemies.get(parentId).turningDirection = 1;
-        }
-        else {
-            wrapper.enemies.get(parentId).turningDirection = 2;
-        }
+        wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
         
         /* Tarkistetaan törmäykset pelaajan kanssa */
         checkCollisionWithPlayer();

@@ -227,6 +227,7 @@ public class XmlReader
                         // Jaetaan waveTemp-muuttujan tiedot yksitt‰isiksi merkeiksi ja tallennetaan string-taulukkoon "wave".
                         String[] wave = null;
                         wave = waveTemp.split("\\,");
+                        int a = 0;
                         
                         // Muunnetaan tietotyypit ja lis‰t‰‰n tiedot waves-taulukkoon.
                         int index = 0;
