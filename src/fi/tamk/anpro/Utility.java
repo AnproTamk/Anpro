@@ -95,4 +95,44 @@ public class Utility
             return 2;
         }
 	}
+    
+    /**
+     * Tarkastaa, tapahtuuko kahden objektin välillä törmäys.
+     * 
+     * @param GameObject Ensimmäinen objekti
+     * @param GameObject Toinen objekti
+     * 
+     * @return boolean Törmäävätkö objektit
+     */
+    public static final boolean isColliding(GameObject _first, GameObject _second)
+    {
+    	float distance = Utility.getDistance(_first.x, _first.y, _second.x, _second.y);
+    	
+        if (distance - _first.collisionRadius - _second.collisionRadius <= 0) {
+           	return true;
+        }
+        else {
+        	return false;
+        }
+    }
+    
+    /**
+     * Tarkastaa, onko kohde vahingon aiheuttaja passiivisen vahingon vaikutusalueella.
+     * 
+     * @param AbstractProjectile Vahingon aiheuttaja
+     * @param GameObject         Kohde
+     * 
+     * @return boolean Vaikuttaako vahinko
+     */
+    public static final boolean isInDamageRadius(AbstractProjectile _attacker, GameObject _target)
+    {
+    	float distance = Utility.getDistance(_attacker.x, _attacker.y, _target.x, _target.y);
+    	
+        if (distance - _attacker.damageRadius - _target.collisionRadius <= 0) {
+           	return true;
+        }
+        else {
+        	return false;
+        }
+    }
 }
