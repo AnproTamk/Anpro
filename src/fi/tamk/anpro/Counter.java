@@ -48,7 +48,7 @@ public class Counter extends GuiObject
 					index = (int) (_score / value);
 				}
 				else {
-					temp = (int) (_score - 1000);
+					temp = (int)_score - (int) ((_score / 1000) * 1000);
 					index = temp / value;
 				}
 			}
@@ -94,7 +94,7 @@ public class Counter extends GuiObject
 			}
 			
 			// M‰‰ritet‰‰n halutun kuvan tunnus ja laitetaan se muuttujaan.
-			usedTexture = GLRenderer.TEXTURE_COUNTER + (int)index;
+			usedTexture = GLRenderer.TEXTURE_COUNTER + index;
 		}
 		else {
 			wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
