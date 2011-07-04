@@ -45,7 +45,6 @@ public class GameActivity extends Activity
         super.onCreate(_savedInstanceState);
         
         // Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
