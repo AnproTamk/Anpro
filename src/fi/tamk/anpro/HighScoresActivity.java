@@ -15,7 +15,11 @@ import android.media.AudioManager;
  */
 public class HighScoresActivity extends Activity implements OnClickListener
 {
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+	/**
+	 * Luo Highscores-valikon. Android kutsuu tätä automaattisesti.
+	 * 
+	 * @param Bundle Pelin aiempi tila
+	 */
 	@Override
 	protected void onCreate(Bundle _savedInstanceState)
 	{
@@ -49,7 +53,11 @@ public class HighScoresActivity extends Activity implements OnClickListener
         mainmenuButton.setOnClickListener(this); 
 	}
 	
-	// TODO: Javadoc-kommentit
+	/**
+	 * Käsittelee nappuloiden painamisen.
+	 * 
+	 * @param View Nappi jota painettiin
+	 */
 	public void onClick(View _v)
 	{
     	switch(_v.getId()) {

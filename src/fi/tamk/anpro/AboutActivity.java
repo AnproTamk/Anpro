@@ -10,7 +10,11 @@ import android.media.AudioManager;
  */
 public class AboutActivity extends Activity
 {
-	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
+	/**
+	 * Luo About-popupin. Android kutsuu tätä automaattisesti.
+	 * 
+	 * @param Bundle Pelin aiempi tila
+	 */
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
