@@ -8,6 +8,7 @@ package fi.tamk.anpro;
  */
 public class SquigglyAi extends AbstractAi
 {
+	private long lastDirectionUpdate;
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -23,10 +24,112 @@ public class SquigglyAi extends AbstractAi
      * Käsittelee tekoälyn.
      */
 	@Override
-	public void handleAi() {
-		// TODO: Toteutus puuttuu
-        
-        /* Tarkistetaan törmäykset pelaajan kanssa */
-        checkCollisionWithPlayer();
-	}
+    public final void handleAi()
+	{
+    		
+            /* Verrataan pelaajan sijaintia vihollisen sijaintiin */
+            double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - wrapper.player.x));
+            double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - wrapper.player.y));
+            
+            if(lastDirectionUpdate == 0)
+            {
+            	lastDirectionUpdate = android.os.SystemClock.uptimeMillis();
+            	/* Määritetään objektien välinen kulma */
+                double angle;
+                
+                // Jos vihollinen on pelaajan vasemmalla puolella:
+                if (wrapper.enemies.get(parentId).x < wrapper.player.x) {
+                    // Jos vihollinen on pelaajan alapuolella:
+                    if (wrapper.enemies.get(parentId).y < wrapper.player.y) {
+                        angle = (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                    }
+                    // Jos vihollinen on pelaajan yläpuolella:
+                    else if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                        angle = 360 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                    }
+                    else {
+                        angle = 0;
+                    }
+                }
+                // Jos vihollinen on pelaajan oikealla puolella:
+                else if (wrapper.enemies.get(parentId).x > wrapper.player.x) {
+                    // Jos vihollinen on pelaajan yläpuolella:
+                    if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                        angle = 180 + (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                    }
+                    // Jos vihollinen on pelaajan alapuolella:
+                    else if (wrapper.enemies.get(parentId).y < wrapper.player.y) {
+                        angle = 180 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                    }
+                    else {
+                        angle = 180;
+                    }
+                }
+                // Jos vihollinen on suoraan pelaajan ylä- tai alapuolella
+                else {
+                    if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                        angle = 270;
+                    }
+                    else {
+                        angle = 90;
+                    }
+                }
+                
+                wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+            }
+            
+            else {
+        		long currentTime = android.os.SystemClock.uptimeMillis();
+            	
+            	if (currentTime - lastDirectionUpdate >= 700) {
+            		lastDirectionUpdate = currentTime;
+            		/* Määritetään objektien välinen kulma */
+                    double angle;
+                    
+                    // Jos vihollinen on pelaajan vasemmalla puolella:
+                    if (wrapper.enemies.get(parentId).x < wrapper.player.x) {
+                        // Jos vihollinen on pelaajan alapuolella:
+                        if (wrapper.enemies.get(parentId).y < wrapper.player.y) {
+                            angle = (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                        }
+                        // Jos vihollinen on pelaajan yläpuolella:
+                        else if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                            angle = 360 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                        }
+                        else {
+                            angle = 0;
+                        }
+                    }
+                    // Jos vihollinen on pelaajan oikealla puolella:
+                    else if (wrapper.enemies.get(parentId).x > wrapper.player.x) {
+                        // Jos vihollinen on pelaajan yläpuolella:
+                        if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                            angle = 180 + (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                        }
+                        // Jos vihollinen on pelaajan alapuolella:
+                        else if (wrapper.enemies.get(parentId).y < wrapper.player.y) {
+                            angle = 180 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
+                        }
+                        else {
+                            angle = 180;
+                        }
+                    }
+                    // Jos vihollinen on suoraan pelaajan ylä- tai alapuolella
+                    else {
+                        if (wrapper.enemies.get(parentId).y > wrapper.player.y) {
+                            angle = 270;
+                        }
+                        else {
+                            angle = 90;
+                        }
+                    }
+                    
+                    wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+            	}
+            	
+        	}
+
+            /* Tarkistetaan törmäykset pelaajan kanssa */
+            checkCollisionWithPlayer();
+    }
 }
