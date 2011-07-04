@@ -169,7 +169,7 @@ public class Enemy extends GameObject
      * @param int Tekoälyn tunnus
      * @param int Taso
      */
-    public final void setStats(int _health, int _speed, int _attack, int _defence, int _ai, int _rank)
+    public final void setStats(int _health, int _defence, int _speed, int _attack, int _ai, int _rank)
     {
         // Tallennetaan uudet tiedot
         health     = _health;
@@ -177,7 +177,7 @@ public class Enemy extends GameObject
         attack     = _attack;
         defence    = _defence;
         rank       = _rank;
-
+        
         // Otetaan uusi tekoäly käyttöön
         ai = null;
         

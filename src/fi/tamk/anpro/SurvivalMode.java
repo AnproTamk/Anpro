@@ -123,11 +123,11 @@ public class SurvivalMode extends AbstractMode
             
             for (int index = enemies.size()-1; index >= 0; --index) {
                 // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
-                rankTemp = enemies.get(index).rank + 1;
-                if (rankTemp <= 5) {
+            	if (enemies.get(index).rank <= 4) {
+	                rankTemp = enemies.get(index).rank;
                     enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
-                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp);
-                }
+                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
+            	}
             }
         }
         
