@@ -18,17 +18,18 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     {
         super(_ai, _userType);
 
-        weaponId = 2;
+        projectileId = 2;
 
-        /* Haetaan animaatioiden pituudet */
+        // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS];
 
         for (int i = 0; i < GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS; ++i) {
-            if (GLRenderer.projectileAnimations[weaponId][i] != null) {
-                animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
+            if (GLRenderer.projectileAnimations[projectileId][i] != null) {
+                animationLength[i] = GLRenderer.projectileAnimations[projectileId][i].length;
             }
         }
 
+        // Määritetään ammuksen asetukset
         setMovementSpeed(0.0f);
         collisionRadius  = (int)(200 * Options.scale);
         damageOnTouch    = 40;

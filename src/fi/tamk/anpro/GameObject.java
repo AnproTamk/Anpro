@@ -8,19 +8,18 @@ package fi.tamk.anpro;
  */
 abstract public class GameObject extends GfxObject
 {
-    /* Objektin tiedot */
+    /* Objektin tiedot (kaikille) */
     public int speed;
+    
+    /* Objektin tiedot (pelaajalle, vihollisille ja liittolaisille) */
     public int defence;
     public int health;
+    public int currentHealth;
     	
     /* Vakioita */
     // Kääntymissuunnat
     public static final int TO_THE_LEFT  = 1;
     public static final int TO_THE_RIGHT = 2;
-    
-    // Törmäystunnistus
-    public static final int NO_COLLISION     = 0;
-    public static final int CIRCLE_COLLISION = 1;
     
     // Törmäystyypit
     public static final int COLLISION_WITH_PROJECTILE = 10;
@@ -32,11 +31,7 @@ abstract public class GameObject extends GfxObject
     public static final int SELECTABLE   = 1;
     
     /* Törmäystunnistus */
-    public int collisionType   = 0;
-    public static int collisionRadius = 0;
-    
-    /* Valinta */
-    public int selectionRadius = 0;
+    public int collisionRadius = 0;
     
     /* Lineaarinen liike */
     protected int movementSpeed;            // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
@@ -76,16 +71,16 @@ abstract public class GameObject extends GfxObject
     abstract public void setActive();
     
     /**
-     * Määrittää objektin epäaktiiviseksi.
+     * Määrittää objektin epäaktiiviseksi. Sammuttaa myös tekoälyn jos se on tarpeen.
      */
     abstract public void setUnactive();
 
     /**
-     * Käsittelee räjähdyksien vaikutukset pelaajaan.
+     * Käsittelee räjähdyksien vaikutukset objektiin.
      * 
      * @param int Räjähdyksen aiheuttama vahinko
      */
-    abstract public void triggerImpact(int _damage);
+    public void triggerImpact(int _damage) { }
 
     /**
      * Käsittelee törmäyksien vaikutukset objektiin.
@@ -94,7 +89,7 @@ abstract public class GameObject extends GfxObject
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
-    abstract public void triggerCollision(int _eventType, int _damage, int _armorPiercing);
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
     
     /**
      * Päivittää liikkumisen ja kääntymisen.
@@ -189,22 +184,23 @@ abstract public class GameObject extends GfxObject
     }
     
     /**
-     * Tarkastaa, tapahtuuko objektin ja kohteen välillä törmäys.
+     * Tarkastaa, tapahtuuko kahden objektin välillä törmäys.
      * 
-     * @param float Objektin X-koordinaatti
-     * @param float Objektin Y-koordinaatti
-     * @param int Kohteen X-koordinaatti
-     * @param int Kohteen Y-koordinaatti
+     * @param GameObject Ensimmäinen objekti
+     * @param GameObject Toinen objekti
      * 
-     * @return boolean Onko törmäys totta
+     * @return boolean Törmäävätkö objektit
      */
-    public final boolean isColliding(float objectX, float objectY, int targetX, int targetY)
+    public final boolean isColliding(GameObject _first, GameObject _second)
     {
-    	float distance = Utility.getDistance(objectX, objectY, targetX, targetY);
-	        if (distance - Enemy.collisionRadius - Player.collisionRadius <= 0) {
-	           	return true;
-	        }
-	    return false;
+    	float distance = Utility.getDistance(_first.x, _first.y, _second.x, _second.y);
+    	
+        if (distance - _first.collisionRadius - _second.collisionRadius <= 0) {
+           	return true;
+        }
+        else {
+        	return false;
+        }
     }
 }
 

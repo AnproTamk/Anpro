@@ -12,8 +12,6 @@ import android.util.DisplayMetrics;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
- * 
- * @implements Renderer
  */
 public class GLRenderer implements Renderer
 {
@@ -274,23 +272,38 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         /* Ladataan pelaajan grafiikat */
-        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex0); 
+        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex_0); 
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
 
         /* Ladataan vihollisten grafiikat */
         // Enemy #1
-        enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex0);
+        enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex_0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
         // Enemy #2
-        enemyTextures[1][0]   = new Texture(_gl, context, R.drawable.enemy2_tex0);
+        enemyTextures[1][0]   = new Texture(_gl, context, R.drawable.enemy2_tex_0);
         enemyAnimations[1][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[1][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #3
+        enemyTextures[2][0]   = new Texture(_gl, context, R.drawable.enemy3_tex_0);
+        enemyAnimations[2][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[2][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #4
+        enemyTextures[3][0]   = new Texture(_gl, context, R.drawable.enemy4_tex_0);
+        enemyAnimations[3][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[3][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        
+        // Enemy #4
+        enemyTextures[4][0]   = new Texture(_gl, context, R.drawable.enemy5_tex_0);
+        enemyAnimations[4][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        enemyAnimations[4][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
 
         /* Ladataan ammusten grafiikat */
         // Vakioase
-        projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex0);
+        projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex_0);
         projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
         
         // EMP
@@ -302,58 +315,58 @@ public class GLRenderer implements Renderer
         projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
         
         // Bomb
-        projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_tex0);
+        projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
         projectileAnimations[3][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
         
         // Missile
-        projectileTextures[4][0]   = new Texture(_gl, context, R.drawable.projectilemissile_tex0);
+        projectileTextures[4][0]   = new Texture(_gl, context, R.drawable.projectilemissile_tex_0);
         projectileAnimations[4][3] = new Animation(_gl, context, resources, "projectilemissile_destroy", 1);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
-        hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex0);
-        hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex1);
+        hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex_0);
+        hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex_1);
         hudAnimations[0] = new Animation(_gl, context, resources, "button_press", 9);
         
         // Joystick
-        hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick);
+        hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
         
         // Elämäpalkki
-        hudTextures[3]  = new Texture(_gl, context, R.drawable.health_bar);
-        hudTextures[4]  = new Texture(_gl, context, R.drawable.health_bar_2);
-        hudTextures[5]  = new Texture(_gl, context, R.drawable.health_bar_3);
-        hudTextures[6]  = new Texture(_gl, context, R.drawable.health_bar_4);
-        hudTextures[7]  = new Texture(_gl, context, R.drawable.health_bar_5);
-        hudTextures[8]  = new Texture(_gl, context, R.drawable.health_bar_6);
-        hudTextures[9]  = new Texture(_gl, context, R.drawable.health_bar_7);
-        hudTextures[10] = new Texture(_gl, context, R.drawable.health_bar_8);
-        hudTextures[11] = new Texture(_gl, context, R.drawable.health_bar_9);
-        hudTextures[12] = new Texture(_gl, context, R.drawable.health_bar_10);
-        hudTextures[13] = new Texture(_gl, context, R.drawable.health_bar_11);
+        hudTextures[3]  = new Texture(_gl, context, R.drawable.healthbar_tex_0);
+        hudTextures[4]  = new Texture(_gl, context, R.drawable.healthbar_tex_1);
+        hudTextures[5]  = new Texture(_gl, context, R.drawable.healthbar_tex_2);
+        hudTextures[6]  = new Texture(_gl, context, R.drawable.healthbar_tex_3);
+        hudTextures[7]  = new Texture(_gl, context, R.drawable.healthbar_tex_4);
+        hudTextures[8]  = new Texture(_gl, context, R.drawable.healthbar_tex_5);
+        hudTextures[9]  = new Texture(_gl, context, R.drawable.healthbar_tex_6);
+        hudTextures[10] = new Texture(_gl, context, R.drawable.healthbar_tex_7);
+        hudTextures[11] = new Texture(_gl, context, R.drawable.healthbar_tex_8);
+        hudTextures[12] = new Texture(_gl, context, R.drawable.healthbar_tex_9);
+        hudTextures[13] = new Texture(_gl, context, R.drawable.healthbar_tex_10);
         
         // Cooldown-tekstuurit
-        hudTextures[14] = new Texture(_gl, context, R.drawable.icon_tex9);
-        hudTextures[15] = new Texture(_gl, context, R.drawable.icon_tex8);
-        hudTextures[16] = new Texture(_gl, context, R.drawable.icon_tex7);
-        hudTextures[17] = new Texture(_gl, context, R.drawable.icon_tex6);
-        hudTextures[18] = new Texture(_gl, context, R.drawable.icon_tex5);
-        hudTextures[19] = new Texture(_gl, context, R.drawable.icon_tex4);
-        hudTextures[20] = new Texture(_gl, context, R.drawable.icon_tex3);
-        hudTextures[21] = new Texture(_gl, context, R.drawable.icon_tex2);
-        hudTextures[22] = new Texture(_gl, context, R.drawable.icon_tex1);
-        hudTextures[23] = new Texture(_gl, context, R.drawable.icon_tex0);
+        hudTextures[14] = new Texture(_gl, context, R.drawable.cooldown_tex_9);
+        hudTextures[15] = new Texture(_gl, context, R.drawable.cooldown_tex_8);
+        hudTextures[16] = new Texture(_gl, context, R.drawable.cooldown_tex_7);
+        hudTextures[17] = new Texture(_gl, context, R.drawable.cooldown_tex_6);
+        hudTextures[18] = new Texture(_gl, context, R.drawable.cooldown_tex_5);
+        hudTextures[19] = new Texture(_gl, context, R.drawable.cooldown_tex_4);
+        hudTextures[20] = new Texture(_gl, context, R.drawable.cooldown_tex_3);
+        hudTextures[21] = new Texture(_gl, context, R.drawable.cooldown_tex_2);
+        hudTextures[22] = new Texture(_gl, context, R.drawable.cooldown_tex_1);
+        hudTextures[23] = new Texture(_gl, context, R.drawable.cooldown_tex_0);
         
         //Counter-tekstuurit
-        hudTextures[24] = new Texture(_gl, context, R.drawable.num_0);
-        hudTextures[25] = new Texture(_gl, context, R.drawable.num_1);
-        hudTextures[26] = new Texture(_gl, context, R.drawable.num_2);
-        hudTextures[27] = new Texture(_gl, context, R.drawable.num_3);
-        hudTextures[28] = new Texture(_gl, context, R.drawable.num_4);
-        hudTextures[29] = new Texture(_gl, context, R.drawable.num_5);
-        hudTextures[30] = new Texture(_gl, context, R.drawable.num_6);
-        hudTextures[31] = new Texture(_gl, context, R.drawable.num_7);
-        hudTextures[32] = new Texture(_gl, context, R.drawable.num_8);
-        hudTextures[33] = new Texture(_gl, context, R.drawable.num_9);
+        hudTextures[24] = new Texture(_gl, context, R.drawable.counter_text_0);
+        hudTextures[25] = new Texture(_gl, context, R.drawable.counter_text_1);
+        hudTextures[26] = new Texture(_gl, context, R.drawable.counter_text_2);
+        hudTextures[27] = new Texture(_gl, context, R.drawable.counter_text_3);
+        hudTextures[28] = new Texture(_gl, context, R.drawable.counter_text_4);
+        hudTextures[29] = new Texture(_gl, context, R.drawable.counter_text_5);
+        hudTextures[30] = new Texture(_gl, context, R.drawable.counter_text_6);
+        hudTextures[31] = new Texture(_gl, context, R.drawable.counter_text_7);
+        hudTextures[32] = new Texture(_gl, context, R.drawable.counter_text_8);
+        hudTextures[33] = new Texture(_gl, context, R.drawable.counter_text_9);
         
         /* Merkitään kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;

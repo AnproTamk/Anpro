@@ -14,11 +14,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
 import android.widget.Toast;
 
+/**
+ * Sisältää StoryModen kenttävalikon toteutuksen. Kenttävalikossa pelaaja voi
+ * valita läpipelaamistaan kentistä haluamansa ja pelata sen uudestaan.
+ */
 public class LevelSelectActivity extends Activity implements OnItemClickListener, OnClickListener
 {
+	// Valikon napit
 	private View mainmenuButton;
 	private View storyButton;
-	
+
+	// TODO: Javadoc-kommentit (voi kopioida GameActivitysta)
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
@@ -44,8 +50,10 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 	    Gallery g = (Gallery) findViewById(R.id.gallery);
 	    g.setAdapter(new ImageAdapter(this));
 	    
+	    // TODO: Kommentoidut kohdat tärkeitä?
 	    g.setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView parent, View v, int position, long id) {
+	        @SuppressWarnings("rawtypes")
+			public void onItemClick(AdapterView parent, View v, int position, long id) {
         /*	
 	        	// TÄHÄN KLIKKAUKSESTA AIHEUTUVA TOIMINTA ! !
 	        	switch(v.getId()) {
@@ -84,13 +92,16 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 		*/
 
 
-	public void onItemClick(AdapterView<?> arg0, View _v, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		
+	// TODO: Javadoc-kommentit
+	public void onItemClick(AdapterView<?> arg0, View _v, int arg2, long arg3)
+	{
+		// TODO: Toteutus puuttuu?
 	}
 
-	public void onClick(View v) {
-		// TODO button_story täytyy saada kommunikoimaan gallerian kanssa
+	// TODO: Javadoc-kommentit
+	public void onClick(View v)
+	{
+		// TODO: button_story täytyy saada kommunikoimaan gallerian kanssa
 		switch(v.getId()) {
     	case R.id.button_story:
     		SoundManager.playSound(2, 1);

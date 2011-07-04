@@ -26,9 +26,9 @@ public class TouchManager
     private int     yClickFirstBorder;
     private int	    yClickSecondBorder;
     private int	    yClickThirdBorder;
-    private int     touchMarginal   = 32; // Alue, jonka kosketus antaa anteeksi hyv‰ksy‰kseen kosketuksen pelk‰ksi painallukseksi
+    private int     touchMarginal      = 32; // Alue, jonka kosketus antaa anteeksi hyv‰ksy‰kseen kosketuksen pelk‰ksi painallukseksi
     private int[][] touchPath;
-    private int     pointerCount    = 1;  // Indeksi motioneventin pisteiden m‰‰r‰lle
+    private int     pointerCount       = 1;  // Indeksi motioneventin pisteiden m‰‰r‰lle
 
     /* Kuvan tiedot */
     private int screenWidth;  // Ruudun leveys
@@ -324,6 +324,7 @@ public class TouchManager
      * 
      * @param int X-koordinaatti
      * @param int Y-koordinaatti
+     * @param int Reitin pisteen indeksi
      */
     private final void setPathPoint(int _x, int _y, int _index)
     {

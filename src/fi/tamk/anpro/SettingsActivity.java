@@ -9,7 +9,16 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.media.AudioManager;
 
-public class SettingsActivity extends PreferenceActivity {
+/**
+ * Sis‰lt‰‰ Options-valikon toteutuksen.
+ * 
+ * @deprecated
+ * 
+ *
+ */
+// TODO: Turha luokka?
+public class SettingsActivity extends PreferenceActivity
+{
 	private boolean particleState;
 	private boolean musicState;
 	private boolean soundState;

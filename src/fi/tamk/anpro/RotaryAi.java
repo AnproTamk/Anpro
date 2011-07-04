@@ -8,8 +8,6 @@ import java.lang.Math;
  * kiert‰v‰lle radalle ja pyˆrii pelaajan ymp‰ri kunnes pelaaja tuhoaa vihollisen.
  * 
  * K‰ytet‰‰n ainoastaan vihollisille.
- * 
- * @extends AbstractAi
  */
 public class RotaryAi extends AbstractAi
 {
@@ -26,7 +24,6 @@ public class RotaryAi extends AbstractAi
     
     /**
      * K‰sittelee teko‰lyn.
-     * @return 
      */
     @Override
     public final void handleAi()
@@ -57,9 +54,6 @@ public class RotaryAi extends AbstractAi
         checkpoints[7][0] = 150;
         checkpoints[7][1] = -150;
         
-    	
-        
-
         /* M‰‰ritet‰‰n objektien v‰linen kulma */
         double angle;
         
@@ -68,7 +62,7 @@ public class RotaryAi extends AbstractAi
         {
         	double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - checkpoints[i][0]));
             double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - checkpoints[i][1]));
-            double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
+            //double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
             
 	        if (wrapper.enemies.get(parentId).x < checkpoints[i][0]) {
 	            // Jos vihollinen on pelaajan alapuolella:
@@ -124,6 +118,8 @@ public class RotaryAi extends AbstractAi
 	            wrapper.enemies.get(parentId).turningDirection = 2;
 	        }
         }
-
+        
+        /* Tarkistetaan tˆrm‰ykset pelaajan kanssa */
+        checkCollisionWithPlayer();
     }
 }

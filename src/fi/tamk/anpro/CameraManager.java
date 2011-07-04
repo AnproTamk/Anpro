@@ -1,14 +1,14 @@
 package fi.tamk.anpro;
 
 /**
- * Hallitsee kameraa tallentamalla sen tiedot.
+ * Hallitsee pelin kameran tilan ja sen liikuttamisen.
  */
 public class CameraManager
 {
 	/* Kameran sijainti */
-	public int x = 0; // Kameran x-koordinaatti
-	public int y = 0; // Kameran y-koordinaatti
-	public int zoom;  // Kameran zoomi
+	public int x    = 0; // Kameran x-koordinaatti
+	public int y    = 0; // Kameran y-koordinaatti
+	public int zoom = 0; // Kameran zoomi
 	
 	/* Kameran liikkuminen */
 	public int speed; 		 // Kameran nopeus

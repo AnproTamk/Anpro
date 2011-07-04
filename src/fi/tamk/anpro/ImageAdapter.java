@@ -8,21 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
+// TODO: Javadoc-kommentit ym. pienemmät kommentit
 public class ImageAdapter extends BaseAdapter
 {
     int galleryItemBackground;
     private Context mContext;
 
     public static Integer[] mImageIds = {
-            R.drawable.player_tex0,
+            R.drawable.player_tex_0,
             R.drawable.icon,
-            R.drawable.enemy1_tex0,
+            R.drawable.enemy1_tex_0,
             R.drawable.icon,
-            R.drawable.projectilelaser_tex0,
+            R.drawable.projectilelaser_tex_0,
             R.drawable.icon
     };
 
-    public ImageAdapter(Context c) {
+    public ImageAdapter(Context c)
+    {
         mContext = c;
         TypedArray a = c.obtainStyledAttributes(R.styleable.LevelSelectActivity);
         galleryItemBackground = a.getResourceId(
@@ -30,19 +32,23 @@ public class ImageAdapter extends BaseAdapter
         a.recycle();
     }
 
-    public int getCount() {
+    public int getCount()
+    {
         return mImageIds.length;
     }
 
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return position;
     }
 
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ImageView i = new ImageView(mContext);
 
         i.setImageResource(mImageIds[position]);

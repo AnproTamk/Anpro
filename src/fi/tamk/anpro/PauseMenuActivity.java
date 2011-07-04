@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-import fi.tamk.anpro.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,12 +8,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.media.AudioManager;
 
-
-public class PauseMenuActivity extends Activity implements OnClickListener {
-
+/**
+ * Sis‰lt‰‰ Pause-valikon toteutuksen. Pause-valikko tunnistaa pelitilan ja
+ * tarjoaa toiminnot sen mukaisesti.
+ */
+public class PauseMenuActivity extends Activity implements OnClickListener
+{
+	// TODO: Javadoc-kommentit
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
+		// TODO: Pelitilan voi tarkistaa joko GameActivitysta (pit‰isi siirt‰‰ Optionsiin?)
 		// if(storyMode == true) {
 			super.onCreate(_savedInstanceState);
 			setContentView(R.layout.pausemenu);
@@ -41,8 +45,10 @@ public class PauseMenuActivity extends Activity implements OnClickListener {
         resumeButton.setOnClickListener(this);
 		
 	}
-
-	public void onClick(View _v) {
+	
+	// TODO: Javadoc-kommentit
+	public void onClick(View _v)
+	{
 		if(_v.getId() == R.id.button_main_menu) {
 			Intent i_mainmenu = new Intent(this, MainActivity.class);
     		startActivity(i_mainmenu);

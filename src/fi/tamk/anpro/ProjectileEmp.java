@@ -18,18 +18,19 @@ public class ProjectileEmp extends AbstractProjectile
     {
         super(_ai, _userType);
     
-        weaponId = 1;
+        projectileId = 1;
         
-        /* Haetaan animaatioiden pituudet */
+        // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS];
         
         for (int i = 0; i < GLRenderer.AMOUNT_OF_PROJECTILE_ANIMATIONS; ++i) {
-            if (GLRenderer.projectileAnimations[weaponId][i] != null) {
-                animationLength[i] = GLRenderer.projectileAnimations[weaponId][i].length;
+            if (GLRenderer.projectileAnimations[projectileId][i] != null) {
+                animationLength[i] = GLRenderer.projectileAnimations[projectileId][i].length;
             }
         }
         
-        movementSpeed   = 0;
+        // Määritetään ammuksen asetukset
+        setMovementSpeed(0.0f);
         collisionRadius = (int)(200 * Options.scale);
         damageOnTouch   = 0;
     }

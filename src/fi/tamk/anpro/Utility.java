@@ -34,6 +34,8 @@ public class Utility
 	 */
 	public static int getAngle(int _firstX, int _firstY, int _secondX, int _secondY)
 	{
+		// TODO: Mahdollisuus l‰hett‰‰ float-muuttujia?
+		
 		// Valitaan suunta
         float xDiff = Math.abs((float)(_firstX - _secondX));
         float yDiff = Math.abs((float)(_firstY - _secondY));

@@ -7,7 +7,7 @@ package fi.tamk.anpro;
  */
 public class WeaponEmp extends AbstractWeapon
 {
-    // Ammukset
+    // Ammus
     private ProjectileEmp projectile;
 
     /**

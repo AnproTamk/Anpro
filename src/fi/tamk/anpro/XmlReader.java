@@ -88,16 +88,18 @@ public class XmlReader
         if (GameActivity.activeMode == GameActivity.SURVIVAL_MODE) {
         	try {
                 hud = context.getResources().getXml(R.xml.class.getField("hud_survival_" + Options.screenWidth + "_" + Options.screenHeight).getInt(getClass()));
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
+            	// TODO: Käsittele virhe
                 e.printStackTrace();
             }
-        		//								   .class.getField("level_"+_id).getInt(getClass()));
-            	//hud = context.getResources().getXml(R.xml."hud_survival_");
         }
         else {
             hud = context.getResources().getXml(R.xml.hud_story);
         }
 
+        // TODO: Funktio ei saa edetä tiedoston lukemiseen, mikäli tiedoston avaaminen ylempänä epäonnistui.
+        
         // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         try {
             while (hud.getEventType() != XmlPullParser.END_DOCUMENT) {
@@ -110,7 +112,7 @@ public class XmlReader
                                                     Integer.parseInt(hud.getAttributeValue(null, "y"))));
                     }
                     else if (hud.getName().equals("counter")) {
-                        _hud.counter.add(new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
+                        Hud.counters.add(new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
                                 				     Integer.parseInt(hud.getAttributeValue(null, "y")),
                                 				     Integer.parseInt(hud.getAttributeValue(null, "value"))));
                     }
@@ -145,7 +147,7 @@ public class XmlReader
      * 
      * @return ArrayList<Integer> Vihollistyyppien tiedot
      */
-    public final ArrayList<Integer> readRanks()
+    public final ArrayList<Integer> readEnemyRanks()
     {
         XmlResourceParser ranks = null;
         ArrayList<Integer> enemyStats = new ArrayList<Integer>();
@@ -170,10 +172,9 @@ public class XmlReader
                 
                 ranks.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
             e.printStackTrace();
         }
         
@@ -189,6 +190,7 @@ public class XmlReader
     public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
     {
         XmlResourceParser rsm = null;
+        
         // Haetaan oikea xml-tiedosto resoluution perusteella
         rsm = context.getResources().getXml(R.xml.survivalmode);
 
@@ -245,10 +247,9 @@ public class XmlReader
                 
                 rsm.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
             e.printStackTrace();
         }
         
@@ -297,8 +298,9 @@ public class XmlReader
             }
         } catch (XmlPullParserException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
             e.printStackTrace();
         }
     }*/
@@ -326,10 +328,9 @@ public class XmlReader
                 
                 rsg.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
             e.printStackTrace();
         }*/
     }
