@@ -289,7 +289,7 @@ abstract public class AbstractProjectile extends GameObject
 		            	if (Math.abs(wrapper.enemies.get(i).y - y) <= Wrapper.gridSize) {
 	                
 			                // Tarkistetaan osuma
-			        		if (GameObject.isColliding(wrapper.enemies.get(i), this)) {
+			        		if (Utility.isColliding(wrapper.enemies.get(i), this)) {
 			        			
 			        			// Asetetaan tila
 			                    wrapper.projectileStates.set(listId, 2);
@@ -318,7 +318,7 @@ abstract public class AbstractProjectile extends GameObject
 			                }
 			                
 			                // Käsitellään passiivinen vahinko
-			        		if (GameObject.isInDamageRadius(this, wrapper.enemies.get(i))) {
+			        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
 			                    wrapper.enemies.get(i).health -= (damageRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
 			                }
 		            	}
