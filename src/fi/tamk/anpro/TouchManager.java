@@ -84,11 +84,7 @@ public class TouchManager
         	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
         	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
         }
-         
-        Log.v("TouchManager", "FirstBorder="   + yClickFirstBorder +
-        	                  " SecondBorder=" + yClickSecondBorder +
-        	                  " ThirdBorder="  + yClickThirdBorder);
-        
+
         // Käsitellään kosketustapahtumat
         setSurfaceListeners();
         
@@ -110,20 +106,13 @@ public class TouchManager
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     xClickOffset = (int) event.getX();
                     yClickOffset = screenHeight - (int) event.getY();
-                    
-                    //Log.v("TouchManager", "**ACTION_DOWN** xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset +
-                    //						" getX=" + event.getX() + " getY=" + event.getY());
-                    
-                    // Log.v("TouchManager", "xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset + "rawX=" + event.getRawX() + " rawY=" + event.getRawY());
-                    // Log.v("TouchManager", "getX()=" + event.getX() + " getY()" + event.getY() + " rawX=" + event.getRawX() + " rawY=" + event.getRawY());
-                    //Log.v("TouchManager", "**ACTION_DOWN** xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset);
+
                     // Oikean reunan napit
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
                     	yClickOffset < yClickFirstBorder) {
                     	
                         // Oikean reunan alin nappula
                         if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
-                        	Log.v("TouchManager", "**Oikean reunan alin nappula**");
                             // ***** OIKEAN REUNAN ALIN NAPPULA *****
                             hud.triggerClick(Hud.BUTTON_3);
                         }
@@ -131,14 +120,12 @@ public class TouchManager
                         // Oikean reunan keskimmäinen nappula
                         else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
                             // ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
-                        	Log.v("TouchManager", "**Oikean reunan keskimmäinen nappula**");
                             hud.triggerClick(Hud.BUTTON_2);
                         }
 
                         // Oikean reunan ylin nappula
                         else if (yClickOffset < yClickFirstBorder && yClickOffset > yClickSecondBorder) {
                             // ***** OIKEAN REUNAN YLIN NAPPULA *****
-                        	Log.v("TouchManager", "**Oikean reunan ylin nappula**");
                             hud.triggerClick(Hud.BUTTON_1);
                         }
                     }
@@ -149,13 +136,11 @@ public class TouchManager
                         // Vasemman reunan alempi nappula
                         if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
                             // ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
-                        	Log.v("TouchManager", "**Vasemman reunan alempi nappula**");
                             hud.triggerClick(Hud.SPECIAL_2);
                         }
                         // Vasemman reunan ylempi nappula
                         else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
                             // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
-                        	Log.v("TouchManager", "**Vasemman reunan ylempi nappula**");
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
                     }
@@ -164,6 +149,7 @@ public class TouchManager
                         weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()), Wrapper.CLASS_TYPE_PLAYER, 
                         						   wrapper.player.x, wrapper.player.y);
                         // ***** PELIKENTTÄ *****
+                        
                     }
 
                     if (!joystickInUse) {
@@ -184,10 +170,7 @@ public class TouchManager
                     	/* Ajasta riippumattoman kosketuspolun seuranta */
                     	xClickOffset = (int) event.getX() - screenWidth / 2;
                     	yClickOffset = screenHeight / 2 - (int) event.getY();
-                    		
-                    	//Log.v("TouchManager", "**ACTION_MOVE** xClickOffset=" + xClickOffset + "yClickOffset=" + yClickOffset +
-                        //         		      " pointerCount=" + pointerCount);
-                    		
+
                     	// Tarkistetaan onko seuraava kosketuskohta 8px päässä edellisestä kosketuskohdasta
                     	if (pointerCount < 10) {
                     		if (Math.abs(touchPath[pointerCount - 1][0] - xClickOffset) >= 8 || Math.abs(touchPath[pointerCount - 1][1] - yClickOffset) >= 8) {
@@ -273,20 +256,20 @@ public class TouchManager
                     joystickInUse = false;
                     startTime = 0;
                     
-                    /* Lähetetään ja nollataan kosketuspolun indeksointi */
-                    for (int i = 0; i < 10; i++) {
-                    	// Tulostaa taulukon LogCatiin
-                		Log.v("TouchManager", "touchPath[" + i + "][" + touchPath[i][0] + "][" + touchPath[i][1] + "]");
+                    /* Lähetetään ja nollataan kosketuspolun indeksointi jos oikea ase on valittuna */
+                    if (weaponManager.isUsingMotionEvents) {
+                    	for (int i = 0; i < 10; i++) {
+                    		// Tulostaa taulukon LogCatiin
+                			//Log.v("TouchManager", "touchPath[" + i + "][" + touchPath[i][0] + "][" + touchPath[i][1] + "]");
+ 
+                			//weaponManager.triggerMotionShoot(touchPath);
                 		
-                		weaponManager.triggerMotionShoot(touchPath);
-                		
-                		touchPath[i][0] = 0;
-                		touchPath[i][1] = 0;
-                	}
-                    pointerCount = 1;
-                    
-                    Log.v("TouchManager", "**ACTION_UP**");// + xClickOffset + " yClickOffset=" + yClickOffset +
-                    					   // " getX=" + event.getX() + " getY=" + event.getY());
+                			touchPath[i][0] = 0;
+                			touchPath[i][1] = 0;
+                		}
+                    	pointerCount = 1;
+                    }
+
                     if (Math.abs(event.getX() - (xClickOffset - screenWidth / 2)) < touchMarginal &&
                         Math.abs(event.getY() - (yClickOffset - screenHeight / 2)) < touchMarginal) {
                     	// Tässä kohtaa pelaaja nostaa sormensa napin päältä ...

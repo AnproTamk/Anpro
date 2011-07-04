@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  * Sis‰lt‰‰ pistelaskurin toiminnallisuudet.
  */
