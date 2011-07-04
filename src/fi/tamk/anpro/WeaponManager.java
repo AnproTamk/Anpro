@@ -18,7 +18,7 @@ public class WeaponManager
 
     /* Käytössä oleva ase */
     public int     currentWeapon       = 0;    // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
-    public boolean isUsingMotionEvents = true; // Käyttääkö käytössä oleva ase motioneventtejä
+    public boolean isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
     
     /* Aseiden oliot */
     public ArrayList<AbstractWeapon> allyWeapons   = null;
@@ -44,7 +44,7 @@ public class WeaponManager
     }
     
     /**
-     * Välittää kutsupyynnön käytössä olevalle aseelle aktoiden sen ja lähettämällä
+     * Välittää kutsupyynnön käytössä olevalle aseelle aktivoiden sen ja lähettämällä
      * sille kohteen koordinaatit. Päivittää myös cooldownit.
      * 
      * @param int[] Kohteen koordinaatit
@@ -57,7 +57,7 @@ public class WeaponManager
     	if(_type == Wrapper.CLASS_TYPE_PLAYER) {
 	        if (cooldownLeft[currentWeapon] <= 0) {
 	            playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1], _x, _y);
-	            
+
 	            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
 	            // Asetetaan globaali cooldown
@@ -95,9 +95,9 @@ public class WeaponManager
 	private final void addGlobalCooldown()
 	{
         // Asetetaan globaali cooldown
-        for (int i = 9; i >= 0; --i) {
+        for (int i = 0; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
-                cooldownLeft[i] = 500;
+                cooldownLeft[i] = 1000;
             }
         }
 	}
