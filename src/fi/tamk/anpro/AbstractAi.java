@@ -90,11 +90,11 @@ abstract public class AbstractAi
     	if (Math.abs(wrapper.player.x - wrapper.enemies.get(parentId).x) <= Wrapper.gridSize) {
         	if (Math.abs(wrapper.player.y - wrapper.enemies.get(parentId).y) <= Wrapper.gridSize) {
         
-        		// Lasketaan tarkka etäisyys
-		        if (Utility.getDistance(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y) - wrapper.player.collisionRadius - wrapper.enemies.get(parentId).collisionRadius <= 0) {
-		        	wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
-		            wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, wrapper.enemies.get(parentId).attack * 3, 0);
-		        }
+        		// Tarkistetaan törmäys
+        		if (GameObject.isColliding(wrapper.enemies.get(parentId), wrapper.player)) {
+        			wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
+        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, wrapper.enemies.get(parentId).attack * 3, 0);
+        		}
         	}
     	}
     }
