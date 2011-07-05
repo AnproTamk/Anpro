@@ -32,7 +32,7 @@ public class Ally extends GameObject
      * @param int           Taso
      * @param WeaponManager Osoitin WeaponManageriin
      */
-    public Ally(int _health, int _defence, int _speed, int _attack, int _ai, int _type, WeaponManager _weaponManager)
+    public Ally(int _health, int _armor, int _speed, int _attack, int _ai, int _type, WeaponManager _weaponManager)
     {
         super(_speed);
         
@@ -40,7 +40,8 @@ public class Ally extends GameObject
         health        = _health;
         currentHealth = _health;
         attack        = _attack;
-        defence       = _defence;
+        armor         = _armor;
+        currentArmor  = _armor;
         type          = _type;
         
         // Asetetaan törmäysetäisyys
@@ -115,7 +116,7 @@ public class Ally extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        currentHealth -= Utility.calculateDamage(_damage, defence, 0);
+        Utility.checkDamage(this, _damage, 0);
         
         if (currentHealth <= 0) {
         	triggerDestroyed();
@@ -133,7 +134,7 @@ public class Ally extends GameObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-            currentHealth -= Utility.calculateDamage(_damage, defence, _armorPiercing);
+        	Utility.checkDamage(this, _damage, _armorPiercing);
 
             if (currentHealth <= 0) {
             	triggerDestroyed();

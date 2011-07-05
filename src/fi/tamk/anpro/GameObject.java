@@ -12,7 +12,8 @@ abstract public class GameObject extends GfxObject
     public int speed;
     
     /* Objektin tiedot (pelaajalle, vihollisille ja liittolaisille) */
-    public int defence;
+    public int armor;
+    public int currentArmor;
     public int health;
     public int currentHealth;
     	
@@ -86,6 +87,14 @@ abstract public class GameObject extends GfxObject
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
+
+    /**
+     * Käsittelee törmäyksien vaikutukset objektiin.
+     * 
+     * @param int Osuman aiheuttama vahinko
+     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     */
+    public void triggerCollision(int _damage, int _armorPiercing) { }
     
     /**
      * Päivittää liikkumisen ja kääntymisen.

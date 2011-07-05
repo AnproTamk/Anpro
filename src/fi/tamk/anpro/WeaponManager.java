@@ -116,7 +116,7 @@ public class WeaponManager
         // Asetetaan globaali cooldown
         for (int i = 9; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
-                cooldownLeft[i] = 1000;
+                cooldownLeft[i] = 200;
             }
         }
 	}
