@@ -119,6 +119,10 @@ public class GLRenderer implements Renderer
         // M‰‰ritet‰‰n l‰pin‰kyvyysasetukset
         _gl.glEnable(GL10.GL_ALPHA_TEST);
         _gl.glAlphaFunc(GL10.GL_GREATER, 0);
+        
+        // M‰‰ritet‰‰n blendausasetukset
+        _gl.glEnable(GL10.GL_BLEND);
+        _gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     /**
