@@ -10,12 +10,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Player extends GameObject
 {
-    /* Pelaajan tiedot */
-    public int health;
-    public int currentHealth;
-    public int armor;
-    public int currentArmor;
-    
     /* Osoittimet muihin luokkiin */
     private Wrapper      wrapper;
     private SurvivalMode survivalMode;
