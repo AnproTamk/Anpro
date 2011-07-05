@@ -32,6 +32,7 @@ class GameThread extends Thread
     private long lastCooldownUpdate;
     private long lastGameModeUpdate;
     private long lastCollisionUpdate;
+    private long lastArmorUpdate;
     
     /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
        että viholliset varmasti lopulta saavuttavat pelaajan) */
@@ -106,6 +107,7 @@ class GameThread extends Thread
         lastCooldownUpdate     = waveStartTime;
         lastGameModeUpdate	   = waveStartTime;
         lastCollisionUpdate    = waveStartTime;
+        lastArmorUpdate		   = waveStartTime;
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
@@ -243,6 +245,14 @@ class GameThread extends Thread
             	lastCooldownUpdate = currentTime;
                 gameMode.weaponManager.updateCooldowns();
                 hud.updateCooldowns();
+            }
+            
+            /* Päivitetään pelaajan armorit */
+            if (currentTime - lastArmorUpdate >= 10000) {
+            	lastArmorUpdate = currentTime;
+            	if (wrapper.player.currentArmor <= 0) {
+            		wrapper.player.currentArmor += 25;
+            	}
             }
             
             /* Päivitetään vihollisaallot */

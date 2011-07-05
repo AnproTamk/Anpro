@@ -7,6 +7,7 @@ public class Bar extends GuiObject
 {
 	// Palkin maksimiarvo
 	private int max;
+	private int type;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -14,12 +15,18 @@ public class Bar extends GuiObject
 	 * @param int Objektin X-koordinaatti
 	 * @param int Objektin Y-koordinaatti
 	 */
-	public Bar(int _x, int _y)
+	public Bar(int _x, int _y, int _type)
     {
         super(_x, _y);
+        type = _type;
         
         // Määritetään aloitustekstuuri
-        usedTexture = GLRenderer.TEXTURE_HEALTH;
+        if (type == 1) {
+        	usedTexture = GLRenderer.TEXTURE_HEALTH;
+        }
+        else if (type == 2) {
+        	usedTexture = GLRenderer.TEXTURE_ARMOR;
+        }
     }
 
 	/**
@@ -27,7 +34,7 @@ public class Bar extends GuiObject
 	 * 
 	 * @param int Palkin maksimiarvo
 	 */
-	public void initHealthBar(int _max)
+	public void initBar(int _max)
 	{
 		max = _max;
 	}
@@ -41,10 +48,19 @@ public class Bar extends GuiObject
 	{
 		// Lasketaan, paljonko pelaajalla on on healthia jäljellä, minkä mukaan
 		// piirretään oikea healthBar-kuva ruudulle.
-		usedTexture = GLRenderer.TEXTURE_HEALTH + (int)((1 - (float)_value / (float)max) * 10);
-		
-		if (usedTexture > 13) {
-			usedTexture = 13;
+		if (type == 1) {
+			usedTexture = GLRenderer.TEXTURE_HEALTH + (int)((1 - (float)_value / (float)max) * 10);
+			
+			if (usedTexture > 13) {
+				usedTexture = 13;
+			}
+		}
+		else if (type == 2) {
+			usedTexture = GLRenderer.TEXTURE_ARMOR + (int)((1- (float)_value / (float)max) * 10);
+			
+			if (usedTexture > 44) {
+				usedTexture = 44;
+			}
 		}
 	}
 }
