@@ -33,9 +33,12 @@ public class RotaryAi extends AbstractAi
     @Override
     public final void handleAi()
     {
+    	// Alustetaan tarvittavat muuttujat
         int checkpoints[][] = new int[13][2];
         int startCheckpoint = 0;
         
+        
+        // 12 "checkpointtia" ympyrän kaarella 30 asteen välein. Vihollisten on kuljettava näiden kautta.
         checkpoints[0][0] =	(int) wrapper.player.x + 150;
         checkpoints[0][1] = (int) wrapper.player.y;
         	
@@ -75,6 +78,7 @@ public class RotaryAi extends AbstractAi
         // Määritetään vihollisen ja pelaajan välinen kulma
         double startAngle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, (int) wrapper.player.x, (int) wrapper.player.y);
         
+        // Vihollisen ja pelaajan välisellä kulmalla määritetään kunkin vihollisen ensimmäinen "checkpoint", josta ympyräliike alkaa
         if(startAngle >= 0 && startAngle < 30 ) {
         	startCheckpoint = 7;
         }
@@ -126,15 +130,17 @@ public class RotaryAi extends AbstractAi
 
 
 
-
+        // Määritetään kääntymissuuntaa aina kun vihollinen ei ole checkpointissa
         if((int) wrapper.enemies.get(parentId).x != checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y != checkpoints[startCheckpoint][1]) {
         	
-        	// Määritetään kääntymissuunta
+        	// Määritetään kulma
         	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
 
+        	// Määritetään kääntymissuunta
         	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
         }
         
+        // Jos vihollinen on osunut checkponttiin, asetetaan kohteeksi seuraava checkpoint
         if((int) wrapper.enemies.get(parentId).x == checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y == checkpoints[startCheckpoint][1]){
         	
         	++startCheckpoint;
@@ -143,11 +149,14 @@ public class RotaryAi extends AbstractAi
         		startCheckpoint = 0;
         	}
         	
+        	// Määritetään kulma
         	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
 
+        	// Määritetään kääntymissuunta
         	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
         }
         
+        // Suoritetaan ampuminen
         if (lastShootingTime == 0) {
     		lastShootingTime = android.os.SystemClock.uptimeMillis();
     		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
