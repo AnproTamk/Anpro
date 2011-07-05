@@ -129,7 +129,7 @@ public class Enemy extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        currentHealth -= (int)((float)_damage * (1 - 0.15 * (float)defence));
+        currentHealth -= Utility.calculateDamage(_damage, defence, 0);
         
         if (currentHealth <= 0) {
         	triggerDestroyed();
@@ -147,7 +147,8 @@ public class Enemy extends GameObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-            currentHealth -= (int)((float)_damage * (1 - 0.15 * (float)defence + 0.1 * (float)_armorPiercing));
+            
+            currentHealth -= Utility.calculateDamage(_damage, defence, _armorPiercing);
             
             if (currentHealth <= 0) {
             	triggerDestroyed();

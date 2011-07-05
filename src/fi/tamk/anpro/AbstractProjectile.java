@@ -61,8 +61,8 @@ abstract public class AbstractProjectile extends GameObject
     /**
      * Alustaa luokan muuttujat ja lis‰‰ ammuksen piirtolistalle.
      * 
-     * @param int Teko‰lyn tyyppi
-     * @param int Ammuksen k‰ytt‰j‰ (pelaaja, liittolainen tai vihollinen)
+     * @param _ai Teko‰lyn tyyppi
+     * @param _userType Ammuksen k‰ytt‰j‰ (pelaaja, liittolainen tai vihollinen)
      */
     public AbstractProjectile(int _ai, int _userType)
     {
@@ -116,7 +116,7 @@ abstract public class AbstractProjectile extends GameObject
     /**
      * Piirt‰‰ ammuksen ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
     public final void draw(GL10 _gl)
     {
@@ -133,13 +133,13 @@ abstract public class AbstractProjectile extends GameObject
      * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
      * erikoistoimintoa.
      * 
-     * @param int     		 Kohteen X-koordinaatti
-     * @param int     		 Kohteen Y-koordinaatti
-     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
-     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
-     * @param AbstractWeapon Ammuksen omistava ase
-     * @param float          Ammuksen aloituspisteen X-koordinaatti
-     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
+     * @param _targetX     		 Kohteen X-koordinaatti
+     * @param _targetY     		 Kohteen Y-koordinaatti
+     * @param _explodeOnTarget   Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param _autoSpecial 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param _parent            Ammuksen omistava ase
+     * @param _startX            Ammuksen aloituspisteen X-koordinaatti
+     * @param _startY			 Ammuksen aloituspisteen Y-koordinaatti
      */
     public final void activate(float _targetX, float _targetY, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
@@ -180,12 +180,12 @@ abstract public class AbstractProjectile extends GameObject
      * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
      * erikoistoimintoa.
      * 
-     * @param int     		 Ammuksen aloitussuunta
-     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
-     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
-     * @param AbstractWeapon Ammuksen omistava ase
-     * @param float          Ammuksen aloituspisteen X-koordinaatti
-     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
+     * @param _direction     	Ammuksen aloitussuunta
+     * @param _explodeOnTarget 	Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param _autoSpecial 	    Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param _parent           Ammuksen omistava ase
+     * @param _startX           Ammuksen aloituspisteen X-koordinaatti
+     * @param _startY    		Ammuksen aloituspisteen Y-koordinaatti
      */
     public final void activate(int _direction, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
@@ -225,12 +225,12 @@ abstract public class AbstractProjectile extends GameObject
      * ammuksen Wrapperin piirtolistalle. Aktivoi myˆs teko‰lyn ja kutsuu haluttaessa
      * erikoistoimintoa.
      * 
-     * @param int[][]  		 Ammuksen reitti
-     * @param boolean 	     Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
-     * @param boolean 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
-     * @param AbstractWeapon Ammuksen omistava ase
-     * @param float          Ammuksen aloituspisteen X-koordinaatti
-     * @param float			 Ammuksen aloituspisteen Y-koordinaatti
+     * @param _path  		     Ammuksen reitti
+     * @param _explodeOnTarget	 Onko ammuksen tarkoitus r‰j‰ht‰‰ kohteessa?
+     * @param _autoSpecial 	     Onko ammuksen tarkoitus aktivoida erikoistoiminto heti?
+     * @param _parent            Ammuksen omistava ase
+     * @param _startX            Ammuksen aloituspisteen X-koordinaatti
+     * @param _startY			 Ammuksen aloituspisteen Y-koordinaatti
      */
     public final void activate(int[][] _path, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
@@ -318,9 +318,12 @@ abstract public class AbstractProjectile extends GameObject
 			                }
 			                
 			                // K‰sitell‰‰n passiivinen vahinko
-			        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
-			                    wrapper.enemies.get(i).health -= (damageRadius * (1 - 0.15 * wrapper.enemies.get(i).defence));
-			                }
+			        		if (causePassiveDamage) {
+				        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
+				                    wrapper.enemies.get(i).health -= Utility.calculateDamage(damageOnRadius, wrapper.enemies.get(i).defence, 0);
+
+				                }
+			        		}
 		            	}
 	            	}
 	            }
@@ -362,29 +365,31 @@ abstract public class AbstractProjectile extends GameObject
 	            		}
 	            		
 	            		// K‰sitell‰‰n passiivinen vahinko
-		                if (distance - wrapper.player.collisionRadius - damageRadius <= 0) {
-		                    wrapper.player.health -= (damageOnRadius * (1 - 0.15 * wrapper.player.defence));
-		                }
+	            		if (causePassiveDamage) {
+			                if (distance - wrapper.player.collisionRadius - damageRadius <= 0) {
+			                    wrapper.player.health -= Utility.calculateDamage(damageOnRadius, wrapper.player.defence, 0);
+			                }
+	            		}
 	            	}
     			}
     		}
     	}
-        
+
         /* Tarkistetaan ajastetut r‰j‰hdykset */
         if (explodeTime > 0) {
             currentTime = android.os.SystemClock.uptimeMillis();
-            
+
             if (currentTime - startTime >= explodeTime) {
                 wrapper.projectileStates.set(listId, 2);
                 setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
-                
+
                 triggerExplosion();
             }
         }
-        
+
         /* Tarkistetaan suunta ja k‰‰ntyminen */
         //...
-        
+
         /* K‰sitell‰‰n reuna-alueet panosten tuhoamiseksi */
         if (wrapper.player.x + x < -Options.scaledScreenWidth || wrapper.player.x + x > Options.scaledScreenWidth ||
             wrapper.player.y + y < -Options.scaledScreenHeight || wrapper.player.y + y > Options.scaledScreenHeight ) {
