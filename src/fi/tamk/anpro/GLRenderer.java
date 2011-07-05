@@ -32,6 +32,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_HEALTH             = 3;
     public static final int TEXTURE_COOLDOWN           = 14;
     public static final int TEXTURE_COUNTER			   = 24;
+    public static final int TEXTURE_ARMOR			   = 34;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -47,7 +48,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES       = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES      = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 35;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 45;
 
     /* Piirrettävät animaatiot ja objektit */
     public static Texture[]     playerTextures;

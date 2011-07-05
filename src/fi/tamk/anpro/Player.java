@@ -12,7 +12,9 @@ public class Player extends GameObject
 {
     /* Pelaajan tiedot */
     public int health;
-    public int defence; // Vähentää otettua vahinkoa
+    public int currentHealth;
+    public int armor;
+    public int currentArmor;
     
     /* Osoittimet muihin luokkiin */
     private Wrapper      wrapper;
@@ -25,7 +27,7 @@ public class Player extends GameObject
      * @param int Pelaajan puolustus
      * @param int Osoitin SurivalModeen
      */
-    public Player(int _health, int _defence, SurvivalMode _survivalMode)
+    public Player(int _health, int _armor, SurvivalMode _survivalMode)
     {
         super(0); // TODO: Pelaaja tarvitsee nopeuden StoryModea varten
         
@@ -37,11 +39,14 @@ public class Player extends GameObject
         survivalMode = _survivalMode;
         
         // Tallennetaan pelaajan tiedot
-        health  = _health;
-        defence = _defence;
+        health  	  = _health;
+        currentHealth = _health;
+        armor         = _armor;
+        currentArmor  = _armor;
         
-        // Määritetään Hudin healthBarin tiedot
-        Hud.healthBar.initHealthBar(health);
+        // Määritetään Hudin healthBarin ja armorBarin tiedot
+        Hud.healthBar.initBar(health);
+        Hud.armorBar.initBar(armor);
         
         // Asetetaan törmäystunnistuksen säde
         collisionRadius = (int) (25 * Options.scale);
@@ -105,11 +110,19 @@ public class Player extends GameObject
         if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
             VibrateManager.vibrateOnHit();
         	
-        	health -= _damage;
+            if (currentArmor >= 0) {
+            	currentArmor  -= _damage;
+            	Hud.armorBar.updateValue(currentArmor);
+            }
+            else if (currentArmor < 0) {
+            	currentHealth -= Math.abs(currentArmor);
+            	Hud.healthBar.updateValue(currentHealth);
+            }
 
-            Hud.healthBar.updateValue(health);
+        	//currentHealth -= _damage;
+            //Hud.healthBar.updateValue(currentHealth);
             
-            if (health <= 0) {
+            if (currentHealth <= 0) {
             	wrapper.playerState = 2;
             	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
             }
@@ -118,11 +131,19 @@ public class Player extends GameObject
         else if(_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
         	VibrateManager.vibrateOnHit();
         	
-        	health -= _damage;
+        	if (currentArmor >= 0) {
+            	currentArmor  -= _damage;
+            	Hud.armorBar.updateValue(currentArmor);
+            }
+            else if (currentArmor < 0) {
+            	currentHealth -= Math.abs(currentArmor);
+            	Hud.healthBar.updateValue(currentHealth);
+            }
         	
-        	Hud.healthBar.updateValue(health);
+        	//currentHealth -= _damage;
+        	//Hud.healthBar.updateValue(currentHealth);
         	
-        	if (health <= 0) {
+        	if (currentHealth <= 0) {
              	wrapper.playerState = 2;
              	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
             }
