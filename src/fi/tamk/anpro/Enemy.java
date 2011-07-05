@@ -32,7 +32,7 @@ public class Enemy extends GameObject
      * @param int           Taso
      * @param WeaponManager Osoitin WeaponManageriin
      */
-    public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
+    public Enemy(int _health, int _armor, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
         super(_speed);
         
@@ -40,7 +40,8 @@ public class Enemy extends GameObject
         health        = _health;
         currentHealth = _health;
         attack        = _attack;
-        defence       = _defence;
+        armor         = _armor;
+        currentArmor  = _armor;
         rank          = _rank;
         
         // Asetetaan törmäysetäisyys
@@ -49,6 +50,15 @@ public class Enemy extends GameObject
         }
         else if (rank == 2) {
         	collisionRadius = (int) (25 * Options.scale);
+        }
+        else if (rank == 3) {
+        	collisionRadius = (int) (25 * Options.scale);
+        }
+        else if (rank == 4) {
+        	collisionRadius = (int) (50 * Options.scale);
+        }
+        else if (rank == 5) {
+        	collisionRadius = (int) (50 * Options.scale);
         }
     
         // Haetaan animaatioiden pituudet
@@ -65,24 +75,22 @@ public class Enemy extends GameObject
         weaponManager = _weaponManager;
         
         // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
-        if (_ai == 0) {
+        if (_ai == AbstractAi.LINEAR_ENEMY_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
+            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        }
+        else if (_ai == AbstractAi.ROTARY_ENEMY_AI) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
             ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
-        else if (_ai == 1) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
+        else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
+            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        }
+        else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
             ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
-        /*
-        else if (_ai == 2) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
-            ai = new SguigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
-        }
-        else if (_ai == 3) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
-            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
-        }
-        */
     }
 
     /**
@@ -129,7 +137,7 @@ public class Enemy extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        currentHealth -= Utility.calculateDamage(_damage, defence, 0);
+        Utility.checkDamage(this, _damage, 0);
         
         if (currentHealth <= 0) {
         	triggerDestroyed();
@@ -148,7 +156,7 @@ public class Enemy extends GameObject
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             
-            currentHealth -= Utility.calculateDamage(_damage, defence, _armorPiercing);
+            Utility.checkDamage(this, _damage, _armorPiercing);
             
             if (currentHealth <= 0) {
             	triggerDestroyed();
@@ -170,32 +178,31 @@ public class Enemy extends GameObject
      * @param int Tekoälyn tunnus
      * @param int Taso
      */
-    public final void setStats(int _health, int _defence, int _speed, int _attack, int _ai, int _rank)
+    public final void setStats(int _health, int _armor, int _speed, int _attack, int _ai, int _rank)
     {
         // Tallennetaan uudet tiedot
         health     = _health;
         speed      = _speed;
         attack     = _attack;
-        defence    = _defence;
+        armor      = _armor;
         rank       = _rank;
         
         // Otetaan uusi tekoäly käyttöön
         ai = null;
         
-        if (_ai == 0) {
+        // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+        if (_ai == AbstractAi.LINEAR_ENEMY_AI) {
+            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        }
+        else if (_ai == AbstractAi.ROTARY_ENEMY_AI) {
             ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
-        else if (_ai == 1) {
+        else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
+            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+        }
+        else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
             ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
-        /*
-        else if (_ai == 2) {
-            ai = new SguigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
-        }
-        else if (_ai == 3) {
-            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY);
-        }
-        */
     }
 
     /**

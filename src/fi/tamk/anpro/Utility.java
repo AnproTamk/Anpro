@@ -138,16 +138,49 @@ public class Utility
     }
     
     /**
-     * Laskee aiheutuneen vahingon m‰‰r‰n.
+     * K‰sittelee aiheutuneen vahingon m‰‰r‰n suojiin ja kohteeseen.
+     * 
+     * @param _target Kohdeobjekti
+     * @param _damage Vaurion m‰‰r‰
+     * @param _armorPiercing L‰p‰isykyky
+     */
+    public static final void checkDamage(GameObject _target, int _damage, int _armorPiercing)
+    {
+        _target.currentArmor -= calculateDamageToArmor(_damage, _armorPiercing);
+        
+        if (_target.currentArmor < 0) {
+        	_target.currentHealth -= calculateDamageToHealth(_damage, _armorPiercing, Math.abs(_target.currentArmor));
+        	_target.currentArmor = 0;
+        }
+        else {
+        	_target.currentHealth -= calculateDamageToHealth(_damage, _armorPiercing, 0);
+        }
+    }
+
+    /**
+     * Laskee aiheutuneen vahingon m‰‰r‰n suojiin.
      * 
      * @param _damage Vaurion m‰‰r‰
-     * @param _defence Suojan m‰‰r‰
      * @param _armorPiercing L‰p‰isykyky
      * 
-     * @return Aikaansaatu vahinko
-     */    
-    public static float calculateDamage(int _damage, int _defence, int _armorPiercing)
+     * @return Aiheutunut vahinko
+     */
+    public static final int calculateDamageToArmor(int _damage, int _armorPiercing)
     {
-    	return (int)((float)_damage * (1 - 0.15 * (float)_defence + 0.1 * (float)_armorPiercing));
+    	return (int) ((float) _damage * (1 - (float) _armorPiercing * 0.05));
+    }
+
+    /**
+     * Laskee aiheutuneen vahingon m‰‰r‰n kohteeseen.
+     * 
+     * @param _damage Vaurion m‰‰r‰
+     * @param _armorPiercing L‰p‰isykyky
+     * @param _excessDamage "Ylij‰‰m‰vahinko" suojasta
+     * 
+     * @return Aiheutunut vahinko
+     */
+    public static final int calculateDamageToHealth(int _damage, int _armorPiercing, int _excessDamage)
+    {
+    	return (int) ((float) _damage * (float) _armorPiercing * 0.05) + _excessDamage;
     }
 }
