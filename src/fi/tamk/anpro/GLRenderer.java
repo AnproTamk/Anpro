@@ -330,7 +330,7 @@ public class GLRenderer implements Renderer
         // Napit
         hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex_0);
         hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex_1);
-        hudAnimations[0] = new Animation(_gl, context, resources, "button_press", 9);
+        hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
         
         // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);

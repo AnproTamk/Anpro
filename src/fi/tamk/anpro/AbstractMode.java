@@ -11,7 +11,7 @@ import android.util.DisplayMetrics;
 abstract public class AbstractMode
 {
 	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
-    public static final int AMOUNT_OF_WAVES            = 1;
+    public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
     
     /* Viholliset */
