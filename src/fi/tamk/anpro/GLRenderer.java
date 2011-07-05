@@ -386,6 +386,16 @@ public class GLRenderer implements Renderer
         
         // Armorpalkki
         hudTextures[34] = new Texture(_gl, context, R.drawable.armorbar_tex_0);
+        hudTextures[35] = new Texture(_gl, context, R.drawable.armorbar_tex_1);
+        hudTextures[36] = new Texture(_gl, context, R.drawable.armorbar_tex_2);
+        hudTextures[37] = new Texture(_gl, context, R.drawable.armorbar_tex_3);
+        hudTextures[38] = new Texture(_gl, context, R.drawable.armorbar_tex_4);
+        hudTextures[39] = new Texture(_gl, context, R.drawable.armorbar_tex_5);
+        hudTextures[40] = new Texture(_gl, context, R.drawable.armorbar_tex_6);
+        hudTextures[41] = new Texture(_gl, context, R.drawable.armorbar_tex_7);
+        hudTextures[42] = new Texture(_gl, context, R.drawable.armorbar_tex_8);
+        hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
+        hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
         
         /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
         allLoaded = true;
