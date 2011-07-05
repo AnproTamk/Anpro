@@ -50,6 +50,12 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
     public static final int AMOUNT_OF_HUD_TEXTURES        = 45;
 
+    /* Latausruudun tekstuurit ja tila */
+    
+    private Texture    loadingTexture;
+    private boolean showLoadingScreen = false; 
+   
+   
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
     public static Animation[]   playerAnimations;
@@ -130,6 +136,9 @@ public class GLRenderer implements Renderer
         // M‰‰ritet‰‰n blendausasetukset
         _gl.glEnable(GL10.GL_BLEND);
         _gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        
+    	// Ladataan latausruudun tekstuuri
+    	loadingTexture   = new Texture(_gl, context, R.drawable.player_tex_0);
     }
 
     /**
@@ -180,6 +189,17 @@ public class GLRenderer implements Renderer
     {
         // Otetaan 2D-piirt‰minen k‰yttˆˆn
         _gl.glEnable(GL10.GL_TEXTURE_2D);
+
+        if (showLoadingScreen) {
+	    	try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			showLoadingScreen = false;
+        }
         
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
@@ -254,6 +274,10 @@ public class GLRenderer implements Renderer
         }
         /* Tekstuureja ei ole viel‰ ladattu */
         else if (!allLoaded && gameThread != null) {
+        	// N‰ytet‰‰n latausruutu
+        	loadingTexture.draw(_gl, 0, 0, 90);
+        	showLoadingScreen = true;
+        	
             // Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
             if (loadTextures(_gl)) {
                 startThread();
