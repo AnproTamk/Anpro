@@ -26,7 +26,7 @@ public class LinearProjectileAi extends AbstractAi
      * @param int Kohteen Y-koordinaatti
      */
 	@Override
-    public final void setActive(int _x, int _y)
+    public final void setActive(float _x, float _y)
     {
 		wrapper.projectiles.get(parentId).direction = setDirection(_x, _y);
 		

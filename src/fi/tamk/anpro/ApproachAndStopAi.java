@@ -52,18 +52,17 @@ public class ApproachAndStopAi extends AbstractAi
         // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta ja alkaa ampumaan pelaajaa kohti
         if (distance < 150) {
         	wrapper.enemies.get(parentId).movementSpeed = 0;
-        	int coords[] = {(int) wrapper.player.x,(int) wrapper.player.y};
         	
         	if (lastShootingTime == 0) {
         		lastShootingTime = android.os.SystemClock.uptimeMillis();
-        		weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
         	}
         	else {
         		long currentTime = android.os.SystemClock.uptimeMillis();
             	
             	if (currentTime - lastShootingTime >= 700) {
             		lastShootingTime = currentTime;
-            		weaponManager.triggerShoot(coords, Wrapper.CLASS_TYPE_ENEMY, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+            		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
             	}
         	}
         }

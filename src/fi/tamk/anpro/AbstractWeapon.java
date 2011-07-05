@@ -28,7 +28,7 @@ abstract public class AbstractWeapon
      * @param int Lähtöpisteen X-koordinaatti
      * @param int Lähtöpisteen Y-koordinaatti
      */
-    public void activate(int _targetX, int _targetY, float _startX, float _startY) { }
+    public void activate(float _targetX, float _targetY, float _startX, float _startY) { }
     
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden

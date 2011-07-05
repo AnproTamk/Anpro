@@ -41,7 +41,7 @@ abstract public class AbstractAi
      * @param int Kohteen X-koordinaatti
      * @param int Kohteen Y-koordinaatti
      */
-    public void setActive(int _x, int _y) { }
+    public void setActive(float _x, float _y) { }
 
     /**
      * Asettaa tekoälyn aktiiviseksi.
@@ -70,9 +70,9 @@ abstract public class AbstractAi
      * 
      * @return int Objektin suunta
      */
-    protected int setDirection(int _x, int _y)
+    protected int setDirection(float _x, float _y)
     {
-        return Utility.getAngle((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y, _x, _y);
+        return Utility.getAngle(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y, _x, _y);
     }
     
     /**

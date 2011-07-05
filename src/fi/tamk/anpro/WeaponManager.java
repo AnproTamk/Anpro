@@ -44,29 +44,48 @@ public class WeaponManager
     }
     
     /**
-     * Välittää kutsupyynnön käytössä olevalle aseelle aktivoiden sen ja lähettämällä
+     * Välittää kutsupyynnön käytössä pelaajan aseelle aktivoiden sen ja lähettämällä
      * sille kohteen koordinaatit. Päivittää myös cooldownit.
-     * 
-     * @param int[] Kohteen koordinaatit
-     * @param int   Ampujan tyyppi
-     * @param float Ampujan X-koordinaatti
-     * @param float Ampujan Y-koordinaatti
+     *
+     * @param _targetX Kohteen X-koordinaatti
+     * @param _targetY Kohteen Y-koordinaatti
      */
-    public final void triggerShoot(int[] _coords, int _type, float _x, float _y)
+    public final void triggerPlayerShoot(float _targetX, float _targetY)
     {
-    	if(_type == Wrapper.CLASS_TYPE_PLAYER) {
-	        if (cooldownLeft[currentWeapon] <= 0) {
-	            playerWeapons.get(currentWeapon).activate(_coords[0], _coords[1], _x, _y);
+		if (cooldownLeft[currentWeapon] <= 0) {
+            playerWeapons.get(currentWeapon).activate(_targetX, _targetY, wrapper.player.x, wrapper.player.y);
 
-	            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
+            cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
-	            // Asetetaan globaali cooldown
-	            addGlobalCooldown();
-	        }
-    	}
-    	else if(_type == Wrapper.CLASS_TYPE_ENEMY) {
-    		enemyWeapons.get(0).activate(_coords[0], _coords[1], _x, _y);
-    	}
+            // Asetetaan globaali cooldown
+            addGlobalCooldown();
+        }
+    }
+    
+    /**
+     * Välittää kutsupyynnön vihollisen aseelle aktivoiden sen ja lähettämällä
+     * sille kohteen koordinaatit.
+     * 
+     * @param _startX Ampujan X-koordinaatti
+     * @param _startY Ampujan Y-koordinaatti
+     */
+    public final void triggerEnemyShoot(float _startX, float _startY)
+    {
+   		enemyWeapons.get(0).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+    }
+    
+    /**
+     * Välittää kutsupyynnön liittolaisen aseelle aktivoiden sen ja lähettämällä
+     * sille kohteen koordinaatit.
+     * 
+     * @param _targetX Kohteen X-koordinaatti
+     * @param _targetY Kohteen Y-koordinaatti
+     * @param _startX Ampujan X-koordinaatti
+     * @param _startY Ampujan Y-koordinaatti
+     */
+    public final void triggerAllyShoot(float _targetX, float _targetY, float _startX, float _startY)
+    {
+   		//allyWeapons.get(0).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
     }
     
     /**
@@ -95,7 +114,7 @@ public class WeaponManager
 	private final void addGlobalCooldown()
 	{
         // Asetetaan globaali cooldown
-        for (int i = 0; i >= 0; --i) {
+        for (int i = 9; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
                 cooldownLeft[i] = 1000;
             }

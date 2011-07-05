@@ -32,7 +32,7 @@ public class WeaponSpinningLaser extends AbstractWeapon
      * @param int Ampujan Y-koordinaatti
      */
     @Override
-    public final void activate(int _targetX, int _targetY, float _startX, float _startY)
+    public final void activate(float _targetX, float _targetY, float _startX, float _startY)
     {
         // Tarkistetaan onko ammus jo aktiivinen
         if (!projectile.active) {

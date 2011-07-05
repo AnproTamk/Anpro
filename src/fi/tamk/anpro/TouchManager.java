@@ -146,8 +146,7 @@ public class TouchManager
                     }
                     // Painetaan pelikentältä
                     else {
-                        weaponManager.triggerShoot(convertCoords((int)event.getX(), (int)event.getY()), Wrapper.CLASS_TYPE_PLAYER, 
-                        						   wrapper.player.x, wrapper.player.y);
+                        weaponManager.triggerPlayerShoot(event.getX() - screenWidth/2, -((-screenHeight / 2) + event.getY()));
                         // ***** PELIKENTTÄ *****
                         
                     }
@@ -283,23 +282,6 @@ public class TouchManager
                 //return true;
             }
         });
-    }
-
-    /**
-     * Muuntaa näytön koordinaatit pelimaailman koordinaateiksi.
-     *
-     * @param int X-koordinaatti
-     * @param int Y-koordinaatti
-     *
-     * @return int[] Pelimaailman vastaavat koordinaatit
-     */
-    private final int[] convertCoords(int _x, int _y)
-    {
-    	// TODO: Pitää keksiä toinen tapa tietojen palauttamiseen. int-taulukko jää muistiin :(
-        int screenCoords[] = {_x - (screenWidth / 2),
-                              -((-screenHeight / 2) + _y)};
-
-        return screenCoords;
     }
     
     /**
