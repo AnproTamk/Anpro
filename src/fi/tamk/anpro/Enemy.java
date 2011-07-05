@@ -32,7 +32,7 @@ public class Enemy extends GameObject
      * @param int           Taso
      * @param WeaponManager Osoitin WeaponManageriin
      */
-    public Enemy(int _health, int _defence, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
+    public Enemy(int _health, int _armor, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
         super(_speed);
         
@@ -40,7 +40,8 @@ public class Enemy extends GameObject
         health        = _health;
         currentHealth = _health;
         attack        = _attack;
-        defence       = _defence;
+        armor         = _armor;
+        currentArmor  = _armor;
         rank          = _rank;
         
         // Asetetaan törmäysetäisyys
@@ -129,7 +130,7 @@ public class Enemy extends GameObject
     @Override
     public final void triggerImpact(int _damage)
     {
-        currentHealth -= Utility.calculateDamage(_damage, defence, 0);
+        Utility.checkDamage(this, _damage, 0);
         
         if (currentHealth <= 0) {
         	triggerDestroyed();
@@ -148,7 +149,7 @@ public class Enemy extends GameObject
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             
-            currentHealth -= Utility.calculateDamage(_damage, defence, _armorPiercing);
+            Utility.checkDamage(this, _damage, _armorPiercing);
             
             if (currentHealth <= 0) {
             	triggerDestroyed();
@@ -170,13 +171,13 @@ public class Enemy extends GameObject
      * @param int Tekoälyn tunnus
      * @param int Taso
      */
-    public final void setStats(int _health, int _defence, int _speed, int _attack, int _ai, int _rank)
+    public final void setStats(int _health, int _armor, int _speed, int _attack, int _ai, int _rank)
     {
         // Tallennetaan uudet tiedot
         health     = _health;
         speed      = _speed;
         attack     = _attack;
-        defence    = _defence;
+        armor      = _armor;
         rank       = _rank;
         
         // Otetaan uusi tekoäly käyttöön

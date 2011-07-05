@@ -100,53 +100,22 @@ public class Player extends GameObject
     /**
      * Käsittelee törmäyksien vaikutukset pelaajaan.
      * 
-     * @param int Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
-    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    public final void triggerCollision(int _damage, int _armorPiercing)
     {
-        if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
-            VibrateManager.vibrateOnHit();
-        	
-            if (currentArmor >= 0) {
-            	currentArmor  -= _damage;
-            	Hud.armorBar.updateValue(currentArmor);
-            }
-            else if (currentArmor < 0) {
-            	currentHealth -= Math.abs(currentArmor);
-            	Hud.healthBar.updateValue(currentHealth);
-            }
-
-        	//currentHealth -= _damage;
-            //Hud.healthBar.updateValue(currentHealth);
-            
-            if (currentHealth <= 0) {
-            	wrapper.playerState = 2;
-            	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
-            }
-        }
+        VibrateManager.vibrateOnHit();
+    	
+        Utility.checkDamage(this, _damage, _armorPiercing);
         
-        else if(_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-        	VibrateManager.vibrateOnHit();
-        	
-        	if (currentArmor >= 0) {
-            	currentArmor  -= _damage;
-            	Hud.armorBar.updateValue(currentArmor);
-            }
-            else if (currentArmor < 0) {
-            	currentHealth -= Math.abs(currentArmor);
-            	Hud.healthBar.updateValue(currentHealth);
-            }
-        	
-        	//currentHealth -= _damage;
-        	//Hud.healthBar.updateValue(currentHealth);
-        	
-        	if (currentHealth <= 0) {
-             	wrapper.playerState = 2;
-             	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
-            }
+        Hud.armorBar.updateValue(currentArmor);
+        Hud.healthBar.updateValue(currentHealth);
+        
+        if (currentHealth <= 0) {
+        	wrapper.playerState = 2;
+        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
         }
     }
 
