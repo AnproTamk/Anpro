@@ -38,18 +38,22 @@ public class GLRenderer implements Renderer
     
     /* Animaatioiden ja tekstuurien m‰‰r‰t */
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
+    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 2;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
 
     public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
-    public static final int AMOUNT_OF_PENEMY_TEXTURES     = 4;
+    public static final int AMOUNT_OF_ALLY_TEXTURES       = 1;
+    public static final int AMOUNT_OF_ENEMY_TEXTURES      = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
     public static final int AMOUNT_OF_HUD_TEXTURES        = 35;
 
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
     public static Animation[]   playerAnimations;
+    public static Texture[][]   allyTextures;
+    public static Animation[][] allyAnimations;
     public static Texture[][]   enemyTextures;
     public static Animation[][] enemyAnimations;
     public static Texture[][]   projectileTextures;
@@ -84,14 +88,16 @@ public class GLRenderer implements Renderer
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
         // M‰‰ritet‰‰n taulukoiden koot
-        playerAnimations     = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
         playerTextures       = new Texture[AMOUNT_OF_PLAYER_TEXTURES];
+        playerAnimations     = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
+        allyTextures         = new Texture[2][AMOUNT_OF_ALLY_TEXTURES];
+        allyAnimations       = new Animation[2][AMOUNT_OF_ALLY_ANIMATIONS];
+        enemyTextures        = new Texture[5][AMOUNT_OF_ENEMY_TEXTURES];
         enemyAnimations      = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
-        enemyTextures        = new Texture[5][AMOUNT_OF_PENEMY_TEXTURES];
-        projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
         projectileTextures   = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
-        hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
+        projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
         hudTextures          = new Texture[AMOUNT_OF_HUD_TEXTURES];
+        hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;
@@ -278,29 +284,34 @@ public class GLRenderer implements Renderer
         /* Ladataan pelaajan grafiikat */
         playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex_0); 
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        
+        /* Ladataan liittolaisten grafiikat */
+        // Liittolainen #1
+        allyTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
+        allyAnimations[0][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
 
         /* Ladataan vihollisten grafiikat */
-        // Enemy #1
+        // Vihollinen #1
         enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex_0);
         enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
-        // Enemy #2
+        // Vihollinen #2
         enemyTextures[1][0]   = new Texture(_gl, context, R.drawable.enemy2_tex_0);
         enemyAnimations[1][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[1][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
-        // Enemy #3
+        // Vihollinen #3
         enemyTextures[2][0]   = new Texture(_gl, context, R.drawable.enemy3_tex_0);
         enemyAnimations[2][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[2][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
-        // Enemy #4
+        // Vihollinen #4
         enemyTextures[3][0]   = new Texture(_gl, context, R.drawable.enemy4_tex_0);
         enemyAnimations[3][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[3][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
         
-        // Enemy #4
+        // Vihollinen #4
         enemyTextures[4][0]   = new Texture(_gl, context, R.drawable.enemy5_tex_0);
         enemyAnimations[4][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[4][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);

@@ -14,6 +14,7 @@ public class Wrapper
     /* Vakioita */
     // Luokan tyyppi (k‰ytet‰‰n myˆs aseissa ja ammuksissa)
     public static final int CLASS_TYPE_PLAYER     = 1;
+    public static final int CLASS_TYPE_ALLY       = 5;
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
@@ -26,12 +27,14 @@ public class Wrapper
     
     /* Piirto- ja p‰ivityslistat */
     public Player                        player      = null;
+    public ArrayList<Ally>               allies      = null;
     public ArrayList<Enemy>              enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
 
     /* Peliobjektien tilat */
     public int                playerState      = 0;
+    public ArrayList<Integer> allyStates       = null;
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;
     public ArrayList<Integer> guiObjectStates  = null;
@@ -39,6 +42,11 @@ public class Wrapper
     /* Peliobjektien teko‰lyjen tasot. N‰iden taulukoiden arvot viittaavat
        piirtolistojen soluihin. N‰it‰ kutsutaan ainoastaan GameThreadin
        p‰‰silmukassa ja niill‰ pyrit‰‰n nopeuttamaan teko‰lyjen p‰ivitt‰mist‰. */
+    public ArrayList<Integer> priorityOneAllies   = null;
+    public ArrayList<Integer> priorityTwoAllies   = null;
+    public ArrayList<Integer> priorityThreeAllies = null;
+    public ArrayList<Integer> priorityFourAllies  = null;
+    
     public ArrayList<Integer> priorityOneEnemies   = null;
     public ArrayList<Integer> priorityTwoEnemies   = null;
     public ArrayList<Integer> priorityThreeEnemies = null;
@@ -62,12 +70,18 @@ public class Wrapper
     	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 3);
     	
     	// Alustetaan taulukot
+        allies                   = new ArrayList<Ally>();
         enemies                  = new ArrayList<Enemy>();
         projectiles              = new ArrayList<AbstractProjectile>();
         guiObjects               = new ArrayList<GuiObject>();
+        allyStates               = new ArrayList<Integer>();
         enemyStates              = new ArrayList<Integer>();
         projectileStates         = new ArrayList<Integer>();
         guiObjectStates          = new ArrayList<Integer>();
+        priorityOneAllies        = new ArrayList<Integer>();
+        priorityTwoAllies        = new ArrayList<Integer>();
+        priorityThreeAllies      = new ArrayList<Integer>();
+        priorityFourAllies       = new ArrayList<Integer>();
         priorityOneEnemies       = new ArrayList<Integer>();
         priorityTwoEnemies       = new ArrayList<Integer>();
         priorityThreeEnemies     = new ArrayList<Integer>();
@@ -122,6 +136,25 @@ public class Wrapper
         if (_classType == CLASS_TYPE_PLAYER) {
             player      = (Player)_object;
             playerState = 1;
+        }
+        else if (_classType == CLASS_TYPE_ALLY) {
+            allies.add((Ally)_object);
+            allyStates.add(0);
+            
+            if (_priority == 1) {
+                priorityOneAllies.add(allyStates.size()-1);
+            }
+            else if (_priority == 2) {
+                priorityTwoAllies.add(allyStates.size()-1);
+            }
+            else if (_priority == 3) {
+                priorityThreeAllies.add(allyStates.size()-1);
+            }
+            else if (_priority == 4) {
+                priorityFourAllies.add(allyStates.size()-1);
+            }
+
+            return allyStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_ENEMY) {
             enemies.add((Enemy)_object);
