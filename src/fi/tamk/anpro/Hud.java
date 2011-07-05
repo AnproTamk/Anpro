@@ -27,6 +27,7 @@ public class Hud
     public static ArrayList<Counter> counters  = null;
     public static Joystick           joystick  = null;
     public static Bar		         healthBar = null;
+    public static Bar				 armorBar  = null;
 
     /* Osoittimet tarvittaviin luokkiin */
     private final WeaponManager weaponManager;
@@ -105,5 +106,10 @@ public class Hud
     public final static Bar getHealthBar()
     {
         return healthBar;
+    }
+    
+    public final static Bar getArmorBar()
+    {
+    	return armorBar;
     }
 }
