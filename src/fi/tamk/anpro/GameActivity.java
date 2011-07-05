@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.media.AudioManager;
 
@@ -182,5 +183,16 @@ public class GameActivity extends Activity
 		// K‰ynnistet‰‰n HighScoresActivity ja sammutetaan GameActivity
 		startActivity(i_highscores);
 		finish();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+	        Intent i_pausemenu = new Intent(this, PauseMenuActivity.class);
+	        startActivity(i_pausemenu);
+	        return true;
+	    }
+
+	    return super.onKeyDown(keyCode, event);
 	}
 }
