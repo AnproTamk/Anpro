@@ -43,7 +43,7 @@ public class SurvivalMode extends AbstractMode
         weaponManager = _weaponManager;
         
     	// Alustetaan pelaaja
-    	player = new Player(100, 2, this);
+    	player = new Player(100, 100, this);
     	player.x = 0;
     	player.y = 0;
     	
