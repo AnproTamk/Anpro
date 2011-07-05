@@ -38,7 +38,7 @@ public class GLRenderer implements Renderer
     
     /* Animaatioiden ja tekstuurien m‰‰r‰t */
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
-    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 2;
+    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;

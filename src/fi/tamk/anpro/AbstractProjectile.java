@@ -47,8 +47,8 @@ abstract public class AbstractProjectile extends GameObject
     protected AbstractWeapon parent;
     
     /* Kohteen tiedot */
-    protected int targetX;
-    protected int targetY;
+    protected float targetX;
+    protected float targetY;
     
     /* Ammuksen tila */
     public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
@@ -141,7 +141,7 @@ abstract public class AbstractProjectile extends GameObject
      * @param float          Ammuksen aloituspisteen X-koordinaatti
      * @param float			 Ammuksen aloituspisteen Y-koordinaatti
      */
-    public final void activate(int _targetX, int _targetY, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
+    public final void activate(float _targetX, float _targetY, boolean _explodeOnTarget, boolean _autoSpecial, AbstractWeapon _parent, float _startX, float _startY)
     {
         // Ladataan aloitusaika, mikäli ammuksen on räjähdettävä tietyn ajan kuluessa
         if (explodeTime > 0) {

@@ -32,7 +32,7 @@ public class Utility
 	 * 
 	 * @return int Kulma
 	 */
-	public static int getAngle(int _firstX, int _firstY, int _secondX, int _secondY)
+	public static int getAngle(float _firstX, float _firstY, float _secondX, float _secondY)
 	{
 		// TODO: Mahdollisuus l‰hett‰‰ float-muuttujia?
 		
