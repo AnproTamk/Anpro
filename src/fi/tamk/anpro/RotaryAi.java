@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-import java.lang.Math;
 
 /**
  * Toteutus pelaajan ymp‰rill‰ pyˆriv‰lle teko‰lylle. Teko‰ly hakeutuu pelaajan l‰helle
@@ -29,97 +28,86 @@ public class RotaryAi extends AbstractAi
     public final void handleAi()
     {
         int checkpoints[][] = new int[9][2];
+        int startCheckpoint = 0;
         
-        checkpoints[0][0] =	150;
-        checkpoints[0][1] = 0;
+        checkpoints[0][0] =	(int) wrapper.player.x + 150;
+        checkpoints[0][1] = (int) wrapper.player.y;
         	
-        checkpoints[1][0] = 150;
-        checkpoints[1][1] = 150;
+        checkpoints[1][0] = (int) wrapper.player.x + 75;
+        checkpoints[1][1] = (int) wrapper.player.y + 75;
         	
-        checkpoints[2][0] = 0;
-        checkpoints[2][1] = 150;
+        checkpoints[2][0] = (int) wrapper.player.x;
+        checkpoints[2][1] = (int) wrapper.player.y + 150;
         	
-        checkpoints[3][0] = -150;
-        checkpoints[3][1] = 150;
+        checkpoints[3][0] = (int) wrapper.player.x - 75;
+        checkpoints[3][1] = (int) wrapper.player.y + 75;
         
-    	checkpoints[4][0] = -150;
-        checkpoints[4][1] = 0;
+    	checkpoints[4][0] = (int) wrapper.player.x - 150;
+        checkpoints[4][1] = (int) wrapper.player.y;
         	
-        checkpoints[5][0] = -150;
-        checkpoints[5][1] = -150;
+        checkpoints[5][0] = (int) wrapper.player.x - 75;
+        checkpoints[5][1] = (int) wrapper.player.y - 75;
         	
-        checkpoints[6][0] = 0;
-        checkpoints[6][1] = -150;
+        checkpoints[6][0] = (int) wrapper.player.x;
+        checkpoints[6][1] = (int) wrapper.player.y - 150;
         	
-        checkpoints[7][0] = 150;
-        checkpoints[7][1] = -150;
+        checkpoints[7][0] = (int) wrapper.player.x + 75;
+        checkpoints[7][1] = (int) wrapper.player.y - 75;
         
-        /* M‰‰ritet‰‰n objektien v‰linen kulma */
-        double angle;
+        // M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
+        double startAngle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, (int) wrapper.player.x, (int) wrapper.player.y);
         
-        // Jos vihollinen on pelaajan vasemmalla puolella:
-        for(int i = 1; i < 9; ++i)
-        {
-        	double xDiff = Math.abs((double)(wrapper.enemies.get(parentId).x - checkpoints[i][0]));
-            double yDiff = Math.abs((double)(wrapper.enemies.get(parentId).y - checkpoints[i][1]));
-            //double distance = Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2));
-            
-	        if (wrapper.enemies.get(parentId).x < checkpoints[i][0]) {
-	            // Jos vihollinen on pelaajan alapuolella:
-	            if (wrapper.enemies.get(parentId).y < checkpoints[i][1]) {
-	                angle = (Math.atan(yDiff/xDiff)*180)/Math.PI;
-	            }
-	            // Jos vihollinen on pelaajan yl‰puolella:
-	            else if (wrapper.enemies.get(parentId).y > checkpoints[i][1]) {
-	                angle = 360 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
-	            }
-	            else {
-	                angle = 0;
-	            }
-	        }
-	        // Jos vihollinen on pelaajan oikealla puolella:
-	        else if (wrapper.enemies.get(parentId).x > checkpoints[i][0]) {
-	            // Jos vihollinen on pelaajan yl‰puolella:
-	            if (wrapper.enemies.get(parentId).y > checkpoints[i][1]) {
-	                angle = 180 + (Math.atan(yDiff/xDiff)*180)/Math.PI;
-	            }
-	            // Jos vihollinen on pelaajan alapuolella:
-	            else if (wrapper.enemies.get(parentId).y < checkpoints[i][1]) {
-	                angle = 180 - (Math.atan(yDiff/xDiff)*180)/Math.PI;
-	            }
-	            else {
-	                angle = 180;
-	            }
-	        }
-	        // Jos vihollinen on suoraan pelaajan yl‰- tai alapuolella
-	        else {
-	            if (wrapper.enemies.get(parentId).y > checkpoints[i][1]) {
-	                angle = 270;
-	            }
-	            else {
-	                angle = 90;
-	            }
-	        }
-	        
-	        /* M‰‰ritet‰‰n k‰‰ntymissuunta */
-	        double angle2 = angle - wrapper.enemies.get(parentId).direction;
-
-	        if(angle == 0 || angle == 90 || angle == 180 || angle == 270) {
-	        	wrapper.enemies.get(parentId).turningDirection = 0;
-	        }
-	        
-	        if (angle2 >= -10 && angle2 <= 10) {
-	            wrapper.enemies.get(parentId).turningDirection = 0;
-	        }
-	        else if (angle2 > 0 && angle2 <= 180) {
-	            wrapper.enemies.get(parentId).turningDirection = 1;
-	        }
-	        else {
-	            wrapper.enemies.get(parentId).turningDirection = 2;
-	        }
+        if(startAngle >= 0 && startAngle < 45 ) {
+        	startCheckpoint = 5;
         }
         
-        /* Tarkistetaan tˆrm‰ykset pelaajan kanssa */
-        checkCollisionWithPlayer();
+        else if(startAngle >= 45 && startAngle < 90) {
+        	startCheckpoint = 6;
+        }
+        
+        else if(startAngle >= 90 && startAngle < 135) {
+        	startCheckpoint = 7;
+        }
+        
+        else if(startAngle >= 135 && startAngle < 180) {
+        	startCheckpoint = 0;
+        }
+        
+        else if(startAngle >= 180 && startAngle < 225) {
+        	startCheckpoint = 1;
+        }
+        
+        else if(startAngle >= 225 && startAngle < 270) {
+        	startCheckpoint = 2;
+        }
+        
+        else if(startAngle >= 270 && startAngle < 315) {
+        	startCheckpoint = 3;
+        }
+        
+        else if(startAngle >= 315 && startAngle < 360) {
+        	startCheckpoint = 4;
+        }
+
+        if((int) wrapper.enemies.get(parentId).x != checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y != checkpoints[startCheckpoint][1]) {
+        	
+        	// M‰‰ritet‰‰n k‰‰ntymissuunta
+        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+
+        	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+        }
+        
+        if((int) wrapper.enemies.get(parentId).x == checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y == checkpoints[startCheckpoint][1]){
+        	
+        	++startCheckpoint;
+        	
+        	if(startCheckpoint == 8) {
+        		startCheckpoint = 0;
+        	}
+        	
+        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+
+        	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+        }
     }
 }
