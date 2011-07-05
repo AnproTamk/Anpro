@@ -11,6 +11,12 @@ abstract public class AbstractAi
     public static final int TRACKING_PROJECTILE_AI = 2;
     public static final int MOTION_PROJECTILE_AI   = 3;
     
+    /* Vihollisten tekoälyt */
+    public static final int LINEAR_ENEMY_AI          = 1;
+    public static final int ROTARY_ENEMY_AI          = 2;
+    public static final int SQUIGGLY_ENEMY_AI        = 3;
+    public static final int APPROACHANDSTOP_ENEMY_AI = 4;
+    
 	/* Osoitin Wrapperiin */
     protected Wrapper wrapper;
     

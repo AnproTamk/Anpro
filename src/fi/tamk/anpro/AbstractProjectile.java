@@ -320,7 +320,7 @@ abstract public class AbstractProjectile extends GameObject
 			                // K‰sitell‰‰n passiivinen vahinko
 			        		if (causePassiveDamage) {
 				        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
-				                    wrapper.enemies.get(i).health -= Utility.calculateDamage(damageOnRadius, wrapper.enemies.get(i).defence, 0);
+				                    Utility.checkDamage(wrapper.enemies.get(i), damageOnRadius, armorPiercing);
 
 				                }
 			        		}
@@ -367,7 +367,7 @@ abstract public class AbstractProjectile extends GameObject
 	            		// K‰sitell‰‰n passiivinen vahinko
 	            		if (causePassiveDamage) {
 			                if (distance - wrapper.player.collisionRadius - damageRadius <= 0) {
-			                    wrapper.player.health -= Utility.calculateDamage(damageOnRadius, wrapper.player.defence, 0);
+			                	Utility.checkDamage(wrapper.player, damageOnRadius, armorPiercing);
 			                }
 	            		}
 	            	}
