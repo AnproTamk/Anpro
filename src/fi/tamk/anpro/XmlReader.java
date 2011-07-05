@@ -173,7 +173,7 @@ public class XmlReader
 	                    if (ranks.getName().equals("rank")) {
 	                        // Muunnetaan saatujen attribuuttien tiedot integer-arvoiksi, jotka sijoitetaan taulukkoon.
 	                        enemyStats.add(ranks.getAttributeIntValue(null, "health", 0));
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "defence", 0));
+	                        enemyStats.add(ranks.getAttributeIntValue(null, "armor", 0));
 	                        enemyStats.add(ranks.getAttributeIntValue(null, "speed", 0));
 	                        enemyStats.add(ranks.getAttributeIntValue(null, "attack", 0));
 	                        enemyStats.add(ranks.getAttributeIntValue(null, "ai", 0));
