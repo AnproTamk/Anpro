@@ -9,12 +9,12 @@ public class Utility
 	/**
 	 * Laskee kahden pisteen v‰lisen et‰isyyden.
 	 * 
-	 * @param float Pisteen #1 X-koordinaatti
-	 * @param float Pisteen #1 Y-koordinaatti
-	 * @param float Pisteen #2 X-koordinaatti
-	 * @param float Pisteen #2 Y-koordinaatti
+	 * @param _firstX Pisteen #1 X-koordinaatti
+	 * @param _firstY Pisteen #1 Y-koordinaatti
+	 * @param _secondX Pisteen #2 X-koordinaatti
+	 * @param _secondY Pisteen #2 Y-koordinaatti
 	 * 
-	 * @return int Et‰isyys
+	 * @return Et‰isyys
 	 */
 	public static int getDistance(float _firstX, float _firstY, float _secondX, float _secondY)
 	{
@@ -25,12 +25,12 @@ public class Utility
 	 * Laskee kahden pisteen v‰lisen kulman. Nollakulman osoittava vektori sijoitetaan l‰htem‰‰n
 	 * ensimm‰isest‰ pisteest‰ oikealle.
 	 * 
-	 * @param int Pisteen #1 X-koordinaatti
-	 * @param int Pisteen #1 Y-koordinaatti
-	 * @param int Pisteen #2 X-koordinaatti
-	 * @param int Pisteen #2 Y-koordinaatti
+	 * @param _firstX Pisteen #1 X-koordinaatti
+	 * @param _firstY Pisteen #1 Y-koordinaatti
+	 * @param _secondX Pisteen #2 X-koordinaatti
+	 * @param _secondY Pisteen #2 Y-koordinaatti
 	 * 
-	 * @return int Kulma
+	 * @return Kulma
 	 */
 	public static int getAngle(float _firstX, float _firstY, float _secondX, float _secondY)
 	{
@@ -76,10 +76,10 @@ public class Utility
 	 * M‰‰ritt‰‰ k‰‰ntymissuunnan objektin sijainnin, sen katsomissuunnan ja kohteen
 	 * sijainnin perusteella.
 	 * 
-	 * @param int Objektin katsomissuunta
-	 * @param int Objektin ja kohteen v‰linen kulma
+	 * @param _direction Objektin katsomissuunta
+	 * @param _angle Objektin ja kohteen v‰linen kulma
 	 * 
-	 * @return int K‰‰ntymissuunta (0 ei k‰‰nnyt‰, 1 vasen, 2 oikea)
+	 * @return K‰‰ntymissuunta (0 ei k‰‰nnyt‰, 1 vasen, 2 oikea)
 	 */
 	public static int getTurningDirection(int _direction, int _angle)
 	{
@@ -100,10 +100,10 @@ public class Utility
     /**
      * Tarkastaa, tapahtuuko kahden objektin v‰lill‰ tˆrm‰ys.
      * 
-     * @param GameObject Ensimm‰inen objekti
-     * @param GameObject Toinen objekti
+     * @param _first Ensimm‰inen objekti
+     * @param _second Toinen objekti
      * 
-     * @return boolean Tˆrm‰‰v‰tkˆ objektit
+     * @return Tˆrm‰‰v‰tkˆ objektit
      */
     public static final boolean isColliding(GameObject _first, GameObject _second)
     {
@@ -120,10 +120,10 @@ public class Utility
     /**
      * Tarkastaa, onko kohde vahingon aiheuttaja passiivisen vahingon vaikutusalueella.
      * 
-     * @param AbstractProjectile Vahingon aiheuttaja
-     * @param GameObject         Kohde
+     * @param _attacker Vahingon aiheuttaja
+     * @param _target   Kohde
      * 
-     * @return boolean Vaikuttaako vahinko
+     * @return Vaikuttaako vahinko
      */
     public static final boolean isInDamageRadius(AbstractProjectile _attacker, GameObject _target)
     {
@@ -135,5 +135,19 @@ public class Utility
         else {
         	return false;
         }
+    }
+    
+    /**
+     * Laskee aiheutuneen vahingon m‰‰r‰n.
+     * 
+     * @param _damage Vaurion m‰‰r‰
+     * @param _defence Suojan m‰‰r‰
+     * @param _armorPiercing L‰p‰isykyky
+     * 
+     * @return Aikaansaatu vahinko
+     */    
+    public static float calculateDamage(int _damage, int _defence, int _armorPiercing)
+    {
+    	return (int)((float)_damage * (1 - 0.15 * (float)_defence + 0.1 * (float)_armorPiercing));
     }
 }
