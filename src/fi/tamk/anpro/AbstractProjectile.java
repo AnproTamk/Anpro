@@ -19,7 +19,7 @@ abstract public class AbstractProjectile extends GameObject
     protected int projectileId;
     
     // Vahinko ja sen tyyppi
-    public int damageOnTouch   = 2;
+    public int damageOnTouch   = 1;
     public int damageOnExplode = 0;
     public int damageType      = DAMAGE_ON_TOUCH; // Arvoksi EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
     
@@ -321,7 +321,6 @@ abstract public class AbstractProjectile extends GameObject
 			        		if (causePassiveDamage) {
 				        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
 				                    Utility.checkDamage(wrapper.enemies.get(i), damageOnRadius, armorPiercing);
-
 				                }
 			        		}
 		            	}
@@ -347,7 +346,7 @@ abstract public class AbstractProjectile extends GameObject
 		                    wrapper.projectileStates.set(listId, 2);
 		                    
 		                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-		                        wrapper.player.triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+		                        wrapper.player.triggerCollision(damageOnTouch, armorPiercing);
 		
 		                    	if (explodeOnTarget) {
 		                		    setUnactive();
