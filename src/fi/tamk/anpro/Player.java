@@ -87,7 +87,7 @@ public class Player extends GameObject
             GLRenderer.playerAnimations[usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction);
+            GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction, 0);
         }
     }
 
