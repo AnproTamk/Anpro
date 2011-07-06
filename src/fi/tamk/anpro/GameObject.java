@@ -165,7 +165,7 @@ abstract public class GameObject extends GfxObject
      */
     public final void setMovementSpeed(float _multiplier)
     {
-    	movementSpeed = (int) (((float)speed / 3) * _multiplier);
+    	movementSpeed = (int) (((float)speed / 2) * _multiplier);
     }
 
     /**

@@ -4,47 +4,54 @@
               android:orientation="vertical" 
               android:layout_height="480dip" 
               android:layout_width="320dip">
-        
-         <TextView
-            android:layout_width="fill_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/pause_title" 
-            android:layout_height="75dip"/>
             
          <Button android:text="@string/button_resume" 
                  android:layout_height="wrap_content" 
                  android:id="@+id/button_resume" 
                  android:layout_width="150dip" 
                  android:layout_marginLeft="85dip" 
-                 android:layout_marginBottom="25dip">
+                 android:layout_marginBottom="25dip"
+                 android:layout_marginTop="0dip">
          </Button>
-                 
-         <RadioButton android:text="Sounds on/off" 
-                      android:id="@+id/sounds_button"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content">
-         </RadioButton>
          
-         <RadioButton android:id="@+id/music_button"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="Music on/off"
-                      android:layout_marginBottom="25dip">
-         
-         </RadioButton>
+         <LinearLayout android:layout_width="fill_parent" 
+         			   android:layout_height="wrap_content" 
+         			   android:id="@+id/linearLayout1">
+             
+             <CheckBox android:layout_width="wrap_content" 
+             		   android:id="@+id/checkBox1" 
+             		   android:layout_height="wrap_content"
+             		   android:background="@drawable/music"
+                  	   android:button="@drawable/checkbox"
+                  	   android:layout_marginLeft="100dip" 
+                  	   android:layout_marginRight="25dip">
+             </CheckBox>
+             
+             <CheckBox android:layout_width="wrap_content" 
+                       android:id="@+id/checkBox2"
+                       android:background="@drawable/sound"
+                  	   android:button="@drawable/checkbox"
+                       android:layout_height="wrap_content">
+             </CheckBox>
+             
+         </LinearLayout>
          
          <Button android:text="Level Select" 
-                 android:layout_height="wrap_content" 
-                 android:id="@+id/button_level_select" 
-                 android:layout_marginLeft="85dip" 
-                 android:layout_width="150dip">
+         		 android:id="@+id/button_level_select"
+         		 android:layout_marginLeft="85dip"
+         		 android:layout_marginTop="25dip"
+         		 android:layout_width="150dip" 
+         		 android:layout_height="wrap_content">
          </Button>
          
-         <Button android:text="Main Menu" 
-                 android:layout_height="wrap_content" 
-                 android:id="@+id/button_main_menu" 
-                 android:layout_marginLeft="85dip" 
-                 android:layout_width="150dip">
-         </Button>
+         <ImageButton android:text="Main Menu" 
+                 	  android:layout_height="wrap_content" 
+                 	  android:id="@+id/button_main_menu" 
+                 	  android:background="@drawable/checkbox_on_background" 
+                 	  android:src="@drawable/quit"
+                 	  android:layout_marginLeft="85dip" 
+                 	  android:layout_width="150dip" 
+                 	  android:layout_marginTop="50dip">
+         </ImageButton>
                 
 </LinearLayout>

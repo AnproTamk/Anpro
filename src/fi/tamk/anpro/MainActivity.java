@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -60,11 +61,12 @@ public class MainActivity extends Activity implements OnClickListener
         SoundManager.getInstance();
         SoundManager.initSounds(this);
         
+        // Ladataan laitteen ominaisuudet
+        Configuration config = getResources().getConfiguration();
+        Options.setConfig(config);
+        
         // Ladataan Options käyttöön ja asetetaan asetukset
         Options.getInstance().getScalingConversion(dm.widthPixels, dm.heightPixels);
-        Options.particles = true;
-        Options.music     = true;
-        Options.sounds    = false;
         
         // Määritetään aktiviteetin asetukset
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -202,7 +204,7 @@ public class MainActivity extends Activity implements OnClickListener
     	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
     	e.commit();
         
-    	//Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
         
