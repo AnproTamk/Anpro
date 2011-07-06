@@ -128,12 +128,14 @@ public class Player extends GameObject
      * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
      * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
      * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
+     * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
      */
     @Override
     protected void triggerEndOfAction()
     {    	
         // Tuhotaan pelaaja ja siirrytään pois pelitilasta
-        if (actionId == 1) {
+        if (actionId == GfxObject.ACTION_DESTROYED) {
             setUnactive();
             
             survivalMode.endGameMode();

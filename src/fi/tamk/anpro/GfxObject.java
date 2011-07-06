@@ -9,6 +9,10 @@ import javax.microedition.khronos.opengles.GL10;
  */
 abstract public class GfxObject
 {
+	/* Toimintojen tilat */
+	protected static final byte ACTION_DESTROYED = 1;
+	protected static final byte ACTION_ENABLED   = 2;
+	
     /* Objektin sijainti */
     public float x = 0;
     public float y = 0;
@@ -129,6 +133,8 @@ abstract public class GfxObject
      * Asettaa erityistoiminnon ja animaation. Kun animaatio loppuu, kutsuu update-funktio
      * objektin triggerEndOfAction-funktiota.
      * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
+     * 
      * @param int Animaation tunnus
      * @param int Toistokerrat
      * @param int Animaation päivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
@@ -159,6 +165,8 @@ abstract public class GfxObject
      * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
      * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
      * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
+     * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
      */
     abstract protected void triggerEndOfAction();
 }
