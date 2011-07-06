@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import java.lang.Math;
-
 /**
  * Sisältää Spinning Laser -ammuksen tiedot ja toiminnot, kuten aktivoinnin, tekoälyn,
  * törmäystunnistuksen ja ajastukset.
@@ -49,11 +47,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
             if (wrapper.enemyStates.get(i) == 1) {
-                int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
-
-                if (distance - wrapper.enemies.get(i).collisionRadius - collisionRadius <= 0) {
+            	if (Utility.isColliding(this, wrapper.enemies.get(i))) {
                     wrapper.enemies.get(i).triggerDestroyed();
-                }
+            	}
             }
         }
     }

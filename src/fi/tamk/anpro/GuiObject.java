@@ -74,6 +74,8 @@ abstract public class GuiObject extends GfxObject
      * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
      * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
      * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
+     * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
      */
     @Override
     protected void triggerEndOfAction()

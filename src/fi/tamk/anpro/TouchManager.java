@@ -107,7 +107,7 @@ public class TouchManager
                     xClickOffset = (int) event.getX();
                     yClickOffset = screenHeight - (int) event.getY();
 
-                    // Oikean reunan napit
+                    /* Oikean reunan napit */
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
                     	yClickOffset < yClickFirstBorder) {
                     	
@@ -129,7 +129,7 @@ public class TouchManager
                             hud.triggerClick(Hud.BUTTON_1);
                         }
                     }
-                    // Vasemman reunan napit
+                    /* Vasemman reunan napit */
                     else if (xClickOffset < screenWidth - 700 * Options.scaleX && xClickOffset > 0 &&
                     		 yClickOffset < yClickSecondBorder) {
 
@@ -144,7 +144,7 @@ public class TouchManager
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
                     }
-                    // Painetaan pelikentältä
+                    /* Painetaan pelikentältä */
                     else {
                         weaponManager.triggerPlayerShoot(event.getX() - screenWidth/2, -((-screenHeight / 2) + event.getY()));
                         // ***** PELIKENTTÄ *****
