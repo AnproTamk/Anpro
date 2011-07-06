@@ -41,7 +41,11 @@ public class Hud
     public Hud(Context _context, WeaponManager _weaponManager)
     {
         weaponManager = _weaponManager;
-        weapons 	  = new int[5];
+        
+        weapons = new int[5];
+        for (byte i = 0; i < 5; ++i) {
+        	weapons[i] = -1;
+        }
         
         buttons  = new ArrayList<Button>();
         icons	 = new ArrayList<Icon>();
@@ -85,7 +89,7 @@ public class Hud
     public final void triggerClick(int _buttonId)
     {
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
-        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0) {
+        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0 && weapons[_buttonId] > -1) {
             
             // Otetaan muut aseet pois käytöstä
             for (Button object : buttons) {
