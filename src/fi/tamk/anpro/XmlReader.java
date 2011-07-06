@@ -130,6 +130,11 @@ public class XmlReader
 	    						    			   Integer.parseInt(hud.getAttributeValue(null, "y")),
 	    						    			   Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
+	                    
+	                    else if (hud.getName().equals("joystick") && Options.joystick) {
+	                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
+	                    }
 	                }
 	                else if (hud.getEventType() == XmlPullParser.END_TAG) {
 	                    // ...

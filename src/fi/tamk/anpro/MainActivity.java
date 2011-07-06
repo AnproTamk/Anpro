@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements OnClickListener
         
         // Ladataan laitteen ominaisuudet
         Configuration config = getResources().getConfiguration();
-        Options.setConfig(config);
+        Options.initialize(config, getPackageManager());
         
         // Ladataan Options käyttöön ja asetetaan asetukset
         Options.getInstance().getScalingConversion(dm.widthPixels, dm.heightPixels);

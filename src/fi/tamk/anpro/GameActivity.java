@@ -7,7 +7,6 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.media.AudioManager;
@@ -28,8 +27,13 @@ public class GameActivity extends Activity
     private GLSurfaceView surfaceView;
     private GLRenderer    renderer;
     
-    /* Pelis‰ie */
-    private GameThread gameThread;
+    /* Tarvittavat luokat */
+    private GameThread      gameThread;
+    @SuppressWarnings("unused")
+	private TouchManager    touchManager;
+    public  Hud             hud;
+    private WeaponManager   weaponManager;
+    private InputController inputController;
     
     /* Aktiivinen pelitila (asetetaan p‰‰valikossa) */
     public static int activeMode = 1;
@@ -44,7 +48,7 @@ public class GameActivity extends Activity
     public void onCreate(Bundle _savedInstanceState)
     {
         super.onCreate(_savedInstanceState);
-        
+
         // Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                              WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -68,9 +72,25 @@ public class GameActivity extends Activity
         
         // Asetetaan k‰ytett‰v‰ pinta
         setContentView(surfaceView);
+
+        // TODO: Pit‰‰ tarkistaa mik‰ pelitila on k‰ynnistett‰v‰
+    	// Luodaan WeaponManager
+    	weaponManager = new WeaponManager();
+        weaponManager.initialize(GameActivity.activeMode);
+        
+        // Luodaan Hud
+        hud = new Hud(getBaseContext(), weaponManager);
+        
+        // Luodaan TouchManager
+        touchManager = new TouchManager(dm, surfaceView, getBaseContext(), hud, weaponManager);
+        
+        // Luodaan InputController, mik‰li laitteessa on sellainen
+        if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
+        	inputController = new InputController();
+        }
         
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext(), surfaceView, this);
+        gameThread = new GameThread(dm, getBaseContext(), this, hud, touchManager, weaponManager);
         renderer.connectToGameThread(gameThread);
     }
         
@@ -189,33 +209,22 @@ public class GameActivity extends Activity
 	@Override
 	public boolean onKeyDown(int _keyCode, KeyEvent _event)
 	{
-	    if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
 	        Intent i_pausemenu = new Intent(this, PauseMenuActivity.class);
 	        startActivity(i_pausemenu);
 	        return true;
 	    }
-	    
-	    // K‰sitell‰‰n DPad-napit
-	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			Log.v("navigare", "OK");
-			return true;
-		}
-	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-			Log.v("navigare", "LEFT");
-			return true;
-		}
-		else if (_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-			Log.v("navigare", "RIGHT");
-			return true;
-		}
-		else if (_keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-			Log.v("navigare", "UP");
-			return true;
-		}
-		else if (_keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-			Log.v("navigare", "DOWN");
-			return true;
-		}
-	    return super.onKeyDown(_keyCode, _event);
+		
+	    return inputController.handleKeyDown(_keyCode, _event); 
+	}
+	
+	@Override
+	public boolean onKeyUp(int _keyCode, KeyEvent _event)
+	{
+		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+	        return true;
+	    }
+		
+	    return inputController.handleKeyUp(_keyCode, _event); 
 	}
 }
