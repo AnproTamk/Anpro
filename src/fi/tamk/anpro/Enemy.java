@@ -220,18 +220,20 @@ public class Enemy extends GameObject
      * Jokainen objekti luo funktiosta oman toteutuksensa, sillä toimintoja voi olla
      * useita. Objekteilla on myös käytössään actionId-muuttuja, jolle voidaan asettaa
      * haluttu arvo. Tämä arvo kertoo objektille, minkä toiminnon se juuri suoritti.
+     * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
      */
     @Override
     protected void triggerEndOfAction()
     {
         // Tuhotaan vihollinen
-        if (actionId == 1) {
+        if (actionId == GfxObject.ACTION_DESTROYED) {
         	--SurvivalMode.enemiesLeft;
         	SurvivalMode.updateScore(rank);
             setUnactive();
         }
-        // Aktivoidaan vihollinen
-        else if (actionId == 2) {
+        // Aktivoidaan vihollinen (esim. EMPin jälkeen)
+        else if (actionId == GfxObject.ACTION_ENABLED) {
         	wrapper.enemyStates.set(listId, 1);
         }
         
@@ -264,6 +266,7 @@ public class Enemy extends GameObject
     	wrapper.enemyStates.set(listId, 3);
 
     	movementAcceleration = -15;
+    	turningDirection     = 0;
     	
         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
 	}
