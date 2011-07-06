@@ -53,6 +53,7 @@
         
         <activity android:name="PauseMenuActivity"
                   android:label="@string/pause_title"
+                  android:theme="@android:style/Theme.Dialog"
                   android:screenOrientation="landscape"
                   android:configChanges="keyboardHidden|orientation"
                   android:launchMode="singleInstance">

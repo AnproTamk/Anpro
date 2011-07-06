@@ -204,7 +204,7 @@ public class MainActivity extends Activity implements OnClickListener
     	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
     	e.commit();
         
-    	//Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
         
