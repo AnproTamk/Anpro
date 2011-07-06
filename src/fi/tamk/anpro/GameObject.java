@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ kaikkien peliobjektien (pelaaja, viholliset, liittolaiset, ammukset yms.)
  * yhteiset tiedot ja toiminnallisuudet.
@@ -86,7 +88,11 @@ abstract public class GameObject extends GfxObject
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky l‰p‰ist‰ suojat (k‰ytet‰‰n, kun tˆrm‰ttiin ammukseen)
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    {
+    	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
+    	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰v‰t vain viholliset ja liittolaiset!");
+    }
 
     /**
      * K‰sittelee tˆrm‰yksien vaikutukset objektiin.
@@ -94,7 +100,11 @@ abstract public class GameObject extends GfxObject
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky l‰p‰ist‰ suojat (k‰ytet‰‰n, kun tˆrm‰ttiin ammukseen)
      */
-    public void triggerCollision(int _damage, int _armorPiercing) { }
+    public void triggerCollision(int _damage, int _armorPiercing)
+    {
+    	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
+    	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰‰ vain pelaaja!");
+    }
     
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
@@ -155,7 +165,7 @@ abstract public class GameObject extends GfxObject
      */
     public final void setMovementSpeed(float _multiplier)
     {
-    	movementSpeed = (int) (_multiplier * speed);
+    	movementSpeed = (int) (((float)speed / 3) * _multiplier);
     }
 
     /**
@@ -165,7 +175,7 @@ abstract public class GameObject extends GfxObject
      */
     public final void setMovementDelay(float _multiplier)
     {
-    	movementDelay = (int) (80 / (_multiplier * speed));
+    	movementDelay = (int) (80 / (_multiplier * (float)speed));
     }
     
     /**
@@ -175,7 +185,7 @@ abstract public class GameObject extends GfxObject
      */
     public final void setTurningSpeed(float _multiplier)
     {
-    	turningSpeed = (int) (_multiplier * speed);
+    	turningSpeed = (int) (_multiplier * (float)speed / 2);
     }
 
     /**
@@ -185,7 +195,7 @@ abstract public class GameObject extends GfxObject
      */
     public final void setTurningDelay(float _multiplier)
     {
-    	turningDelay = (int) (60 / (_multiplier * speed));
+    	turningDelay = (int) (60 / (_multiplier * (float)speed));
     }
 }
 
