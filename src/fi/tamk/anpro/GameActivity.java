@@ -188,6 +188,7 @@ public class GameActivity extends Activity
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)  {
 	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+	        onPause();
 	        Intent i_pausemenu = new Intent(this, PauseMenuActivity.class);
 	        startActivity(i_pausemenu);
 	        return true;
