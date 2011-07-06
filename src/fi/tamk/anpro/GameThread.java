@@ -1,7 +1,6 @@
 package fi.tamk.anpro;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
 
 /**
@@ -14,14 +13,12 @@ class GameThread extends Thread
     public  boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Tarvittavat luokat */
-    private Wrapper         wrapper;
-    private AbstractMode    gameMode;
-    private WeaponManager   weaponManager;
+    private Wrapper       wrapper;
+    private AbstractMode  gameMode;
     @SuppressWarnings("unused")
-	private TouchManager  	touchManager; // TODO: Missä TouchManageria käytetään eniten? Pitäisikö TouchManager luoda
-    									// siellä GameThreadin sijaan, jotta vältyttäisiin staattisilta funktiokutsuilta?
-    
+	private TouchManager  touchManager;
     public  Hud           hud;
+    private WeaponManager weaponManager;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime;
@@ -43,7 +40,6 @@ class GameThread extends Thread
        luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
     private DisplayMetrics dm;
     private Context        context;
-    private GLSurfaceView  surface;
     private GameActivity   gameActivity;
 
     /**
@@ -54,14 +50,17 @@ class GameThread extends Thread
      * @param GLSurfaceView  OpenGL-pinta
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
-    public GameThread(DisplayMetrics _dm, Context _context, GLSurfaceView _surface, GameActivity _gameActivity)
+    public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
+    				  Hud _hud, TouchManager _touchManager, WeaponManager _weaponManager)
     {
         wrapper = Wrapper.getInstance();
         
-        dm      	 = _dm;
-        context 	 = _context;
-        surface 	 = _surface;
-        gameActivity = _gameActivity;
+        dm      	  = _dm;
+        context 	  = _context;
+        gameActivity  = _gameActivity;
+        hud           = _hud;
+        touchManager  = _touchManager;
+        weaponManager = _weaponManager;
     }
 
     /**
@@ -80,26 +79,9 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-    	/* Ladataan pelitila */
-        // TODO: Pitää tarkistaa mikä pelitila on käynnistettävä
-    	// Luodaan WeaponManager
-    	weaponManager = new WeaponManager();
-        weaponManager.initialize(GameActivity.activeMode);
-    	
-    	// Luodaan Hud
-        hud = new Hud(context, weaponManager);
-    	
         // Luodaan SurvivalMode
         gameMode = new SurvivalMode(gameActivity, dm, context, weaponManager);
-        
-        // Luodaan TouchManager
-        touchManager = new TouchManager(dm, surface, context, hud, weaponManager);
-        
-        // Luodaan InputController, mikäli laitteessa on sellainen
-        if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
-        	//inputController = new InputController(Options.controlType, wrapper);
-        }
-        
+
         // Merkitään kaikki ladatuiksi
         allLoaded = true;
         

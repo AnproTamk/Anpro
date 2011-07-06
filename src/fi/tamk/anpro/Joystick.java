@@ -5,7 +5,6 @@ package fi.tamk.anpro;
  */
 public class Joystick extends GuiObject
 {
-	private static boolean 	 joystickActivated;
 	public  static int 		 joystickX;
 	public  static int		 joystickY;
 	
@@ -21,10 +20,7 @@ public class Joystick extends GuiObject
         
         joystickX         = _x;
         joystickY         = _y;
-        joystickActivated = false;
         
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
-        
-        joystickActivated = true; // TODO: Muualla koodissa pitää tarkistaa, onko joystick käytössä vai ei
     }
 }
