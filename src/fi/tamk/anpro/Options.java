@@ -1,6 +1,8 @@
 package fi.tamk.anpro;
 
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.util.Log;
 
 /**
  * Hallitsee pelin globaaleja asetuksia.
@@ -18,10 +20,11 @@ public class Options
 	private static Options instance = null;
 	
 	/* Asetukset */
-	public static boolean   particles;	// Partikkelit
-	
-	public static boolean   sounds;		// Ääniefektit
-	public static boolean   music;		// Musiikit
+	public static boolean particles;	// Partikkelit
+	public static boolean sounds;		// Ääniefektit
+	public static boolean music;		// Musiikit
+	public static boolean multiTouch;
+	public static boolean joystick;
 	
 	/**
 	 * Määrittelee mikä lisäohjaustapa laitteessa on: <br>
@@ -66,16 +69,35 @@ public class Options
     /**
      * Asettaa asetukset.
      * 
-     * @param _config laitteen kaikki asetukset, jotka vaikuttavat resursseihin, joita ohjelma käyttää
+     * @param _config   Laitteen kaikki asetukset, jotka vaikuttavat resursseihin, joita ohjelma käyttää
+     * @param _pManager Laitteeseen asennettujen ominaisuuksien tietoja (esim. multitouch)
      */
-    public final static void setConfig(Configuration _config)
+    public final static void initialize(Configuration _config, PackageManager _pManager)
     {	
     	//Log.i("navigare", "Navigation = " + _config.navigation);
     	controlType = (byte)_config.navigation;
         
-        Options.particles = true;
-        Options.music     = true;
-        Options.sounds    = false;
+        particles = true;
+        music     = true;
+        sounds    = false;
+        
+        Log.v("navigare", "Testataan multitouch..");
+        
+        // Ottaa multitouchin käyttöön tai pois käytöstä laitteen ominaisuuksista riippuen
+        if (_pManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH)) {
+        	// Käynnistetään multiTouch ja joystick
+        	multiTouch = true;
+        	joystick = true;
+        	Log.v("navigare", "multiTouch = true");
+        	Log.v("navigare", "joystick = true");
+        }
+        else {
+        	// Sammutetaan multiTouch ja joystick
+        	multiTouch = false;
+        	joystick = false;
+        	Log.v("navigare", "multiTouch = false");
+        	Log.v("navigare", "joystick = false");
+        }
     }
     
 	/**
@@ -94,13 +116,4 @@ public class Options
     	scaledScreenWidth  = _screenWidth / 2;  // Tätä käytetään AbstractProjectile-luokassa
     	scaledScreenHeight = _screenHeight / 2; // Tätä käytetään AbstractProjectile-luokassa    	
 	}
-
-	/**
-	 * Skaalaa etäisyydet.
-	 */
-	/*public static int pixelConversion(int _pixels)
-	{
-		// Muunnetaan dps:t pikseleiksi tiheyden skaalauksen mukaan ja pyöristetään ylöspäin
-		return ((int)(_pixels * scale + 0.5f));
-	}*/
 }
