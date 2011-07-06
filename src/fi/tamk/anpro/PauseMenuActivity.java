@@ -25,7 +25,7 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 		// TODO: Pelitilan voi tarkistaa joko GameActivitysta (pit‰isi siirt‰‰ Optionsiin?)
 		// if(storyMode == true) {
 			super.onCreate(_savedInstanceState);
-			setContentView(R.layout.pausemenu);
+			setContentView(R.layout.pausemenu_survival);
 	        
 	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	        

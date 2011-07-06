@@ -18,20 +18,8 @@
                  android:layout_marginLeft="85dip" 
                  android:layout_marginBottom="25dip">
          </Button>
-                 
-         <RadioButton android:text="Sounds on/off" 
-                      android:id="@+id/sounds_button"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content">
-         </RadioButton>
-         
-         <RadioButton android:id="@+id/music_button"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="Music on/off"
-                      android:layout_marginBottom="25dip">
-         
-         </RadioButton>
+         <CheckBox android:text="CheckBox" android:id="@+id/checkBox1" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+         <CheckBox android:text="CheckBox" android:id="@+id/checkBox2" android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
          
          <Button android:text="Level Select" 
                  android:layout_height="wrap_content" 
