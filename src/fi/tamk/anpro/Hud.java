@@ -35,8 +35,8 @@ public class Hud
     /**
      * Alustaa luokan muuttujat ja lukee Hudin ulkoasun XmlReaderin avulla.
      * 
-     * @param Context       Ohjelman konteksti
-     * @param WeaponManager Osoitin WeaponManageriin
+     * @param _context       Ohjelman konteksti
+     * @param _weaponManager Osoitin WeaponManageriin
      */
     public Hud(Context _context, WeaponManager _weaponManager)
     {
@@ -68,7 +68,7 @@ public class Hud
     /**
      * Päivittää HUD:ssa näkyvän pistelaskurin.
      * 
-     * @param int Pisteet
+     * @param _score Pisteet
      */
     public final static void updateScoreCounter(long _score)
     {
@@ -80,7 +80,7 @@ public class Hud
     /**
      * Käsittelee napin painalluksen ja asettaa uuden aseen käyttöön WeaponManageriin.
      * 
-     * @param int Painetun napin tunnus
+     * @param _buttonId Painetun napin tunnus
      */
     public final void triggerClick(int _buttonId)
     {
@@ -93,7 +93,7 @@ public class Hud
             }
             
         	// Otetaan uusi ase käyttöön
-            weaponManager.currentWeapon = weapons[_buttonId];
+            weaponManager.setCurrentWeapon(weapons[_buttonId]);
             buttons.get(_buttonId).setSelected(true);
         }
     }

@@ -17,8 +17,9 @@ public class WeaponManager
     public int cooldownLeft[]; // Jäljellä oleva cooldown
 
     /* Käytössä oleva ase */
-    public int     currentWeapon       = 0;    // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
-    public boolean isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
+    public int      currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
+    public boolean  isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
+    public boolean[]   weaponLocation;		     // Aseen
     
     /* Aseiden oliot */
     public ArrayList<AbstractWeapon> allyWeapons   = null;
@@ -92,7 +93,7 @@ public class WeaponManager
      * Välittää kutsupyynnön Motion-tekoälyä käyttävälle valittuna olevalle aseelle.
      * Päivittää myös cooldownit.
      * 
-     * @param int[] Ammuksen reitti
+     * @param _path Ammuksen reitti
      */
     public final void triggerMotionShoot(int[][] _path)
     {
@@ -124,7 +125,7 @@ public class WeaponManager
     /**
      * Lataa aseet muistiin.
      * 
-     * @param int Pelitilan ja tason tunnus
+     * @param _id Pelitilan ja tason tunnus
      */
     public final void initialize(int _id)
     {
@@ -164,5 +165,24 @@ public class WeaponManager
                 cooldownLeft[i] -= 100;
             }
         }
+    }
+
+    /**
+     * Asettaa käytössä olevan aseen ja tarkastaa sen tarpeen MotionEventille.
+     * 
+     * @param _selectedWeapon Valittu ase
+     */
+    public void setCurrentWeapon(int _selectedWeapon)
+    {
+    	// TODO: valitun aseen muuttaminen.
+    	currentWeapon = _selectedWeapon;
+    	
+    	// Tarkastetaan tarvitseeko nykyinen ase MotionEventtiä
+    	if(weaponLocation[currentWeapon]) {
+    		isUsingMotionEvents = true;
+    	}
+    	else {
+    		isUsingMotionEvents = false;
+    	}
     }
 }
