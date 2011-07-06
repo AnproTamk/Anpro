@@ -7,6 +7,7 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.media.AudioManager;
@@ -186,14 +187,35 @@ public class GameActivity extends Activity
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)  {
-	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-	        onPause();
+	public boolean onKeyDown(int _keyCode, KeyEvent _event)
+	{
+	    if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
 	        Intent i_pausemenu = new Intent(this, PauseMenuActivity.class);
 	        startActivity(i_pausemenu);
 	        return true;
 	    }
-
-	    return super.onKeyDown(keyCode, event);
+	    
+	    // K‰sitell‰‰n DPad-napit
+	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+			Log.v("navigare", "OK");
+			return true;
+		}
+	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+			Log.v("navigare", "LEFT");
+			return true;
+		}
+		else if (_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+			Log.v("navigare", "RIGHT");
+			return true;
+		}
+		else if (_keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+			Log.v("navigare", "UP");
+			return true;
+		}
+		else if (_keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+			Log.v("navigare", "DOWN");
+			return true;
+		}
+	    return super.onKeyDown(_keyCode, _event);
 	}
 }

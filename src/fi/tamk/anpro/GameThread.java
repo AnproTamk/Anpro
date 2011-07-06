@@ -14,12 +14,13 @@ class GameThread extends Thread
     public  boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Tarvittavat luokat */
-    private Wrapper       wrapper;
-    private AbstractMode  gameMode;
-    private WeaponManager weaponManager;
+    private Wrapper         wrapper;
+    private AbstractMode    gameMode;
+    private WeaponManager   weaponManager;
     @SuppressWarnings("unused")
-	private TouchManager  touchManager; // TODO: Missä TouchManageria käytetään eniten? Pitäisikö TouchManager luoda
+	private TouchManager  	touchManager; // TODO: Missä TouchManageria käytetään eniten? Pitäisikö TouchManager luoda
     									// siellä GameThreadin sijaan, jotta vältyttäisiin staattisilta funktiokutsuilta?
+    
     public  Hud           hud;
     
     /* Ajastuksen muuttujat */
@@ -93,6 +94,11 @@ class GameThread extends Thread
         
         // Luodaan TouchManager
         touchManager = new TouchManager(dm, surface, context, hud, weaponManager);
+        
+        // Luodaan InputController, mikäli laitteessa on sellainen
+        if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
+        	//inputController = new InputController(Options.controlType, wrapper);
+        }
         
         // Merkitään kaikki ladatuiksi
         allLoaded = true;
