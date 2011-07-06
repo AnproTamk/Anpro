@@ -125,7 +125,7 @@ public class Enemy extends GameObject
             GLRenderer.enemyAnimations[rank-1][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.enemyTextures[rank-1][usedTexture].draw(_gl, x, y, direction);
+            GLRenderer.enemyTextures[rank-1][usedTexture].draw(_gl, x, y, direction, 0);
         }
     }
     

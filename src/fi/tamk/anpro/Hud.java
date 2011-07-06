@@ -41,7 +41,13 @@ public class Hud
     public Hud(Context _context, WeaponManager _weaponManager)
     {
         weaponManager = _weaponManager;
-        weapons 	  = new int[5];
+        
+        weapons = new int[5];
+        for (byte i = 0; i < 5; ++i) {
+        	weapons[i] = -1;
+        }
+        
+        weapons[0] = 0; // TODO: DEBUG!!!!
         
         buttons  = new ArrayList<Button>();
         icons	 = new ArrayList<Icon>();
@@ -59,8 +65,10 @@ public class Hud
     public final void updateCooldowns()
     {
     	 for (int i = buttons.size()-1; i >= 0; --i) {
-            if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-            	icons.get(i).update(weaponManager.cooldownLeft[i]);
+            if (weapons[i] > -1) {
+	    		if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
+	            	icons.get(i).update(weaponManager.cooldownLeft[i]);
+	            }
             }
         }
     }
@@ -85,17 +93,19 @@ public class Hud
     public final void triggerClick(int _buttonId)
     {
         // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
-        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0) {
-            
-            // Otetaan muut aseet pois käytöstä
-            for (Button object : buttons) {
-                object.setSelected(false); // TODO: Poista pelkästään valittuna ollut ase käytöstä
-            }
-            
-        	// Otetaan uusi ase käyttöön
-            weaponManager.setCurrentWeapon(weapons[_buttonId]);
-            buttons.get(_buttonId).setSelected(true);
-        }
+    	if (weapons[_buttonId] > -1) {
+	        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0) {
+	            
+	            // Otetaan muut aseet pois käytöstä
+	            for (Button object : buttons) {
+	                object.setSelected(false); // TODO: Poista pelkästään valittuna ollut ase käytöstä
+	            }
+	            
+	        	// Otetaan uusi ase käyttöön
+	            weaponManager.setCurrentWeapon(weapons[_buttonId]);
+	            buttons.get(_buttonId).setSelected(true);
+	        }
+    	}
     }
     
     /**

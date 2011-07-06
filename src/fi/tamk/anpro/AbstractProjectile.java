@@ -124,7 +124,7 @@ abstract public class AbstractProjectile extends GameObject
             GLRenderer.projectileAnimations[projectileId][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else {
-            GLRenderer.projectileTextures[projectileId][usedTexture].draw(_gl, x, y, direction);
+            GLRenderer.projectileTextures[projectileId][usedTexture].draw(_gl, x, y, direction, 0);
         }
     }
     

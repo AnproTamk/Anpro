@@ -51,10 +51,8 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_HUD_TEXTURES        = 45;
 
     /* Latausruudun tekstuurit ja tila */
-    
-    private Texture    loadingTexture;
-    private boolean showLoadingScreen = false; 
-   
+    private Texture loadingTexture;
+    private boolean showLoadingScreen = false;
    
     /* Piirrett‰v‰t animaatiot ja objektit */
     public static Texture[]     playerTextures;
@@ -275,11 +273,12 @@ public class GLRenderer implements Renderer
         /* Tekstuureja ei ole viel‰ ladattu */
         else if (!allLoaded && gameThread != null) {
         	// N‰ytet‰‰n latausruutu
-        	loadingTexture.draw(_gl, 0, 0, 90);
+        	loadingTexture.draw(_gl, 0, 0, 90, 0);
         	showLoadingScreen = true;
         	
             // Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
             if (loadTextures(_gl)) {
+            	allLoaded = true;
                 startThread();
             }
             else {
@@ -300,9 +299,9 @@ public class GLRenderer implements Renderer
     /**
      * Lataa kaikki tekstuurit ja animaatiot.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      * 
-     * @return boolean Onnistuiko lataaminen?
+     * @return Onnistuiko lataaminen?
      */
     private final boolean loadTextures(GL10 _gl)
     {
@@ -420,11 +419,10 @@ public class GLRenderer implements Renderer
         hudTextures[42] = new Texture(_gl, context, R.drawable.armorbar_tex_8);
         hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
         hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
+
         
-        /* Merkit‰‰n kaikki ladatuiksi ja palataan takaisin */
-        allLoaded = true;
-        
-        return true; // TODO: K‰sittele virheet ja palauta FALSE virheiden tapahtuessa.
+        /* K‰sitell‰‰n virheet ja palautetaan FALSE, jos virheit‰ on */
+        return true;
     }
 
     /**
