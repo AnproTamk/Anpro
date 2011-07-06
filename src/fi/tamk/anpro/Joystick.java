@@ -5,8 +5,8 @@ package fi.tamk.anpro;
  */
 public class Joystick extends GuiObject
 {
-	public  static int 		 joystickX;
-	public  static int		 joystickY;
+	public static int joystickX;
+	public static int joystickY;
 	
     /**
      * Alustaa luokan muuttujat.
@@ -18,8 +18,8 @@ public class Joystick extends GuiObject
     {
         super(_x, _y);
         
-        joystickX         = _x;
-        joystickY         = _y;
+        joystickX = _x;
+        joystickY = _y;
         
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
     }

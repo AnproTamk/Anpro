@@ -131,7 +131,8 @@ public class XmlReader
 	    						    			   Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                    
-	                    else if (hud.getName().equals("joystick") && Options.joystick) {
+	                    else if (hud.getName().equals("joystick") && Options.joystick &&
+	                    		 GameActivity.activeMode == GameActivity.STORY_MODE) {
 	                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
