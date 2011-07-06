@@ -66,7 +66,7 @@ abstract public class AbstractProjectile extends GameObject
      */
     public AbstractProjectile(int _ai, int _userType)
     {
-        super(4); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
+        super(15); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
         
         // Tallenne taan käyttäjän tyyppi
         userType = _userType;

@@ -140,8 +140,8 @@ public class Ally extends GameObject
             	triggerDestroyed();
             }
         }
-        else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
-        	triggerDestroyed();
+        else if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
+        	//triggerDestroyed();
         }
     }
 
