@@ -182,7 +182,7 @@ public class TouchManager
                     	return false;
                     }
 
-                	/*
+                	
                     if (!joystickInUse) {
                         if (startTime == 0) {
                             startTime = android.os.SystemClock.uptimeMillis();
@@ -194,7 +194,6 @@ public class TouchManager
                     }
                     
                     if (joystickInUse) {
-                    	
                     	xClickOffset = (int) event.getX() - screenWidth / 2;
                         yClickOffset = screenHeight / 2 - (int) event.getY();
                     	
@@ -245,7 +244,7 @@ public class TouchManager
                 
                         wrapper.player.direction = angle;
                     }
-                    */
+                    
                     //return true;
                 }
 				
