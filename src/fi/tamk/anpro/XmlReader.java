@@ -281,56 +281,70 @@ public class XmlReader
     }
     
     /**
-     * Lukee Story-pelitilan tiedot.
+     * Lukee yhden kentän tiedot Story-pelitilasta.
      * 
-     * @param StoryMode Osoitin pelitilaan
-     * 
-     * @deprecated
+     * @param _level         Kentän järjestysnumero
+     * @param _storyMode     Osoitin pelitilaan
+     * @param _weaponManager Osoitin WeaponManageriin
      */
-    /*public final void readStoryMode(StoryMode _storyMode){
-        XmlResourceParser rStoryMode = null;
-        rStoryMode = context.getResources().getXml(R.xml.storymode);
-        int currentWave = 0;
+    public final void readLevel(byte _level, SurvivalMode _storyMode, WeaponManager _weaponManager)
+    {
+        /*XmlResourceParser xrp = null;
         
-        if (rStoryMode != null) {
+        try {
+        	xrp = context.getResources().getXml(context.getResources().getIdentifier("level_"+_level, "xml", "fi.tamk.anpro"));
+        }
+        catch (Exception e) {
+        	e.printStackTrace();
+        }
+        
+        if (xrp != null) {
 	        try {
-	            while (rStoryMode.getEventType() != XmlPullParser.END_DOCUMENT) {
-	                if (rStoryMode.getEventType() == XmlPullParser.START_TAG) {
-	                    if (rStoryMode.getName().equals("enemy")) {
-	                        int rankTemp = Integer.parseInt(rStoryMode.getAttributeValue(null, "rank"));
+	            while (xrp.getEventType() != XmlPullParser.END_DOCUMENT) {
+	                if (xrp.getEventType() == XmlPullParser.START_TAG) {
+	                    if (xrp.getName().equals("enemy")) {
+	                        int rankTemp = Integer.parseInt(rsm.getAttributeValue(null, "rank")) - 1;
 	                        
-	                        _storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rankTemp][0],
-	                                _storyMode.enemyStats[rankTemp][1],
-	                                _storyMode.enemyStats[rankTemp][2],
-	                                _storyMode.enemyStats[rankTemp][3],
-	                                _storyMode.enemyStats[rankTemp][4]));
-	                        
+	                        _survivalMode.enemies.add(new Enemy(_survivalMode.enemyStats[rankTemp][0],
+	                                                            _survivalMode.enemyStats[rankTemp][1],
+	                                                            _survivalMode.enemyStats[rankTemp][2],
+	                                                            _survivalMode.enemyStats[rankTemp][3],
+	                                                            _survivalMode.enemyStats[rankTemp][4],
+	                                                            rankTemp + 1, _weaponManager));
 	                    }
-	                    if (rStoryMode.getName().equals("story")) {
-	                        // Tähän funktio "chapterin" tallentamiseksi.
-	                        // int currentChapter = blaa...
+	                    if (rsm.getName().equals("wave")) {
 	                        
-	                        if (rStoryMode.getName().equals("level")) {
-	                            // Tähän funktio "levelin" tallentamiseksi.
-	                            // int levelType = ...
+	                        String waveTemp = rsm.getAttributeValue(null, "enemies");
+	                        // Jaetaan waveTemp-muuttujan tiedot yksittäisiksi merkeiksi ja tallennetaan string-taulukkoon "wave".
+	                        String[] wave = null;
+	                        wave = waveTemp.split("\\,");
+	                        
+	                        // Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
+	                        int index = 0;
+	                        for (int i = wave.length - 1; i >= 0 ; --i) {
+	                        	if (wave[i] != null && wave[i] != "") {
+	                        		_survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
+	                        		++index;
+	                        	}
 	                        }
+	                        
+	                        ++currentWave;
 	                    }
+	                    
 	                }
-	                else if (rStoryMode.getEventType() == XmlPullParser.END_TAG) {
+	                else if (rsm.getEventType() == XmlPullParser.END_TAG) {
 	                    // ...
 	                }
 	                
-	                rStoryMode.next();
+	                rsm.next();
 	            }
-	        } catch (XmlPullParserException e) {
-	            e.printStackTrace();
 	        }
 	        catch (Exception e) {
 	        	// TODO: Käsittele virhe
 	            e.printStackTrace();
 	        }
-	    }
-    }*/
+        }*/
+    }
     
     /**
      * Lukee vanhan pelitilanteen.
