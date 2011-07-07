@@ -226,6 +226,11 @@ class GameThread extends Thread
             			//wrapper.enemies.get(i).checkCollision();
             		}
             	}
+            	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+            		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
+            			wrapper.obstacles.get(i).checkCollision();
+            		}
+            	}
             }
             
             /* P‰ivitet‰‰n aseiden cooldownit */

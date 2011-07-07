@@ -142,7 +142,7 @@ public class Enemy extends GameObject
     }
     
     /**
-     * Käsitelee törmäykset pelaajan ja ammusten kanssa.
+     * Käsitelee törmäykset.
      * 
      * @param int Törmäystyyppi
      * @param int Vahinko

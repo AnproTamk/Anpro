@@ -28,6 +28,7 @@ abstract public class GameObject extends GfxObject
     public static final int COLLISION_WITH_PROJECTILE = 10;
     public static final int COLLISION_WITH_PLAYER     = 11;
     public static final int COLLISION_WITH_ENEMY      = 12;
+    public static final int COLLISION_WITH_OBSTACLE   = 13;
     
     /* Törmäystunnistus */
     public int collisionRadius = 0;
@@ -64,16 +65,6 @@ abstract public class GameObject extends GfxObject
         setTurningDelay(1.0f);
     }
     
-    /**
-     * Määrittää objektin aktiiviseksi.
-     */
-    abstract public void setActive();
-    
-    /**
-     * Määrittää objektin epäaktiiviseksi. Sammuttaa myös tekoälyn jos se on tarpeen.
-     */
-    abstract public void setUnactive();
-
     /**
      * Käsittelee räjähdyksien vaikutukset objektiin.
      * 
