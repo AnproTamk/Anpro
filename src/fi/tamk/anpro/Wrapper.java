@@ -18,7 +18,8 @@ public class Wrapper
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
-    public static final int CLASS_TYPE_OBSTACLE   = 5;
+    public static final int CLASS_TYPE_OBSTACLE   = 6;
+    public static final int CLASS_TYPE_EFFECT     = 7;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -33,6 +34,7 @@ public class Wrapper
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
     public ArrayList<Obstacle>  		 obstacles   = null;
+    public ArrayList<EffectObject> 	     effects     = null;
 
     /* Peliobjektien tilat */
     public int                playerState      = 0;
@@ -41,6 +43,7 @@ public class Wrapper
     public ArrayList<Integer> projectileStates = null;
     public ArrayList<Integer> guiObjectStates  = null;
     public ArrayList<Integer> obstacleStates   = null;
+    public ArrayList<Integer> effectStates     = null;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
@@ -78,11 +81,13 @@ public class Wrapper
         projectiles              = new ArrayList<AbstractProjectile>();
         guiObjects               = new ArrayList<GuiObject>();
         obstacles                = new ArrayList<Obstacle>();
+        effects                  = new ArrayList<EffectObject>();
         allyStates               = new ArrayList<Integer>();
         enemyStates              = new ArrayList<Integer>();
         projectileStates         = new ArrayList<Integer>();
         guiObjectStates          = new ArrayList<Integer>();
         obstacleStates           = new ArrayList<Integer>();
+        effectStates             = new ArrayList<Integer>();
         priorityOneAllies        = new ArrayList<Integer>();
         priorityTwoAllies        = new ArrayList<Integer>();
         priorityThreeAllies      = new ArrayList<Integer>();
@@ -100,7 +105,7 @@ public class Wrapper
     /**
      * Palauttaa osoittimen tähän luokkaan.
      * 
-     * @return Wrapper Osoitin tähän luokkaan
+     * @return Osoitin tähän luokkaan
      */
     public static Wrapper getInstance()
     {
@@ -209,7 +214,10 @@ public class Wrapper
         	obstacles.add((Obstacle)_object);
         	obstacleStates.add(1);
         }
-        
+        else if (_classType == CLASS_TYPE_EFFECT) {
+        	effects.add((EffectObject)_object);
+        	effectStates.add(1);
+        }
         return 0;
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level>
+    <enemies>
+        <enemy rank="1" />
+    </enemies>
+    <map>
+        <planet />
+    </map>
+    <mission>
+        <task>
+            <item />
+            <target />
+        </task>
+    </mission>
+</level>
