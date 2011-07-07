@@ -127,47 +127,56 @@ public class RotaryAi extends AbstractAi
         	startCheckpoint = 6;
         }
 
-
-
-
-        // Määritetään kääntymissuuntaa aina kun vihollinen ei ole checkpointissa
-        if((int) wrapper.enemies.get(parentId).x != checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y != checkpoints[startCheckpoint][1]) {
+        // Jos vihollinen on kaukana pelaajasta, vihollinen käyttää LinearAi:ta väliaikaisesti kunnes on tarpeeksi lähellä
+        double distance = Utility.getDistance(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+        
+        if(distance > 300) {
         	
-        	// Määritetään kulma
-        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
-
-        	// Määritetään kääntymissuunta
+        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+        	
         	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
         }
-        
-        // Jos vihollinen on osunut checkponttiin, asetetaan kohteeksi seuraava checkpoint
-        if((int) wrapper.enemies.get(parentId).x == checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y == checkpoints[startCheckpoint][1]){
-        	
-        	++startCheckpoint;
-        	
-        	if(startCheckpoint == 12) {
-        		startCheckpoint = 0;
-        	}
-        	
-        	// Määritetään kulma
-        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
 
-        	// Määritetään kääntymissuunta
-        	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+        else {
+	        // Määritetään kääntymissuuntaa aina kun vihollinen ei ole checkpointissa
+	        if((int) wrapper.enemies.get(parentId).x != checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y != checkpoints[startCheckpoint][1]) {
+	        	
+	        	// Määritetään kulma
+	        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+	
+	        	// Määritetään kääntymissuunta
+	        	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+	        }
+	        
+	        // Jos vihollinen on osunut checkponttiin, asetetaan kohteeksi seuraava checkpoint
+	        if((int) wrapper.enemies.get(parentId).x == checkpoints[startCheckpoint][0] && (int) wrapper.enemies.get(parentId).y == checkpoints[startCheckpoint][1]){
+	        	
+	        	++startCheckpoint;
+	        	
+	        	if(startCheckpoint == 12) {
+	        		startCheckpoint = 0;
+	        	}
+	        	
+	        	// Määritetään kulma
+	        	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+	
+	        	// Määritetään kääntymissuunta
+	        	wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+	        }
+	        
+	        // Suoritetaan ampuminen
+	        if (lastShootingTime == 0) {
+	    		lastShootingTime = android.os.SystemClock.uptimeMillis();
+	    		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+	    	}
+	    	else {
+	    		long currentTime = android.os.SystemClock.uptimeMillis();
+	        	
+	        	if (currentTime - lastShootingTime >= 2000) {
+	        		lastShootingTime = currentTime;
+	        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+	        	}
+	    	}
         }
-        
-        // Suoritetaan ampuminen
-        if (lastShootingTime == 0) {
-    		lastShootingTime = android.os.SystemClock.uptimeMillis();
-    		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
-    	}
-    	else {
-    		long currentTime = android.os.SystemClock.uptimeMillis();
-        	
-        	if (currentTime - lastShootingTime >= 2000) {
-        		lastShootingTime = currentTime;
-        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
-        	}
-    	}
-    }
+    }	
 }
