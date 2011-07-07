@@ -1,5 +1,9 @@
 package fi.tamk.anpro;
 
+import java.io.UnsupportedEncodingException;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,6 +19,11 @@ import android.media.AudioManager;
  */
 public class HighScoresActivity extends Activity implements OnClickListener
 {
+	/* Luodaan muuttujat */
+	private int scoreList[] = new int[5];
+	private int score = 0;
+	private XmlReader reader = new XmlReader(MainActivity.context);
+	
 	/**
 	 * Luo Highscores-valikon. Android kutsuu tätä automaattisesti.
 	 * 
@@ -32,16 +41,29 @@ public class HighScoresActivity extends Activity implements OnClickListener
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
 		setContentView(R.layout.highscores);
-
-		/* VÄLIAIKAINEN!!!
+		
+		/*
+		 * Tallennetaan xml-tiedostosta luetut pisteet taulukkoon 
+		 * ruudulle piirtämistä varten
+		 */
+		
+		
+		
+		
+		/* 
 		 * Otetaan talteen GameActivitysta lähetetyt pelaajan pisteet 
 		 * Luodaan funktio, joka tulostaa pisteet näkyviin.
 		 */ 
-		// TODO: Koska väliaikainen.
-		// Luodaan Bundle
-		//Bundle bundle = getIntent().getExtras();
 		
-		//long scores = bundle.getLong("Scores");
+		// Luodaan Bundle
+		Bundle bundle = getIntent().getExtras();
+		
+		// Tallennetaan Bundlesta saadut pelaajan pisteet
+		if (bundle != null) {
+			score = bundle.getInt("Scores");
+		}
+		
+		// Tarkistetaan onko pelaajan pisteet suuremmat kuin nolla.
 		
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

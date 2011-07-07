@@ -246,7 +246,7 @@ public class SurvivalMode extends AbstractMode
      */
 	public void endGameMode()
 	{
-		gameActivity.continueToHighscores(score);
+		gameActivity.continueToHighscores((int)score);
 	}
 }
 

@@ -190,7 +190,7 @@ public class GameActivity extends Activity
      * 
      * @param int Survival-pelitilan pisteet
      */
-	public void continueToHighscores(long _score)
+    public void continueToHighscores(int _score)
 	{
 		Intent i_highscores = new Intent(this, HighScoresActivity.class);
 		
@@ -198,7 +198,7 @@ public class GameActivity extends Activity
 		Bundle bundle = new Bundle();
 		
 		// L‰hetet‰‰n pelaajan pisteet Bundlessa HighScoresActivitylle
-		bundle.putLong("Scores", _score);
+		bundle.putInt("Scores", _score);
 		i_highscores.putExtras(bundle);
 		
 		// K‰ynnistet‰‰n HighScoresActivity ja sammutetaan GameActivity
