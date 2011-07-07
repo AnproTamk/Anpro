@@ -146,6 +146,19 @@ public class SurvivalMode extends AbstractMode
 	        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
 	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
 	            
+	            
+	            // Eliminoidaan samasta spawnpontista spawnaaminen
+	            for(int i = 0; i < enemies.size()-1; ++i) {
+	            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
+	            		
+	            		tempRandA = randomGen.nextInt(7)+1;
+	    	        	tempRandB = randomGen.nextInt(2);
+	    	        	
+	            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+	    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+	            	}
+	            }
+	            
 	        	++enemiesLeft;
         	}
         }
