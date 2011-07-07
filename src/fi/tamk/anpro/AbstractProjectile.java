@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ ammusten yhteiset ominaisuudet.
  * 
@@ -390,8 +392,9 @@ abstract public class AbstractProjectile extends GameObject
         //...
 
         /* K‰sitell‰‰n reuna-alueet panosten tuhoamiseksi */
-        if (wrapper.player.x + x < -Options.scaledScreenWidth || wrapper.player.x + x > Options.scaledScreenWidth ||
-            wrapper.player.y + y < -Options.scaledScreenHeight || wrapper.player.y + y > Options.scaledScreenHeight ) {
+        if (wrapper.player.x + x < -Options.scaledScreenWidth - 100 || wrapper.player.x + x > Options.scaledScreenWidth + 100 ||
+            wrapper.player.y + y < -Options.scaledScreenHeight - 100 || wrapper.player.y + y > Options.scaledScreenHeight + 100 ) {
+        	Log.v("testi", "x: " + x + " y: " + y);
             setUnactive();
         }
     }
