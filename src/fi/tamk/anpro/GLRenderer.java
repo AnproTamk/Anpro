@@ -145,7 +145,7 @@ public class GLRenderer implements Renderer
         _gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
         
     	// Ladataan latausruudun tekstuuri
-    	loadingTexture   = new Texture(_gl, context, R.drawable.player_tex_0);
+    	loadingTexture   = new Texture(_gl, context, R.drawable.loading);
     }
 
     /**
@@ -315,7 +315,7 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         /* Ladataan pelaajan grafiikat */
-        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex_0); 
+        playerTextures[0]   = new Texture(_gl, context, R.drawable.planet_tex_0); 
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         
         /* Ladataan liittolaisten grafiikat */
@@ -431,7 +431,9 @@ public class GLRenderer implements Renderer
         
         /* Ladataan kartan grafiikat */
         if (GameActivity.activeMode == GameActivity.STORY_MODE) {
-        	obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet);
+        	obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet_tex_0);
+        	obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
+        	obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
         }
         
         /* Tarkistetaan virheet */
