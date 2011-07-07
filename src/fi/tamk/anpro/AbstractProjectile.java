@@ -427,6 +427,32 @@ abstract public class AbstractProjectile extends GameObject
     }
     
     /**
+     * Käsitelee törmäykset.
+     * 
+     * @param int Törmäystyyppi
+     * @param int Vahinko
+     * @param int Panssarinläpäisykyky
+     */
+    @Override
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    {
+        if (_eventType == GameObject.COLLISION_WITH_OBSTACLE) {
+        	triggerDestroyed();
+        }
+    }
+    
+    /**
+     * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
+     * ja hidastamalla objektia.
+     */
+	public void triggerDestroyed()
+	{
+    	wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+    	
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
+	}
+    
+    /**
      * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
     private final void triggerExplosion()

@@ -47,6 +47,16 @@ abstract public class GfxObject
     }
     
     /**
+     * Määrittää objektin aktiiviseksi.
+     */
+    public void setActive() { }
+    
+    /**
+     * Määrittää objektin epäaktiiviseksi. Sammuttaa myös tekoälyn jos se on tarpeen.
+     */
+    public void setUnactive() { }
+    
+    /**
      * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
      * 
      * @param GL10 OpenGL-konteksti

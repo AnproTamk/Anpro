@@ -5,17 +5,19 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
- * Survival-pelitila. Sis‰lt‰‰ peliobjektit, WeaponManagerin ja AchievementManagerin.
- * Hallitsee vihollisaaltojen kutsumisen ja pistelaskurin p‰ivitt‰misen.
+ * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
+ * kutsumisen ja pistelaskurin p‰ivitt‰misen.
  */
 public class SurvivalMode extends AbstractMode
 {
+	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
+    public static final int AMOUNT_OF_WAVES            = 4;
+    public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
+    
     /* Vihollisaallot */
     public         int waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
     private static int currentWave = 0;
-    
-    /* Pelaaja */
-    public Player player;
+    public  static int enemiesLeft = 0; // Vihollisi‰ j‰ljell‰ kent‰ll‰
     
     /* Pisteet ja combot */
     private static long score;
@@ -139,20 +141,19 @@ public class SurvivalMode extends AbstractMode
         	if (waves[currentWave][index] != -1) {
 	        	temp = waves[currentWave][index];
 	        	
-	        	tempRandA = randomGen.nextInt(7)+1;
-	        	tempRandB = randomGen.nextInt(2);
+	        	tempRandA = Utility.getRandom(1, 8);
+	        	tempRandB = Utility.getRandom(0, 2);
 	        	
 	        	enemies.get(temp).setActive();
 	        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
 	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
 	            
-	            
 	            // Eliminoidaan samasta spawnpontista spawnaaminen
 	            for(int i = 0; i < enemies.size()-1; ++i) {
 	            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
 	            		
-	            		tempRandA = randomGen.nextInt(7)+1;
-	    	        	tempRandB = randomGen.nextInt(2);
+	            		tempRandA = Utility.getRandom(1, 8);
+	    	        	tempRandB = Utility.getRandom(0, 2);
 	    	        	
 	            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
 	    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
@@ -262,4 +263,3 @@ public class SurvivalMode extends AbstractMode
 		gameActivity.continueToHighscores((int)score);
 	}
 }
-

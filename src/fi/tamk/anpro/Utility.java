@@ -1,11 +1,15 @@
 package fi.tamk.anpro;
 
+import java.util.Random;
+
 /**
  * Yleinen apuluokka, joka sis‰lt‰‰ usein k‰ytettyj‰ toimintoja, kuten et‰isyyksien
  * ja kulmien laskemisen.
  */
 public class Utility
 {
+	private static Random randomGenerator = new Random();
+	
 	/**
 	 * Laskee kahden pisteen v‰lisen et‰isyyden.
 	 * 
@@ -182,5 +186,18 @@ public class Utility
     public static final int calculateDamageToHealth(int _damage, int _armorPiercing, int _excessDamage)
     {
     	return (int) ((float) _damage * (float) _armorPiercing * 0.05) + _excessDamage;
+    }
+    
+    /**
+     * Palauttaa satunnaisen kokonaisluvun halutulta alueelta.
+     * 
+     * @param _min Alaraja
+     * @param _max Yl‰raja
+     * 
+     * @return Satunnainen kokonaisluku
+     */
+    public static final int getRandom(int _min, int _max)
+    {
+    	return randomGenerator.nextInt(_max) + _min;
     }
 }

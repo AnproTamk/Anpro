@@ -1,8 +1,6 @@
 package fi.tamk.anpro;
 
 import java.util.ArrayList;
-import java.util.Random;
-
 import android.util.DisplayMetrics;
 
 /**
@@ -10,14 +8,12 @@ import android.util.DisplayMetrics;
  */
 abstract public class AbstractMode
 {
-	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
-    public static final int AMOUNT_OF_WAVES            = 4;
-    public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
+    /* Pelaaja */
+    public Player player;
     
     /* Viholliset */
     public    ArrayList<Enemy> enemies;         // Viholliset
     protected int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
-    protected static int       enemiesLeft = 0; // Vihollisi‰ j‰ljell‰ kent‰ll‰
     
     /* Kent‰n koko */
     protected int halfOfScreenWidth;
@@ -27,10 +23,6 @@ abstract public class AbstractMode
     protected WeaponManager weaponManager;
     protected CameraManager camera;
     protected GameActivity  gameActivity;
-    
-    /* Satunnaisgeneraattori */
-    // TODO: Voisiko siirt‰‰ Utility-luokkaan?
-    public static Random randomGen = new Random();
     
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
@@ -54,5 +46,5 @@ abstract public class AbstractMode
     /**
      * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
      */
-    public void startWave() { }
+    abstract public void startWave();
 }
