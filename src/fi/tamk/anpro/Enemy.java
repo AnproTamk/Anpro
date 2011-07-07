@@ -162,6 +162,9 @@ public class Enemy extends GameObject
         else if (_eventType == GameObject.COLLISION_WITH_PLAYER) {
         	triggerDestroyed();
         }
+        if (_eventType == GameObject.COLLISION_WITH_OBSTACLE) {
+        	triggerDestroyed();
+        }
     }
 
     /**

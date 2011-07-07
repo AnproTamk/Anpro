@@ -112,7 +112,6 @@ public class SurvivalMode extends AbstractMode
     /**
      * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
      */
-    @Override
     public void startWave()
     {
         /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
