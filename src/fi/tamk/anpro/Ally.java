@@ -18,9 +18,6 @@ public class Ally extends GameObject
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
     private WeaponManager weaponManager;
-    
-    /* Vihollisen tila */
-    private int listId;
 
     /**
      * Alustaa luokan muuttujat.

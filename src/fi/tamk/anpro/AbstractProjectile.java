@@ -54,7 +54,6 @@ abstract public class AbstractProjectile extends GameObject
     
     /* Ammuksen tila */
     public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
-    protected int     listId;         // Tunnus Wrapperin piirtolistalla
     protected int     userType;		  // Ammuksen käyttäjän tyyppi
     
     /* Ammuksen tekoäly */

@@ -18,9 +18,6 @@ public class Enemy extends GameObject
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
     private WeaponManager weaponManager;
-    
-    /* Vihollisen tila */
-    private int listId;
 
     /**
      * Alustaa luokan muuttujat.
@@ -94,7 +91,7 @@ public class Enemy extends GameObject
     }
 
     /**
-     * M‰‰ritt‰‰ vihollisen aktiiviseksi.
+     * M‰‰ritt‰‰ objektin aktiiviseksi.
      */
     @Override
     public final void setActive()
