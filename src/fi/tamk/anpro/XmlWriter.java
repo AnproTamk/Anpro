@@ -192,4 +192,76 @@ public class XmlWriter
 		
 		return true;
 	}
+	
+	/**
+	 * Tallentaa pelaajan highscoret.
+	 * 
+	 * @param _score Pelaajan pisteet
+	 */
+	public final void saveHighScores(int _score)
+	{
+		// Luodaan uusi XML-tiedosto highscoreille.
+		File xmlSaveScores = new File(Environment.getExternalStorageDirectory()+"/Android/high_scores.xml");
+		
+		try {
+			xmlSaveScores.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// "Sidotaan" uusi tiedosto FileOutputStreamilla.
+		FileOutputStream fileos = null;
+		
+		try {
+			fileos = new FileOutputStream(xmlSaveScores);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Luodaan XmlSerializer, jotta voidaan kirjoittaa xml-dataa.
+		XmlSerializer serializer = Xml.newSerializer();
+		
+		try {
+			// Asetetaan FileOutputStream ulostuloksi serializerille, k‰ytt‰en UTF-8-koodausta.
+			serializer.setOutput(fileos, "UTF-8");
+			
+			/*
+			 * Kirjoitetaan <?xml -selite enkoodauksella (jos enkoodaus ei ole "null") 
+			 *ja "standalone flag" (jos "standalone" ei ole "null").
+			 */
+			serializer.startDocument(null, Boolean.valueOf(false));
+			
+			// Asetetaan sisennykset.
+			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			
+			// Asetetaan tagi nimelt‰ "scores"
+			serializer.startTag(null, "scores");
+			
+			/* 
+			 * T‰st‰ alkaa xml-tiedoston sisempi osuus.
+			 */
+			
+			// Tarkistetaan, onko pelaajan pisteet suuremmat, kuin aiemmat pisteet
+			/*for(int i = 5; i >= 1; --i) {
+				serializer.startTag(null, "player");
+				serializer.attribute(null, "name", "empty");
+				serializer.attribute(null, "score", String.valueOf(_score));
+				serializer.endTag(null, "player");
+			}*/
+						
+			/*
+			 * Sisempi osuus p‰‰ttyy t‰h‰n.
+			 */
+			
+			serializer.endTag(null, "scores");
+			serializer.endDocument();
+			
+			//Kirjoitetaan xml-data FileOutputStreamiin.
+			serializer.flush();
+			//Suljetaan tiedostovirta.
+			fileos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
