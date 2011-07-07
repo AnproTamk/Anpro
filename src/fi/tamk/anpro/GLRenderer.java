@@ -50,6 +50,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 2;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS   = 0;
     
 
@@ -69,6 +70,8 @@ public class GLRenderer implements Renderer
     
     public static Texture[]     hudTextures;
     public static Animation[]   hudAnimations;
+    
+    public static Animation[]   effectAnimations;
     
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
@@ -110,6 +113,7 @@ public class GLRenderer implements Renderer
         projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
         hudTextures          = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
+        effectAnimations     = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
         obstacleTextures     = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
         obstacleAnimations   = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
         
@@ -234,6 +238,11 @@ public class GLRenderer implements Renderer
             if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
                 wrapper.player.draw(_gl);
             }
+            for (int i = wrapper.effects.size()-1; i >= 0; --i) {
+                if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.effects.get(i).draw(_gl);
+                }
+            }
             
             /* P‰ivitet‰‰n animaatiot */
             long currentTime = android.os.SystemClock.uptimeMillis();
@@ -268,6 +277,13 @@ public class GLRenderer implements Renderer
                     gameThread.hud.buttons.get(i).update();
                 }
                 
+                for (int i = wrapper.effects.size()-1; i >= 0; --i) {
+                    if (wrapper.effectStates.get(i) != Wrapper.INACTIVE && wrapper.effects.get(i).usedAnimation != -1) {
+                        if (updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
+                            wrapper.effects.get(i).update();
+                        }
+                    }
+                }
                 // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mik‰li raja ylitet‰‰n.
                 // T‰ll‰ animaatioiden p‰ivitt‰minen tahdistetaan; Animaatiot voivat n‰ky‰ joko
                 // joka kierroksella, joka toisella, joka nelj‰nnell‰ tai joka kahdeksannella
@@ -428,6 +444,10 @@ public class GLRenderer implements Renderer
         hudTextures[42] = new Texture(_gl, context, R.drawable.armorbar_tex_8);
         hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
         hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
+        
+        /* Ladataan efektien grafiikat */
+        effectAnimations[0] = new Animation(_gl, context, resources, "exclamationmark_effect", 1);
+        effectAnimations[1] = new Animation(_gl, context, resources, "questionmark_effect", 1);
         
         /* Ladataan kartan grafiikat */
         if (GameActivity.activeMode == GameActivity.STORY_MODE) {

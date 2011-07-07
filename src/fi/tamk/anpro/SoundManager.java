@@ -11,12 +11,14 @@ import android.media.SoundPool;
  */
 public class SoundManager
 {
+	/* Osoitin t‰h‰n luokkaan (singleton-toimintoa varten) */
+	private static SoundManager instance;
+	
 	/* ƒ‰nimuuttujat */
-	private static SoundManager              instance;
 	private static SoundPool                 soundPool;    // Objekti, jolla luodaan ja toistetaan ‰‰net
 	private static HashMap<Integer, Integer> soundPoolMap; // Hashmappi, johon tallennetaan ‰‰net kun ne on ensin ladattu
 	private static AudioManager              audioManager; // Osoitin palveluun, joka toistaa ‰‰nen, joka halutaan toistaa
-	
+
 	/* Ohjelman konteksti */
 	private static Context context;
 	
