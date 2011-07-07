@@ -16,28 +16,35 @@ public class Animation extends GLSprite
     /**
      * Alustaa luokan muuttujat ja kutsuu loadFramea jokaista ruutua varten.
      * 
-     * @param GL10      OpenGL-konteksti
-     * @param Context   Ohjelman konteksti
-     * @param Resources Ohjelman resurssit
-     * @param String    Tekstuurin tunnus
-     * @paran int       Animaation pituus
+     * @param _gl        OpenGL-konteksti
+     * @param _context   Ohjelman konteksti
+     * @param _resources Ohjelman resurssit
+     * @param _id        Tekstuurin tunnus
+     * @param _length    Animaation pituus
      */
     public Animation(GL10 _gl, Context _context, Resources _resources, String _id, int _length)
     {
-    	// Alustetaan kuva ja generoidaan tunnukset
-        sprites = new int[_length];
-        length  = _length - 1;
-        _gl.glGenTextures(_length, sprites, 0);
-
-        // Ladataan tekstuurit
-        for (int i = 0; i < _length; ++i) {
-        	loadBitmap(_context, _resources.getIdentifier(_id+"_anim_"+i, "drawable", "fi.tamk.anpro"), _gl, i);
-        }
-        
-        // Määritetään tekstuurin vektorit
-        createVertices();
-        
-        // Luodaan vektoribufferit
-        createBuffers();
+    	if (!GLRenderer.loadingFailed) {
+	    	// Alustetaan kuva ja generoidaan tunnukset
+	        sprites = new int[_length];
+	        length  = _length - 1;
+	        _gl.glGenTextures(_length, sprites, 0);
+	
+	        // Ladataan tekstuurit
+	        for (int i = 0; i < _length; ++i) {
+	        	if (!loadBitmap(_context, _resources.getIdentifier(_id+"_anim_"+i, "drawable", "fi.tamk.anpro"), _gl, i)) {
+	                GLRenderer.loadingFailed = true;
+	        		break;
+	        	}
+	        }
+	        
+	        if (!GLRenderer.loadingFailed) {
+	            // Määritetään tekstuurin vektorit
+	            createVertices();
+	            
+	            // Luodaan vektoribufferit
+	            createBuffers();
+	        }
+    	}
     }
 }
