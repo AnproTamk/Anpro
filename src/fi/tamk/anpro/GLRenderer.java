@@ -38,17 +38,20 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_READY = 1;
     
     /* Animaatioiden ja tekstuurien määrät */
-    public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
-    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 4;
-    public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
-    public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
-
     public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
     public static final int AMOUNT_OF_ALLY_TEXTURES       = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES      = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
     public static final int AMOUNT_OF_HUD_TEXTURES        = 45;
+    public static final int AMOUNT_OF_OBSTACLE_TEXTURES   = 1;
+    
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
+    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 4;
+    public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
+    public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
+    public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS   = 0;
+    
 
     /* Latausruudun tekstuurit ja tila */
     private Texture loadingTexture;
@@ -67,13 +70,16 @@ public class GLRenderer implements Renderer
     public static Texture[]     hudTextures;
     public static Animation[]   hudAnimations;
     
+    public static Texture[][]   obstacleTextures;
+    public static Animation[][] obstacleAnimations;
+    
     /* Ohjelman konteksti ja resurssit */
     private Context   context;
     private Resources resources;
     
     /* Tarvittavat oliot */
-    private       Wrapper    wrapper;
-    private       GameThread gameThread = null;
+    private Wrapper    wrapper;
+    private GameThread gameThread = null;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public        boolean allLoaded     = false;
@@ -86,10 +92,10 @@ public class GLRenderer implements Renderer
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param _context   Ohjelman konteksti
-     * @param _surface   OpenGL-pinta
-     * @param _resources Ohjelman resurssit
-     * @param _dm        Näytön tiedot
+     * @param Context        Ohjelman konteksti
+     * @param GLSurfaceView  OpenGL-pinta
+     * @param Resources      Ohjelman resurssit
+     * @param DisplayMetrics Näytön tiedot
      */
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
@@ -104,6 +110,8 @@ public class GLRenderer implements Renderer
         projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
         hudTextures          = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
+        obstacleTextures     = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
+        obstacleAnimations   = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;
@@ -421,6 +429,12 @@ public class GLRenderer implements Renderer
         hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
         hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
         
+        /* Ladataan kartan grafiikat */
+        if (GameActivity.activeMode == GameActivity.STORY_MODE) {
+        	obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet);
+        }
+        
+        /* Tarkistetaan virheet */
         if (!loadingFailed) {
         	allLoaded = true;
         	
