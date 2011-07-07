@@ -315,7 +315,7 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         /* Ladataan pelaajan grafiikat */
-        playerTextures[0]   = new Texture(_gl, context, R.drawable.planet_tex_0); 
+        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex_0); 
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         
         /* Ladataan liittolaisten grafiikat */
