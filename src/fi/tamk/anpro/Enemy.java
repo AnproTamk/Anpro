@@ -251,6 +251,8 @@ public class Enemy extends GameObject
 
     	movementAcceleration = -15;
     	turningDirection     = 0;
+
+    	EffectManager.showQuestionMarkBalloon(x, y);
     	
         setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
 	}
