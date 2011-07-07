@@ -36,8 +36,10 @@ abstract public class GLSprite
      * @param _id      Resurssin tunnus
      * @param _gl      OpenGL-konteksti
      * @param _index   Tekstuurin j‰rjestysnumero (sprites-taulukossa!)
+     * 
+     * @return Onnistuiko tekstuurin lataaminen?
      */
-    protected void loadBitmap(Context _context, int _id, GL10 _gl, int _index)
+    protected boolean loadBitmap(Context _context, int _id, GL10 _gl, int _index)
     {
         // Luodaan tyhj‰ bitmap ja ladataan siihen tekstuuri resursseista
         Bitmap bitmap = null;
@@ -66,6 +68,11 @@ abstract public class GLSprite
 
             // Poistetaan bitmap muistista
             bitmap.recycle();
+            
+            return true;
+        }
+        else {
+        	return false;
         }
     }
     
@@ -112,11 +119,11 @@ abstract public class GLSprite
     /**
      * Piirt‰‰ tekstuurin ruudulle.
      * 
-     * @param GL10  OpenGL-konteksti
-     * @param float Tekstuurin X-koordinaatti
-     * @param float Tekstuurin Y-koordinaatti
-     * @param int   Tekstuurin suunta (0 = oikealle)
-     * @param int   Tekstuurin j‰rjestysnumero (animaatioille, tekstuureilla aina 0)
+     * @param _gl		 OpenGL-konteksti
+     * @param _x         Tekstuurin X-koordinaatti
+     * @param _y         Tekstuurin Y-koordinaatti
+     * @param _direction Tekstuurin suunta (0 = oikealle)
+     * @param _frame     Tekstuurin j‰rjestysnumero (animaatioille, tekstuureilla aina 0)
      */
     public final void draw(GL10 _gl, float _x, float _y, int _direction, int _frame)
     {

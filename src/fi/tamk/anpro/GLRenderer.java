@@ -76,7 +76,8 @@ public class GLRenderer implements Renderer
     private       GameThread gameThread = null;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
-    public boolean allLoaded = false;
+    public        boolean allLoaded     = false;
+    public static boolean loadingFailed = false;
     
     /* Animaatiopäivitysten muuttujat */
     private long lastAnimationUpdate;
@@ -85,10 +86,10 @@ public class GLRenderer implements Renderer
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param Context        Ohjelman konteksti
-     * @param GLSurfaceView  OpenGL-pinta
-     * @param Resources      Ohjelman resurssit
-     * @param DisplayMetrics Näytön tiedot
+     * @param _context   Ohjelman konteksti
+     * @param _surface   OpenGL-pinta
+     * @param _resources Ohjelman resurssit
+     * @param _dm        Näytön tiedot
      */
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
@@ -116,8 +117,8 @@ public class GLRenderer implements Renderer
      * Määrittää OpenGL-asetukset ja lataa tekstuurit.
      * Android kutsuu tätä automaattisesti.
      * 
-     * @param GL10      OpenGL-konteksti
-     * @param EGLConfig OpenGL-asetukset
+     * @param _gl     OpenGL-konteksti
+     * @param _config OpenGL-asetukset
      */
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
@@ -143,9 +144,9 @@ public class GLRenderer implements Renderer
      * Määrittää pinnan uudet asetukset.
      * Android kutsuu tätä automaattisesti.
      * 
-     * @param GL10 OpenGL-konteksti
-     * @param int  Näytön leveys
-     * @param int  Näytön korkeus
+     * @param _gl      OpenGL-konteksti
+     * @param _width   Näytön leveys
+     * @param _height  Näytön korkeus
      */
     public void onSurfaceChanged(GL10 _gl, int _width, int _height)
     {
@@ -181,7 +182,7 @@ public class GLRenderer implements Renderer
      * Käy läpi piirtolistat ja piirtää tarvittavat tekstuurit ruudulle.
      * Android kutsuu tätä automaattisesti (maks. 60 kertaa sekunnissa).
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
     public void onDrawFrame(GL10 _gl)
     {
@@ -278,11 +279,11 @@ public class GLRenderer implements Renderer
         	
             // Ladataan grafiikat ja käynnistetään pelisäie
             if (loadTextures(_gl)) {
-            	allLoaded = true;
                 startThread();
             }
             else {
-                // TODO: Käsittele virhe
+                // TODO: Käsittele virhe PAREMMIN
+            	System.exit(0);
             }
         }
     }
@@ -290,7 +291,7 @@ public class GLRenderer implements Renderer
     /**
      * Yhdistää renderöijän pelisäikeeseen tallentamalla pelisäikeen pointterin muistiin.
      * 
-     * @param GameThread Osoitin pelisäikeeseen
+     * @param _gameThread Osoitin pelisäikeeseen
      */
     public final void connectToGameThread(GameThread _gameThread) {
         gameThread = _gameThread;
@@ -334,7 +335,7 @@ public class GLRenderer implements Renderer
         enemyTextures[3][0]   = new Texture(_gl, context, R.drawable.enemy4_tex_0);
         enemyAnimations[3][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         enemyAnimations[3][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
-        
+
         // Vihollinen #4
         enemyTextures[4][0]   = new Texture(_gl, context, R.drawable.enemy5_tex_0);
         enemyAnimations[4][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
@@ -344,19 +345,19 @@ public class GLRenderer implements Renderer
         // Vakioase
         projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex_0);
         projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
-        
+
         // EMP
         projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
         projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 10);
-        
+
         // Pyörivä laser
         projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
         projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
-        
+
         // Bomb
         projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
         projectileAnimations[3][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
-        
+
         // Missile
         projectileTextures[4][0]   = new Texture(_gl, context, R.drawable.projectilemissile_tex_0);
         projectileAnimations[4][3] = new Animation(_gl, context, resources, "projectilemissile_destroy", 1);
@@ -366,10 +367,10 @@ public class GLRenderer implements Renderer
         hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex_0);
         hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex_1);
         hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
-        
+
         // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
-        
+
         // Elämäpalkki
         hudTextures[3]  = new Texture(_gl, context, R.drawable.healthbar_tex_0);
         hudTextures[4]  = new Texture(_gl, context, R.drawable.healthbar_tex_1);
@@ -382,7 +383,7 @@ public class GLRenderer implements Renderer
         hudTextures[11] = new Texture(_gl, context, R.drawable.healthbar_tex_8);
         hudTextures[12] = new Texture(_gl, context, R.drawable.healthbar_tex_9);
         hudTextures[13] = new Texture(_gl, context, R.drawable.healthbar_tex_10);
-        
+
         // Cooldown-tekstuurit
         hudTextures[14] = new Texture(_gl, context, R.drawable.cooldown_tex_9);
         hudTextures[15] = new Texture(_gl, context, R.drawable.cooldown_tex_8);
@@ -394,7 +395,7 @@ public class GLRenderer implements Renderer
         hudTextures[21] = new Texture(_gl, context, R.drawable.cooldown_tex_2);
         hudTextures[22] = new Texture(_gl, context, R.drawable.cooldown_tex_1);
         hudTextures[23] = new Texture(_gl, context, R.drawable.cooldown_tex_0);
-        
+
         //Counter-tekstuurit
         hudTextures[24] = new Texture(_gl, context, R.drawable.counter_text_0);
         hudTextures[25] = new Texture(_gl, context, R.drawable.counter_text_1);
@@ -406,7 +407,7 @@ public class GLRenderer implements Renderer
         hudTextures[31] = new Texture(_gl, context, R.drawable.counter_text_7);
         hudTextures[32] = new Texture(_gl, context, R.drawable.counter_text_8);
         hudTextures[33] = new Texture(_gl, context, R.drawable.counter_text_9);
-        
+
         // Armorpalkki
         hudTextures[34] = new Texture(_gl, context, R.drawable.armorbar_tex_0);
         hudTextures[35] = new Texture(_gl, context, R.drawable.armorbar_tex_1);
@@ -419,10 +420,15 @@ public class GLRenderer implements Renderer
         hudTextures[42] = new Texture(_gl, context, R.drawable.armorbar_tex_8);
         hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
         hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
-
         
-        /* Käsitellään virheet ja palautetaan FALSE, jos virheitä on */
-        return true;
+        if (!loadingFailed) {
+        	allLoaded = true;
+        	
+        	return true;
+        }
+        else {
+        	return false;
+        }
     }
 
     /**
