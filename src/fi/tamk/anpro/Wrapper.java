@@ -18,6 +18,7 @@ public class Wrapper
     public static final int CLASS_TYPE_ENEMY      = 2;
     public static final int CLASS_TYPE_PROJECTILE = 3;
     public static final int CLASS_TYPE_GUI        = 4;
+    public static final int CLASS_TYPE_OBSTACLE   = 5;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -31,6 +32,7 @@ public class Wrapper
     public ArrayList<Enemy>              enemies     = null;
     public ArrayList<AbstractProjectile> projectiles = null;
     public ArrayList<GuiObject> 		 guiObjects  = null;
+    public ArrayList<Obstacle>  		 obstacles   = null;
 
     /* Peliobjektien tilat */
     public int                playerState      = 0;
@@ -38,6 +40,7 @@ public class Wrapper
     public ArrayList<Integer> enemyStates      = null;
     public ArrayList<Integer> projectileStates = null;
     public ArrayList<Integer> guiObjectStates  = null;
+    public ArrayList<Integer> obstacleStates   = null;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
@@ -74,10 +77,12 @@ public class Wrapper
         enemies                  = new ArrayList<Enemy>();
         projectiles              = new ArrayList<AbstractProjectile>();
         guiObjects               = new ArrayList<GuiObject>();
+        obstacles                = new ArrayList<Obstacle>();
         allyStates               = new ArrayList<Integer>();
         enemyStates              = new ArrayList<Integer>();
         projectileStates         = new ArrayList<Integer>();
         guiObjectStates          = new ArrayList<Integer>();
+        obstacleStates           = new ArrayList<Integer>();
         priorityOneAllies        = new ArrayList<Integer>();
         priorityTwoAllies        = new ArrayList<Integer>();
         priorityThreeAllies      = new ArrayList<Integer>();
@@ -199,6 +204,10 @@ public class Wrapper
             guiObjectStates.add(1);
 
             return guiObjectStates.size()-1;
+        }
+        else if (_classType == CLASS_TYPE_OBSTACLE) {
+        	obstacles.add((Obstacle)_object);
+        	obstacleStates.add(1);
         }
         
         return 0;

@@ -92,7 +92,7 @@ public class Player extends GameObject
     }
 
     /**
-     * Käsittelee törmäyksien vaikutukset pelaajaan.
+     * Käsittelee törmäykset.
      * 
      * @param int Osuman aiheuttama vahinko
      * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
