@@ -140,6 +140,9 @@ public class Ally extends GameObject
         else if (_eventType == GameObject.COLLISION_WITH_ENEMY) {
         	//triggerDestroyed();
         }
+        else if (_eventType == GameObject.COLLISION_WITH_OBSTACLE) {
+        	triggerDestroyed();
+        }
     }
 
     /**
@@ -183,8 +186,6 @@ public class Ally extends GameObject
      */
 	public void triggerDestroyed()
 	{
-		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
-		
     	wrapper.enemyStates.set(listId, 3);
 
     	movementAcceleration = -15;
