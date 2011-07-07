@@ -20,9 +20,10 @@ import android.media.AudioManager;
 public class HighScoresActivity extends Activity implements OnClickListener
 {
 	/* Luodaan muuttujat */
-	private int scoreList[] = new int[5];
-	private int score = 0;
-	private XmlReader reader = new XmlReader(MainActivity.context);
+	private int 	  scoreList[] = new int[5];
+	private int 	  score 	  = 0;
+	private XmlReader reader 	  = new XmlReader(MainActivity.context);
+	private XmlWriter writer 	  = new XmlWriter();
 	
 	/**
 	 * Luo Highscores-valikon. Android kutsuu tätä automaattisesti.
@@ -63,7 +64,14 @@ public class HighScoresActivity extends Activity implements OnClickListener
 			score = bundle.getInt("Scores");
 		}
 		
-		// Tarkistetaan onko pelaajan pisteet suuremmat kuin nolla.
+		scoreList = reader.readHighScores();
+		writer.saveHighScores(score);
+		
+		/*// Tarkistetaan onko pelaajan pisteet suuremmat kuin nolla.
+		if (score == 0) {
+			writer.saveHighScores(0);
+		}*/
+		
 		
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
