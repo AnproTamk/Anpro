@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -376,5 +378,39 @@ public class XmlReader
 	            e.printStackTrace();
 	        }
     	}*/
+    }
+    
+    /**
+     * 
+     * @return scores-taulukko
+     */
+    public final int[] readHighScores()
+    {
+    	FileInputStream  fis    = null;
+    	String 			 file   = "high_scores.txt";
+    	String[] 		 string;
+    	int[] 		     scores = new int[5];
+    	byte[] 			 buffer = new byte[4];
+    	
+    	try {
+			fis = context.openFileInput(file);
+			
+			for (int i = 0; i < scores.length; ++i) {
+				scores[i] = fis.read(buffer, 0, 4);
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+
+			Log.e("TESTI", "ERROR");
+		} catch (IOException e) {
+			e.printStackTrace();
+
+			Log.e("TESTI", "ERROR");
+		}
+    	
+    	
+    	
+    	return scores;
     }
 }
