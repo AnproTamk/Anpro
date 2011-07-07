@@ -29,6 +29,7 @@ public class MainActivity extends Activity implements OnClickListener
     public static final String PREF_BOOL_SOU = "PrefBoolSOU";
     private SharedPreferences mPrefs;
     
+    GameThread gameThread;
     /* Valintanapit asetuksille */
     private CheckBox particleCheckBox;
     private CheckBox musicCheckBox;
@@ -67,6 +68,9 @@ public class MainActivity extends Activity implements OnClickListener
         
         // Ladataan Options käyttöön ja asetetaan asetukset
         Options.getInstance().getScalingConversion(dm.widthPixels, dm.heightPixels);
+       
+        // Ladataan VibrateManager käyttöön
+        VibrateManager.getInstance();
         
         // Määritetään aktiviteetin asetukset
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
