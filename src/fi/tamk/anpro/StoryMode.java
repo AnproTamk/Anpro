@@ -9,10 +9,19 @@ import android.util.DisplayMetrics;
  */
 public class StoryMode extends AbstractMode
 {
-	/* Kartta (obstacles) */
+	// Kartan objektit
 	private Obstacle[] planets;
 	private Obstacle[] asteroids;
 	private Obstacle[] stars;
+	
+	// Kykypuu ja -pisteet
+	//private SkillTree skillTree;
+	
+	// Vihollisten spawnpointit
+	private int[][] spawnPoints;
+	
+	// Teht‰v‰t
+	//private ArrayList<task> tasks;
 	
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
@@ -27,15 +36,33 @@ public class StoryMode extends AbstractMode
 		super(_gameActivity, _dm);
 		
 		// Luetaan StoryModesta haluttu kentt‰
+		
+		// Kutsutaan WeaponManagerin initialize-funktiota
+	}
+	
+	/**
+	 * P‰ivitt‰‰ Story-pelitilan luomalla uusia vihollisia, antamalla uusia teht‰vi‰ jne.
+	 */
+	public void updateMode()
+	{
+		// P‰ivitet‰‰n viholliset
+		
+		// P‰ivitet‰‰n teht‰v‰t
 	}
     
     /**
-     * K‰ynnist‰‰ uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
+     * Lis‰‰ uuden vihollisen kent‰lle.
      */
-	@Override
-	public void startWave()
+	private void addEnemy()
 	{
-		
+		// ...
 	}
 	
+	/**
+	 * Siirt‰‰ pelitilan kykypuuvalikkoon.
+	 */
+	private void moveToSkillTree()
+	{
+		// ...
+	}
 }

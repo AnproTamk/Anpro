@@ -133,7 +133,7 @@ public class Obstacle extends GameObject
         	if (Math.abs(y - wrapper.player.y) <= Wrapper.gridSize) {
         		
         		if (Utility.isColliding(wrapper.player, this)) {
-        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_OBSTACLE, 0, 0);
+        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_OBSTACLE, 10, 20);
         		}
         	}
 		}
