@@ -42,4 +42,9 @@ abstract public class AbstractMode
         // Otetaan CameraManager käyttöön
         camera = CameraManager.getInstance();
     }
+    
+    /**
+     * Käynnistää uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
+     */
+    public void startWave() { };
 }
