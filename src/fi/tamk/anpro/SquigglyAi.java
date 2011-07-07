@@ -26,47 +26,60 @@ public class SquigglyAi extends AbstractAi
 	@Override
     public final void handleAi()
 	{ 
-		if(lastDirectionUpdate == 0) {
+		// Jos vihollinen on kaukana pelaajasta, k‰ytet‰‰n v‰liaikaisesti LinearAi:n kaltaista toimintaa kunnes ollaan tarpeeksi l‰hell‰ pelaajaa
+		double distance = Utility.getDistance(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+		
+		if(distance > 500) {
 			
-			lastDirectionUpdate = android.os.SystemClock.uptimeMillis();
-			
-			// M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
 			double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
-    	
-			/* M‰‰ritet‰‰n k‰‰ntymissuunta */
+			
 			wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+
 		}
 		
 		else {
-			
-			long currentTime = android.os.SystemClock.uptimeMillis();
-			
-			if(currentTime - lastDirectionUpdate >= 1500 && currentTime - lastDirectionUpdate < 2000) {
+			if(lastDirectionUpdate == 0) {
 				
-				wrapper.enemies.get(parentId).turningDirection = 1;
-			}
-			
-			else if(currentTime - lastDirectionUpdate >= 2000 && currentTime - lastDirectionUpdate < 2500) {
+				lastDirectionUpdate = android.os.SystemClock.uptimeMillis();
 				
-				wrapper.enemies.get(parentId).turningDirection = 0;
-			}
-			
-			else if(currentTime - lastDirectionUpdate >= 2500 && currentTime - lastDirectionUpdate < 3000) {
-				
-				wrapper.enemies.get(parentId).turningDirection = 2;
-			}
-			
-			else if(currentTime - lastDirectionUpdate >= 3000)
-			{
-				lastDirectionUpdate = currentTime;
-			}
-			
-			else {
 				// M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
 				double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
 	    	
 				/* M‰‰ritet‰‰n k‰‰ntymissuunta */
 				wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+			}
+			
+			else {
+				
+				long currentTime = android.os.SystemClock.uptimeMillis();
+				
+				if(currentTime - lastDirectionUpdate >= 1500 && currentTime - lastDirectionUpdate < 2000) {
+					
+					wrapper.enemies.get(parentId).turningDirection = 1;
+				}
+				
+				else if(currentTime - lastDirectionUpdate >= 2000 && currentTime - lastDirectionUpdate < 2500) {
+					
+					wrapper.enemies.get(parentId).turningDirection = 0;
+				}
+				
+				else if(currentTime - lastDirectionUpdate >= 2500 && currentTime - lastDirectionUpdate < 3000) {
+					
+					wrapper.enemies.get(parentId).turningDirection = 2;
+				}
+				
+				else if(currentTime - lastDirectionUpdate >= 3000)
+				{
+					lastDirectionUpdate = currentTime;
+				}
+				
+				else {
+					// M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
+					double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+		    	
+					/* M‰‰ritet‰‰n k‰‰ntymissuunta */
+					wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+				}
 			}
 		}
 		
