@@ -29,7 +29,6 @@ public class GameActivity extends Activity
     
     /* Tarvittavat luokat */
     private GameThread      gameThread;
-    @SuppressWarnings("unused")
 	private TouchManager    touchManager;
     public  Hud             hud;
     private WeaponManager   weaponManager;
