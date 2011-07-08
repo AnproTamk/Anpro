@@ -23,7 +23,8 @@ public class Hud
     
     /* Käyttöliittymän objektit */
     public        ArrayList<Button>  buttons   = null;
-    public		  ArrayList<Icon>	 icons	   = null;
+    public		  ArrayList<CooldownCounter> cooldowncounter	   = null;
+    public 		  ArrayList<Icon>	 icons	   = null;
     public static ArrayList<Counter> counters  = null;
     public static Joystick           joystick  = null;
     public static Bar		         healthBar = null;
@@ -50,8 +51,9 @@ public class Hud
         weapons[0] = 0; // TODO: DEBUG!!!!
         
         buttons  = new ArrayList<Button>();
-        icons	 = new ArrayList<Icon>();
+        cooldowncounter	 = new ArrayList<CooldownCounter>();
         counters = new ArrayList<Counter>();
+        icons = new ArrayList<Icon>();
 
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
@@ -65,7 +67,7 @@ public class Hud
     	 for (int i = buttons.size()-1; i >= 0; --i) {
             if (weapons[i] > -1) {
 	    		if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-	            	icons.get(i).update(weaponManager.cooldownLeft[i]);
+	            	cooldowncounter.get(i).update(weaponManager.cooldownLeft[i]);
 	            }
             }
         }
