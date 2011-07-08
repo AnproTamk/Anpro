@@ -5,8 +5,10 @@ package fi.tamk.anpro;
  */
 public class Joystick extends GuiObject
 {
-	public static int joystickX;
-	public static int joystickY;
+	public static int 	  joystickX;
+	public static int 	  joystickY;
+	public static boolean joystickInUse;
+	public static boolean joystickDown;
 	
     /**
      * Alustaa luokan muuttujat.
@@ -20,6 +22,8 @@ public class Joystick extends GuiObject
         
         joystickX = _x;
         joystickY = _y;
+        joystickDown = false;
+        joystickInUse = false;
         
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
     }
