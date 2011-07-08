@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  *  Sisältää yhden efektin toiminnot.
  */
@@ -29,8 +31,8 @@ public class EffectObject extends GameObject
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
         
-        if (GLRenderer.effectAnimations[EffectManager.EFFECT_BALLOON_EXCLAMATION] != null) {
-            animationLength[0] = GLRenderer.effectAnimations[EffectManager.EFFECT_BALLOON_EXCLAMATION].length;
+        if (GLRenderer.effectAnimations[_effectType] != null) {
+            animationLength[_effectType] = GLRenderer.effectAnimations[_effectType].length;
         }
 		
 		wrapper = Wrapper.getInstance();
@@ -46,7 +48,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(EffectManager.EFFECT_BALLOON_EXCLAMATION, 1, 8, GfxObject.ACTION_DESTROYED);
+		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED);
 	}
 
 	/**
@@ -79,7 +81,8 @@ public class EffectObject extends GameObject
 	{
 		// Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.effectAnimations[usedTexture].draw(_gl, x, y, 0, currentFrame);
+        	Log.e("Testi", String.valueOf(currentFrame));
+            GLRenderer.effectAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
         }
 	}
 

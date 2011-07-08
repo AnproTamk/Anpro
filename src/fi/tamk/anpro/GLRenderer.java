@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
@@ -50,7 +51,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
-    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 2;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 5;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS   = 0;
     
 
@@ -284,6 +285,7 @@ public class GLRenderer implements Renderer
                         }
                     }
                 }
+                
                 // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mik‰li raja ylitet‰‰n.
                 // T‰ll‰ animaatioiden p‰ivitt‰minen tahdistetaan; Animaatiot voivat n‰ky‰ joko
                 // joka kierroksella, joka toisella, joka nelj‰nnell‰ tai joka kahdeksannella
@@ -446,9 +448,18 @@ public class GLRenderer implements Renderer
         hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
         
         /* Ladataan efektien grafiikat */
+        // Huutomerkki
         effectAnimations[0] = new Animation(_gl, context, resources, "exclamationmark_effect", 1);
+        
+        // Kysymysmerkki
         effectAnimations[1] = new Animation(_gl, context, resources, "questionmark_effect", 1);
         
+        // Armor-suoja
+        effectAnimations[2] = new Animation(_gl, context, resources, "armor_effect", 4);
+        
+        // Armor-suoja
+        effectAnimations[3] = new Animation(_gl, context, resources, "armor_effect", 4);
+
         /* Ladataan kartan grafiikat */
         if (GameActivity.activeMode == GameActivity.STORY_MODE) {
         	obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet_tex_0);
