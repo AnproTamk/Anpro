@@ -23,6 +23,7 @@ public class Options
 	public static boolean particles;	// Partikkelit
 	public static boolean sounds;		// Ääniefektit
 	public static boolean music;		// Musiikit
+	public static boolean vibration;	// Tärinät
 	public static boolean multiTouch;
 	public static boolean joystick;
 	
@@ -80,6 +81,7 @@ public class Options
         particles = true;
         music     = true;
         sounds    = false;
+        vibration = false;
         
         Log.v("navigare", "Testataan multitouch..");
         
