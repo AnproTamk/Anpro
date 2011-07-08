@@ -37,7 +37,6 @@ public class TouchManager
     /* Joystickin tiedot */
     private int  joystickX  = Joystick.joystickX;
     private int  joystickY  = Joystick.joystickY;
-    private long startTime  = 0;
 
     /**
      * Alustaa luokan muuttujat.
@@ -147,7 +146,7 @@ public class TouchManager
                     }
                     
                     /* Painetaan joystickin päällä */
-                    if (xClickOffset > joystickX - 64 && xClickOffset < joystickX + 64 &&
+                    if (joystickX != 0 && joystickY != 0 && xClickOffset > joystickX - 64 && xClickOffset < joystickX + 64 &&
                     	yClickOffset > joystickY - 64 && yClickOffset < joystickY + 64) {
                              Joystick.joystickDown = true;
                     }
@@ -196,7 +195,6 @@ public class TouchManager
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     Joystick.joystickInUse = false;
                     Joystick.joystickDown  = false;
-                    startTime = 0;
                     
                     /* Lähetetään ja nollataan kosketuspolun indeksointi jos oikea ase on valittuna */
                     if (weaponManager.isUsingMotionEvents) {
