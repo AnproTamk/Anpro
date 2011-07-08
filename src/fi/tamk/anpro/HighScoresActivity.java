@@ -65,12 +65,9 @@ public class HighScoresActivity extends Activity implements OnClickListener
 		}
 		
 		scoreList = reader.readHighScores();
-		writer.saveHighScores(score);
+		scoreList = writer.saveHighScores(score, scoreList);
 		
-		/*// Tarkistetaan onko pelaajan pisteet suuremmat kuin nolla.
-		if (score == 0) {
-			writer.saveHighScores(0);
-		}*/
+		
 		
 		
         // Asetetaan äänensäätönapit muuttamaan media volumea
