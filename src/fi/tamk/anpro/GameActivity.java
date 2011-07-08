@@ -84,16 +84,11 @@ public class GameActivity extends Activity
         // Luodaan TouchManager
         touchManager = new TouchManager(dm, surfaceView, getBaseContext(), hud, weaponManager);
         
-        // Luodaan EffectManager
-        EffectManager.getInstance();
-        
         // Luodaan InputController, mik‰li laitteessa on sellainen
         if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
         	inputController = new InputController();
         }
-        
-        
-        
+
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
         gameThread = new GameThread(dm, getBaseContext(), this, hud, touchManager, weaponManager);
         renderer.connectToGameThread(gameThread);

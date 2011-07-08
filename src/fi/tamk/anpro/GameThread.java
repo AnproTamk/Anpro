@@ -82,6 +82,9 @@ class GameThread extends Thread
         // Luodaan SurvivalMode
         gameMode = new SurvivalMode(gameActivity, dm, context, weaponManager);
 
+        // Luodaan EffectManager
+        EffectManager.getInstance();
+                
         // Merkit‰‰n kaikki ladatuiksi
         allLoaded = true;
         
