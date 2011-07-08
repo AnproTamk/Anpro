@@ -40,7 +40,7 @@ public class SoundManager
 	 * 
 	 * @return SoundManager Osoitin tähän luokkaan
 	 */
-	static synchronized public SoundManager getInstance()
+	synchronized public static SoundManager getInstance()
 	{
 		if (instance == null) {
 			instance = new SoundManager();

@@ -107,7 +107,7 @@ public class Wrapper
      * 
      * @return Osoitin tähän luokkaan
      */
-    public static Wrapper getInstance()
+    synchronized public static Wrapper getInstance()
     {
         if(instance == null) {
             instance = new Wrapper();
