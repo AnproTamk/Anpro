@@ -234,7 +234,7 @@ public class Enemy extends GameObject
         // Tuhotaan vihollinen
         if (actionId == GfxObject.ACTION_DESTROYED) {
         	--SurvivalMode.enemiesLeft;
-        	SurvivalMode.updateScore(rank);
+        	SurvivalMode.updateScore(rank, x, y);
             setUnactive();
         }
         // Aktivoidaan vihollinen (esim. EMPin jälkeen)

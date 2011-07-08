@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -21,7 +22,7 @@ public class SurvivalMode extends AbstractMode
     
     /* Pisteet ja combot */
     private static long score;
-    private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
+    private static int  comboMultiplier = 1; // Combokerroin pisteiden laskemista varten
     private static long lastTime        = 0; // Edellisen pisteen lis‰yksen aika
     private static long newTime;             // Uuden pisteen lis‰yksen aika
     
@@ -31,10 +32,10 @@ public class SurvivalMode extends AbstractMode
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
      * 
-     * @param GameActivity   Pelitilan aloittava aktiviteetti
-     * @param DisplayMetrics N‰ytˆn tiedot
-     * @param Context		 Ohjelman konteksti
-     * @param WeaponManager  Osoitin WeaponManageriin
+     * @param _gameActivity  Pelitilan aloittava aktiviteetti
+     * @param _dm            N‰ytˆn tiedot
+     * @param _context		 Ohjelman konteksti
+     * @param _weaponManager Osoitin WeaponManageriin
      */
     public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
@@ -80,9 +81,11 @@ public class SurvivalMode extends AbstractMode
     /**
      * P‰ivitt‰‰ pisteet.
      * 
-     * @param int Tuhotun vihollisen taso, jonka perusteella pisteit‰ lis‰t‰‰n
+     * @param _rank Tuhotun vihollisen taso, jonka perusteella pisteit‰ lis‰t‰‰n
+     * @param _y    Tuhotun vihollisen X-koordinatti
+     * @param _x    Tuhotun vihollisen Y-koordinatti
      */
-    public static void updateScore(int _rank)
+    public static void updateScore(int _rank, float _x, float _y)
     {
         // P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina
         if (lastTime == 0) {
@@ -93,14 +96,17 @@ public class SurvivalMode extends AbstractMode
             newTime = android.os.SystemClock.uptimeMillis();
             
             // Verrataan aikoja kesken‰‰n ja annetaan pisteit‰ sen mukaisesti
-            if (newTime-lastTime <= 500) {
-                score += (10 * _rank + 5 * _rank * currentWave) * comboMultiplier;
+            if (newTime-lastTime <= 700) {
                 ++comboMultiplier;
+            	score += (10 * _rank + 5 * _rank * currentWave) * comboMultiplier;
+            	
+            	Log.e("COMBO!", String.valueOf(comboMultiplier));
+            	EffectManager.showComboMultiplier(comboMultiplier, _x ,_y);
             }
             // Jos pelaaja ei saa comboa resetoidaan comboMultiplier
             else {
                 score += (10 * _rank + 5 * _rank * currentWave);
-                comboMultiplier = 2;
+                comboMultiplier = 1;
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
         }
