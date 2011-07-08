@@ -1,5 +1,6 @@
 package fi.tamk.anpro;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +10,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
+import android.os.Environment;
 import android.util.Log;
+import android.util.Xml;
 
 /**
  * Lukee XML-tiedostot.
@@ -386,30 +389,56 @@ public class XmlReader
      */
     public final int[] readHighScores()
     {
-    	FileInputStream  fis    = null;
-    	String 			 file   = "high_scores.txt";
-    	String[] 		 string;
-    	int[] 		     scores = new int[5];
-    	byte[] 			 buffer = new byte[4];
+    	File 			  file   = new File(Environment.getExternalStorageDirectory()+"/highscores.xml");
+    	FileInputStream   fis = null;
+    	int[] 		      scores = new int[5];
+    	String 		  	  string;
     	
     	try {
-			fis = context.openFileInput(file);
-			
-			for (int i = 0; i < scores.length; ++i) {
-				scores[i] = fis.read(buffer, 0, 4);
-			}
-			
-		} catch (FileNotFoundException e) {
+    		fis = new FileInputStream(file);
+    	}
+    	catch (Exception e){
+    		e.printStackTrace();
+    		Log.e("TESTI", "Reader Error 1: " + e.getMessage());
+    	}
+    	
+    	XmlPullParser parser = Xml.newPullParser();
+    	try {
+			parser.setInput(fis, "UTF-8");
+		} catch (XmlPullParserException e) {
 			e.printStackTrace();
-
-			Log.e("TESTI", "ERROR");
+			Log.e("TESTI", "Reader Error 2: " + e.getMessage());
+		}
+		
+		int index = 0;
+		if (parser != null) {
+	        try {
+	            while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
+	                if (parser.getEventType() == XmlPullParser.START_TAG) {
+	                    if (parser.getName().equals("score")) {
+	                    	scores[index - 1] = Integer.parseInt(parser.getAttributeValue(null, "value"));
+	                    }
+	                    
+	                    ++index;
+	                }
+	                else if (parser.getEventType() == XmlPullParser.END_TAG) {
+	                    // ...
+	                }
+	                
+	                parser.next();
+	            }
+	        }
+	        catch (Exception e) {
+	            e.printStackTrace();
+	            Log.e("TESTI", "Reader Error 3: " + e.getMessage());
+	        }
+        }
+    	
+    	try {
+			fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-
-			Log.e("TESTI", "ERROR");
 		}
-    	
-    	
     	
     	return scores;
     }
