@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  *  Hallitsee kaikkia efektejä.
  */
@@ -13,23 +11,29 @@ public class EffectManager
 	/* Efektien vakiot */
 	public static final byte EFFECT_BALLOON_EXCLAMATION = 0;
 	public static final byte EFFECT_BALLOON_QUESTION    = 1;
-	public static final byte EFFECT_ARMOR               = 2;
-	public static final byte EFFECT_EXPLOSION           = 3;
-
-	/* Efektiobjektit */
-	private static EffectObject armorEffect;
-	private static EffectObject balloonExclamation;
-	private static EffectObject balloonQuestion;
-
+	public static final byte EFFECT_PLAYER_ARMOR        = 2;
+	public static final byte EFFECT_ENEMY_ARMOR         = 3;
+	public static final byte EFFECT_EXPLOSION           = 4;
 	
+	/* Efektiobjektit */
+	private static EffectObject   playerArmorEffect;
+	private static EffectObject[] enemyArmorEffect;
+	private static EffectObject   balloonExclamation;
+	private static EffectObject   balloonQuestion;
+
 	/**
 	 * Alustaa luokan muuttujat.
 	 */
 	private EffectManager()
 	{
 		balloonExclamation = new EffectObject(0, EFFECT_BALLOON_EXCLAMATION);
-		balloonQuestion = new EffectObject(0, EFFECT_BALLOON_QUESTION);
-		armorEffect        = new EffectObject(0, EFFECT_ARMOR);
+		balloonQuestion    = new EffectObject(0, EFFECT_BALLOON_QUESTION);
+		playerArmorEffect  = new EffectObject(0, EFFECT_PLAYER_ARMOR);
+		enemyArmorEffect   = new EffectObject[5];
+		
+		for (int i = 0; i < 5; ++i) {
+			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR);
+		}
 	}
 	
 	/**
@@ -44,17 +48,31 @@ public class EffectManager
 		}
 		return instance;
 	}
-	
+
 	/**
-	 * Näyttää pelaajan ympärillä suojakentän vihollisen tai ammuksen osuessa siihen.
+	 * Näyttää pelaajan ympärillä suojakentän toisen objektin osuessa siihen.
 	 * 
 	 * @param _x Efektin X-koordinaatti
 	 * @param _y Efektin Y-koordinaatti
 	 */
-	public static void showArmorEffect(float _x, float _y) 
+	public static void showPlayerArmorEffect(float _x, float _y) 
 	{
-		if (!armorEffect.activated) {
-			armorEffect.activate(_x, _y);
+		playerArmorEffect.activate(_x, _y);
+	}
+
+	/**
+	 * Näyttää vihollisen ympärillä suojakentän toisen objektin osuessa siihen.
+	 * 
+	 * @param _x Efektin X-koordinaatti
+	 * @param _y Efektin Y-koordinaatti
+	 */
+	public static void showEnemyArmorEffect(float _x, float _y) 
+	{
+		for (int i = 0; i < 5; ++i) {
+			if (!enemyArmorEffect[i].activated) {
+				enemyArmorEffect[i].activate(_x, _y);
+				break;
+			}
 		}
 	}
 
@@ -66,9 +84,7 @@ public class EffectManager
 	 */
 	public static void showExclamationMarkBalloon(float _x, float _y)
 	{
-		
-		
-		if (!balloonExclamation.activated) {	
+		if (!balloonExclamation.activated && Utility.getRandom(1, 20) == 1) {	
 			balloonExclamation.activate(_x, _y);
 		}
 	}
@@ -81,10 +97,7 @@ public class EffectManager
 	 */
 	public static void showQuestionMarkBalloon(float _x, float _y)
 	{
-		int a = Utility.getRandom(1, 100);
-		Log.e("test", String.valueOf(a));
-		
-		if (!balloonQuestion.activated && a <= 50) {
+		if (!balloonQuestion.activated && Utility.getRandom(1, 20) == 1) {
 			balloonQuestion.activate(_x, _y);			
 		}
 	}

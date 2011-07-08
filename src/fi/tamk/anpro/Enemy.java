@@ -99,6 +99,7 @@ public class Enemy extends GameObject
         wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
         
     	currentHealth = health;
+    	currentArmor  = armor;
     }
 
     /**
@@ -153,6 +154,10 @@ public class Enemy extends GameObject
     {
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             
+        	if (currentArmor > 0) {
+        		EffectManager.showEnemyArmorEffect(x, y);
+        	}
+        	
             Utility.checkDamage(this, _damage, _armorPiercing);
             
             if (currentHealth <= 0) {

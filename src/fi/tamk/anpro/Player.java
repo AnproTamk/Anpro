@@ -102,6 +102,10 @@ public class Player extends GameObject
     {
         VibrateManager.vibrateOnHit();
     	
+        if (currentArmor > 0) {
+        	EffectManager.showPlayerArmorEffect(x, y);
+        }
+        
         Utility.checkDamage(this, _damage, _armorPiercing);
         
         Hud.armorBar.updateValue(currentArmor);
