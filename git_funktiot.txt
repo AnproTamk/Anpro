@@ -1,0 +1,24 @@
+function _add {
+    path = `find . -name "*$1*" ! - name "*.class"`
+    
+    git add $path
+}
+function _checkout {
+    path = `find . -name "*$1*" ! - name "*.class"`
+    
+    git checkout -- $path
+}
+function _reset {
+    path = `find . -name "*$1*" ! - name "*.class"`
+    
+    git reset HEAD $path
+}
+alias _commit='git commit -m'
+alias _push='git push myfork master'
+alias _pull='git pull origin master'
+alias _status='git status'
+alias _addAll='git add .'
+alias _addU='git add -u'
+alias _resetAll='git reset HEAD'
+alias _checkoutAll='git checkout .'
+alias _home='cd /d/Tyot/Kesken/Anpro'

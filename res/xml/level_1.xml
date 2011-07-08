@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level>
     <enemies>
-        <enemy rank="1" />
+        <enemy rank="1" /> <!-- enemyId 0 -->
     </enemies>
     <map>
-        <planet />
+        <planet type="PLANET_EARTH" x="300" y="150" speed="0" />
     </map>
     <mission>
-        <task>
-            <item />
-            <target />
+        <task type="JOKU_TEHTÄVÄ">
+            <onStart>
+                
+            </onStart>
+            <objects>
+                <item />
+                <target />
+            </objects>
         </task>
     </mission>
 </level>

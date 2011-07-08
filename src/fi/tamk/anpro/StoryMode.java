@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.DisplayMetrics;
 
@@ -10,9 +12,9 @@ import android.util.DisplayMetrics;
 public class StoryMode extends AbstractMode
 {
 	// Kartan objektit
-	private Obstacle[] planets;
-	private Obstacle[] asteroids;
-	private Obstacle[] stars;
+	public ArrayList<Obstacle> planets;
+	public ArrayList<Obstacle> asteroids;
+	public ArrayList<Obstacle> stars;
 	
 	// Kykypuu ja -pisteet
 	//private SkillTree skillTree;
@@ -21,7 +23,7 @@ public class StoryMode extends AbstractMode
 	private int[][] spawnPoints;
 	
 	// Teht‰v‰t
-	//private ArrayList<task> tasks;
+	public ArrayList<Task> tasks;
 	
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
@@ -33,11 +35,22 @@ public class StoryMode extends AbstractMode
      */
 	public StoryMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
 	{
-		super(_gameActivity, _dm);
+		super(_gameActivity, _dm, _context);
+
+        gameActivity  = _gameActivity;
+        weaponManager = _weaponManager;
+        
+        // Alustetaan taulukot
+        planets   = new ArrayList<Obstacle>();
+        asteroids = new ArrayList<Obstacle>();
+        stars     = new ArrayList<Obstacle>();
 		
 		// Luetaan StoryModesta haluttu kentt‰
+        XmlReader reader = new XmlReader(_context);
+        reader.readLevel((byte) 1, this, _weaponManager); // TODO: Lue kent‰n numero jostain
 		
 		// Kutsutaan WeaponManagerin initialize-funktiota
+        //...
 	}
 	
 	/**
@@ -53,7 +66,7 @@ public class StoryMode extends AbstractMode
     /**
      * Lis‰‰ uuden vihollisen kent‰lle.
      */
-	private void addEnemy()
+	private void addEnemyToMap()
 	{
 		// ...
 	}
