@@ -10,7 +10,7 @@
         <health_bar x="-334" y="-208" type="1" />
         <armor_bar x="334" y="-208" type="2" />
         
-        <joystick x="300" y="-190" type="" />
+        <joystick x="-336" y="176" type="" />
         
         <counter id="score_counter" x="64" y="-224" type="counter_numbers" value="1" />
         <counter id="score_counter" x="32" y="-224" type="counter_numbers" value="10" />
