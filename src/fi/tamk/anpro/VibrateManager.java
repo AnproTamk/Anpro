@@ -34,7 +34,7 @@ public class VibrateManager
      * 
      * @return VibrateManager Osoitin tähän luokkaan
      */
-    public final static VibrateManager getInstance()
+	synchronized public static final VibrateManager getInstance()
     {
         if(instance == null) {
             instance = new VibrateManager();

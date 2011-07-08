@@ -59,7 +59,7 @@ public class Options
      * 
      * @return Options Osoitin tähän luokkaan
      */
-    public final static Options getInstance()
+    synchronized public final static Options getInstance()
     {
         if(instance == null) {
             instance = new Options();
