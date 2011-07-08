@@ -1,9 +1,7 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -22,7 +20,7 @@ public class SurvivalMode extends AbstractMode
     
     /* Pisteet ja combot */
     private static long score;
-    private static int  comboMultiplier = 1; // Combokerroin pisteiden laskemista varten
+    private static int  comboMultiplier = 2; // Combokerroin pisteiden laskemista varten
     private static long lastTime        = 0; // Edellisen pisteen lisäyksen aika
     private static long newTime;             // Uuden pisteen lisäyksen aika
     
@@ -32,45 +30,29 @@ public class SurvivalMode extends AbstractMode
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja käynnistää pelin.
      * 
-     * @param _gameActivity  Pelitilan aloittava aktiviteetti
-     * @param _dm            Näytön tiedot
-     * @param _context		 Ohjelman konteksti
-     * @param _weaponManager Osoitin WeaponManageriin
+     * @param GameActivity   Pelitilan aloittava aktiviteetti
+     * @param DisplayMetrics Näytön tiedot
+     * @param Context		 Ohjelman konteksti
+     * @param WeaponManager  Osoitin WeaponManageriin
      */
     public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
-    	super(_gameActivity, _dm);
+    	super(_gameActivity, _dm, _context);
 
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
-        
-    	// Alustetaan pelaaja
-    	player = new Player(100, 100, this);
-    	player.x = 0;
-    	player.y = 0;
     	
-    	// Alustetaan muuttujat
+    	// Alustetaan taulukot
         waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         for (int j = 0; j < AMOUNT_OF_WAVES; ++j) {
         	for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
         		waves[j][i] = -1;
         	}
         }
-        enemies      = new ArrayList<Enemy>();
-        enemyStats   = new int[5][5];
         spawnPoints  = new int[9][3][2];
         
-        // Luetaan vihollistyyppien tiedot
-        XmlReader reader = new XmlReader(_context);
-        ArrayList<Integer> enemyStatsTemp = reader.readEnemyRanks();
-        int rank = 0;
-        for (int i = 0; i < enemyStatsTemp.size(); ++i) {
-        	rank = (int)(i / 5);
-        	
-        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
-        }
-        
         // Luetaan pelitilan tiedot
+        XmlReader reader = new XmlReader(_context);
         reader.readSurvivalMode(this, _weaponManager);
         
         // Päivitetään aloituspisteet ja käynnistetään ensimmäinen vihollisaalto
@@ -82,8 +64,8 @@ public class SurvivalMode extends AbstractMode
      * Päivittää pisteet.
      * 
      * @param _rank Tuhotun vihollisen taso, jonka perusteella pisteitä lisätään
-     * @param _y    Tuhotun vihollisen X-koordinatti
-     * @param _x    Tuhotun vihollisen Y-koordinatti
+     * @param _x    X-koordinaatti
+     * @param _y    Y-koordinaatti
      */
     public static void updateScore(int _rank, float _x, float _y)
     {
@@ -100,7 +82,6 @@ public class SurvivalMode extends AbstractMode
                 ++comboMultiplier;
             	score += (10 * _rank + 5 * _rank * currentWave) * comboMultiplier;
             	
-            	Log.e("COMBO!", String.valueOf(comboMultiplier));
             	EffectManager.showComboMultiplier(comboMultiplier, _x ,_y);
             }
             // Jos pelaaja ei saa comboa resetoidaan comboMultiplier
@@ -263,6 +244,7 @@ public class SurvivalMode extends AbstractMode
     /**
      * Lähettää pisteet GameActivitylle, joka siirtää pelin Highscores-valikkoon.
      */
+    @Override
 	public void endGameMode()
 	{
 		gameActivity.continueToHighscores((int)score);

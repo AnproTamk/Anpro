@@ -21,11 +21,13 @@ public class Obstacle extends GameObject
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
-	 * @param _x    Objektin X-koordinaatti
-	 * @param _y    Objektin Y-koordinaatti
-	 * @param _type Objektin tyyppi (tekstuurit m‰‰ritell‰‰n t‰m‰n perusteella)
+	 * @param _type      Objektin tyyppi (tekstuurit m‰‰ritell‰‰n t‰m‰n perusteella)
+	 * @param _x         X-koordinaatti
+	 * @param _y         Y-koordinaatti
+	 * @param _speed     Liikkumisnopeus
+	 * @param _direction Liikkumissuunta
 	 */
-	public Obstacle(int _x, int _y, byte _type, int _speed)
+	public Obstacle(int _type, int _x, int _y, int _speed, int _direction)
 	{
 		super(_speed);
 		
@@ -37,7 +39,7 @@ public class Obstacle extends GameObject
 		wrapper = Wrapper.getInstance();
 		
 		// M‰‰ritet‰‰n n‰ytett‰v‰ tekstuuri
-		type = _type;
+		//type = _type;
 		
 		// M‰‰ritell‰‰n liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {

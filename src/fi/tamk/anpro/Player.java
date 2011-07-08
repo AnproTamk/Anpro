@@ -12,7 +12,7 @@ public class Player extends GameObject
 {
     /* Osoittimet muihin luokkiin */
     private Wrapper      wrapper;
-    private SurvivalMode survivalMode;
+    private AbstractMode gameMode;
     
     /**
      * Alustaa luokan muuttujat.
@@ -21,16 +21,13 @@ public class Player extends GameObject
      * @param int Pelaajan puolustus
      * @param int Osoitin SurivalModeen
      */
-    public Player(int _health, int _armor, SurvivalMode _survivalMode)
+    public Player(int _health, int _armor, AbstractMode _gameMode)
     {
         super(0); // TODO: Pelaaja tarvitsee nopeuden StoryModea varten
         
-        // TODO: Ei voida tietää, kumpiko pelitila Playerin on otettava vastaan.
-        // Eli ei voida ottaa vastaan suoraan SurvivalModea.
-        
         // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin
-        wrapper      = Wrapper.getInstance();
-        survivalMode = _survivalMode;
+        wrapper  = Wrapper.getInstance();
+        gameMode = _gameMode;
         
         // Tallennetaan pelaajan tiedot
         health  	  = _health;
@@ -142,7 +139,7 @@ public class Player extends GameObject
         if (actionId == GfxObject.ACTION_DESTROYED) {
             setUnactive();
             
-            survivalMode.endGameMode();
+            gameMode.endGameMode();
         }
     }
 }

@@ -2,7 +2,6 @@ package fi.tamk.anpro;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,57 +30,7 @@ public class XmlReader
     {
         context = _context;
     }
-
-    /**
-     * Lukee yhden kentän tiedot.
-     * 
-     * @param int Kentän järjestysnumero
-     * 
-     * @deprecated
-     */
-    public final void readLevel(int _id)
-    {
-        XmlResourceParser level = null;
-        try {
-            level = context.getResources().getXml(R.xml.class.getField("level_"+_id).getInt(getClass()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //( Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
-        if (level != null) {
-	        try {
-	            while (level.getEventType() != XmlPullParser.END_DOCUMENT) {
-	                if (level.getEventType() == XmlPullParser.START_TAG) {
-	                    if (level.getName().equals("player")) {
-	                        /*renderer.players.add(new Player(gl, context, level.getAttributeResourceValue(null, "id", 0),
-	                                                        level.getAttributeIntValue(null, "health", 10),
-	                                                        level.getAttributeIntValue(null, "defence", 0)));*/
-	                    }
-	                    else if (level.getName().equals("enemy")) {
-	                        //renderer.enemies.add(new Enemy(gl, context, level.getAttributeResourceValue(null, "id", 0),
-	                        //								level.getAttributeIntValue(null, "rank", 1));
-	
-	                        //renderer.enemies.get(renderer.enemies.size()-1).spawnPoint = level.getAttributeIntValue(null, "spawnPoint", 0);
-	                    }
-	                }
-	                else if (level.getEventType() == XmlPullParser.END_TAG) {
-	                    // ...
-	                }
-	                else if (level.getEventType() == XmlPullParser.TEXT) {
-	                    // ...
-	                }
-	
-	                level.next();
-	            }
-	        } catch (XmlPullParserException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-        }
-    }
-     
+    
     /**
      * Lukee HUDin tiedot. Riippuen pelimodesta, lukee tarvittavat tiedot 
      * XML-tiedostosta joko story- tai survival-modea varten.
@@ -292,63 +241,108 @@ public class XmlReader
      * @param _storyMode     Osoitin pelitilaan
      * @param _weaponManager Osoitin WeaponManageriin
      */
-    public final void readLevel(byte _level, SurvivalMode _storyMode, WeaponManager _weaponManager)
+    public final void readLevel(byte _level, StoryMode _storyMode, WeaponManager _weaponManager)
     {
-        /*XmlResourceParser xrp = null;
+    	byte readingState = 0; // 0 ei mitään
+    						   // 1 enemies
+		                       // 2 map
+		                       // 3 mission
+		                       // 4 task
+    	
+    	boolean enemiesGiven = false;
+    	boolean mapGiven     = false;
+    	boolean missionGiven = false;
+    	
+        XmlResourceParser xrp = null;
         
         try {
         	xrp = context.getResources().getXml(context.getResources().getIdentifier("level_"+_level, "xml", "fi.tamk.anpro"));
         }
         catch (Exception e) {
-        	e.printStackTrace();
+        	Log.e("XMLREADER", "Virhe readLevel:ssä");
         }
         
         if (xrp != null) {
 	        try {
 	            while (xrp.getEventType() != XmlPullParser.END_DOCUMENT) {
 	                if (xrp.getEventType() == XmlPullParser.START_TAG) {
-	                    if (xrp.getName().equals("enemy")) {
-	                        int rankTemp = Integer.parseInt(rsm.getAttributeValue(null, "rank")) - 1;
-	                        
-	                        _survivalMode.enemies.add(new Enemy(_survivalMode.enemyStats[rankTemp][0],
-	                                                            _survivalMode.enemyStats[rankTemp][1],
-	                                                            _survivalMode.enemyStats[rankTemp][2],
-	                                                            _survivalMode.enemyStats[rankTemp][3],
-	                                                            _survivalMode.enemyStats[rankTemp][4],
-	                                                            rankTemp + 1, _weaponManager));
+	                    if (xrp.getName().equals("enemies") && !enemiesGiven) {
+	                    	readingState = 1;
+	                    	enemiesGiven = true;
 	                    }
-	                    if (rsm.getName().equals("wave")) {
-	                        
-	                        String waveTemp = rsm.getAttributeValue(null, "enemies");
-	                        // Jaetaan waveTemp-muuttujan tiedot yksittäisiksi merkeiksi ja tallennetaan string-taulukkoon "wave".
-	                        String[] wave = null;
-	                        wave = waveTemp.split("\\,");
-	                        
-	                        // Muunnetaan tietotyypit ja lisätään tiedot waves-taulukkoon.
-	                        int index = 0;
-	                        for (int i = wave.length - 1; i >= 0 ; --i) {
-	                        	if (wave[i] != null && wave[i] != "") {
-	                        		_survivalMode.waves[currentWave][index] = Integer.parseInt(wave[i]);
-	                        		++index;
-	                        	}
-	                        }
-	                        
-	                        ++currentWave;
+	                    else if (xrp.getName().equals("map") && !mapGiven && enemiesGiven) {
+	                    	readingState = 2;
+	                    	mapGiven = true;
+	                    }
+	                    else if (xrp.getName().equals("mission") && !missionGiven && mapGiven) {
+	                    	readingState = 3;
+	                    	missionGiven = true;
+	                    }
+	                    else if (xrp.getName().equals("task") && readingState == 3) {
+	                    	readingState = 4;
+	                    	_storyMode.tasks.add(new Task((byte)xrp.getAttributeIntValue(null, "type", 0),
+	                    								  (byte)xrp.getAttributeIntValue(null, "skill_points", 0)));
 	                    }
 	                    
+	                    if (xrp.getName().equals("enemy") && readingState == 1) {
+	                    	int rank = xrp.getAttributeIntValue(null, "rank", 0);
+	                        _storyMode.enemies.add(new Enemy(_storyMode.enemyStats[rank][0],
+	                        								 _storyMode.enemyStats[rank][1],
+	                        								 _storyMode.enemyStats[rank][2],
+	                        								 _storyMode.enemyStats[rank][3],
+	                        								 _storyMode.enemyStats[rank][4],
+	                        								 rank,
+	                        								 _weaponManager));
+	                    }
+	                    else if (xrp.getName().equals("planet") && readingState == 2) {
+	                    	_storyMode.planets.add(new Obstacle((byte)xrp.getAttributeIntValue(null, "type", 0),
+	                    										xrp.getAttributeIntValue(null, "x", 0),
+	                    										xrp.getAttributeIntValue(null, "y", 0),
+	                    										xrp.getAttributeIntValue(null, "speed", 0),
+	                    										xrp.getAttributeIntValue(null, "direction", 0)));
+	                    }
+	                    else if (xrp.getName().equals("asteroid") && readingState == 2) {
+	                    	_storyMode.asteroids.add(new Obstacle((byte)xrp.getAttributeIntValue(null, "type", 1),
+	                    									      xrp.getAttributeIntValue(null, "x", 0),
+																  xrp.getAttributeIntValue(null, "y", 0),
+																  xrp.getAttributeIntValue(null, "speed", 0),
+																  xrp.getAttributeIntValue(null, "direction", 0)));
+	                    }
+	                    else if (xrp.getName().equals("star") && readingState == 2) {
+	                    	_storyMode.stars.add(new Obstacle((byte)xrp.getAttributeIntValue(null, "type", 2),
+	                    									  xrp.getAttributeIntValue(null, "x", 0),
+															  xrp.getAttributeIntValue(null, "y", 0),
+															  xrp.getAttributeIntValue(null, "speed", 0),
+															  xrp.getAttributeIntValue(null, "direction", 0)));
+	                    }
+	                    else if (xrp.getName().equals("item") && readingState == 4) {
+	                    }
+	                    else if (xrp.getName().equals("target") && readingState == 4) {
+	                    	// ...
+	                    }
 	                }
-	                else if (rsm.getEventType() == XmlPullParser.END_TAG) {
-	                    // ...
+	                else if (xrp.getEventType() == XmlPullParser.END_TAG) {
+	                    if (xrp.getName().equals("enemies")) {
+	                    	readingState = 0;
+	                    }
+	                    else if (xrp.getName().equals("map")) {
+	                    	readingState = 0;
+	                    }
+	                    else if (xrp.getName().equals("mission")) {
+	                    	readingState = 0;
+	                    }
+	                    else if (xrp.getName().equals("task")) {
+	                    	readingState = 3;
+	                    }
 	                }
 	                
-	                rsm.next();
+	                xrp.next();
 	            }
 	        }
 	        catch (Exception e) {
-	        	// TODO: Käsittele virhe
-	            e.printStackTrace();
+	        	Log.e("XMLREADER", "Virhe readLevel:ssä");
 	        }
-        }*/
+        }
     }
     
     /**
@@ -392,7 +386,6 @@ public class XmlReader
     	File 			  file   = new File(Environment.getExternalStorageDirectory()+"/highscores.xml");
     	FileInputStream   fis = null;
     	int[] 		      scores = new int[5];
-    	String 		  	  string;
     	
     	try {
     		fis = new FileInputStream(file);
