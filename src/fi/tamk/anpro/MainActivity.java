@@ -154,28 +154,24 @@ public class MainActivity extends Activity implements OnClickListener
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_story = new Intent(this, LevelSelectActivity.class);
                 startActivity(i_story);
-                super.onStop();
                 break;
                 
             case R.id.button_survival:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
                 startActivity(i_game);
-                super.onStop();
                 break;
                 
             case R.id.button_highscores:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_highscores = new Intent(this, HighScoresActivity.class);
                 startActivity(i_highscores);
-                super.onStop();
                 break;
                 
             case R.id.button_help:
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_help = new Intent(this, AboutActivity.class);
                 startActivity(i_help);
-                super.onPause();
                 break;
                 
             case R.id.button_quit:

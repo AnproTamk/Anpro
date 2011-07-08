@@ -35,10 +35,9 @@ public class TouchManager
     private int screenHeight; // Ruudun korkeus
 
     /* Joystickin tiedot */
-    private static int     joystickX 	 = Joystick.joystickX;
-    private static int     joystickY     = Joystick.joystickY;
-    private static boolean joystickInUse = false;
-    private long           startTime     = 0;
+    private int  joystickX  = Joystick.joystickX;
+    private int  joystickY  = Joystick.joystickY;
+    private long startTime  = 0;
 
     /**
      * Alustaa luokan muuttujat.
@@ -68,7 +67,7 @@ public class TouchManager
         touchPath[0][0] = 0;
         touchPath[0][1] = 0;
         
-        // M‰‰ritet‰‰n kent‰ll‰ olevat rajat nappien painamiselle
+        // M‰‰ritet‰‰n kent‰ll‰ olevat rajat nappien painamiselle eri n‰ytˆn korkeuksien mukaan
         if (screenHeight == 320) {
         	yClickFirstBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);		// 96
         	yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32; // 64
@@ -99,13 +98,14 @@ public class TouchManager
         	
             public boolean onTouch(View v, MotionEvent event) {
 
-            	// Painamisen aloitus
+            	/* ACTION_DOWN */
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    xClickOffset = (int) event.getX();
-                    yClickOffset = screenHeight - (int) event.getY();
+                    //xClickOffset = (int) event.getX();
+                    //yClickOffset = screenHeight - (int) event.getY();
+                	xClickOffset = (int) event.getX() - screenWidth / 2;
+                    yClickOffset = screenHeight / 2 - (int) event.getY();
                     
-                    Log.v("navigare", "X: " + xClickOffset + " Y: " + yClickOffset +
-                    				  " joystickX: " + joystickX + " joystickY: " + joystickY);
+                    Log.v("navigare","x = " + xClickOffset + " y = " + yClickOffset + " jX = " + joystickX + " jY = " + joystickY );
 
                     /* Oikean reunan napit */
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
@@ -129,6 +129,7 @@ public class TouchManager
                             hud.triggerClick(Hud.BUTTON_1);
                         }
                     }
+                    
                     /* Vasemman reunan napit */
                     else if (xClickOffset < screenWidth - 700 * Options.scaleX && xClickOffset > 0 &&
                     		 yClickOffset < yClickSecondBorder) {
@@ -144,28 +145,24 @@ public class TouchManager
                             hud.triggerClick(Hud.SPECIAL_1);
                         }
                     }
+                    
+                    /* Painetaan joystickin p‰‰ll‰ */
+                    if (xClickOffset > joystickX - 64 && xClickOffset < joystickX + 64 &&
+                    	yClickOffset > joystickY - 64 && yClickOffset < joystickY + 64) {
+                             Joystick.joystickDown = true;
+                    }
+                    
                     /* Painetaan pelikent‰lt‰ */
                     else {
                         weaponManager.triggerPlayerShoot(event.getX() - screenWidth/2, -((-screenHeight / 2) + event.getY()));
                     }
-
-                    if (!joystickInUse && xClickOffset > joystickX - 32 && xClickOffset < joystickX + 32 &&
-                    					  yClickOffset > joystickY - 32 && yClickOffset < joystickY + 32) {
-                        if (startTime == 0) {
-                            startTime = android.os.SystemClock.uptimeMillis();
-                        }
-                        else if (android.os.SystemClock.uptimeMillis() - startTime >= 0) {
-                            joystickInUse = true;
-                        }
-                    }
-                    
-                    //return true;
                 }
-            	
+                
+                /* ACTION_MOVE */
                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 	xClickOffset = (int) event.getX() - screenWidth / 2;
                     yClickOffset = screenHeight / 2 - (int) event.getY();
-                    
+
                     /* Ajasta riippumattoman kosketuspolun seuranta */
                     if (weaponManager.isUsingMotionEvents) {
                     	// Tarkistetaan onko seuraava kosketuskohta 8px p‰‰ss‰ edellisest‰ kosketuskohdasta
@@ -177,31 +174,28 @@ public class TouchManager
                     	}
                     }
                     
-                    Log.v("navigare", "Move X: " + xClickOffset + " Move Y: " + yClickOffset +
-                    		          " joystickX: " + joystickX + " joystickY: " + joystickY);
-                    
-                    /* Joystickin aktivointi, jos sormea on painettu sen alueella tietyn ajan verran (750ms default) */
-                    if (!joystickInUse && xClickOffset > joystickX - 32 && xClickOffset < joystickX + 32 &&
-                    					  yClickOffset > joystickY - 32 && yClickOffset < joystickY + 32) {
-                        if (startTime == 0) {
-                            startTime = android.os.SystemClock.uptimeMillis();
-                            return true;
-                        }
-                        else if (android.os.SystemClock.uptimeMillis() - startTime >= 0) {
-                            joystickInUse = true;
-                        }
+                    /* Joystickin aktivointi */
+                    if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffset > joystickX - 32 && xClickOffset < joystickX + 32 &&
+                    														yClickOffset > joystickY - 32 && yClickOffset < joystickY + 32) {
+                            Joystick.joystickInUse = true;
                     }
                     
-                    if (joystickInUse) {
+                    else if (Joystick.joystickInUse) {
                     	Joystick.useJoystick(xClickOffset, yClickOffset, (int)event.getX(), (int)event.getY(), wrapper);
+                    	// Lopetetaan joystickin k‰ytt‰minen, jos sormen et‰isyys siit‰ on yli 50
+                    	if (Utility.getDistance((float)xClickOffset, (float)yClickOffset, (float)joystickX, (float)joystickY) > 64) {
+                    		Joystick.joystickDown = false;
+                    		Joystick.joystickInUse = false;
+                    	}
                     }
-                    //return true;
+                    
+                    return true;
                 }
 				
                 // Nostetaan sormi pois
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-
-                    joystickInUse = false;
+                    Joystick.joystickInUse = false;
+                    Joystick.joystickDown  = false;
                     startTime = 0;
                     
                     /* L‰hetet‰‰n ja nollataan kosketuspolun indeksointi jos oikea ase on valittuna */
@@ -209,8 +203,9 @@ public class TouchManager
                     	for (int i = 0; i < 10; i++) {
                     		// Tulostaa taulukon LogCatiin
                 			//Log.v("TouchManager", "touchPath[" + i + "][" + touchPath[i][0] + "][" + touchPath[i][1] + "]");
- 
-                			//weaponManager.triggerMotionShoot(touchPath);
+                    		
+                    		// Laukaisee ampumisen touchPath[][]-taulukon arvoilla
+                			// weaponManager.triggerMotionShoot(touchPath);
                 		
                 			touchPath[i][0] = 0;
                 			touchPath[i][1] = 0;
@@ -220,15 +215,12 @@ public class TouchManager
 
                     if (Math.abs(event.getX() - (xClickOffset - screenWidth / 2)) < touchMarginal &&
                         Math.abs(event.getY() - (yClickOffset - screenHeight / 2)) < touchMarginal) {
-                    	// T‰ss‰ kohtaa pelaaja nostaa sormensa napin p‰‰lt‰ ...
+                    	// T‰ss‰ kohtaa pelaaja nostaa sormensa napin p‰‰lt‰ liikuttamatta sit‰ pois napin alueelta ...
                     }
-
-                    //return true;
                 }
+                
                 // K‰yt‰ painaminen
 				return true;
-
-                //return true;
             }
         });
     }
