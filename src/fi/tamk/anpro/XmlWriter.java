@@ -1,15 +1,11 @@
 package fi.tamk.anpro;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -203,77 +199,83 @@ public class XmlWriter
 	 * Tallentaa pelaajan highscoret.
 	 * 
 	 * @param _score Pelaajan pisteet
+	 * @param scoreList 
+	 * @return 
 	 */
-	public final void saveHighScores(int _score)
+	public final int[] saveHighScores(int _score, int[] _scoreList)
 	{
 		FileOutputStream fos = null;
-		FileInputStream  fis = null;
 		
 		int[] scores = new int[5];
-		Context context = MainActivity.context;
-		String file = "high_scores.txt";
-		String string = String.valueOf(_score);
-		String[] stringTemp;
 		
-		stringTemp = string.split("(?<=\\G.{1})");
+		for (int i = 0; i < scores.length; ++i) {
+			if (_score > _scoreList[i]) {
+				int scoreTemp 	  = _scoreList[i];
+				_scoreList[i] 	  = _score;
+				_scoreList[i + 1] = scoreTemp;
+				break;
+			}
+		}
 		
-		byte[] buffer = new byte[stringTemp.length];
+		scores = _scoreList;
 		
-		for (int i = 0; i < stringTemp.length; ++i) {
-			buffer[i] = (byte) Integer.parseInt(stringTemp[i]);
+		//String[] string;
+		/*String[] stringTemp;
+		
+		stringTemp = string.split("(?<=\\G.{1})");*/
+		
+		File xmlHighScores = new File(Environment.getExternalStorageDirectory()+"/highscores.xml");
+		
+		try {
+			xmlHighScores.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("TESTI", "Writer Error 1: " + e.getMessage());
 		}
 		
 		try {
-			fis = context.openFileInput(file);
-
-			for (int i = scores.length - 1; i >= 0; --i) {
-				scores[i] = fis.read();
+			fos = new FileOutputStream(xmlHighScores);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("TESTI", "Writer Error 2: " + e.getMessage());
+		}
+		
+		XmlSerializer serializer = Xml.newSerializer();
+		
+		try {
+			// Asetetaan FileOutputStream ulostuloksi serializerille, käyttäen UTF-8-koodausta.
+			serializer.setOutput(fos, "UTF-8");
+			// Kirjoitetaan <?xml -selite enkoodauksella (jos enkoodaus ei ole "null") 
+			//ja "standalone flag" (jos "standalone" ei ole "null").
+			serializer.startDocument(null, Boolean.valueOf(false));
+			// Asetetaan sisennykset.
+			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
+			serializer.startTag(null, "scores");
+			
+			
+			for (int i = 0; i < scores.length; ++i) {
+				serializer.startTag(null, "score");
+				
+				serializer.attribute(null, "id", String.valueOf(i));
+				serializer.attribute(null, "value", String.valueOf(_scoreList[i]));
+				
+				serializer.endTag(null, "score");
 			}
 			
-			fis.close();
-		} 
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-			Log.e("TESTI", "ERROR");
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			Log.e("TESTI", "ERROR");
-		}
-		
-		
-		try {
-			fos = context.openFileOutput(file, 0);
-		} 
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-			Log.e("TESTI", "ERROR");
-		}
-		
-		try {
-			if (_score > 0) {
-				for(int i = 0; i < scores.length - 1; ++i) {
-					if (_score > scores[i]) {
-						int scoreTemp = scores[i];
-						scores[i] = _score;
-						scores[i + 1] = scoreTemp;
-						fos.write(buffer);
-						break;
-					}
-				}
-			}
-			else {
-				for(int i = 0; i < scores.length - 1; ++i) {
-					fos.write(0);
-				}
-			}
+			serializer.endTag(null, "scores");
+			serializer.endDocument();
+						
 			
-			//fos.write(string.getBytes());
+			//Kirjoitetaan xml-data FileOutputStreamiin.
+			serializer.flush();
+			//Suljetaan tiedostovirta.
 			fos.close();
-		}
-		catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("TESTI", "ERROR");
+			Log.e("TESTI", "Writer Error 3: " + e.getMessage());
 		}
+		
+		return scores;
 	}
 }
