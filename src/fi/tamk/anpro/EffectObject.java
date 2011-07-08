@@ -48,7 +48,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED);
+		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED);
 	}
 
 	/**
@@ -81,8 +81,7 @@ public class EffectObject extends GameObject
 	{
 		// Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-        	Log.e("Testi", String.valueOf(currentFrame));
-            GLRenderer.effectAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
+            GLRenderer.effectAnimations[usedAnimation].draw(_gl, x, y, 90, currentFrame);
         }
 	}
 

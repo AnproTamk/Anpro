@@ -51,7 +51,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
-    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 5;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS   = 0;
     
 
@@ -459,6 +459,12 @@ public class GLRenderer implements Renderer
         
         // Armor-suoja
         effectAnimations[3] = new Animation(_gl, context, resources, "armor_effect", 4);
+        
+        // Combomultiplier
+        effectAnimations[4] = new Animation(_gl, context, resources, "combo2_effect", 1);
+        effectAnimations[5] = new Animation(_gl, context, resources, "combo3_effect", 1);
+        effectAnimations[6] = new Animation(_gl, context, resources, "combo4_effect", 1);
+        effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
 
         /* Ladataan kartan grafiikat */
         if (GameActivity.activeMode == GameActivity.STORY_MODE) {
