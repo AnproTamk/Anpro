@@ -49,8 +49,10 @@ public class VibrateManager
     {
     	// TODO: Mahdollisuus m‰‰ritt‰‰ vakiolla v‰rin‰n "tyyppi", esim. tyyliin
     	// VibrateManager.vibrate(PLAYER_HIT); tai jotain vastaavaa
+    	if (Options.vibration) {
+    		v.vibrate(VIB_DURATION_ON_HIT);
+    	}
     	
-    	v.vibrate(VIB_DURATION_ON_HIT);
     	//v.cancel();
     }
 }

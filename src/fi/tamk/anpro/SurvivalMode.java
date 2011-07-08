@@ -40,7 +40,6 @@ public class SurvivalMode extends AbstractMode
     {
     	super(_gameActivity, _dm);
 
-        VibrateManager.getInstance();
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
         
