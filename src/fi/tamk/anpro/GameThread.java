@@ -137,7 +137,7 @@ class GameThread extends Thread
            
             /* P‰ivitet‰‰n teko‰lyt */
             if (wrapper.player != null) {
-
+            	
                 // P‰ivitet‰‰n tila 1
                 if (currentTime - lastAiUpdateStateOne >= (300 / updateSpeedUp)) {
                     lastAiUpdateStateOne = currentTime;
@@ -200,6 +200,9 @@ class GameThread extends Thread
                 // P‰ivitet‰‰n tila 4
                 if (currentTime - lastAiUpdateStateFour >= (40 / updateSpeedUp)) {
                     lastAiUpdateStateFour = currentTime;
+
+                	// P‰ivitet‰‰n pelaajan teko‰ly (aina tila 4)
+                	wrapper.player.ai.handleAi();
                     
                     for (int i : wrapper.priorityFourEnemies) {
                         if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
