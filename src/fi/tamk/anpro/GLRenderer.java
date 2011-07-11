@@ -87,8 +87,9 @@ public class GLRenderer implements Renderer
     private Resources resources;
     
     /* Tarvittavat oliot */
-    private Wrapper    wrapper;
-    private GameThread gameThread = null;
+    private Wrapper       wrapper;
+    private CameraManager cameraManager;
+    private GameThread    gameThread = null;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public        boolean allLoaded     = false;
@@ -128,8 +129,9 @@ public class GLRenderer implements Renderer
         context   = _context;
         resources = _resources;
         
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
+        // Otetaan Wrapper ja CameraManager käyttöön
+        wrapper       = Wrapper.getInstance();
+        cameraManager = CameraManager.getInstance();
     }
 
     /**
@@ -205,6 +207,8 @@ public class GLRenderer implements Renderer
      */
     public void onDrawFrame(GL10 _gl)
     {
+    	cameraManager.updateCameraPosition();
+    	
         // Otetaan 2D-piirtäminen käyttöön
         _gl.glEnable(GL10.GL_TEXTURE_2D);
 

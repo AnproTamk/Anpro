@@ -29,6 +29,15 @@ abstract public class GLSprite
     								   1.0f, 1.0f,
     								   1.0f, 0.0f};
     
+    /* Osoitin CameraManageriin */
+    private CameraManager cameraManager;
+    
+    public GLSprite()
+    {
+    	// Otetaan CameraManager käyttöön kameran simulointia varten
+    	cameraManager = CameraManager.getInstance();
+    }
+    
     /**
      * Lataa tekstuurin muistiin ja muuntaa sen OpenGL-tekstuuriksi.
      * 
@@ -131,7 +140,8 @@ abstract public class GLSprite
         _gl.glLoadIdentity();
         
         // Siirretään ja käännetään mallimatriisia
-        _gl.glTranslatef(_x, _y, 0);
+    	// TODO: Alukset tökkii
+        _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
         _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
         
