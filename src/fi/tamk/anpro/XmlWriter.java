@@ -208,14 +208,31 @@ public class XmlWriter
 		
 		int[] scores = new int[5];
 		
-		for (int i = 0; i < scores.length; ++i) {
-			if (_score > _scoreList[i]) {
+		boolean checked = false;
+		int index 	 = 0; 
+		int temp = 0;
+		
+		while (checked != true) {
+			if (_score > _scoreList[index]) {
+				temp = _scoreList[index];
+				_scoreList[index] = _score;
+				_score = temp;
+			}
+			else if (index >= 4) {
+				checked = true;
+			}
+			
+			index++;
+		}
+		
+		/*for (int i = scores.length - 1; i >= 0; i--) {
+			if (_score > _scoreList[i] && _score < _scoreList[i - 1]) {
 				int scoreTemp 	  = _scoreList[i];
 				_scoreList[i] 	  = _score;
 				_scoreList[i + 1] = scoreTemp;
 				break;
 			}
-		}
+		}*/
 		
 		scores = _scoreList;
 		
@@ -276,6 +293,64 @@ public class XmlWriter
 			Log.e("TESTI", "Writer Error 3: " + e.getMessage());
 		}
 		
+		return scores;
+	}
+	
+	public final int[] resetHighScores()
+	{
+		int[] scores = new int[5];
+		FileOutputStream fos = null;
+		File xmlHighScores = new File(Environment.getExternalStorageDirectory()+"/highscores.xml");
+		
+		try {
+			xmlHighScores.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("TESTI", "Writer Error 1: " + e.getMessage());
+		}
+		
+		try {
+			fos = new FileOutputStream(xmlHighScores);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("TESTI", "Writer Error 2: " + e.getMessage());
+		}
+		
+		XmlSerializer serializer = Xml.newSerializer();
+		
+		try {
+			// Asetetaan FileOutputStream ulostuloksi serializerille, käyttäen UTF-8-koodausta.
+			serializer.setOutput(fos, "UTF-8");
+			// Kirjoitetaan <?xml -selite enkoodauksella (jos enkoodaus ei ole "null") 
+			//ja "standalone flag" (jos "standalone" ei ole "null").
+			serializer.startDocument(null, Boolean.valueOf(false));
+			// Asetetaan sisennykset.
+			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			// Asetetaan tagi nimeltä "res"  <--- LUULTAVASTI MUOKATAAN!
+			serializer.startTag(null, "scores");
+			
+			
+			for (int i = 0; i < scores.length; ++i) {
+				serializer.startTag(null, "score");
+				
+				serializer.attribute(null, "id", String.valueOf(i));
+				serializer.attribute(null, "value", String.valueOf(scores[i]));
+				
+				serializer.endTag(null, "score");
+			}
+			
+			serializer.endTag(null, "scores");
+			serializer.endDocument();
+						
+			
+			//Kirjoitetaan xml-data FileOutputStreamiin.
+			serializer.flush();
+			//Suljetaan tiedostovirta.
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.e("TESTI", "Writer Error 3: " + e.getMessage());
+		}
 		return scores;
 	}
 }
