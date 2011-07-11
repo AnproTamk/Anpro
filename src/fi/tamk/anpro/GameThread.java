@@ -272,7 +272,7 @@ class GameThread extends Thread
             	}
             }
             
-            /* Päivitetään vihollisaallot */
+            /* Päivitetään vihollisaallot ja pelitila */
             if (currentTime - lastGameModeUpdate >= 1000) {
                 if (GameMode.enemiesLeft == 0) {
                     waveStartTime = android.os.SystemClock.uptimeMillis();
@@ -280,6 +280,8 @@ class GameThread extends Thread
                     
                     gameMode.startWave();
                 }
+                
+                gameMode.mirrorAsteroidPosition();
             }
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */

@@ -18,6 +18,9 @@ public class GameMode
     /* Pelaaja */
     public Player player;
     
+    /* Asteroidit */
+    public Obstacle[] asteroids; // Asteroidit
+    
     /* Viholliset */
     public           ArrayList<Enemy> enemies;         // Viholliset
     protected        int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
@@ -71,6 +74,7 @@ public class GameMode
         // Alustetaan taulukot
         enemies    = new ArrayList<Enemy>();
         enemyStats = new int[5][5];
+        asteroids  = new Obstacle[3];        
         
     	// Alustetaan pelaaja
     	player = new Player(100, 100, this);
@@ -313,5 +317,19 @@ public class GameMode
 		else {
 			PlayerAi.deactivateAutoPilot();
 		}
+	}
+	
+	public void mirrorAsteroidPosition ()
+	{
+		/*for (int i = asteroids.length - 1; i >= 0; --i) {
+			if (asteroids[i].x >= halfOfScreenWidth || asteroids[i].x <= -halfOfScreenWidth ||
+				asteroids[i].y >= halfOfScreenHeight || asteroids[i].y <= -halfOfScreenHeight) {
+				if (asteroids[i].x > overBoundWidth || asteroids[i].x < -overBoundWidth || 
+					asteroids[i].y > overBoundHeight || asteroids[i].y < -overBoundHeight) {
+					asteroids[i].x *= -1;
+					asteroids[i].y *= -1;
+				}
+			}
+		}*/
 	}
 }
