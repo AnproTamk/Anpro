@@ -25,10 +25,11 @@ abstract public class GameObject extends GfxObject
     public static final int TO_THE_RIGHT = 2;
     
     // Törmäystyypit
-    public static final int COLLISION_WITH_PROJECTILE = 10;
-    public static final int COLLISION_WITH_PLAYER     = 11;
-    public static final int COLLISION_WITH_ENEMY      = 12;
-    public static final int COLLISION_WITH_OBSTACLE   = 13;
+    public static final int COLLISION_WITH_PROJECTILE  = 10;
+    public static final int COLLISION_WITH_PLAYER      = 11;
+    public static final int COLLISION_WITH_ENEMY       = 12;
+    public static final int COLLISION_WITH_OBSTACLE    = 13;
+    public static final int COLLISION_WITH_COLLECTABLE = 14;
     
     /* Törmäystunnistus */
     public int collisionRadius = 0;

@@ -13,13 +13,14 @@ public class Wrapper
     
     /* Vakioita */
     // Luokan tyyppi (käytetään myös aseissa ja ammuksissa)
-    public static final int CLASS_TYPE_PLAYER     = 1;
-    public static final int CLASS_TYPE_ALLY       = 5;
-    public static final int CLASS_TYPE_ENEMY      = 2;
-    public static final int CLASS_TYPE_PROJECTILE = 3;
-    public static final int CLASS_TYPE_GUI        = 4;
-    public static final int CLASS_TYPE_OBSTACLE   = 6;
-    public static final int CLASS_TYPE_EFFECT     = 7;
+    public static final int CLASS_TYPE_PLAYER      = 1;
+    public static final int CLASS_TYPE_ALLY        = 5;
+    public static final int CLASS_TYPE_ENEMY       = 2;
+    public static final int CLASS_TYPE_PROJECTILE  = 3;
+    public static final int CLASS_TYPE_GUI         = 4;
+    public static final int CLASS_TYPE_OBSTACLE    = 6;
+    public static final int CLASS_TYPE_EFFECT      = 7;
+    public static final int CLASS_TYPE_COLLECTABLE = 7;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -28,22 +29,24 @@ public class Wrapper
     public static final int ANIMATION_AND_MOVEMENT = 3;
     
     /* Piirto- ja päivityslistat */
-    public Player                        player      = null;
-    public ArrayList<Ally>               allies      = null;
-    public ArrayList<Enemy>              enemies     = null;
-    public ArrayList<AbstractProjectile> projectiles = null;
-    public ArrayList<GuiObject> 		 guiObjects  = null;
-    public ArrayList<Obstacle>  		 obstacles   = null;
-    public ArrayList<EffectObject> 	     effects     = null;
+    public Player                        player       = null;
+    public ArrayList<Ally>               allies       = null;
+    public ArrayList<Enemy>              enemies      = null;
+    public ArrayList<AbstractProjectile> projectiles  = null;
+    public ArrayList<GuiObject> 		 guiObjects   = null;
+    public ArrayList<Obstacle>  		 obstacles    = null;
+    public ArrayList<EffectObject> 	     effects      = null;
+    public ArrayList<Collectable> 	     collectables = null;
 
     /* Peliobjektien tilat */
-    public int                playerState      = 0;
-    public ArrayList<Integer> allyStates       = null;
-    public ArrayList<Integer> enemyStates      = null;
-    public ArrayList<Integer> projectileStates = null;
-    public ArrayList<Integer> guiObjectStates  = null;
-    public ArrayList<Integer> obstacleStates   = null;
-    public ArrayList<Integer> effectStates     = null;
+    public int                playerState       = 0;
+    public ArrayList<Integer> allyStates        = null;
+    public ArrayList<Integer> enemyStates       = null;
+    public ArrayList<Integer> projectileStates  = null;
+    public ArrayList<Integer> guiObjectStates   = null;
+    public ArrayList<Integer> obstacleStates    = null;
+    public ArrayList<Integer> effectStates      = null;
+    public ArrayList<Integer> collectableStates = null;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
@@ -82,12 +85,14 @@ public class Wrapper
         guiObjects               = new ArrayList<GuiObject>();
         obstacles                = new ArrayList<Obstacle>();
         effects                  = new ArrayList<EffectObject>();
+        collectables             = new ArrayList<Collectable>();
         allyStates               = new ArrayList<Integer>();
         enemyStates              = new ArrayList<Integer>();
         projectileStates         = new ArrayList<Integer>();
         guiObjectStates          = new ArrayList<Integer>();
         obstacleStates           = new ArrayList<Integer>();
         effectStates             = new ArrayList<Integer>();
+        collectableStates        = new ArrayList<Integer>();
         priorityOneAllies        = new ArrayList<Integer>();
         priorityTwoAllies        = new ArrayList<Integer>();
         priorityThreeAllies      = new ArrayList<Integer>();
@@ -217,6 +222,10 @@ public class Wrapper
         else if (_classType == CLASS_TYPE_EFFECT) {
         	effects.add((EffectObject)_object);
         	effectStates.add(1);
+        }
+        else if (_classType == CLASS_TYPE_COLLECTABLE) {
+        	collectables.add((Collectable)_object);
+        	collectableStates.add(0);
         }
         return 0;
     }
