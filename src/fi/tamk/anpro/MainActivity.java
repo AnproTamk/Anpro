@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements OnClickListener
     public static final String PREF_BOOL_PAR = "PrefBoolPar";
     public static final String PREF_BOOL_MUS = "PrefBoolMUS";
     public static final String PREF_BOOL_SOU = "PrefBoolSOU";
+    public static final String PREF_BOOL_VIB = "PrefBoolVib";
     private SharedPreferences mPrefs;
     
     GameThread gameThread;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity implements OnClickListener
     private CheckBox particleCheckBox;
     private CheckBox musicCheckBox;
     private CheckBox soundCheckBox;
+    private CheckBox vibrationCheckBox;
 
 	/**
 	 * Luo päävalikon ja aloittaa koko pelin. Android kutsuu tätä automaattisesti.
@@ -77,9 +79,6 @@ public class MainActivity extends Activity implements OnClickListener
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
         // Ladataan valikon painikkeet käyttöön
-        View storyButton = findViewById(R.id.button_story);
-        storyButton.setOnClickListener(this);
-        
         View survivalButton = findViewById(R.id.button_survival);
         survivalButton.setOnClickListener(this);
         
@@ -140,6 +139,22 @@ public class MainActivity extends Activity implements OnClickListener
                 }
             }
         });
+        
+        vibrationCheckBox = (CheckBox) findViewById(R.id.checkBoxVibration);
+        vibrationCheckBox.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
+                if (((CheckBox) v).isChecked()) {
+                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+                    Toast.makeText(MainActivity.this, "Vibrations Enabled", Toast.LENGTH_SHORT).show();
+                    Options.vibration = true;
+                } else {
+                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+                    Toast.makeText(MainActivity.this, "Vibrations Disabled", Toast.LENGTH_SHORT).show();
+                    Options.vibration = false;
+                }
+            }
+        });
     }
 
 	/**
@@ -149,13 +164,7 @@ public class MainActivity extends Activity implements OnClickListener
 	 */
     public void onClick(View _v)
     {
-        switch(_v.getId()) {
-            case R.id.button_story:
-                SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                Intent i_story = new Intent(this, LevelSelectActivity.class);
-                startActivity(i_story);
-                break;
-                
+        switch(_v.getId()) {                
             case R.id.button_survival:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
@@ -189,6 +198,7 @@ public class MainActivity extends Activity implements OnClickListener
     	particleCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_PAR, true));
         musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, true));
         soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
+        vibrationCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_VIB, true));
         super.onResume();
     }
     
@@ -202,6 +212,7 @@ public class MainActivity extends Activity implements OnClickListener
     	e.putBoolean(PREF_BOOL_PAR, particleCheckBox.isChecked());
     	e.putBoolean(PREF_BOOL_MUS, musicCheckBox.isChecked());
     	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
+    	e.putBoolean(PREF_BOOL_SOU, vibrationCheckBox.isChecked());
     	e.commit();
         
     	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();

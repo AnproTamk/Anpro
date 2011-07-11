@@ -19,7 +19,7 @@
          			   android:id="@+id/linearLayout1">
              
              <CheckBox android:layout_width="wrap_content" 
-             		   android:id="@+id/checkBox1" 
+             		   android:id="@+id/checkBoxMusic" 
              		   android:layout_height="wrap_content"
              		   android:background="@drawable/music"
                   	   android:button="@drawable/checkbox"
@@ -28,21 +28,22 @@
              </CheckBox>
              
              <CheckBox android:layout_width="wrap_content" 
-                       android:id="@+id/checkBox2"
+                       android:id="@+id/checkBoxSound"
                        android:background="@drawable/sound"
                   	   android:button="@drawable/checkbox"
-                       android:layout_height="wrap_content">
+                       android:layout_height="wrap_content"
+                       android:layout_marginRight="25dip">
+             </CheckBox>
+                       
+             <CheckBox android:id="@+id/checkBoxVibration"
+                       android:background="@drawable/vibration"
+                       android:button="@drawable/checkbox"
+                       android:layout_height="wrap_content"
+                       android:paddingLeft="50dip"
+                       android:layout_width="wrap_content">
              </CheckBox>
              
          </LinearLayout>
-         
-         <Button android:text="Level Select" 
-         		 android:id="@+id/button_level_select"
-         		 android:layout_marginLeft="85dip"
-         		 android:layout_marginTop="25dip"
-         		 android:layout_width="150dip" 
-         		 android:layout_height="wrap_content">
-         </Button>
          
          <ImageButton android:text="Main Menu" 
                  	  android:layout_height="wrap_content" 

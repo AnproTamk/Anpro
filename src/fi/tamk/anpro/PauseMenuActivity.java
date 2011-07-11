@@ -21,11 +21,13 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 	
 	private CheckBox musicCheckBox;
     private CheckBox soundCheckBox;
+    private CheckBox vibrationCheckBox;
     
     public static final String PREFS_NAME = "SharedPrefs";
     public static final String PREF_STRING = "PrefString";
     public static final String PREF_BOOL_MUS = "PrefBoolMUS";
     public static final String PREF_BOOL_SOU = "PrefBoolSOU";
+    public static final String PREF_BOOL_VIB = "PrefBoolVIB";
     private SharedPreferences mPrefs;
 	
 	/**
@@ -44,21 +46,18 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 		// TODO: Pelitilan voi tarkistaa joko GameActivitysta (pit‰isi siirt‰‰ Optionsiin?)
 		if(storyMode == true) {
 			super.onCreate(_savedInstanceState);
-			setContentView(R.layout.pausemenu_survival);
+			setContentView(R.layout.pausemenu);
 	        
 	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	        
 	        // Asetetaan ‰‰nens‰‰tˆnapit muuttamaan media volumea
 	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-	        
-	        View levelselectButton = findViewById(R.id.button_level_select);
-	        levelselectButton.setOnClickListener(this);
 		}
 		
 		
 		else if(storyMode == false) {
 			super.onCreate(_savedInstanceState);
-			setContentView(R.layout.pausemenu_survival);
+			setContentView(R.layout.pausemenu);
 		
 		}
 		
@@ -100,6 +99,22 @@ public class PauseMenuActivity extends Activity implements OnClickListener
                 }
             }
         });
+        
+        vibrationCheckBox = (CheckBox) findViewById(R.id.checkBoxVibration);
+        vibrationCheckBox.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
+                if (((CheckBox) v).isChecked()) {
+                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+                    Toast.makeText(PauseMenuActivity.this, "Vibrations Enabled", Toast.LENGTH_SHORT).show();
+                    Options.vibration = true;
+                } else {
+                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+                    Toast.makeText(PauseMenuActivity.this, "Vibrations Disabled", Toast.LENGTH_SHORT).show();
+                    Options.vibration = false;
+                }
+            }
+        });
 	}
 	
 	/**
@@ -127,6 +142,7 @@ public class PauseMenuActivity extends Activity implements OnClickListener
     protected void onResume() {
         musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, true));
         soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
+        vibrationCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_VIB, true));
         super.onResume();
     }
     
@@ -139,6 +155,7 @@ public class PauseMenuActivity extends Activity implements OnClickListener
     	Editor e = mPrefs.edit();
     	e.putBoolean(PREF_BOOL_MUS, musicCheckBox.isChecked());
     	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
+    	e.putBoolean(PREF_BOOL_VIB, vibrationCheckBox.isChecked());
     	e.commit();
         
     	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
