@@ -14,7 +14,7 @@ class GameThread extends Thread
     
     /* Tarvittavat luokat */
     private Wrapper       wrapper;
-    private AbstractMode  gameMode;
+    private GameMode      gameMode;
     @SuppressWarnings("unused")
 	private TouchManager  touchManager;
     public  Hud           hud;
@@ -80,7 +80,7 @@ class GameThread extends Thread
     public void run()
     {
         // Luodaan SurvivalMode
-        gameMode = new SurvivalMode(gameActivity, dm, context, weaponManager);
+        gameMode = new GameMode(gameActivity, dm, context, weaponManager);
 
         // Luodaan EffectManager
         EffectManager.getInstance();
@@ -253,7 +253,7 @@ class GameThread extends Thread
             
             /* Päivitetään vihollisaallot */
             if (currentTime - lastGameModeUpdate >= 1000) {
-                if (SurvivalMode.enemiesLeft == 0) {
+                if (GameMode.enemiesLeft == 0) {
                     waveStartTime = android.os.SystemClock.uptimeMillis();
                     updateSpeedUp = 1;
                     

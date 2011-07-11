@@ -156,12 +156,12 @@ public class XmlReader
     }
     
     /**
-     * Lukee Survival-pelitilan tiedot.
+     * Lukee pelitilan tiedot.
      * 
-     * @param SurvivalMode  Osoitin pelitilaan
+     * @param GameMode  Osoitin pelitilaan
      * @param WeaponManager Osoitin WeaponManageriin
      */
-    public final void readSurvivalMode(SurvivalMode _survivalMode, WeaponManager _weaponManager)
+    public final void readGameMode(GameMode _survivalMode, WeaponManager _weaponManager)
     {
         XmlResourceParser rsm = null;
         

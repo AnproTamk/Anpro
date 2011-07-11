@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.DisplayMetrics;
 
@@ -7,16 +9,32 @@ import android.util.DisplayMetrics;
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
  * kutsumisen ja pistelaskurin päivittämisen.
  */
-public class SurvivalMode extends AbstractMode
+public class GameMode
 {
 	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
     public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
+
+    /* Pelaaja */
+    public Player player;
     
-    /* Vihollisaallot */
-    public         int waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
-    private static int currentWave = 0;
-    public  static int enemiesLeft = 0; // Vihollisiä jäljellä kentällä
+    /* Viholliset */
+    public           ArrayList<Enemy> enemies;         // Viholliset
+    protected        int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
+    public           int              waves[][];       // [aalto][vihollisen järjestysnumero] = [vihollisen indeksi enemies-taulukossa]
+    private   static int              currentWave = 0;
+    public    static int              enemiesLeft = 0; // Vihollisiä jäljellä kentällä
+    
+    /* Ruudun koko ja kentän rajat */
+    protected int halfOfScreenWidth;
+    protected int halfOfScreenHeight;
+    //...
+    //...
+    
+    /* Muiden olioiden pointterit */
+    protected WeaponManager weaponManager;
+    protected CameraManager camera;
+    protected GameActivity  gameActivity;
     
     /* Pisteet ja combot */
     private static long score;
@@ -35,10 +53,37 @@ public class SurvivalMode extends AbstractMode
      * @param Context		 Ohjelman konteksti
      * @param WeaponManager  Osoitin WeaponManageriin
      */
-    public SurvivalMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
+    public GameMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
     {
-    	super(_gameActivity, _dm, _context);
-
+    	// Tallennetaan osoitin peliaktiviteettiin
+        gameActivity = _gameActivity;
+        
+        // Tallennetaan näytön tiedot
+        halfOfScreenWidth  = _dm.widthPixels;
+        halfOfScreenHeight = _dm.heightPixels;
+        
+        // Otetaan CameraManager käyttöön
+        camera = CameraManager.getInstance();
+        
+        // Alustetaan taulukot
+        enemies    = new ArrayList<Enemy>();
+        enemyStats = new int[5][5];
+        
+    	// Alustetaan pelaaja
+    	player = new Player(100, 100, this);
+    	player.x = 0;
+    	player.y = 0;
+        
+        // Luetaan vihollistyyppien tiedot
+        XmlReader reader = new XmlReader(_context);
+        ArrayList<Integer> enemyStatsTemp = reader.readEnemyRanks();
+        int rank = 0;
+        for (int i = 0; i < enemyStatsTemp.size(); ++i) {
+        	rank = (int)(i / 5);
+        	
+        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
+        }
+        
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
     	
@@ -52,8 +97,7 @@ public class SurvivalMode extends AbstractMode
         spawnPoints  = new int[9][3][2];
         
         // Luetaan pelitilan tiedot
-        XmlReader reader = new XmlReader(_context);
-        reader.readSurvivalMode(this, _weaponManager);
+        reader.readGameMode(this, _weaponManager);
         
         // Päivitetään aloituspisteet ja käynnistetään ensimmäinen vihollisaalto
         updateSpawnPoints();
@@ -98,7 +142,6 @@ public class SurvivalMode extends AbstractMode
     /**
      * Käynnistää uuden vihollisaallon asettamalla siihen kuuluvat viholliset aktiivisiksi.
      */
-    @Override
     public void startWave()
     {
         /* Tarkastetaan onko kaikki vihollisaallot käyty läpi */
@@ -244,7 +287,6 @@ public class SurvivalMode extends AbstractMode
     /**
      * Lähettää pisteet GameActivitylle, joka siirtää pelin Highscores-valikkoon.
      */
-    @Override
 	public void endGameMode()
 	{
 		gameActivity.continueToHighscores((int)score);
