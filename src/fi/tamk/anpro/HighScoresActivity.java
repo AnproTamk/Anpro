@@ -1,9 +1,5 @@
 package fi.tamk.anpro;
 
-import java.io.UnsupportedEncodingException;
-
-import org.xmlpull.v1.XmlPullParserException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;

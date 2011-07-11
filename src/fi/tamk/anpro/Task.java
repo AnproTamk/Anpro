@@ -1,25 +1,22 @@
 package fi.tamk.anpro;
 
-import java.util.ArrayList;
-
 /**
  * Sis‰lt‰‰ Story-pelitilan yhden kent‰n yhden teht‰v‰n tiedot ja toiminnallisuuden.
  */
 public class Task
 {
 	// Teht‰v‰n tyyppi
-	private byte type;
+	//private byte type;
 	
 	// Teht‰v‰st‰ saatavat kykypisteet
-	private byte skillPoints;
+	//private byte skillPoints;
 	
-	private ArrayList<Script> onStart;
-	private ArrayList<Script> onEnd;
+	//private ArrayList<Script> onStart;
+	//private ArrayList<Script> onEnd;
 	
 	public Task(byte _type, byte _skillPoints)
 	{
-		// Tallennetaan tiedot
-		type = _type;
+		// ...
 	}
 	
 	/**

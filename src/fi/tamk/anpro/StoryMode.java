@@ -20,7 +20,7 @@ public class StoryMode extends AbstractMode
 	//private SkillTree skillTree;
 	
 	// Vihollisten spawnpointit
-	private int[][] spawnPoints;
+	//private int[][] spawnPoints;
 	
 	// Teht‰v‰t
 	public ArrayList<Task> tasks;
@@ -66,16 +66,16 @@ public class StoryMode extends AbstractMode
     /**
      * Lis‰‰ uuden vihollisen kent‰lle.
      */
-	private void addEnemyToMap()
+	/*private void addEnemyToMap()
 	{
 		// ...
-	}
+	}*/
 	
 	/**
 	 * Siirt‰‰ pelitilan kykypuuvalikkoon.
 	 */
-	private void moveToSkillTree()
+	/*private void moveToSkillTree()
 	{
 		// ...
-	}
+	}*/
 }
