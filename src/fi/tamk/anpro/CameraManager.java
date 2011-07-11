@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import javax.microedition.khronos.opengles.GL10;
-
 /**
  * Hallitsee pelin kameran tilan ja sen liikuttamisen.
  */
