@@ -28,8 +28,6 @@ public class GameMode
     /* Ruudun koko ja kentän rajat */
     protected int halfOfScreenWidth;
     protected int halfOfScreenHeight;
-    //...
-    //...
     protected int overBoundWidth;
     protected int overBoundHeight; 
     
@@ -64,8 +62,8 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
         
-        overBoundWidth  = _dm.widthPixels + 20;
-        overBoundHeight = _dm.heightPixels + 20;
+        overBoundWidth  = halfOfScreenWidth + 50 + 0; // TODO: Nollien tilalle se matka, jonka pelaaja voi kulkea 2-3 sekunnissa
+        overBoundHeight = halfOfScreenHeight + 50 + 0;
                 
         // Otetaan CameraManager käyttöön
         camera = CameraManager.getInstance();
