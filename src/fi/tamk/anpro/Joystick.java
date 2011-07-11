@@ -91,10 +91,10 @@ public class Joystick extends GuiObject
             }
         }
 
-        _wrapper.player.direction = angle;
+        _wrapper.player.movementTargetDirection = angle;
+        _wrapper.player.movementAcceleration    = 0;
         _wrapper.player.setMovementSpeed(1.0f);
         _wrapper.player.setMovementDelay(1.0f);
-        _wrapper.player.movementAcceleration = 0;
         
         return true;
     }

@@ -14,6 +14,12 @@ public class Player extends GameObject
     private Wrapper  wrapper;
     private GameMode gameMode;
     
+    /* Teko‰ly */
+    public AbstractAi ai;
+    
+    /* Haluttu liikkumissuunta */
+    public int movementTargetDirection;
+    
     /**
      * Alustaa luokan muuttujat.
      * 
@@ -52,8 +58,12 @@ public class Player extends GameObject
         }
         
         // Lis‰t‰‰n pelaaja piirtolistalle ja m‰‰ritet‰‰n tila
-        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, Wrapper.FULL_ACTIVITY);
+        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, 4);
         
+        // Asetetaan pelaajan "teko‰ly"
+        ai = new PlayerAi(0, Wrapper.CLASS_TYPE_PLAYER);
+        
+        // Asetetaan pelaajan asetukset
         setMovementSpeed(0.0f);
     }
 
