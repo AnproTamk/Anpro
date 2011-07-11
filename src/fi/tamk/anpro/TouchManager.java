@@ -180,6 +180,9 @@ public class TouchManager
                     Joystick.joystickInUse = false;
                     Joystick.joystickDown  = false;
                     
+                    // Asetetaan pelaajan jarrutus
+                    wrapper.player.movementAcceleration = -6;
+                    
                     /* L‰hetet‰‰n ja nollataan kosketuspolun indeksointi jos oikea ase on valittuna */
                     if (weaponManager.isUsingMotionEvents) {
                     	for (int i = 0; i < 10; i++) {
