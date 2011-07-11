@@ -17,6 +17,7 @@ public class Ally extends GameObject
     
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
+    @SuppressWarnings("unused")
     private WeaponManager weaponManager;
 
     /**

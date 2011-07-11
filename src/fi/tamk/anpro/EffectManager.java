@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  *  Hallitsee kaikkia efektejä.
  */
