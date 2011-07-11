@@ -114,7 +114,7 @@ public class Enemy extends GameObject
     /**
      * Piirtää vihollisen käytössä olevan tekstuurin tai animaation ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
     public final void draw(GL10 _gl)
     {
@@ -130,7 +130,7 @@ public class Enemy extends GameObject
     /**
      * Käsittelee räjähdyksien aiheuttamat osumat.
      * 
-     * @param int Vahinko
+     * @param _damage Vahinko
      */
     @Override
     public final void triggerImpact(int _damage)
@@ -143,11 +143,11 @@ public class Enemy extends GameObject
     }
     
     /**
-     * Käsitelee törmäykset.
+     * Käsittelee törmäykset.
      * 
-     * @param int Törmäystyyppi
-     * @param int Vahinko
-     * @param int Panssarinläpäisykyky
+     * @param _eventType Törmäystyyppi
+     * @param _damage Vahinko
+     * @param _armorPiercing Panssarinläpäisykyky
      */
     @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
@@ -155,7 +155,7 @@ public class Enemy extends GameObject
         if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
             
         	if (currentArmor > 0) {
-        		EffectManager.showEnemyArmorEffect(x, y);
+        		EffectManager.showEnemyArmorEffect(this);
         	}
         	
             Utility.checkDamage(this, _damage, _armorPiercing);
@@ -176,12 +176,12 @@ public class Enemy extends GameObject
      * Asettaa vihollisen tiedot. Käytetään, kun vihollisen tasoa halutaan nostaa, ei vihollista
      * luodessa.
      * 
-     * @param int Elämät/kestävyys
-     * @param int Nopeus
-     * @param int Hyökkäysvoima törmätessä pelaajaan
-     * @param int Puolustus
-     * @param int Tekoälyn tunnus
-     * @param int Taso
+     * @param _health Elämät/kestävyys
+     * @param _armor Puolustus
+     * @param _speed Nopeus
+     * @param _attack Hyökkäysvoima törmätessä pelaajaan
+     * @param _ai Tekoälyn tunnus
+     * @param _rank Taso
      */
     public final void setStats(int _health, int _armor, int _speed, int _attack, int _ai, int _rank)
     {
@@ -257,7 +257,7 @@ public class Enemy extends GameObject
     	movementAcceleration = -15;
     	turningDirection     = 0;
 
-    	EffectManager.showQuestionMarkBalloon(x, y);
+    	EffectManager.showQuestionMarkBalloon(this);
     	
         setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
 	}

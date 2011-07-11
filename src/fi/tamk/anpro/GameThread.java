@@ -235,6 +235,12 @@ class GameThread extends Thread
             		}
             	}
             }
+            /* Päivitetään efektien sijainnit */
+        	for (int i = wrapper.effects.size()-1; i >= 0; --i) {
+        		if (wrapper.effectStates.get(i) == Wrapper.FULL_ACTIVITY) {
+        			wrapper.effects.get(i).updatePosition();
+        		}
+        	}
             
             /* Päivitetään aseiden cooldownit */
             if (currentTime - lastCooldownUpdate >= 100) {
