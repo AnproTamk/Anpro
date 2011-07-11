@@ -45,6 +45,7 @@ public class Joystick extends GuiObject
     	_xClickOffset = _getX - Options.screenWidth / 2;
         _yClickOffset = Options.screenHeight / 2 - _getY;
     	
+        // TODO: Käytä Utility-luokkaa
     	// Verrataan sormen sijaintia joystickin sijaintiin
         double xDiff = Math.abs((double)(_xClickOffset - joystickX));
         double yDiff = Math.abs((double)(_yClickOffset - joystickY));
@@ -91,6 +92,9 @@ public class Joystick extends GuiObject
         }
 
         _wrapper.player.direction = angle;
+        _wrapper.player.setMovementSpeed(1.0f);
+        _wrapper.player.setMovementDelay(1.0f);
+        _wrapper.player.movementAcceleration = 0;
         
         return true;
     }
