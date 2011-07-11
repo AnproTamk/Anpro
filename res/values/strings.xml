@@ -55,4 +55,6 @@
     <string name="button_pause_menu">Pause menu</string>
     
     <string name="button_savesettings">Save Settings</string>
+    
+    <string name="score_default_str">0</string>
 </resources>
