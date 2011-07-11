@@ -23,7 +23,7 @@ public class Player extends GameObject
      */
     public Player(int _health, int _armor, GameMode _gameMode)
     {
-        super(0); // TODO: Pelaaja tarvitsee nopeuden StoryModea varten
+        super(6); // TODO: Pelaaja tarvitsee nopeuden varten
         
         // Otetaan Wrapper k‰yttˆˆn ja tallennetaan pelitilan osoitin
         wrapper  = Wrapper.getInstance();
@@ -53,6 +53,8 @@ public class Player extends GameObject
         
         // Lis‰t‰‰n pelaaja piirtolistalle ja m‰‰ritet‰‰n tila
         wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, Wrapper.FULL_ACTIVITY);
+        
+        setMovementSpeed(0.0f);
     }
 
     /**
