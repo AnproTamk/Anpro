@@ -11,8 +11,8 @@ import javax.microedition.khronos.opengles.GL10;
 public class Player extends GameObject
 {
     /* Osoittimet muihin luokkiin */
-    private Wrapper      wrapper;
-    private AbstractMode gameMode;
+    private Wrapper  wrapper;
+    private GameMode gameMode;
     
     /**
      * Alustaa luokan muuttujat.
@@ -21,7 +21,7 @@ public class Player extends GameObject
      * @param int Pelaajan puolustus
      * @param int Osoitin SurivalModeen
      */
-    public Player(int _health, int _armor, AbstractMode _gameMode)
+    public Player(int _health, int _armor, GameMode _gameMode)
     {
         super(0); // TODO: Pelaaja tarvitsee nopeuden StoryModea varten
         
