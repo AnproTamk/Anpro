@@ -20,6 +20,9 @@ public class EffectObject extends GameObject
 	// Wrapper
 	private Wrapper wrapper;
 	
+	// Peliobjekti, jota seurataan
+	private GameObject parentObject;
+	
 	public EffectObject(int _speed, byte _effectType)
 	{
 		super(_speed);
@@ -38,7 +41,29 @@ public class EffectObject extends GameObject
 		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_EFFECT, 0);
 	}
 	
-	
+	/**
+	 * Aktivoi peliobjektin efektin
+	 * 
+	 * @param _object Peliobjekti
+	 */
+	public void activate(GameObject _object)
+	{
+		parentObject = _object;
+		x = _object.x;
+		y = _object.y;
+		
+		setActive();
+		
+		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED);
+		updatePosition();
+	}
+
+	/**
+	 * Aktivoi peliobjektin efektin
+	 * 
+	 * @param _x Objektin X-koordinaatti
+	 * @param _y Objektin Y-koordinaatti
+	 */
 	public void activate(float _x, float _y)
 	{
 		x = _x;
@@ -48,7 +73,18 @@ public class EffectObject extends GameObject
 		
 		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED);
 	}
-
+	
+	/**
+	 * P‰ivitt‰‰ efektien sijainnit
+	 */
+	public void updatePosition()
+	{
+		if (parentObject != null) {
+			x = parentObject.x;
+			y = parentObject.y;
+		}
+	}
+	
 	/**
      * M‰‰ritt‰‰ objektin aktiiviseksi.
      */
@@ -72,7 +108,7 @@ public class EffectObject extends GameObject
     /**
      * Piirt‰‰ objektin k‰ytˆss‰ olevan tekstuurin tai animaation ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
 	@Override
 	public void draw(GL10 _gl)

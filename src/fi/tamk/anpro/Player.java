@@ -17,9 +17,9 @@ public class Player extends GameObject
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param int Pelaajan elämät/kestävyys
-     * @param int Pelaajan puolustus
-     * @param int Osoitin SurivalModeen
+     * @param _health Pelaajan elämät/kestävyys
+     * @param _armor Pelaajan puolustus
+     * @param _gameMode Osoitin SurvivalModeen
      */
     public Player(int _health, int _armor, GameMode _gameMode)
     {
@@ -76,7 +76,7 @@ public class Player extends GameObject
     /**
      * Piirtää käytössä olevan animaation tai tekstuurin ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
     public final void draw(GL10 _gl)
     {
@@ -111,8 +111,8 @@ public class Player extends GameObject
     /**
      * Käsittelee törmäykset.
      * 
-     * @param int Osuman aiheuttama vahinko
-     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     * @param _damage Osuman aiheuttama vahinko
+     * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
     public final void triggerCollision(int _damage, int _armorPiercing)
@@ -120,7 +120,7 @@ public class Player extends GameObject
         VibrateManager.vibrateOnHit();
     	
         if (currentArmor > 0) {
-        	EffectManager.showPlayerArmorEffect(x, y);
+        	EffectManager.showPlayerArmorEffect(this);
         }
         
         Utility.checkDamage(this, _damage, _armorPiercing);
