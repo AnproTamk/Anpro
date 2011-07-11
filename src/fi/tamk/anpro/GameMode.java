@@ -214,37 +214,37 @@ public class GameMode
 	    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
 	    //					 X								   				      Y
 	    // Vasen reuna
-	    spawnPoints[1][0][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][0][1] = camera.y;
-	    spawnPoints[1][1][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][1][1] = (int) (camera.y + 128 * Options.scale);
-	    spawnPoints[1][2][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[1][2][1] = (int) (camera.y - 128 * Options.scale);
+	    spawnPoints[1][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  spawnPoints[1][0][1] = (int) camera.yTranslate;
+	    spawnPoints[1][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  spawnPoints[1][1][1] = (int) (camera.yTranslate + 128 * Options.scale);
+	    spawnPoints[1][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  spawnPoints[1][2][1] = (int) (camera.yTranslate - 128 * Options.scale);
 	    // Vasen yläkulma
-	    spawnPoints[2][0][0] = -halfOfScreenWidth + camera.x; 	  spawnPoints[2][0][1] = halfOfScreenHeight + camera.y;
-	    spawnPoints[2][1][0] = (int) (-halfOfScreenWidth + camera.x + 64 * Options.scale); spawnPoints[2][1][1] = (int) (halfOfScreenHeight + camera.y + 64 * Options.scale);
-	    spawnPoints[2][2][0] = (int) (-halfOfScreenWidth + camera.x - 64 * Options.scale); spawnPoints[2][2][1] = (int) (halfOfScreenHeight + camera.y - 64 * Options.scale);
+	    spawnPoints[2][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  spawnPoints[2][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[2][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate + 64 * Options.scale); spawnPoints[2][1][1] = (int) (halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
+	    spawnPoints[2][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); spawnPoints[2][2][1] = (int) (halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
 	    // Yläreuna
-	    spawnPoints[3][0][0] = camera.x; 					 	  spawnPoints[3][0][1] = halfOfScreenHeight + camera.y;
-	    spawnPoints[3][1][0] = (int) (camera.x + 128 * Options.scale); 				 	  spawnPoints[3][1][1] = halfOfScreenHeight + camera.y;
-	    spawnPoints[3][2][0] = (int) (camera.x - 128 * Options.scale); 				 	  spawnPoints[3][2][1] = halfOfScreenHeight + camera.y;
+	    spawnPoints[3][0][0] = (int) camera.xTranslate; 					 	  spawnPoints[3][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[3][1][0] = (int) (camera.xTranslate + 128 * Options.scale); 				 	  spawnPoints[3][1][1] = (int) (halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[3][2][0] = (int) (camera.xTranslate - 128 * Options.scale); 				 	  spawnPoints[3][2][1] = (int) (halfOfScreenHeight + camera.yTranslate);
 	    // Oikea yläkulma
-	    spawnPoints[4][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[3][0][1] = halfOfScreenHeight + camera.y;
-	    spawnPoints[4][1][0] = (int) (halfOfScreenWidth + camera.x + 64 * Options.scale);  spawnPoints[3][1][1] = (int) (halfOfScreenHeight + camera.y - 64 * Options.scale);
-	    spawnPoints[4][2][0] = (int) (halfOfScreenWidth + camera.x - 64 * Options.scale);  spawnPoints[3][2][1] = (int) (halfOfScreenHeight + camera.y + 64 * Options.scale);
+	    spawnPoints[4][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  spawnPoints[3][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[4][1][0] = (int) (halfOfScreenWidth + camera.xTranslate + 64 * Options.scale);  spawnPoints[3][1][1] = (int) (halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
+	    spawnPoints[4][2][0] = (int) (halfOfScreenWidth + camera.xTranslate - 64 * Options.scale);  spawnPoints[3][2][1] = (int) (halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
 	    // Oikea reuna
-	    spawnPoints[5][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][0][1] = 0 + camera.y;
-	    spawnPoints[5][1][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][1][1] = (int) (0 + camera.y + 128 * Options.scale);
-	    spawnPoints[5][2][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[4][2][1] = (int) (0 + camera.y - 128 * Options.scale);
+	    spawnPoints[5][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  spawnPoints[4][0][1] = (int) (0 + camera.yTranslate);
+	    spawnPoints[5][1][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  spawnPoints[4][1][1] = (int) (0 + camera.yTranslate + 128 * Options.scale);
+	    spawnPoints[5][2][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  spawnPoints[4][2][1] = (int) (0 + camera.yTranslate - 128 * Options.scale);
 	    // Oikea alakulma
-	    spawnPoints[6][0][0] = halfOfScreenWidth + camera.x;  	  spawnPoints[5][0][1] = -halfOfScreenHeight + camera.y;
-	    spawnPoints[6][1][0] = (int) (halfOfScreenWidth + camera.x + 64 * Options.scale);  spawnPoints[5][1][1] = (int) (-halfOfScreenHeight + camera.y + 64 * Options.scale);
-	    spawnPoints[6][2][0] = (int) (halfOfScreenWidth + camera.x - 64 * Options.scale);  spawnPoints[5][2][1] = (int) (-halfOfScreenHeight + camera.y - 64 * Options.scale);
+	    spawnPoints[6][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  spawnPoints[5][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[6][1][0] = (int) (halfOfScreenWidth + camera.xTranslate + 64 * Options.scale);  spawnPoints[5][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
+	    spawnPoints[6][2][0] = (int) (halfOfScreenWidth + camera.xTranslate - 64 * Options.scale);  spawnPoints[5][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
 	    // Alareuna
-	    spawnPoints[7][0][0] = camera.x; 				 		  spawnPoints[7][0][1] = -halfOfScreenHeight + camera.y;
-	    spawnPoints[7][1][0] = (int) (camera.x + 128 * Options.scale);			 	 	  spawnPoints[7][1][1] = -halfOfScreenHeight + camera.y;
-	    spawnPoints[7][2][0] = (int) (camera.x - 128 * Options.scale);					  spawnPoints[7][2][1] = -halfOfScreenHeight + camera.y;
+	    spawnPoints[7][0][0] = (int) camera.xTranslate; 				 		  spawnPoints[7][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[7][1][0] = (int) (camera.xTranslate + 128 * Options.scale);			 	 	  spawnPoints[7][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[7][2][0] = (int) (camera.xTranslate - 128 * Options.scale);					  spawnPoints[7][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
 	    // Vasen alareuna
-	    spawnPoints[8][0][0] = -halfOfScreenWidth + camera.x;      spawnPoints[8][0][1] = -halfOfScreenHeight + camera.y;
-	    spawnPoints[8][1][0] = (int) (-halfOfScreenWidth + camera.x + 64 * Options.scale); spawnPoints[8][1][1] = (int) (-halfOfScreenHeight + camera.y - 64 * Options.scale);
-	    spawnPoints[8][2][0] = (int) (-halfOfScreenWidth + camera.x - 64 * Options.scale); spawnPoints[8][2][1] = (int) (-halfOfScreenHeight + camera.y + 64 * Options.scale);
+	    spawnPoints[8][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate);      spawnPoints[8][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
+	    spawnPoints[8][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate + 64 * Options.scale); spawnPoints[8][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
+	    spawnPoints[8][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); spawnPoints[8][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
 	    // Random reuna
 	    // spawnPoints[0][0][0] = ...
 	    
