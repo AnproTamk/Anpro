@@ -1,5 +1,6 @@
 package fi.tamk.anpro;
 
+
 /**
  *  Hallitsee kaikkia efektej‰.
  */
@@ -64,25 +65,23 @@ public class EffectManager
 	/**
 	 * N‰ytt‰‰ pelaajan ymp‰rill‰ suojakent‰n toisen objektin osuessa siihen.
 	 * 
-	 * @param _x Efektin X-koordinaatti
-	 * @param _y Efektin Y-koordinaatti
+	 * @param _object Pelaaja-objekti
 	 */
-	public static void showPlayerArmorEffect(float _x, float _y) 
+	public static void showPlayerArmorEffect(GameObject _object) 
 	{
-		playerArmorEffect.activate(_x, _y);
+		playerArmorEffect.activate(_object);
 	}
 
 	/**
 	 * N‰ytt‰‰ vihollisen ymp‰rill‰ suojakent‰n toisen objektin osuessa siihen.
 	 * 
-	 * @param _x Efektin X-koordinaatti
-	 * @param _y Efektin Y-koordinaatti
+	 * @param _object Vihollis-objekti
 	 */
-	public static void showEnemyArmorEffect(float _x, float _y) 
+	public static void showEnemyArmorEffect(GameObject _object) 
 	{
 		for (int i = 0; i < 5; ++i) {
 			if (!enemyArmorEffect[i].activated) {
-				enemyArmorEffect[i].activate(_x, _y);
+				enemyArmorEffect[i].activate(_object);
 				break;
 			}
 		}
@@ -91,26 +90,24 @@ public class EffectManager
 	/**
 	 * N‰ytt‰‰ objektin vieress‰ huutomerkin. 
 	 * 
-	 * @param _x Kohteen X-koordinaatti
-	 * @param _y Kohteen Y-koordinaatti
+	 * @param _object Kohde-objekti
 	 */
-	public static void showExclamationMarkBalloon(float _x, float _y)
+	public static void showExclamationMarkBalloon(GameObject _object)
 	{
 		if (!balloonExclamation.activated && Utility.getRandom(1, 20) == 1) {	
-			balloonExclamation.activate(_x, _y);
+			balloonExclamation.activate(_object);
 		}
 	}
 
 	/**
 	 * N‰ytt‰‰ objektin vieress‰ kysymysmerkin.
 	 * 
-	 * @param _x Kohteen X-koordinaatti
-	 * @param _y Kohteen Y-koordinaatti
+	 * @param _object Kohde-objekti
 	 */
-	public static void showQuestionMarkBalloon(float _x, float _y)
+	public static void showQuestionMarkBalloon(GameObject _object)
 	{
 		if (!balloonQuestion.activated && Utility.getRandom(1, 20) == 1) {
-			balloonQuestion.activate(_x, _y);			
+			balloonQuestion.activate(_object);			
 		}
 	}
 	
@@ -136,4 +133,5 @@ public class EffectManager
 			combo5Multiplier.activate(_x, _y);
 		}
 	}
+	
 }
