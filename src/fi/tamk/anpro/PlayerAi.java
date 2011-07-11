@@ -20,11 +20,19 @@ public class PlayerAi extends AbstractAi
     /**
      * K‰ynnist‰‰ autopilotin. K‰ytet‰‰n kun pelaaja menee kent‰n rajojen yli.
      */
-    public final void activateAutoPilot()
+    public static final void activateAutoPilot()
     {
     	// TODO: Tee toteutus
     }
-    
+
+    /**
+     * Sammuttaa autopilotin. K‰ytet‰‰n kun pelaaja on palautunnut kent‰n rajojen sis‰puolelle.
+     */
+    public static final void deactivateAutoPilot()
+    {
+    	// TODO: Tee toteutus
+    }
+        
     /**
      * K‰sittelee autopilotin teko‰lyn.
      */

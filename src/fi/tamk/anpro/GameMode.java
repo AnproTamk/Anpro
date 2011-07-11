@@ -30,6 +30,8 @@ public class GameMode
     protected int halfOfScreenHeight;
     //...
     //...
+    protected int overBoundWidth;
+    protected int overBoundHeight; 
     
     /* Muiden olioiden pointterit */
     protected WeaponManager weaponManager;
@@ -62,6 +64,9 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
         
+        overBoundWidth  = _dm.widthPixels + 20;
+        overBoundHeight = _dm.heightPixels + 20;
+                
         // Otetaan CameraManager käyttöön
         camera = CameraManager.getInstance();
         
@@ -290,5 +295,25 @@ public class GameMode
 	public void endGameMode()
 	{
 		gameActivity.continueToHighscores((int)score);
+	}
+
+    /**
+     * Tarkastaa onko pelaaja pelialueen sisässä ja ottaa tarvittaessa autopilotin käyttöön.
+     */
+	public void checkBounds ()
+	{
+		if (player.x >= halfOfScreenWidth || player.x <= -halfOfScreenWidth ||
+			player.y >= halfOfScreenHeight || player.y <= -halfOfScreenHeight	) {
+
+			// TODO: Tähän toteutus rajojen ylittämisen ilmoittamiselle ! !
+
+			if (player.x >= overBoundWidth || player.x <= -overBoundWidth ||
+				player.y >= overBoundHeight || player.y <= -overBoundHeight	) {
+					PlayerAi.activateAutoPilot();
+			}
+		}
+		else {
+			PlayerAi.deactivateAutoPilot();
+		}
 	}
 }

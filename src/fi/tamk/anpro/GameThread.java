@@ -31,6 +31,7 @@ class GameThread extends Thread
     private long lastGameModeUpdate;
     private long lastCollisionUpdate;
     private long lastArmorUpdate;
+    private long lastBoundCheck;
     
     /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
        että viholliset varmasti lopulta saavuttavat pelaajan) */
@@ -99,12 +100,21 @@ class GameThread extends Thread
         lastGameModeUpdate	   = waveStartTime;
         lastCollisionUpdate    = waveStartTime;
         lastArmorUpdate		   = waveStartTime;
+        lastBoundCheck         = waveStartTime;
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
             
             // Haetaan tämänhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();
+            
+            /* Tarkastetaan pelaajan sijainti pelikentällä */
+            if (currentTime - lastBoundCheck >= 1500) {
+            	
+            	lastBoundCheck = currentTime;
+            	
+            	gameMode.checkBounds();            	
+            }
             
             /* Päivitetään sijainnit ja liikkuminen */
             if (currentTime - lastMovementUpdate >= 10) {
