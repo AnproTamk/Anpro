@@ -18,6 +18,8 @@ public class Texture extends GLSprite
      */
     public Texture(GL10 _gl, Context _context, int _id)
     {
+    	super();
+    	
     	if (!GLRenderer.loadingFailed) {
 	    	// Alustetaan kuva ja generoidaan tunnukset
 	        sprites = new int[1];

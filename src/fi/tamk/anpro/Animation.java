@@ -24,6 +24,8 @@ public class Animation extends GLSprite
      */
     public Animation(GL10 _gl, Context _context, Resources _resources, String _id, int _length)
     {
+    	super();
+    	
     	if (!GLRenderer.loadingFailed) {
 	    	// Alustetaan kuva ja generoidaan tunnukset
 	        sprites = new int[_length];

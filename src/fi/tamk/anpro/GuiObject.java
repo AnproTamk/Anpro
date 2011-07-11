@@ -10,6 +10,9 @@ abstract public class GuiObject extends GfxObject
 {
     // Osoitin Wrapperiin
     protected Wrapper wrapper;
+    
+    // Osoitin CameraManageriin
+    private CameraManager cameraManager;
 
     /**
      * Alustaa luokan muuttujat.
@@ -23,8 +26,9 @@ abstract public class GuiObject extends GfxObject
         x = _x;
         y = _y;
         
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
+        // Otetaan Wrapper ja CameraManager käyttöön
+        wrapper       = Wrapper.getInstance();
+        cameraManager = CameraManager.getInstance();
     
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_HUD_ANIMATIONS];
@@ -48,10 +52,12 @@ abstract public class GuiObject extends GfxObject
     {
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.hudAnimations[usedAnimation].draw(_gl, x, y, 90, currentFrame);
+        	// TODO: Pluslasku on purkkaviritelmä...?
+            GLRenderer.hudAnimations[usedAnimation].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, 90, currentFrame);
         }
         else{
-        	GLRenderer.hudTextures[usedTexture].draw(_gl, x, y, 90, 0);
+        	// TODO: Pluslasku on purkkaviritelmä...?
+        	GLRenderer.hudTextures[usedTexture].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, 90, 0);
         }
         
     }
