@@ -129,22 +129,6 @@ public class TouchManager
                         }
                     }
                     
-                    /* Vasemman reunan napit */
-                    else if (xClickOffset < screenWidth - 700 * Options.scaleX && xClickOffset > 0 &&
-                    		 yClickOffset < yClickSecondBorder) {
-
-                        // Vasemman reunan alempi nappula
-                        if (yClickOffset < yClickThirdBorder && yClickOffset > 0) {
-                            // ***** VASEMMAN REUNAN ALEMPI NAPPULA *****
-                            hud.triggerClick(Hud.SPECIAL_2);
-                        }
-                        // Vasemman reunan ylempi nappula
-                        else if (yClickOffset < yClickSecondBorder && yClickOffset > yClickThirdBorder) {
-                            // ***** VASEMMAN REUNAN YLEMPI NAPPULA *****
-                            hud.triggerClick(Hud.SPECIAL_1);
-                        }
-                    }
-                    
                     /* Painetaan joystickin päällä */
                     if (joystickX != 0 && joystickY != 0 && xClickOffset > joystickX - 64 && xClickOffset < joystickX + 64 &&
                     	yClickOffset > joystickY - 64 && yClickOffset < joystickY + 64) {
@@ -174,8 +158,8 @@ public class TouchManager
                     }
                     
                     /* Joystickin aktivointi */
-                    if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffset > joystickX - 32 && xClickOffset < joystickX + 32 &&
-                    														yClickOffset > joystickY - 32 && yClickOffset < joystickY + 32) {
+                    if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffset > joystickX - 64 && xClickOffset < joystickX + 64 &&
+                    														yClickOffset > joystickY - 64 && yClickOffset < joystickY + 64) {
                             Joystick.joystickInUse = true;
                     }
                     
