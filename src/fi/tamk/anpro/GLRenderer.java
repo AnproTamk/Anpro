@@ -19,11 +19,13 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_STATIC   = 0;
     public static final int TEXTURE_INACTIVE = 1;
     
-    public static final int ANIMATION_STATIC   = 0;
-    public static final int ANIMATION_MOVE     = 1;
+    public static final int ANIMATION_STATIC   = 0; // TODO: Vaihda j‰rjestyst‰! Useimmilla on STATIC ja DESTROY,
+    public static final int ANIMATION_MOVE     = 1; // joten ne pit‰‰ asettaa ensimm‰isiksi.
     public static final int ANIMATION_SHOOT    = 2;
     public static final int ANIMATION_DESTROY  = 3;
     public static final int ANIMATION_DISABLED = 4;
+    
+    public static final int ANIMATION_COLLECTED = 1;
 
     /* Vakiot HUDin tekstuureille ja animaatioille */
     public static final int TEXTURE_BUTTON_NOTSELECTED = 0;
@@ -45,13 +47,14 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_HUD_TEXTURES        = 45;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES   = 1;
     
-    public static final int AMOUNT_OF_PLAYER_ANIMATIONS     = 5;
-    public static final int AMOUNT_OF_ALLY_ANIMATIONS       = 4;
-    public static final int AMOUNT_OF_ENEMY_ANIMATIONS      = 5;
-    public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS        = 4;
-    public static final int AMOUNT_OF_EFFECT_ANIMATIONS     = 9;
-    public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS   = 0;
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
+    public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
+    public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
+    public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 4;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
+    public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
+    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
     
 
     /* Latausruudun tekstuurit ja tila */
@@ -75,6 +78,9 @@ public class GLRenderer implements Renderer
     
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
+    
+    public static Animation[] collectableAnimations;
+    
     
     /* Ohjelman konteksti ja resurssit */
     private Context   context;
@@ -103,19 +109,20 @@ public class GLRenderer implements Renderer
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
         // M‰‰ritet‰‰n taulukoiden koot
-        playerTextures       = new Texture[AMOUNT_OF_PLAYER_TEXTURES];
-        playerAnimations     = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
-        allyTextures         = new Texture[2][AMOUNT_OF_ALLY_TEXTURES];
-        allyAnimations       = new Animation[2][AMOUNT_OF_ALLY_ANIMATIONS];
-        enemyTextures        = new Texture[5][AMOUNT_OF_ENEMY_TEXTURES];
-        enemyAnimations      = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
-        projectileTextures   = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
-        projectileAnimations = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
-        hudTextures          = new Texture[AMOUNT_OF_HUD_TEXTURES];
-        hudAnimations        = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
-        effectAnimations     = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
-        obstacleTextures     = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
-        obstacleAnimations   = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
+        playerTextures        = new Texture[AMOUNT_OF_PLAYER_TEXTURES];
+        playerAnimations      = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
+        allyTextures          = new Texture[2][AMOUNT_OF_ALLY_TEXTURES];
+        allyAnimations        = new Animation[2][AMOUNT_OF_ALLY_ANIMATIONS];
+        enemyTextures         = new Texture[5][AMOUNT_OF_ENEMY_TEXTURES];
+        enemyAnimations       = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
+        projectileTextures    = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
+        projectileAnimations  = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
+        hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
+        effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
+        obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
+        obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
+        collectableAnimations = new Animation[AMOUNT_OF_COLLECTABLE_ANIMATIONS];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;

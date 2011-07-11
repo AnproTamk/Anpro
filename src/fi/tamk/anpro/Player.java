@@ -87,6 +87,26 @@ public class Player extends GameObject
             GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction, 0);
         }
     }
+	
+	/**
+     * Käsittelee objektin törmäystarkistukset.
+     */
+    public final void checkCollision()
+    {
+    	/* Tarkistaa törmäykset kerättäviin esineiseen */
+    	for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+    		
+			if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
+	        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
+	        		
+	        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
+	        			wrapper.collectables.get(i).triggerCollision(0, 0);
+	        		}
+	        	}
+			}
+			
+    	}
+    }
 
     /**
      * Käsittelee törmäykset.
@@ -110,7 +130,7 @@ public class Player extends GameObject
         
         if (currentHealth <= 0) {
         	wrapper.playerState = 2;
-        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
         }
     }
 
