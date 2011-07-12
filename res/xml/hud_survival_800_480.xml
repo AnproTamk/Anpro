@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <button id="weapon_button_1" x="384" y="-224" type="weapon" />
-        <button id="weapon_button_2" x="384" y="-192" type="weapon" />
-        <button id="weapon_button_3" x="384" y="-160" type="weapon" />
+        <button id="weapon_button_1" x="362" y="-63" type="weapon" />
+        <button id="weapon_button_2" x="362" y="-133" type="weapon" />
+        <button id="weapon_button_3" x="362" y="-203" type="weapon" />
         
-        <health_bar x="334" y="-143" type="1" />
-        <armor_bar x="334" y="-208" type="2" />
+        <health_bar x="290" y="-143" type="1" />
+        <armor_bar x="290" y="-208" type="2" />
         
         <joystick x="-336" y="176" type="" />
         
