@@ -294,7 +294,7 @@ class GameThread extends Thread
             if (currentTime - lastGuideArrowUpdate >= 100) {
             	lastGuideArrowUpdate = currentTime;
             	
-            	hud.guideArrow.updateArrow();
+            	//hud.guideArrow.updateArrow();
             }
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */

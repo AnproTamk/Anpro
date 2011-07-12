@@ -8,6 +8,8 @@ public class GuideArrow extends GuiObject
 	public GuideArrow(int _x, int _y)
 	{
 		super(_x, _y);
+		
+		usedTexture = GLRenderer.TEXTURE_GUIDEARROW;
 	}
 
 	public final void updateArrow()
