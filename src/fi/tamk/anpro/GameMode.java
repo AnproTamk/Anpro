@@ -161,7 +161,7 @@ public class GameMode
         /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
         if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
         	
-            currentWave = 0;
+            currentWave = 1;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
             int rankTemp;
@@ -192,7 +192,7 @@ public class GameMode
 	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
 	            
 	            // Eliminoidaan samasta spawnpontista spawnaaminen
-	            for(int i = 0; i < enemies.size()-1; ++i) {
+	            for(int i = 0; i <= enemies.size()-1; ++i) {
 	            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
 	            		
 	            		tempRandA = Utility.getRandom(1, 8);
