@@ -13,14 +13,15 @@ public class Wrapper
     
     /* Vakioita */
     // Luokan tyyppi (käytetään myös aseissa ja ammuksissa)
-    public static final int CLASS_TYPE_PLAYER      = 1;
-    public static final int CLASS_TYPE_ALLY        = 5;
-    public static final int CLASS_TYPE_ENEMY       = 2;
-    public static final int CLASS_TYPE_PROJECTILE  = 3;
-    public static final int CLASS_TYPE_GUI         = 4;
-    public static final int CLASS_TYPE_OBSTACLE    = 6;
-    public static final int CLASS_TYPE_EFFECT      = 7;
-    public static final int CLASS_TYPE_COLLECTABLE = 7;
+    public static final int CLASS_TYPE_PLAYER         = 1;
+    public static final int CLASS_TYPE_ALLY           = 5;
+    public static final int CLASS_TYPE_ENEMY          = 2;
+    public static final int CLASS_TYPE_PROJECTILE     = 3;
+    public static final int CLASS_TYPE_GUI            = 4;
+    public static final int CLASS_TYPE_OBSTACLE       = 6;
+    public static final int CLASS_TYPE_EFFECT         = 7;
+    public static final int CLASS_TYPE_COLLECTABLE    = 8;
+    public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -37,6 +38,8 @@ public class Wrapper
     public ArrayList<Obstacle>  		 obstacles    = null;
     public ArrayList<EffectObject> 	     effects      = null;
     public ArrayList<Collectable> 	     collectables = null;
+    
+    public ArrayList<BackgroundStar> backgroundStars = null;
 
     /* Peliobjektien tilat */
     public int                playerState       = 0;
@@ -86,6 +89,7 @@ public class Wrapper
         obstacles                = new ArrayList<Obstacle>();
         effects                  = new ArrayList<EffectObject>();
         collectables             = new ArrayList<Collectable>();
+        backgroundStars          = new ArrayList<BackgroundStar>();
         allyStates               = new ArrayList<Integer>();
         enemyStates              = new ArrayList<Integer>();
         projectileStates         = new ArrayList<Integer>();
@@ -227,6 +231,11 @@ public class Wrapper
         	collectables.add((Collectable)_object);
         	collectableStates.add(0);
         }
+        else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
+        	backgroundStars.add((BackgroundStar)_object);
+        	// Tila aina 1
+        }
+        
         return 0;
     }
 }

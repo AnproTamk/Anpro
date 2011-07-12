@@ -18,6 +18,9 @@ public class GameMode
     /* Pelaaja */
     public Player player;
     
+    /* T‰htitausta */
+    private BackgroundStar[] backgroundStars;
+    
     /* Asteroidit */
     public Obstacle[] asteroids; // Asteroidit
     
@@ -72,9 +75,10 @@ public class GameMode
         camera = CameraManager.getInstance();
         
         // Alustetaan taulukot
-        enemies    = new ArrayList<Enemy>();
-        enemyStats = new int[5][5];
-        asteroids  = new Obstacle[3];        
+        enemies         = new ArrayList<Enemy>();
+        enemyStats      = new int[5][5];
+        asteroids       = new Obstacle[3];
+        backgroundStars = new BackgroundStar[15];
         
     	// Alustetaan pelaaja
     	player = new Player(100, 100, this);
@@ -105,6 +109,9 @@ public class GameMode
         
         // Luetaan pelitilan tiedot
         reader.readGameMode(this, _weaponManager);
+        
+        // Luodaan t‰htitausta
+        generateStarBackground();
         
         // P‰ivitet‰‰n aloituspisteet ja k‰ynnistet‰‰n ensimm‰inen vihollisaalto
         updateSpawnPoints();
@@ -331,5 +338,12 @@ public class GameMode
 				}
 			}
 		}*/
+	}
+	
+	private void generateStarBackground()
+    {
+    	for (int i = 0; i < 15; ++i) {
+    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-400, 400), Utility.getRandom(-240, 240));
+    	}
 	}
 }
