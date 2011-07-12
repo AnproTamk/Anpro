@@ -15,8 +15,9 @@ public class GameMode
     public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
 
-    /* Pelaaja */
-    public Player player;
+    /* Pelaaja ja emoalus */
+    public Player     player;
+    public Mothership mothership;
     
     /* Tähtitausta */
     private BackgroundStar[] backgroundStars;
@@ -80,10 +81,13 @@ public class GameMode
         asteroids       = new Obstacle[3];
         backgroundStars = new BackgroundStar[15];
         
-    	// Alustetaan pelaaja
+    	// Luodaan pelaaja
     	player = new Player(100, 100, this);
     	player.x = 0;
     	player.y = 0;
+    	
+    	// Luodaan emoalus
+    	mothership = new Mothership(0);
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
