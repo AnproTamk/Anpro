@@ -103,6 +103,7 @@ public class Hud
 	            
 	        	// Otetaan uusi ase käyttöön
 	            weaponManager.setCurrentWeapon(weapons[_buttonId]);
+	            icons.get(_buttonId).setState(true);
 	            buttons.get(_buttonId).setSelected(true);
 	        }
     	}
