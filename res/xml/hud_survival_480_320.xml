@@ -3,11 +3,9 @@
 <hud>
         <button id="weapon_button_1" x="224" y="-96" type="weapon" />   <!--  YLIN NAPPULA -->
         <button id="weapon_button_2" x="224" y="-120" type="weapon" /> <!--  KESKIMMÄINEN NAPPULA -->
-        <button id="weapon_button_3" x="224" y="-144" type="weapon" />   <!--  ALIN NAPPULA --> 
-        <button id="special_button_1" x="-224" y="-120" type="weapon" />
-        <button id="special_button_2" x="-224" y="-144" type="weapon" />
+        <button id="weapon_button_3" x="224" y="-144" type="weapon" />   <!--  ALIN NAPPULA -->
         
-        <health_bar x="-192" y="-132" type="1" />
+        <health_bar x="192" y="-132" type="1" />
         <armor_bar x="192" y="-132" type="2" />
         
         <joystick x="-192" y="112" type="" />
