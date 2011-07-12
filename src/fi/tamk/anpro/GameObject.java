@@ -39,8 +39,7 @@ abstract public class GameObject extends GfxObject
     protected int movementDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
     protected int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
     
-    /* Suunta ja k‰‰ntyminen */
-    public    int direction           = 0; // 0 on suoraan ylˆsp‰in, 90 oikealle
+    /* K‰‰ntyminen */
     protected int turningSpeed;            // Montako astetta k‰‰nnyt‰‰n per p‰ivitys
     protected int turningDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
     protected int turningAcceleration = 0; // K‰‰ntymisen kiihtyvyys

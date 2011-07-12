@@ -32,6 +32,7 @@ class GameThread extends Thread
     private long lastCollisionUpdate;
     private long lastArmorUpdate;
     private long lastBoundCheck;
+    private long lastGuideArrowUpdate;
     
     /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
        että viholliset varmasti lopulta saavuttavat pelaajan) */
@@ -101,6 +102,7 @@ class GameThread extends Thread
         lastCollisionUpdate    = waveStartTime;
         lastArmorUpdate		   = waveStartTime;
         lastBoundCheck         = waveStartTime;
+        lastGuideArrowUpdate   = waveStartTime;
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
@@ -286,6 +288,13 @@ class GameThread extends Thread
                 }
                 
                 gameMode.mirrorAsteroidPosition();
+            }
+            
+            /* Päivitetään opastusnuolet */
+            if (currentTime - lastGuideArrowUpdate >= 100) {
+            	lastGuideArrowUpdate = currentTime;
+            	
+            	hud.guideArrow.updateArrow();
             }
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */

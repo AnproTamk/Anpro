@@ -22,13 +22,15 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public        ArrayList<Button>  buttons   = null;
-    public		  ArrayList<CooldownCounter> cooldowncounter	   = null;
-    public 		  ArrayList<Icon>	 icons	   = null;
-    public static ArrayList<Counter> counters  = null;
-    public static Joystick           joystick  = null;
-    public static Bar		         healthBar = null;
-    public static Bar				 armorBar  = null;
+    public        ArrayList<Button>          buttons         = null;
+    public		  ArrayList<CooldownCounter> cooldowncounter = null;
+    public 		  ArrayList<Icon>	         icons	        = null;
+    public static ArrayList<Counter>         counters       = null;
+    public static Joystick                   joystick       = null;
+    public static Bar		                 healthBar      = null;
+    public static Bar				         armorBar       = null;
+    public        GuideArrow                 guideArrow     = null;
+    
 
     /* Osoittimet tarvittaviin luokkiin */
     private final WeaponManager weaponManager;
@@ -50,13 +52,16 @@ public class Hud
         
         weapons[0] = 0; // TODO: DEBUG!!!!
         
-        buttons  = new ArrayList<Button>();
+        buttons          = new ArrayList<Button>();
         cooldowncounter	 = new ArrayList<CooldownCounter>();
-        counters = new ArrayList<Counter>();
-        icons = new ArrayList<Icon>();
+        counters         = new ArrayList<Counter>();
+        icons            = new ArrayList<Icon>();
 
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
+        
+        // Luodaan opastusnuoli kohteeseen
+        guideArrow = new GuideArrow(0,0);
     }
 
     /**
