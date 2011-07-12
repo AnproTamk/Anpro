@@ -99,12 +99,11 @@ public class TouchManager
 
             	/* ACTION_DOWN */
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //xClickOffset = (int) event.getX();
-                    //yClickOffset = screenHeight - (int) event.getY();
+                	// Muistetaan mistä painallus alkaa
                 	xClickOffset = (int) event.getX() - screenWidth / 2;
                     yClickOffset = screenHeight / 2 - (int) event.getY();
                     
-                    Log.v("navigare","x = " + xClickOffset + " y = " + yClickOffset + " jX = " + joystickX + " jY = " + joystickY );
+                    Log.v("navigare", "xClickOffset: " + xClickOffset + " yClickOfsssssset: " + yClickOffset);
 
                     /* Oikean reunan napit */
                     if (xClickOffset > screenWidth - 100 * Options.scaleX && xClickOffset < screenWidth &&
