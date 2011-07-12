@@ -161,6 +161,7 @@ public class Enemy extends GameObject
             Utility.checkDamage(this, _damage, _armorPiercing);
             
             if (currentHealth <= 0) {
+        		GameMode.updateScore(rank, x, y);
             	triggerDestroyed();
             }
         }
@@ -234,7 +235,6 @@ public class Enemy extends GameObject
         // Tuhotaan vihollinen
         if (actionId == GfxObject.ACTION_DESTROYED) {
         	--GameMode.enemiesLeft;
-        	GameMode.updateScore(rank, x, y);
             setUnactive();
         }
         // Aktivoidaan vihollinen (esim. EMPin jälkeen)
