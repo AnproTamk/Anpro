@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
@@ -81,6 +82,7 @@ public class GLRenderer implements Renderer
     
     public static Animation[] collectableAnimations;
     
+    public static Texture starBackgroundTexture;
     
     /* Ohjelman konteksti ja resurssit */
     private Context   context;
@@ -157,8 +159,9 @@ public class GLRenderer implements Renderer
         _gl.glEnable(GL10.GL_BLEND);
         _gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
         
+        // TODO: Kaksi alempaa riviä jotenkin epäloogisessa paikassa
     	// Ladataan latausruudun tekstuuri
-    	loadingTexture   = new Texture(_gl, context, R.drawable.loading);
+    	loadingTexture = new Texture(_gl, context, R.drawable.loading);
     }
 
     /**
@@ -214,7 +217,7 @@ public class GLRenderer implements Renderer
 
         if (showLoadingScreen) {
 	    	try {
-				Thread.sleep(2000);
+				Thread.sleep(0);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -231,6 +234,9 @@ public class GLRenderer implements Renderer
         if (allLoaded && gameThread.allLoaded) {
             
             /* Käydään läpi piirtolistat */
+            for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
+            	wrapper.backgroundStars.get(i).draw(_gl);
+            }
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                 if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.enemies.get(i).draw(_gl);
@@ -400,8 +406,10 @@ public class GLRenderer implements Renderer
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
-        hudTextures[0]  = new Texture(_gl, context, R.drawable.button_tex_0);
-        hudTextures[1]  = new Texture(_gl, context, R.drawable.button_tex_1);
+        hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
+        Log.e("TESTI", String.valueOf(loadingFailed));
+        hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
+        Log.e("TESTI", String.valueOf(loadingFailed));
         hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
 
         // Joystick
@@ -479,13 +487,12 @@ public class GLRenderer implements Renderer
         effectAnimations[5] = new Animation(_gl, context, resources, "combo3_effect", 1);
         effectAnimations[6] = new Animation(_gl, context, resources, "combo4_effect", 1);
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
-
+        
         /* Ladataan kartan grafiikat */
-        if (GameActivity.activeMode == GameActivity.STORY_MODE) {
-        	obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet_tex_0);
-        	obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
-        	obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
-        }
+        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet_tex_0);
+        obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
+        obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
+    	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
         
         /* Tarkistetaan virheet */
         if (!loadingFailed) {

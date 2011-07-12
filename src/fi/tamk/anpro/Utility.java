@@ -202,6 +202,14 @@ public class Utility
      */
     public static final int getRandom(int _min, int _max)
     {
-    	return randomGenerator.nextInt(_max) + _min;
+    	if (_min < 0 && _max < 0) {
+    		return randomGenerator.nextInt(Math.abs(_min - _max)) + _min;
+    	}
+    	else if (_min < 0) {
+    		return randomGenerator.nextInt(Math.abs(_min) + _max) + _min;
+    	}
+    	else {
+    		return randomGenerator.nextInt(_max - _min) + _min;
+    	}
     }
 }

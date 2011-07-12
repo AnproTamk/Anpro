@@ -123,6 +123,10 @@ class GameThread extends Thread
                 
                 wrapper.player.updateMovement(currentTime);
                 
+                for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
+                	wrapper.backgroundStars.get(i).checkPosition();
+                }
+                
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                     if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
                         wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
