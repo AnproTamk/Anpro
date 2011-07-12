@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 /**
  * Sis‰lt‰‰ yhden tekstuurin tai animaation tiedot ja toiminnot.
