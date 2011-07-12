@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 /**
  * Hallitsee aseiden cooldowneja, varastoi aseiden oliot ja välittää kutsupyynnöt
  * eri aseisiin.
@@ -54,7 +56,10 @@ public class WeaponManager
     public final void triggerPlayerShoot(float _targetX, float _targetY)
     {
 		if (cooldownLeft[currentWeapon] <= 0) {
-            playerWeapons.get(currentWeapon).activate(_targetX, _targetY, wrapper.player.x, wrapper.player.y);
+            playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
+            										  wrapper.player.x, wrapper.player.y);
+            Log.v("navigare", "x: " + wrapper.player.x + " y: " + wrapper.player.y);
+            Log.v("navigare", "x: " + (_targetX + wrapper.player.x) + " y: " + (_targetY + wrapper.player.y));
 
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
