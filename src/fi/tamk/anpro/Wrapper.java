@@ -22,6 +22,7 @@ public class Wrapper
     public static final int CLASS_TYPE_EFFECT         = 7;
     public static final int CLASS_TYPE_COLLECTABLE    = 8;
     public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
+    public static final int CLASS_TYPE_MOTHERSHIP     = 10;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -40,6 +41,8 @@ public class Wrapper
     public ArrayList<Collectable> 	     collectables = null;
     
     public ArrayList<BackgroundStar> backgroundStars = null;
+    
+    public Mothership mothership = null;
 
     /* Peliobjektien tilat */
     public int                playerState       = 0;
@@ -50,6 +53,8 @@ public class Wrapper
     public ArrayList<Integer> obstacleStates    = null;
     public ArrayList<Integer> effectStates      = null;
     public ArrayList<Integer> collectableStates = null;
+    
+    public int mothershipState = 0;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
@@ -234,6 +239,10 @@ public class Wrapper
         else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
         	backgroundStars.add((BackgroundStar)_object);
         	// Tila aina 1
+        }
+        else if (_classType == CLASS_TYPE_MOTHERSHIP) {
+        	mothership      = (Mothership)_object;
+        	mothershipState = 1;
         }
         
         return 0;
