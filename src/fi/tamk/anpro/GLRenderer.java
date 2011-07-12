@@ -45,7 +45,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES       = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES      = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 47;
+    public static final int AMOUNT_OF_HUD_TEXTURES        = 48;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES = 1;
     
@@ -485,6 +485,9 @@ public class GLRenderer implements Renderer
         // Aseet
         hudTextures[45] = new Texture(_gl, context, R.drawable.missile_tex_0);
         hudTextures[46] = new Texture(_gl, context, R.drawable.missile_tex_1);
+        
+        // Kohteet osoittavat nuolet
+        hudTextures[47] = new Texture(_gl, context, R.drawable.collectablearrow_tex_0);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
