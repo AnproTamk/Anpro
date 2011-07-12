@@ -119,6 +119,12 @@ abstract public class GameObject extends GfxObject
             if (movementDelay < 0) {
                 movementDelay = 0;
             }
+            else if (movementDelay > 500) {
+            	this.setMovementDelay(1.0f);
+            	this.setMovementSpeed(0.0f);
+            	movementAcceleration = 0;
+            }
+            
         }
         
         // Lasketaan k‰‰ntymisnopeus objektille
