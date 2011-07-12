@@ -245,23 +245,14 @@ public class XmlReader
     	
     	try {
     		fis = new FileInputStream(file);
-    	}
-    	catch (Exception e){
-    		e.printStackTrace();
-    		Log.e("TESTI", "Reader Error 1: " + e.getMessage());
-    	}
     	
-    	XmlPullParser parser = Xml.newPullParser();
-    	try {
+    		XmlPullParser parser = Xml.newPullParser();
+    		
 			parser.setInput(fis, "UTF-8");
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-			Log.e("TESTI", "Reader Error 2: " + e.getMessage());
-		}
-		
-		int index = 0;
-		if (parser != null) {
-	        try {
+			
+			int index = 0;
+			
+			if (parser != null) {
 	            while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
 	                if (parser.getEventType() == XmlPullParser.START_TAG) {
 	                    if (parser.getName().equals("score")) {
@@ -276,18 +267,13 @@ public class XmlReader
 	                
 	                parser.next();
 	            }
-	        }
-	        catch (Exception e) {
-	            e.printStackTrace();
-	            Log.e("TESTI", "Reader Error 3: " + e.getMessage());
-	        }
-        }
-    	
-    	try {
+			}
+			
 			fis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	}
+    	catch (Exception e){
+    		e.printStackTrace();
+    	}
     	
     	return scores;
     }
