@@ -9,9 +9,8 @@ public class Icon extends GuiObject {
 		usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
 	}
 
-	public void setState(boolean selected) {
-		if(selected) {
-			// Tekstuuri 1
+	public void setState(boolean _selected) {
+		if(_selected) {
 			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 		}
 		
