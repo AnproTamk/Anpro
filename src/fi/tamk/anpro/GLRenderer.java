@@ -47,6 +47,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
     public static final int AMOUNT_OF_HUD_TEXTURES        = 47;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES   = 1;
+    public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES = 1;
     
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
@@ -56,8 +57,8 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
+    public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
-
     /* Latausruudun tekstuurit ja tila */
     private Texture loadingTexture;
     private boolean showLoadingScreen = false;
@@ -71,6 +72,8 @@ public class GLRenderer implements Renderer
     public static Animation[][] enemyAnimations;
     public static Texture[][]   projectileTextures;
     public static Animation[][] projectileAnimations;
+    public static Texture[]     mothershipTextures;
+    public static Animation[]   mothershipAnimations;
     
     public static Texture[]     hudTextures;
     public static Animation[]   hudAnimations;
@@ -120,6 +123,8 @@ public class GLRenderer implements Renderer
         enemyAnimations       = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
         projectileTextures    = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
         projectileAnimations  = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        mothershipTextures    = new Texture[AMOUNT_OF_MOTHERSHIP_TEXTURES];
+        mothershipAnimations  = new Animation[AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
         hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
         effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
@@ -237,6 +242,9 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
+            if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE) {
+            	wrapper.mothership.draw(_gl);
+            }
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                 if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.enemies.get(i).draw(_gl);
@@ -273,6 +281,12 @@ public class GLRenderer implements Renderer
                         wrapper.player.update();
                     }
                 }
+                
+                /*if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE && wrapper.mothership.usedAnimation != -1) {
+                    if (updateBeat % wrapper.mothership.animationSpeed == 0) {
+                        wrapper.mothership.update();
+                    }
+                }*/
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                     if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE && wrapper.enemies.get(i).usedAnimation != -1) {
@@ -353,6 +367,9 @@ public class GLRenderer implements Renderer
         playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
         
         /* Ladataan liittolaisten grafiikat */
+        // Emoalus
+        mothershipTextures[0] = new Texture(_gl, context, R.drawable.mothership_tex_0);
+        
         // Liittolainen #1
         allyTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
         allyAnimations[0][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
