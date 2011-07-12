@@ -36,6 +36,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_COOLDOWN           = 14;
     public static final int TEXTURE_COUNTER			   = 24;
     public static final int TEXTURE_ARMOR			   = 34;
+    public static final int TEXTURE_GUIDEARROW		   = 47;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
