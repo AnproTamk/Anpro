@@ -62,6 +62,13 @@ public class ApproachAndStopAi extends AbstractAi
         	}
         }
         
+        else {
+        	
+        	wrapper.enemies.get(parentId).movementAcceleration = 10;
+        	wrapper.enemies.get(parentId).movementSpeed = wrapper.enemies.get(parentId).speed / 2;
+        }
+        
+        
         // M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
         double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
         
