@@ -2,17 +2,17 @@
 
 <ranks>
 	<!-- Ensimmäisen vihollisen tiedot -->
-	<rank health="1" speed="10" attack="5" armor="0" ai="1" />
+	<rank health="1" armor="0" speed="10" attack="5" ai="1" />
 	
 	<!-- Toisen vihollisen tiedot -->
-	<rank health="3" speed="7" attack="5" armor="4" ai="2" />
+	<rank health="3" armor="4" speed="7" attack="5" ai="2" />
 	
 	<!-- Kolmannen vihollisen tiedot -->
-	<rank health="7" speed="8" attack="5" armor="0" ai="3" />
+	<rank health="7" armor="0" speed="8" attack="5"  ai="3" />
 	
 	<!-- Neljännen vihollisen tiedot -->
-	<rank health="10" speed="4" attack="8" armor="2" ai="4" />
+	<rank health="10" armor="2" speed="4" attack="8"  ai="4" />
 	
 	<!-- Viidennen vihollisen tiedot -->
-	<rank health="4" speed="2" attack="1" armor="0" ai="4" />
+	<rank health="4" armor="0" speed="2" attack="1" ai="4" />
 </ranks>
