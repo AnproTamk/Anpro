@@ -178,5 +178,8 @@ public class RotaryAi extends AbstractAi
 	        	}
 	    	}
         }
+        
+        /* Tarkistetaan törmäykset pelaajan kanssa */
+        checkCollisionWithPlayer();
     }	
 }
