@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -29,30 +28,25 @@ public class InputController
 	{
 	    // Käsitellään DPad-napit
 	    if (_keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			Log.v("navigare", "OK");
 			// TODO: Keskinapin painamisen jälkeiset toiminnot..
 			//return false;
 		}
 	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-			Log.v("navigare", "LEFT");
 			// TODO: Liikuta vasemmalle PAREMMIN
 			angle = 180;
 			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-			Log.v("navigare", "RIGHT");
 			// TODO: Liikuta oikealle PAREMMIN
 			angle = 0;
 			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-			Log.v("navigare", "UP");
 			// TODO: Liikuta ylös PAREMMIN
 			angle = 90;
 			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-			Log.v("navigare", "DOWN");
 			// TODO: Liikuta alas PAREMMIN
 			angle = 270;
 			//return false;
@@ -70,12 +64,10 @@ public class InputController
 	{
 		 // Käsitellään DPad-napit
 	    if (_keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-			Log.v("navigare", "OK UP");
 			// TODO: Keskinapin painaminen loppuu
 			return false;
 		}
 	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-			Log.v("navigare", "LEFT UP");
 			// TODO: Vasemmalle painaminen loppuu
 			
 	        // Asetetaan pelaajan jarrutus
@@ -84,7 +76,6 @@ public class InputController
 			return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-			Log.v("navigare", "RIGHT UP");
 			// TODO: Oikealle painaminen loppuu
 			
 	        // Asetetaan pelaajan jarrutus
@@ -93,7 +84,6 @@ public class InputController
 			return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-			Log.v("navigare", "UP UP");
 			// TODO: Ylös painaminen loppuu
 			
 	        // Asetetaan pelaajan jarrutus
@@ -102,7 +92,6 @@ public class InputController
 			return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-			Log.v("navigare", "DOWN UP");
 			// TODO: Alas painaminen loppuu
 			
 	        // Asetetaan pelaajan jarrutus
