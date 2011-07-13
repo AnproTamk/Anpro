@@ -35,9 +35,6 @@ public class Enemy extends GameObject
     {
         super(_speed);
         
-        Log.e("testi", "_health: " + _health + " _armor: " + _armor + " _speed: " + _speed +
-          	  " _attack: " + _attack + " ai: " + _rank);
-        
         // Tallennetaan tiedot
         health        = _health;
         currentHealth = _health;
@@ -106,6 +103,7 @@ public class Enemy extends GameObject
     	movementAcceleration = 0;
     	setMovementDelay(1.0f);
     	setMovementSpeed(1.0f);
+    	
     	
     	currentHealth = health;
     	currentArmor  = armor;
