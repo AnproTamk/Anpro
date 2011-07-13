@@ -13,7 +13,7 @@ public class Obstacle extends GameObject
 	public static final byte OBSTACLE_STAR     = 2;
 	
 	// Objektin tyyppi
-	private byte type;
+	private int type;
 	
 	// Wrapper
 	private Wrapper wrapper;
@@ -39,7 +39,7 @@ public class Obstacle extends GameObject
 		wrapper = Wrapper.getInstance();
 		
 		// M‰‰ritet‰‰n n‰ytett‰v‰ tekstuuri
-		//type = _type;
+		type = _type;
 		
 		// M‰‰ritell‰‰n liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
@@ -56,6 +56,9 @@ public class Obstacle extends GameObject
 		else if (type == OBSTACLE_STAR) {
 			collisionRadius = (int) (245 * Options.scale);
 		}
+		
+		// Lis‰t‰‰n objekti piirtolistalle
+		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_OBSTACLE, 0);
 	}
     
     /**
@@ -71,7 +74,7 @@ public class Obstacle extends GameObject
             GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, currentFrame);
         }
         else {
-            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, 0, 0);
+            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, direction, 0);
         }
 	}
     
@@ -135,7 +138,7 @@ public class Obstacle extends GameObject
         	if (Math.abs(y - wrapper.player.y) <= Wrapper.gridSize) {
         		
         		if (Utility.isColliding(wrapper.player, this)) {
-        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_OBSTACLE, 10, 20);
+        			wrapper.player.triggerCollision(10, 20);
         		}
         	}
 		}

@@ -234,7 +234,7 @@ public class Wrapper
         }
         else if (_classType == CLASS_TYPE_COLLECTABLE) {
         	collectables.add((Collectable)_object);
-        	collectableStates.add(0);
+        	collectableStates.add(1);
         }
         else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
         	backgroundStars.add((BackgroundStar)_object);
