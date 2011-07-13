@@ -19,6 +19,7 @@ class GameThread extends Thread
 	private TouchManager  touchManager;
     public  Hud           hud;
     private WeaponManager weaponManager;
+    private CameraManager cameraManager;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime;
@@ -55,7 +56,8 @@ class GameThread extends Thread
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
     				  Hud _hud, TouchManager _touchManager, WeaponManager _weaponManager)
     {
-        wrapper = Wrapper.getInstance();
+        wrapper       = Wrapper.getInstance();
+        cameraManager = CameraManager.getInstance();
         
         dm      	  = _dm;
         context 	  = _context;
@@ -124,6 +126,7 @@ class GameThread extends Thread
                 lastMovementUpdate = currentTime;
                 
                 wrapper.player.updateMovement(currentTime);
+            	cameraManager.updateCameraPosition();
                 
                 for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
                 	wrapper.backgroundStars.get(i).checkPosition();
