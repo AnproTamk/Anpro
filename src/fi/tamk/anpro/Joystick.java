@@ -45,52 +45,10 @@ public class Joystick extends GuiObject
     	_xClickOffset = _getX - Options.screenWidth / 2;
         _yClickOffset = Options.screenHeight / 2 - _getY;
     	
-        // TODO: Käytä Utility-luokkaa
-    	// Verrataan sormen sijaintia joystickin sijaintiin
-        double xDiff = Math.abs((double)(_xClickOffset - joystickX));
-        double yDiff = Math.abs((double)(_yClickOffset - joystickY));
-        
         // Määritetään sormen ja joystickin välinen kulma
-        int angle;
+        int angle = Utility.getAngle(joystickX, joystickY, _xClickOffset, _yClickOffset);
         
-        // Jos sormi on joystickin oikealla puolella:
-        if (_xClickOffset > joystickX) {
-            // Jos sormi on joystickin alapuolella:
-            if (_yClickOffset > joystickY) {
-                angle = (int) ((Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            // Jos sormi on joystickin yläpuolella:
-            else if (_yClickOffset < joystickY) {
-                angle = (int) (360 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-                angle = 0;
-            }
-        }
-        // Jos sormi on joystickin vasemmalla puolella:
-        else if (_xClickOffset < joystickX) {
-            // Jos sormi on joystickin yläpuolella:
-            if (_yClickOffset < joystickY) {
-                angle = (int) (180 + (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            // Jos sormi on joystickin alapuolella:
-            else if (_yClickOffset > joystickY) {
-                angle = (int) (180 - (Math.atan(yDiff/xDiff)*180)/Math.PI);
-            }
-            else {
-                angle = 180;
-            }
-        }
-        // Jos sormi on suoraan joystickin ylä- tai alapuolella
-        else {
-            if (_yClickOffset > joystickY) {
-                angle = 90;
-            }
-            else {
-                angle = 270;
-            }
-        }
-
+        // Muutetaan pelaajan suunta ja nopeus
         _wrapper.player.movementTargetDirection = angle;
         _wrapper.player.movementAcceleration    = 0;
         _wrapper.player.setMovementSpeed(1.0f);
