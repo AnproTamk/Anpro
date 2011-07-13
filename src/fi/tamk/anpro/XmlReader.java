@@ -88,6 +88,12 @@ public class XmlReader
 	                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
+	                    
+	                    else if (hud.getName().equals("radar")) {
+	                    	Hud.radar = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    						  Integer.parseInt(hud.getAttributeValue(null, "y")),
+	                    						  Integer.parseInt(hud.getAttributeValue(null, "value")));
+	                    }
 	                }
 	                else if (hud.getEventType() == XmlPullParser.END_TAG) {
 	                    // ...

@@ -36,6 +36,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_COUNTER			   = 24;
     public static final int TEXTURE_ARMOR			   = 34;
     public static final int TEXTURE_GUIDEARROW		   = 47;
+    public static final int TEXTURE_RADAR			   = 49;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -45,7 +46,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 49;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 62;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -516,6 +517,22 @@ public class GLRenderer implements Renderer
         // Kohteen osoittavat nuolet
         hudTextures[47] = new Texture(_gl, context, R.drawable.collectablearrow_tex_0);
         hudTextures[48] = new Texture(_gl, context, R.drawable.mothershiparrow_tex_0);
+        
+        // Tutka
+        hudTextures[49] = new Texture(_gl, context, R.drawable.radar_tex_0);
+        hudTextures[50] = new Texture(_gl, context, R.drawable.radar_tex_1);
+        hudTextures[51] = new Texture(_gl, context, R.drawable.radar_tex_2);
+        hudTextures[52] = new Texture(_gl, context, R.drawable.radar_tex_3);
+        hudTextures[53] = new Texture(_gl, context, R.drawable.radar_tex_4);
+        hudTextures[54] = new Texture(_gl, context, R.drawable.radar_tex_5);
+        hudTextures[55] = new Texture(_gl, context, R.drawable.radar_tex_6);
+        hudTextures[56] = new Texture(_gl, context, R.drawable.radar_tex_7);
+        hudTextures[57] = new Texture(_gl, context, R.drawable.radar_tex_8);
+        hudTextures[58] = new Texture(_gl, context, R.drawable.radar_tex_9);
+        hudTextures[59] = new Texture(_gl, context, R.drawable.radar_tex_10);
+        hudTextures[60] = new Texture(_gl, context, R.drawable.radar_tex_11);
+        hudTextures[61] = new Texture(_gl, context, R.drawable.radar_tex_12);
+        
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
