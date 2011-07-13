@@ -213,12 +213,14 @@ public class XmlWriter
 		int temp = 0;
 		
 		while (checked != true) {
-			if (_score > _scoreList[index]) {
-				temp = _scoreList[index];
-				_scoreList[index] = _score;
-				_score = temp;
+			if (index <= 4) {
+				if (_score > _scoreList[index]) {
+					temp = _scoreList[index];
+					_scoreList[index] = _score;
+					_score = temp;
+				}
 			}
-			else if (index >= 4) {
+			else {
 				checked = true;
 			}
 			
