@@ -1,6 +1,5 @@
 package fi.tamk.anpro;
 
-
 /**
  *  Hallitsee kaikkia efektejä.
  */
