@@ -53,8 +53,6 @@ public class Wrapper
     public ArrayList<Integer> obstacleStates    = null;
     public ArrayList<Integer> effectStates      = null;
     public ArrayList<Integer> collectableStates = null;
-    
-    public int mothershipState = 0;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
        piirtolistojen soluihin. Näitä kutsutaan ainoastaan GameThreadin
@@ -242,7 +240,7 @@ public class Wrapper
         }
         else if (_classType == CLASS_TYPE_MOTHERSHIP) {
         	mothership      = (Mothership)_object;
-        	mothershipState = 1;
+        	// Tila aina 1
         }
         
         return 0;

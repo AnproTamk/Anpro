@@ -246,7 +246,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
-            if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE) {
+            if (wrapper.mothership != null) {
             	 wrapper.mothership.draw(_gl);
             }
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -304,7 +304,7 @@ public class GLRenderer implements Renderer
                     }
                 }
                 
-                if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE && wrapper.mothership.usedAnimation != -1) {
+                if (wrapper.mothership != null && wrapper.mothership.usedAnimation != -1) {
                     if (updateBeat % wrapper.mothership.animationSpeed == 0) {
                         wrapper.mothership.update();
                     }
@@ -454,9 +454,7 @@ public class GLRenderer implements Renderer
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
         hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
-        Log.e("TESTI", String.valueOf(loadingFailed));
         hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
-        Log.e("TESTI", String.valueOf(loadingFailed));
         hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
 
         // Joystick
@@ -540,7 +538,7 @@ public class GLRenderer implements Renderer
         
         /* Ladataan ilmoitusten grafiikat */
         // Out of bounds
-        messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
+        //messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
