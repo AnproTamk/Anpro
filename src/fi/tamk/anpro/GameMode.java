@@ -253,9 +253,9 @@ public class GameMode
     protected void generateObstacles()
     {
     	// Luodaan kentän asteroidit
-    	asteroids[0] = new Obstacle(1, -400, -400, randSpeed, randDirection);
-    	asteroids[1] = new Obstacle(1, 800, 800, randSpeed, randDirection);
-    	asteroids[2] = new Obstacle(1, -1200, 400, randSpeed, randDirection);
+    	asteroids[0] = new Obstacle(1, -400, -400, 2, randDirection);
+    	asteroids[1] = new Obstacle(1, 800, 800, 2, randDirection);
+    	asteroids[2] = new Obstacle(1, -1200, 400, 2, randDirection);
     		
     	// Luodaan kentän planeetat
 		planets[0] = new Obstacle(0, 0, -600, 0, 0);

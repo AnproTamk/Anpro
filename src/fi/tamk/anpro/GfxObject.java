@@ -16,10 +16,13 @@ abstract public class GfxObject
 	/* Objektin tunnus Wrapperissa */
     protected int listId;
 	
-    /* Objektin sijainti ja suunta */
+    /* Objektin sijainti */
     public float x         = 0;
     public float y         = 0;
-    public int   direction = 0; // 0 oikealle, 90 ylöspäin
+    
+    /* Objektin suunta */
+    public int direction       = 0; // Liikkumissuunta (0 oikealle, 90 ylös)
+    public int facingDirection = 0; // Katsomissuunta (sama koordinaatisto, ei vaikuta liikkumiseen)
     
     /* Käytössä oleva animaatio ja sen tiedot */
     public  int   usedAnimation    = -1;

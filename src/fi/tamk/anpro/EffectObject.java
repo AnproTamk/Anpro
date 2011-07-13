@@ -7,10 +7,6 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class EffectObject extends GameObject
 {
-	// Efektin sijainti
-	private float x;
-	private float y;
-
 	// Efektin tyyppi
 	private byte effectType;
 	

@@ -39,11 +39,17 @@ abstract public class GameObject extends GfxObject
     protected int movementDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
     protected int movementAcceleration = 0; // Liikkeen kiihtyminen ja hidastuminen
     
-    /* K‰‰ntyminen */
+    /* K‰‰ntyminen (liikkumissuunta) */
     protected int turningSpeed;            // Montako astetta k‰‰nnyt‰‰n per p‰ivitys
     protected int turningDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
     protected int turningAcceleration = 0; // K‰‰ntymisen kiihtyvyys
     public    int turningDirection    = 0; // 0 ei k‰‰nny, 1 vasen, 2 oikea
+    
+    /* K‰‰ntyminen (katsomissuunta) */
+    protected int facingTurningSpeed;
+    protected int facingTurningDelay;
+    protected int facingTurningAcceleration = 0;
+    public    int facingTurningDirection    = 0;
     
     /* P‰ivitysajat */
     private long turningTime  = 0;
@@ -118,9 +124,9 @@ abstract public class GameObject extends GfxObject
             if (movementDelay < 0) {
                 movementDelay = 0;
             }
-            else if (movementDelay > 500) {
-            	this.setMovementDelay(1.0f);
-            	this.setMovementSpeed(0.0f);
+            else if (movementDelay > 200) {
+            	setMovementDelay(1.0f);
+            	setMovementSpeed(0.0f);
             	movementAcceleration = 0;
             }
             
@@ -129,6 +135,8 @@ abstract public class GameObject extends GfxObject
         // Lasketaan k‰‰ntymisnopeus objektille
         if (_time - turningTime >= turningDelay) {
             turningTime = _time;
+            
+            /* K‰‰ntymissuunta (liikkuminen) */
             // Jos objektin k‰‰ntymissuunta on vasemmalle
             if (turningDirection == TO_THE_LEFT) {
                 direction += turningSpeed;
@@ -151,6 +159,31 @@ abstract public class GameObject extends GfxObject
             
             if (turningDelay < 0) {
                 turningDelay = 0;
+            }
+
+            /* K‰‰ntymissuunta (katsominen) */
+            // Jos objektin k‰‰ntymissuunta on vasemmalle
+            if (facingTurningDirection == TO_THE_LEFT) {
+                facingDirection += facingTurningSpeed;
+                
+                if (facingDirection == 360) {
+                	facingDirection = 0;
+                }
+            }
+            // Jos objektin k‰‰ntymissuunta on oikealle
+            else if (turningDirection == TO_THE_RIGHT) {
+            	facingDirection -= facingTurningSpeed;
+                
+                if (facingDirection < 0) {
+                	facingDirection = 359;
+                }
+            }
+            
+            // P‰ivitet‰‰n nopeus kiihtyvyyden avulla
+            facingTurningDelay -= facingTurningAcceleration;
+            
+            if (facingTurningDelay < 0) {
+            	facingTurningDelay = 0;
             }
         }
     }
@@ -193,6 +226,26 @@ abstract public class GameObject extends GfxObject
     public final void setTurningDelay(float _multiplier)
     {
     	turningDelay = (int) (60 / (_multiplier * (float)speed));
+    }
+    
+    /**
+     * Laskee objektille "k‰‰ntymisnopeuden" (katselukulma).
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setFacingTurningSpeed(float _multiplier)
+    {
+    	facingTurningSpeed = (int) (_multiplier * (float)speed / 2);
+    }
+
+    /**
+     * Laskee objektille k‰‰ntymisen viiveen (katselukulma).
+     * 
+     * @param float Nopeuden muutoskerroin
+     */
+    public final void setFacingTurningDelay(float _multiplier)
+    {
+    	facingTurningDelay = (int) (60 / (_multiplier * (float)speed));
     }
 }
 
