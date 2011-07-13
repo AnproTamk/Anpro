@@ -29,6 +29,11 @@ abstract public class GfxObject
     private int   animationLoops   = 0;
     public  int   animationSpeed   = 0;
     
+    /* Animaation tauot (pysäyttää animaation johonkin ruutuun tietyksi aikaa) */
+    private byte pauseFrame = -1;
+    private int  pauseTime;
+    private long startTime;
+    
     /* Staattinen käytössä oleva tekstuuri */
     public int usedTexture = 0;
     
@@ -86,6 +91,9 @@ abstract public class GfxObject
         else {
             currentLoop = 0;
         }
+        
+        // Tallennetaan aloitusaika
+        startTime = android.os.SystemClock.uptimeMillis();
     }
     
     /**
@@ -107,39 +115,47 @@ abstract public class GfxObject
     public final void update()
     {
     	if (usedAnimation != -1) {
-	        // Animaatiolle on määritetty toistokerrat
-	        if (animationLoops > 0) {
-	            
-	            // Tarkistetaan, päättyykö animaation toistokerta ja toimitaan sen mukaisesti.
-	            if (currentFrame + 1 > animationLength[usedAnimation]) {
-	                currentFrame = 0;
-	                ++currentLoop;
-	                if (currentLoop > animationLoops) {
-	                    usedAnimation = -1;
-	                    usedTexture   = 0;
-	                    
-	                    if (actionActivated) {
-	                        actionActivated = false;
-	                        triggerEndOfAction();
-	                    }
-	                }
-	            }
-	            else {
-	                ++currentFrame;
-	            }
-	        }
-	        // Animaatio on päättymätön
-	        else {
-	            
-	            // Tarkistetaan, päättyykö animaation toistokerta. Kelataan takaisin alkuun
-	            // tarvittaessa.
-	            if (currentFrame + 1 > animationLength[usedAnimation]) {
-	                currentFrame = 0;
-	            }
-	            else {
-	                ++currentFrame;
-	            }
-	        }
+    		// Tarkistetaan animaation tauotus
+    		if (currentFrame == pauseFrame) {
+    			if (android.os.SystemClock.uptimeMillis() - startTime >= pauseTime) {
+    				pauseFrame = -1;
+    			}
+    		}
+    		else {
+		        // Animaatiolle on määritetty toistokerrat
+		        if (animationLoops > 0) {
+		            
+		            // Tarkistetaan, päättyykö animaation toistokerta ja toimitaan sen mukaisesti.
+		            if (currentFrame + 1 > animationLength[usedAnimation]) {
+		                currentFrame = 0;
+		                ++currentLoop;
+		                if (currentLoop > animationLoops) {
+		                    usedAnimation = -1;
+		                    usedTexture   = 0;
+		                    
+		                    if (actionActivated) {
+		                        actionActivated = false;
+		                        triggerEndOfAction();
+		                    }
+		                }
+		            }
+		            else {
+		                ++currentFrame;
+		            }
+		        }
+		        // Animaatio on päättymätön
+		        else {
+		            
+		            // Tarkistetaan, päättyykö animaation toistokerta. Kelataan takaisin alkuun
+		            // tarvittaessa.
+		            if (currentFrame + 1 > animationLength[usedAnimation]) {
+		                currentFrame = 0;
+		            }
+		            else {
+		                ++currentFrame;
+		            }
+		        }
+    		}
     	}
     }
     
@@ -162,6 +178,36 @@ abstract public class GfxObject
         
         actionActivated = true;
         actionId        = _actionId;
+        pauseFrame      = -1;
+	}
+    
+    /**
+     * Asettaa erityistoiminnon ja animaation. Kun animaatio loppuu, kutsuu update-funktio
+     * objektin triggerEndOfAction-funktiota.
+     * 
+     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
+     * 
+     * Toisin kuin ylemmässä toteutuksessa setActionista, tähän funktioon voi antaa parametreina
+     * ruudun, johon animaation haluaa pysähtyvän tietyksi aikaa. Tällä vältetään useiden samojen
+     * tekstuurien luominen.
+     * 
+     * @param int  Animaation tunnus
+     * @param int  Toistokerrat
+     * @param int  Animaation päivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
+     * @param int  Toiminnon tunnus
+     * @param byte Animaation ruutu, jossa haluttu aika odotetaan
+     * @param int  Aika, joksi animaatio pysäytetään
+     */
+    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId, byte _pauseFrame, int _pauseTime)
+    {
+    	// TODO: Toimintojen tunnuksia varten voisi olla vakiot
+    	
+        startAnimation(_animation, _loops, _animationSpeed);
+        
+        actionActivated = true;
+        actionId        = _actionId;
+        pauseFrame      = _pauseFrame;
+        pauseTime       = _pauseTime;
 	}
 
     /**

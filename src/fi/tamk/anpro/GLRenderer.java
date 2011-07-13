@@ -36,8 +36,7 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_COOLDOWN           = 14;
     public static final int TEXTURE_COUNTER			   = 24;
     public static final int TEXTURE_ARMOR			   = 34;
-
-    public static final int TEXTURE_GUIDEARROW = 47;
+    public static final int TEXTURE_GUIDEARROW		   = 47;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
@@ -61,6 +60,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
+    public static final int AMOUNT_OF_MESSAGE_ANIMATIONS     = 1;
     
     /* Latausruudun tekstuurit ja tila */
     private Texture loadingTexture;
@@ -82,6 +82,8 @@ public class GLRenderer implements Renderer
     public static Animation[]   hudAnimations;
     
     public static Animation[]   effectAnimations;
+    
+    public static Animation[]   messageAnimations;
     
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
@@ -131,6 +133,7 @@ public class GLRenderer implements Renderer
         hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
         effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
+        messageAnimations     = new Animation[AMOUNT_OF_MESSAGE_ANIMATIONS];
         obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
         obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
         collectableTextures   = new Texture[AMOUNT_OF_COLLECTABLE_TEXTURES];
@@ -534,6 +537,10 @@ public class GLRenderer implements Renderer
         effectAnimations[5] = new Animation(_gl, context, resources, "combo3_effect", 1);
         effectAnimations[6] = new Animation(_gl, context, resources, "combo4_effect", 1);
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
+        
+        /* Ladataan ilmoitusten grafiikat */
+        // Out of bounds
+        messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
