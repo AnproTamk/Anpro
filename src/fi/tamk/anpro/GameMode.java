@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -178,18 +179,22 @@ public class GameMode
     {
         /* Tarkastetaan onko kaikki vihollisaallot käyty läpi */
         if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tietää wavejen määrä)
-        	
-            currentWave = 1;
+        	Log.e("testi", "currentWave: " + currentWave);
+            currentWave = 0;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sitä yhdellä ja lähetetään sille uudet statsit
             int rankTemp;
             
             for (int index = enemies.size()-1; index >= 0; --index) {
+            	Log.v("testi", "index: " + index);
                 // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
             	if (enemies.get(index).rank <= 4) {
 	                rankTemp = enemies.get(index).rank;
+	                Log.e("testi", "rank: " + enemies.get(index).rank);
                     enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
                                                 enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
+                    Log.e("testi", "health: " + enemyStats[rankTemp][0] + " armor: " + enemyStats[rankTemp][1] + " speed: " + enemyStats[rankTemp][2] +
+                    	  " attack: " + enemyStats[rankTemp][3] + " ai: " + enemyStats[rankTemp][4] + " rankTemp: " + (rankTemp + 1));
             	}
             }
         }
