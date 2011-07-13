@@ -262,6 +262,9 @@ public class TouchManager
                         	if (Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) > JOYSTICK_TRESHOLD) {
                         		Joystick.joystickDown = false;
                         		Joystick.joystickInUse = false;
+                        		
+                        		// Asetetaan pelaajan jarrutus
+                                wrapper.player.movementAcceleration = -6;
                         	}
                         }
                     }
