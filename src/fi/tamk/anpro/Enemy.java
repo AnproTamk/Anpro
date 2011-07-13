@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sisältää vihollisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -32,6 +34,9 @@ public class Enemy extends GameObject
     public Enemy(int _health, int _armor, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {
         super(_speed);
+        
+        Log.e("testi", "_health: " + _health + " _armor: " + _armor + " _speed: " + _speed +
+          	  " _attack: " + _attack + " ai: " + _rank);
         
         // Tallennetaan tiedot
         health        = _health;
@@ -98,6 +103,10 @@ public class Enemy extends GameObject
     {
         wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
         
+    	movementAcceleration = 0;
+    	setMovementDelay(1.0f);
+    	setMovementSpeed(1.0f);
+    	
     	currentHealth = health;
     	currentArmor  = armor;
     }
@@ -192,6 +201,7 @@ public class Enemy extends GameObject
         attack     = _attack;
         armor      = _armor;
         rank       = _rank;
+
         
         // Otetaan uusi tekoäly käyttöön
         ai = null;
@@ -241,10 +251,6 @@ public class Enemy extends GameObject
         else if (actionId == GfxObject.ACTION_ENABLED) {
         	wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
         }
-        
-    	movementAcceleration = 0;
-    	setMovementDelay(1.0f);
-    	setMovementSpeed(1.0f);
     }
     
     /**

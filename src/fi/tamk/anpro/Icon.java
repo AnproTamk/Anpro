@@ -6,16 +6,16 @@ public class Icon extends GuiObject {
 		
 		super(_x, _y);
 		// TODO Auto-generated constructor stub
-		usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
+		usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 	}
 
 	public void setState(boolean _selected) {
 		if(_selected) {
-			usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
+			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 		}
 		
 		else {
-			usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
+			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 		}
 	}
 }
