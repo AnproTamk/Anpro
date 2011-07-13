@@ -14,6 +14,9 @@ import android.view.View.OnTouchListener;
  */
 public class TouchManager
 {	
+	/* Vakiot */
+    private final byte JOYSTICK_TRESHOLD = 80; // Säde jolla joystick toimii
+    
     /* Osoittimet muihin luokkiin */
     private GLSurfaceView surface;
     public  WeaponManager weaponManager;
@@ -28,16 +31,12 @@ public class TouchManager
     private int     yClickFirstBorder;
     private int	    yClickSecondBorder;
     private int	    yClickThirdBorder;
-    private int     touchMarginal      = 32; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen kosketuksen pelkäksi painallukseksi
-    private int[][] touchPath;				 // Taulukko motioneventin pisteille
-    private int     pointerCount       = 1;  // Indeksi motioneventin pisteiden määrälle
-    private int 	action;					 // 
-    private int 	actionCode;				 //
-    private int 	actionPointerId;		 //
-    private int		pointerIndex;			 //
-    private int		historySize;			 // Painalluspisteiden historian koko
-    
-    private final int JOYSTICK_TRESHOLD = 80;
+    private int     touchMarginal      		 = 32; // Alue, jonka kosketus antaa anteeksi hyväksyäkseen kosketuksen pelkäksi painallukseksi
+    private int[][] touchPath;					   // Taulukko motioneventin pisteille
+    private int     pointerCount       		 = 1;  // Indeksi motioneventin pisteiden määrälle
+    private int 	action;					 	   
+    private int 	actionCode;				 	   
+    //private int 	actionPointerId;		 	   
 
     /* Kuvan tiedot */
     private int screenWidth;  // Ruudun leveys
@@ -91,7 +90,7 @@ public class TouchManager
         	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
         	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
         }
-
+        
         // Käsitellään kosketustapahtumat
         setSurfaceListeners();
     }
@@ -101,47 +100,45 @@ public class TouchManager
      */
     private final void setSurfaceListeners()
     {
-
         surface.setOnTouchListener(new OnTouchListener() {
         	
             public boolean onTouch(View v, MotionEvent event) {
-            	
             	//dumpEvent(event);
-            	
             	action = event.getAction();
             	
-            	/* MULTITOUCH */
-            	if (event.getPointerCount() > 1) {
-            		
-            		Log.d("testi", "2 sormea");
-            		
-            		actionPointerId = action & MotionEvent.ACTION_POINTER_ID_MASK;
+            	/* KAHDELLA SORMELLA KOSKETTAMINEN */
+            	if (event.getPointerCount() > 1) {	
+            		//Log.d("testi", "2 sormea");
+            		//actionPointerId = action & MotionEvent.ACTION_POINTER_ID_MASK;
             		actionCode = action & MotionEvent.ACTION_MASK;
-            		
-            		pointerIndex = event.findPointerIndex(actionPointerId);
-            		historySize = event.getHistorySize();
             		
             	    action = event.getAction();
             	    
-            	    /* Tällä tehdään sfsfsffs tekstitiedoston mukainen output */
+            	    /* Tarkistetaan sormien kosketukset */
             	    for (int i = 0; i < event.getPointerCount(); i++) {
-            	    	//Log.d("testi", "i = " + i +
-            	    	//	  " getPointerId(i) = " + event.getPointerId(i) +
-            	    	//	  " getX(i) = " + (int)event.getX(i) +
-            	    	//	  " getY(i) = " + (int)event.getY(i));
-            	    	Log.d("testi", "Asetetaan " + (i + 1) + ". kosketuksen koordinaateiksi: x = " + ((int)event.getX(i) - screenWidth / 2) + " y = " + (screenHeight / 2 - (int)event.getY(i)));
-            	    	Log.d("testi", "Asetetaan " + (i + 1) + ". kosketuksen koordinaateiksi: x = " + ((int)event.getX(i) - screenWidth / 2) + " y = " + (screenHeight / 2 - (int)event.getY(i)));
+            	    	/* Log.d("testi", "i = " + i +
+            	    	 * 		 " getPointerId(i) = " + event.getPointerId(i) +
+            	    	 * 		 " getX(i) = " + (int)event.getX(i) +
+            	    	 * 		 " getY(i) = " + (int)event.getY(i));
+            	    	 * Log.d("testi", "Asetetaan " + (i + 1) + ". kosketuksen koordinaateiksi: x = " + ((int)event.getX(i) - screenWidth / 2) + " y = " + (screenHeight / 2 - (int)event.getY(i)));
+            	    	 * Log.d("testi", "Asetetaan " + (i + 1) + ". kosketuksen koordinaateiksi: x = " + ((int)event.getX(i) - screenWidth / 2) + " y = " + (screenHeight / 2 - (int)event.getY(i)));
+            	    	 */
+            	    	
+            	    	/* 
+            	    	 * i = 0 -> ensimmäinen kosketus
+            	    	 * i = 1 -> toinen kosketus
+            	    	 * getPointerId(0) = 0 -> ensimmäinen kosketus
+            	    	 * getPointerId(1) = 1 -> toinen kosketus
+            	    	 * getX(0)         = 0 -> ensimmäinen kosketus
+            	    	 * getX(1)		   = 1 -> toinen kosketus
+            	    	 */
             	    	
             	    	/* Ensimmäinen kosketus */
             	    	if (i == 0) {
             	    		xClickOffsetFirstTouch = (int) event.getX(i) - screenWidth / 2;
             	    		yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY(i);
             	    		
-            	    		Log.d("testi", i + 1 + ". kosketus asetettu.");
-            	    		
-            	    		// TÄHÄN JOYSTICKIA PAINAVAN SORMEN TOUHUJA
-            	    		
-            	    		// OTETTU YHDELLÄ SORMELLA PAINAMISEN ACTION_MOVESTA
+            	    		//Log.d("testi", i + 1 + ". kosketus asetettu.");
             	    		/* Joystickin aktivointi */
                             if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffsetFirstTouch > joystickX - JOYSTICK_TRESHOLD && xClickOffsetFirstTouch < joystickX + JOYSTICK_TRESHOLD &&
                             														yClickOffsetFirstTouch > joystickY - JOYSTICK_TRESHOLD && yClickOffsetFirstTouch < joystickY + JOYSTICK_TRESHOLD) {
@@ -149,73 +146,58 @@ public class TouchManager
                             }
                             
                             else if (Joystick.joystickInUse) {
+                            	// Käytetään joystickia
                             	Joystick.useJoystick(xClickOffsetFirstTouch, yClickOffsetFirstTouch, (int)event.getX(), (int)event.getY(), wrapper);
+                            	
                             	// Lopetetaan joystickin käyttäminen, jos sormen etäisyys siitä on yli sallitun rajan
                             	if (Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) > JOYSTICK_TRESHOLD) {
                             		Joystick.joystickDown = false;
                             		Joystick.joystickInUse = false;
+                            		
+                                    // Asetetaan pelaajan jarrutus
+                                    wrapper.player.movementAcceleration = -6;
                             	}
                             }
-                            
             	    	}
             	    	
             	    	/* Toinen kosketus */
             	    	if (i == 1) {
             	    		xClickOffsetSecondTouch = (int) event.getX(i) - screenWidth / 2;
             	    		yClickOffsetSecondTouch = screenHeight / 2 - (int) event.getY(i);
-            	    		Log.d("testi", i + 1 + ". kosketus asetettu.");
-            	    	}
+            	    		//Log.d("testi", i + 1 + ". kosketus asetettu.");
+            	    		
+            	    		// Tähän triggerMotionShoot() käytettäväksi samaan aikaan kuin joystick.
             	    	
-            	    	if (i + 1 < event.getPointerCount()) {
-            	    		Log.d("testi", "Seuraavan sormen tiedot..");
             	    	}
-
             	    }   
             	    
             	    /* ACTION_POINTER_DOWN tapahtuu, kun toinen sormi lasketaan kentälle */
             	    if (actionCode == MotionEvent.ACTION_POINTER_DOWN) {
-            	    	Log.d("testi", "ACTION_POINTER_DOWN");
-            	    	
-                       //  TÄHÄN AMPUMINEN ... NAPATTU YHDEN SORMEN ACTION_DOWNISTA
-            	    	
+            	    	//Log.d("testi", "ACTION_POINTER_DOWN");
             	    	 weaponManager.triggerPlayerShoot(xClickOffsetSecondTouch, yClickOffsetSecondTouch);
-            	    	
-            	    	// i = 0 -> ensimmäinen kosketus
-            	    	// i = 1 -> toinen kosketus
-            	    	// getPointerId(0) = 0 -> ensimmäinen kosketus
-            	    	// getPointerId(1) = 1 -> toinen kosketus
-            	    	// getX(0)         = 0 -> ensimmäinen kosketus
-            	    	// getX(1)		   = 1 -> toinen kosketus
-            	    	
             	    }
             	    
             	    if (actionCode == MotionEvent.ACTION_POINTER_UP) {
             	    	Log.d("testi", "ACTION_POINTER_UP");
-            	    	// TÄHÄN KUN NOSTETAAN TOINEN SORMI POIS RUUDULTA (EI JOYSTICK-SORMI)
-            	    	}
+            	    	
+            	    	// Tähän painikkeiden painamiset samaan aikaan kun joystick on jo toisella sormella käytössä.
+            	    	
             	    }
+            	}
             	
-            	
-            	
-            	
-            	
-            	
-            	
-            	
-            	/* Yksi sormi */
+            	/* YHDELLÄ SORMELLA KOSKETTAMINEN */
             	else {
-            		// Yhden sormen kosketus
             		xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
             		yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
             		
-            		Log.e("testi", "1 sormen kosketus");
+            		//Log.e("testi", "1 sormen kosketus");
             		
             		/* ACTION_DOWN */
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     	// Muistetaan mistä painallus alkaa
                     	xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
                         yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
-                        Log.e("testi", "ACTION_DOWN");
+                        //Log.e("testi", "ACTION_DOWN");
 
                         /* Oikean reunan napit */
                         if (xClickOffsetFirstTouch > screenWidth - 100 * Options.scaleX && xClickOffsetFirstTouch < screenWidth &&
@@ -223,19 +205,16 @@ public class TouchManager
                         	
                             // Oikean reunan alin nappula
                             if (yClickOffsetFirstTouch < yClickThirdBorder && yClickOffsetFirstTouch > 0) {
-                                // ***** OIKEAN REUNAN ALIN NAPPULA *****
                                 hud.triggerClick(Hud.BUTTON_3);
                             }
 
                             // Oikean reunan keskimmäinen nappula
                             else if (yClickOffsetFirstTouch < yClickSecondBorder && yClickOffsetFirstTouch > yClickThirdBorder) {
-                                // ***** OIKEAN REUNAN KESKIMMÄINEN NAPPULA *****
                                 hud.triggerClick(Hud.BUTTON_2);
                             }
 
                             // Oikean reunan ylin nappula
                             else if (yClickOffsetFirstTouch < yClickFirstBorder && yClickOffsetFirstTouch > yClickSecondBorder) {
-                                // ***** OIKEAN REUNAN YLIN NAPPULA *****
                                 hud.triggerClick(Hud.BUTTON_1);
                             }
                         }
@@ -256,7 +235,7 @@ public class TouchManager
                     if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     	xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
                         yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
-                        Log.e("testi", "ACTION_MOVE");
+                        //Log.e("testi", "ACTION_MOVE");
 
                         /* Ajasta riippumattoman kosketuspolun seuranta */
                         if (weaponManager.isUsingMotionEvents) {
@@ -276,27 +255,28 @@ public class TouchManager
                         }
                         
                         else if (Joystick.joystickInUse) {
+                        	// Käytetään joystickia
                         	Joystick.useJoystick(xClickOffsetFirstTouch, yClickOffsetFirstTouch, (int)event.getX(), (int)event.getY(), wrapper);
+                        	
                         	// Lopetetaan joystickin käyttäminen, jos sormen etäisyys siitä on yli sallitun rajan
                         	if (Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) > JOYSTICK_TRESHOLD) {
                         		Joystick.joystickDown = false;
                         		Joystick.joystickInUse = false;
                         	}
                         }
-                        
-                       // return true;
                     }
     				
                     // Nostetaan sormi pois
                     if (event.getAction() == MotionEvent.ACTION_UP) {
+                    	// Poistetaan joystick käytöstä
                         Joystick.joystickInUse = false;
                         Joystick.joystickDown  = false;
-                        Log.e("testi", "ACTION_UP");
+                        //Log.e("testi", "ACTION_UP");
                         
                         // Asetetaan pelaajan jarrutus
                         wrapper.player.movementAcceleration = -6;
                         
-                        /* Lähetetään ja nollataan kosketuspolun indeksointi jos oikea ase on valittuna */
+                        /* Lähetetään ja nollataan kosketuspolun indeksointi, jos oikea ase on valittuna */
                         if (weaponManager.isUsingMotionEvents) {
                         	for (int i = 0; i < 10; i++) {
                         		// Tulostaa taulukon LogCatiin
@@ -317,22 +297,12 @@ public class TouchManager
                         }
                     }
             	}
+            	
                 // Käytä painaminen
 				return true;
             }
         });
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * Tallentaa kosketusreitin pisteitä
@@ -349,7 +319,8 @@ public class TouchManager
     	}
     }
     
-    /** Show an event in the LogCat view, for debugging */
+    /** Debuggausta varten multitouchin dumppaus LogCatiin */
+    /*
     private void dumpEvent(MotionEvent event) {
        String names[] = { "DOWN" , "UP" , "MOVE" , "CANCEL" , "OUTSIDE" ,
           "POINTER_DOWN" , "POINTER_UP" , "7?" , "8?" , "9?" };
@@ -374,5 +345,5 @@ public class TouchManager
        }
        sb.append("]" );
        Log.d("testi", sb.toString());
-    }
+    }*/
 }
