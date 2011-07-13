@@ -193,8 +193,6 @@ public class GameMode
 	                Log.e("testi", "rank: " + enemies.get(index).rank);
                     enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
                                                 enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
-                    Log.e("testi", "health: " + enemyStats[rankTemp][0] + " armor: " + enemyStats[rankTemp][1] + " speed: " + enemyStats[rankTemp][2] +
-                    	  " attack: " + enemyStats[rankTemp][3] + " ai: " + enemyStats[rankTemp][4] + " rankTemp: " + (rankTemp + 1));
             	}
             }
         }
