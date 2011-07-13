@@ -246,7 +246,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
-            if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE) {
+            if (wrapper.mothership != null) {
             	 wrapper.mothership.draw(_gl);
             }
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
@@ -304,7 +304,7 @@ public class GLRenderer implements Renderer
                     }
                 }
                 
-                if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE && wrapper.mothership.usedAnimation != -1) {
+                if (wrapper.mothership != null && wrapper.mothership.usedAnimation != -1) {
                     if (updateBeat % wrapper.mothership.animationSpeed == 0) {
                         wrapper.mothership.update();
                     }
