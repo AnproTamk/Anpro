@@ -172,8 +172,8 @@ public class Ally extends GameObject
             setUnactive();
         }
         // Aktivoidaan vihollinen
-        else if (actionId == 2) {
-        	wrapper.enemyStates.set(listId, 1);
+        else if (actionId == GfxObject.ACTION_ENABLED) {
+        	wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
         }
         
     	movementAcceleration = 0;
@@ -187,7 +187,7 @@ public class Ally extends GameObject
      */
 	public void triggerDestroyed()
 	{
-    	wrapper.enemyStates.set(listId, 3);
+    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
 
     	movementAcceleration = -15;
     	

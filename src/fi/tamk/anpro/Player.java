@@ -141,7 +141,7 @@ public class Player extends GameObject
         Hud.healthBar.updateValue(currentHealth);
         
         if (currentHealth <= 0) {
-        	wrapper.playerState = 2;
+        	wrapper.playerState = Wrapper.ONLY_ANIMATION;
         	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
         }
     }

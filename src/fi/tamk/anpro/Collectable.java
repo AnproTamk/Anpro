@@ -50,7 +50,7 @@ public class Collectable extends GameObject
 	@Override
 	public void setActive()
 	{
-		wrapper.collectableStates.set(listId, 1);
+		wrapper.collectableStates.set(listId, Wrapper.FULL_ACTIVITY);
 	}
 
     /**
@@ -59,7 +59,7 @@ public class Collectable extends GameObject
 	@Override
 	public void setUnactive()
 	{
-		wrapper.collectableStates.set(listId, 0);
+		wrapper.collectableStates.set(listId, Wrapper.INACTIVE);
 	}
 
     /**
@@ -71,7 +71,7 @@ public class Collectable extends GameObject
     @Override
     public final void triggerCollision(int _damage, int _armorPiercing)
     {
-    	wrapper.collectableStates.set(listId, 2);
+    	wrapper.collectableStates.set(listId, Wrapper.ONLY_ANIMATION);
     	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED);
     }
 

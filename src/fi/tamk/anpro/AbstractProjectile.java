@@ -293,7 +293,7 @@ abstract public class AbstractProjectile extends GameObject
 			        		if (Utility.isColliding(wrapper.enemies.get(i), this)) {
 			        			
 			        			// Asetetaan tila
-			                    wrapper.projectileStates.set(listId, 2);
+			                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
 
 				                // Aiheutetaan osuma
 			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
@@ -333,7 +333,7 @@ abstract public class AbstractProjectile extends GameObject
     	else if(userType == Wrapper.CLASS_TYPE_ENEMY) {
     		
     		// Tarkistetaan, onko pelaaja aktiivinen
-    		if(wrapper.playerState == 1) {
+    		if(wrapper.playerState == Wrapper.FULL_ACTIVITY) {
     			
     			// Tarkistetaan, onko ammuksen ja pelaajan välinen etäisyys riittävän pieni
             	// tarkkoja osumatarkistuksia varten
@@ -344,7 +344,7 @@ abstract public class AbstractProjectile extends GameObject
 	            		double distance = Math.sqrt(Math.pow(x - wrapper.player.x, 2) + Math.pow(y - wrapper.player.y, 2));
 	            		
 	            		if (distance - wrapper.player.collisionRadius - collisionRadius <= 0) {
-		                    wrapper.projectileStates.set(listId, 2);
+		                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
 		                    
 		                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
 		                        wrapper.player.triggerCollision(damageOnTouch, armorPiercing);
@@ -460,7 +460,7 @@ abstract public class AbstractProjectile extends GameObject
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size() - 1; i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) == 1 || wrapper.enemyStates.get(i) == 3) {
+            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY || wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
                 int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
 
                 if (distance - wrapper.enemies.get(i).collisionRadius - explosionRadius <= 0) {
