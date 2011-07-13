@@ -147,6 +147,14 @@ class GameThread extends Thread
                         wrapper.projectiles.get(i).updateMovement(currentTime);
                     }
                 }
+                
+                for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+                    if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY ||
+                        wrapper.obstacleStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+                        
+                        wrapper.obstacles.get(i).updateMovement(currentTime);
+                    }
+                }
             }
             
             /* P‰ivitet‰‰n teko‰lyjen p‰ivitysv‰lit */

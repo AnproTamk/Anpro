@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 public class GuideArrow extends GuiObject
 {
 	/* Vakiot kohteille */

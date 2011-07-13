@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * 
  */
@@ -43,7 +45,16 @@ public class Obstacle extends GameObject
 		
 		// Määritellään liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
-			turningDirection = Utility.getRandom(1, 2);
+			facingTurningDirection = Utility.getRandom(1, 2);
+		}
+		
+		if (type == OBSTACLE_PLANET) {
+			setFacingTurningSpeed(1.0f);
+			setFacingTurningDelay(0.03f);
+		}
+		else if (type == OBSTACLE_ASTEROID) {
+			setFacingTurningSpeed(1.0f);
+			setFacingTurningDelay(0.25f);
 		}
 		
 		// Määritellään törmäystunnistus
@@ -71,10 +82,10 @@ public class Obstacle extends GameObject
 	{
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0) {
-            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, currentFrame);
+            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, facingDirection);
         }
         else {
-            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, facingDirection, 0);
         }
 	}
     

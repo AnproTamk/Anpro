@@ -9,7 +9,6 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
@@ -50,6 +49,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
+    public static final int AMOUNT_OF_MESSAGE_TEXTURES       = 1;
     
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
@@ -60,7 +60,6 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
-    public static final int AMOUNT_OF_MESSAGE_ANIMATIONS     = 1;
     
     /* Latausruudun tekstuurit ja tila */
     private Texture loadingTexture;
@@ -83,7 +82,7 @@ public class GLRenderer implements Renderer
     
     public static Animation[]   effectAnimations;
     
-    public static Animation[]   messageAnimations;
+    public static Texture[]     messageTextures;
     
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
@@ -133,7 +132,7 @@ public class GLRenderer implements Renderer
         hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
         effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
-        messageAnimations     = new Animation[AMOUNT_OF_MESSAGE_ANIMATIONS];
+        messageTextures       = new Texture[AMOUNT_OF_MESSAGE_TEXTURES];
         obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
         obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
         collectableTextures   = new Texture[AMOUNT_OF_COLLECTABLE_TEXTURES];
@@ -539,7 +538,7 @@ public class GLRenderer implements Renderer
         
         /* Ladataan ilmoitusten grafiikat */
         // Out of bounds
-        //messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
+        messageTextures[0] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
@@ -548,8 +547,7 @@ public class GLRenderer implements Renderer
     	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
     	
     	/* Ladataan kerättävien esineiden grafiikat */
-    	collectableTextures[0]   = new Texture(_gl, context, R.drawable.collectable_tex_0);
-    	//collectableAnimations[0] = new Animation(_gl, context, resources, "combo5_effect", 1);
+    	collectableTextures[0] = new Texture(_gl, context, R.drawable.collectable_tex_0);
         
         /* Tarkistetaan virheet */
         if (!loadingFailed) {
