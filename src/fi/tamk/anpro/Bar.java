@@ -51,15 +51,15 @@ public class Bar extends GuiObject
 		if (type == 1) {
 			usedTexture = GLRenderer.TEXTURE_HEALTH + (int)((1 - (float)_value / (float)max) * 10);
 			
-			if (usedTexture > 13) {
-				usedTexture = 13;
+			if (usedTexture > GLRenderer.TEXTURE_HEALTH + 10) {
+				usedTexture = GLRenderer.TEXTURE_HEALTH + 10;
 			}
 		}
 		else if (type == 2) {
 			usedTexture = GLRenderer.TEXTURE_ARMOR + (int)((1- (float)_value / (float)max) * 10);
 			
-			if (usedTexture > 44) {
-				usedTexture = 44;
+			if (usedTexture > GLRenderer.TEXTURE_ARMOR + 10) {
+				usedTexture = GLRenderer.TEXTURE_ARMOR + 10;
 			}
 		}
 	}

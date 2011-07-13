@@ -164,7 +164,7 @@ abstract public class AbstractProjectile extends GameObject
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
-        wrapper.projectileStates.set(listId, 1);
+        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
         active = true;
         if (ai != null) {
         	ai.setActive(_targetX, _targetY);
