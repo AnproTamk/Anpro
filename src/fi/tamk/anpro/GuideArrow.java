@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class GuideArrow extends GuiObject
 {
-	private Collectable target;
+	private Collectable target = null;
 	//private Mothership target;
 	
 	public GuideArrow(int _x, int _y)
@@ -43,8 +43,7 @@ public class GuideArrow extends GuiObject
 		// P‰ivitet‰‰n suunta kohteeseen
 		if (target != null) {
 			wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
-			direction = Utility.getAngle(x, y, target.x, target.y);
-			Log.e("TESTI", String.valueOf(direction));
+			direction = Utility.getAngle(wrapper.player.x, wrapper.player.y, target.x, target.y);
 		}
 		else {
 			wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);

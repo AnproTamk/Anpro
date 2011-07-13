@@ -454,9 +454,7 @@ public class GLRenderer implements Renderer
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
         hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
-        Log.e("TESTI", String.valueOf(loadingFailed));
         hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
-        Log.e("TESTI", String.valueOf(loadingFailed));
         hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
 
         // Joystick
@@ -540,7 +538,7 @@ public class GLRenderer implements Renderer
         
         /* Ladataan ilmoitusten grafiikat */
         // Out of bounds
-        messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
+        //messageAnimations[0] = new Animation(_gl, context, resources, "outofbounds_message", 8);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);

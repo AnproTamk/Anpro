@@ -26,6 +26,9 @@ abstract public class GuiObject extends GfxObject
         x = _x;
         y = _y;
         
+        // Määritetään kulma
+        direction = 90;
+        
         // Otetaan Wrapper ja CameraManager käyttöön
         wrapper       = Wrapper.getInstance();
         cameraManager = CameraManager.getInstance();
@@ -53,11 +56,11 @@ abstract public class GuiObject extends GfxObject
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
         	// TODO: Pluslasku on purkkaviritelmä...?
-            GLRenderer.hudAnimations[usedAnimation].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, 90, currentFrame);
+            GLRenderer.hudAnimations[usedAnimation].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, currentFrame);
         }
         else{
         	// TODO: Pluslasku on purkkaviritelmä...?
-        	GLRenderer.hudTextures[usedTexture].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, 90, 0);
+        	GLRenderer.hudTextures[usedTexture].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, 0);
         }
         
     }
