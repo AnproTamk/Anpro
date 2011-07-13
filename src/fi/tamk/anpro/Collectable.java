@@ -28,6 +28,9 @@ public class Collectable extends GameObject
 		
 		// Määritellään törmäystunnistus
 		collisionRadius = (int) (128 * Options.scale);
+
+		// Lisätään objekti piirtolistalle
+		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_COLLECTABLE, 0);
 	}
     
     /**
@@ -41,6 +44,9 @@ public class Collectable extends GameObject
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0) {
             GLRenderer.collectableAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
+        }
+        else {
+            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, 0);
         }
 	}
     

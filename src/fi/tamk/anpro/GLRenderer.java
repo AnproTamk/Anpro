@@ -36,19 +36,21 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_COOLDOWN           = 14;
     public static final int TEXTURE_COUNTER			   = 24;
     public static final int TEXTURE_ARMOR			   = 34;
-    public static final int TEXTURE_GUIDEARROW		   = 47;
+
+    public static final int TEXTURE_GUIDEARROW = 47;
     
     public static final int ANIMATION_CLICK = 0;
     public static final int ANIMATION_READY = 1;
     
     /* Animaatioiden ja tekstuurien määrät */
-    public static final int AMOUNT_OF_PLAYER_TEXTURES     = 4;
-    public static final int AMOUNT_OF_ALLY_TEXTURES       = 1;
-    public static final int AMOUNT_OF_ENEMY_TEXTURES      = 4;
-    public static final int AMOUNT_OF_PROJECTILE_TEXTURES = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES        = 48;
-    public static final int AMOUNT_OF_OBSTACLE_TEXTURES   = 1;
-    public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES = 1;
+    public static final int AMOUNT_OF_PLAYER_TEXTURES        = 4;
+    public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
+    public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
+    public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 48;
+    public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
+    public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
+    public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
     
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
@@ -84,9 +86,10 @@ public class GLRenderer implements Renderer
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
     
-    public static Animation[] collectableAnimations;
+    public static Texture[]     collectableTextures;
+    public static Animation[]   collectableAnimations;
     
-    public static Texture starBackgroundTexture;
+    public static Texture       starBackgroundTexture;
     
     /* Ohjelman konteksti ja resurssit */
     private Context   context;
@@ -130,6 +133,7 @@ public class GLRenderer implements Renderer
         effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
         obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
         obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
+        collectableTextures   = new Texture[AMOUNT_OF_COLLECTABLE_TEXTURES];
         collectableAnimations = new Animation[AMOUNT_OF_COLLECTABLE_ANIMATIONS];
         
         // Tallennetaan konteksti ja resurssit
@@ -137,7 +141,7 @@ public class GLRenderer implements Renderer
         resources = _resources;
         
         // Otetaan Wrapper käyttöön
-        wrapper       = Wrapper.getInstance();
+        wrapper = Wrapper.getInstance();
     }
 
     /**
@@ -240,7 +244,7 @@ public class GLRenderer implements Renderer
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
             if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE) {
-            	wrapper.mothership.draw(_gl);
+            	 wrapper.mothership.draw(_gl);
             }
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                 if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
@@ -265,6 +269,16 @@ public class GLRenderer implements Renderer
                     wrapper.effects.get(i).draw(_gl);
                 }
             }
+            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.collectables.get(i).draw(_gl);
+                }
+            }
+            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.obstacles.get(i).draw(_gl);
+                }
+            }
             
             /* Päivitetään animaatiot */
             long currentTime = android.os.SystemClock.uptimeMillis();
@@ -278,12 +292,20 @@ public class GLRenderer implements Renderer
                         wrapper.player.update();
                     }
                 }
+
+                for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+                    if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE && wrapper.collectables.get(i).usedAnimation != -1) {
+                        if (updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
+                            wrapper.collectables.get(i).update();
+                        }
+                    }
+                }
                 
-                /*if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE && wrapper.mothership.usedAnimation != -1) {
+                if (wrapper.mothership != null && wrapper.mothershipState != Wrapper.INACTIVE && wrapper.mothership.usedAnimation != -1) {
                     if (updateBeat % wrapper.mothership.animationSpeed == 0) {
                         wrapper.mothership.update();
                     }
-                }*/
+                }
                 
                 for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
                     if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE && wrapper.enemies.get(i).usedAnimation != -1) {
@@ -309,6 +331,14 @@ public class GLRenderer implements Renderer
                     if (wrapper.effectStates.get(i) != Wrapper.INACTIVE && wrapper.effects.get(i).usedAnimation != -1) {
                         if (updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
                             wrapper.effects.get(i).update();
+                        }
+                    }
+                }
+                    
+                for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+                    if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE && wrapper.obstacles.get(i).usedAnimation != -1) {
+                        if (updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
+                            wrapper.obstacles.get(i).update();
                         }
                     }
                 }
@@ -483,7 +513,7 @@ public class GLRenderer implements Renderer
         hudTextures[45] = new Texture(_gl, context, R.drawable.missile_tex_0);
         hudTextures[46] = new Texture(_gl, context, R.drawable.missile_tex_1);
         
-        // Kohteet osoittavat nuolet
+        // Kohteen osoittavat nuolet
         hudTextures[47] = new Texture(_gl, context, R.drawable.collectablearrow_tex_0);
         
         /* Ladataan efektien grafiikat */
@@ -506,10 +536,14 @@ public class GLRenderer implements Renderer
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
         
         /* Ladataan kartan grafiikat */
-        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planet_tex_0);
+        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
         obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
         obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
     	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
+    	
+    	/* Ladataan kerättävien esineiden grafiikat */
+    	collectableTextures[0]   = new Texture(_gl, context, R.drawable.collectable_tex_0);
+    	//collectableAnimations[0] = new Animation(_gl, context, resources, "combo5_effect", 1);
         
         /* Tarkistetaan virheet */
         if (!loadingFailed) {

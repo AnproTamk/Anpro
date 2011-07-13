@@ -21,9 +21,13 @@ public class GameMode
     
     /* T‰htitausta */
     private BackgroundStar[] backgroundStars;
-    
+
     /* Asteroidit */
     public Obstacle[] asteroids; // Asteroidit
+    public Obstacle[] planets; // Planeetat
+    
+    /* Ker‰tt‰v‰t esineet */
+    public Collectable[] collectables; // Ker‰tt‰v‰t esineet
     
     /* Viholliset */
     public           ArrayList<Enemy> enemies;         // Viholliset
@@ -52,6 +56,12 @@ public class GameMode
     /* Vihollisten aloituspaikat */
     private int spawnPoints[][][]; // [rykelm‰][paikka][x/y] = [koordinaatti]
     
+    /* "Satunnaismuuttujat" objektien luomista varten, tarvitaan jos luominen randomisoidaan */
+    private int randX;         // = Utility.getRandom(0, 400) + 1;
+    private int randY;         // = Utility.getRandom(0, 400) + 1;
+    private int randSpeed = Utility.getRandom(0, 10) + 1;
+    private int randDirection = Utility.getRandom(1, 2) + 1;
+    
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
      * 
@@ -79,6 +89,8 @@ public class GameMode
         enemies         = new ArrayList<Enemy>();
         enemyStats      = new int[5][5];
         asteroids       = new Obstacle[3];
+        planets         = new Obstacle[2];
+        collectables    = new Collectable[3];
         backgroundStars = new BackgroundStar[15];
         
     	// Luodaan pelaaja
@@ -116,9 +128,11 @@ public class GameMode
         
         // Luodaan t‰htitausta
         generateStarBackground();
+
+        // Luodaan "pelikentt‰" (objektit ja vihollisten spawnpointit)
+        generateMap();
         
-        // P‰ivitet‰‰n aloituspisteet ja k‰ynnistet‰‰n ensimm‰inen vihollisaalto
-        updateSpawnPoints();
+        // K‰ynnistet‰‰n ensimm‰inen vihollisaalto
         startWave();
     }
     
@@ -214,10 +228,41 @@ public class GameMode
         ++currentWave;
     }
     
+
+    /**
+     * Luodaan pelikartta ja sen ker‰tt‰v‰t esineet, muut peliobjektit sek‰ vihollisten spawnpointit.
+     */
+    protected void generateMap()
+    {
+    	// P‰ivitet‰‰n ns obstacle-objektit
+        generateObstacles();
+    	
+        // P‰ivitet‰‰n aloituspisteet
+        generateSpawnPoints();
+        
+        // P‰ivitet‰‰n ker‰tt‰v‰t esineet
+        generateCollectables();
+    }
+    
+    /**
+     * P‰ivitt‰‰ obstacle-objektit
+     */
+    protected void generateObstacles()
+    {
+    	// Luodaan kent‰n asteroidit
+    	asteroids[0] = new Obstacle(1, -400, -400, randSpeed, randDirection);
+    	asteroids[1] = new Obstacle(1, 800, 800, randSpeed, randDirection);
+    	asteroids[2] = new Obstacle(1, -1200, 400, randSpeed, randDirection);
+    		
+    	// Luodaan kent‰n planeetat
+		planets[0] = new Obstacle(0, 0, -600, 0, 0);
+		planets[1] = new Obstacle(0, 800, 0, 0, 0);
+    }
+    
     /**
      * P‰ivitt‰‰ vihollisten aloituspisteet kameran koordinaattien perusteella.
      */
-    protected void updateSpawnPoints()
+    protected void generateSpawnPoints()
     {
 	    /* 
 	     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen m‰‰r‰n mukaan (CameraManager.camX ja CameraManager.camY)
@@ -300,6 +345,17 @@ public class GameMode
 	    // [2][1][0] = x-koord.
 	    
 	    
+    }
+
+    /**
+     * P‰ivitt‰‰ ker‰tt‰v‰t esineet
+     */
+    public void generateCollectables()
+    {
+        randX = Utility.getRandom(-400, 400);
+        randY = Utility.getRandom(-240, 240);
+
+   		collectables[0] = new Collectable(randX, randY);
     }
 
     /**
