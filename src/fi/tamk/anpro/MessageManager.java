@@ -10,12 +10,12 @@ public class MessageManager
 	private static MessageManager instance;
 	
 	/* Ilmoitusten vakiot */
-	public static final int MESSAGE_OUTOFBOUNDS    = 0;
-	public static final int MESSAGE_AUTOPILOT_ON   = 1;
-	public static final int MESSAGE_AUTOPILOT_OFF  = 2;
-	public static final int MESSAGE_NEWSKILLSREADY = 3;
-	public static final int MESSAGE_REPAIR         = 4;
-	public static final int MESSAGE_ARMORSOFF      = 5;
+	public static final byte MESSAGE_OUTOFBOUNDS    = 0;
+	public static final byte MESSAGE_AUTOPILOT_ON   = 1;
+	public static final byte MESSAGE_AUTOPILOT_OFF  = 2;
+	public static final byte MESSAGE_NEWSKILLSREADY = 3;
+	public static final byte MESSAGE_REPAIR         = 4;
+	public static final byte MESSAGE_ARMORSOFF      = 5;
 	
 	/* Ilmoitusobjektit */
 	private Message outOfBounds;
@@ -30,7 +30,7 @@ public class MessageManager
 	 */
 	public MessageManager()
 	{
-		//outOfBounds = new Message(0, 1500);
+		outOfBounds = new Message(MESSAGE_OUTOFBOUNDS, 1500);
 	}
 	
 	/**
@@ -44,5 +44,13 @@ public class MessageManager
 			instance = new MessageManager();
 		}
 		return instance;
+	}
+	
+	/**
+	 * N‰ytt‰‰ "Out of bounds"-viestin.
+	 */
+	public final void showOutOfBoundsMessage()
+	{
+		outOfBounds.activate();
 	}
 }
