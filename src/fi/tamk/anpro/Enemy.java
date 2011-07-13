@@ -239,7 +239,7 @@ public class Enemy extends GameObject
         }
         // Aktivoidaan vihollinen (esim. EMPin jälkeen)
         else if (actionId == GfxObject.ACTION_ENABLED) {
-        	wrapper.enemyStates.set(listId, 1);
+        	wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
         }
         
     	movementAcceleration = 0;
@@ -252,7 +252,7 @@ public class Enemy extends GameObject
      */
 	public void triggerDisabled()
 	{
-    	wrapper.enemyStates.set(listId, 3);
+    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
 
     	movementAcceleration = -15;
     	turningDirection     = 0;
@@ -270,7 +270,7 @@ public class Enemy extends GameObject
 	{
 		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
 		
-    	wrapper.enemyStates.set(listId, 3);
+    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
 
     	movementAcceleration = -15;
     	turningDirection     = 0;

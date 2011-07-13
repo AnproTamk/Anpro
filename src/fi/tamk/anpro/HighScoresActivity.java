@@ -103,42 +103,6 @@ public class HighScoresActivity extends Activity implements OnClickListener
         mainmenuButton.setOnClickListener(this); 
 	}
 	
-	/*public int[] getScores()
-	{
-		int[] scoreList = new int[5];
-		
-		for (int i = 0; i < scoreList.length; i++) {
-			scoreList[i] = prefs.getInt("score", 1);
-		}
-		
-		return scoreList;
-	}
-	
-	public boolean addScores(int[] _scores, int _playerScore)
-	{
-		SharedPreferences.Editor editor = prefs.edit();
-		
-		for (int i = _scores.length - 1; i >= 0; i--) {
-			if (_playerScore > _scores[i]) {
-				if (_scores[i] == 0) {
-					break;
-				}
-				else {
-					int scoreTemp = _scores[i];
-					_scores[i] = _playerScore;
-					_scores[i+1] = scoreTemp;
-				}
-			}
-			
-			
-            editor.putInt("score" + i, _scores[i]);
-        }
-        
-		editor.commit();
-		
-		return true;
-	}*/
-	
 	/**
 	 * Käsittelee nappuloiden painamisen.
 	 * 

@@ -81,7 +81,7 @@ public class Obstacle extends GameObject
 	@Override
 	public void setActive()
 	{
-		wrapper.obstacleStates.set(listId, 1);
+		wrapper.obstacleStates.set(listId, Wrapper.FULL_ACTIVITY);
 	}
 
     /**
@@ -90,7 +90,7 @@ public class Obstacle extends GameObject
 	@Override
 	public void setUnactive()
 	{
-		wrapper.obstacleStates.set(listId, 0);
+		wrapper.obstacleStates.set(listId, Wrapper.INACTIVE);
 	}
 	
 	/**
