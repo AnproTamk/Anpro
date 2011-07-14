@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirt‰misen ruudulle.
@@ -104,6 +105,7 @@ public class GLRenderer implements Renderer
     
     /* Animaatiop‰ivitysten muuttujat */
     private long lastAnimationUpdate;
+    private long lastMessageUpdate;
     private int  updateBeat = 1;
 
     /**
@@ -166,6 +168,10 @@ public class GLRenderer implements Renderer
         _gl.glEnable(GL10.GL_BLEND);
         _gl.glBlendFunc(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
         
+        // M‰‰ritet‰‰n syvyysasetukset
+        _gl.glEnable(GL10.GL_DEPTH_TEST);
+        _gl.glClearDepthf(1.0f);
+        
         // TODO: Kaksi alempaa rivi‰ jotenkin ep‰loogisessa paikassa
     	// Ladataan latausruudun tekstuuri
     	loadingTexture = new Texture(_gl, context, R.drawable.loading);
@@ -219,20 +225,21 @@ public class GLRenderer implements Renderer
     {
         // Otetaan 2D-piirt‰minen k‰yttˆˆn
         _gl.glEnable(GL10.GL_TEXTURE_2D);
-
-        if (showLoadingScreen) {
-	    	try {
-				Thread.sleep(0);
-			} catch (InterruptedException e) {
-				// TODO: K‰sittele virhe
-			}
-			
-			showLoadingScreen = false;
-        }
         
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        
+        if (showLoadingScreen) {
+	    	try {
+				Thread.sleep(0);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			showLoadingScreen = false;
+        }
         
         /* Tarkastetaan onko tekstuurit ladattu */
         if (allLoaded && gameThread.allLoaded) {
@@ -328,6 +335,15 @@ public class GLRenderer implements Renderer
             // tarvitse kutsua sek‰ pelis‰iett‰ ett‰ HUDia nappeja p‰ivitt‰‰kseen.
             for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
             	gameThread.hud.buttons.get(i).update();
+            }
+            if (currentTime - lastMessageUpdate >= 50) {
+            	lastMessageUpdate = currentTime;
+            	
+	            for (int i = wrapper.messages.size()-1; i >= 0; --i) {
+	            	if (wrapper.messageStates.get(i) != Wrapper.INACTIVE) {
+	            		wrapper.messages.get(i).updateAngle();
+	            	}
+	            }
             }
                 
             // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mik‰li raja ylitet‰‰n.
@@ -548,8 +564,9 @@ public class GLRenderer implements Renderer
     	
     	/* Ladataan ker‰tt‰vien esineiden grafiikat */
     	collectableTextures[0] = new Texture(_gl, context, R.drawable.collectable_tex_0);
-        
-        /* Tarkistetaan virheet */
+
+    	/* Lopetustoiminnot */
+        // Tarkistetaan virheet
         if (!loadingFailed) {
         	allLoaded = true;
         	
