@@ -59,13 +59,13 @@ public class Obstacle extends GameObject
 		
 		// M‰‰ritell‰‰n tˆrm‰ystunnistus
 		if (type == OBSTACLE_PLANET) {
-			collisionRadius = (int) (128 * Options.scale);
+			collisionRadius = (int) (125 * Options.scale);
 		}
 		else if (type == OBSTACLE_ASTEROID) {
-			collisionRadius = (int) (54 * Options.scale);
+			collisionRadius = (int) (50 * Options.scale);
 		}
 		else if (type == OBSTACLE_STAR) {
-			collisionRadius = (int) (245 * Options.scale);
+			collisionRadius = (int) (260 * Options.scale);
 		}
 		
 		// Lis‰t‰‰n objekti piirtolistalle
@@ -149,7 +149,7 @@ public class Obstacle extends GameObject
         	if (Math.abs(y - wrapper.player.y) <= Wrapper.gridSize) {
         		
         		if (Utility.isColliding(wrapper.player, this)) {
-        			wrapper.player.triggerCollision(10, 20);
+        			wrapper.player.triggerCollision(1000, 20);
         		}
         	}
 		}
