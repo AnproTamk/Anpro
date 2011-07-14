@@ -23,7 +23,6 @@ public class Wrapper
     public static final int CLASS_TYPE_COLLECTABLE    = 8;
     public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
     public static final int CLASS_TYPE_MOTHERSHIP     = 10;
-    public static final int CLASS_TYPE_MESSAGE        = 11;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -223,7 +222,16 @@ public class Wrapper
         }
         else if (_classType == CLASS_TYPE_GUI) {
             guiObjects.add((GuiObject)_object);
-            guiObjectStates.add(1);
+            
+            if (_object instanceof Message) {
+            	messages.add((Message)_object);
+            	messageStates.add(0);
+            	
+            	guiObjectStates.add(0);
+            }
+            else {
+            	guiObjectStates.add(1);
+            }
 
             return guiObjectStates.size()-1;
         }
@@ -238,12 +246,6 @@ public class Wrapper
         	effectStates.add(1);
         	
         	return effectStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_MESSAGE) {
-        	messages.add((Message)_object);
-        	messageStates.add(0);
-        	
-        	return messageStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_COLLECTABLE) {
         	collectables.add((Collectable)_object);

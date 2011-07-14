@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  *  Sis‰lt‰‰ yhden ilmoituksen toiminnot.
  */
@@ -17,6 +19,9 @@ public class Message extends GuiObject
 	// Osoitin Wrapperiin
 	private Wrapper wrapper;
 	
+	// Viestin tyyppi
+	private byte messageType;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -30,19 +35,22 @@ public class Message extends GuiObject
 		// M‰‰rit‰ tekstuuri
 		usedTexture = _message;
 		
-		// Tallenna aika
-		showTime = _showTime;
+		// Tallennetaan viestin tyyppi ja aika
+		messageType = (byte) (_message - 62);
+		showTime    = _showTime;
 		
-		// Lis‰t‰‰n piirtolistaan
+		// Asetetaan pois n‰kyvist‰
 		wrapper = Wrapper.getInstance();
-		listId  = wrapper.addToList(this, Wrapper.CLASS_TYPE_MESSAGE, 0);
+		wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
+		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
 	}
 	
 	public final void activate()
 	{
-		wrapper.messageStates.set(listId, Wrapper.FULL_ACTIVITY);
+		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
 		
-		yAxisRotation = 0.0f;
+		yAxisRotation = 90.0f;
 		
 		state = 1;
 	}
@@ -50,9 +58,10 @@ public class Message extends GuiObject
 	public final void updateAngle()
 	{
 		if (state == 1) {
-			yAxisRotation += 0.1f;
+			yAxisRotation -= (0.1f + (yAxisRotation * 0.45f));
 			
-			if (yAxisRotation == 1) {
+			if (yAxisRotation <= 3.0f) {
+				yAxisRotation = 0.0f;
 				state = 2;
 				startTime = android.os.SystemClock.uptimeMillis();
 			}
@@ -63,11 +72,12 @@ public class Message extends GuiObject
 			}
 		}
 		else if (state == 3) {
-			yAxisRotation -= 0.1f;
+			yAxisRotation += (0.1f + (yAxisRotation * 0.45f));
 
-			if (yAxisRotation == 0) {
+			if (yAxisRotation >= 87.0f) {
 				state = 1;
-				wrapper.messageStates.set(listId, Wrapper.INACTIVE);
+				wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
+				wrapper.messageStates.set(messageType, Wrapper.INACTIVE);
 			}
 		}
 	}

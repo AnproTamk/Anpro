@@ -18,12 +18,12 @@ public class MessageManager
 	public static final byte MESSAGE_ARMORSOFF      = 67;
 	
 	/* Ilmoitusobjektit */
-	public Message outOfBounds;
-	private Message autoPilotOn;
-	private Message autoPilotOff;
-	private Message newSkillsReady;
-	private Message repair;
-	private Message armorsOff;
+	public static Message outOfBounds;
+	public static Message autoPilotOn;
+	public static Message autoPilotOff;
+	public static Message newSkillsReady;
+	public static Message repair;
+	public static Message armorsOff;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -49,7 +49,7 @@ public class MessageManager
 	/**
 	 * N‰ytt‰‰ "Out of bounds"-viestin.
 	 */
-	public final void showOutOfBoundsMessage()
+	public static final void showOutOfBoundsMessage()
 	{
 		outOfBounds.activate();
 	}
