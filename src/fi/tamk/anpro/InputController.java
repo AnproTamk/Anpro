@@ -60,6 +60,14 @@ public class InputController
 	    return true;
 	}
 	
+	/**
+	 * Käsittelee näppäinpainalluksen lopettamisen.
+	 * 
+	 * @param _keyCode Näppäimen tunnus
+	 * @param _event   Androidin generoima näppäintapahtuma
+	 * 
+	 * @return Käsiteltiinkö tapahtuma
+	 */
 	public boolean handleKeyUp(int _keyCode, KeyEvent _event)
 	{
 		 // Käsitellään DPad-napit
