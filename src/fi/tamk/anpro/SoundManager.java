@@ -14,6 +14,11 @@ public class SoundManager
 	/* Osoitin tähän luokkaan (singleton-toimintoa varten) */
 	private static SoundManager instance;
 	
+	/* Äänien vakiot */
+	public static final int SOUND_EXPLOSION   = 1;
+	public static final int SOUND_BUTTONCLICK = 2;
+	public static final int SOUND_LASER       = 3;
+	
 	/* Äänimuuttujat */
 	private static SoundPool                 soundPool;    // Objekti, jolla luodaan ja toistetaan äänet
 	private static HashMap<Integer, Integer> soundPoolMap; // Hashmappi, johon tallennetaan äänet kun ne on ensin ladattu
@@ -21,11 +26,6 @@ public class SoundManager
 
 	/* Ohjelman konteksti */
 	private static Context context;
-	
-	/* Äänien vakiot */
-	public static final int SOUND_EXPLOSION   = 1;
-	public static final int SOUND_BUTTONCLICK = 2;
-	public static final int SOUND_LASER       = 3;
 	
 	/**
 	 * Alustaa luokan muuttujat.

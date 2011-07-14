@@ -21,20 +21,20 @@ abstract public class AbstractProjectile extends GameObject
     protected int projectileId;
     
     // Vahinko ja sen tyyppi
-    public int damageOnTouch   = 1;
-    public int damageOnExplode = 0;
-    public int damageType      = DAMAGE_ON_TOUCH; // Arvoksi EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
+    protected int damageOnTouch   = 1;
+    protected int damageOnExplode = 0;
+    protected int damageType      = DAMAGE_ON_TOUCH; // Arvoksi EXPLODE_ON_TOUCH tai DAMAGE_ON_TOUCH
     
     // R‰j‰ht‰minen kohteen p‰‰ll‰
-    public boolean explodeOnTarget = false;
+    protected boolean explodeOnTarget = false;
     
     // Panssarien l‰p‰isykyky (lis‰‰ tehty‰ vahinkoa)
-    public int armorPiercing = 0;
+    protected int armorPiercing = 0;
     
     // Passiivinen AoE-vahinko
-    public boolean causePassiveDamage = false;
-    public int     damageOnRadius     = 0;
-    public int     damageRadius       = 0;
+    protected boolean causePassiveDamage = false;
+    protected int     damageOnRadius     = 0;
+    protected int     damageRadius       = 0;
     
     // R‰j‰hdyksen ajastus
     private int  explodeTime  = 0;
@@ -456,7 +456,7 @@ abstract public class AbstractProjectile extends GameObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	public void triggerDestroyed()
+	private void triggerDestroyed()
 	{
     	wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
     	

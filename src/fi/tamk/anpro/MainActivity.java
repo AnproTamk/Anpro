@@ -30,7 +30,6 @@ public class MainActivity extends Activity implements OnClickListener
     public static final String PREF_BOOL_VIB = "PrefBoolVib";
     private SharedPreferences mPrefs;
     
-    GameThread gameThread;
     /* Valintanapit asetuksille */
     private CheckBox particleCheckBox;
     private CheckBox musicCheckBox;
@@ -66,10 +65,7 @@ public class MainActivity extends Activity implements OnClickListener
         
         // Ladataan laitteen ominaisuudet
         Configuration config = getResources().getConfiguration();
-        Options.initialize(config, getPackageManager());
-        
-        // Ladataan Options käyttöön ja asetetaan asetukset
-        Options.getInstance().getScalingConversion(dm.widthPixels, dm.heightPixels);
+        Options.initialize(config, getPackageManager(), dm);
        
         // Ladataan VibrateManager käyttöön
         VibrateManager.getInstance();

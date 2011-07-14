@@ -10,7 +10,7 @@ package fi.tamk.anpro;
 public class ApproachAndStopAi extends AbstractAi
 {
 	// Osoitin WeaponManageriin
-	WeaponManager weaponManager;
+	private WeaponManager weaponManager;
 	
 	// Aika jolloin tekoäly viimeksi ampui
 	private long lastShootingTime = 0;

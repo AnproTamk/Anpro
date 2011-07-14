@@ -29,8 +29,7 @@ public class GameActivity extends Activity
     
     /* Tarvittavat luokat */
     private GameThread      gameThread;
-	private TouchManager    touchManager;
-    public  Hud             hud;
+    private  Hud            hud;
     private WeaponManager   weaponManager;
     private InputController inputController;
     
@@ -86,7 +85,7 @@ public class GameActivity extends Activity
         }
 
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext(), this, hud, touchManager, weaponManager, surfaceView);
+        gameThread = new GameThread(dm, getBaseContext(), this, hud, weaponManager, surfaceView);
         renderer.connectToGameThread(gameThread);
     }
         

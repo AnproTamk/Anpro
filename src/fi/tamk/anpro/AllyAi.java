@@ -10,7 +10,7 @@ package fi.tamk.anpro;
  */
 public class AllyAi extends AbstractAi
 {
-	WeaponManager weaponManager;
+	private WeaponManager weaponManager;
 	
 	private long lastShootingTime = 0;
 	

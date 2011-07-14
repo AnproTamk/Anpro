@@ -26,7 +26,6 @@ public class LogWriter
     private static int indexA;
     private static int indexB;
     
-
     /**
      * Alustaa luokan muuttujat.
      */
