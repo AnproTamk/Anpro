@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.os.Environment;
+import android.util.Log;
 import android.util.Xml;
 
 /**
@@ -84,7 +85,7 @@ public class XmlReader
 	    						    			   Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                
-	                    else if (hud.getName().equals("joystick") && Options.joystick) {
+	                    else if (hud.getName().equals("joystick") && !Options.joystick) {
 	                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
@@ -118,10 +119,10 @@ public class XmlReader
      * 
      * @return ArrayList<Integer> Vihollistyyppien tiedot
      */
-    public final ArrayList<Integer> readEnemyRanks()
+    public final int[] readEnemyRanks()
     {
         XmlResourceParser ranks = null;
-        ArrayList<Integer> enemyStats = new ArrayList<Integer>();
+        int[] enemyStats = new int[25];
         
         try {
         	ranks = context.getResources().getXml(R.xml.enemy_ranks);
@@ -132,15 +133,21 @@ public class XmlReader
         
         if (ranks != null) {
 	        try {
+	        	int index = 0;
 	            while (ranks.getEventType() != XmlPullParser.END_DOCUMENT) {
 	                if (ranks.getEventType() == XmlPullParser.START_TAG) {
 	                    if (ranks.getName().equals("rank")) {
 	                        // Muunnetaan saatujen attribuuttien tiedot integer-arvoiksi, jotka sijoitetaan taulukkoon.
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "health", 0));
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "armor", 0));
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "speed", 0));
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "attack", 0));
-	                        enemyStats.add(ranks.getAttributeIntValue(null, "ai", 0));
+	                        enemyStats[index] = ranks.getAttributeIntValue(null, "health", 0);
+	                        index++;
+	                        enemyStats[index] = ranks.getAttributeIntValue(null, "armor", 0);
+	                        index++;
+	                        enemyStats[index] = ranks.getAttributeIntValue(null, "speed", 0);
+	                        index++;
+	                        enemyStats[index] = ranks.getAttributeIntValue(null, "attack", 0);
+	                        index++;
+	                        enemyStats[index] = ranks.getAttributeIntValue(null, "ai", 0);
+	                        index++;
 	                    }
 	                }
 	                else if (ranks.getEventType() == XmlPullParser.END_TAG) {
@@ -155,10 +162,10 @@ public class XmlReader
 	            e.printStackTrace();
 	        }
         }
-        
+
         return enemyStats;
     }
-    
+
     /**
      * Lukee pelitilan tiedot.
      * 

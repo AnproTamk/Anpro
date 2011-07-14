@@ -104,12 +104,12 @@ public class GameMode
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
-        ArrayList<Integer> enemyStatsTemp = reader.readEnemyRanks();
+        int[] enemyStatsTemp = reader.readEnemyRanks();
         int rank = 0;
-        for (int i = 0; i < enemyStatsTemp.size(); ++i) {
+        for (int i = 0; i < enemyStatsTemp.length; ++i) {
         	rank = (int)(i / 5);
         	
-        	enemyStats[rank][i-rank*5] = enemyStatsTemp.get(i);
+        	enemyStats[rank][i-rank*5] = enemyStatsTemp[i];
         }
         
         gameActivity  = _gameActivity;
