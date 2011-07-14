@@ -2,17 +2,32 @@ package fi.tamk.anpro;
 
 public class Radar extends GuiObject {
 
+	private int type;
 	private int target;
 	private double distance;
 	private double angle;
 	
-	public Radar(int _x, int _y, int _target) {
+	public Radar(int _x, int _y, int _type) {
 		
 		super(_x, _y);
 		
-		target = _target;
+		type = _type;
 		
-		usedTexture = GLRenderer.TEXTURE_RADAR;
+		if(type == 0) {
+			usedTexture = GLRenderer.TEXTURE_RADAR;
+		}
+		
+		if(type == 1) {
+			usedTexture = GLRenderer.TEXTURE_RADAR + 1;
+		}
+		
+		if(type == 2) {
+			usedTexture = GLRenderer.TEXTURE_RADAR + 2;
+		}
+		
+		if(type == 3) {
+			usedTexture = GLRenderer.TEXTURE_RADAR + 3;
+		}
 	}
 	
 	public final void updateRadar() {
