@@ -418,7 +418,7 @@ public class GameMode
 	private void generateStarBackground()
     {
     	for (int i = 0; i < 15; ++i) {
-    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-400, 400), Utility.getRandom(-240, 240));
+    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
     	}
 	}
 	
