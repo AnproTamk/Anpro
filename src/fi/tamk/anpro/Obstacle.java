@@ -13,6 +13,10 @@ public class Obstacle extends GameObject
 	public static final byte OBSTACLE_PLANET   = 0;
 	public static final byte OBSTACLE_ASTEROID = 1;
 	public static final byte OBSTACLE_STAR     = 2;
+
+	// Objektien tarkemmin määritelty tyyppi
+	public static final byte PLANET_EARTH = 0;
+	public static final byte PLANET_X     = 1;
 	
 	// Objektin tyyppi
 	private int type;
@@ -23,13 +27,14 @@ public class Obstacle extends GameObject
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
-	 * @param _type      Objektin tyyppi (tekstuurit määritellään tämän perusteella)
-	 * @param _x         X-koordinaatti
-	 * @param _y         Y-koordinaatti
-	 * @param _speed     Liikkumisnopeus
-	 * @param _direction Liikkumissuunta
+	 * @param _type          Objektin tyyppi                      (tekstuurit määritellään tämän perusteella)
+	 * @param _specifiedType Objektin tarkemmin määritelty tyyppi (tekstuurit määritellään tämän perusteella)
+	 * @param _x         	 X-koordinaatti
+	 * @param _y         	 Y-koordinaatti
+	 * @param _speed     	 Liikkumisnopeus
+	 * @param _direction 	 Liikkumissuunta
 	 */
-	public Obstacle(int _type, int _x, int _y, int _speed, int _direction)
+	public Obstacle(int _type, int _specifiedType, int _x, int _y, int _speed, int _direction)
 	{
 		super(_speed);
 		
@@ -43,14 +48,17 @@ public class Obstacle extends GameObject
 		// Määritetään näytettävä tekstuuri
 		type = _type;
 		
+		usedTexture= _specifiedType;
+		
 		// Määritellään liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
 			facingTurningDirection = Utility.getRandom(1, 2);
 		}
 		
 		if (type == OBSTACLE_PLANET) {
-			setFacingTurningSpeed(1.0f);
-			setFacingTurningDelay(0.03f);
+			setFacingTurningSpeed(0.5f);
+			setFacingTurningDelay(0.001f);
+			setMovementSpeed(0.0f);
 		}
 		else if (type == OBSTACLE_ASTEROID) {
 			setFacingTurningSpeed(1.0f);
@@ -59,13 +67,13 @@ public class Obstacle extends GameObject
 		
 		// Määritellään törmäystunnistus
 		if (type == OBSTACLE_PLANET) {
-			collisionRadius = (int) (125 * Options.scale);
+			collisionRadius = (int) (117 * Options.scale);
 		}
 		else if (type == OBSTACLE_ASTEROID) {
 			collisionRadius = (int) (50 * Options.scale);
 		}
 		else if (type == OBSTACLE_STAR) {
-			collisionRadius = (int) (260 * Options.scale);
+			collisionRadius = (int) (240 * Options.scale);
 		}
 		
 		// Lisätään objekti piirtolistalle
@@ -75,17 +83,17 @@ public class Obstacle extends GameObject
     /**
      * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
 	@Override
 	public void draw(GL10 _gl)
 	{
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0) {
-            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, facingDirection);
+            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, (int)facingDirection);
         }
         else {
-            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, facingDirection, 0);
+            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, (int)facingDirection, 0);
         }
 	}
     
