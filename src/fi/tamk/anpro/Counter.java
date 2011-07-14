@@ -5,7 +5,7 @@ package fi.tamk.anpro;
  */
 public class Counter extends GuiObject
 {
-	// Laskurin laskemat pistearvot (1000, 100, 10 tai 1)
+	// Laskurin laskemat pistearvot (10000, 1000, 100, 10 tai 1)
 	private int value;
 
 	/**
@@ -38,8 +38,18 @@ public class Counter extends GuiObject
 			wrapper.guiObjectStates.set(listId, 1);
 			
 			// Tehd‰‰n vertailut, mille pistelaskuriobjektille arvo lasketaan.
-			if (value == 1000) {
+			if (value == 10000) {
 				index = (int) (_score / value);
+			}
+			else if (value == 1000) {
+				index = (int) (_score / value);
+				if (_score < 10000) {
+					index = (int) (_score / value);
+				}
+				else {
+					temp = (int)_score - (int) ((_score / 1000) * 1000);
+					index = temp / value;
+				}
 			}
 			else if (value == 100) {
 				if (_score < 1000) {
