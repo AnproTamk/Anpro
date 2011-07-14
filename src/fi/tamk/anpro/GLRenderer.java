@@ -26,7 +26,7 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_DESTROY  = 3;
     public static final int ANIMATION_DISABLED = 4;
     
-    public static final int ANIMATION_COLLECTED = 1;
+    public static final int ANIMATION_COLLECTED = 0;
 
     /* Vakiot HUDin tekstuureille ja animaatioille */
     public static final int TEXTURE_BUTTON_NOTSELECTED = 0;
@@ -265,16 +265,6 @@ public class GLRenderer implements Renderer
                 }
             }
             
-            // Aurinko, planeetat ja asteroidit
-            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
-                	wrapper.obstacles.get(i).draw(_gl);
-                	if (wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
-                        wrapper.obstacles.get(i).update();
-                	}
-                }
-            }
-            
             // Viholliset
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
@@ -320,6 +310,16 @@ public class GLRenderer implements Renderer
                     if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
                         wrapper.collectables.get(i).update();
                     }
+                }
+            }
+            
+            // Aurinko, planeetat ja asteroidit
+            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
+                	wrapper.obstacles.get(i).draw(_gl);
+                	if (wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
+                        wrapper.obstacles.get(i).update();
+                	}
                 }
             }
             
@@ -546,7 +546,7 @@ public class GLRenderer implements Renderer
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
         
         /* Ladataan kartan grafiikat */
-        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
+        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planetearth_tex_0);
         obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
         obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
     	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
@@ -555,8 +555,7 @@ public class GLRenderer implements Renderer
     	collectableTextures[0]   = new Texture(_gl, context, R.drawable.collectable_tex_0);
     	collectableAnimations[0] = new Animation(_gl, context, resources, "collectable_collected", 12);
 
-    	/* Lopetustoiminnot */
-        // Tarkistetaan virheet
+    	/* Tarkistetaan virheet */
         if (!loadingFailed) {
         	allLoaded = true;
         	
