@@ -27,7 +27,10 @@ public class Collectable extends GameObject
 		wrapper = Wrapper.getInstance();
 		
 		// M‰‰ritell‰‰n tˆrm‰ystunnistus
-		collisionRadius = (int) (128 * Options.scale);
+		collisionRadius = (int) (25 * Options.scale);
+		
+		// M‰‰ritet‰‰n tekstuuri
+		usedTexture = 0;
 
 		// Lis‰t‰‰n objekti piirtolistalle
 		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_COLLECTABLE, 0);
