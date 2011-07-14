@@ -46,11 +46,10 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 62;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 63;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
-    public static final int AMOUNT_OF_MESSAGE_TEXTURES       = 1;
     
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
@@ -82,8 +81,6 @@ public class GLRenderer implements Renderer
     public static Animation[]   hudAnimations;
     
     public static Animation[]   effectAnimations;
-    
-    public static Texture[]     messageTextures;
     
     public static Texture[][]   obstacleTextures;
     public static Animation[][] obstacleAnimations;
@@ -133,7 +130,6 @@ public class GLRenderer implements Renderer
         hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
         hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
         effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
-        messageTextures       = new Texture[AMOUNT_OF_MESSAGE_TEXTURES];
         obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
         obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
         collectableTextures   = new Texture[AMOUNT_OF_COLLECTABLE_TEXTURES];
@@ -228,8 +224,7 @@ public class GLRenderer implements Renderer
 	    	try {
 				Thread.sleep(0);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// TODO: Käsittele virhe
 			}
 			
 			showLoadingScreen = false;
@@ -242,119 +237,107 @@ public class GLRenderer implements Renderer
         /* Tarkastetaan onko tekstuurit ladattu */
         if (allLoaded && gameThread.allLoaded) {
             
-            /* Käydään läpi piirtolistat */
-            for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
-            	wrapper.backgroundStars.get(i).draw(_gl);
-            }
-            if (wrapper.mothership != null) {
-            	 wrapper.mothership.draw(_gl);
-            }
-            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.enemies.get(i).draw(_gl);
-                }
-            }
-            for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.projectiles.get(i).draw(_gl);
-                }
-            }
-            for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
-                if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.guiObjects.get(i).draw(_gl);
-                }
-            }
-            if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
-                wrapper.player.draw(_gl);
-            }
-            for (int i = wrapper.effects.size()-1; i >= 0; --i) {
-                if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.effects.get(i).draw(_gl);
-                }
-            }
-            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
-                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.collectables.get(i).draw(_gl);
-                }
-            }
-            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.obstacles.get(i).draw(_gl);
-                }
-            }
-            
-            /* Päivitetään animaatiot */
             long currentTime = android.os.SystemClock.uptimeMillis();
             
             if (currentTime - lastAnimationUpdate >= 40) {
-                
                 lastAnimationUpdate = currentTime;
-                
-                if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE && wrapper.player.usedAnimation != -1) {
-                    if (updateBeat % wrapper.player.animationSpeed == 0) {
-                        wrapper.player.update();
+            }
+            
+            /* Käydään läpi piirtolistat ja päivitetään animaatiot */
+        	// Tähtitausta
+            for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
+            	wrapper.backgroundStars.get(i).draw(_gl);
+            }
+            
+            // Emoalus
+            if (wrapper.mothership != null) {
+            	if (wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
+                	wrapper.mothership.update();
+                }
+            	wrapper.mothership.draw(_gl);
+            }
+            
+            // Aurinko, planeetat ja asteroidit
+            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
+                	if (wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
+                        wrapper.obstacles.get(i).update();
+                	}
+                	wrapper.obstacles.get(i).draw(_gl);
+                }
+            }
+            
+            // Viholliset
+            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
+	                if (wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+	                	wrapper.enemies.get(i).update();
+	                }
+	                wrapper.enemies.get(i).draw(_gl);
+	            }
+            }
+            
+            // Ammukset
+            for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+            	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
+                    if (wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
+                        wrapper.projectiles.get(i).update();
                     }
-                }
-
-                for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
-                    if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE && wrapper.collectables.get(i).usedAnimation != -1) {
-                        if (updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
-                            wrapper.collectables.get(i).update();
-                        }
+                	wrapper.projectiles.get(i).draw(_gl);
+            	}
+            }
+            
+            // Kerättävät esineet
+            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
+                    if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
+                        wrapper.collectables.get(i).update();
                     }
+                    wrapper.collectables.get(i).draw(_gl);
                 }
-                
-                if (wrapper.mothership != null && wrapper.mothership.usedAnimation != -1) {
-                    if (updateBeat % wrapper.mothership.animationSpeed == 0) {
-                        wrapper.mothership.update();
+            }
+        
+            // Pelaaja
+            if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
+            	if (wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
+                    wrapper.player.update();
+                }
+                wrapper.player.draw(_gl);
+            }
+            
+            // Efektit
+            for (int i = wrapper.effects.size()-1; i >= 0; --i) {
+                if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
+                    if (wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
+                        wrapper.effects.get(i).update();
                     }
+                    wrapper.effects.get(i).draw(_gl);
                 }
+            }
+            
+            // HUD
+            for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
+                if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
+                	if (wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
+                		wrapper.guiObjects.get(i).update();
+                	}
+            		wrapper.guiObjects.get(i).draw(_gl);
+                }
+            }
+            // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
+            // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
+            for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
+            	gameThread.hud.buttons.get(i).update();
+            }
                 
-                for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE && wrapper.enemies.get(i).usedAnimation != -1) {
-                        if (updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
-                            wrapper.enemies.get(i).update();
-                        }
-                    }
-                }
-                
-                for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE && wrapper.projectiles.get(i).usedAnimation != -1) {
-                        if (updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
-                            wrapper.projectiles.get(i).update();
-                        }
-                    }
-                }
-                
-                for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
-                    gameThread.hud.buttons.get(i).update();
-                }
-                
-                for (int i = wrapper.effects.size()-1; i >= 0; --i) {
-                    if (wrapper.effectStates.get(i) != Wrapper.INACTIVE && wrapper.effects.get(i).usedAnimation != -1) {
-                        if (updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
-                            wrapper.effects.get(i).update();
-                        }
-                    }
-                }
-                    
-                for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-                    if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE && wrapper.obstacles.get(i).usedAnimation != -1) {
-                        if (updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
-                            wrapper.obstacles.get(i).update();
-                        }
-                    }
-                }
-                
-                // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mikäli raja ylitetään.
-                // Tällä animaatioiden päivittäminen tahdistetaan; Animaatiot voivat näkyä joko
-                // joka kierroksella, joka toisella, joka neljännellä tai joka kahdeksannella
-                // kierroksella.
-                ++updateBeat;
-                
-                if (updateBeat > 8) {
-                    updateBeat = 1;
-                }
+            // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mikäli raja ylitetään.
+            // Tällä animaatioiden päivittäminen tahdistetaan; Animaatiot voivat näkyä joko
+            // joka kierroksella, joka toisella, joka neljännellä tai joka kahdeksannella
+            // kierroksella.
+            ++updateBeat;
+            
+            if (updateBeat > 8) {
+                updateBeat = 1;
             }
         }
         /* Tekstuureja ei ole vielä ladattu */
@@ -533,6 +516,8 @@ public class GLRenderer implements Renderer
         hudTextures[60] = new Texture(_gl, context, R.drawable.radar_tex_11);
         hudTextures[61] = new Texture(_gl, context, R.drawable.radar_tex_12);
         
+        // Ilmoitukset
+        hudTextures[62] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
@@ -554,8 +539,6 @@ public class GLRenderer implements Renderer
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
         
         /* Ladataan ilmoitusten grafiikat */
-        // Out of bounds
-        messageTextures[0] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);

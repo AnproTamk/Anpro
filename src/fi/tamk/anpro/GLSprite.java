@@ -17,8 +17,9 @@ import android.opengl.GLUtils;
 abstract public class GLSprite
 {
     /* Kuvan tiedot */
-	protected int[] sprites;       // Kuva
-    protected float imageSize = 0; // Kuvan koko
+	protected int[] sprites;	 	 // Tekstuuri (sisältää itseasiassa vain OpenGL:n sille antaman tunnuksen
+    protected float imageWidth  = 0;
+    protected float imageHeight = 0;
     
     /* Puskurit ja vektorit objektille ja tekstuurille */
     protected FloatBuffer vertexBuffer;
@@ -63,8 +64,9 @@ abstract public class GLSprite
         // Tallennetaan tekstuurin mitat (pelkästään leveys, sillä tekstuurin korkeuden
         // on oltava sama kuin leveyden)
         if (bitmap != null) {
-        	if (imageSize == 0) {
-        		imageSize = (float)bitmap.getWidth();
+        	if (imageWidth == 0) {
+        		imageWidth  = (float)bitmap.getWidth();
+        		imageHeight = (float)bitmap.getHeight();
         	}
 
             // Ladataan bitmap OpenGL-tekstuuriksi
@@ -91,17 +93,21 @@ abstract public class GLSprite
 	protected void createVertices()
 	{
         vertices = new float[12];
-        vertices[0] = (-1)*imageSize;
-        vertices[1] = vertices[0];
+        
+        vertices[0] = (-1)*imageWidth;
+        vertices[1] = (-1)*imageHeight;
         vertices[2] = 0.0f;
-        vertices[3] = vertices[0];
-        vertices[4] = imageSize;
+        
+        vertices[3] = (-1)*imageWidth;
+        vertices[4] = imageHeight;
         vertices[5] = 0.0f;
-        vertices[6] = imageSize;
-        vertices[7] = vertices[0];
+        
+        vertices[6] = imageWidth;
+        vertices[7] = (-1)*imageHeight;
         vertices[8] = 0.0f;
-        vertices[9] = imageSize;
-        vertices[10] = imageSize;
+        
+        vertices[9] = imageWidth;
+        vertices[10] = imageHeight;
         vertices[11] = 0.0f;
 	}
 	
@@ -143,6 +149,51 @@ abstract public class GLSprite
     	// TODO: Alukset tökkii
         _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
+        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
+        
+        // Valitaan piirrettävä tekstuuri
+        _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[_frame]);
+        
+        // Avataan tekstuuri- ja vektoritaulukot käyttöön
+        _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        
+        // Valitaan neliön näytettävä puoli
+        _gl.glFrontFace(GL10.GL_CW);
+        
+        // Otetaan vektori- ja tekstuuripuskurit käyttöön
+        _gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+        _gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+    
+        // Piirretään neliö
+        _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
+    
+        // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
+        _gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        _gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+    }
+    
+    /**
+     * Piirtää tekstuurin ruudulle ottaen huomioon suunnat myös syvyyssuunnassa.
+     * 
+     * @param _gl		     OpenGL-konteksti
+     * @param _x             Tekstuurin X-koordinaatti
+     * @param _y             Tekstuurin Y-koordinaatti
+     * @param _direction     Tekstuurin suunta (0 = oikealle)
+     * @param _frame         Tekstuurin järjestysnumero (animaatioille, tekstuureilla aina 0)
+     * @param _xAxisRotation Kääntö X-akselilla
+     * @param _yAxisRotation Kääntö Y-akselilla
+     */
+    public final void drawIn3D(GL10 _gl, float _x, float _y, int _direction, int _frame,
+    						   float _xAxisRotation, float _yAxisRotation)
+    {
+        // Resetoidaan mallimatriisi
+        _gl.glLoadIdentity();
+        
+        // Siirretään ja käännetään mallimatriisia
+    	// TODO: Alukset tökkii
+        _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
+        _gl.glRotatef((float)_direction-90.0f, _xAxisRotation, _yAxisRotation, 1.0f);
         _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
         
         // Valitaan piirrettävä tekstuuri

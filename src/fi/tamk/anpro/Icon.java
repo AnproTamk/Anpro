@@ -1,15 +1,31 @@
 package fi.tamk.anpro;
 
-public class Icon extends GuiObject {
-
-	public Icon(int _x, int _y) {
-		
+/**
+ * Sis‰lt‰‰ HUDin nappien p‰‰lle asetettavien asekuvakkeiden tiedot ja toiminnot.
+ */
+public class Icon extends GuiObject
+{
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param _x Kuvakkeen X-koordinaatti
+	 * @param _y Kuvakkeen Y-koordinaatti
+	 */
+	public Icon(int _x, int _y)
+	{
 		super(_x, _y);
-		// TODO Auto-generated constructor stub
+		
 		usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 	}
 
-	public void setState(boolean _selected) {
+    /**
+     * Asettaa kuvakkeen valinnan (= k‰ytett‰v‰ tekstuuri) joko p‰‰lle tai pois
+     * pelaajan valinnan mukaan.
+     * 
+     * @param _selected Valinta
+     */
+	public void setState(boolean _selected)
+	{
 		if(_selected) {
 			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
 		}

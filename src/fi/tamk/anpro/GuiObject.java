@@ -12,7 +12,7 @@ abstract public class GuiObject extends GfxObject
     protected Wrapper wrapper;
     
     // Osoitin CameraManageriin
-    private CameraManager cameraManager;
+    protected CameraManager cameraManager;
 
     /**
      * Alustaa luokan muuttujat.
@@ -51,7 +51,7 @@ abstract public class GuiObject extends GfxObject
      * 
      * @param GL10 OpenGL-konteksti
      */
-    public final void draw(GL10 _gl)
+    public void draw(GL10 _gl)
     {
         // Tarkistaa onko animaatio p‰‰ll‰ ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
@@ -67,19 +67,30 @@ abstract public class GuiObject extends GfxObject
 
     /**
      * K‰sittelee jonkin toiminnon p‰‰ttymisen. Kutsutaan animaation loputtua, mik‰li
-     * actionActivated on TRUE.
+     * actionActivated on TRUE.<br /><br />
      * 
-     * K‰ytet‰‰n esimerkiksi objektin tuhoutuessa. Objektille m‰‰ritet‰‰n animaatioksi
-     * sen tuhoutumisanimaatio, tilaksi Wrapperissa m‰‰ritet‰‰n 2 (piirret‰‰n, mutta
-     * p‰ivitet‰‰n ainoastaan animaatio) ja asetetaan actionActivatedin arvoksi TRUE.
-     * T‰llˆin GameThread p‰ivitt‰‰ objektin animaation, Renderer piirt‰‰ sen, ja kun
-     * animaatio p‰‰ttyy, kutsutaan objektin triggerEndOfAction-funktiota. T‰ss‰
-     * funktiossa objekti k‰sittelee tilansa. Tuhoutumisanimaation tapauksessa objekti
-     * m‰‰ritt‰‰ itsens‰ ep‰aktiiviseksi.
+     * K‰ytet‰‰n seuraavasti:<br />
+     * <ul>
+     *   <li>1. Objekti kutsuu funktiota <b>setAction</b>, jolle annetaan parametreina haluttu animaatio,
+     *     animaation toistokerrat, animaation nopeus, toiminnon tunnus (vakiot <b>GfxObject</b>issa).
+     *     Toiminnon tunnus tallennetaan <i>actionId</i>-muuttujaan.
+     *     		<ul><li>-> Lis‰ksi voi antaa myˆs jonkin animaation ruudun j‰rjestysnumeron (alkaen 0:sta)
+     *     		   ja ajan, joka siin‰ ruudussa on tarkoitus odottaa.</li></ul></li>
+     *  <li>2. <b>GfxObject</b>in <b>setAction</b>-funktio kutsuu startAnimation-funktiota (sis‰lt‰‰ myˆs
+     *     <b>GfxObject</b>issa), joka k‰ynnist‰‰ animaation asettamalla <i>usedAnimation</i>-muuttujan arvoksi
+     *     kohdassa 1 annetun animaation tunnuksen.</li>
+     *  <li>3. <b>GLRenderer</b> p‰ivitt‰‰ animaatiota kutsumalla <b>GfxObject</b>in <b>update</b>-funktiota.</li>
+     *  <li>4. Kun animaatio on loppunut, kutsuu <b>update</b>-funktio koko ketjun aloittaneen objektin
+     *     <b>triggerEndOfAction</b>-funktiota (funktio on abstrakti, joten alaluokat luovat siit‰ aina
+     *     oman toteutuksensa).</li>
+     *  <li>5. <b>triggerEndOfAction</b>-funktio tulkitsee <i>actionId</i>-muuttujan arvoa, johon toiminnon tunnus
+     *     tallennettiin, ja toimii sen mukaisesti.</li>
+     * </ul>
      * 
-     * Jokainen objekti luo funktiosta oman toteutuksensa, sill‰ toimintoja voi olla
-     * useita. Objekteilla on myˆs k‰ytˆss‰‰n actionId-muuttuja, jolle voidaan asettaa
-     * haluttu arvo. T‰m‰ arvo kertoo objektille, mink‰ toiminnon se juuri suoritti.
+     * Funktiota k‰ytet‰‰n esimerkiksi objektin tuhoutuessa, jolloin se voi asettaa itsens‰
+     * "puoliaktiiviseen" tilaan (esimerkiksi 2, eli ONLY_ANIMATION) ja k‰ynnist‰‰ yll‰ esitetyn
+     * tapahtumaketjun. Objekti tuhoutuu asettumalla tilaan 0 (INACTIVE) vasta ketjun p‰‰tytty‰.
+     * Tuhoutuminen toteutettaisiin triggerEndOfAction-funktion sis‰ll‰.
      * 
      * Toimintojen vakiot lˆytyv‰t GfxObject-luokan alusta.
      */
