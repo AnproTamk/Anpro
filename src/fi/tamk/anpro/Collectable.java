@@ -31,6 +31,15 @@ public class Collectable extends GameObject
 		
 		// M‰‰ritet‰‰n tekstuuri
 		usedTexture = 0;
+    
+        // Haetaan animaatioiden pituudet
+        animationLength = new int[GLRenderer.AMOUNT_OF_COLLECTABLE_ANIMATIONS];
+        
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_COLLECTABLE_ANIMATIONS; ++i) {
+            if (GLRenderer.collectableAnimations[i] != null) {
+                animationLength[i] = GLRenderer.collectableAnimations[i].length;
+            }
+        }
 
 		// Lis‰t‰‰n objekti piirtolistalle
 		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_COLLECTABLE, 0);
