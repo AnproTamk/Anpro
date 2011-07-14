@@ -38,16 +38,17 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_ARMOR			   = 34;
     public static final int TEXTURE_GUIDEARROW		   = 47;
     public static final int TEXTURE_RADAR			   = 49;
+    public static final int TEXTURE_MESSAGE			   = 50;
     
-    public static final int ANIMATION_CLICK = 0;
-    public static final int ANIMATION_READY = 1;
+    public static final int ANIMATION_CLICK         = 0;
+    public static final int ANIMATION_RADAR_WARNING = 1;
     
     /* Animaatioiden ja tekstuurien m‰‰r‰t */
     public static final int AMOUNT_OF_PLAYER_TEXTURES        = 4;
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 54;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 51;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -456,10 +457,6 @@ public class GLRenderer implements Renderer
         hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
         
         hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
-        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning_left", 3);
-        hudAnimations[2] = new Animation(_gl, context, resources, "radar_warning_down", 3);
-        hudAnimations[3] = new Animation(_gl, context, resources, "radar_warning_right", 3);
-        hudAnimations[4] = new Animation(_gl, context, resources, "radar_warning_top", 3);
 
         // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
@@ -523,13 +520,11 @@ public class GLRenderer implements Renderer
         hudTextures[48] = new Texture(_gl, context, R.drawable.mothershiparrow_tex_0);
         
         // Tutka
-        hudTextures[49] = new Texture(_gl, context, R.drawable.radar_tex_0);
-        hudTextures[50] = new Texture(_gl, context, R.drawable.radar_tex_1);
-        hudTextures[51] = new Texture(_gl, context, R.drawable.radar_tex_2);
-        hudTextures[52] = new Texture(_gl, context, R.drawable.radar_tex_3);
+        hudTextures[49]  = new Texture(_gl, context, R.drawable.radar_tex_0);
+        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning", 3);
         
         // Ilmoitukset
-        hudTextures[53] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
+        hudTextures[50] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
@@ -557,7 +552,7 @@ public class GLRenderer implements Renderer
     	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
     	
     	/* Ladataan ker‰tt‰vien esineiden grafiikat */
-    	collectableTextures[0] = new Texture(_gl, context, R.drawable.collectable_tex_0);
+    	collectableTextures[0]   = new Texture(_gl, context, R.drawable.collectable_tex_0);
     	collectableAnimations[0] = new Animation(_gl, context, resources, "collectable_collected", 12);
 
     	/* Lopetustoiminnot */
