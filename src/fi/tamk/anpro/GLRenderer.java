@@ -59,7 +59,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_HUD_ANIMATIONS         = 4;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
-    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
+    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 0;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
     /* Latausruudun tekstuurit ja tila */
@@ -553,8 +553,6 @@ public class GLRenderer implements Renderer
         effectAnimations[5] = new Animation(_gl, context, resources, "combo3_effect", 1);
         effectAnimations[6] = new Animation(_gl, context, resources, "combo4_effect", 1);
         effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
-        
-        /* Ladataan ilmoitusten grafiikat */
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.star_tex_0);
