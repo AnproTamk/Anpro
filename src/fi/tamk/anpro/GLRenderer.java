@@ -59,7 +59,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
-    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 0;
+    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
     /* Latausruudun tekstuurit ja tila */
@@ -558,6 +558,7 @@ public class GLRenderer implements Renderer
     	
     	/* Ladataan kerättävien esineiden grafiikat */
     	collectableTextures[0] = new Texture(_gl, context, R.drawable.collectable_tex_0);
+    	collectableAnimations[0] = new Animation(_gl, context, resources, "collectable_collected", 12);
 
     	/* Lopetustoiminnot */
         // Tarkistetaan virheet
