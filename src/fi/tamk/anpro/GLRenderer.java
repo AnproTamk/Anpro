@@ -293,16 +293,6 @@ public class GLRenderer implements Renderer
                     }
             	}
             }
-            
-            // Kerättävät esineet
-            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
-                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.collectables.get(i).draw(_gl);
-                    if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
-                        wrapper.collectables.get(i).update();
-                    }
-                }
-            }
         
             // Pelaaja
             if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
@@ -318,6 +308,16 @@ public class GLRenderer implements Renderer
                     wrapper.effects.get(i).draw(_gl);
                     if (wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
                         wrapper.effects.get(i).update();
+                    }
+                }
+            }
+            
+            // Kerättävät esineet
+            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.collectables.get(i).draw(_gl);
+                    if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
+                        wrapper.collectables.get(i).update();
                     }
                 }
             }
