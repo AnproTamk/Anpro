@@ -175,7 +175,14 @@ public class Utility
      */
     public static final int calculateDamageToArmor(int _damage, int _armorPiercing)
     {
-    	return (int) ((float) _damage * (1 - (float) _armorPiercing * 0.05));
+    	float multiplier = 1.0f - (float)_armorPiercing * 0.05f;
+    	
+    	if (multiplier >= 0) {
+    		return (int) ((float)_damage * multiplier);
+    	}
+    	else {
+    		return _damage;
+    	}
     }
 
     /**
