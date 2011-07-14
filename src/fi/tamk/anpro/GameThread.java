@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import android.content.Context;
+import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
 
 /**
@@ -20,6 +21,7 @@ class GameThread extends Thread
     public  Hud           hud;
     private WeaponManager weaponManager;
     private CameraManager cameraManager;
+    private GLSurfaceView   surfaceView;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime;
@@ -54,7 +56,7 @@ class GameThread extends Thread
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
-    				  Hud _hud, TouchManager _touchManager, WeaponManager _weaponManager)
+    				  Hud _hud, TouchManager _touchManager, WeaponManager _weaponManager, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
         cameraManager = CameraManager.getInstance();
@@ -65,6 +67,7 @@ class GameThread extends Thread
         hud           = _hud;
         touchManager  = _touchManager;
         weaponManager = _weaponManager;
+        surfaceView   = _surfaceView;
     }
 
     /**
@@ -90,6 +93,9 @@ class GameThread extends Thread
         // Luodaan EffectManager ja MessageManager
         EffectManager.getInstance();
         MessageManager.getInstance();
+                
+        // Luodaan TouchManager
+        touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
                 
         // Merkit‰‰n kaikki ladatuiksi
         allLoaded = true;
