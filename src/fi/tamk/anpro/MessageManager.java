@@ -10,12 +10,12 @@ public class MessageManager
 	private static MessageManager instance;
 	
 	/* Ilmoitusten vakiot */
-	public static final byte MESSAGE_OUTOFBOUNDS    = 62;
-	public static final byte MESSAGE_AUTOPILOT_ON   = 63;
-	public static final byte MESSAGE_AUTOPILOT_OFF  = 64;
-	public static final byte MESSAGE_NEWSKILLSREADY = 65;
-	public static final byte MESSAGE_REPAIR         = 66;
-	public static final byte MESSAGE_ARMORSOFF      = 67;
+	public static final byte MESSAGE_OUTOFBOUNDS    = GLRenderer.TEXTURE_MESSAGE;
+	public static final byte MESSAGE_AUTOPILOT_ON   = GLRenderer.TEXTURE_MESSAGE + 1;
+	public static final byte MESSAGE_AUTOPILOT_OFF  = GLRenderer.TEXTURE_MESSAGE + 2;
+	public static final byte MESSAGE_NEWSKILLSREADY = GLRenderer.TEXTURE_MESSAGE + 3;
+	public static final byte MESSAGE_REPAIR         = GLRenderer.TEXTURE_MESSAGE + 4;
+	public static final byte MESSAGE_ARMORSOFF      = GLRenderer.TEXTURE_MESSAGE + 5;
 	
 	/* Ilmoitusobjektit */
 	public static Message outOfBounds;

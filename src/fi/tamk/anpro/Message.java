@@ -36,7 +36,7 @@ public class Message extends GuiObject
 		usedTexture = _message;
 		
 		// Tallennetaan viestin tyyppi ja aika
-		messageType = (byte) (_message - 62);
+		messageType = (byte) (_message - GLRenderer.TEXTURE_MESSAGE);
 		showTime    = _showTime;
 		
 		// Asetetaan pois näkyvistä

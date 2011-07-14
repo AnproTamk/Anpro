@@ -13,20 +13,22 @@ public class Radar extends GuiObject {
 		
 		type = _type;
 		
+		usedTexture = GLRenderer.TEXTURE_RADAR;
+		
 		if(type == 0) {
-			usedTexture = GLRenderer.TEXTURE_RADAR;
+			//usedTexture = GLRenderer.TEXTURE_RADAR;
 		}
 		
 		if(type == 1) {
-			usedTexture = GLRenderer.TEXTURE_RADAR + 1;
+			//usedTexture = GLRenderer.TEXTURE_RADAR + 1;
 		}
 		
 		if(type == 2) {
-			usedTexture = GLRenderer.TEXTURE_RADAR + 2;
+			//usedTexture = GLRenderer.TEXTURE_RADAR + 2;
 		}
 		
 		if(type == 3) {
-			usedTexture = GLRenderer.TEXTURE_RADAR + 3;
+			//usedTexture = GLRenderer.TEXTURE_RADAR + 3;
 		}
 	}
 	
@@ -58,7 +60,8 @@ public class Radar extends GuiObject {
 				target = 0;
 			}
 			
-			usedTexture = GLRenderer.TEXTURE_RADAR + target;
+			usedTexture = GLRenderer.TEXTURE_RADAR;
+			//usedTexture = GLRenderer.TEXTURE_RADAR + target;
 		}
 	}
 }
