@@ -47,7 +47,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 63;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 55;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -56,7 +56,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 4;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
@@ -454,7 +454,9 @@ public class GLRenderer implements Renderer
         // Napit
         hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
         hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
-        hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
+        hudAnimations[0] = new Animation(_gl, context, resources, "radar_warning_0", 3);
+        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning_1", 3);
+        hudAnimations[2] = new Animation(_gl, context, resources, "radar_warning_2", 3);
 
         // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
@@ -523,17 +525,9 @@ public class GLRenderer implements Renderer
         hudTextures[51] = new Texture(_gl, context, R.drawable.radar_tex_2);
         hudTextures[52] = new Texture(_gl, context, R.drawable.radar_tex_3);
         hudTextures[53] = new Texture(_gl, context, R.drawable.radar_tex_4);
-        hudTextures[54] = new Texture(_gl, context, R.drawable.radar_tex_5);
-        hudTextures[55] = new Texture(_gl, context, R.drawable.radar_tex_6);
-        hudTextures[56] = new Texture(_gl, context, R.drawable.radar_tex_7);
-        hudTextures[57] = new Texture(_gl, context, R.drawable.radar_tex_8);
-        hudTextures[58] = new Texture(_gl, context, R.drawable.radar_tex_9);
-        hudTextures[59] = new Texture(_gl, context, R.drawable.radar_tex_10);
-        hudTextures[60] = new Texture(_gl, context, R.drawable.radar_tex_11);
-        hudTextures[61] = new Texture(_gl, context, R.drawable.radar_tex_12);
         
         // Ilmoitukset
-        hudTextures[62] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
+        hudTextures[54] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
