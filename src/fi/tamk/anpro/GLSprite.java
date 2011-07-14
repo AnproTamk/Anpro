@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 /**
  * Sis‰lt‰‰ yhden tekstuurin tai animaation tiedot ja toiminnot.
@@ -193,7 +194,9 @@ abstract public class GLSprite
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
     	// TODO: Alukset tˆkkii
         _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
-        _gl.glRotatef((float)_direction-90.0f, _xAxisRotation, _yAxisRotation, 1.0f);
+        _gl.glRotatef(_xAxisRotation, 1.0f, 0.0f, 0.0f);
+        _gl.glRotatef(_yAxisRotation, 0.0f, 1.0f, 0.0f);
+        //_gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 0.0f);
         _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
         
         // Valitaan piirrett‰v‰ tekstuuri

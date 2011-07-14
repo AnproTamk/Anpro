@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
-import android.util.Log;
-
 /**
  * Hallitsee aseiden cooldowneja, varastoi aseiden oliot ja välittää kutsupyynnöt
  * eri aseisiin.

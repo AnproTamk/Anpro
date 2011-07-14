@@ -215,7 +215,6 @@ public class MainActivity extends Activity implements OnClickListener
     	e.putBoolean(PREF_BOOL_SOU, vibrationCheckBox.isChecked());
     	e.commit();
         
-    	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
         
