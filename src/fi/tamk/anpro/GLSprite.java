@@ -84,6 +84,7 @@ abstract public class GLSprite
             return true;
         }
         else {
+        	Log.e("GLRenderer", "Tekstuurin lataaminen epäonnistui: " + _id);
         	return false;
         }
     }
