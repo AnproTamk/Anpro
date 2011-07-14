@@ -324,7 +324,7 @@ class GameThread extends Thread
 	private void checkCollisions(long _currentTime)
 	{
 		lastCollisionUpdate = _currentTime;
-    	
+		
     	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
     		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
     			wrapper.projectiles.get(i).checkCollision();
@@ -339,6 +339,10 @@ class GameThread extends Thread
     		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
     			wrapper.obstacles.get(i).checkCollision();
     		}
+    	}
+    	
+    	if (wrapper.playerState == Wrapper.FULL_ACTIVITY) {
+    		wrapper.player.checkCollision();
     	}
 	}
 
