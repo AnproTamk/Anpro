@@ -258,77 +258,77 @@ public class GLRenderer implements Renderer
             
             // Emoalus
             if (wrapper.mothership != null) {
+            	wrapper.mothership.draw(_gl);
             	if (wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
                 	wrapper.mothership.update();
                 }
-            	wrapper.mothership.draw(_gl);
             }
             
             // Aurinko, planeetat ja asteroidit
             for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
                 if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
+                	wrapper.obstacles.get(i).draw(_gl);
                 	if (wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
                         wrapper.obstacles.get(i).update();
                 	}
-                	wrapper.obstacles.get(i).draw(_gl);
                 }
             }
             
             // Viholliset
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
+	                wrapper.enemies.get(i).draw(_gl);
 	                if (wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
 	                	wrapper.enemies.get(i).update();
 	                }
-	                wrapper.enemies.get(i).draw(_gl);
 	            }
             }
             
             // Ammukset
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
             	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
+                	wrapper.projectiles.get(i).draw(_gl);
                     if (wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
                         wrapper.projectiles.get(i).update();
                     }
-                	wrapper.projectiles.get(i).draw(_gl);
             	}
             }
             
             // Kerättävät esineet
             for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
                 if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.collectables.get(i).draw(_gl);
                     if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
                         wrapper.collectables.get(i).update();
                     }
-                    wrapper.collectables.get(i).draw(_gl);
                 }
             }
         
             // Pelaaja
             if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
+                wrapper.player.draw(_gl);
             	if (wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
                     wrapper.player.update();
                 }
-                wrapper.player.draw(_gl);
             }
             
             // Efektit
             for (int i = wrapper.effects.size()-1; i >= 0; --i) {
                 if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.effects.get(i).draw(_gl);
                     if (wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
                         wrapper.effects.get(i).update();
                     }
-                    wrapper.effects.get(i).draw(_gl);
                 }
             }
             
             // HUD
             for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
                 if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
+            		wrapper.guiObjects.get(i).draw(_gl);
                 	if (wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
                 		wrapper.guiObjects.get(i).update();
                 	}
-            		wrapper.guiObjects.get(i).draw(_gl);
                 }
             }
             // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
