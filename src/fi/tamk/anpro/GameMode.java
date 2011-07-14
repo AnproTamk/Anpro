@@ -253,9 +253,9 @@ public class GameMode
     protected void generateObstacles()
     {
     	// Luodaan kent‰n asteroidit
-    	asteroids[0] = new Obstacle(1, -400, -400, 2, randDirection);
-    	asteroids[1] = new Obstacle(1, 800, 800, 2, randDirection);
-    	asteroids[2] = new Obstacle(1, -1200, 400, 2, randDirection);
+    	asteroids[0] = new Obstacle(1, -400, -400, randSpeed, randDirection);
+    	asteroids[1] = new Obstacle(1, 800, 800, randSpeed, randDirection);
+    	asteroids[2] = new Obstacle(1, -1200, 400, randSpeed, randDirection);
     		
     	// Luodaan kent‰n planeetat
 		planets[0] = new Obstacle(0, 0, -600, 0, 0);
@@ -362,7 +362,7 @@ public class GameMode
     }
 
     /**
-     * L‰hett‰‰ pisteet GameActivitylle, joka siirt‰‰ pelin Highscores-valikkoon.
+     * L‰hett‰‰ pisteet pelaajan kuoltua GameActivitylle, joka siirt‰‰ pelin Highscores-valikkoon.
      */
 	public void endGameMode()
 	{
@@ -408,5 +408,16 @@ public class GameMode
     	for (int i = 0; i < 15; ++i) {
     		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-400, 400), Utility.getRandom(-240, 240));
     	}
+	}
+	
+	/**
+	 * Avaa "emoalusmenun", jossa p‰ivitet‰‰n skillej‰, tallennetaan pelitilanne
+	 * sek‰ korjataan pelaajan alusta/emoalusta.
+	 * 
+	 * @param MAHDOLLISET PARAMETRIT TULEE MY÷HEMMIN!
+	 */
+	public void moveToMothershipMenu()
+	{
+		gameActivity.continueToMothership();
 	}
 }

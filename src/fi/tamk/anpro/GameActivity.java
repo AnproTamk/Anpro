@@ -187,7 +187,7 @@ public class GameActivity extends Activity
      * Ottaa pelaajan pisteet vastaan parametrina, l‰hett‰‰ pisteet 
      * ja siirtyy HighScoresActivityyn.
      * 
-     * @param int Survival-pelitilan pisteet
+     * @param int Pelitilan pisteet
      */
     public void continueToHighscores(int _score)
 	{
@@ -204,6 +204,16 @@ public class GameActivity extends Activity
 		startActivity(i_highscores);
 		finish();
 	}
+    
+    /**
+     * 
+     * 
+     * @param TODO:PARAMETRIT!
+     */
+    public void continueToMothership()
+    {
+    	System.exit(0);
+    }
 	
 	@Override
 	public boolean onKeyDown(int _keyCode, KeyEvent _event)
