@@ -109,7 +109,7 @@ public class Options
 	 * @param _screenHeight Näytön korkeus
 	 */
     public void getScalingConversion(int _screenWidth, int _screenHeight)
-	{	
+	{
     	scaleX      	   = (float)_screenWidth / 800;
     	scaleY             = (float)_screenHeight / 480;
     	scale	           = 1.0f; 				// TODO: Pitäisikö olla jokin muu kuin 1.0f?

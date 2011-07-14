@@ -547,6 +547,7 @@ public class GLRenderer implements Renderer
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planetearth_tex_0);
+        obstacleTextures[0][1] = new Texture(_gl, context, R.drawable.planet_tex_0);
         obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
         obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
     	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
