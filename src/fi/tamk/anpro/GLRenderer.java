@@ -56,7 +56,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 4;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
@@ -454,9 +454,10 @@ public class GLRenderer implements Renderer
         // Napit
         hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
         hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
-        hudAnimations[0] = new Animation(_gl, context, resources, "radar_warning_0", 3);
-        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning_1", 3);
-        hudAnimations[2] = new Animation(_gl, context, resources, "radar_warning_2", 3);
+        hudAnimations[0] = new Animation(_gl, context, resources, "radar_warning_left", 3);
+        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning_down", 3);
+        hudAnimations[2] = new Animation(_gl, context, resources, "radar_warning_right", 3);
+        hudAnimations[3] = new Animation(_gl, context, resources, "radar_warning_top", 3);
 
         // Joystick
         hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
@@ -524,7 +525,6 @@ public class GLRenderer implements Renderer
         hudTextures[50] = new Texture(_gl, context, R.drawable.radar_tex_1);
         hudTextures[51] = new Texture(_gl, context, R.drawable.radar_tex_2);
         hudTextures[52] = new Texture(_gl, context, R.drawable.radar_tex_3);
-        hudTextures[53] = new Texture(_gl, context, R.drawable.radar_tex_4);
         
         // Ilmoitukset
         hudTextures[54] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
