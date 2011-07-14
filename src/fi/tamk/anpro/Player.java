@@ -113,18 +113,20 @@ public class Player extends GameObject
     	/* Tarkistaa törmäykset kerättäviin esineiseen */
     	for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
     		
-			if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
-	        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
-	        		
-	        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
-	        			wrapper.collectables.get(i).triggerCollision(0, 0);
-	        		}
-	        	}
-			}
-			
+    		if (wrapper.collectableStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    		
+				if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
+		        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
+		        		
+		        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
+		        			wrapper.collectables.get(i).triggerCollision(0, 0);
+		        		}
+		        	}
+				}
+    		}
     	}
     	
-    	/* Tarkistetaan osumat pelaajaan */
+    	/* Tarkistetaan törmäykset emoalukseen */
     	// Tarkistetaan, onko emoaluksen ja pelaajan välinen etäisyys riittävän pieni
     	// tarkkoja osumatarkistuksia varten
     	if (Math.abs(wrapper.mothership.x - x) <= Wrapper.gridSize) {
