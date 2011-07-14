@@ -23,7 +23,6 @@ public class Wrapper
     public static final int CLASS_TYPE_COLLECTABLE    = 8;
     public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
     public static final int CLASS_TYPE_MOTHERSHIP     = 10;
-    public static final int CLASS_TYPE_MESSAGE        = 11;
     
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -39,7 +38,6 @@ public class Wrapper
     public ArrayList<GuiObject> 		 guiObjects   = null;
     public ArrayList<Obstacle>  		 obstacles    = null;
     public ArrayList<EffectObject> 	     effects      = null;
-    public ArrayList<Message> 	         messages     = null;
     public ArrayList<Collectable> 	     collectables = null;
     
     public ArrayList<BackgroundStar> backgroundStars = null;
@@ -54,7 +52,6 @@ public class Wrapper
     public ArrayList<Integer> guiObjectStates   = null;
     public ArrayList<Integer> obstacleStates    = null;
     public ArrayList<Integer> effectStates      = null;
-    public ArrayList<Integer> messageStates     = null;
     public ArrayList<Integer> collectableStates = null;
 
     /* Peliobjektien tekoälyjen tasot. Näiden taulukoiden arvot viittaavat
@@ -85,7 +82,7 @@ public class Wrapper
     private Wrapper()
     {
     	// Lasketaan osumatarkistuksessa käytettävien "ruutujen" koko
-    	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 3);
+    	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 10);
     	
     	// Alustetaan taulukot
         allies                   = new ArrayList<Ally>();
@@ -94,7 +91,6 @@ public class Wrapper
         guiObjects               = new ArrayList<GuiObject>();
         obstacles                = new ArrayList<Obstacle>();
         effects                  = new ArrayList<EffectObject>();
-        messages                 = new ArrayList<Message>();
         collectables             = new ArrayList<Collectable>();
         backgroundStars          = new ArrayList<BackgroundStar>();
         allyStates               = new ArrayList<Integer>();
@@ -103,7 +99,6 @@ public class Wrapper
         guiObjectStates          = new ArrayList<Integer>();
         obstacleStates           = new ArrayList<Integer>();
         effectStates             = new ArrayList<Integer>();
-        messageStates            = new ArrayList<Integer>();
         collectableStates        = new ArrayList<Integer>();
         priorityOneAllies        = new ArrayList<Integer>();
         priorityTwoAllies        = new ArrayList<Integer>();
@@ -230,26 +225,14 @@ public class Wrapper
         else if (_classType == CLASS_TYPE_OBSTACLE) {
         	obstacles.add((Obstacle)_object);
         	obstacleStates.add(1);
-
-            return obstacleStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_EFFECT) {
         	effects.add((EffectObject)_object);
         	effectStates.add(1);
-
-            return effectStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_MESSAGE) {
-        	messages.add((Message)_object);
-        	messageStates.add(0);
-        	
-        	return messageStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_COLLECTABLE) {
         	collectables.add((Collectable)_object);
         	collectableStates.add(1);
-
-            return collectableStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
         	backgroundStars.add((BackgroundStar)_object);
