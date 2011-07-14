@@ -78,7 +78,8 @@ class GameThread extends Thread
     }
 
     /**
-     * Suorittää säikeen.
+     * Suorittää säikeen. Android kutsuu tätä automaattisesti kun GameThread
+     * on käynnistetty thread-funktiolla (sisältyy Thread-luokkaan).
      */
     @Override
     public void run()
@@ -120,194 +121,46 @@ class GameThread extends Thread
             	gameMode.checkBounds();            	
             }
             
-            /* Päivitetään sijainnit ja liikkuminen */
+            /* Päivitetään objektien sijainnit niiden liikkeen mukaan (käsitellään
+               myös tähtitaustan rajatarkistukset) */
             if (currentTime - lastMovementUpdate >= 10) {
                 
-                lastMovementUpdate = currentTime;
-                
-                wrapper.player.updateMovement(currentTime);
-            	cameraManager.updateCameraPosition();
-                
-                for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
-                	wrapper.backgroundStars.get(i).checkPosition();
-                }
-                
-                for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-                    if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
-                        wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
-                        
-                        wrapper.enemies.get(i).updateMovement(currentTime);
-                    }
-                }
-                
-                for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-                    if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY ||
-                        wrapper.projectileStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
-                        
-                        wrapper.projectiles.get(i).updateMovement(currentTime);
-                    }
-                }
-                
-                for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-                    if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY ||
-                        wrapper.obstacleStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
-                        
-                        wrapper.obstacles.get(i).updateMovement(currentTime);
-                    }
-                }
+                updateMovement(currentTime);
+                updateBackgroundStars();
             }
             
             /* Päivitetään tekoälyjen päivitysvälit */
             if (currentTime - waveStartTime >= 3000) {
                 updateSpeedUp = 2;
+                // TODO: Onko tämä enää tarpeen, koska kenttä on nyt isompi?
             }
            
             /* Päivitetään tekoälyt */
             if (wrapper.player != null) {
             	
-                // Päivitetään tila 1
-                if (currentTime - lastAiUpdateStateOne >= (300 / updateSpeedUp)) {
-                    lastAiUpdateStateOne = currentTime;
-                    
-                    for (int i : wrapper.priorityOneEnemies) {
-                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.enemies.get(i).ai.handleAi();
-                        }
-                    }
-                    
-                    for (int i : wrapper.priorityOneProjectiles) {
-                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                        	if (wrapper.projectiles.get(i).ai != null) {
-	                        	if (wrapper.projectiles.get(i).ai.active) {
-	                        		wrapper.projectiles.get(i).ai.handleAi();
-	                        	}
-                        	}
-                        }
-                    }
-                }
-
-                // Päivitetään tila 2
-                if (currentTime - lastAiUpdateStateTwo >= (150 / updateSpeedUp)) {
-                    lastAiUpdateStateTwo = currentTime;
-                    
-                    for (int i : wrapper.priorityTwoEnemies) {
-                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.enemies.get(i).ai.handleAi();
-                        }
-                    }
-                    
-                    for (int i : wrapper.priorityTwoProjectiles) {
-                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                        	if (wrapper.projectiles.get(i).ai.active) {
-                        		wrapper.projectiles.get(i).ai.handleAi();
-                        	}
-                        }
-                    }
-                }
-
-                // Päivitetään tila 3
-                if (currentTime - lastAiUpdateStateThree >= (75 / updateSpeedUp)) {
-                    lastAiUpdateStateThree = currentTime;
-                    
-                    for (int i : wrapper.priorityThreeEnemies) {
-                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.enemies.get(i).ai.handleAi();
-                        }
-                    }
-                    
-                    for (int i : wrapper.priorityThreeProjectiles) {
-                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                        	if (wrapper.projectiles.get(i).ai.active) {
-                        		wrapper.projectiles.get(i).ai.handleAi();
-                        	}
-                        }
-                    }
-                }
-
-                // Päivitetään tila 4
-                if (currentTime - lastAiUpdateStateFour >= (40 / updateSpeedUp)) {
-                    lastAiUpdateStateFour = currentTime;
-
-                	// Päivitetään pelaajan tekoäly (aina tila 4)
-                	wrapper.player.ai.handleAi();
-                    
-                    for (int i : wrapper.priorityFourEnemies) {
-                        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                            wrapper.enemies.get(i).ai.handleAi();
-                        }
-                    }
-                    
-                    for (int i : wrapper.priorityFourProjectiles) {
-                        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-                        	if (wrapper.projectiles.get(i).ai.active) {
-                        		wrapper.projectiles.get(i).ai.handleAi();
-                        	}
-                        }
-                    }
-                }
+            	updateAi(currentTime);
             }
             
             /* Tarkistetaan törmäykset */
             if (currentTime - lastCollisionUpdate >= 50) {
-            	lastCollisionUpdate = currentTime;
             	
-            	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-            		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-            			wrapper.projectiles.get(i).checkCollision();
-            		}
-            	}
-            	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-            		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-            			//wrapper.enemies.get(i).checkCollision();
-            		}
-            	}
-            	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-            		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
-            			wrapper.obstacles.get(i).checkCollision();
-            		}
-            	}
+            	checkCollisions(currentTime);
             }
+            
             /* Päivitetään efektien sijainnit */
-        	for (int i = wrapper.effects.size()-1; i >= 0; --i) {
-        		if (wrapper.effectStates.get(i) == Wrapper.FULL_ACTIVITY) {
-        			wrapper.effects.get(i).updatePosition();
-        		}
-        	}
+            updateEffectPositions();
             
             /* Päivitetään aseiden cooldownit */
-            if (currentTime - lastCooldownUpdate >= 100) {
-            	lastCooldownUpdate = currentTime;
-                gameMode.weaponManager.updateCooldowns();
-                hud.updateCooldowns();
-            }
+        	updateWeaponCooldowns(currentTime);
             
-            /* Päivitetään pelaajan armorit */
-            if (currentTime - lastArmorUpdate >= 10000) {
-            	lastArmorUpdate = currentTime;
-            	if (wrapper.player.currentArmor <= 0) {
-            		wrapper.player.currentArmor += 25;
-            	}
-            }
+            /* Palautetaan osa pelaajan suojista */
+            recoverWeaponArmor(currentTime);
             
             /* Päivitetään vihollisaallot ja pelitila */
-            if (currentTime - lastGameModeUpdate >= 1000) {
-                if (GameMode.enemiesLeft == 0) {
-                    waveStartTime = android.os.SystemClock.uptimeMillis();
-                    updateSpeedUp = 1;
-                    
-                    gameMode.startWave();
-                }
-                
-                gameMode.mirrorAsteroidPosition();
-            }
+            updateGameMode(currentTime);
             
             /* Päivitetään opastusnuolet */
-            if (currentTime - lastGuideArrowUpdate >= 100) {
-            	lastGuideArrowUpdate = currentTime;
-            	
-            	hud.guideArrowToCollectable.updateArrow();
-            	hud.guideArrowToMothership.updateArrow();
-            }
+            updateGuideArrows(currentTime);
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */
             try {
@@ -317,4 +170,246 @@ class GameThread extends Thread
             }
         }
     }
+
+    /**
+     * Päivittää objektien liikkeen (paikan vaihtaminen, kääntyminen, nopeuksien
+     * muutokset jne.)
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void updateMovement(long _currentTime)
+	{
+        lastMovementUpdate = _currentTime;
+        
+		wrapper.player.updateMovement(_currentTime);
+		cameraManager.updateCameraPosition();
+	    
+	    for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+	        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
+	            wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	            
+	            wrapper.enemies.get(i).updateMovement(_currentTime);
+	        }
+	    }
+	    
+	    for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+	        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY ||
+	            wrapper.projectileStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	            
+	            wrapper.projectiles.get(i).updateMovement(_currentTime);
+	        }
+	    }
+	    
+	    for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+	        if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY ||
+	            wrapper.obstacleStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	            
+	            wrapper.obstacles.get(i).updateMovement(_currentTime);
+	        }
+	    }
+	}
+
+    /**
+     * Päivittää tähtitaustan.
+     */
+	private void updateBackgroundStars()
+	{
+	    for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
+	    	wrapper.backgroundStars.get(i).checkPosition();
+	    }
+	}
+
+    /**
+     * Päivittää vihollisten ja ammusten tekoälyt tasoittain (1-4). Päivittää
+     * myös pelaajan "tekoälyn" samaan aikaan neljännen tason kanssa.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void updateAi(long _currentTime)
+	{
+	    // Päivitetään tila 1
+		if (_currentTime - lastAiUpdateStateOne >= (300 / updateSpeedUp)) {
+	        lastAiUpdateStateOne = _currentTime;
+	        
+	        for (int i : wrapper.priorityOneEnemies) {
+	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityOneProjectiles) {
+	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	if (wrapper.projectiles.get(i).ai != null) {
+	                	if (wrapper.projectiles.get(i).ai.active) {
+	                		wrapper.projectiles.get(i).ai.handleAi();
+	                	}
+	            	}
+	            }
+	        }
+		}
+	
+	    // Päivitetään tila 2
+	    if (_currentTime - lastAiUpdateStateTwo >= (150 / updateSpeedUp)) {
+	        lastAiUpdateStateTwo = _currentTime;
+	        
+	        for (int i : wrapper.priorityTwoEnemies) {
+	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityTwoProjectiles) {
+	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	if (wrapper.projectiles.get(i).ai.active) {
+	            		wrapper.projectiles.get(i).ai.handleAi();
+	            	}
+	            }
+	        }
+	    }
+	
+	    // Päivitetään tila 3
+	    if (_currentTime - lastAiUpdateStateThree >= (75 / updateSpeedUp)) {
+	        lastAiUpdateStateThree = _currentTime;
+	        
+	        for (int i : wrapper.priorityThreeEnemies) {
+	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityThreeProjectiles) {
+	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	if (wrapper.projectiles.get(i).ai.active) {
+	            		wrapper.projectiles.get(i).ai.handleAi();
+	            	}
+	            }
+	        }
+	    }
+	
+	    // Päivitetään tila 4
+	    if (_currentTime - lastAiUpdateStateFour >= (40 / updateSpeedUp)) {
+	        lastAiUpdateStateFour = _currentTime;
+	
+	    	// Päivitetään pelaajan tekoäly (aina tila 4)
+	    	wrapper.player.ai.handleAi();
+	        
+	        for (int i : wrapper.priorityFourEnemies) {
+	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityFourProjectiles) {
+	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	if (wrapper.projectiles.get(i).ai.active) {
+	            		wrapper.projectiles.get(i).ai.handleAi();
+	            	}
+	            }
+	        }
+	    }
+	}
+
+    /**
+     * Tarkistaa törmäykset.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void checkCollisions(long _currentTime)
+	{
+		lastCollisionUpdate = _currentTime;
+    	
+    	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+    		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			wrapper.projectiles.get(i).checkCollision();
+    		}
+    	}
+    	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+    		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			//wrapper.enemies.get(i).checkCollision(); // TODO: ?
+    		}
+    	}
+    	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+    		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			wrapper.obstacles.get(i).checkCollision();
+    		}
+    	}
+	}
+
+    /**
+     * Päivittää efektien sijainnit, sillä joidenkin efektien on seurattava
+     * niille annettuja kohteita.
+     */
+	private void updateEffectPositions()
+	{
+    	for (int i = wrapper.effects.size()-1; i >= 0; --i) {
+    		if (wrapper.effectStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			wrapper.effects.get(i).updatePosition();
+    		}
+    	}
+	}
+
+    /**
+     * Päivittää aseiden cooldownit sekä WeaponManagerista että HUDista.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void updateWeaponCooldowns(long _currentTime)
+	{
+        if (_currentTime - lastCooldownUpdate >= 100) {
+        	lastCooldownUpdate = _currentTime;
+            gameMode.weaponManager.updateCooldowns();
+            hud.updateCooldowns();
+        }
+	}
+
+    /**
+     * Palauttaa pelaajalla osan aluksen suojista.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void recoverWeaponArmor(long _currentTime)
+	{
+        if (_currentTime - lastArmorUpdate >= 10000) {
+        	lastArmorUpdate = _currentTime;
+        	
+        	if (wrapper.player.currentArmor <= 0) {
+        		wrapper.player.currentArmor += 25;
+        	}
+        }
+	}
+
+    /**
+     * Päivittää pelitilan, eli esimerkiksi asteroidien peilauksen, vihollisten
+     * uudelleensyntymisen yms.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void updateGameMode(long _currentTime)
+	{
+        if (_currentTime - lastGameModeUpdate >= 1000) {
+            if (GameMode.enemiesLeft == 0) {
+                waveStartTime = android.os.SystemClock.uptimeMillis();
+                updateSpeedUp = 1;
+                
+                gameMode.startWave();
+            }
+            
+            gameMode.mirrorAsteroidPosition();
+        }
+	}
+
+    /**
+     * Päivittää opasnuolien kohteet ja niiden osoittamat suunnat.
+     * 
+     * @param _currentTime Tämän hetkinen aika
+     */
+	private void updateGuideArrows(long _currentTime)
+	{
+        if (_currentTime - lastGuideArrowUpdate >= 100) {
+        	lastGuideArrowUpdate = _currentTime;
+        	
+        	hud.guideArrowToCollectable.updateArrow();
+        	hud.guideArrowToMothership.updateArrow();
+        }
+	}
 }

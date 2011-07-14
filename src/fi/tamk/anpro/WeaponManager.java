@@ -65,6 +65,8 @@ public class WeaponManager
 
             // Asetetaan globaali cooldown
             addGlobalCooldown();
+            
+            MessageManager.getInstance().outOfBounds.activate();
         }
     }
     

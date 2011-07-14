@@ -12,12 +12,12 @@ public class EffectManager
 	public static final byte EFFECT_BALLOON_EXCLAMATION = 0;
 	public static final byte EFFECT_BALLOON_QUESTION    = 1;
 	public static final byte EFFECT_PLAYER_ARMOR        = 2;
-	public static final byte EFFECT_ENEMY_ARMOR         = 3;
-	public static final byte EFFECT_COMBOMULTIPLIER_2   = 4;
-	public static final byte EFFECT_COMBOMULTIPLIER_3   = 5;
-	public static final byte EFFECT_COMBOMULTIPLIER_4   = 6;
-	public static final byte EFFECT_COMBOMULTIPLIER_5   = 7;
-	public static final byte EFFECT_EXPLOSION           = 8;
+	public static final byte EFFECT_ENEMY_ARMOR         = 2;
+	public static final byte EFFECT_COMBOMULTIPLIER_2   = 3;
+	public static final byte EFFECT_COMBOMULTIPLIER_3   = 4;
+	public static final byte EFFECT_COMBOMULTIPLIER_4   = 5;
+	public static final byte EFFECT_COMBOMULTIPLIER_5   = 6;
+	public static final byte EFFECT_EXPLOSION           = 7;
 	
 	/* Efektiobjektit */
 	private static EffectObject   playerArmorEffect;
