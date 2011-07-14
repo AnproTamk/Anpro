@@ -36,6 +36,7 @@ class GameThread extends Thread
     private long lastArmorUpdate;
     private long lastBoundCheck;
     private long lastGuideArrowUpdate;
+    private long lastRadarUpdate;
     
     /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
        että viholliset varmasti lopulta saavuttavat pelaajan) */
@@ -113,6 +114,7 @@ class GameThread extends Thread
         lastArmorUpdate		   = waveStartTime;
         lastBoundCheck         = waveStartTime;
         lastGuideArrowUpdate   = waveStartTime;
+        lastRadarUpdate        = waveStartTime;
         
         /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
         while (running) {
@@ -168,6 +170,9 @@ class GameThread extends Thread
             
             /* Päivitetään opastusnuolet */
             updateGuideArrows(currentTime);
+            
+            /* Päivitetään tutka */
+            updateRadar(currentTime);
 
             /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */
             try {
@@ -422,5 +427,18 @@ class GameThread extends Thread
         	hud.guideArrowToCollectable.updateArrow();
         	hud.guideArrowToMothership.updateArrow();
         }
+	}
+	/**
+	 * Päivittää tutkan osoittaman vihollisen ja suunnan
+	 * 
+	 * @param _currentTime
+	 */
+	private void updateRadar(long _currentTime)
+	{
+		if(_currentTime - lastRadarUpdate >= 100) {
+			lastRadarUpdate = _currentTime;
+			
+			hud.radar.updateRadar();
+		}
 	}
 }
