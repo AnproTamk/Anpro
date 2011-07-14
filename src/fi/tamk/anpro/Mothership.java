@@ -34,33 +34,7 @@ public class Mothership extends GameObject
 		usedAnimation  = 0;
 		animationSpeed = 2;*/
 	}
-    
-    /**
-     * Käsittelee ammuksen törmäystarkistukset.
-     */
-    public final void checkCollision()
-    {
-    	/* Tarkistetaan osumat pelaajaan */
-    	// Tarkistetaan, onko emoaluksen ja pelaajan välinen etäisyys riittävän pieni
-    	// tarkkoja osumatarkistuksia varten
-    	if (Math.abs(wrapper.player.x - x) <= Wrapper.gridSize) {
-        	if (Math.abs(wrapper.player.y - y) <= Wrapper.gridSize) {
-        
-                // Tarkistetaan osuma
-        		if (Utility.isColliding(wrapper.player, this)) {
-        			
-        			// Siirrytään emoaluksen valikkoon
-        			// TODO: Lisää siirtyminen toiseen activityyn
-        		}
-        	}
-    	}
-    }
-    
-    /**
-     * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
-     * 
-     * @param GL10 OpenGL-konteksti
-     */
+
 	@Override
 	public void draw(GL10 _gl)
 	{
@@ -73,35 +47,6 @@ public class Mothership extends GameObject
         }
 	}
 
-    /**
-     * Käsittelee jonkin toiminnon päättymisen. Kutsutaan animaation loputtua, mikäli
-     * <i>actionActivated</i> on TRUE.<br /><br />
-     * 
-     * Käytetään seuraavasti:<br />
-     * <ul>
-     *   <li>1. Objekti kutsuu funktiota <b>setAction</b>, jolle annetaan parametreina haluttu animaatio,
-     *     animaation toistokerrat, animaation nopeus, toiminnon tunnus (vakiot <b>GfxObject</b>issa).
-     *     Toiminnon tunnus tallennetaan <i>actionId</i>-muuttujaan.
-     *     		<ul><li>-> Lisäksi voi antaa myös jonkin animaation ruudun järjestysnumeron (alkaen 0:sta)
-     *     		   ja ajan, joka siinä ruudussa on tarkoitus odottaa.</li></ul></li>
-     *  <li>2. <b>GfxObject</b>in <b>setAction</b>-funktio kutsuu startAnimation-funktiota (sisältää myös
-     *     <b>GfxObject</b>issa), joka käynnistää animaation asettamalla <i>usedAnimation</i>-muuttujan arvoksi
-     *     kohdassa 1 annetun animaation tunnuksen.</li>
-     *  <li>3. <b>GLRenderer</b> päivittää animaatiota kutsumalla <b>GfxObject</b>in <b>update</b>-funktiota.</li>
-     *  <li>4. Kun animaatio on loppunut, kutsuu <b>update</b>-funktio koko ketjun aloittaneen objektin
-     *     <b>triggerEndOfAction</b>-funktiota (funktio on abstrakti, joten alaluokat luovat siitä aina
-     *     oman toteutuksensa).</li>
-     *  <li>5. <b>triggerEndOfAction</b>-funktio tulkitsee <i>actionId</i>-muuttujan arvoa, johon toiminnon tunnus
-     *     tallennettiin, ja toimii sen mukaisesti.</li>
-     * </ul>
-     * 
-     * Funktiota käytetään esimerkiksi objektin tuhoutuessa, jolloin se voi asettaa itsensä
-     * "puoliaktiiviseen" tilaan (esimerkiksi 2, eli ONLY_ANIMATION) ja käynnistää yllä esitetyn
-     * tapahtumaketjun. Objekti tuhoutuu asettumalla tilaan 0 (INACTIVE) vasta ketjun päätyttyä.
-     * Tuhoutuminen toteutettaisiin triggerEndOfAction-funktion sisällä.
-     * 
-     * Toimintojen vakiot löytyvät GfxObject-luokan alusta.
-     */
 	@Override
 	protected void triggerEndOfAction()
 	{
