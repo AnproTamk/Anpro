@@ -128,18 +128,12 @@ public class Player extends GameObject
     	// Tarkistetaan, onko emoaluksen ja pelaajan välinen etäisyys riittävän pieni
     	// tarkkoja osumatarkistuksia varten
     	if (Math.abs(wrapper.mothership.x - x) <= Wrapper.gridSize) {
-    		Log.e("TÄSSÄ", "Tulee ekaan");
         	if (Math.abs(wrapper.mothership.y - y) <= Wrapper.gridSize) {
-        		Log.e("TÄSSÄ", "Tulee tokaan");
-                // Tarkistetaan osuma
-        		timer = android.os.SystemClock.uptimeMillis();
+        		
+        		// Tarkistetaan osuma
         		if (Utility.isColliding(wrapper.mothership, this)) {
-        			Log.e("TÄSSÄ", "Tulee vikaan");
-        			gameMode.moveToMothershipMenu();
-        			/*if (timer == 2000) {
-	        			// Siirrytään emoaluksen valikkoon
-	        			
-        			}*/
+        			// Siirrytään emoaluksen valikkoon
+        			//gameMode.moveToMothershipMenu();
         		}
         	}
     	}
