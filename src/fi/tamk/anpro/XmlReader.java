@@ -90,11 +90,30 @@ public class XmlReader
 	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
 	                    
-	                    else if (hud.getName().equals("radar")) {
-	                    	Hud.radar = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    else if (hud.getName().equals("radar_top")) {
+	                    	Hud.radar_top = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                    						  Integer.parseInt(hud.getAttributeValue(null, "y")),
-	                    						  Integer.parseInt(hud.getAttributeValue(null, "value")));
+	                    						  Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
+	                    
+	                    else if (hud.getName().equals("radar_left")) {
+	 	                    	Hud.radar_left = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	 	                    						  Integer.parseInt(hud.getAttributeValue(null, "y")),
+	 	                    						  Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    }
+	                    
+	 	                else if (hud.getName().equals("radar_right")) {
+	 		                    	Hud.radar_right = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	 		                    						  Integer.parseInt(hud.getAttributeValue(null, "y")),
+	 		                    						  Integer.parseInt(hud.getAttributeValue(null, "type")));
+	 	                }
+	                    
+                    	 else if (hud.getName().equals("radar_down")) {
+	                    	Hud.radar_down = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    						  Integer.parseInt(hud.getAttributeValue(null, "y")),
+	                    						  Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    	
+                    	 }
 	                }
 	                else if (hud.getEventType() == XmlPullParser.END_TAG) {
 	                    // ...

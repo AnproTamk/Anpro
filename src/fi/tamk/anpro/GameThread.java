@@ -438,7 +438,10 @@ class GameThread extends Thread
 		if(_currentTime - lastRadarUpdate >= 100) {
 			lastRadarUpdate = _currentTime;
 			
-			hud.radar.updateRadar();
+			hud.radar_top.updateRadar();
+			hud.radar_left.updateRadar();
+			hud.radar_right.updateRadar();
+			hud.radar_down.updateRadar();
 		}
 	}
 }

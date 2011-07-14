@@ -31,7 +31,11 @@ public class Hud
     public static Bar				         armorBar                = null;
     public        GuideArrow                 guideArrowToCollectable = null;
     public        GuideArrow                 guideArrowToMothership  = null;
-    public static Radar						 radar					 = null;
+    public static Radar						 radar_top			     = null;
+    public static Radar						 radar_left			     = null;
+    public static Radar						 radar_right			 = null;
+    public static Radar						 radar_down			     = null;
+    
      
     /* Osoittimet tarvittaviin luokkiin */
     private final WeaponManager weaponManager;
