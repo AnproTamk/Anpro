@@ -8,6 +8,12 @@
         <health_bar x="180" y="-96" type="1" />
         <armor_bar x="180" y="-132" type="2" />
         
+        <radar_top x="-192" y="-96" type="0" />
+        <radar_left x="-204" y="-100" type="1" />
+        <radar_right x="-180" y="-100" type="2" />
+        <radar_down x="-192" y="-112" type="3" />
+        
+        
         <joystick x="-192" y="-112" type="" />
         
         <counter id="score_counter" x="64" y="-144" type="counter_numbers" value="1" />
