@@ -105,7 +105,7 @@ public class Collectable extends GameObject
     public final void triggerCollision(int _damage, int _armorPiercing)
     {
     	wrapper.collectableStates.set(listId, Wrapper.ONLY_ANIMATION);
-    	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED);
+    	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     }
 
     /**

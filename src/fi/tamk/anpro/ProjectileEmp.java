@@ -41,7 +41,7 @@ public class ProjectileEmp extends AbstractProjectile
     {
         wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
         
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
         
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {

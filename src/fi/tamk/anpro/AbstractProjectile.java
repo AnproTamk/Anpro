@@ -306,11 +306,11 @@ abstract public class AbstractProjectile extends GameObject
 			            	    		parent.triggerClusterExplosion(8, x, y);
 			                    	}
 			                    	
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 			                    }
 			                    // Aiheutetaan räjähdys
 			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 			
 			                        triggerExplosion();
 			                    }
@@ -355,10 +355,10 @@ abstract public class AbstractProjectile extends GameObject
 		            	    		parent.triggerClusterExplosion(8, x, y);
 		                    	}
 		                    	
-		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 		                    }
 		                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 		
 		                        triggerExplosion();
 		                    }
@@ -381,7 +381,7 @@ abstract public class AbstractProjectile extends GameObject
 
             if (currentTime - startTime >= explodeTime) {
                 wrapper.projectileStates.set(listId, 2);
-                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 
                 triggerExplosion();
             }
@@ -459,7 +459,7 @@ abstract public class AbstractProjectile extends GameObject
 	{
     	wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
     
     /**
