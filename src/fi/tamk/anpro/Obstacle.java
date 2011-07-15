@@ -91,7 +91,7 @@ public class Obstacle extends GameObject
 	{
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0) {
-            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, 0, (int)facingDirection);
+            GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, (int)facingDirection, currentFrame);
         }
         else {
             GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, (int)facingDirection, 0);

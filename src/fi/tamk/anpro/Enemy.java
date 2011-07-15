@@ -131,7 +131,7 @@ public class Enemy extends GameObject
             GLRenderer.enemyAnimations[rank-1][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.enemyTextures[rank-1][usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.enemyTextures[rank-1][usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
     }
     
@@ -275,7 +275,7 @@ public class Enemy extends GameObject
 
     	EffectManager.showQuestionMarkBalloon(this);
     	
-        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, 2);
+        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, GfxObject.ACTION_ENABLED);
 	}
     
     /**
@@ -291,6 +291,6 @@ public class Enemy extends GameObject
     	movementAcceleration = -15;
     	turningDirection     = 0;
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
 	}
 }

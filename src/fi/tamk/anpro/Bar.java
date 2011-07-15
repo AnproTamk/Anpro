@@ -49,17 +49,17 @@ public class Bar extends GuiObject
 		// Lasketaan, paljonko pelaajalla on on healthia jäljellä, minkä mukaan
 		// piirretään oikea healthBar-kuva ruudulle.
 		if (type == 1) {
-			usedTexture = GLRenderer.TEXTURE_HEALTH + (int)((1 - (float)_value / (float)max) * 10);
+			currentFrame = (int)((1 - (float)_value / (float)max) * 10);
 			
-			if (usedTexture > GLRenderer.TEXTURE_HEALTH + 10) {
-				usedTexture = GLRenderer.TEXTURE_HEALTH + 10;
+			if (currentFrame > 10) {
+				currentFrame = 10; // TODO: Käytä ruutuja, älä vaihda tekstuuria!
 			}
 		}
 		else if (type == 2) {
-			usedTexture = GLRenderer.TEXTURE_ARMOR + (int)((1- (float)_value / (float)max) * 10);
+			currentFrame = (int)((1- (float)_value / (float)max) * 10);
 			
-			if (usedTexture > GLRenderer.TEXTURE_ARMOR + 10) {
-				usedTexture = GLRenderer.TEXTURE_ARMOR + 10;
+			if (currentFrame > 10) {
+				currentFrame = 10; // TODO: Käytä ruutuja, älä vaihda tekstuuria!
 			}
 		}
 	}

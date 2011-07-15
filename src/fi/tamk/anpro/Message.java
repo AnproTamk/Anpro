@@ -97,6 +97,6 @@ public class Message extends GuiObject
     public final void draw(GL10 _gl)
     {
 		GLRenderer.hudTextures[usedTexture].drawIn3D(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction,
-													 0, xAxisRotation, yAxisRotation);
+													 currentFrame, xAxisRotation, yAxisRotation);
     }
 }
