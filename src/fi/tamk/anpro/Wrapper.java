@@ -256,9 +256,11 @@ public class Wrapper
         else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
         	backgroundStars.add((BackgroundStar)_object);
         	// Tila aina 1
+        	
+        	return backgroundStars.size()-1;
         }
         else if (_classType == CLASS_TYPE_MOTHERSHIP) {
-        	mothership      = (Mothership)_object;
+        	mothership = (Mothership)_object;
         	// Tila aina 1
         }
         

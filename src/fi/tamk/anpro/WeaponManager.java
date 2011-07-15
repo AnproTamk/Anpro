@@ -17,14 +17,14 @@ public class WeaponManager
     public int cooldownLeft[]; // Jäljellä oleva cooldown
 
     /* Käytössä oleva ase */
-    public int      currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
-    public boolean  isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
-    public boolean[]   weaponLocation;		     // Aseen
+    public int       currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
+    public boolean   isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
+    public boolean[] weaponLocation;		      // Aseen
     
     /* Aseiden oliot */
-    public ArrayList<AbstractWeapon> allyWeapons   = null;
-    public ArrayList<AbstractWeapon> enemyWeapons  = null;
-    public ArrayList<AbstractWeapon> playerWeapons = null;
+    private ArrayList<AbstractWeapon> allyWeapons   = null;
+    private ArrayList<AbstractWeapon> enemyWeapons  = null;
+    private ArrayList<AbstractWeapon> playerWeapons = null;
     
     /* Osoitin Wrapperiin */
     private Wrapper wrapper;

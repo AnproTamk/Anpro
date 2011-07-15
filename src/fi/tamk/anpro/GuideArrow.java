@@ -13,6 +13,13 @@ public class GuideArrow extends GuiObject
 	/* Nuolen tyyppi */
 	private byte targetType; 
 	
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param _x      Nuolen X-koordinaatti
+	 * @param _y	  Nuolen Y-koordinaatti
+	 * @param _target Kohteen tyyppi, johon nuolen pit‰isi osoittaa
+	 */
 	public GuideArrow(int _x, int _y, byte _target)
 	{
 		super(_x, _y);
@@ -22,6 +29,10 @@ public class GuideArrow extends GuiObject
 		usedTexture = GLRenderer.TEXTURE_GUIDEARROW + _target;
 	}
 
+	/**
+	 * P‰ivitt‰‰ nuolen etsim‰ll‰ uuden kohteen mik‰li tarpeen ja tarkistamalla
+	 * nuolen ja kohteen v‰lisen kulman.
+	 */
 	public final void updateArrow()
 	{
 		if (targetType == TARGET_COLLECTABLE) {

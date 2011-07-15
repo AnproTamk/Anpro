@@ -19,6 +19,12 @@ public class EffectObject extends GameObject
 	// Peliobjekti, jota seurataan
 	private GameObject parentObject;
 	
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param _speed	  Efektin nopeus (otetaan vastaan l‰hinn‰ vain siksi, ett‰ efektit ovat GameObjecteja)
+	 * @param _effectType Efektin tyyppi
+	 */
 	public EffectObject(int _speed, byte _effectType)
 	{
 		super(_speed);
@@ -38,7 +44,7 @@ public class EffectObject extends GameObject
 	}
 	
 	/**
-	 * Aktivoi peliobjektin efektin
+	 * Aktivoi peliobjektin efektin.
 	 * 
 	 * @param _object Peliobjekti
 	 */
@@ -55,7 +61,7 @@ public class EffectObject extends GameObject
 	}
 
 	/**
-	 * Aktivoi peliobjektin efektin
+	 * Aktivoi peliobjektin efektin.
 	 * 
 	 * @param _x Objektin X-koordinaatti
 	 * @param _y Objektin Y-koordinaatti
@@ -151,13 +157,4 @@ public class EffectObject extends GameObject
 			setUnactive();
 		}
 	}
-    
-	/*
-	Kun ammus tai alus osuu pelaajaan, tai pelaajan ammus osuu viholliseen, pit‰isi aluksen vieress‰ v‰l‰ht‰‰ suoja.
-	Suojan n‰ytt‰v‰ funktio tehd‰‰n EffectManageriin (funktioksi esim. showArmorEffect) ja efektin toiminnot EffectObjectiin.
-
-	EffectObject asettaisi objektin koordinaatit, tekstuurin ja k‰ynnist‰isi objektin animaation. 
-	J‰lkimm‰isin voidaan toteuttaa setAction- ja triggerEndOfAction-funktioilla (ks. GfxObject).
-	*/
-
 }

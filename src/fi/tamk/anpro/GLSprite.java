@@ -34,6 +34,9 @@ abstract public class GLSprite
     /* Osoitin CameraManageriin */
     private CameraManager cameraManager;
     
+    /**
+     * Alustaa luokan muuttujat.
+     */
     public GLSprite()
     {
     	// Otetaan CameraManager käyttöön kameran simulointia varten

@@ -17,18 +17,18 @@ public class GameMode
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
 
     /* Pelaaja ja emoalus */
-    public Player     player;
-    public Mothership mothership;
+    private Player     player;
+    private Mothership mothership;
     
     /* Tähtitausta */
     private BackgroundStar[] backgroundStars;
 
     /* Asteroidit */
-    public Obstacle[] asteroids; // Asteroidit
-    public Obstacle[] planets; // Planeetat
+    private Obstacle[] asteroids; // Asteroidit
+    private Obstacle[] planets; // Planeetat
     
     /* Kerättävät esineet */
-    public Collectable[] collectables; // Kerättävät esineet
+    private Collectable[] collectables; // Kerättävät esineet
     
     /* Viholliset */
     public           ArrayList<Enemy> enemies;         // Viholliset
@@ -418,7 +418,7 @@ public class GameMode
 	private void generateStarBackground()
     {
     	for (int i = 0; i < 15; ++i) {
-    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-400, 400), Utility.getRandom(-240, 240));
+    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
     	}
 	}
 	
