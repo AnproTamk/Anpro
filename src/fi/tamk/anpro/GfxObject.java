@@ -28,6 +28,9 @@ abstract public class GfxObject
     protected float xAxisRotation = 0;
     protected float yAxisRotation = 0;
     
+    /* Tekstuurisetti */
+    protected GLSpriteSet usedSpriteSet;
+    
     /* Käytössä oleva animaatio ja sen tiedot */
     public    int   usedAnimation    = -1;
     protected int[] animationLength;
@@ -111,8 +114,8 @@ abstract public class GfxObject
     public final void stopAnimation(int _texture)
     {
         usedAnimation = -1;
-        
         usedTexture   = _texture;
+        currentFrame  = 0;
     }
     
     /**
@@ -139,6 +142,7 @@ abstract public class GfxObject
 		                if (currentLoop > animationLoops) {
 		                    usedAnimation = -1;
 		                    usedTexture   = 0;
+		                    currentFrame  = 0;
 		                    
 		                    if (actionActivated) {
 		                        actionActivated = false;

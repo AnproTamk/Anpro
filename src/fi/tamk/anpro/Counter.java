@@ -102,7 +102,7 @@ public class Counter extends GuiObject
 			}
 			
 			// M‰‰ritet‰‰n halutun kuvan tunnus ja laitetaan se muuttujaan.
-			usedTexture = GLRenderer.TEXTURE_COUNTER + index;
+			currentFrame = index;
 		}
 		else {
 			wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);

@@ -58,7 +58,7 @@ public class Collectable extends GameObject
             GLRenderer.collectableAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
         }
         else {
-            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
 	}
     

@@ -101,7 +101,7 @@ public class Ally extends GameObject
             GLRenderer.allyAnimations[type-1][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.allyTextures[type-1][usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.allyTextures[type-1][usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
     }
     

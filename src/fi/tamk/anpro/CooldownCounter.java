@@ -36,7 +36,7 @@ public class CooldownCounter extends GuiObject
 		}
 		else if (originalCooldown > 0) {
 			// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri (arvot v‰lilt‰ 14-23)
-			usedTexture = GLRenderer.TEXTURE_COOLDOWN + 9 - (int)((1 - ((float)_cooldown / (float)originalCooldown)) * 9);
+			currentFrame = 9 - (int)((1 - ((float)_cooldown / (float)originalCooldown)) * 9); // TODO: K‰yt‰ ruutuja, ‰l‰ vaihda tekstuuria!
 		}
 		if (_cooldown <= 0) {
 			usedTexture = GLRenderer.TEXTURE_COOLDOWN;
