@@ -60,7 +60,7 @@ public class BackgroundStar extends GfxObject
 	@Override
 	public void draw(GL10 _gl)
 	{
-		GLRenderer.starBackgroundTexture.draw(_gl, x, y, 0, 0);
+		GLRenderer.starBackgroundTexture.draw(_gl, x, y, 0, currentFrame);
 	}
 
     /**

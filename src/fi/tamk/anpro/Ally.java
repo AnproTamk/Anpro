@@ -10,14 +10,13 @@ public class Ally extends GameObject
 {
     /* Liittolaisen tiedot */
     public int attack;
-    public int type;
+    public int type;   // Liittolaisten tyypit vastaavat vihollisten tasoja
     
     /* Tekoäly */
     public AbstractAi ai;
     
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
-    @SuppressWarnings("unused")
     private WeaponManager weaponManager;
 
     /**
@@ -102,7 +101,7 @@ public class Ally extends GameObject
             GLRenderer.allyAnimations[type-1][usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.allyTextures[type-1][usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.allyTextures[type-1][usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
     }
     
@@ -196,7 +195,7 @@ public class Ally extends GameObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	public void triggerDestroyed()
+	private void triggerDestroyed()
 	{
     	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
 

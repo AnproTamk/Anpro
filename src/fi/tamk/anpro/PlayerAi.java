@@ -2,6 +2,12 @@ package fi.tamk.anpro;
 
 public class PlayerAi extends AbstractAi
 {
+	/**
+	 * Alustaa luokan muuttujat.
+	 * 
+	 * @param _id   Objektin tunnus piirtolistalla
+	 * @param _type Objektin tyyppi
+	 */
 	public PlayerAi(int _id, int _type)
 	{
 		super(_id, _type);

@@ -60,7 +60,7 @@ abstract public class GuiObject extends GfxObject
         }
         else{
         	// TODO: Pluslasku on purkkaviritelmä...?
-        	GLRenderer.hudTextures[usedTexture].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, 0);
+        	GLRenderer.hudTextures[usedTexture].draw(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, currentFrame);
         }
         
     }

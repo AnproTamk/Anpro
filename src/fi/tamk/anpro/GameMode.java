@@ -17,29 +17,35 @@ public class GameMode
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
 
     /* Pelaaja ja emoalus */
-    public Player     player;
-    public Mothership mothership;
+    private Player     player;
+    private Mothership mothership;
     
     /* T‰htitausta */
     private BackgroundStar[] backgroundStars;
 
     /* Asteroidit */
-    public Obstacle[] asteroids; // Asteroidit
-    public Obstacle[] planets; // Planeetat
+    private Obstacle[] asteroids; // Asteroidit
+    private Obstacle[] planets; // Planeetat
     
     /* Ker‰tt‰v‰t esineet */
-    public Collectable[] collectables; // Ker‰tt‰v‰t esineet
+    private Collectable[] collectables; // Ker‰tt‰v‰t esineet
     
     /* Viholliset */
     public           ArrayList<Enemy> enemies;         // Viholliset
     protected        int[][]          enemyStats;      // Vihollistyyppien statsit ([rank][attribuutti] = [arvo])
     public           int              waves[][];       // [aalto][vihollisen j‰rjestysnumero] = [vihollisen indeksi enemies-taulukossa]
     private   static int              currentWave = 0;
-    public    static int              enemiesLeft = 0; // Vihollisi‰ j‰ljell‰ kent‰ll‰
+    private   static int			  totalWaves  = 0; // T‰m‰nhetkisen aallon j‰rjestysnumero
+    												   // (k‰ytet‰‰n pisteiden laskemiseen)
+    public    static int              enemiesLeft = 0; // Vihollisia j‰ljell‰ kent‰ll‰
     
     /* Ruudun koko ja kent‰n rajat */
     protected int halfOfScreenWidth;
     protected int halfOfScreenHeight;
+    
+    protected static int mapWidth;
+    protected static int mapHeight;
+    
     protected int overBoundWidth;
     protected int overBoundHeight; 
     
@@ -56,10 +62,6 @@ public class GameMode
     
     /* Vihollisten aloituspaikat */
     private int spawnPoints[][][]; // [rykelm‰][paikka][x/y] = [koordinaatti]
-    
-    /* "Satunnaismuuttujat" objektien luomista varten, tarvitaan jos luominen randomisoidaan */
-    private int randX;         // = Utility.getRandom(0, 400) + 1;
-    private int randY;         // = Utility.getRandom(0, 400) + 1;
     
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
@@ -78,8 +80,11 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
         
-        overBoundWidth  = halfOfScreenWidth + 50 + 0; // TODO: Nollien tilalle se matka, jonka pelaaja voi kulkea 2-3 sekunnissa
-        overBoundHeight = halfOfScreenHeight + 50 + 0;
+        mapWidth  = 3500;
+        mapHeight = 3000;
+        
+        overBoundWidth  = mapWidth + 20;
+        overBoundHeight = mapHeight + 20;
                 
         // Otetaan CameraManager k‰yttˆˆn
         camera = CameraManager.getInstance();
@@ -88,7 +93,7 @@ public class GameMode
         enemies         = new ArrayList<Enemy>();
         enemyStats      = new int[5][5];
         asteroids       = new Obstacle[3];
-        planets         = new Obstacle[2];
+        planets         = new Obstacle[3];
         collectables    = new Collectable[3];
         backgroundStars = new BackgroundStar[15];
         
@@ -148,7 +153,7 @@ public class GameMode
         // P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina
         if (lastTime == 0) {
             lastTime = android.os.SystemClock.uptimeMillis();
-            score += (10 * _rank + 5 * _rank * currentWave);
+            score += (10 * _rank + 5 * _rank * totalWaves);
         }
         else {
             newTime = android.os.SystemClock.uptimeMillis();
@@ -156,13 +161,13 @@ public class GameMode
             // Verrataan aikoja kesken‰‰n ja annetaan pisteit‰ sen mukaisesti
             if (newTime-lastTime <= 700) {
                 ++comboMultiplier;
-            	score += (10 * _rank + 5 * _rank * currentWave) * comboMultiplier;
+            	score += (10 * _rank + 5 * _rank * totalWaves) * comboMultiplier;
             	
             	EffectManager.showComboMultiplier(comboMultiplier, _x ,_y);
             }
             // Jos pelaaja ei saa comboa resetoidaan comboMultiplier
             else {
-                score += (10 * _rank + 5 * _rank * currentWave);
+                score += (10 * _rank + 5 * _rank * totalWaves);
                 comboMultiplier = 1;
                 lastTime = android.os.SystemClock.uptimeMillis();
             }
@@ -228,6 +233,7 @@ public class GameMode
         }
         
         ++currentWave;
+        ++totalWaves;
     }
     
 
@@ -254,13 +260,14 @@ public class GameMode
     	// Luodaan kent‰n asteroidit
         int randDirection = Utility.getRandom(0, 359);
         
-    	asteroids[0] = new Obstacle(1, -400, -400, 2, randDirection);
-    	asteroids[1] = new Obstacle(1, 800, 800, 2, randDirection);
-    	asteroids[2] = new Obstacle(1, -1200, 400, 2, randDirection);
+    	asteroids[0] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -400, -400, 2, randDirection);
+    	asteroids[1] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 800, 800, 2, randDirection);
+    	asteroids[2] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -1200, 400, 2, randDirection);
     		
     	// Luodaan kent‰n planeetat
-		planets[0] = new Obstacle(0, 0, -600, 0, 0);
-		planets[1] = new Obstacle(0, 800, 0, 0, 0);
+		planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 0, -600, 0, randDirection);
+		planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, 800, 0, 0, randDirection);
+		planets[2] = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 1200, 1200, 0, randDirection);
     }
     
     /**
@@ -356,10 +363,8 @@ public class GameMode
      */
     public void generateCollectables()
     {
-        randX = Utility.getRandom(-400, 400);
-        randY = Utility.getRandom(-240, 240);
-
-   		collectables[0] = new Collectable(randX, randY);
+   		collectables[0] = new Collectable(0, 0);
+   		collectables[0].setActive();
     }
 
     /**
@@ -389,10 +394,13 @@ public class GameMode
 			PlayerAi.deactivateAutoPilot();
 		}
 	}
-	
+
+	/**
+	 * "Looppaa" asteroidit pelikent‰n toiselle laidalle, kun ne ylitt‰v‰t alueen rajan.
+	 */
 	public void mirrorAsteroidPosition ()
 	{
-		/*for (int i = asteroids.length - 1; i >= 0; --i) {
+		for (int i = asteroids.length - 1; i >= 0; --i) {
 			if (asteroids[i].x >= halfOfScreenWidth || asteroids[i].x <= -halfOfScreenWidth ||
 				asteroids[i].y >= halfOfScreenHeight || asteroids[i].y <= -halfOfScreenHeight) {
 				if (asteroids[i].x > overBoundWidth || asteroids[i].x < -overBoundWidth || 
@@ -401,13 +409,16 @@ public class GameMode
 					asteroids[i].y *= -1;
 				}
 			}
-		}*/
+		}
 	}
 	
+	/**
+	 * Luo pelikent‰n taustat‰hdet.
+	 */
 	private void generateStarBackground()
     {
     	for (int i = 0; i < 15; ++i) {
-    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-400, 400), Utility.getRandom(-240, 240));
+    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
     	}
 	}
 	

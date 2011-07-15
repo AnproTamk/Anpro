@@ -22,9 +22,6 @@ public class Player extends GameObject
     /* Haluttu liikkumissuunta */
     public int movementTargetDirection;
     
-    /* Ajastin */
-    private long timer;
-    
     /**
      * Alustaa luokan muuttujat.
      * 
@@ -34,7 +31,8 @@ public class Player extends GameObject
      */
     public Player(int _health, int _armor, GameMode _gameMode)
     {
-        super(6); // TODO: Pelaaja tarvitsee nopeuden varten
+        super(6); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
+        		  // Muiden GameObjectien tapaan.
         
         // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin
         wrapper  = Wrapper.getInstance();
@@ -95,13 +93,14 @@ public class Player extends GameObject
      * 
      * @param _gl OpenGL-konteksti
      */
+    @Override
     public final void draw(GL10 _gl)
     {
         if (usedAnimation >= 0){
             GLRenderer.playerAnimations[usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
         else{
-            GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.playerTextures[usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
     }
 	

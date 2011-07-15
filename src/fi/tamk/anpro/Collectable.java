@@ -58,7 +58,7 @@ public class Collectable extends GameObject
             GLRenderer.collectableAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
         }
         else {
-            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, 0);
+            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, currentFrame);
         }
 	}
     
@@ -69,6 +69,21 @@ public class Collectable extends GameObject
 	public void setActive()
 	{
 		wrapper.collectableStates.set(listId, Wrapper.FULL_ACTIVITY);
+		
+		boolean isPlaced = false;
+		
+		while (!isPlaced) {
+			x = Utility.getRandom(-GameMode.mapWidth, GameMode.mapWidth);
+	        y = Utility.getRandom(-GameMode.mapHeight, GameMode.mapHeight);
+			
+	        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+		        if (Math.abs(x - wrapper.obstacles.get(i).x) > Wrapper.gridSize + 150) {
+		        	if (Math.abs(y - wrapper.obstacles.get(i).y) > Wrapper.gridSize + 150) {
+		        		isPlaced = true;
+		        	}
+				}
+	        }
+        }
 	}
 
     /**
@@ -126,7 +141,7 @@ public class Collectable extends GameObject
 	protected void triggerEndOfAction()
 	{
 		if (actionId == GfxObject.ACTION_DESTROYED) {
-			setUnactive();
+			setActive();
 		}
 	}
 }

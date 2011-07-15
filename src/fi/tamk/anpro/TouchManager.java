@@ -19,8 +19,8 @@ public class TouchManager
     
     /* Osoittimet muihin luokkiin */
     private GLSurfaceView surface;
-    public  WeaponManager weaponManager;
-    public  Hud           hud;
+    private WeaponManager weaponManager;
+    private Hud           hud;
     private Wrapper       wrapper;
 
     /* Kosketuksen tiedot */

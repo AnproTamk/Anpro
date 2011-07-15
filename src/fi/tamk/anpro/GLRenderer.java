@@ -64,33 +64,33 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
     /* Latausruudun tekstuurit ja tila */
-    private Texture loadingTexture;
+    private GLSpriteSet loadingTexture;
     private boolean showLoadingScreen = false;
    
     /* Piirrettävät animaatiot ja objektit */
-    public static Texture[]     playerTextures;
-    public static Animation[]   playerAnimations;
-    public static Texture[][]   allyTextures;
-    public static Animation[][] allyAnimations;
-    public static Texture[][]   enemyTextures;
-    public static Animation[][] enemyAnimations;
-    public static Texture[][]   projectileTextures;
-    public static Animation[][] projectileAnimations;
-    public static Texture[]     mothershipTextures;
-    public static Animation[]   mothershipAnimations;
+    public static GLSpriteSet[]     playerTextures;
+    public static GLSpriteSet[]   playerAnimations;
+    public static GLSpriteSet[][]   allyTextures;
+    public static GLSpriteSet[][] allyAnimations;
+    public static GLSpriteSet[][]   enemyTextures;
+    public static GLSpriteSet[][] enemyAnimations;
+    public static GLSpriteSet[][]   projectileTextures;
+    public static GLSpriteSet[][] projectileAnimations;
+    public static GLSpriteSet[]     mothershipTextures;
+    public static GLSpriteSet[]   mothershipAnimations;
     
-    public static Texture[]     hudTextures;
-    public static Animation[]   hudAnimations;
+    public static GLSpriteSet[]     hudTextures;
+    public static GLSpriteSet[]   hudAnimations;
     
-    public static Animation[]   effectAnimations;
+    public static GLSpriteSet[]   effectAnimations;
     
-    public static Texture[][]   obstacleTextures;
-    public static Animation[][] obstacleAnimations;
+    public static GLSpriteSet[][]   obstacleTextures;
+    public static GLSpriteSet[][] obstacleAnimations;
     
-    public static Texture[]     collectableTextures;
-    public static Animation[]   collectableAnimations;
+    public static GLSpriteSet[]     collectableTextures;
+    public static GLSpriteSet[]   collectableAnimations;
     
-    public static Texture       starBackgroundTexture;
+    public static GLSpriteSet       starBackgroundTexture;
     
     /* Ohjelman konteksti ja resurssit */
     private Context   context;
@@ -120,23 +120,23 @@ public class GLRenderer implements Renderer
     public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
     {
         // Määritetään taulukoiden koot
-        playerTextures        = new Texture[AMOUNT_OF_PLAYER_TEXTURES];
-        playerAnimations      = new Animation[AMOUNT_OF_PLAYER_ANIMATIONS];
-        allyTextures          = new Texture[2][AMOUNT_OF_ALLY_TEXTURES];
-        allyAnimations        = new Animation[2][AMOUNT_OF_ALLY_ANIMATIONS];
-        enemyTextures         = new Texture[5][AMOUNT_OF_ENEMY_TEXTURES];
-        enemyAnimations       = new Animation[5][AMOUNT_OF_ENEMY_ANIMATIONS];
-        projectileTextures    = new Texture[5][AMOUNT_OF_PROJECTILE_TEXTURES];
-        projectileAnimations  = new Animation[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
-        mothershipTextures    = new Texture[AMOUNT_OF_MOTHERSHIP_TEXTURES];
-        mothershipAnimations  = new Animation[AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
-        hudTextures           = new Texture[AMOUNT_OF_HUD_TEXTURES];
-        hudAnimations         = new Animation[AMOUNT_OF_HUD_ANIMATIONS];
-        effectAnimations      = new Animation[AMOUNT_OF_EFFECT_ANIMATIONS];
-        obstacleTextures      = new Texture[3][AMOUNT_OF_OBSTACLE_TEXTURES];
-        obstacleAnimations    = new Animation[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
-        collectableTextures   = new Texture[AMOUNT_OF_COLLECTABLE_TEXTURES];
-        collectableAnimations = new Animation[AMOUNT_OF_COLLECTABLE_ANIMATIONS];
+        playerTextures        = new GLSpriteSet[AMOUNT_OF_PLAYER_TEXTURES];
+        playerAnimations      = new GLSpriteSet[AMOUNT_OF_PLAYER_ANIMATIONS];
+        allyTextures          = new GLSpriteSet[2][AMOUNT_OF_ALLY_TEXTURES];
+        allyAnimations        = new GLSpriteSet[2][AMOUNT_OF_ALLY_ANIMATIONS];
+        enemyTextures         = new GLSpriteSet[5][AMOUNT_OF_ENEMY_TEXTURES];
+        enemyAnimations       = new GLSpriteSet[5][AMOUNT_OF_ENEMY_ANIMATIONS];
+        projectileTextures    = new GLSpriteSet[5][AMOUNT_OF_PROJECTILE_TEXTURES];
+        projectileAnimations  = new GLSpriteSet[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        mothershipTextures    = new GLSpriteSet[AMOUNT_OF_MOTHERSHIP_TEXTURES];
+        mothershipAnimations  = new GLSpriteSet[AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
+        hudTextures           = new GLSpriteSet[AMOUNT_OF_HUD_TEXTURES];
+        hudAnimations         = new GLSpriteSet[AMOUNT_OF_HUD_ANIMATIONS];
+        effectAnimations      = new GLSpriteSet[AMOUNT_OF_EFFECT_ANIMATIONS];
+        obstacleTextures      = new GLSpriteSet[3][AMOUNT_OF_OBSTACLE_TEXTURES];
+        obstacleAnimations    = new GLSpriteSet[3][AMOUNT_OF_OBSTACLE_ANIMATIONS];
+        collectableTextures   = new GLSpriteSet[AMOUNT_OF_COLLECTABLE_TEXTURES];
+        collectableAnimations = new GLSpriteSet[AMOUNT_OF_COLLECTABLE_ANIMATIONS];
         
         // Tallennetaan konteksti ja resurssit
         context   = _context;
@@ -175,7 +175,7 @@ public class GLRenderer implements Renderer
         
         // TODO: Kaksi alempaa riviä jotenkin epäloogisessa paikassa
     	// Ladataan latausruudun tekstuuri
-    	loadingTexture = new Texture(_gl, context, R.drawable.loading);
+    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
     }
 
     /**
@@ -393,167 +393,127 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         /* Ladataan pelaajan grafiikat */
-        playerTextures[0]   = new Texture(_gl, context, R.drawable.player_tex_0); 
-        playerAnimations[3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
+        playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1); 
+        playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
         
         /* Ladataan liittolaisten grafiikat */
         // Emoalus
-        mothershipTextures[0] = new Texture(_gl, context, R.drawable.mothership_tex_0);
+        mothershipTextures[0] = new GLSpriteSet(_gl, context, R.drawable.mothership_tex_0, 1);
         
         // Liittolainen #1
-        allyTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
-        allyAnimations[0][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
+        allyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
+        allyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
 
         /* Ladataan vihollisten grafiikat */
         // Vihollinen #1
-        enemyTextures[0][0]   = new Texture(_gl, context, R.drawable.enemy1_tex_0);
-        enemyAnimations[0][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        enemyAnimations[0][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        enemyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_0, 1);
+        enemyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        enemyAnimations[0][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20);
         
         // Vihollinen #2
-        enemyTextures[1][0]   = new Texture(_gl, context, R.drawable.enemy2_tex_0);
-        enemyAnimations[1][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        enemyAnimations[1][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        enemyTextures[1][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_0, 1);
+        enemyAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        enemyAnimations[1][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20);
         
         // Vihollinen #3
-        enemyTextures[2][0]   = new Texture(_gl, context, R.drawable.enemy3_tex_0);
-        enemyAnimations[2][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        enemyAnimations[2][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        enemyTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1);
+        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        enemyAnimations[2][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20);
         
         // Vihollinen #4
-        enemyTextures[3][0]   = new Texture(_gl, context, R.drawable.enemy4_tex_0);
-        enemyAnimations[3][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        enemyAnimations[3][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        enemyTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_0, 1);
+        enemyAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        enemyAnimations[3][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20);
 
         // Vihollinen #4
-        enemyTextures[4][0]   = new Texture(_gl, context, R.drawable.enemy5_tex_0);
-        enemyAnimations[4][3] = new Animation(_gl, context, resources, "enemy1_destroy", 20);
-        enemyAnimations[4][4] = new Animation(_gl, context, resources, "enemy1_disabled", 20);
+        enemyTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_0, 1);
+        enemyAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        enemyAnimations[4][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20);
 
         /* Ladataan ammusten grafiikat */
         // Vakioase
-        projectileTextures[0][0]   = new Texture(_gl, context, R.drawable.projectilelaser_tex_0);
-        projectileAnimations[0][3] = new Animation(_gl, context, resources, "projectilelaser_destroy", 5);
+        projectileTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilelaser_tex_0, 1);
+        projectileAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.projectilelaser_destroy_anim, 5);
 
         // EMP
-        projectileTextures[1][0]   = new Texture(_gl, context, R.drawable.projectileemp_anim_9);
-        projectileAnimations[1][3] = new Animation(_gl, context, resources, "projectileemp", 10);
+        projectileTextures[1][0]   = new GLSpriteSet(_gl, context, R.drawable.projectileemp_destroy_anim, 1);
+        projectileAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.projectileemp_destroy_anim, 10);
 
         // Pyörivä laser
-        projectileTextures[2][0]   = new Texture(_gl, context, R.drawable.projectilespinninglaser_destroy_anim_0);
-        projectileAnimations[2][3] = new Animation(_gl, context, resources, "projectilespinninglaser_destroy", 10);
+        projectileTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilespinninglaser_destroy_anim, 1);
+        projectileAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.projectilespinninglaser_destroy_anim, 10);
 
         // Bomb
-        projectileTextures[3][0]   = new Texture(_gl, context, R.drawable.projectilebomb_destroy_anim_0);
-        projectileAnimations[3][3] = new Animation(_gl, context, resources, "projectilebomb_destroy", 1);
+        projectileTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
+        projectileAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
 
         // Missile
-        projectileTextures[4][0]   = new Texture(_gl, context, R.drawable.projectilemissile_tex_0);
-        projectileAnimations[4][3] = new Animation(_gl, context, resources, "projectilemissile_destroy", 1);
+        projectileTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilemissile_tex_0, 1);
+        projectileAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.projectilemissile_destroy_anim, 1);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
-        hudTextures[0]   = new Texture(_gl, context, R.drawable.button_tex_0);
-        hudTextures[1]   = new Texture(_gl, context, R.drawable.button_tex_1);
+        hudTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.button_tex_0, 1);
+        hudTextures[1]   = new GLSpriteSet(_gl, context, R.drawable.button_tex_1, 1);
         
-        hudAnimations[0] = new Animation(_gl, context, resources, "button_clicked", 9);
+        hudAnimations[0] = new GLSpriteSet(_gl, context, R.drawable.button_clicked_anim, 9);
 
         // Joystick
-        hudTextures[2]  = new Texture(_gl, context, R.drawable.joystick_tex_0);
+        hudTextures[2]  = new GLSpriteSet(_gl, context, R.drawable.joystick_tex_0, 1);
 
         // Elämäpalkki
-        hudTextures[3]  = new Texture(_gl, context, R.drawable.healthbar_tex_0);
-        hudTextures[4]  = new Texture(_gl, context, R.drawable.healthbar_tex_1);
-        hudTextures[5]  = new Texture(_gl, context, R.drawable.healthbar_tex_2);
-        hudTextures[6]  = new Texture(_gl, context, R.drawable.healthbar_tex_3);
-        hudTextures[7]  = new Texture(_gl, context, R.drawable.healthbar_tex_4);
-        hudTextures[8]  = new Texture(_gl, context, R.drawable.healthbar_tex_5);
-        hudTextures[9]  = new Texture(_gl, context, R.drawable.healthbar_tex_6);
-        hudTextures[10] = new Texture(_gl, context, R.drawable.healthbar_tex_7);
-        hudTextures[11] = new Texture(_gl, context, R.drawable.healthbar_tex_8);
-        hudTextures[12] = new Texture(_gl, context, R.drawable.healthbar_tex_9);
-        hudTextures[13] = new Texture(_gl, context, R.drawable.healthbar_tex_10);
+        hudTextures[3]  = new GLSpriteSet(_gl, context, R.drawable.healthbar_texs, 11);
 
         // Cooldown-tekstuurit
-        hudTextures[14] = new Texture(_gl, context, R.drawable.cooldown_tex_9);
-        hudTextures[15] = new Texture(_gl, context, R.drawable.cooldown_tex_8);
-        hudTextures[16] = new Texture(_gl, context, R.drawable.cooldown_tex_7);
-        hudTextures[17] = new Texture(_gl, context, R.drawable.cooldown_tex_6);
-        hudTextures[18] = new Texture(_gl, context, R.drawable.cooldown_tex_5);
-        hudTextures[19] = new Texture(_gl, context, R.drawable.cooldown_tex_4);
-        hudTextures[20] = new Texture(_gl, context, R.drawable.cooldown_tex_3);
-        hudTextures[21] = new Texture(_gl, context, R.drawable.cooldown_tex_2);
-        hudTextures[22] = new Texture(_gl, context, R.drawable.cooldown_tex_1);
-        hudTextures[23] = new Texture(_gl, context, R.drawable.cooldown_tex_0);
+        hudTextures[14] = new GLSpriteSet(_gl, context, R.drawable.cooldown_texs, 10);
 
         //Counter-tekstuurit
-        hudTextures[24] = new Texture(_gl, context, R.drawable.counter_text_0);
-        hudTextures[25] = new Texture(_gl, context, R.drawable.counter_text_1);
-        hudTextures[26] = new Texture(_gl, context, R.drawable.counter_text_2);
-        hudTextures[27] = new Texture(_gl, context, R.drawable.counter_text_3);
-        hudTextures[28] = new Texture(_gl, context, R.drawable.counter_text_4);
-        hudTextures[29] = new Texture(_gl, context, R.drawable.counter_text_5);
-        hudTextures[30] = new Texture(_gl, context, R.drawable.counter_text_6);
-        hudTextures[31] = new Texture(_gl, context, R.drawable.counter_text_7);
-        hudTextures[32] = new Texture(_gl, context, R.drawable.counter_text_8);
-        hudTextures[33] = new Texture(_gl, context, R.drawable.counter_text_9);
+        hudTextures[24] = new GLSpriteSet(_gl, context, R.drawable.counter_texs, 10);
 
         // Armorpalkki
-        hudTextures[34] = new Texture(_gl, context, R.drawable.armorbar_tex_0);
-        hudTextures[35] = new Texture(_gl, context, R.drawable.armorbar_tex_1);
-        hudTextures[36] = new Texture(_gl, context, R.drawable.armorbar_tex_2);
-        hudTextures[37] = new Texture(_gl, context, R.drawable.armorbar_tex_3);
-        hudTextures[38] = new Texture(_gl, context, R.drawable.armorbar_tex_4);
-        hudTextures[39] = new Texture(_gl, context, R.drawable.armorbar_tex_5);
-        hudTextures[40] = new Texture(_gl, context, R.drawable.armorbar_tex_6);
-        hudTextures[41] = new Texture(_gl, context, R.drawable.armorbar_tex_7);
-        hudTextures[42] = new Texture(_gl, context, R.drawable.armorbar_tex_8);
-        hudTextures[43] = new Texture(_gl, context, R.drawable.armorbar_tex_9);
-        hudTextures[44] = new Texture(_gl, context, R.drawable.armorbar_tex_10);
+        hudTextures[34] = new GLSpriteSet(_gl, context, R.drawable.armorbar_texs, 11);
         
         // Aseet
-        hudTextures[45] = new Texture(_gl, context, R.drawable.missile_tex_0);
-        hudTextures[46] = new Texture(_gl, context, R.drawable.missile_tex_1);
+        hudTextures[45] = new GLSpriteSet(_gl, context, R.drawable.missile_tex_0, 1);
+        hudTextures[46] = new GLSpriteSet(_gl, context, R.drawable.missile_tex_1, 1);
         
         // Kohteen osoittavat nuolet
-        hudTextures[47] = new Texture(_gl, context, R.drawable.collectablearrow_tex_0);
-        hudTextures[48] = new Texture(_gl, context, R.drawable.mothershiparrow_tex_0);
+        hudTextures[47] = new GLSpriteSet(_gl, context, R.drawable.collectablearrow_tex_0, 1);
+        hudTextures[48] = new GLSpriteSet(_gl, context, R.drawable.mothershiparrow_tex_0, 1);
         
         // Tutka
-        hudTextures[49]  = new Texture(_gl, context, R.drawable.radar_tex_0);
-        hudAnimations[1] = new Animation(_gl, context, resources, "radar_warning", 3);
+        hudTextures[49]  = new GLSpriteSet(_gl, context, R.drawable.radar_tex_0, 1);
+        hudAnimations[1] = new GLSpriteSet(_gl, context, R.drawable.radar_warning_anim, 3);
         
         // Ilmoitukset
-        hudTextures[50] = new Texture(_gl, context, R.drawable.outofboundsmessage_tex_0);
+        hudTextures[50] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_tex_0, 1);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
-        effectAnimations[0] = new Animation(_gl, context, resources, "exclamationmark_effect", 1);
+        effectAnimations[0] = new GLSpriteSet(_gl, context, R.drawable.exclamationmark_effect_anim, 1);
         
         // Kysymysmerkki
-        effectAnimations[1] = new Animation(_gl, context, resources, "questionmark_effect", 1);
+        effectAnimations[1] = new GLSpriteSet(_gl, context, R.drawable.questionmark_effect_anim, 1);
         
         // Armor-suoja
-        effectAnimations[2] = new Animation(_gl, context, resources, "armor_effect", 4);
+        effectAnimations[2] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
         
         // Armor-suoja
-        effectAnimations[3] = new Animation(_gl, context, resources, "armor_effect", 4);
+        effectAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
         
         // Combomultiplier
-        effectAnimations[4] = new Animation(_gl, context, resources, "combo2_effect", 1);
-        effectAnimations[5] = new Animation(_gl, context, resources, "combo3_effect", 1);
-        effectAnimations[6] = new Animation(_gl, context, resources, "combo4_effect", 1);
-        effectAnimations[7] = new Animation(_gl, context, resources, "combo5_effect", 1);
+        effectAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.combo_effect_texs, 4);
         
         /* Ladataan kartan grafiikat */
-        obstacleTextures[0][0] = new Texture(_gl, context, R.drawable.planetearth_tex_0);
-        obstacleTextures[1][0] = new Texture(_gl, context, R.drawable.asteroid_tex_0);
-        obstacleTextures[2][0] = new Texture(_gl, context, R.drawable.star_tex_0);
-    	starBackgroundTexture  = new Texture(_gl, context, R.drawable.bgstar_tex_0);
+        obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);
+        obstacleTextures[0][1] = new GLSpriteSet(_gl, context, R.drawable.planet_tex_0, 1);
+        obstacleTextures[1][0] = new GLSpriteSet(_gl, context, R.drawable.asteroid_tex_0, 1);
+        obstacleTextures[2][0] = new GLSpriteSet(_gl, context, R.drawable.star_tex_0, 1);
+    	starBackgroundTexture  = new GLSpriteSet(_gl, context, R.drawable.bgstar_tex_0, 1);
     	
     	/* Ladataan kerättävien esineiden grafiikat */
-    	collectableTextures[0]   = new Texture(_gl, context, R.drawable.collectable_tex_0);
-    	collectableAnimations[0] = new Animation(_gl, context, resources, "collectable_collected", 12);
+    	collectableTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.collectable_tex_0, 1);
+    	collectableAnimations[0] = new GLSpriteSet(_gl, context, R.drawable.collectable_collected_anim, 12);
 
     	/* Tarkistetaan virheet */
         if (!loadingFailed) {

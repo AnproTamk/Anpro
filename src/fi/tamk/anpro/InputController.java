@@ -10,7 +10,9 @@ public class InputController
     private Wrapper wrapper;
     private int		angle;
 
-	
+    /**
+     * Alustaa luokan muuttujat.
+     */
 	public InputController()
     {
 		wrapper = Wrapper.getInstance();
