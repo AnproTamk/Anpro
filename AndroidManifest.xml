@@ -67,5 +67,12 @@
                   android:configChanges="keyboardHidden|orientation"
                   android:launchMode="singleInstance">
         </activity>
+        
+        <activity android:name="MothershipActivity"
+                  android:label="@string/mothership_title"
+                  android:screenOrientation="landscape"
+                  android:configChanges="keyboardHidden|orientation"
+                  android:launchMode="singleInstance">
+        </activity>
     </application>
 </manifest>

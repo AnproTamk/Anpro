@@ -57,4 +57,10 @@
     <string name="button_savesettings">Save Settings</string>
     
     <string name="score_default_str">0</string>
+    
+    <string name="mothership_title">Mothership Menu</string>
+    
+    <string name="button_next">Next</string>
+    
+    <string name="button_previous">Previous</string>
 </resources>
