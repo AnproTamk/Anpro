@@ -99,36 +99,28 @@ public class GLSpriteSet
         }
         catch (Exception e) {
         	// Ladataan vakiokuva, jos latauksessa tapahtui virhe
-        	bitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.notexture);
+        	// bitmap = BitmapFactory.decodeResource(_context.getResources(), R.drawable.notexture);
         }
         
         // Tallennetaan tekstuurin mitat (pelkästään leveys, sillä tekstuurin korkeuden
         // on oltava sama kuin leveyden)
-        if (bitmap != null) {
-        	if (imageWidth == 0) {
-        		imageWidth  = (float)bitmap.getWidth();
-        		imageHeight = (float)bitmap.getHeight();
-        	}
+    	if (imageWidth == 0) {
+    		imageWidth  = (float)bitmap.getWidth();
+    		imageHeight = (float)bitmap.getHeight();
+    	}
 
-            // Ladataan bitmap OpenGL-tekstuuriksi
-            _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
+        // Ladataan bitmap OpenGL-tekstuuriksi
+        _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
 
-            _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-            _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
 
-            GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
-            // Poistetaan bitmap muistista
-            bitmap.recycle();
-            
-            return true;
-        }
-        else {
-        	Log.e("GLRenderer", "Tekstuurin lataaminen epäonnistui: " + _id);
-        	Log.e("GLRenderer", "Jos tunnuksen arvo oli 0, ei kuvaa löydetty.");
-        	
-        	return false;
-        }
+        // Poistetaan bitmap muistista
+        bitmap.recycle();
+        
+        return true;
     }
     
     /**
