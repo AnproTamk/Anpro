@@ -198,7 +198,7 @@ public class TouchManager
                     	xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
                         yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
                         //Log.e("testi", "ACTION_DOWN");
-
+                        
                         /* Oikean reunan napit */
                         if (xClickOffsetFirstTouch > screenWidth - 100 * Options.scaleX && xClickOffsetFirstTouch < screenWidth &&
                         	yClickOffsetFirstTouch < yClickFirstBorder) {
