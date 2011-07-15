@@ -14,7 +14,10 @@ public class Message extends GuiObject
 	private long startTime;
 	
 	// Kierron suunta
-	private byte state;
+	private byte state;				 // Määrittää objektin tilan
+	private byte TURN_VISIBLE   = 1; // Kääntää objektin näkyväksi
+	private byte STAY_STILL   = 2; // Pitää objektin näkyvissä
+	private byte TURN_INVISIBLE = 3; // Kääntää objektin näkymättömäksi
 	
 	// Osoitin Wrapperiin
 	private Wrapper wrapper;
@@ -30,7 +33,7 @@ public class Message extends GuiObject
 	 */
 	public Message(byte _message, int _showTime)
 	{
-		super(0, 200);
+		super(0, 100);
 		
 		// Määritä tekstuuri
 		usedTexture = _message;
@@ -43,11 +46,11 @@ public class Message extends GuiObject
 		wrapper = Wrapper.getInstance();
 		wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
 		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
+		
+		Log.i("testi", "MESSAGE LUOTU: usedTexture = " + _message + " messageType = " + messageType +
+			           " showTime = " + _showTime + " | ASETETTU POIS NÄKYVISTÄ");
 	}
 	
-	/**
-	 * Aktivoi viestin asettamalla sen näkyväksi.
-	 */
 	public final void activate()
 	{
 		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
@@ -55,33 +58,54 @@ public class Message extends GuiObject
 		
 		yAxisRotation = 90.0f;
 		
-		state = 1;
+		state = TURN_VISIBLE;
+		
+		Log.i("testi", "MESSAGE AKTIVOITU: yAxisRotation = " + yAxisRotation + " state = " + TURN_VISIBLE);
 	}
 	
-	/**
-	 * Päivittää viestin kulman (kulman muutosta käytetään viestin "animointiin").
-	 */
 	public final void updateAngle()
 	{
-		if (state == 1) {
-			yAxisRotation -= (0.1f + (yAxisRotation * 0.45f));
+		//Log.i("testi", "PÄIVITETÄÄN KULMA updateAngle()-funktiolla");
+		if (state == TURN_VISIBLE) {
+			yAxisRotation -= (0.1f + ((90 - yAxisRotation) * 0.45f));
+			
+			Log.i("testi", "TURN_VISIBLE yAxisRotation = " + yAxisRotation);
 			
 			if (yAxisRotation <= 3.0f) {
+				
+				Log.i("testi", "TURN_VISIBLE yAxisRotation <= 3.0f (" + yAxisRotation + ")");
+				
 				yAxisRotation = 0.0f;
-				state = 2;
+				state = STAY_STILL;
 				startTime = android.os.SystemClock.uptimeMillis();
+				
+				Log.i("testi", "yAxisRotation = " + yAxisRotation + " state = " + state + " startTime = " + startTime);
+				
 			}
 		}
-		else if (state == 2) {
+		else if (state == STAY_STILL) {
+			
+			Log.i("testi", "PIDETÄÄN VIESTI NÄKYVISSÄ");
+			
 			if (android.os.SystemClock.uptimeMillis() - startTime >= showTime) {
-				state = 3;
+				
+				Log.i("testi", "PIILOTETAAN VIESTI");
+				
+				state = TURN_INVISIBLE;
 			}
 		}
-		else if (state == 3) {
+		else if (state == TURN_INVISIBLE) {
+			
 			yAxisRotation += (0.1f + (yAxisRotation * 0.45f));
+			
+			Log.i("testi", "TURN_INVISIBLE yAxisRotation = " + yAxisRotation);
 
 			if (yAxisRotation >= 87.0f) {
-				state = 1;
+				
+				Log.i("testi", "PIDETÄÄN VIESTI NÄKYVISSÄ yAxisRotation >= 87.0f (" + yAxisRotation + ")");
+				
+				yAxisRotation = 90.0f;
+				state = STAY_STILL;
 				wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
 				wrapper.messageStates.set(messageType, Wrapper.INACTIVE);
 			}
@@ -97,6 +121,6 @@ public class Message extends GuiObject
     public final void draw(GL10 _gl)
     {
 		GLRenderer.hudTextures[usedTexture].drawIn3D(_gl, x + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction,
-													 currentFrame, xAxisRotation, yAxisRotation);
+													 0, xAxisRotation, yAxisRotation);
     }
 }
