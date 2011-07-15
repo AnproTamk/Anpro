@@ -134,7 +134,7 @@ public class Player extends GameObject
         		// Tarkistetaan osuma
         		if (Utility.isColliding(wrapper.mothership, this)) {
         			// Siirryt‰‰n emoaluksen valikkoon
-        			//gameMode.moveToMothershipMenu();
+        			gameMode.moveToMothershipMenu();
         		}
         	}
     	}

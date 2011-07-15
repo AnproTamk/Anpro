@@ -208,10 +208,10 @@ public class GameActivity extends Activity
      */
     public void continueToMothership()
     {
-    	//Intent i_mothership = new Intent(this, MothershipActivity.class);
+    	Intent i_mothership = new Intent(this, MothershipActivity.class);
 		
 		// K‰ynnistet‰‰n HighScoresActivity ja sammutetaan GameActivity
-		//startActivity(i_mothership);
+		startActivity(i_mothership);
     }
 	
 	@Override
