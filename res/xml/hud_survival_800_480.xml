@@ -8,10 +8,10 @@
         <health_bar x="290" y="-143" type="1" />
         <armor_bar x="290" y="-208" type="2" />
         
-        <radar_top x="-336" y="-80" type="0" />
-        <radar_left x="-368" y="-58" type="1" />
-        <radar_right x="-304" y="-58" type="2" />
-        <radar_down x="-336" y="-144" type="3" />
+        <radar_top x="-336" y="8" type="0" />
+        <radar_left x="-342" y="0" type="1" />
+        <radar_right x="-328" y="0" type="2" />
+        <radar_down x="-336" y="-8" type="3" />
         
         <joystick x="-336" y="-176" type="" />
         

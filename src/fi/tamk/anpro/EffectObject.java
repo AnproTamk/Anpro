@@ -56,7 +56,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED);
+		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 		updatePosition();
 	}
 
@@ -73,7 +73,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED);
+		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 	
 	/**

@@ -3,10 +3,16 @@ package fi.tamk.anpro;
 public class Radar extends GuiObject {
 
 	private int type;
-	private int target;
 	private double distance;
 	private double angle;
 	
+	/**
+	 * Tutkan rakentaja
+	 * 
+	 * @param _x
+	 * @param _y
+	 * @param _type
+	 */
 	public Radar(int _x, int _y, int _type) {
 		
 		super(_x, _y);
@@ -15,53 +21,61 @@ public class Radar extends GuiObject {
 		
 		usedTexture = GLRenderer.TEXTURE_RADAR;
 		
+		// Tutka ylös
 		if(type == 0) {
-			//usedTexture = GLRenderer.TEXTURE_RADAR;
+			direction = 90;
 		}
 		
+		// Tutka vasen
 		if(type == 1) {
-			//usedTexture = GLRenderer.TEXTURE_RADAR + 1;
+			direction = 180;
 		}
 		
+		// Tutka oikea
 		if(type == 2) {
-			//usedTexture = GLRenderer.TEXTURE_RADAR + 2;
+			direction = 0;
 		}
 		
+		// Tutka alas
 		if(type == 3) {
-			//usedTexture = GLRenderer.TEXTURE_RADAR + 3;
+			direction = -90;
 		}
 	}
 	
 	public final void updateRadar() {
-		
-		for(int i = 0; i <= wrapper.enemies.size()-1; ++i) {
-			
-			distance = Utility.getDistance(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
-			
-			angle = Utility.getAngle(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
-			
-			if(angle > 315 || angle <= 45) {
-				target = 12;
-			}
-			
-			else if(angle > 45 && angle <= 135) {
-				target = 3;
-			}
-			
-			else if(angle > 135 && angle <= 225) {
-				target = 6;
-			}
-			
-			else if(angle > 225 && angle <= 315) {
-				target = 9;
-			}
 
-			if(distance < 400) {
-				target = 0;
+		if (usedAnimation == -1) {
+			for(int i = wrapper.enemies.size()-1; i >= 0; --i) {
+				
+				if(wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+					distance = Utility.getDistance(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
+					
+					angle = Utility.getAngle(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
+					
+					if(distance <= 800 && distance >= 350) {
+						
+						if((angle > 315 || angle <= 45) && type == 2) {
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								break;
+						}
+						
+						else if((angle > 45 && angle <= 135) && type == 1) {
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								break;
+						}
+						
+						else if((angle > 135 && angle <= 225) && type == 3) {
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								break;
+						}
+						
+						else if((angle > 225 || angle <= 315) && type == 0) {
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								break;
+						}
+					}
+				}
 			}
-			
-			usedTexture = GLRenderer.TEXTURE_RADAR;
-			//usedTexture = GLRenderer.TEXTURE_RADAR + target;
 		}
 	}
 }

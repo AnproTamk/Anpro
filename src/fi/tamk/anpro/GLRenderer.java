@@ -108,6 +108,7 @@ public class GLRenderer implements Renderer
     private long lastAnimationUpdate;
     private long lastMessageUpdate;
     private int  updateBeat = 1;
+    private boolean updateAnimations = true;
 
     /**
      * Alustaa luokan muuttujat.
@@ -249,6 +250,7 @@ public class GLRenderer implements Renderer
             
             if (currentTime - lastAnimationUpdate >= 40) {
                 lastAnimationUpdate = currentTime;
+                updateAnimations = true;
             }
             
             /* Käydään läpi piirtolistat ja päivitetään animaatiot */
@@ -260,7 +262,7 @@ public class GLRenderer implements Renderer
             // Emoalus
             if (wrapper.mothership != null) {
             	wrapper.mothership.draw(_gl);
-            	if (wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
+            	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
                 	wrapper.mothership.update();
                 }
             }
@@ -269,7 +271,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
 	                wrapper.enemies.get(i).draw(_gl);
-	                if (wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+	                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
 	                	wrapper.enemies.get(i).update();
 	                }
 	            }
@@ -279,7 +281,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
             	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
                 	wrapper.projectiles.get(i).draw(_gl);
-                    if (wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
+                    if (updateAnimations && wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
                         wrapper.projectiles.get(i).update();
                     }
             	}
@@ -288,7 +290,7 @@ public class GLRenderer implements Renderer
             // Pelaaja
             if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
                 wrapper.player.draw(_gl);
-            	if (wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
+            	if (updateAnimations && wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
                     wrapper.player.update();
                 }
             }
@@ -297,7 +299,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.effects.size()-1; i >= 0; --i) {
                 if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.effects.get(i).draw(_gl);
-                    if (wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
+                    if (updateAnimations && wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
                         wrapper.effects.get(i).update();
                     }
                 }
@@ -307,7 +309,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
                 if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
                     wrapper.collectables.get(i).draw(_gl);
-                    if (wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
+                    if (updateAnimations && wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
                         wrapper.collectables.get(i).update();
                     }
                 }
@@ -317,7 +319,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
                 if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
                 	wrapper.obstacles.get(i).draw(_gl);
-                	if (wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
+                	if (updateAnimations && wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
                         wrapper.obstacles.get(i).update();
                 	}
                 }
@@ -327,7 +329,7 @@ public class GLRenderer implements Renderer
             for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
                 if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
             		wrapper.guiObjects.get(i).draw(_gl);
-                	if (wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
+                	if (updateAnimations && wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
                 		wrapper.guiObjects.get(i).update();
                 	}
                 }
@@ -346,6 +348,8 @@ public class GLRenderer implements Renderer
 	            	}
 	            }
             }
+            
+            updateAnimations = false;
                 
             // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mikäli raja ylitetään.
             // Tällä animaatioiden päivittäminen tahdistetaan; Animaatiot voivat näkyä joko
@@ -353,7 +357,7 @@ public class GLRenderer implements Renderer
             // kierroksella.
             ++updateBeat;
             
-            if (updateBeat > 8) {
+            if (updateBeat > 32) {
                 updateBeat = 1;
             }
         }

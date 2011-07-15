@@ -29,7 +29,6 @@ public class GameActivity extends Activity
     
     /* Tarvittavat luokat */
     private GameThread      gameThread;
-    private  Hud            hud;
     private WeaponManager   weaponManager;
     private InputController inputController;
     
@@ -76,16 +75,13 @@ public class GameActivity extends Activity
     	weaponManager = new WeaponManager();
         weaponManager.initialize(GameActivity.activeMode);
         
-        // Luodaan Hud
-        hud = new Hud(getBaseContext(), weaponManager);
-        
         // Luodaan InputController, mik‰li laitteessa on sellainen
         if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
         	inputController = new InputController();
         }
 
         // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext(), this, hud, weaponManager, surfaceView);
+        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, surfaceView);
         renderer.connectToGameThread(gameThread);
     }
         

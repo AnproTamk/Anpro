@@ -162,7 +162,7 @@ public class Player extends GameObject
 
         if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
         	wrapper.playerState = Wrapper.ONLY_ANIMATION;
-        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
+        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
         }
     }
 
