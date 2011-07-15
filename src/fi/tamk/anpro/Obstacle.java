@@ -51,8 +51,6 @@ public class Obstacle extends GameObject
 		specifiedType = _specifiedType;
 		usedTexture   = _specifiedType;
 		
-		usedTexture= _specifiedType;
-		
 		// M‰‰ritell‰‰n liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
 			facingTurningDirection = Utility.getRandom(1, 2);
