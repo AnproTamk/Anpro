@@ -51,6 +51,8 @@ public class Obstacle extends GameObject
 		specifiedType = _specifiedType;
 		usedTexture   = _specifiedType;
 		
+		usedTexture= _specifiedType;
+		
 		// M‰‰ritell‰‰n liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
 			facingTurningDirection = Utility.getRandom(1, 2);
@@ -94,7 +96,7 @@ public class Obstacle extends GameObject
             GLRenderer.obstacleAnimations[type][usedAnimation].draw(_gl, x, y, (int)facingDirection, currentFrame);
         }
         else {
-            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, (int)facingDirection, currentFrame);
+            GLRenderer.obstacleTextures[type][usedTexture].draw(_gl, x, y, (int)facingDirection, 0);
         }
 	}
     
