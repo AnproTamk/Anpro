@@ -275,7 +275,7 @@ public class Enemy extends GameObject
 
     	EffectManager.showQuestionMarkBalloon(this);
     	
-        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, GfxObject.ACTION_ENABLED);
+        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, GfxObject.ACTION_ENABLED, 0, 0);
 	}
     
     /**
@@ -291,6 +291,6 @@ public class Enemy extends GameObject
     	movementAcceleration = -15;
     	turningDirection     = 0;
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 }

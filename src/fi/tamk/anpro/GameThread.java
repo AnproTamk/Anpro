@@ -57,7 +57,7 @@ class GameThread extends Thread
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
-    				  Hud _hud,WeaponManager _weaponManager, GLSurfaceView _surfaceView)
+    				  WeaponManager _weaponManager, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
         cameraManager = CameraManager.getInstance();
@@ -65,7 +65,6 @@ class GameThread extends Thread
         dm      	  = _dm;
         context 	  = _context;
         gameActivity  = _gameActivity;
-        hud           = _hud;
         weaponManager = _weaponManager;
         surfaceView   = _surfaceView;
     }
@@ -87,15 +86,17 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-        // Luodaan SurvivalMode
-        gameMode = new GameMode(gameActivity, dm, context, weaponManager);
 
         // Luodaan EffectManager ja MessageManager
         EffectManager.getInstance();
         MessageManager.getInstance();
                 
-        // Luodaan TouchManager
+        // Luodaan Hud ja TouchManager
+        hud = new Hud(context, weaponManager);
         touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
+        
+        // Luodaan SurvivalMode
+        gameMode = new GameMode(gameActivity, dm, context, weaponManager);
                 
         // Merkitään kaikki ladatuiksi
         allLoaded = true;
@@ -437,10 +438,10 @@ class GameThread extends Thread
 		if(_currentTime - lastRadarUpdate >= 100) {
 			lastRadarUpdate = _currentTime;
 			
-			hud.radar_top.updateRadar();
-			hud.radar_left.updateRadar();
-			hud.radar_right.updateRadar();
-			hud.radar_down.updateRadar();
+			Hud.radar_top.updateRadar();
+			Hud.radar_left.updateRadar();
+			Hud.radar_right.updateRadar();
+			Hud.radar_down.updateRadar();
 		}
 	}
 }

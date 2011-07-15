@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ kaikkien graafisten objektien yhteiset ominaisuudet ja tiedot.
  * Hallitsee esimerkiksi animaatioiden p‰ivitt‰misen, k‰ytˆss‰ olevat tekstuurit
@@ -38,6 +40,10 @@ abstract public class GfxObject
     private   int   currentLoop      = 0;
     private   int   animationLoops   = 0;
     public    int   animationSpeed   = 0;
+    
+    /* Palautustekstuuri ja -ruutu animaation loputtua */
+    private int returnTexture;
+    private int returnFrame;
     
     /* Animaation tauot (pys‰ytt‰‰ animaation johonkin ruutuun tietyksi aikaa) */
     private byte pauseFrame = -1;
@@ -86,13 +92,15 @@ abstract public class GfxObject
      * @param int Toistokerrat
      * @param int P‰ivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
      */
-    public final void startAnimation(int _animation, int _loops, int _speed)
+    public final void startAnimation(int _animation, int _loops, int _speed, int _returnTexture, int _returnFrame)
     {
         // Tallennetaan muuttujat
         usedAnimation  = _animation;
         animationLoops = _loops;
         animationSpeed = _speed;
         currentFrame   = 0;
+        returnTexture  = _returnTexture;
+        returnFrame    = _returnFrame;
         
         // M‰‰ritet‰‰n ensimm‰inen toistokerta
         if (_loops > 0) {
@@ -115,7 +123,8 @@ abstract public class GfxObject
     {
         usedAnimation = -1;
         usedTexture   = _texture;
-        currentFrame  = 0;
+        usedTexture   = returnTexture;
+        currentFrame  = returnFrame;
     }
     
     /**
@@ -141,8 +150,8 @@ abstract public class GfxObject
 		                ++currentLoop;
 		                if (currentLoop > animationLoops) {
 		                    usedAnimation = -1;
-		                    usedTexture   = 0;
-		                    currentFrame  = 0;
+		                    usedTexture   = returnTexture;
+		                    currentFrame  = returnFrame;
 		                    
 		                    if (actionActivated) {
 		                        actionActivated = false;
@@ -181,11 +190,11 @@ abstract public class GfxObject
      * @param int Animaation p‰ivitysnopeus (ks. onDrawFrame GLRenderer-luokassa)
      * @param int Toiminnon tunnus
      */
-    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId)
+    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId, int _returnTexture, int _returnFrame)
     {
     	// TODO: Toimintojen tunnuksia varten voisi olla vakiot
     	
-        startAnimation(_animation, _loops, _animationSpeed);
+        startAnimation(_animation, _loops, _animationSpeed, _returnTexture, _returnFrame);
         
         actionActivated = true;
         actionId        = _actionId;
@@ -209,11 +218,12 @@ abstract public class GfxObject
      * @param byte Animaation ruutu, jossa haluttu aika odotetaan
      * @param int  Aika, joksi animaatio pys‰ytet‰‰n
      */
-    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId, byte _pauseFrame, int _pauseTime)
+    protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId,
+    		 				 int _returnTexture, int _returnFrame, byte _pauseFrame, int _pauseTime)
     {
     	// TODO: Toimintojen tunnuksia varten voisi olla vakiot
     	
-        startAnimation(_animation, _loops, _animationSpeed);
+        startAnimation(_animation, _loops, _animationSpeed, _returnTexture, _returnFrame);
         
         actionActivated = true;
         actionId        = _actionId;

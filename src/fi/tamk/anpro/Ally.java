@@ -201,6 +201,6 @@ public class Ally extends GameObject
 
     	movementAcceleration = -15;
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 	}
 }
