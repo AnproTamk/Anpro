@@ -22,7 +22,7 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public        ArrayList<Button>          buttons                 = null;
+    public        ArrayList<Button>          buttons                 = null; // TODO: Ei kai tarvitsisi olla public?
     public		  ArrayList<CooldownCounter> cooldowncounter         = null;
     public 		  ArrayList<Icon>	         icons	                 = null;
     public static ArrayList<Counter>         counters                = null;
@@ -130,6 +130,11 @@ public class Hud
         return healthBar;
     }
     
+    /**
+     * Palauttaa osoittimen armorBarista.
+     * 
+     * @return Bar Osoitin armorBariin
+     */
     public final static Bar getArmorBar()
     {
     	return armorBar;

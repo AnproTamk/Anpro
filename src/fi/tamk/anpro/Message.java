@@ -45,6 +45,9 @@ public class Message extends GuiObject
 		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
 	}
 	
+	/**
+	 * Aktivoi viestin asettamalla sen n‰kyv‰ksi.
+	 */
 	public final void activate()
 	{
 		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
@@ -55,6 +58,9 @@ public class Message extends GuiObject
 		state = 1;
 	}
 	
+	/**
+	 * P‰ivitt‰‰ viestin kulman (kulman muutosta k‰ytet‰‰n viestin "animointiin").
+	 */
 	public final void updateAngle()
 	{
 		if (state == 1) {

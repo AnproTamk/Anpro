@@ -91,7 +91,7 @@ public class TrackingProjectileAi extends AbstractAi
 	/**
 	 * Etsii lähimmän vihollisen ja palauttaa sen indeksin (vastaa objektin listId-muuttujaa).
 	 */
-	private void findClosestEnemy()
+	private final void findClosestEnemy()
 	{
 		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 			if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {

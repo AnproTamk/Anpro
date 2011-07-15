@@ -18,10 +18,10 @@ class GameThread extends Thread
     private GameMode      gameMode;
     @SuppressWarnings("unused")
 	private TouchManager  touchManager;
-    public  Hud           hud;
+    public  Hud           hud;			// TODO: Ei tarvitsisi olla public?
     private WeaponManager weaponManager;
     private CameraManager cameraManager;
-    private GLSurfaceView   surfaceView;
+    private GLSurfaceView surfaceView;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime;
@@ -57,7 +57,7 @@ class GameThread extends Thread
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
-    				  Hud _hud, TouchManager _touchManager, WeaponManager _weaponManager, GLSurfaceView _surfaceView)
+    				  Hud _hud,WeaponManager _weaponManager, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
         cameraManager = CameraManager.getInstance();
@@ -66,7 +66,6 @@ class GameThread extends Thread
         context 	  = _context;
         gameActivity  = _gameActivity;
         hud           = _hud;
-        touchManager  = _touchManager;
         weaponManager = _weaponManager;
         surfaceView   = _surfaceView;
     }

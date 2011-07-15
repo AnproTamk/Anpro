@@ -17,24 +17,24 @@ abstract public class GfxObject
     protected int listId;
 	
     /* Objektin sijainti */
-    public float x         = 0;
-    public float y         = 0;
+    public float x = 0;
+    public float y = 0;
     
     /* Objektin suunta */
-    public int direction       = 0; // Liikkumissuunta (0 oikealle, 90 ylös)
-    public int facingDirection = 0; // Katsomissuunta (sama koordinaatisto, ei vaikuta liikkumiseen)
+    public    int direction       = 0; // Liikkumissuunta (0 oikealle, 90 ylös)
+    protected int facingDirection = 0; // Katsomissuunta (sama koordinaatisto, ei vaikuta liikkumiseen)
     
     /* Objektin kääntö X- ja Y-akseleilla (3D) */
     protected float xAxisRotation = 0;
     protected float yAxisRotation = 0;
     
     /* Käytössä oleva animaatio ja sen tiedot */
-    public  int   usedAnimation    = -1;
-    public  int[] animationLength;
-    public  int   currentFrame     = 0;
-    private int   currentLoop      = 0;
-    private int   animationLoops   = 0;
-    public  int   animationSpeed   = 0;
+    public    int   usedAnimation    = -1;
+    protected int[] animationLength;
+    protected int   currentFrame     = 0;
+    private   int   currentLoop      = 0;
+    private   int   animationLoops   = 0;
+    public    int   animationSpeed   = 0;
     
     /* Animaation tauot (pysäyttää animaation johonkin ruutuun tietyksi aikaa) */
     private byte pauseFrame = -1;
@@ -42,7 +42,7 @@ abstract public class GfxObject
     private long startTime;
     
     /* Staattinen käytössä oleva tekstuuri */
-    public int usedTexture = 0;
+    protected int usedTexture = 0;
     
     /* Erityistoiminto */
     protected boolean actionActivated = false; // Kertoo, onko toiminto käynnissä (asetetaan arvoksi true,

@@ -11,7 +11,7 @@ import android.content.res.Resources;
 public class Animation extends GLSprite
 {
 	// Animaation pituus
-    public  int   length;
+    public int length;
 
     /**
      * Alustaa luokan muuttujat ja kutsuu loadFramea jokaista ruutua varten.

@@ -11,7 +11,8 @@ import android.util.Log;
 public class Enemy extends GameObject
 {
     /* Vihollisen tiedot */
-    public int attack;
+	public int attack; // TODO: Siirrä checkCollisionWithPlayer AbstractAi:sta Enemy-luokkaan,
+					   // jolloin tämä voisi olla "protected"
     public int rank;
     
     /* Tekoäly */
@@ -265,7 +266,7 @@ public class Enemy extends GameObject
     /**
      * Aiheuttaa objektin muuttamisen epäaktiiviseksi sitä vastaavan animaation ajaksi.
      */
-	public void triggerDisabled()
+    public void triggerDisabled()
 	{
     	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
 
@@ -281,7 +282,7 @@ public class Enemy extends GameObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	public void triggerDestroyed()
+    public void triggerDestroyed()
 	{
 		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
 		

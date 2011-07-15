@@ -10,15 +10,6 @@ import android.util.Log;
  */
 abstract public class GameObject extends GfxObject
 {
-    /* Objektin tiedot (kaikille) */
-    public int speed;
-    
-    /* Objektin tiedot (pelaajalle, vihollisille ja liittolaisille) */
-    public int armor;
-    public int currentArmor;
-    public int health;
-    public int currentHealth;
-    	
     /* Vakioita */
     // K‰‰ntymissuunnat
     public static final int TO_THE_LEFT  = 1;
@@ -31,8 +22,17 @@ abstract public class GameObject extends GfxObject
     public static final int COLLISION_WITH_OBSTACLE    = 13;
     public static final int COLLISION_WITH_COLLECTABLE = 14;
     
+    /* Objektin tiedot (kaikille) */
+    public int speed;
+    
+    /* Objektin tiedot (pelaajalle, vihollisille ja liittolaisille) */
+    protected int armor;
+    protected int currentArmor;
+    protected int health;
+    protected int currentHealth;
+    
     /* Tˆrm‰ystunnistus */
-    public int collisionRadius = 0;
+    protected int collisionRadius = 0;
     
     /* Lineaarinen liike */
     protected int movementSpeed;            // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
@@ -43,13 +43,13 @@ abstract public class GameObject extends GfxObject
     protected int turningSpeed;            // Montako astetta k‰‰nnyt‰‰n per p‰ivitys
     protected int turningDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi k‰‰ntyminen
     protected int turningAcceleration = 0; // K‰‰ntymisen kiihtyvyys
-    public    int turningDirection    = 0; // 0 ei k‰‰nny, 1 vasen, 2 oikea
+    protected int turningDirection    = 0; // 0 ei k‰‰nny, 1 vasen, 2 oikea
     
     /* K‰‰ntyminen (katsomissuunta) */
     protected int facingTurningSpeed;
     protected int facingTurningDelay;
     protected int facingTurningAcceleration = 0;
-    public    int facingTurningDirection    = 0;
+    protected int facingTurningDirection    = 0;
     
     /* P‰ivitysajat */
     private long turningTime  = 0;

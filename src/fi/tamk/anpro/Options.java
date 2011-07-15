@@ -2,6 +2,7 @@ package fi.tamk.anpro;
 
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 /**
@@ -20,10 +21,10 @@ public class Options
 	private static Options instance = null;
 	
 	/* Asetukset */
-	public static boolean particles;	// Partikkelit
-	public static boolean sounds;		// Ääniefektit
-	public static boolean music;		// Musiikit
-	public static boolean vibration;	// Tärinät
+	public static boolean particles;  // Partikkelit
+	public static boolean sounds;	  // Ääniefektit
+	public static boolean music;	  // Musiikit
+	public static boolean vibration;  // Tärinät
 	public static boolean multiTouch;
 	public static boolean joystick;
 	
@@ -72,8 +73,9 @@ public class Options
      * 
      * @param _config   Laitteen kaikki asetukset, jotka vaikuttavat resursseihin, joita ohjelma käyttää
      * @param _pManager Laitteeseen asennettujen ominaisuuksien tietoja (esim. multitouch)
+     * @param _dm		Näytön tiedot
      */
-    public final static void initialize(Configuration _config, PackageManager _pManager)
+    public final static void initialize(Configuration _config, PackageManager _pManager, DisplayMetrics _dm)
     {	
     	//Log.i("navigare", "Navigation = " + _config.navigation);
     	controlType = (byte)_config.navigation;
@@ -100,22 +102,13 @@ public class Options
         	Log.v("navigare", "multiTouch = false");
         	Log.v("navigare", "joystick = false");
         }
-    }
-    
-	/**
-	 * Asettaa skaalauksen.
-	 * 
-	 * @param _screenWidth Näytön leveys
-	 * @param _screenHeight Näytön korkeus
-	 */
-    public void getScalingConversion(int _screenWidth, int _screenHeight)
-	{
-    	scaleX      	   = (float)_screenWidth / 800;
-    	scaleY             = (float)_screenHeight / 480;
+        
+    	scaleX      	   = (float)_dm.widthPixels / 800;
+    	scaleY             = (float)_dm.heightPixels / 480;
     	scale	           = 1.0f; 				// TODO: Pitäisikö olla jokin muu kuin 1.0f?
-    	screenWidth        = _screenWidth;
-    	screenHeight       = _screenHeight;
-    	scaledScreenWidth  = _screenWidth / 2;  // Tätä käytetään AbstractProjectile-luokassa
-    	scaledScreenHeight = _screenHeight / 2; // Tätä käytetään AbstractProjectile-luokassa    	
-	}
+    	screenWidth        = _dm.widthPixels;
+    	screenHeight       = _dm.heightPixels;
+    	scaledScreenWidth  = _dm.widthPixels / 2;  // Tätä käytetään AbstractProjectile-luokassa
+    	scaledScreenHeight = _dm.heightPixels / 2; // Tätä käytetään AbstractProjectile-luokassa    
+    }
 }

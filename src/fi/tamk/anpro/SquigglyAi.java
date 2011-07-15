@@ -9,6 +9,7 @@ package fi.tamk.anpro;
 public class SquigglyAi extends AbstractAi
 {
 	private long lastDirectionUpdate = 0;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 

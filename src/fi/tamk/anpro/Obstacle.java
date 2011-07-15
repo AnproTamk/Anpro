@@ -5,7 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.util.Log;
 
 /**
- * 
+ * TODO: Lis‰‰ kommentit
  */
 public class Obstacle extends GameObject
 {
@@ -18,8 +18,9 @@ public class Obstacle extends GameObject
 	public static final byte PLANET_EARTH = 0;
 	public static final byte PLANET_X     = 1;
 	
-	// Objektin tyyppi
+	// Objektin "yleinen" tyyppi ja tarkempi m‰‰ritys
 	private int type;
+	private int specifiedType;
 	
 	// Wrapper
 	private Wrapper wrapper;
@@ -45,10 +46,10 @@ public class Obstacle extends GameObject
 		// Otetaan Wrapper k‰yttˆˆn
 		wrapper = Wrapper.getInstance();
 		
-		// M‰‰ritet‰‰n n‰ytett‰v‰ tekstuuri
-		type = _type;
-		
-		usedTexture= _specifiedType;
+		// Tallennetaan tyyppi ja m‰‰ritet‰‰n n‰ytett‰v‰ tekstuuri
+		type          = _type;
+		specifiedType = _specifiedType;
+		usedTexture   = _specifiedType;
 		
 		// M‰‰ritell‰‰n liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
