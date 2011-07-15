@@ -219,6 +219,10 @@ public class GameActivity extends Activity
 	        return true;
 	    }
 		
+		else if (_keyCode == KeyEvent.KEYCODE_HOME && _event.getRepeatCount() == 0) {
+			android.os.Process.killProcess(android.os.Process.myPid());
+		}
+		
 	    return inputController.handleKeyDown(_keyCode, _event); 
 	}
 	

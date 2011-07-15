@@ -55,22 +55,22 @@ public class Radar extends GuiObject {
 					if(distance <= 800 && distance >= 350) {
 						
 						if((angle > 315 || angle <= 45) && type == 2) {
-								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 						
 						else if((angle > 45 && angle <= 135) && type == 1) {
-								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 						
 						else if((angle > 135 && angle <= 225) && type == 3) {
-								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 						
 						else if((angle > 225 || angle <= 315) && type == 0) {
-								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 4, GLRenderer.TEXTURE_RADAR, 0);
+								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 					}
