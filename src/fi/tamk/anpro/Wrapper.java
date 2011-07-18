@@ -19,7 +19,8 @@ public class Wrapper
     public static final int CLASS_TYPE_PROJECTILE     = 3;
     public static final int CLASS_TYPE_GUI            = 4;
     public static final int CLASS_TYPE_OBSTACLE       = 6;
-    public static final int CLASS_TYPE_EFFECT         = 7;
+    public static final int CLASS_TYPE_BACKEFFECT     = 7;
+    public static final int CLASS_TYPE_FRONTEFFECT    = 11;
     public static final int CLASS_TYPE_COLLECTABLE    = 8;
     public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
     public static final int CLASS_TYPE_MOTHERSHIP     = 10;
@@ -37,7 +38,8 @@ public class Wrapper
     public ArrayList<AbstractProjectile> projectiles  = null;
     public ArrayList<GuiObject> 		 guiObjects   = null;
     public ArrayList<Obstacle>  		 obstacles    = null;
-    public ArrayList<EffectObject> 	     effects      = null;
+    public ArrayList<EffectObject> 	     backEffects  = null;
+    public ArrayList<EffectObject> 	     frontEffects = null;
     public ArrayList<Message>            messages     = null;
     public ArrayList<Collectable> 	     collectables = null;
     
@@ -52,7 +54,8 @@ public class Wrapper
     public ArrayList<Integer> projectileStates  = null;
     public ArrayList<Integer> guiObjectStates   = null;
     public ArrayList<Integer> obstacleStates    = null;
-    public ArrayList<Integer> effectStates      = null;
+    public ArrayList<Integer> backEffectStates  = null;
+    public ArrayList<Integer> frontEffectStates = null;
     public ArrayList<Integer> collectableStates = null;
     public ArrayList<Integer> messageStates     = null;
 
@@ -92,7 +95,8 @@ public class Wrapper
         projectiles              = new ArrayList<AbstractProjectile>();
         guiObjects               = new ArrayList<GuiObject>();
         obstacles                = new ArrayList<Obstacle>();
-        effects                  = new ArrayList<EffectObject>();
+        backEffects              = new ArrayList<EffectObject>();
+        frontEffects             = new ArrayList<EffectObject>();
         messages                 = new ArrayList<Message>();
         collectables             = new ArrayList<Collectable>();
         backgroundStars          = new ArrayList<BackgroundStar>();
@@ -101,7 +105,8 @@ public class Wrapper
         projectileStates         = new ArrayList<Integer>();
         guiObjectStates          = new ArrayList<Integer>();
         obstacleStates           = new ArrayList<Integer>();
-        effectStates             = new ArrayList<Integer>();
+        backEffectStates         = new ArrayList<Integer>();
+        frontEffectStates        = new ArrayList<Integer>();
         messageStates            = new ArrayList<Integer>();
         collectableStates        = new ArrayList<Integer>();
         priorityOneAllies        = new ArrayList<Integer>();
@@ -241,11 +246,17 @@ public class Wrapper
         	
         	return obstacleStates.size()-1;
         }
-        else if (_classType == CLASS_TYPE_EFFECT) {
-        	effects.add((EffectObject)_object);
-        	effectStates.add(1);
+        else if (_classType == CLASS_TYPE_BACKEFFECT) {
+        	backEffects.add((EffectObject)_object);
+        	backEffectStates.add(1);
         	
-        	return effectStates.size()-1;
+        	return backEffectStates.size()-1;
+        }
+        else if (_classType == CLASS_TYPE_FRONTEFFECT) {
+        	frontEffects.add((EffectObject)_object);
+        	frontEffectStates.add(1);
+        	
+        	return frontEffectStates.size()-1;
         }
         else if (_classType == CLASS_TYPE_COLLECTABLE) {
         	collectables.add((Collectable)_object);
