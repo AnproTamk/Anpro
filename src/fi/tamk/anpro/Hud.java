@@ -24,7 +24,7 @@ public class Hud
     /* Käyttöliittymän objektit */
     public        ArrayList<Button>          buttons                 = null; // TODO: Ei kai tarvitsisi olla public?
     public		  ArrayList<CooldownCounter> cooldownCounter         = null;
-    public 		  ArrayList<Icon>	         icons	                 = null;
+    public static ArrayList<Icon>	         icons	                 = null;
     public static Counter                    scoreCounter            = null;
     public static Joystick                   joystick                = null;
     public static Bar		                 healthBar               = null;
