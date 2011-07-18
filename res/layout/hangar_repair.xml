@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" android:background="@drawable/carage" android:id="@+id/LinearLayout2" android:orientation="vertical">
+    <TextView android:text="HANGAR / REPAIR" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:id="@+id/TextView02" android:textStyle="bold" android:textSize="40dip" android:textColor="#00DDCC" android:layout_height="wrap_content" android:layout_weight="0.0"></TextView>
+    <TableRow android:baselineAligned="false" android:layout_height="wrap_content" android:layout_gravity="right" android:layout_width="fill_parent" android:id="@+id/tableRow1" android:layout_weight="1"></TableRow>
+    <TableRow android:layout_weight="0.0" android:layout_height="wrap_content" android:id="@+id/TableRow01" android:baselineAligned="false" android:layout_width="wrap_content" android:layout_gravity="right">
+        <ImageButton android:background="@drawable/checkbox_on_background" android:layout_height="wrap_content" android:src="@drawable/button_skills" android:layout_width="wrap_content" android:layout_gravity="right" android:gravity="center" android:id="@+id/button_skills"></ImageButton>
+    </TableRow>
+</LinearLayout>
