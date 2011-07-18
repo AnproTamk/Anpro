@@ -36,6 +36,7 @@ public class WeaponManager
     {
         // Alustetaan taulukot
         playerWeapons = new ArrayList<AbstractWeapon>();
+        allyWeapons   = new ArrayList<AbstractWeapon>();
         enemyWeapons  = new ArrayList<AbstractWeapon>();
         cooldownMax   = new int[10];
         cooldownLeft  = new int[10];
@@ -56,8 +57,6 @@ public class WeaponManager
 		if (cooldownLeft[currentWeapon] <= 0) {
             playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
             										  wrapper.player.x, wrapper.player.y);
-            //Log.v("navigare", "x: " + wrapper.player.x + " y: " + wrapper.player.y);
-            //Log.v("navigare", "x: " + (_targetX + wrapper.player.x) + " y: " + (_targetY + wrapper.player.y));
 
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
@@ -89,7 +88,7 @@ public class WeaponManager
      */
     public final void triggerAllyShoot(float _targetX, float _targetY, float _startX, float _startY)
     {
-   		//allyWeapons.get(0).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+   		allyWeapons.get(0).activate(_targetX, _targetY, _startX, _startY);
     }
     
     /**
@@ -151,6 +150,8 @@ public class WeaponManager
         	//playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
 
             enemyWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_ENEMY));
+
+            allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
         }
         else if (_id == STORY_MODE_LEVEL_1) {
             playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));

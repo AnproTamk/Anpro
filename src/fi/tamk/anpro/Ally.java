@@ -8,6 +8,9 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Ally extends GameObject
 {
+	/* Liittolaisten tyypit */
+	public static final byte ALLY_TURRET = 1;
+	
     /* Liittolaisen tiedot */
     public int attack;
     public int type;   // Liittolaisten tyypit vastaavat vihollisten tasoja
@@ -26,10 +29,10 @@ public class Ally extends GameObject
      * @param int           Puolustus
      * @param int           Nopeus
      * @param int           Hyökkäysvoima törmätessä pelaajaan
-     * @param int           Taso
+     * @param int           Tyyppi
      * @param WeaponManager Osoitin WeaponManageriin
      */
-    public Ally(int _health, int _armor, int _speed, int _attack, int _ai, int _type, WeaponManager _weaponManager)
+    public Ally(int _health, int _armor, int _speed, int _attack, int _ai, byte _type, WeaponManager _weaponManager)
     {
         super(_speed);
         
@@ -50,9 +53,9 @@ public class Ally extends GameObject
         }
     
         // Haetaan animaatioiden pituudet
-        animationLength = new int[GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS];
+        animationLength = new int[GLRenderer.AMOUNT_OF_ALLY_ANIMATIONS];
         
-        for (int i = 0; i < GLRenderer.AMOUNT_OF_ENEMY_ANIMATIONS; ++i) {
+        for (int i = 0; i < GLRenderer.AMOUNT_OF_ALLY_ANIMATIONS; ++i) {
             if (GLRenderer.allyAnimations[type-1][i] != null) {
                 animationLength[i] = GLRenderer.allyAnimations[type-1][i].length;
             }
@@ -63,9 +66,10 @@ public class Ally extends GameObject
         weaponManager = _weaponManager;
         
         // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
-        if (_ai == 0) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ALLY, 2);
-            //ai = new RotaryAllyAi(listId, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
+        if (_ai == AbstractAi.TURRET_AI) {
+            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ALLY, 4);
+            wrapper.allyStates.set(listId, Wrapper.FULL_ACTIVITY);
+            ai = new TurretAllyAi(listId, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
         }
     }
 

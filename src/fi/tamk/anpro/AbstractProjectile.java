@@ -276,9 +276,10 @@ abstract public class AbstractProjectile extends GameObject
 	    		parent.triggerClusterExplosion(8, x, y);
     		}
     	}
-    		
+    	
+    	// TODO: Lyhennä alemmat kolme osiota (yhdistä samankaltaiset toiminnot)
         /* Tarkistetaan osumat vihollisiin */
-    	if(userType == Wrapper.CLASS_TYPE_PLAYER) {
+    	if(userType == Wrapper.CLASS_TYPE_PLAYER || userType == Wrapper.CLASS_TYPE_ALLY) {
 	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            
 	            // Tarkistetaan, onko vihollinen aktiivinen
@@ -329,10 +330,10 @@ abstract public class AbstractProjectile extends GameObject
 	            }
 	        }
     	}
-    	
+    	/* Tarkistetaan osumat pelaajaan ja liittolaisiin */
     	else if(userType == Wrapper.CLASS_TYPE_ENEMY) {
     		
-    		// Tarkistetaan, onko pelaaja aktiivinen
+    		// Tarkistetaan osumat pelaajaan
     		if(wrapper.playerState == Wrapper.FULL_ACTIVITY) {
     			
     			// Tarkistetaan, onko ammuksen ja pelaajan välinen etäisyys riittävän pieni
@@ -373,6 +374,55 @@ abstract public class AbstractProjectile extends GameObject
 	            	}
     			}
     		}
+    		
+    		// Tarkistetaan osumat pelaajaan
+	        for (int i = wrapper.allies.size()-1; i >= 0; --i) {
+	    		if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            	
+	            	// Tarkistetaan, onko ammuksen ja vihollisen välinen etäisyys riittävän pieni
+	            	// tarkkoja osumatarkistuksia varten
+	            	if (Math.abs(wrapper.allies.get(i).x - x) <= Wrapper.gridSize) {
+		            	if (Math.abs(wrapper.allies.get(i).y - y) <= Wrapper.gridSize) {
+	                
+			                // Tarkistetaan osuma
+			        		if (Utility.isColliding(wrapper.allies.get(i), this)) {
+			        			
+			        			// Asetetaan tila
+			                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+	
+				                // Aiheutetaan osuma
+			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+			                        wrapper.allies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+			
+			                        // Aiheutetaan räjähdys kohteeessa
+			                    	if (explodeOnTarget) {
+			                		    setUnactive();
+			            	    	    active = false;
+			            	    		parent.triggerClusterExplosion(8, x, y);
+			                    	}
+			                    	
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+			                    }
+			                    // Aiheutetaan räjähdys
+			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+			
+			                        triggerExplosion();
+			                    }
+			                    
+			                    break;
+			                }
+			                
+			                // Käsitellään passiivinen vahinko
+			        		if (causePassiveDamage) {
+				        		if (Utility.isInDamageRadius(this, wrapper.enemies.get(i))) {
+				                    Utility.checkDamage(wrapper.enemies.get(i), damageOnRadius, armorPiercing);
+				                }
+			        		}
+		            	}
+	            	}
+	    		}
+	        }
     	}
 
         /* Tarkistetaan ajastetut räjähdykset */

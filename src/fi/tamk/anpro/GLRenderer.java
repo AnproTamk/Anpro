@@ -278,16 +278,6 @@ public class GLRenderer implements Renderer
                 }
             }
             
-            // Viholliset
-            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
-	                wrapper.enemies.get(i).draw(_gl);
-	                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
-	                	wrapper.enemies.get(i).update();
-	                }
-	            }
-            }
-            
             // Ammukset
             for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
             	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
@@ -296,6 +286,26 @@ public class GLRenderer implements Renderer
                         wrapper.projectiles.get(i).update();
                     }
             	}
+            }
+            
+            // Liittolaiset
+            for (int i = wrapper.allies.size()-1; i >= 0; --i) {
+	            if (wrapper.allyStates.get(i) != Wrapper.INACTIVE) {
+	                wrapper.allies.get(i).draw(_gl);
+	                if (updateAnimations && wrapper.allies.get(i).usedAnimation != -1 && updateBeat % wrapper.allies.get(i).animationSpeed == 0) {
+	                	wrapper.allies.get(i).update();
+	                }
+	            }
+            }
+            
+            // Viholliset
+            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
+	                wrapper.enemies.get(i).draw(_gl);
+	                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+	                	wrapper.enemies.get(i).update();
+	                }
+	            }
             }
         
             // Pelaaja
@@ -417,7 +427,7 @@ public class GLRenderer implements Renderer
         mothershipTextures[0] = new GLSpriteSet(_gl, context, R.drawable.mothership_tex_0, 1);
         
         // Liittolainen #1
-        allyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
+        allyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.allyturret_tex_0, 1);
         allyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1);
 
         /* Ladataan vihollisten grafiikat */

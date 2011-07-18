@@ -70,7 +70,7 @@ public class TrackingProjectileAi extends AbstractAi
 			if (currentTime - startTime < 5000) {
 				/* Etsitään lähin vihollinen */
 				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemyStates.get(indexOfClosestEnemy) != Wrapper.FULL_ACTIVITY)) {
-					findClosestEnemy();
+					findClosestEnemy(500);
 				}
 				/* Määritetään kääntyminen */
 				else {
@@ -84,29 +84,6 @@ public class TrackingProjectileAi extends AbstractAi
 			// Ammus on ollut tarpeeksi kauan kentällä, joten tekoäly ohjaa sen ulos
 			else {
 				wrapper.projectiles.get(parentId).turningDirection = 0;
-			}
-		}
-	}
-	
-	/**
-	 * Etsii lähimmän vihollisen ja palauttaa sen indeksin (vastaa objektin listId-muuttujaa).
-	 */
-	private final void findClosestEnemy()
-	{
-		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-			if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-				
-				float distance = Utility.getDistance(wrapper.enemies.get(i).x, wrapper.enemies.get(i).y,
-													 wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y);
-				
-				if (indexOfClosestEnemy == -1) {
-					indexOfClosestEnemy = i;
-					distanceToEnemy     = distance;
-				}
-				else if (distance < distanceToEnemy) {
-					indexOfClosestEnemy = i;
-					distanceToEnemy     = distance;
-				}
 			}
 		}
 	}
