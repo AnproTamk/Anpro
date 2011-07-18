@@ -127,10 +127,6 @@ public class EffectObject extends GameObject
     @Override
     public final void setUnactive()
     {
-    	if (effectType == 8) {
-			Log.e("TESTI", "EFEKTI POIS!");
-    	}
-    	
     	activated = false;
 		
 		if (effectGroup == EffectManager.TYPE_BACK_EFFECT) {

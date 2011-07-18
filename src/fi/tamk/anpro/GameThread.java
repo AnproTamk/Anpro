@@ -249,6 +249,12 @@ class GameThread extends Thread
 	            }
 	        }
 	        
+	        for (int i : wrapper.priorityOneAllies) {
+	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.allies.get(i).ai.handleAi();
+	            }
+	        }
+	        
 	        for (int i : wrapper.priorityOneProjectiles) {
 	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	            	if (wrapper.projectiles.get(i).ai != null) {
@@ -267,6 +273,12 @@ class GameThread extends Thread
 	        for (int i : wrapper.priorityTwoEnemies) {
 	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityTwoAllies) {
+	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.allies.get(i).ai.handleAi();
 	            }
 	        }
 	        
@@ -289,6 +301,12 @@ class GameThread extends Thread
 	            }
 	        }
 	        
+	        for (int i : wrapper.priorityThreeAllies) {
+	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.allies.get(i).ai.handleAi();
+	            }
+	        }
+	        
 	        for (int i : wrapper.priorityThreeProjectiles) {
 	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	            	if (wrapper.projectiles.get(i).ai.active) {
@@ -308,6 +326,12 @@ class GameThread extends Thread
 	        for (int i : wrapper.priorityFourEnemies) {
 	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	                wrapper.enemies.get(i).ai.handleAi();
+	            }
+	        }
+	        
+	        for (int i : wrapper.priorityFourAllies) {
+	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	                wrapper.allies.get(i).ai.handleAi();
 	            }
 	        }
 	        

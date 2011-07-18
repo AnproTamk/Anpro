@@ -17,6 +17,9 @@ abstract public class AbstractAi
     public static final int SQUIGGLY_ENEMY_AI        = 3;
     public static final int APPROACHANDSTOP_ENEMY_AI = 4;
     
+    /* Liittolaisten tekoälyt */
+    public static final int TURRET_AI = 1;
+    
 	/* Osoitin Wrapperiin */
     protected Wrapper wrapper;
     
@@ -26,6 +29,10 @@ abstract public class AbstractAi
     
     /* Tekoälyn tila (toistaiseksi ainoastaan ammusten tekoälyt käyttävät tätä) */
 	public boolean active = false;
+	
+	/* Vihollisen etsiminen */
+	protected int   indexOfClosestEnemy = -1;
+	protected float distanceToEnemy     = -1;
     
     /**
      * Alustaa luokan muuttujat.
@@ -104,4 +111,30 @@ abstract public class AbstractAi
         	}
     	}
     }
+    
+	/**
+	 * Etsii lähimmän vihollisen ja palauttaa sen indeksin (vastaa objektin listId-muuttujaa).
+	 */
+	protected final void findClosestEnemy(int _distance)
+	{
+		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+			if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+				
+				float distance = Utility.getDistance(wrapper.enemies.get(i).x, wrapper.enemies.get(i).y,
+													 wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y);
+				
+				// TODO: Käytä Wrapperin gridiä
+				if (_distance >= distance) {
+					if (indexOfClosestEnemy == -1) {
+						indexOfClosestEnemy = i;
+						distanceToEnemy     = distance;
+					}
+					else if (distance < distanceToEnemy) {
+						indexOfClosestEnemy = i;
+						distanceToEnemy     = distance;
+					}
+				}
+			}
+		}
+	}
 }
