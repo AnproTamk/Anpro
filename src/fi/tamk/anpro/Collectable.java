@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 public class Collectable extends GameObject
 {
 	// Collectablen "rank" (tällä määritettään keräyksestä ansaitut pisteet)
@@ -76,12 +78,12 @@ public class Collectable extends GameObject
 		while (!isPlaced) {
 			x = Utility.getRandom(-GameMode.mapWidth, GameMode.mapWidth);
 	        y = Utility.getRandom(-GameMode.mapHeight, GameMode.mapHeight);
-			
+
 	        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-		        if (Math.abs(x - wrapper.obstacles.get(i).x) > Wrapper.gridSize + 150) {
-		        	if (Math.abs(y - wrapper.obstacles.get(i).y) > Wrapper.gridSize + 150) {
-		        		isPlaced = true;
-		        	}
+		        if ((Math.abs(x - wrapper.obstacles.get(i).x) > (Wrapper.gridSize + 300)) && (Math.abs(x - wrapper.mothership.x) > Wrapper.gridSize + 50 && Math.abs(x - wrapper.player.x) > 250 &&
+		        	 Math.abs(y - wrapper.obstacles.get(i).y) > (Wrapper.gridSize + 300)) && (Math.abs(y - wrapper.mothership.y) > Wrapper.gridSize + 50 && Math.abs(y - wrapper.player.y) > 500)) {
+	        		isPlaced = true;
+	        		break;
 				}
 	        }
         }

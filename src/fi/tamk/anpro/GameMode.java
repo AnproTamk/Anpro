@@ -80,8 +80,8 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
         
-        mapWidth  = 3500;
-        mapHeight = 3000;
+        mapWidth  = 1750;
+        mapHeight = 1250;
         
         overBoundWidth  = mapWidth + 20;
         overBoundHeight = mapHeight + 20;
@@ -234,7 +234,6 @@ public class GameMode
         ++currentWave;
         ++totalWaves;
     }
-    
 
     /**
      * Luodaan pelikartta ja sen ker‰tt‰v‰t esineet, muut peliobjektit sek‰ vihollisten spawnpointit.
@@ -259,14 +258,14 @@ public class GameMode
     	// Luodaan kent‰n asteroidit
         int randDirection = Utility.getRandom(0, 359);
         
-    	asteroids[0] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -400, -400, 2, randDirection);
-    	asteroids[1] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 800, 800, 2, randDirection);
-    	asteroids[2] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -1200, 400, 2, randDirection);
+    	asteroids[0] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -400, -400, 2, 120);
+    	asteroids[1] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 400, 400, 2, randDirection);
+    	asteroids[2] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 0, -400, 2, 240);
     		
     	// Luodaan kent‰n planeetat
-		planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 0, -600, 0, randDirection);
-		planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, 800, 0, 0, randDirection);
-		planets[2] = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 1200, 1200, 0, randDirection);
+		planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 0, -600, 0, 0);
+		planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, 800, 0, 0, 0);
+		planets[2] = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 1200, 1200, 0, 0);
     }
     
     /**
@@ -364,6 +363,12 @@ public class GameMode
     {
    		collectables[0] = new Collectable(0, 0);
    		collectables[0].setActive();
+   		
+   		collectables[1] = new Collectable(0, 0);
+   		collectables[1].setActive();
+   		
+   		collectables[2] = new Collectable(0, 0);
+   		collectables[2].setActive();
     }
 
     /**
@@ -410,7 +415,7 @@ public class GameMode
 			}
 		}
 	}
-	
+
 	/**
 	 * Luo pelikent‰n taustat‰hdet.
 	 */
@@ -420,7 +425,7 @@ public class GameMode
     		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
     	}
 	}
-	
+
 	/**
 	 * Avaa "emoalusmenun", jossa p‰ivitet‰‰n skillej‰, tallennetaan pelitilanne
 	 * sek‰ korjataan pelaajan alusta/emoalusta.
