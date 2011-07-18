@@ -502,9 +502,6 @@ public class GLRenderer implements Renderer
         // Armor-suoja
         effectAnimations[2] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
         
-        // Armor-suoja
-        effectAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
-        
         // Combomultiplier
         effectAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.combo_effect_texs, 4);
         

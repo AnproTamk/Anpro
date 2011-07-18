@@ -57,7 +57,9 @@ public class EffectObject extends GameObject
 		setActive();
 		
 		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-		updatePosition();
+		updatePosition(); // TODO: T‰t‰ pit‰‰ kutsua muualta, sill‰ activate-funktiota kutsutaan
+						  // vain kerran efektin aktivoituessa. T‰t‰ olisi parempi kutsua GameThreadista,
+						  // jota suoritetaan koko ajan.
 	}
 
 	/**
