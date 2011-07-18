@@ -10,12 +10,13 @@ public class Icon extends GuiObject
 	 * 
 	 * @param _x Kuvakkeen X-koordinaatti
 	 * @param _y Kuvakkeen Y-koordinaatti
+	 * @param _type 
 	 */
-	public Icon(int _x, int _y)
+	public Icon(int _x, int _y, int _type)
 	{
 		super(_x, _y);
 		
-		usedTexture = GLRenderer.TEXTURE_MISSILE;
+		usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
 	}
 
     /**

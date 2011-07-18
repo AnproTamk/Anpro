@@ -220,7 +220,10 @@ public class GameActivity extends Activity
 	    }
 		
 		else if (_keyCode == KeyEvent.KEYCODE_HOME && _event.getRepeatCount() == 0) {
-			android.os.Process.killProcess(android.os.Process.myPid());
+			Intent i_mainmenu = new Intent(this, MainActivity.class);
+			startActivity(i_mainmenu);
+			finish();
+			return true;
 		}
 		
 	    return inputController.handleKeyDown(_keyCode, _event); 
