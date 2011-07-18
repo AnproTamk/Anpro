@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_height="wrap_content"
-    android:background="@drawable/hangar"  
-    android:padding="15dip" 
-    android:layout_width="fill_parent">
+<ViewFlipper android:id="@+id/ViewFlipper01"
+android:layout_width="fill_parent" android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" >
     
-    <Button android:id="@+id/button1"
-            android:text="Repair"
-            android:width="150px"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
-            
-    <Button android:id="@+id/button2"
-            android:text="Skills"
-            android:width="150px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-            
-    <Button android:id="@+id/Button01"
-            android:text="Save game"
-            android:width="150px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-</LinearLayout>
+    <include android:id="@+id/hangar_repair" layout="@layout/hangar_repair" />
+    <include android:id="@+id/hangar_skills" layout="@layout/hangar_skills" />
+
+</ViewFlipper>
