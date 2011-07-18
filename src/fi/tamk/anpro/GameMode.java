@@ -274,14 +274,6 @@ public class GameMode
      */
     protected void generateSpawnPoints()
     {
-    	
-    	for(int i = 1; i >= 8; ++i) {
-    		for(int j = 0; j < 2; ++j) {
-    			for(int k = 0; k < 2; ++k){
-    				spawnPoints[i][j][k] = Utility.getRandom(-1000, 1000);
-    			}
-    		}
-    	}
 	    /* 
 	     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen määrän mukaan (CameraManager.camX ja CameraManager.camY)
 	     * { {vasen reuna X,Y}, {vasen yläreuna X,Y}, {yläreuna X,Y}, {oikea yläreuna X,Y},
@@ -295,7 +287,7 @@ public class GameMode
 	    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
 	    //					 X								   				      Y
 	    // Vasen reuna
-	    /*
+
     	spawnPoints[1][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][0][1] = (int) camera.yTranslate;
 	    spawnPoints[1][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][1][1] = (int) (camera.yTranslate + 128 * Options.scale);
 	    spawnPoints[1][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][2][1] = (int) (camera.yTranslate - 128 * Options.scale);
@@ -329,7 +321,6 @@ public class GameMode
 	    spawnPoints[8][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); 	spawnPoints[8][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
 	    // Random reuna
 	    // spawnPoints[0][0][0] = ...
-	    */
 	    /*
 	     * Hakee, satunnoi ja asettaa vihollisten aloituspisteet
 	     * 
