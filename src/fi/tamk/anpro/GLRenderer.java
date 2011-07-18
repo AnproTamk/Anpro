@@ -128,8 +128,8 @@ public class GLRenderer implements Renderer
         allyAnimations        = new GLSpriteSet[2][AMOUNT_OF_ALLY_ANIMATIONS];
         enemyTextures         = new GLSpriteSet[5][AMOUNT_OF_ENEMY_TEXTURES];
         enemyAnimations       = new GLSpriteSet[5][AMOUNT_OF_ENEMY_ANIMATIONS];
-        projectileTextures    = new GLSpriteSet[5][AMOUNT_OF_PROJECTILE_TEXTURES];
-        projectileAnimations  = new GLSpriteSet[5][AMOUNT_OF_PROJECTILE_ANIMATIONS];
+        projectileTextures    = new GLSpriteSet[6][AMOUNT_OF_PROJECTILE_TEXTURES];
+        projectileAnimations  = new GLSpriteSet[6][AMOUNT_OF_PROJECTILE_ANIMATIONS];
         mothershipTextures    = new GLSpriteSet[AMOUNT_OF_MOTHERSHIP_TEXTURES];
         mothershipAnimations  = new GLSpriteSet[AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
         hudTextures           = new GLSpriteSet[AMOUNT_OF_HUD_TEXTURES];
@@ -260,6 +260,14 @@ public class GLRenderer implements Renderer
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
             
+            // Emoalus
+            if (wrapper.mothership != null) {
+            	wrapper.mothership.draw(_gl);
+            	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
+                	wrapper.mothership.update();
+                }
+            }
+            
             // Taustaefektit
             for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
                 if (wrapper.backEffectStates.get(i) != Wrapper.INACTIVE) {
@@ -267,14 +275,6 @@ public class GLRenderer implements Renderer
                     if (updateAnimations && wrapper.backEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.backEffects.get(i).animationSpeed == 0) {
                         wrapper.backEffects.get(i).update();
                     }
-                }
-            }
-            
-            // Emoalus
-            if (wrapper.mothership != null) {
-            	wrapper.mothership.draw(_gl);
-            	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
-                	wrapper.mothership.update();
                 }
             }
             
@@ -466,6 +466,10 @@ public class GLRenderer implements Renderer
         // Missile
         projectileTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilemissile_tex_0, 1);
         projectileAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.projectilemissile_destroy_anim, 1);
+
+        // Spitfire
+        projectileTextures[5][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilespitfire_tex_0, 1);
+        projectileAnimations[5][3] = new GLSpriteSet(_gl, context, R.drawable.projectilemissile_destroy_anim, 1);
 
         /* Ladataan käyttöliittymän grafiikat */
         // Napit
