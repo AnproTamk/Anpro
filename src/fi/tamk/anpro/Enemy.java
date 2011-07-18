@@ -85,7 +85,7 @@ public class Enemy extends GameObject
         }
         else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
-            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
         else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
             listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
@@ -213,7 +213,7 @@ public class Enemy extends GameObject
             ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
         else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
-            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
         else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
             ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);

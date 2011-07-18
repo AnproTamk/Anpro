@@ -50,14 +50,14 @@ public class ApproachAndStopAi extends AbstractAi
         	
         	if (lastShootingTime == 0) {
         		lastShootingTime = android.os.SystemClock.uptimeMillis();
-        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_LASER);
         	}
         	else {
         		long currentTime = android.os.SystemClock.uptimeMillis();
             	
             	if (currentTime - lastShootingTime >= 700) {
             		lastShootingTime = currentTime;
-            		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y);
+            		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_LASER);
             	}
         	}
         }

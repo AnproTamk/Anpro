@@ -8,9 +8,10 @@ import java.util.ArrayList;
  */
 public class WeaponManager
 {
-    /* Pelitilat */
-    public static final int SURVIVAL_MODE      = 1;
-    public static final int STORY_MODE_LEVEL_1 = 1;
+    /* Vihollisten aseiden vakiot */
+	public static int ENEMY_LASER = 0;
+	public static int ENEMY_SPITFIRE = 1;
+	
     
     /* Cooldownit */
     public int cooldownMax[];  // Maksimi cooldown
@@ -70,11 +71,12 @@ public class WeaponManager
      * sille kohteen koordinaatit.
      * 
      * @param _startX Ampujan X-koordinaatti
-     * @param _startY Ampujan Y-koordinaatti
+     * @param _startY Ampujan Y-koordinaatt
+     * @param _weapon Vihollisen ase
      */
-    public final void triggerEnemyShoot(float _startX, float _startY)
+    public final void triggerEnemyShoot(float _startX, float _startY, int _weapon)
     {
-   		enemyWeapons.get(0).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+   		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
     }
     
     /**
@@ -119,7 +121,7 @@ public class WeaponManager
         // Asetetaan globaali cooldown
         for (int i = 9; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
-                cooldownLeft[i] = 0;
+                cooldownLeft[i] = 200;
             }
         }
 	}
@@ -131,32 +133,24 @@ public class WeaponManager
      */
     public final void initialize(int _id)
     {
-    	// TODO: SurvivalModea varten aseille pitää määritellä erikseen, ovatko ne käytetttävissä
-    	// vai ei, sillä aseita tulee käyttöön vain combojen ja achievementtien yhteydessä sekä
-    	// StoryModen edetessä.
-    	
-    	// TODO: StoryModessa käytettävissä olevat aseet tulisi ladata kykypuun mukaisesti.
-    	
-        // Ladataan tarvittavat aseluokat muistiin
-        if (_id == SURVIVAL_MODE) {
-            // Ladataan aseet ja määritetään niiden cooldownit
-            playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-            cooldownMax[0] = 0;
+        // Ladataan aseet ja määritetään niiden cooldownit
+        playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[0] = 0;
+        playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[1] = 20000;
+        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[2] = 7000;
+    	playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[3] = 4000;
+    	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[4] = 20000;
+    	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[5] = 1000;
+
+        allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
             
-            //playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-            //playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        	//playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        	//playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        	//playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-
-            enemyWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_ENEMY));
-
-            allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
-        }
-        else if (_id == STORY_MODE_LEVEL_1) {
-            playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-            cooldownMax[0] = 0;
-        }
+        enemyWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_ENEMY));
+        enemyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ENEMY));
     }
 
     /**

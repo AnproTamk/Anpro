@@ -4,25 +4,53 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.GridView;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import android.widget.ViewSwitcher;
 public class MothershipActivity extends Activity implements OnClickListener
 {
-	
+	// Alustetaan muuttujat.
 	ViewFlipper viewFlipper;
-	Button next;
-	Button previous;
+	ImageButton skills;
+	ImageButton repair;
+	
+	private Animation inFromRightAnimation() {
+		Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
+													   Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
+		inFromRight.setDuration(750);
+		inFromRight.setInterpolator(new AccelerateInterpolator());
+		return inFromRight;
+	}
+	
+	private Animation outToLeftAnimation() {
+		Animation outtoLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, -1.0f,
+													 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
+		outtoLeft.setDuration(750);
+		outtoLeft.setInterpolator(new AccelerateInterpolator());
+		return outtoLeft;
+	}
+	
+	private Animation inFromLeftAnimation() {
+		Animation inFromLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
+													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
+		inFromLeft.setDuration(750);
+		inFromLeft.setInterpolator(new AccelerateInterpolator());
+		return inFromLeft;
+	}
+	
+	private Animation outToRightAnimation() {
+		Animation outtoRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
+													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
+		outtoRight.setDuration(750);
+		outtoRight.setInterpolator(new AccelerateInterpolator());
+		return outtoRight;
+	}
 	
 	/**
 	 * Luo emoalusvalikon. Android kutsuu t‰t‰ automaattisesti.
@@ -43,28 +71,39 @@ public class MothershipActivity extends Activity implements OnClickListener
 	    setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	    
 	    // Asetetaan activityn ulkoasu
-	    setContentView(R.layout.hangar_main);
+	    setContentView(R.layout.hangar);
 	    
-	    
+	    // Luodaan olio, joka sis‰lt‰‰ emoaluksen eri n‰kym‰t.
 	    viewFlipper = (ViewFlipper) findViewById(R.id.ViewFlipper01);
 	    
-	    previous = (Button) findViewById(R.id.button_previous);
-	    previous.setOnClickListener(this);
-	    next = (Button) findViewById(R.id.button_next);
-	    next.setOnClickListener(this);
 	    
+	    // Luodaan emoaluksen painikkeet.
+	    repair = (ImageButton) findViewById(R.id.button_repair);
+	    repair.setOnClickListener(this);
 	    
+	    skills = (ImageButton) findViewById(R.id.button_skills);
+	    skills.setOnClickListener(this);
 	}
 
 	
-	
+	/**
+	 * Toiminta nappeja painettaessa.
+	 * 
+	 * @param _v View-luokan muuttuja painikkeita varten.
+	*/ 
     public void onClick(View _v)
     {
-    	if (_v == next) {
-    		viewFlipper.showNext();
-    	}
-    	if (_v == previous) {
-    		viewFlipper.showPrevious();
+    	switch(_v.getId()) {
+    		case R.id.button_skills:
+    			viewFlipper.setInAnimation(inFromRightAnimation());
+    			viewFlipper.setOutAnimation(outToLeftAnimation());
+    			viewFlipper.showNext();
+    			break;
+    		case R.id.button_repair:
+    			viewFlipper.setInAnimation(inFromLeftAnimation());
+    			viewFlipper.setOutAnimation(outToRightAnimation());
+    			viewFlipper.showPrevious();
+    			break;
     	}
     }
     

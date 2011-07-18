@@ -298,7 +298,12 @@ abstract public class AbstractProjectile extends GameObject
 
 				                // Aiheutetaan osuma
 			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-			                        wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
+			                    	if (userType == Wrapper.CLASS_TYPE_PLAYER) { 
+			                    		wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_PLAYERPROJECTILE, damageOnTouch, armorPiercing);
+			                    	}
+			                    	else {
+			                    		wrapper.enemies.get(i).triggerCollision(GameObject.COLLISION_WITH_ALLYPROJECTILE, damageOnTouch, armorPiercing);
+			                    	}
 			
 			                        // Aiheutetaan räjähdys kohteeessa
 			                    	if (explodeOnTarget) {
@@ -391,7 +396,7 @@ abstract public class AbstractProjectile extends GameObject
 			                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
 	
 				                // Aiheutetaan osuma
-			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
+			                    if (damageType == DAMAGE_ON_TOUCH) {
 			                        wrapper.allies.get(i).triggerCollision(GameObject.COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 			
 			                        // Aiheutetaan räjähdys kohteeessa
@@ -404,7 +409,7 @@ abstract public class AbstractProjectile extends GameObject
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 			                    }
 			                    // Aiheutetaan räjähdys
-			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
+			                    else if (damageType == EXPLODE_ON_TOUCH) {
 			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 			
 			                        triggerExplosion();
