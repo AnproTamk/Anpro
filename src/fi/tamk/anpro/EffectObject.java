@@ -49,7 +49,7 @@ public class EffectObject extends GameObject
 		if (_effectGroup == EffectManager.TYPE_BACK_EFFECT) {
 			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_BACKEFFECT, 0);
 		}
-		else if (_effectGroup == EffectManager.TYPE_BACK_EFFECT) {
+		else if (_effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
 			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_FRONTEFFECT, 0);
 		}
 	}
