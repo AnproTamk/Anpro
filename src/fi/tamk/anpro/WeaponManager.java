@@ -120,7 +120,7 @@ public class WeaponManager
         // Asetetaan globaali cooldown
         for (int i = 9; i >= 0; --i) {
             if (cooldownLeft[i] <= 0) {
-                cooldownLeft[i] = 200;
+                cooldownLeft[i] = 0;
             }
         }
 	}
@@ -141,7 +141,7 @@ public class WeaponManager
         // Ladataan tarvittavat aseluokat muistiin
         if (_id == SURVIVAL_MODE) {
             // Ladataan aseet ja määritetään niiden cooldownit
-            playerWeapons.add(new WeaponDefault(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+            playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
             cooldownMax[0] = 0;
             
             //playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
