@@ -149,7 +149,6 @@ public class GameMode
      */
     public static void updateScore(int _rank, float _x, float _y)
     {
-    	_rank *= 18;
         // P‰ivitet‰‰n lastTime nykyisell‰ ajalla millisekunteina
         if (lastTime == 0) {
             lastTime = android.os.SystemClock.uptimeMillis();

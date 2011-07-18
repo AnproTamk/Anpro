@@ -23,15 +23,15 @@ public class Hud
     
     /* Käyttöliittymän objektit */
     public        ArrayList<Button>          buttons                 = null; // TODO: Ei kai tarvitsisi olla public?
-    public		  ArrayList<CooldownCounter> cooldowncounter         = null;
+    public		  ArrayList<CooldownCounter> cooldownCounter         = null;
     public static ArrayList<Icon>	         icons	                 = null;
-    public static ArrayList<Counter>         counters                = null;
+    public static Counter                    scoreCounter            = null;
     public static Joystick                   joystick                = null;
     public static Bar		                 healthBar               = null;
     public static Bar				         armorBar                = null;
     public        GuideArrow                 guideArrowToCollectable = null;
     public        GuideArrow                 guideArrowToMothership  = null;
-    public static Radar						 radar_top			     = null;
+    public static Radar						 radar_top			     = null; // TODO: Onko pakko olla staattisia?
     public static Radar						 radar_left			     = null;
     public static Radar						 radar_right			 = null;
     public static Radar						 radar_down			     = null;
@@ -58,8 +58,7 @@ public class Hud
         weapons[0] = 0; // TODO: DEBUG!!!!
         
         buttons          = new ArrayList<Button>();
-        cooldowncounter	 = new ArrayList<CooldownCounter>();
-        counters         = new ArrayList<Counter>();
+        cooldownCounter	 = new ArrayList<CooldownCounter>();
         icons            = new ArrayList<Icon>();
 
         XmlReader reader = new XmlReader(_context);
@@ -78,7 +77,7 @@ public class Hud
     	 for (int i = buttons.size()-1; i >= 0; --i) {
             if (weapons[i] > -1) {
 	    		if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-	            	cooldowncounter.get(i).update(weaponManager.cooldownLeft[i]);
+	            	cooldownCounter.get(i).update(weaponManager.cooldownLeft[i]);
 	            }
             }
         }
@@ -91,9 +90,7 @@ public class Hud
      */
     public final static void updateScoreCounter(long _score)
     {
-    	for (int i = counters.size()-1; i >= 0; --i) {
-    		counters.get(i).parseScore(_score);
-    	}
+    	scoreCounter.parseScore(_score);
     }
 
     /**

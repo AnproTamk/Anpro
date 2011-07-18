@@ -51,13 +51,15 @@ public class EffectObject extends GameObject
 	public void activate(GameObject _object)
 	{
 		parentObject = _object;
-		x = _object.x;
-		y = _object.y;
+		x            = _object.x;
+		y            = _object.y;
 		
 		setActive();
 		
 		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-		updatePosition();
+		updatePosition(); // TODO: T‰t‰ pit‰‰ kutsua muualta, sill‰ activate-funktiota kutsutaan
+						  // vain kerran efektin aktivoituessa. T‰t‰ olisi parempi kutsua GameThreadista,
+						  // jota suoritetaan koko ajan.
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(effectType, 1, 8, GfxObject.ACTION_DESTROYED, 0, 0);
+		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 	
 	/**

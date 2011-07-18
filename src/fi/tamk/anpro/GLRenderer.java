@@ -503,11 +503,11 @@ public class GLRenderer implements Renderer
         // Armor-suoja
         effectAnimations[2] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
         
-        // Armor-suoja
-        effectAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.armor_effect_anim, 9);
-        
         // Combomultiplier
-        effectAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.combo_effect_texs, 4);
+        effectAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.combo2_effect_anim, 6);
+        effectAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.combo3_effect_anim, 6);
+        effectAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.combo4_effect_anim, 6);
+        effectAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.combo5_effect_anim, 6);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);

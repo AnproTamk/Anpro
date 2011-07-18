@@ -1,12 +1,14 @@
 package fi.tamk.anpro;
 
+import javax.microedition.khronos.opengles.GL10;
+
 /**
  * Sis‰lt‰‰ pistelaskurin toiminnallisuudet.
  */
 public class Counter extends GuiObject
 {
-	// Laskurin laskemat pistearvot (10000, 1000, 100, 10 tai 1)
-	private int value;
+	private int[] frames = {-1, -1, -1, -1, -1, -1};
+	private int   tempX;
 
 	/**
      * Alustaa luokan muuttujat.
@@ -15,13 +17,12 @@ public class Counter extends GuiObject
      * @param int Objektin Y-koordinaatti
      * @param int Laskettavat arvot
      */
-	public Counter(int _x, int _y, int _value) {
+	public Counter(int _x, int _y) {
 		super(_x, _y);
 		
-		value = _value;
-		
 		usedTexture = GLRenderer.TEXTURE_COUNTER;
-		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		
+		wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
 	}
 	
 	/**
@@ -32,81 +33,26 @@ public class Counter extends GuiObject
 	 */
 	public void parseScore(long _score)
 	{
-		if (_score >= value) {
-			int temp = 0;
-			int index = 0;
-			wrapper.guiObjectStates.set(listId, 1);
-			
-			// Tehd‰‰n vertailut, mille pistelaskuriobjektille arvo lasketaan.
-			if (value == 10000) {
-				index = (int) (_score / value);
-			}
-			else if (value == 1000) {
-				index = (int) (_score / value);
-				if (_score < 10000) {
-					index = (int) (_score / value);
-				}
-				else {
-					temp = (int)_score - (int) ((_score / 1000) * 1000);
-					index = temp / value;
-				}
-			}
-			else if (value == 100) {
-				if (_score < 1000) {
-					index = (int) (_score / value);
-				}
-				else {
-					temp = (int)_score - (int) ((_score / 1000) * 1000);
-					index = temp / value;
-				}
-			}
-			else if (value == 10) {
-				if (_score >= 100) {
-					temp = (int) (_score / 100);
-					index = (int) (_score - (value * 10 * temp));
-					if (index >= value) {
-						index /= value;
-					}
-					else {
-						index = 0;
-					}
-				}
-				else {
-					index = (int) (_score / value);
-				}
-			}
-			else {
-				if (_score >= 10 && _score < 100) {
-					temp = (int) (_score / 10);
-					index = (int) (_score - (10 * temp));
-				}
-				else if (_score >= 100 && _score < 1000) {
-					//int temp = (int) (_score / 100);
-					index = (int) (_score - 100);
-					if (index >= 10) {
-						temp = index / 10;
-						index = index - (10 * temp);
-					}
-				}
-				else if (_score >= 1000) {
-					temp = (int) (_score / 1000);
-					temp = (int) (_score - 1000 * temp);
-					
-					temp = temp - ((temp / 100) * 100);
-					index = temp - ((temp / 10) * 10);
-				}
-				else {
-					index = (int) (_score / value);
-				}
-				
-			}
-			
-			// M‰‰ritet‰‰n halutun kuvan tunnus ja laitetaan se muuttujaan.
-			currentFrame = index;
+		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		
+		String temp = String.valueOf(_score);
+		
+		tempX = temp.length();
+		
+		for (int i = 0; i < tempX; ++i) {
+			frames[i] = Integer.parseInt(String.valueOf(temp.charAt(i)));
 		}
-		else {
-			wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
+		
+		tempX -= tempX * 13;
+	}
+	
+	@Override
+	public void draw(GL10 _gl)
+	{
+		for (int i = 0; i < 6; ++i) {
+			if (frames[i] > -1) {
+				GLRenderer.hudTextures[usedTexture].draw(_gl, (tempX+30*i) + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, frames[i]);
+			}
 		}
 	}
-
 }
