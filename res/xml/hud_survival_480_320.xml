@@ -16,9 +16,5 @@
         
         <joystick x="-192" y="-112" type="" />
         
-        <counter id="score_counter" x="64" y="-144" type="counter_numbers" value="1" />
-        <counter id="score_counter" x="32" y="-144" type="counter_numbers" value="10" />
-        <counter id="score_counter" x="0" y="-144" type="counter_numbers" value="100" />
-        <counter id="score_counter" x="-32" y="-144" type="counter_numbers" value="1000" />
-        <counter id="score_counter" x="-64" y="-224" type="counter_numbers" value="10000" />
+        <counter id="score_counter" x="0" y="-144" />
 </hud>
