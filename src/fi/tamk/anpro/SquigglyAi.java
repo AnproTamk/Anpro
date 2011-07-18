@@ -10,15 +10,21 @@ public class SquigglyAi extends AbstractAi
 {
 	private long lastDirectionUpdate = 0;
 	
+	private long lastShootingTime = 0;
+	
+	private WeaponManager weaponManager;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public SquigglyAi(int _id, int _type) 
+	public SquigglyAi(int _id, int _type, WeaponManager _weaponManager) 
 	{
 		super(_id, _type);
+		
+		weaponManager = _weaponManager;
 	}
     
     /**
@@ -35,7 +41,6 @@ public class SquigglyAi extends AbstractAi
 			double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
 			
 			wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
-
 		}
 		
 		else {
@@ -48,11 +53,22 @@ public class SquigglyAi extends AbstractAi
 	    	
 				/* Määritetään kääntymissuunta */
 				wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+				
+				// Suoritetaan ampuminen
+		       
+		    		lastShootingTime = android.os.SystemClock.uptimeMillis();
+		    		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
+
+		    		
 			}
 			
 			else {
-				
 				long currentTime = android.os.SystemClock.uptimeMillis();
+		        	
+		        if (currentTime - lastShootingTime >= 200) {
+	        		lastShootingTime = currentTime;
+	        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
+	        	}
 				
 				if(currentTime - lastDirectionUpdate >= 1500 && currentTime - lastDirectionUpdate < 2000) {
 					
