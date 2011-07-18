@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * 
  * @extends AbstractWeapon
  */
-public class WeaponDefault extends AbstractWeapon
+public class WeaponLaser extends AbstractWeapon
 {
 	// Ammukset
 	private ArrayList<ProjectileLaser> projectiles;
@@ -18,7 +18,7 @@ public class WeaponDefault extends AbstractWeapon
      * @param Wrapper Osoitin Wrapperiin
      * @param int     Aseen käyttäjän tyyppi
      */
-	public WeaponDefault(Wrapper _wrapper, int _userType)
+	public WeaponLaser(Wrapper _wrapper, int _userType)
 	{
 		super(_wrapper, _userType);
 		

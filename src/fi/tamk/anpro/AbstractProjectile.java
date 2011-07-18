@@ -278,6 +278,7 @@ abstract public class AbstractProjectile extends GameObject
     	}
     		
         /* Tarkistetaan osumat vihollisiin */
+    	/* Pelaajan panos osuu viholliseen*/
     	if(userType == Wrapper.CLASS_TYPE_PLAYER) {
 	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            
@@ -330,6 +331,7 @@ abstract public class AbstractProjectile extends GameObject
 	        }
     	}
     	
+    	/* Vihollisen panos osuu pelaajaan */
     	else if(userType == Wrapper.CLASS_TYPE_ENEMY) {
     		
     		// Tarkistetaan, onko pelaaja aktiivinen
