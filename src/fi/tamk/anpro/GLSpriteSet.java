@@ -220,8 +220,8 @@ public class GLSpriteSet
         }
         
         // Avataan tekstuuri- ja vektoritaulukot käyttöön
-        _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        //_gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        //_gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
         // Valitaan neliön näytettävä puoli
         _gl.glFrontFace(GL10.GL_CW);
@@ -234,8 +234,8 @@ public class GLSpriteSet
         _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
     
         // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
-        _gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        _gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        //_gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+        //_gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     }
     
     /**
