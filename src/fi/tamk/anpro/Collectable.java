@@ -4,6 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class Collectable extends GameObject
 {
+	// Collectablen "rank" (tällä määritettään keräyksestä ansaitut pisteet)
+	protected int COLLECTABLE_RANK = 5;
+	
 	// Wrapper
 	private Wrapper wrapper;
 	
@@ -12,8 +15,6 @@ public class Collectable extends GameObject
 	 * 
 	 * @param _x         X-koordinaatti
 	 * @param _y         Y-koordinaatti
-	 * @param _speed     Liikkumisnopeus
-	 * @param _direction Liikkumissuunta
 	 */
 	public Collectable(int _x, int _y)
 	{
@@ -48,7 +49,7 @@ public class Collectable extends GameObject
     /**
      * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
      * 
-     * @param GL10 OpenGL-konteksti
+     * @param _gl OpenGL-konteksti
      */
 	@Override
 	public void draw(GL10 _gl)
@@ -98,12 +99,14 @@ public class Collectable extends GameObject
     /**
      * Käsittelee törmäykset.
      * 
-     * @param int Osuman aiheuttama vahinko
-     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     * @param _damage Osuman aiheuttama vahinko
+     * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
     public final void triggerCollision(int _damage, int _armorPiercing)
     {
+    	GameMode.updateScore(COLLECTABLE_RANK, x, y);
+    	
     	wrapper.collectableStates.set(listId, Wrapper.ONLY_ANIMATION);
     	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     }
