@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  *  Hallitsee kaikkia efektejä.
  */
@@ -8,7 +10,11 @@ public class EffectManager
 	/* Osoitin tähän luokkaan (singleton-toimintoa varten) */
 	private static EffectManager instance;
 	
-	/* Efektien vakiot */
+	/* Efektiryhmät */
+	public static final byte TYPE_FRONT_EFFECT = 0;
+	public static final byte TYPE_BACK_EFFECT  = 1;
+	
+	/* Efektityypit */
 	public static final byte EFFECT_BALLOON_EXCLAMATION = 0;
 	public static final byte EFFECT_BALLOON_QUESTION    = 1;
 	public static final byte EFFECT_PLAYER_ARMOR        = 2;
@@ -18,33 +24,40 @@ public class EffectManager
 	public static final byte EFFECT_COMBOMULTIPLIER_4   = 5;
 	public static final byte EFFECT_COMBOMULTIPLIER_5   = 6;
 	public static final byte EFFECT_EXPLOSION           = 7;
+	public static final byte EFFECT_TRAIL               = 8;
 	
 	/* Efektiobjektit */
+	private static EffectObject   balloonExclamationEffect;
+	private static EffectObject   balloonQuestionEffect;
 	private static EffectObject   playerArmorEffect;
 	private static EffectObject[] enemyArmorEffect;
-	private static EffectObject   balloonExclamation;
-	private static EffectObject   balloonQuestion;
-	private static EffectObject   combo2Multiplier;
-	private static EffectObject   combo3Multiplier;
-	private static EffectObject   combo4Multiplier;
-	private static EffectObject   combo5Multiplier;
+	private static EffectObject   combo2MultiplierEffect;
+	private static EffectObject   combo3MultiplierEffect;
+	private static EffectObject   combo4MultiplierEffect;
+	private static EffectObject   combo5MultiplierEffect;
+	private static EffectObject   explosionEffect;
+	private static EffectObject[] playerTrailEffect;
 
 	/**
 	 * Alustaa luokan muuttujat.
 	 */
 	private EffectManager()
 	{
-		balloonExclamation  = new EffectObject(0, EFFECT_BALLOON_EXCLAMATION);
-		balloonQuestion     = new EffectObject(0, EFFECT_BALLOON_QUESTION);
-		playerArmorEffect   = new EffectObject(0, EFFECT_PLAYER_ARMOR);
-		enemyArmorEffect    = new EffectObject[5];
-		combo2Multiplier    = new EffectObject(0, EFFECT_COMBOMULTIPLIER_2);
-		combo3Multiplier    = new EffectObject(0, EFFECT_COMBOMULTIPLIER_3);
-		combo4Multiplier    = new EffectObject(0, EFFECT_COMBOMULTIPLIER_4);
-		combo5Multiplier    = new EffectObject(0, EFFECT_COMBOMULTIPLIER_5);
+		playerTrailEffect        = new EffectObject[20];
+		balloonExclamationEffect = new EffectObject(0, EFFECT_BALLOON_EXCLAMATION, TYPE_FRONT_EFFECT);
+		balloonQuestionEffect    = new EffectObject(0, EFFECT_BALLOON_QUESTION, TYPE_FRONT_EFFECT);
+		playerArmorEffect        = new EffectObject(0, EFFECT_PLAYER_ARMOR, TYPE_BACK_EFFECT);
+		enemyArmorEffect         = new EffectObject[5];
+		combo2MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_2, TYPE_FRONT_EFFECT);
+		combo3MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_3, TYPE_FRONT_EFFECT);
+		combo4MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_4, TYPE_FRONT_EFFECT);
+		combo5MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_5, TYPE_FRONT_EFFECT);
 		
 		for (int i = 0; i < 5; ++i) {
-			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR);
+			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
+		}
+		for (int i = 0; i < 20; ++i) {
+			playerTrailEffect[i] = new EffectObject(0, EFFECT_TRAIL, TYPE_BACK_EFFECT);
 		}
 	}
 	
@@ -93,8 +106,8 @@ public class EffectManager
 	 */
 	public static void showExclamationMarkBalloon(GameObject _object)
 	{
-		if (!balloonExclamation.activated && Utility.getRandom(1, 20) == 1) {	
-			balloonExclamation.activate(_object);
+		if (!balloonExclamationEffect.activated && Utility.getRandom(1, 20) == 1) {	
+			balloonExclamationEffect.activate(_object);
 		}
 	}
 
@@ -105,8 +118,8 @@ public class EffectManager
 	 */
 	public static void showQuestionMarkBalloon(GameObject _object)
 	{
-		if (!balloonQuestion.activated && Utility.getRandom(1, 20) == 1) {
-			balloonQuestion.activate(_object);			
+		if (!balloonQuestionEffect.activated && Utility.getRandom(1, 20) == 1) {
+			balloonQuestionEffect.activate(_object);			
 		}
 	}
 	
@@ -120,17 +133,35 @@ public class EffectManager
 	public static void showComboMultiplier(int _multiplier, float _x, float _y)
 	{
 		if(_multiplier == 2) {
-			combo2Multiplier.activate(_x, _y);
+			combo2MultiplierEffect.activate(_x, _y);
 		}
 		else if (_multiplier == 3) {
-			combo3Multiplier.activate(_x, _y);
+			combo3MultiplierEffect.activate(_x, _y);
 		}
 		else if (_multiplier == 4) {
-			combo4Multiplier.activate(_x, _y);
+			combo4MultiplierEffect.activate(_x, _y);
 		}
 		else if (_multiplier == 5) {
-			combo5Multiplier.activate(_x, _y);
+			combo5MultiplierEffect.activate(_x, _y);
 		}
 	}
 	
+	/**
+	 * Näyttää aluksen perässä "jälkipolton".
+	 * 
+	 * @param _object Kohde-objekti
+	 */
+	public static void showPlayerTrailEffect(GameObject _object)
+	{
+		for (int i = 0; i < 20; ++i) {
+			if (!playerTrailEffect[i].activated) {
+				playerTrailEffect[i].activate(_object.x, _object.y);
+				playerTrailEffect[i].direction = _object.direction;
+				playerTrailEffect[i].x += Math.cos((_object.direction * Math.PI)/180) * 4 * Options.scaleX;
+				playerTrailEffect[i].y += Math.sin((_object.direction * Math.PI)/180) * 4 * Options.scaleY;
+				Log.e("TESTI", "EFEKTI PÄÄLLE!");
+				break;
+			}
+		}
+	}
 }

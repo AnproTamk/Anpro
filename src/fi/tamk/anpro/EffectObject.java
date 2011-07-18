@@ -2,13 +2,16 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  *  Sisältää yhden efektin toiminnot.
  */
 public class EffectObject extends GameObject
 {
-	// Efektin tyyppi
+	// Efektin tyyppi ja ryhmä
 	private byte effectType;
+	private byte effectGroup;
 	
 	// Effektin tila
 	public boolean activated = false;
@@ -25,11 +28,12 @@ public class EffectObject extends GameObject
 	 * @param _speed	  Efektin nopeus (otetaan vastaan lähinnä vain siksi, että efektit ovat GameObjecteja)
 	 * @param _effectType Efektin tyyppi
 	 */
-	public EffectObject(int _speed, byte _effectType)
+	public EffectObject(int _speed, byte _effectType, byte _effectGroup)
 	{
 		super(_speed);
 		
-		effectType = _effectType;
+		effectType  = _effectType;
+		effectGroup = _effectGroup;
     
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
@@ -40,7 +44,14 @@ public class EffectObject extends GameObject
 		
 		wrapper = Wrapper.getInstance();
 		
-		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_EFFECT, 0);
+		direction = 90;
+		
+		if (_effectGroup == EffectManager.TYPE_BACK_EFFECT) {
+			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_BACKEFFECT, 0);
+		}
+		else if (_effectGroup == EffectManager.TYPE_BACK_EFFECT) {
+			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_FRONTEFFECT, 0);
+		}
 	}
 	
 	/**
@@ -75,7 +86,12 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+		if (effectType == 8) {
+			setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0, (byte)0, 100);
+		}
+		else {
+			setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+		}
 	}
 	
 	/**
@@ -96,7 +112,13 @@ public class EffectObject extends GameObject
     public final void setActive()
     {
 		activated = true;
-        wrapper.effectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		
+		if (effectGroup == EffectManager.TYPE_BACK_EFFECT) {
+			wrapper.backEffectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		}
+		else if (effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
+			wrapper.frontEffectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		}
     }
 
     /**
@@ -105,8 +127,18 @@ public class EffectObject extends GameObject
     @Override
     public final void setUnactive()
     {
+    	if (effectType == 8) {
+			Log.e("TESTI", "EFEKTI POIS!");
+    	}
+    	
     	activated = false;
-        wrapper.effectStates.set(listId, Wrapper.INACTIVE);
+		
+		if (effectGroup == EffectManager.TYPE_BACK_EFFECT) {
+			wrapper.backEffectStates.set(listId, Wrapper.INACTIVE);
+		}
+		else if (effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
+			wrapper.frontEffectStates.set(listId, Wrapper.INACTIVE);
+		}
     }
     
     /**
@@ -119,7 +151,7 @@ public class EffectObject extends GameObject
 	{
 		// Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0){
-            GLRenderer.effectAnimations[usedAnimation].draw(_gl, x, y, 90, currentFrame);
+            GLRenderer.effectAnimations[usedAnimation].draw(_gl, x, y, direction, currentFrame);
         }
 	}
 

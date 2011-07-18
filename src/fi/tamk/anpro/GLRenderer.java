@@ -260,6 +260,16 @@ public class GLRenderer implements Renderer
             	wrapper.backgroundStars.get(i).draw(_gl);
             }
             
+            // Taustaefektit
+            for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
+                if (wrapper.backEffectStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.backEffects.get(i).draw(_gl);
+                    if (updateAnimations && wrapper.backEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.backEffects.get(i).animationSpeed == 0) {
+                        wrapper.backEffects.get(i).update();
+                    }
+                }
+            }
+            
             // Emoalus
             if (wrapper.mothership != null) {
             	wrapper.mothership.draw(_gl);
@@ -296,16 +306,6 @@ public class GLRenderer implements Renderer
                 }
             }
             
-            // Efektit
-            for (int i = wrapper.effects.size()-1; i >= 0; --i) {
-                if (wrapper.effectStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.effects.get(i).draw(_gl);
-                    if (updateAnimations && wrapper.effects.get(i).usedAnimation != -1 && updateBeat % wrapper.effects.get(i).animationSpeed == 0) {
-                        wrapper.effects.get(i).update();
-                    }
-                }
-            }
-            
             // Kerättävät esineet
             for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
                 if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
@@ -326,6 +326,16 @@ public class GLRenderer implements Renderer
                 }
             }
             
+            // Etuefektit
+            for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
+                if (wrapper.frontEffectStates.get(i) != Wrapper.INACTIVE) {
+                    wrapper.frontEffects.get(i).draw(_gl);
+                    if (updateAnimations && wrapper.frontEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.frontEffects.get(i).animationSpeed == 0) {
+                        wrapper.frontEffects.get(i).update();
+                    }
+                }
+            }
+            
             // HUD
             for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
                 if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
@@ -335,6 +345,7 @@ public class GLRenderer implements Renderer
                 	}
                 }
             }
+            
             // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
             // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
             for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
@@ -508,6 +519,9 @@ public class GLRenderer implements Renderer
         effectAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.combo3_effect_anim, 6);
         effectAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.combo4_effect_anim, 6);
         effectAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.combo5_effect_anim, 6);
+        
+        // Jälkipoltto
+        effectAnimations[8] = new GLSpriteSet(_gl, context, R.drawable.trail_effect_anim, 4);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);
