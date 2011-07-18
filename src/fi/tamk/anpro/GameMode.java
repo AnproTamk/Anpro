@@ -144,6 +144,8 @@ public class GameMode
      * Päivittää pisteet.
      * 
      * @param _rank Tuhotun vihollisen taso, jonka perusteella pisteitä lisätään
+     * 				(myös Collectable määrittää siitä saatavan pistemäärän rankin
+     * 				mukaisesti)
      * @param _x    X-koordinaatti
      * @param _y    Y-koordinaatti
      */
