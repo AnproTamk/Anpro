@@ -69,6 +69,10 @@ public class XmlReader
 	                        _hud.buttons.add(new Button(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                                                    Integer.parseInt(hud.getAttributeValue(null, "y"))));
 	                    }
+	                    else if (hud.getName().equals("icon")) {
+	                    	Hud.icons.add(new Icon(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                                				     Integer.parseInt(hud.getAttributeValue(null, "y"))));
+	                    }
 	                    else if (hud.getName().equals("counter")) {
 	                        Hud.scoreCounter = new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                                				       Integer.parseInt(hud.getAttributeValue(null, "y")));

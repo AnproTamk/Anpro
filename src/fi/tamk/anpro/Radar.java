@@ -59,17 +59,17 @@ public class Radar extends GuiObject {
 								break;
 						}
 						
-						else if((angle > 45 && angle <= 135) && type == 1) {
+						else if((angle > 45 && angle <= 135) && type == 0) {
 								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 						
-						else if((angle > 135 && angle <= 225) && type == 3) {
+						else if((angle > 135 && angle <= 225) && type == 1) {
 								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
 						
-						else if((angle > 225 || angle <= 315) && type == 0) {
+						else if((angle > 225 && angle <= 315) && type == 3) {
 								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);
 								break;
 						}
