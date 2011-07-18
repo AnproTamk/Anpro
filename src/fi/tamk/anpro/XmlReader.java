@@ -71,7 +71,8 @@ public class XmlReader
 	                    }
 	                    else if (hud.getName().equals("icon")) {
 	                    	Hud.icons.add(new Icon(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                                				     Integer.parseInt(hud.getAttributeValue(null, "y"))));
+        						    				Integer.parseInt(hud.getAttributeValue(null, "y")),
+        						    				Integer.parseInt(hud.getAttributeValue(null, "type"))));
 	                    }
 	                    else if (hud.getName().equals("counter")) {
 	                        Hud.scoreCounter = new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),

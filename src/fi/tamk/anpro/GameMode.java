@@ -282,12 +282,22 @@ public class GameMode
 	     * index: 	  5   0/1           6       0/1        7    0/1             8	  0/1
 	     * 
 	     */
+    	
+    	// Satunnaisten spawnpointtien alustus
+	    for(int i = 1; i < 8; ++i) {
+	    	for(int j = 0; j < 2; ++j) {
+	    			spawnPoints[i][j][0] = (int) (Utility.getRandom(-3000, 3000));
+	    			spawnPoints[i][j][1] = (int) (Utility.getRandom(-3000, 3000));
+	    	}
+	    }
+	    
+	    //****HUOM!**** LUKITTUJEN SPAWNPOINTTIEN ALUSTUS
 	    
 	    // Vihollisten syntypisteiden koordinaatit
 	    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
 	    //					 X								   				      Y
 	    // Vasen reuna
-
+    	/*
     	spawnPoints[1][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][0][1] = (int) camera.yTranslate;
 	    spawnPoints[1][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][1][1] = (int) (camera.yTranslate + 128 * Options.scale);
 	    spawnPoints[1][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][2][1] = (int) (camera.yTranslate - 128 * Options.scale);
@@ -319,6 +329,7 @@ public class GameMode
 	    spawnPoints[8][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate);      					spawnPoints[8][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
 	    spawnPoints[8][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate + 64 * Options.scale); 	spawnPoints[8][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
 	    spawnPoints[8][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); 	spawnPoints[8][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
+	    */
 	    // Random reuna
 	    // spawnPoints[0][0][0] = ...
 	    /*
