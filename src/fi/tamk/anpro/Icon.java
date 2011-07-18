@@ -15,7 +15,7 @@ public class Icon extends GuiObject
 	{
 		super(_x, _y);
 		
-		usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
+		usedTexture = GLRenderer.TEXTURE_MISSILE;
 	}
 
     /**
@@ -27,11 +27,11 @@ public class Icon extends GuiObject
 	public void setState(boolean _selected)
 	{
 		if(_selected) {
-			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
+			usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
 		}
 		
 		else {
-			usedTexture = GLRenderer.TEXTURE_BUTTON_SELECTED;
+			usedTexture = GLRenderer.TEXTURE_MISSILE;
 		}
 	}
 }
