@@ -16,11 +16,15 @@ abstract public class GameObject extends GfxObject
     public static final int TO_THE_RIGHT = 2;
     
     // Törmäystyypit
-    public static final int COLLISION_WITH_PROJECTILE  = 10;
-    public static final int COLLISION_WITH_PLAYER      = 11;
-    public static final int COLLISION_WITH_ENEMY       = 12;
-    public static final int COLLISION_WITH_OBSTACLE    = 13;
-    public static final int COLLISION_WITH_COLLECTABLE = 14;
+    public static final int COLLISION_WITH_PROJECTILE       = 10;
+    public static final int COLLISION_WITH_PLAYER           = 11;
+    public static final int COLLISION_WITH_ENEMY            = 12;
+    public static final int COLLISION_WITH_OBSTACLE         = 13;
+    public static final int COLLISION_WITH_COLLECTABLE      = 14;
+    
+    // Tarkemmat törmäystyyppien määrittelyt ammuksista pisteiden laskemista varten
+    public static final int COLLISION_WITH_PLAYERPROJECTILE = 15;
+    public static final int COLLISION_WITH_ALLYPROJECTILE   = 16;
     
     /* Objektin tiedot (kaikille) */
     public int speed;

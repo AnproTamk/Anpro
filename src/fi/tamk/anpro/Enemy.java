@@ -160,8 +160,7 @@ public class Enemy extends GameObject
     @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-        if (_eventType == GameObject.COLLISION_WITH_PROJECTILE) {
-            
+        if (_eventType == GameObject.COLLISION_WITH_PLAYERPROJECTILE) {
         	if (currentArmor > 0) {
         		EffectManager.showEnemyArmorEffect(this);
         	}
@@ -170,6 +169,17 @@ public class Enemy extends GameObject
             
             if (currentHealth <= 0) {
         		GameMode.updateScore(rank, x, y);
+            	triggerDestroyed();
+            }
+        }
+        else if (_eventType == GameObject.COLLISION_WITH_ALLYPROJECTILE) {
+        	if (currentArmor > 0) {
+        		EffectManager.showEnemyArmorEffect(this);
+        	}
+        	
+            Utility.checkDamage(this, _damage, _armorPiercing);
+            
+            if (currentHealth <= 0) {
             	triggerDestroyed();
             }
         }
