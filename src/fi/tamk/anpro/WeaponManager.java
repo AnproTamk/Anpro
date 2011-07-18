@@ -37,6 +37,7 @@ public class WeaponManager
     {
         // Alustetaan taulukot
         playerWeapons = new ArrayList<AbstractWeapon>();
+        allyWeapons   = new ArrayList<AbstractWeapon>();
         enemyWeapons  = new ArrayList<AbstractWeapon>();
         cooldownMax   = new int[10];
         cooldownLeft  = new int[10];
@@ -57,8 +58,6 @@ public class WeaponManager
 		if (cooldownLeft[currentWeapon] <= 0) {
             playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
             										  wrapper.player.x, wrapper.player.y);
-            //Log.v("navigare", "x: " + wrapper.player.x + " y: " + wrapper.player.y);
-            //Log.v("navigare", "x: " + (_targetX + wrapper.player.x) + " y: " + (_targetY + wrapper.player.y));
 
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
@@ -91,7 +90,7 @@ public class WeaponManager
      */
     public final void triggerAllyShoot(float _targetX, float _targetY, float _startX, float _startY)
     {
-   		//allyWeapons.get(0).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+   		allyWeapons.get(0).activate(_targetX, _targetY, _startX, _startY);
     }
     
     /**
@@ -137,13 +136,19 @@ public class WeaponManager
         // Ladataan aseet ja määritetään niiden cooldownit
         playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[0] = 0;
-        
         playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[1] = 20000;
         playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[2] = 7000;
     	playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[3] = 4000;
     	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[4] = 20000;
     	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[5] = 1000;
 
+        allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
+            
         enemyWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_ENEMY));
         enemyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ENEMY));
     }

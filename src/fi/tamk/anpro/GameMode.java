@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -16,9 +15,12 @@ public class GameMode
     public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
 
-    /* Pelaaja ja emoalus */
+    /* Pelaaja, emoalus ja liittolaiset */
     private Player     player;
     private Mothership mothership;
+    private Ally	   turret1;
+    private Ally	   turret2;
+    private Ally	   turret3;
     
     /* Tähtitausta */
     private BackgroundStar[] backgroundStars;
@@ -104,6 +106,15 @@ public class GameMode
     	
     	// Luodaan emoalus
     	mothership = new Mothership(0);
+    	turret1    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret1.x  = 135;
+    	turret1.y  = 8;
+    	turret2    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret2.x  = 280;
+    	turret2.y  = -45;
+    	turret3    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret3.x  = 332;
+    	turret3.y  = 84;
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
@@ -184,18 +195,15 @@ public class GameMode
     {
         /* Tarkastetaan onko kaikki vihollisaallot käyty läpi */
         if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tietää wavejen määrä)
-        	Log.e("testi", "currentWave: " + currentWave);
             currentWave = 0;
             
             // Tarkistetaan vihollisen luokka, kasvatetaan sitä yhdellä ja lähetetään sille uudet statsit
             int rankTemp;
             
             for (int index = enemies.size()-1; index >= 0; --index) {
-            	Log.v("testi", "index: " + index);
                 // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
             	if (enemies.get(index).rank <= 4) {
 	                rankTemp = enemies.get(index).rank;
-	                Log.e("testi", "rank: " + enemies.get(index).rank);
                     enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
                                                 enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
             	}

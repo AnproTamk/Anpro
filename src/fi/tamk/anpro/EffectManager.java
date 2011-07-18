@@ -159,7 +159,6 @@ public class EffectManager
 				playerTrailEffect[i].direction = _object.direction;
 				playerTrailEffect[i].x += Math.cos((_object.direction * Math.PI)/180) * 4 * Options.scaleX;
 				playerTrailEffect[i].y += Math.sin((_object.direction * Math.PI)/180) * 4 * Options.scaleY;
-				Log.e("TESTI", "EFEKTI PÄÄLLE!");
 				break;
 			}
 		}
