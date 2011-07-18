@@ -133,6 +133,9 @@ abstract public class GfxObject
      */
     public final void update()
     {
+    	if (usedAnimation == 8) {
+    		Log.e("TESTI", "Animaatio: "+currentFrame);
+    	}
     	if (usedAnimation != -1) {
     		// Tarkistetaan animaation tauotus
     		if (currentFrame == pauseFrame) {
@@ -145,7 +148,7 @@ abstract public class GfxObject
 		        if (animationLoops > 0) {
 		            
 		            // Tarkistetaan, päättyykö animaation toistokerta ja toimitaan sen mukaisesti.
-		            if (currentFrame + 1 > animationLength[usedAnimation]) {
+		            if (currentFrame + 1 >= animationLength[usedAnimation]) {
 		                currentFrame = 0;
 		                ++currentLoop;
 		                if (currentLoop > animationLoops) {

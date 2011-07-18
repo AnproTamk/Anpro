@@ -357,9 +357,15 @@ class GameThread extends Thread
      */
 	private void updateEffectPositions()
 	{
-    	for (int i = wrapper.effects.size()-1; i >= 0; --i) {
-    		if (wrapper.effectStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			wrapper.effects.get(i).updatePosition();
+    	for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
+    		if (wrapper.backEffectStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			wrapper.backEffects.get(i).updatePosition();
+    		}
+    	}
+    	
+    	for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
+    		if (wrapper.frontEffectStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    			wrapper.frontEffects.get(i).updatePosition();
     		}
     	}
 	}
