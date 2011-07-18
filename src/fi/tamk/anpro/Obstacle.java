@@ -64,6 +64,7 @@ public class Obstacle extends GameObject
 		else if (type == OBSTACLE_ASTEROID) {
 			setFacingTurningSpeed(1.0f);
 			setFacingTurningDelay(0.25f);
+			direction = Utility.getRandom(0, 359);
 		}
 		
 		// Määritellään törmäystunnistus
