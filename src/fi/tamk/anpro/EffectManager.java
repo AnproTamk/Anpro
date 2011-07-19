@@ -43,7 +43,7 @@ public class EffectManager
 	 */
 	private EffectManager()
 	{
-		playerTrailEffect        = new EffectObject[20];
+		playerTrailEffect        = new EffectObject[8];
 		balloonExclamationEffect = new EffectObject(0, EFFECT_BALLOON_EXCLAMATION, TYPE_FRONT_EFFECT);
 		balloonQuestionEffect    = new EffectObject(0, EFFECT_BALLOON_QUESTION, TYPE_FRONT_EFFECT);
 		playerArmorEffect        = new EffectObject(0, EFFECT_PLAYER_ARMOR, TYPE_BACK_EFFECT);
@@ -56,7 +56,7 @@ public class EffectManager
 		for (int i = 0; i < 5; ++i) {
 			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
 		}
-		for (int i = 0; i < 20; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			playerTrailEffect[i] = new EffectObject(0, EFFECT_TRAIL, TYPE_BACK_EFFECT);
 		}
 	}
@@ -153,12 +153,10 @@ public class EffectManager
 	 */
 	public static void showPlayerTrailEffect(GameObject _object)
 	{
-		for (int i = 0; i < 20; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			if (!playerTrailEffect[i].activated) {
 				playerTrailEffect[i].activate(_object.x, _object.y);
 				playerTrailEffect[i].direction = _object.direction;
-				playerTrailEffect[i].x += Math.cos((_object.direction * Math.PI)/180) * 4 * Options.scaleX;
-				playerTrailEffect[i].y += Math.sin((_object.direction * Math.PI)/180) * 4 * Options.scaleY;
 				break;
 			}
 		}

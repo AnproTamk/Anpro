@@ -158,7 +158,7 @@ public class GLRenderer implements Renderer
     public void onSurfaceCreated(GL10 _gl, EGLConfig _config)
     {
         // Otetaan käyttöön shademalli
-        _gl.glShadeModel(GL10.GL_SMOOTH);
+        _gl.glShadeModel(GL10.GL_FLAT); // GL_FLAT tai GL_SMOOTH
 
         // Piirretään tausta mustaksi
         _gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
@@ -174,6 +174,13 @@ public class GLRenderer implements Renderer
         // Määritetään syvyysasetukset
         _gl.glEnable(GL10.GL_DEPTH_TEST);
         _gl.glClearDepthf(1.0f);
+        
+        // Otetaan 2D-piirtäminen käyttöön
+        _gl.glEnable(GL10.GL_TEXTURE_2D);
+        
+        // Avataan tekstuuri- ja vektoritaulukot käyttöön
+        _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
         // TODO: Kaksi alempaa riviä jotenkin epäloogisessa paikassa
     	// Ladataan latausruudun tekstuuri
@@ -226,21 +233,11 @@ public class GLRenderer implements Renderer
      */
     public void onDrawFrame(GL10 _gl)
     {
-        // Otetaan 2D-piirtäminen käyttöön
-        _gl.glEnable(GL10.GL_TEXTURE_2D);
-        
         // Tyhjätään ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
         if (showLoadingScreen) {
-	    	try {
-				Thread.sleep(0);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			showLoadingScreen = false;
         }
         
@@ -535,7 +532,7 @@ public class GLRenderer implements Renderer
         effectAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.combo5_effect_anim, 6);
         
         // Jälkipoltto
-        effectAnimations[8] = new GLSpriteSet(_gl, context, R.drawable.trail_effect_anim, 4);
+        effectAnimations[8] = new GLSpriteSet(_gl, context, R.drawable.trail_effect_anim, 1);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);
