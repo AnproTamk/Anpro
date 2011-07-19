@@ -19,8 +19,9 @@ public class EffectObject extends GameObject
 	// Wrapper
 	private Wrapper wrapper;
 	
-	// Peliobjekti, jota seurataan
-	private GameObject parentObject;
+	// Objekti, jota seurataan
+	private GameObject parentGameObject;
+	private GuiObject  parentGuiObject;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -57,20 +58,33 @@ public class EffectObject extends GameObject
 	/**
 	 * Aktivoi peliobjektin efektin.
 	 * 
-	 * @param _object Peliobjekti
+	 * @param _object Seurattava peliobjekti
 	 */
 	public void activate(GameObject _object)
 	{
-		parentObject = _object;
-		x            = _object.x;
-		y            = _object.y;
+		parentGameObject = _object;
+		x                = _object.x;
+		y                = _object.y;
 		
 		setActive();
 		
 		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-		updatePosition(); // TODO: T‰t‰ pit‰‰ kutsua muualta, sill‰ activate-funktiota kutsutaan
-						  // vain kerran efektin aktivoituessa. T‰t‰ olisi parempi kutsua GameThreadista,
-						  // jota suoritetaan koko ajan.
+	}
+	
+	/**
+	 * Aktivoi peliobjektin efektin.
+	 * 
+	 * @param _object Seurattava peliobjekti
+	 */
+	public void activate(GuiObject _object)
+	{
+		parentGuiObject = _object;
+		x               = _object.x;
+		y               = _object.y;
+		
+		setActive();
+		
+		setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 
 	/**
@@ -99,9 +113,13 @@ public class EffectObject extends GameObject
 	 */
 	public void updatePosition()
 	{
-		if (parentObject != null) {
-			x = parentObject.x;
-			y = parentObject.y;
+		if (parentGameObject != null) {
+			x = parentGameObject.x;
+			y = parentGameObject.y;
+		}
+		else if (parentGuiObject != null) {
+			x = parentGuiObject.x + CameraManager.xTranslate;
+			y = parentGuiObject.y + CameraManager.yTranslate;
 		}
 	}
 	

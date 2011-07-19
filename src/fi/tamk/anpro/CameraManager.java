@@ -8,7 +8,7 @@ public class CameraManager
 	/* Kameran sijainti */
 	public static float xTranslate = 0; // Muutos X-akselilla (pelaajan et‰isyys keskipisteest‰)
 	public static float yTranslate = 0; // Muutos Y-akselilla (pelaajan et‰isyys keskipisteest‰)
-	public int   zoom       = 0; // Kameran zoomi
+	public        int   zoom       = 0; // Kameran zoomi
 	
 	/* Kameran liikkuminen */
 	public int speed; 		 // Kameran nopeus
@@ -20,7 +20,7 @@ public class CameraManager
     private static CameraManager instance = null;
     
     /* Osoitin Wrapperiin */
-    private Wrapper wrapper;
+    private static Wrapper wrapper;
     
     /**
      * Alustaa luokan muuttujat.
@@ -46,7 +46,7 @@ public class CameraManager
     /**
      * P‰ivitt‰‰ kameran sijainnin.
      */
-    public void updateCameraPosition()
+    public static void updateCameraPosition()
     {
     	if (wrapper.player != null) {
     		xTranslate = wrapper.player.x;
