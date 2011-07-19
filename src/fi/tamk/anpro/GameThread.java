@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Huolehtii ajanotosta ja teko‰lyjen ja sijaintien p‰ivitt‰misest‰.
@@ -10,8 +11,8 @@ import android.util.DisplayMetrics;
 class GameThread extends Thread
 {
     /* S‰ikeen tila */
-    private boolean running   = false; // Onko s‰ie k‰ynniss‰?
-    public  boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
+    public boolean isRunning = false; // Onko s‰ie k‰ynniss‰?
+    public boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Tarvittavat luokat */
     private Wrapper       wrapper;
@@ -70,7 +71,7 @@ class GameThread extends Thread
      */
     public void setRunning(boolean _run)
     {
-        running = _run;
+    	isRunning = _run;
     }
     
     /**
@@ -100,6 +101,8 @@ class GameThread extends Thread
     @Override
     public void run()
     {
+    	Log.e("TESTI", "run()");
+    	
         /* Haetaan p‰ivityksille aloitusajat */
         waveStartTime		   = android.os.SystemClock.uptimeMillis();
         lastMovementUpdate     = waveStartTime;
@@ -116,7 +119,7 @@ class GameThread extends Thread
         lastRadarUpdate        = waveStartTime;
         
         /* Suoritetaan s‰iett‰ kunnes se m‰‰ritet‰‰n pys‰ytett‰v‰ksi */
-        while (running) {
+        while (isRunning) {
         	
             // Haetaan t‰m‰nhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();

@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.media.AudioManager;
@@ -123,8 +124,8 @@ public class GameActivity extends Activity
         surfaceView.onPause();
         
         // Pys‰ytet‰‰n s‰ie
-        boolean retry = true;
         gameThread.setRunning(false);
+        /*boolean retry = true;
         while (retry) {
             try {
                 gameThread.join();
@@ -133,7 +134,7 @@ public class GameActivity extends Activity
             catch (InterruptedException e) {
                 // Yritet‰‰n uudelleen kunnes onnistuu
             }
-        }
+        }*/
     }
         
     /**
@@ -192,7 +193,6 @@ public class GameActivity extends Activity
     {
     	Intent i_mothership = new Intent(this, MothershipActivity.class);
 		
-		// K‰ynnistet‰‰n HighScoresActivity ja sammutetaan GameActivity
 		startActivity(i_mothership);
     }
 	
