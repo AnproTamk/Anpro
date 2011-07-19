@@ -8,9 +8,8 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class BackgroundStar extends GfxObject
 {
-	// Osoitin Wrapperiin ja CameraManageriin
+	// Osoitin Wrapperiin
 	private Wrapper       wrapper;
-	private CameraManager cameraManager;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -24,7 +23,6 @@ public class BackgroundStar extends GfxObject
 		y = _y;
 		
 		wrapper       = Wrapper.getInstance();
-		cameraManager = CameraManager.getInstance();
 		
 		wrapper.addToList(this, Wrapper.CLASS_TYPE_BACKGROUNDSTAR, 0);
 	}
@@ -34,21 +32,21 @@ public class BackgroundStar extends GfxObject
 	 */
 	public void checkPosition()
 	{
-		if (x < cameraManager.xTranslate - 600) {
-			x = Utility.getRandom((int)cameraManager.xTranslate + 420, (int)cameraManager.xTranslate + 590);
-			y = Utility.getRandom((int)cameraManager.yTranslate - 235, (int)cameraManager.yTranslate + 235);
+		if (x < CameraManager.xTranslate - 600) {
+			x = Utility.getRandom((int)CameraManager.xTranslate + 420, (int)CameraManager.xTranslate + 590);
+			y = Utility.getRandom((int)CameraManager.yTranslate - 235, (int)CameraManager.yTranslate + 235);
 		}
-		else if (x > cameraManager.xTranslate + 600) {
-			x = Utility.getRandom((int)cameraManager.xTranslate - 590, (int)cameraManager.xTranslate - 420);
-			y = Utility.getRandom((int)cameraManager.yTranslate - 235, (int)cameraManager.yTranslate + 235);
+		else if (x > CameraManager.xTranslate + 600) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - 590, (int)CameraManager.xTranslate - 420);
+			y = Utility.getRandom((int)CameraManager.yTranslate - 235, (int)CameraManager.yTranslate + 235);
 		}
-		else if (y < cameraManager.yTranslate - 400) {
-			x = Utility.getRandom((int)cameraManager.xTranslate - 395, (int)cameraManager.xTranslate + 395);
-			y = Utility.getRandom((int)cameraManager.yTranslate + 245, (int)cameraManager.yTranslate + 390);
+		else if (y < CameraManager.yTranslate - 400) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - 395, (int)CameraManager.xTranslate + 395);
+			y = Utility.getRandom((int)CameraManager.yTranslate + 245, (int)CameraManager.yTranslate + 390);
 		}
-		else if (y > cameraManager.yTranslate + 400) {
-			x = Utility.getRandom((int)cameraManager.xTranslate - 395, (int)cameraManager.xTranslate + 395);
-			y = Utility.getRandom((int)cameraManager.yTranslate - 390, (int)cameraManager.yTranslate - 245);
+		else if (y > CameraManager.yTranslate + 400) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - 395, (int)CameraManager.xTranslate + 395);
+			y = Utility.getRandom((int)CameraManager.yTranslate - 390, (int)CameraManager.yTranslate - 245);
 		}
 	}
     

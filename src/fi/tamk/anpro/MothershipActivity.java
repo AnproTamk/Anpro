@@ -1,20 +1,18 @@
 package fi.tamk.anpro;
 
 import android.app.Activity;
+
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 public class MothershipActivity extends Activity implements OnClickListener
 {
 	// Alustetaan muuttujat.
@@ -95,7 +93,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * Android kutsuu t‰t‰ automaattisesti kun ohjelma palaa taukotilasta.
      */
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
     	super.onResume();
     }
     
@@ -104,7 +103,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * saatetaan keskeytt‰‰ kokonaan. Android kutsuu t‰t‰ automaattisesti.
      */
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
     	super.onPause();
     }
         
@@ -113,7 +113,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * Android kutsuu t‰t‰ automaattisesti kun ohjelma ei ole en‰‰ aktiivinen.
      */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
     	super.onStop();
     }
 

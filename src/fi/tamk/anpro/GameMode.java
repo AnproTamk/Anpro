@@ -17,6 +17,7 @@ public class GameMode
 
     /* Pelaaja, emoalus ja liittolaiset */
     private Player     player;
+    @SuppressWarnings("unused")
     private Mothership mothership;
     private Ally	   turret1;
     private Ally	   turret2;
@@ -52,10 +53,10 @@ public class GameMode
     protected int overBoundHeight; 
     
     /* Muiden olioiden pointterit */
-    protected WeaponManager weaponManager;
-    protected CameraManager camera;
-    protected GameActivity  gameActivity;
-    private   Hud		    hud;
+    protected        WeaponManager weaponManager;
+    protected        CameraManager camera;
+    protected        GameActivity  gameActivity;
+    private   static Hud		   hud;
     
     /* Pisteet ja combot */
     private static long score;
@@ -187,7 +188,7 @@ public class GameMode
             }
         }
         
-        Hud.updateScoreCounter(score);
+        hud.updateScoreCounter(score);
     }
     
     /**
