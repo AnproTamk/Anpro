@@ -14,6 +14,8 @@ public class SquigglyAi extends AbstractAi
 	
 	private WeaponManager weaponManager;
 	
+	private double shootingAngle;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -44,22 +46,24 @@ public class SquigglyAi extends AbstractAi
 		}
 		
 		else {
+			
+			// Määritetään vihollisen ja pelaajan välinen kulma
+			double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+	    	
+			// Vihollisen lentosuunta on samalla sen ammuntasuunta
+			shootingAngle = wrapper.enemies.get(parentId).direction;
+			
 			if(lastDirectionUpdate == 0) {
 				
 				lastDirectionUpdate = android.os.SystemClock.uptimeMillis();
 				
-				// Määritetään vihollisen ja pelaajan välinen kulma
-				double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
-	    	
+				
 				/* Määritetään kääntymissuunta */
 				wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
 				
 				// Suoritetaan ampuminen
-		       
 		    		lastShootingTime = android.os.SystemClock.uptimeMillis();
-		    		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
-
-		    		
+		    		weaponManager.triggerEnemyShootForward(shootingAngle, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
 			}
 			
 			else {
@@ -67,7 +71,7 @@ public class SquigglyAi extends AbstractAi
 		        	
 		        if (currentTime - lastShootingTime >= 200) {
 	        		lastShootingTime = currentTime;
-	        		weaponManager.triggerEnemyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
+	        		weaponManager.triggerEnemyShootForward(shootingAngle, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
 	        	}
 				
 				if(currentTime - lastDirectionUpdate >= 1500 && currentTime - lastDirectionUpdate < 2000) {
@@ -92,7 +96,7 @@ public class SquigglyAi extends AbstractAi
 				
 				else {
 					// Määritetään vihollisen ja pelaajan välinen kulma
-					double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+//					double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
 		    	
 					/* Määritetään kääntymissuunta */
 					wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
