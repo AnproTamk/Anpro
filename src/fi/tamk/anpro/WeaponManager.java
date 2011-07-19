@@ -12,13 +12,23 @@ public class WeaponManager
 	public static int ENEMY_LASER = 0;
 	public static int ENEMY_SPITFIRE = 1;
 	
+	/* Pelaajan aseiden vakiot */
+	public static int WEAPON_LASER 		 	= 0;
+	public static int WEAPON_EMP   		    = 1;
+	public static int WEAPON_SPINNING_LASER = 2;
+	public static int WEAPON_CLUSTER		= 3;
+	public static int WEAPON_SWARM			= 4;
+	public static int WEAPON_MISSILE		= 5;
+	public static int WEAPON_SPITFIRE		= 6;
+	
     
     /* Cooldownit */
     public int cooldownMax[];  // Maksimi cooldown
     public int cooldownLeft[]; // Jäljellä oleva cooldown
 
     /* Käytössä oleva ase */
-    public int       currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
+    											  // 0:Laser 1:EMP 2:Spinning Laser 3:Cluster 4:Swarm 5:Missile 6:Spitfire
+    public int       currentWeapon       = 6;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
     public boolean   isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
     public boolean[] weaponLocation;		      // Aseen
     
@@ -133,6 +143,7 @@ public class WeaponManager
      */
     public final void initialize(int _id)
     {
+    	// TODO: Muuta aseiden järjestys loogisemmaksi
         // Ladataan aseet ja määritetään niiden cooldownit
         playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[0] = 0;
@@ -146,6 +157,8 @@ public class WeaponManager
         cooldownMax[4] = 20000;
     	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[5] = 1000;
+        playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[6] = 200;
 
         allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
             

@@ -179,7 +179,7 @@ public class GLRenderer implements Renderer
         _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
         // TODO: Kaksi alempaa rivi‰ jotenkin ep‰loogisessa paikassa
-    	// Ladataan latausruudun tekstuuri
+        // Ladataan latausruudun tekstuuri
     	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
     	
     	showLoadingScreen = true;
@@ -392,6 +392,8 @@ public class GLRenderer implements Renderer
         else if (!allLoaded && gameThread != null) {
         	// N‰ytet‰‰n latausruutu
         	loadingTexture.draw(_gl, 0, 0, 90, 0);
+        	
+    		showLoadingScreen = true;
         }
     }
 
