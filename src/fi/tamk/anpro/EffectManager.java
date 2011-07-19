@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  *  Hallitsee kaikkia efektejä.
  */
@@ -37,7 +35,7 @@ public class EffectManager
 	private static EffectObject   combo3MultiplierEffect;
 	private static EffectObject   combo4MultiplierEffect;
 	private static EffectObject   combo5MultiplierEffect;
-	private static EffectObject   explosionEffect;
+	//private static EffectObject   explosionEffect;
 	private static EffectObject[] playerTrailEffect;
 	private static EffectObject	  hudArmorEffect;
 	private static EffectObject   hudHealthEffect;

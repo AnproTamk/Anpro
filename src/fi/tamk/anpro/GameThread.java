@@ -18,9 +18,8 @@ class GameThread extends Thread
     private GameMode      gameMode;
     @SuppressWarnings("unused")
 	private TouchManager  touchManager;
-    public  Hud           hud;			// TODO: Ei tarvitsisi olla public?
+    private Hud           hud;
     private WeaponManager weaponManager;
-    private CameraManager cameraManager;
     private GLSurfaceView surfaceView;
     
     /* Ajastuksen muuttujat */
@@ -60,7 +59,6 @@ class GameThread extends Thread
     				  WeaponManager _weaponManager, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
-        cameraManager = CameraManager.getInstance();
         
         dm      	  = _dm;
         context 	  = _context;
@@ -194,7 +192,7 @@ class GameThread extends Thread
         lastMovementUpdate = _currentTime;
         
 		wrapper.player.updateMovement(_currentTime);
-		cameraManager.updateCameraPosition();
+		CameraManager.updateCameraPosition();
 	    
 	    for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
@@ -468,10 +466,10 @@ class GameThread extends Thread
 		if(_currentTime - lastRadarUpdate >= 100) {
 			lastRadarUpdate = _currentTime;
 			
-			Hud.radar_top.updateRadar();
-			Hud.radar_left.updateRadar();
-			Hud.radar_right.updateRadar();
-			Hud.radar_down.updateRadar();
+			hud.radar_top.updateRadar();
+			hud.radar_left.updateRadar();
+			hud.radar_right.updateRadar();
+			hud.radar_down.updateRadar();
 		}
 	}
 }

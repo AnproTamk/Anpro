@@ -10,7 +10,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
-import android.util.Log;
 
 /**
  * Sisältää yhden tekstuurin tai animaation tiedot ja toiminnot.
@@ -35,9 +34,6 @@ public class GLSpriteSet
     								   1.0f, 1.0f,
     								   1.0f, 0.0f};
     
-    /* Osoitin CameraManageriin */
-    private CameraManager cameraManager;
-    
     /* Viimeksi käytetty tekstuuri ja ruutu */
     private static int cachedTexture = -1; // Jaettu kaikkien tekstuurien kesken
     private        int cachedFrame   = -1;
@@ -53,9 +49,6 @@ public class GLSpriteSet
      */
     public GLSpriteSet(GL10 _gl, Context _context, int _id, int _length)
     {
-    	// Otetaan CameraManager käyttöön kameran simulointia varten
-    	cameraManager = CameraManager.getInstance();
-    	
     	// Alustetaan tekstuuritaulukko
         sprites = new int[1];
         
@@ -185,7 +178,7 @@ public class GLSpriteSet
         _gl.glLoadIdentity();
         
         // Siirretään ja käännetään mallimatriisia
-        _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
+        _gl.glTranslatef(_x - CameraManager.xTranslate, _y - CameraManager.yTranslate, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
         _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
         
@@ -219,10 +212,6 @@ public class GLSpriteSet
         	}
         }
         
-        // Avataan tekstuuri- ja vektoritaulukot käyttöön
-        //_gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        //_gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        
         // Valitaan neliön näytettävä puoli
         _gl.glFrontFace(GL10.GL_CW);
         
@@ -232,10 +221,6 @@ public class GLSpriteSet
     
         // Piirretään neliö
         _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
-    
-        // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
-        //_gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        //_gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     }
     
     /**
@@ -258,7 +243,7 @@ public class GLSpriteSet
         
         // Siirretään ja käännetään mallimatriisia
     	// TODO: Alukset tökkii
-        _gl.glTranslatef(_x - cameraManager.xTranslate, _y - cameraManager.yTranslate, 0);
+        _gl.glTranslatef(_x - CameraManager.xTranslate, _y - CameraManager.yTranslate, 0);
         _gl.glRotatef(_xAxisRotation, 1.0f, 0.0f, 0.0f);
         _gl.glRotatef(_yAxisRotation, 0.0f, 1.0f, 0.0f);
         //_gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 0.0f);
@@ -266,10 +251,6 @@ public class GLSpriteSet
         
         // Valitaan piirrettävä tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[_frame]);
-        
-        // Avataan tekstuuri- ja vektoritaulukot käyttöön
-        _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
         // Valitaan neliön näytettävä puoli
         _gl.glFrontFace(GL10.GL_CW);
@@ -280,9 +261,5 @@ public class GLSpriteSet
     
         // Piirretään neliö
         _gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length/3);
-    
-        // Lukitaan tekstuuri- ja vektoritaulukot pois käytöstä
-        _gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        _gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     }
 }

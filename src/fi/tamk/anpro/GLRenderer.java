@@ -4,12 +4,10 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
@@ -93,9 +91,8 @@ public class GLRenderer implements Renderer
     
     public static GLSpriteSet       starBackgroundTexture;
     
-    /* Ohjelman konteksti ja resurssit */
+    /* Ohjelman konteksti */
     private Context   context;
-    private Resources resources;
     
     /* Tarvittavat oliot */
     private Wrapper       wrapper;
@@ -119,7 +116,7 @@ public class GLRenderer implements Renderer
      * @param Resources      Ohjelman resurssit
      * @param DisplayMetrics Näytön tiedot
      */
-    public GLRenderer(Context _context, GLSurfaceView _surface, Resources _resources, DisplayMetrics _dm)
+    public GLRenderer(Context _context, GLSurfaceView _surface, DisplayMetrics _dm)
     {
         // Määritetään taulukoiden koot
         playerTextures        = new GLSpriteSet[AMOUNT_OF_PLAYER_TEXTURES];
@@ -140,9 +137,8 @@ public class GLRenderer implements Renderer
         collectableTextures   = new GLSpriteSet[AMOUNT_OF_COLLECTABLE_TEXTURES];
         collectableAnimations = new GLSpriteSet[AMOUNT_OF_COLLECTABLE_ANIMATIONS];
         
-        // Tallennetaan konteksti ja resurssit
+        // Tallennetaan konteksti
         context   = _context;
-        resources = _resources;
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
@@ -355,9 +351,10 @@ public class GLRenderer implements Renderer
             
             // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
             // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
-            for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
+            /*for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
             	gameThread.hud.buttons.get(i).update();
-            }
+            }*/
+            
             if (currentTime - lastMessageUpdate >= 50) {
             	lastMessageUpdate = currentTime;
             	

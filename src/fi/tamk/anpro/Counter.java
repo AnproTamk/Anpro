@@ -51,7 +51,7 @@ public class Counter extends GuiObject
 	{
 		for (int i = 0; i < 6; ++i) {
 			if (frames[i] > -1) {
-				GLRenderer.hudTextures[usedTexture].draw(_gl, (tempX+30*i) + cameraManager.xTranslate,  y + cameraManager.yTranslate, direction, frames[i]);
+				GLRenderer.hudTextures[usedTexture].draw(_gl, (tempX+30*i) + CameraManager.xTranslate,  y + CameraManager.yTranslate, direction, frames[i]);
 			}
 		}
 	}

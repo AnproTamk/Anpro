@@ -22,19 +22,19 @@ public class Hud
     public int[] weapons;
     
     /* Käyttöliittymän objektit */
-    public        ArrayList<Button>          buttons                 = null; // TODO: Ei kai tarvitsisi olla public?
-    public		  ArrayList<CooldownCounter> cooldownCounter         = null;
-    public static ArrayList<Icon>	         icons	                 = null;
-    public static Counter                    scoreCounter            = null;
-    public static Joystick                   joystick                = null;
-    public static Bar		                 healthBar               = null;
-    public static Bar				         armorBar                = null;
-    public        GuideArrow                 guideArrowToCollectable = null;
-    public        GuideArrow                 guideArrowToMothership  = null;
-    public static Radar						 radar_top			     = null; // TODO: Onko pakko olla staattisia?
-    public static Radar						 radar_left			     = null;
-    public static Radar						 radar_right			 = null;
-    public static Radar						 radar_down			     = null;
+    public ArrayList<Button>          buttons                 = null; // TODO: Ei kai kaikkien tarvitsisi olla public?
+    public ArrayList<CooldownCounter> cooldownCounter         = null;
+    public ArrayList<Icon>	          icons	                  = null;
+    public Counter                    scoreCounter            = null;
+    public Joystick                   joystick                = null;
+    public Bar		                  healthBar               = null;
+    public Bar				          armorBar                = null;
+    public GuideArrow                 guideArrowToCollectable = null;
+    public GuideArrow                 guideArrowToMothership  = null;
+    public Radar					  radar_top			      = null;
+    public Radar					  radar_left			  = null;
+    public Radar					  radar_right			  = null;
+    public Radar					  radar_down			  = null;
     
      
     /* Osoittimet tarvittaviin luokkiin */
@@ -88,7 +88,7 @@ public class Hud
      * 
      * @param _score Pisteet
      */
-    public final static void updateScoreCounter(long _score)
+    public final void updateScoreCounter(long _score)
     {
     	scoreCounter.parseScore(_score);
     }
@@ -115,25 +115,5 @@ public class Hud
 	            buttons.get(_buttonId).setSelected(true);
 	        }
     	}
-    }
-    
-    /**
-     * Palauttaa osoittimen healthBarista.
-     * 
-     * @return Bar Osoitin healthBariin
-     */
-    public final static Bar getHealthBar()
-    {
-        return healthBar;
-    }
-    
-    /**
-     * Palauttaa osoittimen armorBarista.
-     * 
-     * @return Bar Osoitin armorBariin
-     */
-    public final static Bar getArmorBar()
-    {
-    	return armorBar;
     }
 }

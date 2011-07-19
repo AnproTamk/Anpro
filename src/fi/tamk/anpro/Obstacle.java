@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
 /**
  * TODO: Lis‰‰ kommentit
  */
