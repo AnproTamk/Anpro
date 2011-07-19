@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -20,7 +19,7 @@ import android.media.AudioManager;
 public class GameActivity extends Activity
 {
     /* Renderöijä ja OpenGL-pinta */
-    private GLSurfaceView surfaceView;
+    private CustomSurfaceView surfaceView;
     private GLRenderer    renderer;
     
     /* Tarvittavat luokat */
@@ -55,7 +54,7 @@ public class GameActivity extends Activity
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         
         // Luodaan OpenGL-pinta ja renderöijä
-        surfaceView = new GLSurfaceView(this);
+        surfaceView = new CustomSurfaceView(this);
         renderer    = new GLRenderer(this, surfaceView, dm);
         
         // Määritetään renderöijän asetukset ja otetaan se käyttöön
@@ -155,7 +154,11 @@ public class GameActivity extends Activity
     protected void onDestroy()
     {
         super.onDestroy();
-        // TODO: Tee toteutus
+        
+        Wrapper.destroy();
+        gameThread    = null;
+        renderer      = null;
+        weaponManager = null;
     }
     
     /**

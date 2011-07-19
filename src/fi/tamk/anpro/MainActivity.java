@@ -184,6 +184,7 @@ public class MainActivity extends Activity implements OnClickListener
             case R.id.button_quit:
             	SoundManager.cleanUp();
                 android.os.Process.killProcess(android.os.Process.myPid());
+                finish();
                 break;
         }
     }

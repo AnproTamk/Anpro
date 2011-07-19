@@ -137,6 +137,11 @@ public class Wrapper
         return instance;
     }
     
+    synchronized public static void destroy()
+    {
+    	instance = null;
+    }
+    
     /**
      * Lis‰‰ parametrina annetun luokan piirtolistalle ja tallentaa objektin tilan.
      * 

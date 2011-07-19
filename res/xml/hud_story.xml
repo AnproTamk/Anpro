@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<hud>
-        <button id="weapon_button_1" x="100" y="100" texture_set="weapon_button"/>
-        <button id="weapon_button_2" x="200" y="200" texture_set="icon"/>
-        <button id="weapon_button_3" x="300" y="300" texture_set="icon"/>    
-        <button id="special_button_1" x="400" y="400" texture_set="icon"/>
-        <button id="special_button_2" x="0" y="0" texture_set="icon"/>
-</hud>
