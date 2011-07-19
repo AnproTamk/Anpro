@@ -3,14 +3,11 @@ package fi.tamk.anpro;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.os.Environment;
-import android.util.Log;
 import android.util.Xml;
 
 /**
@@ -65,57 +62,57 @@ public class XmlReader
 	                    if (hud.getName().equals("button")) {
 	                        // NÄILLE RIVEILLE TEHDÄÄN GuiObject LUOKKAAN VASTAAVAT KOHTANSA MYÖHEMMIN!
 	                        _hud.cooldownCounter.add(new CooldownCounter(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                                				Integer.parseInt(hud.getAttributeValue(null, "y"))));
+	                                				 Integer.parseInt(hud.getAttributeValue(null, "y"))));
 	                        _hud.buttons.add(new Button(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                                                    Integer.parseInt(hud.getAttributeValue(null, "y"))));
 	                    }
 	                    else if (hud.getName().equals("icon")) {
-	                    	Hud.icons.add(new Icon(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    	_hud.icons.add(new Icon(Integer.parseInt(hud.getAttributeValue(null, "x")),
         						    				Integer.parseInt(hud.getAttributeValue(null, "y")),
         						    				Integer.parseInt(hud.getAttributeValue(null, "type"))));
 	                    }
 	                    else if (hud.getName().equals("counter")) {
-	                        Hud.scoreCounter = new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                                				       Integer.parseInt(hud.getAttributeValue(null, "y")));
+	                        _hud.scoreCounter = new Counter(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                                				        Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
 	                    else if (hud.getName().equals("health_bar")) {
-	                    	Hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                    						    Integer.parseInt(hud.getAttributeValue(null, "y")),
-	                    						    Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    	_hud.healthBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    						     Integer.parseInt(hud.getAttributeValue(null, "y")),
+	                    						     Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                    else if (hud.getName().equals("armor_bar")) {
-	                    	Hud.armorBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	    						    			   Integer.parseInt(hud.getAttributeValue(null, "y")),
-	    						    			   Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    	_hud.armorBar = new Bar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	    						    			    Integer.parseInt(hud.getAttributeValue(null, "y")),
+	    						    			    Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                
 	                    else if (hud.getName().equals("joystick") && Options.joystick) {
-	                    	Hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                    								Integer.parseInt(hud.getAttributeValue(null, "y")));
+	                    	_hud.joystick = new Joystick(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    								 Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                    }
 	                    
 	                    else if (hud.getName().equals("radar_top")) {
-	                    	Hud.radar_top = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                    						  	  Integer.parseInt(hud.getAttributeValue(null, "y")),
-	                    						  	  Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    	_hud.radar_top = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    						  	   Integer.parseInt(hud.getAttributeValue(null, "y")),
+	                    						  	   Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                    
 	                    else if (hud.getName().equals("radar_left")) {
-	 	                    Hud.radar_left = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	 	                    						   Integer.parseInt(hud.getAttributeValue(null, "y")),
-	 	                    						   Integer.parseInt(hud.getAttributeValue(null, "type")));
+	 	                    _hud.radar_left = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	 	                    						    Integer.parseInt(hud.getAttributeValue(null, "y")),
+	 	                    						    Integer.parseInt(hud.getAttributeValue(null, "type")));
 	                    }
 	                    
 	 	                else if (hud.getName().equals("radar_right")) {
-	 		                Hud.radar_right = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	 		                    						Integer.parseInt(hud.getAttributeValue(null, "y")),
-	 		                    					    Integer.parseInt(hud.getAttributeValue(null, "type")));
+	 		                _hud.radar_right = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	 		                    						 Integer.parseInt(hud.getAttributeValue(null, "y")),
+	 		                    					     Integer.parseInt(hud.getAttributeValue(null, "type")));
 	 	                }
 	                    
                     	else if (hud.getName().equals("radar_down")) {
-	                    	Hud.radar_down = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                    						  	   Integer.parseInt(hud.getAttributeValue(null, "y")),
-	                    						  	   Integer.parseInt(hud.getAttributeValue(null, "type")));
+	                    	_hud.radar_down = new Radar(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                    						  	    Integer.parseInt(hud.getAttributeValue(null, "y")),
+	                    						  	    Integer.parseInt(hud.getAttributeValue(null, "type")));
                     	}
 	                }
 	                else if (hud.getEventType() == XmlPullParser.END_TAG) {
