@@ -140,8 +140,7 @@ public class TouchManager
             	    		
             	    		//Log.d("testi", i + 1 + ". kosketus asetettu.");
             	    		/* Joystickin aktivointi */
-                            if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffsetFirstTouch > joystickX - JOYSTICK_TRESHOLD && xClickOffsetFirstTouch < joystickX + JOYSTICK_TRESHOLD &&
-                            														yClickOffsetFirstTouch > joystickY - JOYSTICK_TRESHOLD && yClickOffsetFirstTouch < joystickY + JOYSTICK_TRESHOLD) {
+                            if (!Joystick.joystickInUse && Joystick.joystickDown && Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) < JOYSTICK_TRESHOLD) {
                                     Joystick.joystickInUse = true;
                             }
                             
@@ -167,6 +166,11 @@ public class TouchManager
             	    		//Log.d("testi", i + 1 + ". kosketus asetettu.");
             	    		
             	    		// Tähän triggerMotionShoot() käytettäväksi samaan aikaan kuin joystick.
+            	    		
+                            /* Sarjatuliaseen käyttäminen päästämättä kosketusta irti */
+                            if (weaponManager.currentWeapon == WeaponManager.WEAPON_SPITFIRE) {
+                            	weaponManager.triggerPlayerShoot(xClickOffsetSecondTouch, yClickOffsetSecondTouch);
+                            }
             	    	
             	    	}
             	    }   
@@ -220,8 +224,7 @@ public class TouchManager
                         }
                         
                         /* Painetaan joystickin päällä */
-                        if (joystickX != 0 && joystickY != 0 && xClickOffsetFirstTouch > joystickX - JOYSTICK_TRESHOLD && xClickOffsetFirstTouch < joystickX + JOYSTICK_TRESHOLD &&
-                        	yClickOffsetFirstTouch > joystickY - JOYSTICK_TRESHOLD && yClickOffsetFirstTouch < joystickY + JOYSTICK_TRESHOLD) {
+                        if (joystickX != 0 && joystickY != 0 && Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) < JOYSTICK_TRESHOLD) {
                                  Joystick.joystickDown = true;
                         }
                         
@@ -236,7 +239,17 @@ public class TouchManager
                     	xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
                         yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
                         //Log.e("testi", "ACTION_MOVE");
-
+                        
+                        /* Painetaan joystickin päällä */
+                        if (joystickX != 0 && joystickY != 0 && Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) < JOYSTICK_TRESHOLD) {
+                                 Joystick.joystickDown = true;
+                        }
+                        
+                        /* Sarjatuliaseen käyttäminen päästämättä kosketusta irti */
+                        else if (weaponManager.currentWeapon == WeaponManager.WEAPON_SPITFIRE) {
+                        	weaponManager.triggerPlayerShoot(xClickOffsetFirstTouch, yClickOffsetFirstTouch);
+                        }
+                        
                         /* Ajasta riippumattoman kosketuspolun seuranta */
                         if (weaponManager.isUsingMotionEvents) {
                         	// Tarkistetaan onko seuraava kosketuskohta 8px päässä edellisestä kosketuskohdasta
@@ -249,8 +262,7 @@ public class TouchManager
                         }
                         
                         /* Joystickin aktivointi */
-                        if (!Joystick.joystickInUse && Joystick.joystickDown && xClickOffsetFirstTouch > joystickX - JOYSTICK_TRESHOLD && xClickOffsetFirstTouch < joystickX + JOYSTICK_TRESHOLD &&
-                        														yClickOffsetFirstTouch > joystickY - JOYSTICK_TRESHOLD && yClickOffsetFirstTouch < joystickY + JOYSTICK_TRESHOLD) {
+                        if (!Joystick.joystickInUse && Joystick.joystickDown && Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) < JOYSTICK_TRESHOLD) {
                                 Joystick.joystickInUse = true;
                         }
                         
@@ -281,13 +293,15 @@ public class TouchManager
                         
                         /* Lähetetään ja nollataan kosketuspolun indeksointi, jos oikea ase on valittuna */
                         if (weaponManager.isUsingMotionEvents) {
+                        	
+                        	// Laukaisee ampumisen touchPath[][]-taulukon arvoilla
+                    		weaponManager.triggerMotionShoot(touchPath);
+                    		
+                    		// Tyhjennetään  touchPath[][]-taulukko seuraavaa ampumiskertaa varten
                         	for (int i = 0; i < 10; i++) {
                         		// Tulostaa taulukon LogCatiin
                     			//Log.v("TouchManager", "touchPath[" + i + "][" + touchPath[i][0] + "][" + touchPath[i][1] + "]");
-                        		
-                        		// Laukaisee ampumisen touchPath[][]-taulukon arvoilla
-                    			// weaponManager.triggerMotionShoot(touchPath);
-                    		
+
                     			touchPath[i][0] = 0;
                     			touchPath[i][1] = 0;
                     		}
@@ -296,7 +310,7 @@ public class TouchManager
 
                         if (Math.abs(event.getX() - (xClickOffsetFirstTouch - screenWidth / 2)) < touchMarginal &&
                             Math.abs(event.getY() - (yClickOffsetFirstTouch - screenHeight / 2)) < touchMarginal) {
-                        	// Tässä kohtaa pelaaja nostaa sormensa napin päältä liikuttamatta sitä pois napin alueelta ...
+                        	// Tässä kohtaa pelaaja nostaa sormensa napin päältä liikuttamatta sormeaan pois napin alueelta ...
                         }
                     }
             	}
