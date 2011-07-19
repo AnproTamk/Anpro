@@ -72,6 +72,26 @@ class GameThread extends Thread
     {
         running = _run;
     }
+    
+    /**
+     * Ladataan tarvittavat tiedot ja luodaan oliot.
+     */
+    public void initialize()
+    {
+    	// Luodaan EffectManager ja MessageManager
+        EffectManager.getInstance();
+        MessageManager.getInstance();
+                
+        // Luodaan Hud ja TouchManager
+        hud          = new Hud(context, weaponManager);
+        touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
+        
+        // Luodaan SurvivalMode
+        gameMode = new GameMode(gameActivity, dm, context, hud, weaponManager);
+                
+        // Merkit‰‰n kaikki ladatuiksi
+        allLoaded = true;
+    }
 
     /**
      * Suoritt‰‰ s‰ikeen. Android kutsuu t‰t‰ automaattisesti kun GameThread
@@ -80,21 +100,6 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-
-        // Luodaan EffectManager ja MessageManager
-        EffectManager.getInstance();
-        MessageManager.getInstance();
-                
-        // Luodaan Hud ja TouchManager
-        hud = new Hud(context, weaponManager);
-        touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
-        
-        // Luodaan SurvivalMode
-        gameMode = new GameMode(gameActivity, dm, context, hud, weaponManager);
-                
-        // Merkit‰‰n kaikki ladatuiksi
-        allLoaded = true;
-        
         /* Haetaan p‰ivityksille aloitusajat */
         waveStartTime		   = android.os.SystemClock.uptimeMillis();
         lastMovementUpdate     = waveStartTime;
@@ -112,7 +117,7 @@ class GameThread extends Thread
         
         /* Suoritetaan s‰iett‰ kunnes se m‰‰ritet‰‰n pys‰ytett‰v‰ksi */
         while (running) {
-            
+        	
             // Haetaan t‰m‰nhetkinen aika
             long currentTime = android.os.SystemClock.uptimeMillis();
             
@@ -127,7 +132,6 @@ class GameThread extends Thread
             /* P‰ivitet‰‰n objektien sijainnit niiden liikkeen mukaan (k‰sitell‰‰n
                myˆs t‰htitaustan rajatarkistukset) */
             if (currentTime - lastMovementUpdate >= 10) {
-                
                 updateMovement(currentTime);
                 updateBackgroundStars();
             }
@@ -249,7 +253,7 @@ class GameThread extends Thread
 	            }
 	        }
 		}
-	
+		
 	    // P‰ivitet‰‰n tila 2
 	    if (_currentTime - lastAiUpdateStateTwo >= 150) {
 	        lastAiUpdateStateTwo = _currentTime;
@@ -306,19 +310,19 @@ class GameThread extends Thread
 	
 	    	// P‰ivitet‰‰n pelaajan teko‰ly (aina tila 4)
 	    	wrapper.player.ai.handleAi();
-	        
+
 	        for (int i : wrapper.priorityFourEnemies) {
 	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	                wrapper.enemies.get(i).ai.handleAi();
 	            }
 	        }
-	        
+
 	        for (int i : wrapper.priorityFourAllies) {
 	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	                wrapper.allies.get(i).ai.handleAi();
 	            }
 	        }
-	        
+
 	        for (int i : wrapper.priorityFourProjectiles) {
 	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
 	            	if (wrapper.projectiles.get(i).ai.active) {

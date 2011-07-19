@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 
 /**
  * Toteutus pelaajan ympärillä pyörivälle tekoälylle. Tekoäly hakeutuu pelaajan lähelle
@@ -14,6 +16,8 @@ public class RotaryAi extends AbstractAi
 	
 	private long lastShootingTime = 0;
 	
+    private int[][] checkpoints;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -25,6 +29,8 @@ public class RotaryAi extends AbstractAi
 		super(_id, _type);
 		
 		weaponManager = _weaponManager;
+		
+		checkpoints = new int[13][2];
 	}
     
     /**
@@ -34,9 +40,7 @@ public class RotaryAi extends AbstractAi
     public final void handleAi()
     {
     	// Alustetaan tarvittavat muuttujat
-        int checkpoints[][] = new int[13][2];
         int startCheckpoint = 0;
-        
         
         // 12 "checkpointtia" ympyrän kaarella 30 asteen välein. Vihollisten on kuljettava näiden kautta.
         checkpoints[0][0] =	(int) wrapper.player.x + 150;

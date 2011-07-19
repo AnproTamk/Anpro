@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -127,11 +128,13 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 		if(_v.getId() == R.id.button_main_menu) {
 			Intent i_mainmenu = new Intent(this, MainActivity.class);
     		startActivity(i_mainmenu);
+    		setResult(0);
     		finish();
 		}
 
     	else if(_v.getId() == R.id.button_resume) {
-    		onStop();
+    		setResult(1);
+    		finish();
     	}
 	}
 	
