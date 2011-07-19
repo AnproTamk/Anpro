@@ -15,6 +15,7 @@ public class Player extends GameObject
     /* Osoittimet muihin luokkiin */
     private Wrapper  wrapper;
     private GameMode gameMode;
+    private Hud      hud;
     
     /* Tekoäly */
     public AbstractAi ai;
@@ -29,7 +30,7 @@ public class Player extends GameObject
      * @param _armor Pelaajan puolustus
      * @param _gameMode Osoitin SurvivalModeen
      */
-    public Player(int _health, int _armor, GameMode _gameMode)
+    public Player(int _health, int _armor, GameMode _gameMode, Hud _hud)
     {
         super(6); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
         		  // Muiden GameObjectien tapaan.
@@ -37,6 +38,7 @@ public class Player extends GameObject
         // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin
         wrapper  = Wrapper.getInstance();
         gameMode = _gameMode;
+        hud      = _hud;
         
         // Tallennetaan pelaajan tiedot
         health  	  = _health;
@@ -161,8 +163,8 @@ public class Player extends GameObject
         
         Utility.checkDamage(this, _damage, _armorPiercing);
         
-        Hud.armorBar.updateValue(currentArmor);
-        Hud.healthBar.updateValue(currentHealth);
+        hud.armorBar.updateValue(currentArmor);
+        hud.healthBar.updateValue(currentHealth);
 
         if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
         	wrapper.playerState = Wrapper.ONLY_ANIMATION;
