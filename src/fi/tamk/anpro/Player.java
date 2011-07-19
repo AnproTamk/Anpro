@@ -50,8 +50,8 @@ public class Player extends GameObject
         currentArmor  = _armor;
         
         // Määritetään Hudin healthBarin ja armorBarin tiedot
-        hud.healthBar.initBar(health);
-        hud.armorBar.initBar(armor);
+    	hud.healthBar.initBar(health);
+    	hud.armorBar.initBar(armor);
         
         // Asetetaan törmäystunnistuksen säde
         collisionRadius = (int) (25 * Options.scale);
@@ -167,7 +167,6 @@ public class Player extends GameObject
         }
         
         Utility.checkDamage(this, _damage, _armorPiercing);
-    	Log.e("OSUMA", String.valueOf(currentArmor));
         
         hud.armorBar.updateValue(currentArmor);
         hud.healthBar.updateValue(currentHealth);

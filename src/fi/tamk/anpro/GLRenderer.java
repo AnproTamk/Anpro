@@ -566,6 +566,7 @@ public class GLRenderer implements Renderer
     {
         if (gameThread != null) {
             gameThread.setRunning(true);
+            gameThread.initialize();
             gameThread.start();
         }
     }
