@@ -181,6 +181,22 @@ public class GLRenderer implements Renderer
         // TODO: Kaksi alempaa rivi‰ jotenkin ep‰loogisessa paikassa
         // Ladataan latausruudun tekstuuri
     	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
+    	
+    	showLoadingScreen = true;
+    	
+        // Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
+        if (loadTextures(_gl)) {
+        	if (gameThread.isAlive()) {
+        		gameThread.setRunning(true);
+        	}
+        	else {
+        		startThread();
+        	}
+        }
+        else {
+            // TODO: K‰sittele virhe PAREMMIN
+        	System.exit(0);
+        }
     }
 
     /**
@@ -218,7 +234,6 @@ public class GLRenderer implements Renderer
      * Android kutsuu t‰t‰ automaattisesti.
      */
     public void onSurfaceDestroyed() {
-    	// ...
     }
 
     /**
@@ -232,10 +247,6 @@ public class GLRenderer implements Renderer
         // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
- 
-        if (showLoadingScreen) {
-			showLoadingScreen = false;
-        }
         
         /* Tarkastetaan onko tekstuurit ladattu */
         if (allLoaded && gameThread.allLoaded) {
@@ -379,18 +390,10 @@ public class GLRenderer implements Renderer
         }
         /* Tekstuureja ei ole viel‰ ladattu */
         else if (!allLoaded && gameThread != null) {
+        	// N‰ytet‰‰n latausruutu
+        	loadingTexture.draw(_gl, 0, 0, 90, 0);
         	
-    		loadingTexture.draw(_gl, 0, 0, 90, 0);
     		showLoadingScreen = true;
-        	
-            // Ladataan grafiikat ja k‰ynnistet‰‰n pelis‰ie
-            if (loadTextures(_gl)) {
-                startThread();
-            }
-            else {
-                // TODO: K‰sittele virhe PAREMMIN
-            	System.exit(0);
-            }
         }
     }
 
