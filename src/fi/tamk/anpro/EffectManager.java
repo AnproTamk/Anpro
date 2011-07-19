@@ -25,6 +25,8 @@ public class EffectManager
 	public static final byte EFFECT_COMBOMULTIPLIER_5   = 6;
 	public static final byte EFFECT_EXPLOSION           = 7;
 	public static final byte EFFECT_TRAIL               = 8;
+	public static final byte EFFECT_HUD_ARMOR			= 9;
+	public static final byte EFFECT_HUD_HEALTH			= 10;
 	
 	/* Efektiobjektit */
 	private static EffectObject   balloonExclamationEffect;
@@ -37,6 +39,8 @@ public class EffectManager
 	private static EffectObject   combo5MultiplierEffect;
 	private static EffectObject   explosionEffect;
 	private static EffectObject[] playerTrailEffect;
+	private static EffectObject	  hudArmorEffect;
+	private static EffectObject   hudHealthEffect;
 
 	/**
 	 * Alustaa luokan muuttujat.
@@ -52,6 +56,8 @@ public class EffectManager
 		combo3MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_3, TYPE_FRONT_EFFECT);
 		combo4MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_4, TYPE_FRONT_EFFECT);
 		combo5MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_5, TYPE_FRONT_EFFECT);
+		hudArmorEffect			 = new EffectObject(0, EFFECT_HUD_ARMOR, TYPE_BACK_EFFECT);
+		hudHealthEffect			 = new EffectObject(0, EFFECT_HUD_HEALTH, TYPE_BACK_EFFECT);
 		
 		for (int i = 0; i < 5; ++i) {
 			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
@@ -162,6 +168,30 @@ public class EffectManager
 				Log.e("TESTI", "EFEKTI PÄÄLLE!");
 				break;
 			}
+		}
+	}
+	
+	/**
+	 * Näyttää pelaajaan osuessa Armor-kilven välähdyksen
+	 * 
+	 * @param _object Kohde-objekti
+	 */
+	public static void showArmorHitEffect(float _x, float _y)
+	{
+		if (!hudArmorEffect.activated) {
+			hudArmorEffect.activate(_x, _y);
+		}
+	}
+	
+	/**
+	 * Näyttää pelaajaan osuessa Health-sydämen välähdyksen
+	 * 
+	 * @param _object Kohde-objekti
+	 */
+	public static void showHealthHitEffect(float _x, float _y)
+	{
+		if (!hudHealthEffect.activated) {
+			hudHealthEffect.activate(_x, _y);
 		}
 	}
 }

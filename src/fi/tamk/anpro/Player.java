@@ -153,6 +153,10 @@ public class Player extends GameObject
     	
         if (currentArmor > 0) {
         	EffectManager.showPlayerArmorEffect(this);
+        	EffectManager.showArmorHitEffect(Hud.armorBar.x, Hud.armorBar.y);
+        }
+        else {
+            EffectManager.showHealthHitEffect(Hud.healthBar.x, Hud.healthBar.y);
         }
         
         Utility.checkDamage(this, _damage, _armorPiercing);
