@@ -92,7 +92,7 @@ public class Utility
         if (angle2 >= -10 && angle2 <= 10) {
             return 0;
         }
-        else if (angle2 > 10 && angle2 <= 180 || (angle2 <= -180 && angle2 >= -359)) {
+        else if ((angle2 > 10 && angle2 <= 180) || (angle2 < -180 && angle2 >= -359)) {
             return 1;
         }
         
