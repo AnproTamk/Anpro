@@ -1,6 +1,7 @@
 package fi.tamk.anpro;
 
 import android.app.Activity;
+
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -11,8 +12,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 public class MothershipActivity extends Activity implements OnClickListener
 {
 	// Alustetaan muuttujat.
@@ -20,7 +21,8 @@ public class MothershipActivity extends Activity implements OnClickListener
 	ImageButton skills;
 	ImageButton repair;
 	
-	private Animation inFromRightAnimation() {
+	private Animation inFromRightAnimation()
+	{
 		Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
 													   Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
 		inFromRight.setDuration(750);
@@ -28,7 +30,8 @@ public class MothershipActivity extends Activity implements OnClickListener
 		return inFromRight;
 	}
 	
-	private Animation outToLeftAnimation() {
+	private Animation outToLeftAnimation()
+	{
 		Animation outtoLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, -1.0f,
 													 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
 		outtoLeft.setDuration(750);
@@ -36,7 +39,8 @@ public class MothershipActivity extends Activity implements OnClickListener
 		return outtoLeft;
 	}
 	
-	private Animation inFromLeftAnimation() {
+	private Animation inFromLeftAnimation()
+	{
 		Animation inFromLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
 													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
 		inFromLeft.setDuration(750);
@@ -44,7 +48,8 @@ public class MothershipActivity extends Activity implements OnClickListener
 		return inFromLeft;
 	}
 	
-	private Animation outToRightAnimation() {
+	private Animation outToRightAnimation()
+	{
 		Animation outtoRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
 													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
 		outtoRight.setDuration(750);
@@ -111,7 +116,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * Android kutsuu t‰t‰ automaattisesti kun ohjelma palaa taukotilasta.
      */
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
     	super.onResume();
     }
     
@@ -120,7 +126,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * saatetaan keskeytt‰‰ kokonaan. Android kutsuu t‰t‰ automaattisesti.
      */
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
     	super.onPause();
     }
         
@@ -129,7 +136,8 @@ public class MothershipActivity extends Activity implements OnClickListener
      * Android kutsuu t‰t‰ automaattisesti kun ohjelma ei ole en‰‰ aktiivinen.
      */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
     	super.onStop();
     }
 

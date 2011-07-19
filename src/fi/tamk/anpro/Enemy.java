@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
 /**
  * Sisältää vihollisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -25,12 +23,12 @@ public class Enemy extends GameObject
     /**
      * Alustaa luokan muuttujat.
      * 
-     * @param int           Elämät/kestävyys
-     * @param int           Puolustus
-     * @param int           Nopeus
-     * @param int           Hyökkäysvoima törmätessä pelaajaan
-     * @param int           Taso
-     * @param WeaponManager Osoitin WeaponManageriin
+     * @param _int           Elämät/kestävyys
+     * @param _int           Puolustus
+     * @param _int           Nopeus
+     * @param _int           Hyökkäysvoima törmätessä pelaajaan
+     * @param _int           Taso
+     * @param _weaponManager Osoitin WeaponManageriin
      */
     public Enemy(int _health, int _armor, int _speed, int _attack, int _ai, int _rank, WeaponManager _weaponManager)
     {

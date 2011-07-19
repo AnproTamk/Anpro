@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
 /**
  * Sisältää pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -47,8 +45,8 @@ public class Player extends GameObject
         currentArmor  = _armor;
         
         // Määritetään Hudin healthBarin ja armorBarin tiedot
-        Hud.healthBar.initBar(health);
-        Hud.armorBar.initBar(armor);
+        hud.healthBar.initBar(health);
+        hud.armorBar.initBar(armor);
         
         // Asetetaan törmäystunnistuksen säde
         collisionRadius = (int) (25 * Options.scale);

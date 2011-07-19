@@ -12,10 +12,6 @@ public class TrackingProjectileAi extends AbstractAi
 	private long    startTime;
 	private boolean isTracking = false;
 	
-	private int   indexOfClosestEnemy = -1;
-	private float distanceToEnemy     = -1;
-	
-	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 

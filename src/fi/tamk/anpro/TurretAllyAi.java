@@ -1,8 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
-
 /**
  * Toteutus emoaluksen tykkien tekoälylle.
  * 
