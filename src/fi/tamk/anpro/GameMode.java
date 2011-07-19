@@ -103,7 +103,7 @@ public class GameMode
         backgroundStars = new BackgroundStar[15];
         
     	// Luodaan pelaaja
-    	player = new Player(100, 100, this, hud);
+    	player = new Player(40, 15, this, hud);
     	player.x = 0;
     	player.y = 0;
     	

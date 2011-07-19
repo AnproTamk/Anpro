@@ -46,20 +46,13 @@ public class Bar extends GuiObject
 	 */
 	public void updateValue(int _value)
 	{
-		// Lasketaan, paljonko pelaajalla on on healthia jäljellä, minkä mukaan
-		// piirretään oikea healthBar-kuva ruudulle.
-		if (type == 1) {
-			currentFrame = (int)((1 - (float)_value / (float)max) * 10);
-			
-			if (currentFrame > 10) {
-				currentFrame = 10; // TODO: Käytä ruutuja, älä vaihda tekstuuria!
-			}
+		if (_value >= max) {
+			currentFrame = 0;
 		}
-		else if (type == 2) {
-			currentFrame = (int)((1- (float)_value / (float)max) * 10);
-			
+		else {
+			currentFrame = (int)((1 - (float)_value / (float)max) * 10);
 			if (currentFrame > 10) {
-				currentFrame = 10; // TODO: Käytä ruutuja, älä vaihda tekstuuria!
+				currentFrame = 10;
 			}
 		}
 	}

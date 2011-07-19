@@ -37,10 +37,6 @@ class GameThread extends Thread
     private long lastGuideArrowUpdate;
     private long lastRadarUpdate;
     
-    /* Tekoälyn nopeutus vihollisaaltojen aikana (varmistaa tekoälyä nopeuttamalla,
-       että viholliset varmasti lopulta saavuttavat pelaajan) */
-    private float updateSpeedUp = 1;
-    
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
        luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
     private DisplayMetrics dm;
@@ -135,24 +131,14 @@ class GameThread extends Thread
                 updateMovement(currentTime);
                 updateBackgroundStars();
             }
-            
-            /* Päivitetään tekoälyjen päivitysvälit */
-            if (currentTime - waveStartTime >= 3000) {
-                updateSpeedUp = 2;
-                // TODO: Onko tämä enää tarpeen, koska kenttä on nyt isompi?
-            }
            
             /* Päivitetään tekoälyt */
             if (wrapper.player != null) {
-            	
             	updateAi(currentTime);
             }
             
             /* Tarkistetaan törmäykset */
-            if (currentTime - lastCollisionUpdate >= 50) {
-            	
-            	checkCollisions(currentTime);
-            }
+            checkCollisions(currentTime);
             
             /* Päivitetään efektien sijainnit */
             updateEffectPositions();
@@ -238,7 +224,7 @@ class GameThread extends Thread
 	private void updateAi(long _currentTime)
 	{
 	    // Päivitetään tila 1
-		if (_currentTime - lastAiUpdateStateOne >= (300 / updateSpeedUp)) {
+		if (_currentTime - lastAiUpdateStateOne >= 300) {
 	        lastAiUpdateStateOne = _currentTime;
 	        
 	        for (int i : wrapper.priorityOneEnemies) {
@@ -265,7 +251,7 @@ class GameThread extends Thread
 		}
 	
 	    // Päivitetään tila 2
-	    if (_currentTime - lastAiUpdateStateTwo >= (150 / updateSpeedUp)) {
+	    if (_currentTime - lastAiUpdateStateTwo >= 150) {
 	        lastAiUpdateStateTwo = _currentTime;
 	        
 	        for (int i : wrapper.priorityTwoEnemies) {
@@ -290,7 +276,7 @@ class GameThread extends Thread
 	    }
 	
 	    // Päivitetään tila 3
-	    if (_currentTime - lastAiUpdateStateThree >= (75 / updateSpeedUp)) {
+	    if (_currentTime - lastAiUpdateStateThree >= 75) {
 	        lastAiUpdateStateThree = _currentTime;
 	        
 	        for (int i : wrapper.priorityThreeEnemies) {
@@ -315,7 +301,7 @@ class GameThread extends Thread
 	    }
 	
 	    // Päivitetään tila 4
-	    if (_currentTime - lastAiUpdateStateFour >= (40 / updateSpeedUp)) {
+	    if (_currentTime - lastAiUpdateStateFour >= 40) {
 	        lastAiUpdateStateFour = _currentTime;
 	
 	    	// Päivitetään pelaajan tekoäly (aina tila 4)
@@ -350,27 +336,31 @@ class GameThread extends Thread
      */
 	private void checkCollisions(long _currentTime)
 	{
-		lastCollisionUpdate = _currentTime;
-		
-    	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-    		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			wrapper.projectiles.get(i).checkCollision();
-    		}
-    	}
-    	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-    		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			//wrapper.enemies.get(i).checkCollision(); // TODO: ?
-    		}
-    	}
-    	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-    		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			wrapper.obstacles.get(i).checkCollision();
-    		}
-    	}
-    	
-    	if (wrapper.playerState == Wrapper.FULL_ACTIVITY) {
-    		wrapper.player.checkCollision();
-    	}
+        if (_currentTime - lastCollisionUpdate >= 50) {
+        	
+			lastCollisionUpdate = _currentTime;
+			
+	    	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+	    		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    			wrapper.projectiles.get(i).checkCollision();
+	    		}
+	    	}
+	    	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+	    		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    			//wrapper.enemies.get(i).checkCollision(); // TODO: ?
+	    		}
+	    	}
+	    	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+	    		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    			wrapper.obstacles.get(i).checkCollision();
+	    		}
+	    	}
+	    	
+	    	if (wrapper.playerState == Wrapper.FULL_ACTIVITY) {
+	    		wrapper.player.checkCollision();
+	    	}
+	    	
+        }
 	}
 
     /**
@@ -413,11 +403,16 @@ class GameThread extends Thread
      */
 	private void recoverWeaponArmor(long _currentTime)
 	{
-        if (_currentTime - lastArmorUpdate >= 10000) {
+        if (_currentTime - lastArmorUpdate >= 150) {
         	lastArmorUpdate = _currentTime;
         	
-        	if (wrapper.player.currentArmor <= 0) {
-        		wrapper.player.currentArmor += 25;
+        	if (_currentTime - wrapper.player.outOfBattleTime >= 4000) {
+	        	++wrapper.player.currentArmor;
+	        	hud.armorBar.updateValue(wrapper.player.currentArmor);
+	        	
+	        	if (wrapper.player.currentArmor > wrapper.player.armor) {
+	        		wrapper.player.currentArmor = wrapper.player.armor;
+	        	}
         	}
         }
 	}
@@ -432,9 +427,6 @@ class GameThread extends Thread
 	{
         if (_currentTime - lastGameModeUpdate >= 1000) {
             if (GameMode.enemiesLeft == 0) {
-                waveStartTime = android.os.SystemClock.uptimeMillis();
-                updateSpeedUp = 1;
-                
                 gameMode.startWave();
             }
             
