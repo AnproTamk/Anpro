@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ViewFlipper;
 
@@ -21,40 +20,18 @@ public class MothershipActivity extends Activity implements OnClickListener
 	ImageButton skills;
 	ImageButton repair;
 	
-	private Animation inFromRightAnimation()
-	{
-		Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
-													   Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
-		inFromRight.setDuration(750);
-		inFromRight.setInterpolator(new AccelerateInterpolator());
-		return inFromRight;
+	private Animation topFromBottomAnimation() {
+		Animation topFromBottom = AnimationUtils.loadAnimation(this, R.anim.fade_out_anim);
+		topFromBottom.setDuration(1500);
+		//toFromBottom.setInterpolator(new AccelerateInterpolator());
+		return topFromBottom;
 	}
 	
-	private Animation outToLeftAnimation()
-	{
-		Animation outtoLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, -1.0f,
-													 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
-		outtoLeft.setDuration(750);
-		outtoLeft.setInterpolator(new AccelerateInterpolator());
-		return outtoLeft;
-	}
-	
-	private Animation inFromLeftAnimation()
-	{
-		Animation inFromLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -2.5f, Animation.RELATIVE_TO_PARENT, 0.0f,
-													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
-		inFromLeft.setDuration(750);
-		inFromLeft.setInterpolator(new AccelerateInterpolator());
-		return inFromLeft;
-	}
-	
-	private Animation outToRightAnimation()
-	{
-		Animation outtoRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
-													  Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f);
-		outtoRight.setDuration(750);
-		outtoRight.setInterpolator(new AccelerateInterpolator());
-		return outtoRight;
+	private Animation bottomFromTopAnimation() {
+		Animation bottomFromTop = AnimationUtils.loadAnimation(this, R.anim.fade_in_anim);
+		bottomFromTop.setDuration(1500);
+		//bottomFromTop.setInterpolator(new AccelerateInterpolator());
+		return bottomFromTop;
 	}
 	
 	/**
@@ -100,13 +77,13 @@ public class MothershipActivity extends Activity implements OnClickListener
     {
     	switch(_v.getId()) {
     		case R.id.button_skills:
-    			viewFlipper.setInAnimation(inFromRightAnimation());
-    			viewFlipper.setOutAnimation(outToLeftAnimation());
+    			viewFlipper.setOutAnimation(topFromBottomAnimation());
+    			viewFlipper.setInAnimation(bottomFromTopAnimation());
     			viewFlipper.showNext();
     			break;
     		case R.id.button_repair:
-    			viewFlipper.setInAnimation(inFromLeftAnimation());
-    			viewFlipper.setOutAnimation(outToRightAnimation());
+    			viewFlipper.setOutAnimation(topFromBottomAnimation());
+    			viewFlipper.setInAnimation(bottomFromTopAnimation());
     			viewFlipper.showPrevious();
     			break;
     	}
