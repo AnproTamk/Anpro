@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sisältää pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -20,6 +22,9 @@ public class Player extends GameObject
     
     /* Haluttu liikkumissuunta */
     public int movementTargetDirection;
+    
+    /* Suojien palautumisen ajastin */
+    public long outOfBattleTime = 0;
     
     /**
      * Alustaa luokan muuttujat.
@@ -150,6 +155,8 @@ public class Player extends GameObject
     public final void triggerCollision(int _damage, int _armorPiercing)
     {
         VibrateManager.vibrateOnHit();
+        
+        outOfBattleTime = android.os.SystemClock.uptimeMillis();
     	
         if (currentArmor > 0) {
         	EffectManager.showPlayerArmorEffect(this);
@@ -160,6 +167,7 @@ public class Player extends GameObject
         }
         
         Utility.checkDamage(this, _damage, _armorPiercing);
+    	Log.e("OSUMA", String.valueOf(currentArmor));
         
         hud.armorBar.updateValue(currentArmor);
         hud.healthBar.updateValue(currentHealth);
