@@ -59,7 +59,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
-    public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 9;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 11;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
@@ -533,6 +533,12 @@ public class GLRenderer implements Renderer
         
         // Jälkipoltto
         effectAnimations[8] = new GLSpriteSet(_gl, context, R.drawable.trail_effect_anim, 1);
+        
+        // Armor-kilven välähdys
+        effectAnimations[9] = new GLSpriteSet(_gl, context, R.drawable.armor_hit_effect_anim, 3);
+        
+        // Health-sydämen välähdys
+        effectAnimations[10] = new GLSpriteSet(_gl, context, R.drawable.health_hit_effect_anim, 3);
         
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);
