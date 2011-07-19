@@ -268,7 +268,7 @@ abstract public class AbstractProjectile extends GameObject
     {
     	/* Tarkistetaan räjähdys kohteessa */
     	if (explodeOnTarget) {
-    		double distance = Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));
+    		double distance = Utility.getDistance(x, y, targetX, targetY);
     		
     		if (distance - collisionRadius - 20 <= 0) {
     			setUnactive();
@@ -347,7 +347,7 @@ abstract public class AbstractProjectile extends GameObject
 	            	if (Math.abs(wrapper.player.y - y) <= Wrapper.gridSize) {
 	            		
 	            		// Lasketaan etäisyys pelaajaan
-	            		double distance = Math.sqrt(Math.pow(x - wrapper.player.x, 2) + Math.pow(y - wrapper.player.y, 2));
+	            		double distance = Utility.getDistance(x, y, wrapper.player.x, wrapper.player.y);
 	            		
 	            		if (distance - wrapper.player.collisionRadius - collisionRadius <= 0) {
 		                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
