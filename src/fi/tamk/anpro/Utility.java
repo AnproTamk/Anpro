@@ -104,7 +104,25 @@ public class Utility
         	return 2;
         }
 	}
-    
+	
+	/**
+	 * Muuntaa kulman ja tunnettujen aloituskoordinaattien avulla koordinaatit osoittamaan kuvitteellista sijaintia
+	 * objektin etupuolelle suunnan mukaan.
+	 * 
+	 * @param _startX X-aloituskoordinaatti kulman mukaan m‰‰r‰ytyv‰lle x-koordinaatille
+	 * @param _startY Y-aloituskoordinaatti kulman mukaan m‰‰r‰ytyv‰lle y-koordinaatille
+	 * @param _type   M‰‰ritt‰‰ onko kyseess‰ x- vai y-akselin koordinaatti
+	 * @param _weapon Mill‰ aseella ammutaan
+	 */
+	public static float getAngleToCoordinates(double _direction, float _startX, float _startY, char _type) {
+		if (_type == 'x') {
+			return _startX + (float) Math.cos((_direction * Math.PI)/180);
+		}
+		else {
+			return _startY + (float) Math.sin((_direction * Math.PI)/180);
+		}
+	}
+	
     /**
      * Tarkastaa, tapahtuuko kahden objektin v‰lill‰ tˆrm‰ys.
      * 
