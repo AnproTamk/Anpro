@@ -86,8 +86,30 @@ public class WeaponManager
      */
     public final void triggerEnemyShoot(float _startX, float _startY, int _weapon)
     {
-   		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+    		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public final void triggerEnemyShootForward(double _direction, float _startX, float _startY, int _weapon) {
+    	// Vihollinen ampuu suoraa omaan suuntaansa, jos käytössä on Spitfire, muutoin ampuminen tapahtuu pelaajan suuntaan
+    	if (_weapon == WeaponManager.ENEMY_SPITFIRE) {
+    		enemyWeapons.get(_weapon).activate(Utility.getAngleToCoordinates(_direction, _startX, _startY, 'x'), Utility.getAngleToCoordinates(_direction, _startX, _startY, 'y'), _startX, _startY);
+    	}
+    }
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Välittää kutsupyynnön liittolaisen aseelle aktivoiden sen ja lähettämällä
