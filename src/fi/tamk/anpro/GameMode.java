@@ -432,13 +432,13 @@ public class GameMode
 	public void mirrorAsteroidPosition ()
 	{
 		for (int i = asteroids.length - 1; i >= 0; --i) {
-			if (asteroids[i].x >= halfOfScreenWidth || asteroids[i].x <= -halfOfScreenWidth ||
-				asteroids[i].y >= halfOfScreenHeight || asteroids[i].y <= -halfOfScreenHeight) {
-				if (asteroids[i].x > overBoundWidth || asteroids[i].x < -overBoundWidth || 
-					asteroids[i].y > overBoundHeight || asteroids[i].y < -overBoundHeight) {
-					asteroids[i].x *= -1;
-					asteroids[i].y *= -1;
-				}
+			if ( asteroids[i].x < -overBoundWidth || asteroids[i].y < -overBoundHeight) {
+				asteroids[i].x = asteroids[i].x * (-1) - 100 ;
+				asteroids[i].y = asteroids[i].y * (-1) - 100 ;
+			}
+			else if (asteroids[i].x > overBoundWidth || asteroids[i].y > overBoundHeight) {
+				asteroids[i].x = asteroids[i].x * (-1) + 100 ;
+				asteroids[i].y = asteroids[i].y * (-1) + 100 ;
 			}
 		}
 	}
