@@ -16,10 +16,7 @@ public class Mothership extends GameObject
 		// Lis‰t‰‰n emoalus piirtolistalle
 		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_MOTHERSHIP, 0); // T‰rkeydell‰ ei v‰li‰, vakiona aina 2
 		
-		// M‰‰ritet‰‰n emoaluksen tiedot
-		direction = 160;
-		x         = 100;
-		y         = 90;
+
 	    
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_MOTHERSHIP_ANIMATIONS];

@@ -107,17 +107,20 @@ public class GameMode
     	player.x = 0;
     	player.y = 0;
     	
-    	// Luodaan emoalus
+    	// Luodaan emoalus ja sen tykit
     	mothership = new Mothership(0);
+		mothership.direction = 160;
+		mothership.x         = 100 * Options.scaleX;
+		mothership.y         = 90 * Options.scaleY;
     	turret1    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret1.x  = 135;
-    	turret1.y  = 8;
+    	turret1.x  = 135 * Options.scaleX;
+    	turret1.y  = 8 * Options.scaleY;
     	turret2    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret2.x  = 280;
-    	turret2.y  = -45;
+    	turret2.x  = 280 * Options.scaleX;
+    	turret2.y  = -45 * Options.scaleY;
     	turret3    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret3.x  = 332;
-    	turret3.y  = 84;
+    	turret3.x  = 332 * Options.scaleX;
+    	turret3.y  = 84 * Options.scaleY;
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
