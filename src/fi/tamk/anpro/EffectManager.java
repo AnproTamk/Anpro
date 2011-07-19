@@ -56,8 +56,8 @@ public class EffectManager
 		combo3MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_3, TYPE_FRONT_EFFECT);
 		combo4MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_4, TYPE_FRONT_EFFECT);
 		combo5MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_5, TYPE_FRONT_EFFECT);
-		hudArmorEffect			 = new EffectObject(0, EFFECT_HUD_ARMOR, TYPE_BACK_EFFECT);
-		hudHealthEffect			 = new EffectObject(0, EFFECT_HUD_HEALTH, TYPE_BACK_EFFECT);
+		hudArmorEffect			 = new EffectObject(0, EFFECT_HUD_ARMOR, TYPE_FRONT_EFFECT);
+		hudHealthEffect			 = new EffectObject(0, EFFECT_HUD_HEALTH, TYPE_FRONT_EFFECT);
 		
 		for (int i = 0; i < 5; ++i) {
 			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
@@ -173,10 +173,10 @@ public class EffectManager
 	 * 
 	 * @param _object Kohde-objekti
 	 */
-	public static void showArmorHitEffect(float _x, float _y)
+	public static void showArmorHitEffect(GuiObject _object)
 	{
 		if (!hudArmorEffect.activated) {
-			hudArmorEffect.activate(_x, _y);
+			hudArmorEffect.activate(_object);
 		}
 	}
 	
@@ -185,10 +185,10 @@ public class EffectManager
 	 * 
 	 * @param _object Kohde-objekti
 	 */
-	public static void showHealthHitEffect(float _x, float _y)
+	public static void showHealthHitEffect(GuiObject _object)
 	{
 		if (!hudHealthEffect.activated) {
-			hudHealthEffect.activate(_x, _y);
+			hudHealthEffect.activate(_object);
 		}
 	}
 }
