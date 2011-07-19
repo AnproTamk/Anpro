@@ -6,8 +6,8 @@ package fi.tamk.anpro;
 public class CameraManager
 {
 	/* Kameran sijainti */
-	public float xTranslate = 0; // Muutos X-akselilla (pelaajan etäisyys keskipisteestä)
-	public float yTranslate = 0; // Muutos Y-akselilla (pelaajan etäisyys keskipisteestä)
+	public static float xTranslate = 0; // Muutos X-akselilla (pelaajan etäisyys keskipisteestä)
+	public static float yTranslate = 0; // Muutos Y-akselilla (pelaajan etäisyys keskipisteestä)
 	public int   zoom       = 0; // Kameran zoomi
 	
 	/* Kameran liikkuminen */

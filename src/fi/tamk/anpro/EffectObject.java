@@ -103,6 +103,10 @@ public class EffectObject extends GameObject
 			x = parentObject.x;
 			y = parentObject.y;
 		}
+		else {
+			x += CameraManager.xTranslate;
+			x += CameraManager.xTranslate;
+		}
 	}
 	
 	/**
