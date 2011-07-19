@@ -103,13 +103,10 @@ abstract public class AbstractAi
     {
     	// Tarkistetaan, onko vihollisen ja pelaajan välinen etäisyys riittävän pieni
     	// tarkkoja osumatarkistuksia varten
-		Log.e("TESTI", "TARKISTETAAN X");
     	if (Math.abs(wrapper.player.x - wrapper.enemies.get(parentId).x) <= Wrapper.gridSize) {
-    		Log.e("TESTI", "TARKISTETAAN Y");
         	if (Math.abs(wrapper.player.y - wrapper.enemies.get(parentId).y) <= Wrapper.gridSize) {
         
         		// Tarkistetaan törmäys
-        		Log.e("TESTI", "KUTSUTAAN ISCOLLIDINGIA!");
         		if (Utility.isColliding(wrapper.enemies.get(parentId), wrapper.player)) {
         			wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
         			wrapper.player.triggerCollision(wrapper.enemies.get(parentId).attack, 0);
