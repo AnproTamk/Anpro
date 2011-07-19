@@ -55,6 +55,7 @@ public class GameMode
     protected WeaponManager weaponManager;
     protected CameraManager camera;
     protected GameActivity  gameActivity;
+    private   Hud		    hud;
     
     /* Pisteet ja combot */
     private static long score;
@@ -73,10 +74,11 @@ public class GameMode
      * @param Context		 Ohjelman konteksti
      * @param WeaponManager  Osoitin WeaponManageriin
      */
-    public GameMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, WeaponManager _weaponManager)
+    public GameMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, Hud _hud, WeaponManager _weaponManager)
     {
-    	// Tallennetaan osoitin peliaktiviteettiin
+    	// Tallennetaan osoitin peliaktiviteettiin ja hudiin
         gameActivity = _gameActivity;
+        hud          = _hud;
         
         // Tallennetaan näytön tiedot
         halfOfScreenWidth  = _dm.widthPixels;
@@ -100,7 +102,7 @@ public class GameMode
         backgroundStars = new BackgroundStar[15];
         
     	// Luodaan pelaaja
-    	player = new Player(100, 100, this);
+    	player = new Player(100, 100, this, hud);
     	player.x = 0;
     	player.y = 0;
     	

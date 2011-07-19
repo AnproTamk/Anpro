@@ -96,7 +96,7 @@ class GameThread extends Thread
         touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
         
         // Luodaan SurvivalMode
-        gameMode = new GameMode(gameActivity, dm, context, weaponManager);
+        gameMode = new GameMode(gameActivity, dm, context, hud, weaponManager);
                 
         // Merkit‰‰n kaikki ladatuiksi
         allLoaded = true;
