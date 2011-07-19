@@ -38,21 +38,14 @@ public class XmlReader
     {
         XmlResourceParser hud = null;
         
-        // Ehto, joka tarkistaa, mikä pelitila on valittuna.
-        if (GameActivity.activeMode == GameActivity.SURVIVAL_MODE) {
-        	try {
-                hud = context.getResources().getXml(R.xml.class.getField("hud_survival_" + Options.screenWidth + "_" + Options.screenHeight).getInt(getClass()));
-            }
-            catch (Exception e) {
-            	// TODO: Käsittele virhe
-                e.printStackTrace();
-            }
+        // Ladataan tiedosto
+    	try {
+            hud = context.getResources().getXml(R.xml.class.getField("hud_survival_" + Options.screenWidth + "_" + Options.screenHeight).getInt(getClass()));
         }
-        else {
-            hud = context.getResources().getXml(R.xml.hud_story);
+        catch (Exception e) {
+        	// TODO: Käsittele virhe
+            e.printStackTrace();
         }
-
-        // TODO: Funktio ei saa edetä tiedoston lukemiseen, mikäli tiedoston avaaminen ylempänä epäonnistui.
         
         // Luetaan XML-tiedosto ja ladataan tarvittavat arvot muistiin
         if (hud != null) {

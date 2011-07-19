@@ -19,10 +19,6 @@ import android.media.AudioManager;
  */
 public class GameActivity extends Activity
 {
-    /* Pelitilat */
-    public static final int SURVIVAL_MODE = 1;
-    public static final int STORY_MODE    = 2;
-    
     /* Renderöijä ja OpenGL-pinta */
     private GLSurfaceView surfaceView;
     private GLRenderer    renderer;
@@ -114,19 +110,6 @@ public class GameActivity extends Activity
         super.onResume();
         
         surfaceView.onResume();
-        
-        // Pysäytetään säie
-        boolean retry = true;
-        gameThread.setRunning(false);
-        while (retry) {
-            try {
-                gameThread.join();
-                retry = false;
-            }
-            catch (InterruptedException e) {
-                // Yritetään uudelleen kunnes onnistuu
-            }
-        }
     }
     
     /**
@@ -214,12 +197,13 @@ public class GameActivity extends Activity
 	public boolean onKeyDown(int _keyCode, KeyEvent _event)
 	{
 		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+			gameThread.setRunning(false); // TODO: Wat..?
 	        Intent i_pausemenu = new Intent(this, PauseMenuActivity.class);
-	        startActivity(i_pausemenu);
-	        return true;
+	        startActivityIfNeeded(i_pausemenu, 1);
+			return true;
 	    }
-		
 		else if (_keyCode == KeyEvent.KEYCODE_HOME && _event.getRepeatCount() == 0) {
+			gameThread.setRunning(false); // TODO: Wat..?
 			Intent i_mainmenu = new Intent(this, MainActivity.class);
 			startActivity(i_mainmenu);
 			finish();
@@ -237,5 +221,18 @@ public class GameActivity extends Activity
 	    }
 		
 	    return inputController.handleKeyUp(_keyCode, _event); 
+	}
+	
+	@Override
+	protected void onActivityResult(int _requestCode, int _resultCode, Intent _data)
+	{
+		super.onActivityResult(_requestCode, _resultCode, _data);
+		
+		if (_resultCode == RESULT_CANCELED) {
+			finish();
+		}
+		else {
+	        gameThread.setRunning(true);
+		}
 	}
 }

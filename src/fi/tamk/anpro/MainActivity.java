@@ -165,12 +165,14 @@ public class MainActivity extends Activity implements OnClickListener
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
                 startActivity(i_game);
+                finish();
                 break;
                 
             case R.id.button_highscores:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_highscores = new Intent(this, HighScoresActivity.class);
                 startActivity(i_highscores);
+                finish();
                 break;
                 
             case R.id.button_help:
