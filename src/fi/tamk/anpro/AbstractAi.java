@@ -96,6 +96,7 @@ abstract public class AbstractAi
     /**
      * Tarkistaa törmäyksen pelaajan kanssa.
      */
+    // TODO: Siirrä tämä Enemy-luokkaan.
     protected final void checkCollisionWithPlayer()
     {
     	// Tarkistetaan, onko vihollisen ja pelaajan välinen etäisyys riittävän pieni
