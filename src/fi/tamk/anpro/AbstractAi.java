@@ -106,6 +106,8 @@ abstract public class AbstractAi
     	if (Math.abs(wrapper.player.x - wrapper.enemies.get(parentId).x) <= Wrapper.gridSize) {
         	if (Math.abs(wrapper.player.y - wrapper.enemies.get(parentId).y) <= Wrapper.gridSize) {
         
+        		wrapper.player.outOfBattleTime = android.os.SystemClock.uptimeMillis();
+        		
         		// Tarkistetaan törmäys
         		if (Utility.isColliding(wrapper.enemies.get(parentId), wrapper.player)) {
         			wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);

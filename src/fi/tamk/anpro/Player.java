@@ -155,8 +155,6 @@ public class Player extends GameObject
     public final void triggerCollision(int _damage, int _armorPiercing)
     {
         VibrateManager.vibrateOnHit();
-        
-        outOfBattleTime = android.os.SystemClock.uptimeMillis();
     	
         if (currentArmor > 0) {
         	EffectManager.showPlayerArmorEffect(this);
