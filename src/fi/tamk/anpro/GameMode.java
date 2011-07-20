@@ -143,9 +143,6 @@ public class GameMode
         
         // Luetaan pelitilan tiedot
         reader.readGameMode(this, _weaponManager);
-        
-        // Luodaan tähtitausta
-        generateStarBackground();
 
         // Luodaan "pelikenttä" (objektit ja vihollisten spawnpointit)
         generateMap();
@@ -438,16 +435,6 @@ public class GameMode
 				asteroids[i].y = asteroids[i].y * (-1) + 100 ;
 			}
 		}
-	}
-
-	/**
-	 * Luo pelikentän taustatähdet.
-	 */
-	private void generateStarBackground()
-    {
-    	for (int i = 0; i < 15; ++i) {
-    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
-    	}
 	}
 
 	/**

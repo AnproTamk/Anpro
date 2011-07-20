@@ -44,13 +44,8 @@ public class EffectObject extends GameObject
 		wrapper = Wrapper.getInstance();
 		
 		direction = 90;
-		
-		if (_effectGroup == EffectManager.TYPE_BACK_EFFECT) {
-			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_BACKEFFECT, 0);
-		}
-		else if (_effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
-			listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_FRONTEFFECT, 0);
-		}
+
+		wrapper.addToDrawables(this);
 	}
 	
 	/**
@@ -128,13 +123,8 @@ public class EffectObject extends GameObject
     public final void setActive()
     {
 		activated = true;
-		
-		if (effectGroup == EffectManager.TYPE_BACK_EFFECT) {
-			wrapper.backEffectStates.set(listId, Wrapper.FULL_ACTIVITY);
-		}
-		else if (effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
-			wrapper.frontEffectStates.set(listId, Wrapper.FULL_ACTIVITY);
-		}
+
+		state = Wrapper.FULL_ACTIVITY;
     }
 
     /**
@@ -144,13 +134,8 @@ public class EffectObject extends GameObject
     public final void setUnactive()
     {
     	activated = false;
-		
-		if (effectGroup == EffectManager.TYPE_BACK_EFFECT) {
-			wrapper.backEffectStates.set(listId, Wrapper.INACTIVE);
-		}
-		else if (effectGroup == EffectManager.TYPE_FRONT_EFFECT) {
-			wrapper.frontEffectStates.set(listId, Wrapper.INACTIVE);
-		}
+
+		state = Wrapper.INACTIVE;
     }
     
     /**

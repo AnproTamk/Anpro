@@ -14,7 +14,7 @@ public class Mothership extends GameObject
 		wrapper = Wrapper.getInstance();
 		
 		// Lis‰t‰‰n emoalus piirtolistalle
-		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_MOTHERSHIP, 0); // T‰rkeydell‰ ei v‰li‰, vakiona aina 2
+		wrapper.addToDrawables(this);
 		
 
 	    
@@ -26,10 +26,6 @@ public class Mothership extends GameObject
                 animationLength[i] = GLRenderer.mothershipAnimations[i].length;
             }
         }
-		
-        /*// K‰ynnistet‰‰n animaatio
-		usedAnimation  = 0;
-		animationSpeed = 2;*/
 	}
 
 	@Override

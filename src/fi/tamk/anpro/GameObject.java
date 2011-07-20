@@ -38,6 +38,9 @@ abstract public class GameObject extends GfxObject
     /* Törmäystunnistus */
     protected int collisionRadius = 0;
     
+    /* Törmäysvahinko */
+    public int collisionDamage = 0;
+    
     /* Lineaarinen liike */
     protected int movementSpeed;            // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
     protected int movementDelay;            // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys

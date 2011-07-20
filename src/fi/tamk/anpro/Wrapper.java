@@ -10,7 +10,7 @@ public class Wrapper
 {
     /* Osoitin t‰h‰n luokkaan (singleton-toimintoa varten) */
     private static Wrapper instance = null;
-    
+
     /* Vakioita */
     // Luokan tyyppi (k‰ytet‰‰n myˆs aseissa ja ammuksissa)
     public static final int CLASS_TYPE_PLAYER         = 1;
@@ -24,108 +24,60 @@ public class Wrapper
     public static final int CLASS_TYPE_COLLECTABLE    = 8;
     public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
     public static final int CLASS_TYPE_MOTHERSHIP     = 10;
-    
+
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
     public static final int FULL_ACTIVITY          = 1;
     public static final int ONLY_ANIMATION         = 2;
     public static final int ANIMATION_AND_MOVEMENT = 3;
-    
-    /* Piirto- ja p‰ivityslistat */
-    public Player                        player       = null;
-    public ArrayList<Ally>               allies       = null;
-    public ArrayList<Enemy>              enemies      = null;
-    public ArrayList<AbstractProjectile> projectiles  = null;
-    public ArrayList<GuiObject> 		 guiObjects   = null;
-    public ArrayList<Obstacle>  		 obstacles    = null;
-    public ArrayList<EffectObject> 	     backEffects  = null;
-    public ArrayList<EffectObject> 	     frontEffects = null;
-    public ArrayList<Message>            messages     = null;
-    public ArrayList<Collectable> 	     collectables = null;
-    
-    public ArrayList<BackgroundStar> backgroundStars = null;
-    
-    public Mothership mothership = null;
 
-    /* Peliobjektien tilat */
-    public int                playerState       = 0;
-    public ArrayList<Integer> allyStates        = null;
-    public ArrayList<Integer> enemyStates       = null;
-    public ArrayList<Integer> projectileStates  = null;
-    public ArrayList<Integer> guiObjectStates   = null;
-    public ArrayList<Integer> obstacleStates    = null;
-    public ArrayList<Integer> backEffectStates  = null;
-    public ArrayList<Integer> frontEffectStates = null;
-    public ArrayList<Integer> collectableStates = null;
-    public ArrayList<Integer> messageStates     = null;
+    /* Piirtolista ja linkityslista */
+    public ArrayList<GfxObject> drawables   = null;
+    public ArrayList<AiObject>  aiGroupOne  = null;
+    public ArrayList<AiObject> aiGroupTwo   = null;
+    public ArrayList<AiObject> aiGroupThree = null;
 
-    /* Peliobjektien teko‰lyjen tasot. N‰iden taulukoiden arvot viittaavat
-       piirtolistojen soluihin. N‰it‰ kutsutaan ainoastaan GameThreadin
-       p‰‰silmukassa ja niill‰ pyrit‰‰n nopeuttamaan teko‰lyjen p‰ivitt‰mist‰. */
-    public ArrayList<Integer> priorityOneAllies   = null;
-    public ArrayList<Integer> priorityTwoAllies   = null;
-    public ArrayList<Integer> priorityThreeAllies = null;
-    public ArrayList<Integer> priorityFourAllies  = null;
-    
-    public ArrayList<Integer> priorityOneEnemies   = null;
-    public ArrayList<Integer> priorityTwoEnemies   = null;
-    public ArrayList<Integer> priorityThreeEnemies = null;
-    public ArrayList<Integer> priorityFourEnemies  = null;
-    
-    public ArrayList<Integer> priorityOneProjectiles   = null;
-    public ArrayList<Integer> priorityTwoProjectiles   = null;
-    public ArrayList<Integer> priorityThreeProjectiles = null;
-    public ArrayList<Integer> priorityFourProjectiles  = null;
-    
+    public Player                        player          = null;
+    public Mothership 					 mothership      = null;
+    public ArrayList<Ally>               allies          = null;
+    public ArrayList<Enemy>              enemies         = null;
+    public ArrayList<AbstractProjectile> projectiles     = null;
+    //public ArrayList<GuiObject> 		 guiObjects      = null;
+    public ArrayList<Obstacle>  		 obstacles       = null;
+    //public ArrayList<EffectObject> 	     backEffects     = null;
+    //public ArrayList<EffectObject> 	     frontEffects    = null;
+    //public ArrayList<Message>            messages        = null;
+    public ArrayList<Collectable> 	     collectables    = null;
+    //public ArrayList<BackgroundStar>     backgroundStars = null;
+
     /* Osumatarkistuksen ruudukon yhden ruudun leveys/korkeus */
     public static int gridSize;
-    
+
     /**
      * Alustaa luokan muuttujat ja m‰‰rittelee osumatarkistuksissa k‰ytett‰v‰n
      * ruudukon koon.
      */
     private Wrapper()
     {
-    	// Lasketaan osumatarkistuksessa k‰ytett‰vien "ruutujen" koko
-    	gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 10);
-    	
-    	// Alustetaan taulukot
-        allies                   = new ArrayList<Ally>();
-        enemies                  = new ArrayList<Enemy>();
-        projectiles              = new ArrayList<AbstractProjectile>();
-        guiObjects               = new ArrayList<GuiObject>();
-        obstacles                = new ArrayList<Obstacle>();
-        backEffects              = new ArrayList<EffectObject>();
-        frontEffects             = new ArrayList<EffectObject>();
-        messages                 = new ArrayList<Message>();
-        collectables             = new ArrayList<Collectable>();
-        backgroundStars          = new ArrayList<BackgroundStar>();
-        allyStates               = new ArrayList<Integer>();
-        enemyStates              = new ArrayList<Integer>();
-        projectileStates         = new ArrayList<Integer>();
-        guiObjectStates          = new ArrayList<Integer>();
-        obstacleStates           = new ArrayList<Integer>();
-        backEffectStates         = new ArrayList<Integer>();
-        frontEffectStates        = new ArrayList<Integer>();
-        messageStates            = new ArrayList<Integer>();
-        collectableStates        = new ArrayList<Integer>();
-        priorityOneAllies        = new ArrayList<Integer>();
-        priorityTwoAllies        = new ArrayList<Integer>();
-        priorityThreeAllies      = new ArrayList<Integer>();
-        priorityFourAllies       = new ArrayList<Integer>();
-        priorityOneEnemies       = new ArrayList<Integer>();
-        priorityTwoEnemies       = new ArrayList<Integer>();
-        priorityThreeEnemies     = new ArrayList<Integer>();
-        priorityFourEnemies      = new ArrayList<Integer>();
-        priorityOneProjectiles   = new ArrayList<Integer>();
-        priorityTwoProjectiles   = new ArrayList<Integer>();
-        priorityThreeProjectiles = new ArrayList<Integer>();
-        priorityFourProjectiles  = new ArrayList<Integer>();
+        // Lasketaan osumatarkistuksessa k‰ytett‰vien "ruutujen" koko
+        gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 10);
+
+        // Alustetaan taulukot
+        drawables    = new ArrayList<GfxObject>();
+        aiGroupOne   = new ArrayList<AiObject>();
+        aiGroupTwo   = new ArrayList<AiObject>();
+        aiGroupThree = new ArrayList<AiObject>();
+        
+        allies       = new ArrayList<Ally>();
+        enemies      = new ArrayList<Enemy>();
+        projectiles  = new ArrayList<AbstractProjectile>();
+        obstacles    = new ArrayList<Obstacle>();
+        collectables = new ArrayList<Collectable>();
     }
-    
+
     /**
      * Palauttaa osoittimen t‰h‰n luokkaan.
-     * 
+     *
      * @return Osoitin t‰h‰n luokkaan
      */
     synchronized public static Wrapper getInstance()
@@ -133,18 +85,18 @@ public class Wrapper
         if(instance == null) {
             instance = new Wrapper();
         }
-        
+
         return instance;
     }
-    
+
     synchronized public static void destroy()
     {
-    	instance = null;
+        instance = null;
     }
-    
+
     /**
      * Lis‰‰ parametrina annetun luokan piirtolistalle ja tallentaa objektin tilan.
-     * 
+     *
      * Objektin t‰rkeys m‰‰ritet‰‰n seuraavasti:
      * 		-------------------------------------
      * 		| TƒRKEYS | TEKOƒLYN PƒIVITYSTIHEYS |
@@ -155,131 +107,83 @@ public class Wrapper
      * 		|    3    |         100 ms          |
      * 		|    4    |          50 ms          |
      * 		-------------------------------------
-     * 
+     *
      * Objektin t‰rkeys k‰ytet‰‰n ainoastaan kertomaan pelis‰ikeelle (GameThread) aika,
      * joka sen on odotettava jokaisen p‰ivityksen v‰lill‰. Objektit lis‰t‰‰n t‰rkeyslistoihin
      * niiden t‰rkeyden mukaan, joita pelis‰ie lukee. T‰ll‰ pyrit‰‰n v‰ltt‰m‰‰n kaikkien
      * objektien l‰pi k‰yminen, vaikka haluttaisiin p‰ivitt‰‰ vain kriittisimm‰t.
-     * 
+     *
      * @param Object Lis‰tt‰v‰ objekti
      * @param int    Lis‰tt‰v‰n objektin tyyppi
      * @param int    Objektin t‰rkeys (m‰‰ritt‰‰ teko‰lyn p‰ivitysnopeuden)
-     * 
+     *
      * @return int Lis‰tyn objektin tunnus piirtolistalla
      */
-    public final int addToList(Object _object, int _classType, int _priority)
+    public final void addToDrawables(GfxObject _object)
     {
-        if (_classType == CLASS_TYPE_PLAYER) {
-            player      = (Player)_object;
-            playerState = 1;
-        }
-        else if (_classType == CLASS_TYPE_ALLY) {
-            allies.add((Ally)_object);
-            allyStates.add(0);
-            
-            if (_priority == 1) {
-                priorityOneAllies.add(allyStates.size()-1);
-            }
-            else if (_priority == 2) {
-                priorityTwoAllies.add(allyStates.size()-1);
-            }
-            else if (_priority == 3) {
-                priorityThreeAllies.add(allyStates.size()-1);
-            }
-            else if (_priority == 4) {
-                priorityFourAllies.add(allyStates.size()-1);
-            }
+        drawables.add(_object);
 
-            return allyStates.size()-1;
+        if (_object instanceof Player) {
+            player = (Player) _object;
         }
-        else if (_classType == CLASS_TYPE_ENEMY) {
-            enemies.add((Enemy)_object);
-            enemyStates.add(0);
-            
-            if (_priority == 1) {
-                priorityOneEnemies.add(enemyStates.size()-1);
-            }
-            else if (_priority == 2) {
-                priorityTwoEnemies.add(enemyStates.size()-1);
-            }
-            else if (_priority == 3) {
-                priorityThreeEnemies.add(enemyStates.size()-1);
-            }
-            else if (_priority == 4) {
-                priorityFourEnemies.add(enemyStates.size()-1);
-            }
+        else if (_object instanceof Enemy) {
+            enemies.add((Enemy) _object);
+        }
+        else if (_object instanceof Ally) {
+            allies.add((Ally) _object);
+        }
+        else if (_object instanceof Mothership) {
+            mothership = (Mothership) _object;
+        }
+        else if (_object instanceof AbstractProjectile) {
+            projectiles.add((AbstractProjectile) _object);
+        }
+        else if (_object instanceof Obstacle) {
+            obstacles.add((Obstacle) _object);
+        }
+        else if (_object instanceof Collectable) {
+            collectables.add((Collectable) _object);
+        }
+    }
 
-            return enemyStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_PROJECTILE) {
-            projectiles.add((AbstractProjectile)_object);
-            projectileStates.add(0);
-            
-            if (_priority == 1) {
-                priorityOneProjectiles.add(projectileStates.size()-1);
-            }
-            else if (_priority == 2) {
-                priorityTwoProjectiles.add(projectileStates.size()-1);
-            }
-            else if (_priority == 3) {
-                priorityThreeProjectiles.add(projectileStates.size()-1);
-            }
-            else if (_priority == 4) {
-                priorityFourProjectiles.add(projectileStates.size()-1);
-            }
+    public final void sortDrawables()
+    {
+        GfxObject temp1;
+        Integer   temp2;
 
-            return projectileStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_GUI) {
-            guiObjects.add((GuiObject)_object);
-            
-            if (_object instanceof Message) {
-            	messages.add((Message)_object);
-            	messageStates.add(0);
-            	
-            	guiObjectStates.add(0);
-            }
-            else {
-            	guiObjectStates.add(1);
-            }
+        for (int i = drawables.size()-1; i >= 1; --i) {
+            for (int j = drawables.size()-1; j >= 1; --j) {
+                if (drawables.get(j).z > drawables.get(j-1).z) {
 
-            return guiObjectStates.size()-1;
+                    temp1 = drawables.get(j);
+                    drawables.set(j, drawables.get(j-1));
+                    drawables.set(j-1, temp1);
+                }
+            }
         }
-        else if (_classType == CLASS_TYPE_OBSTACLE) {
-        	obstacles.add((Obstacle)_object);
-        	obstacleStates.add(1);
-        	
-        	return obstacleStates.size()-1;
+    }
+
+    public final void generateAiGroups()
+    {
+    	// TODO: Optimoi.
+    	
+        for (Object object : drawables) {
+        	try {
+	        	object.getClass().getField("aiPriority");
+	        	if (((AiObject)object).aiPriority == 1) {
+	        		aiGroupOne.add((AiObject)object);
+	        	}
+	        	else if (((AiObject)object).aiPriority == 2) {
+	        		aiGroupTwo.add((AiObject)object);
+	        	}
+	        	else if (((AiObject)object).aiPriority == 3) {
+	        		aiGroupThree.add((AiObject)object);
+	        	}
+        	}
+        	catch (NoSuchFieldException e) {
+        		// Luokasta ei lˆytynyt aiPriority-muuttujaa.
+        		// Siirryt‰‰n seuraavaan luokkaan.
+        	}
         }
-        else if (_classType == CLASS_TYPE_BACKEFFECT) {
-        	backEffects.add((EffectObject)_object);
-        	backEffectStates.add(1);
-        	
-        	return backEffectStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_FRONTEFFECT) {
-        	frontEffects.add((EffectObject)_object);
-        	frontEffectStates.add(1);
-        	
-        	return frontEffectStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_COLLECTABLE) {
-        	collectables.add((Collectable)_object);
-        	collectableStates.add(1);
-        	
-        	return collectableStates.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_BACKGROUNDSTAR) {
-        	backgroundStars.add((BackgroundStar)_object);
-        	// Tila aina 1
-        	
-        	return backgroundStars.size()-1;
-        }
-        else if (_classType == CLASS_TYPE_MOTHERSHIP) {
-        	mothership = (Mothership)_object;
-        	// Tila aina 1
-        }
-        
-        return 0;
     }
 }

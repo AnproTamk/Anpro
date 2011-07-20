@@ -7,7 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
  * 
  * @extends GameObject
  */
-abstract public class AbstractProjectile extends GameObject
+abstract public class AbstractProjectile extends AiObject
 {
     /* Ammusten toimintatavat */
     public static final int MULTIPLY_ON_TIMER = 1; // TODO: Totetutus puuttuu
@@ -54,9 +54,6 @@ abstract public class AbstractProjectile extends GameObject
     /* Ammuksen tila */
     public    boolean active = false; // Aktiivisuusmuuttuja aseluokkia varten
     protected int     userType;		  // Ammuksen käyttäjän tyyppi
-    
-    /* Ammuksen tekoäly */
-    protected AbstractAi ai;
 
     /**
      * Alustaa luokan muuttujat ja lisää ammuksen piirtolistalle.
@@ -68,6 +65,8 @@ abstract public class AbstractProjectile extends GameObject
     {
         super(15); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
         
+        state = Wrapper.INACTIVE;
+        
         // Tallenne taan käyttäjän tyyppi
         userType = _userType;
         
@@ -75,17 +74,15 @@ abstract public class AbstractProjectile extends GameObject
         wrapper = Wrapper.getInstance();
         
         // Lisätään ammus piirtolistalle ja ladataan tekoäly
+        wrapper.addToDrawables(this);
         if (_ai == AbstractAi.NO_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 1);
         	ai = null;
         }
         else if (_ai == AbstractAi.LINEAR_PROJECTILE_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 1);
-        	ai = new LinearProjectileAi(listId, _userType);
+        	ai = new LinearProjectileAi(this, _userType);
         }
         else if (_ai == AbstractAi.TRACKING_PROJECTILE_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_PROJECTILE, 4);
-        	ai = new TrackingProjectileAi(listId, _userType);
+        	ai = new TrackingProjectileAi(this, _userType);
         }
     }
     
@@ -95,7 +92,7 @@ abstract public class AbstractProjectile extends GameObject
     @Override
     final public void setActive()
     {
-        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         active = true;
     }
     
@@ -105,7 +102,7 @@ abstract public class AbstractProjectile extends GameObject
     @Override
     final public void setUnactive()
     {
-        wrapper.projectileStates.set(listId, Wrapper.INACTIVE);
+        state = Wrapper.INACTIVE;
         active = false;
         
         if (ai != null) {
@@ -163,7 +160,7 @@ abstract public class AbstractProjectile extends GameObject
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
-        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         active = true;
         if (ai != null) {
         	ai.setActive(_targetX, _targetY);
@@ -208,7 +205,7 @@ abstract public class AbstractProjectile extends GameObject
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
-        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         active = true;
         if (ai != null) {
         	ai.setActive(_direction);
@@ -250,7 +247,7 @@ abstract public class AbstractProjectile extends GameObject
         explodeOnTarget = _explodeOnTarget;
         
         // Aktivoidaan ammus
-        wrapper.projectileStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         active = true;
         ai.setActive(_path);
         
@@ -282,7 +279,7 @@ abstract public class AbstractProjectile extends GameObject
 	        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
 	            
 	            // Tarkistetaan, onko vihollinen aktiivinen
-	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	            if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
 	            	
 	            	// Tarkistetaan, onko ammuksen ja vihollisen välinen etäisyys riittävän pieni
 	            	// tarkkoja osumatarkistuksia varten
@@ -293,7 +290,7 @@ abstract public class AbstractProjectile extends GameObject
 			        		if (Utility.isColliding(wrapper.enemies.get(i), this)) {
 			        			
 			        			// Asetetaan tila
-			                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+			                    state = Wrapper.ONLY_ANIMATION;
 
 				                // Aiheutetaan osuma
 			                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
@@ -337,7 +334,7 @@ abstract public class AbstractProjectile extends GameObject
     	else if(userType == Wrapper.CLASS_TYPE_ENEMY) {
     		
     		// Tarkistetaan osumat pelaajaan
-    		if(wrapper.playerState == Wrapper.FULL_ACTIVITY) {
+    		if(wrapper.player.state == Wrapper.FULL_ACTIVITY) {
     			
     			// Tarkistetaan, onko ammuksen ja pelaajan välinen etäisyys riittävän pieni
             	// tarkkoja osumatarkistuksia varten
@@ -348,7 +345,7 @@ abstract public class AbstractProjectile extends GameObject
 	            		double distance = Utility.getDistance(x, y, wrapper.player.x, wrapper.player.y);
 	            		
 	            		if (distance - wrapper.player.collisionRadius - collisionRadius <= 0) {
-		                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+		                    state = Wrapper.ONLY_ANIMATION;
 		                    
 		                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
 		                        wrapper.player.triggerCollision(COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
@@ -379,7 +376,7 @@ abstract public class AbstractProjectile extends GameObject
     		
     		// Tarkistetaan osumat pelaajaan
 	        for (int i = wrapper.allies.size()-1; i >= 0; --i) {
-	    		if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    		if (wrapper.allies.get(i).state == Wrapper.FULL_ACTIVITY) {
 	            	
 	            	// Tarkistetaan, onko ammuksen ja vihollisen välinen etäisyys riittävän pieni
 	            	// tarkkoja osumatarkistuksia varten
@@ -390,7 +387,7 @@ abstract public class AbstractProjectile extends GameObject
 			        		if (Utility.isColliding(wrapper.allies.get(i), this)) {
 			        			
 			        			// Asetetaan tila
-			                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+			                    state = Wrapper.ONLY_ANIMATION;
 	
 				                // Aiheutetaan osuma
 			                    if (damageType == DAMAGE_ON_TOUCH) {
@@ -431,7 +428,7 @@ abstract public class AbstractProjectile extends GameObject
             currentTime = android.os.SystemClock.uptimeMillis();
 
             if (currentTime - startTime >= explodeTime) {
-                wrapper.projectileStates.set(listId, 2);
+                state = Wrapper.ONLY_ANIMATION;
 
                 triggerExplosion();
             }
@@ -511,7 +508,7 @@ abstract public class AbstractProjectile extends GameObject
 			EffectManager.showExplosionEffect(x, y);
 		}
 		
-    	wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
+    	state = Wrapper.ONLY_ANIMATION;
     	
         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
@@ -526,7 +523,7 @@ abstract public class AbstractProjectile extends GameObject
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size() - 1; i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY || wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+            if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY || wrapper.enemies.get(i).state == Wrapper.ANIMATION_AND_MOVEMENT) {
                 int distance = (int) Math.sqrt(Math.pow(x - wrapper.enemies.get(i).x, 2) + Math.pow(y - wrapper.enemies.get(i).y, 2));
 
                 if (distance - wrapper.enemies.get(i).collisionRadius - explosionRadius <= 0) {

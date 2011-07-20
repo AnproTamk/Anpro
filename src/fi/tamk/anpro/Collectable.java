@@ -45,7 +45,7 @@ public class Collectable extends GameObject
         }
 
 		// Lis‰t‰‰n objekti piirtolistalle
-		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_COLLECTABLE, 0);
+		wrapper.addToDrawables(this);
 	}
     
     /**
@@ -71,7 +71,7 @@ public class Collectable extends GameObject
 	@Override
 	public void setActive()
 	{
-		wrapper.collectableStates.set(listId, Wrapper.FULL_ACTIVITY);
+		state = Wrapper.FULL_ACTIVITY;
 		
 		boolean isPlaced = false;
 		
@@ -95,7 +95,7 @@ public class Collectable extends GameObject
 	@Override
 	public void setUnactive()
 	{
-		wrapper.collectableStates.set(listId, Wrapper.INACTIVE);
+		state = Wrapper.INACTIVE;
 	}
 
     /**
@@ -109,7 +109,7 @@ public class Collectable extends GameObject
     {
     	GameMode.updateScore(COLLECTABLE_RANK, x, y);
     	
-    	wrapper.collectableStates.set(listId, Wrapper.ONLY_ANIMATION);
+    	state = Wrapper.ONLY_ANIMATION;
     	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     }
 

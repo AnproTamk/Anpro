@@ -22,9 +22,9 @@ public class SquigglyAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public SquigglyAi(int _id, int _type, WeaponManager _weaponManager) 
+	public SquigglyAi(AiObject _parentObject, int _userType, WeaponManager _weaponManager) 
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 		
 		weaponManager = _weaponManager;
 	}
@@ -36,22 +36,22 @@ public class SquigglyAi extends AbstractAi
     public final void handleAi()
 	{ 
 		// Jos vihollinen on kaukana pelaajasta, k‰ytet‰‰n v‰liaikaisesti LinearAi:n kaltaista toimintaa kunnes ollaan tarpeeksi l‰hell‰ pelaajaa
-		double distance = Utility.getDistance(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+		double distance = Utility.getDistance(parentObject.x, parentObject.y, wrapper.player.x, wrapper.player.y);
 		
 		if(distance > 500) {
 			
-			double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+			double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y,(int) wrapper.player.x,(int) wrapper.player.y);
 			
-			wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+			parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
 		}
 		
 		else {
 			
 			// M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
-			double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+			double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, (int) wrapper.player.x,(int) wrapper.player.y);
 	    	
 			// Vihollisen lentosuunta on samalla sen ammuntasuunta
-			shootingAngle = wrapper.enemies.get(parentId).direction;
+			shootingAngle = parentObject.direction;
 			
 			if(lastDirectionUpdate == 0) {
 				
@@ -59,11 +59,11 @@ public class SquigglyAi extends AbstractAi
 				
 				
 				/* M‰‰ritet‰‰n k‰‰ntymissuunta */
-				wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+				parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
 				
 				// Suoritetaan ampuminen
 		    		lastShootingTime = android.os.SystemClock.uptimeMillis();
-		    		weaponManager.triggerEnemyShootForward(shootingAngle, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
+		    		weaponManager.triggerEnemyShootForward(shootingAngle, parentObject.x, parentObject.y, WeaponManager.ENEMY_SPITFIRE);
 			}
 			
 			else {
@@ -71,22 +71,22 @@ public class SquigglyAi extends AbstractAi
 		        	
 		        if (currentTime - lastShootingTime >= 200) {
 	        		lastShootingTime = currentTime;
-	        		weaponManager.triggerEnemyShootForward(shootingAngle, wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, WeaponManager.ENEMY_SPITFIRE);
+	        		weaponManager.triggerEnemyShootForward(shootingAngle, parentObject.x, parentObject.y, WeaponManager.ENEMY_SPITFIRE);
 	        	}
 				
 				if(currentTime - lastDirectionUpdate >= 1500 && currentTime - lastDirectionUpdate < 2000) {
 					
-					wrapper.enemies.get(parentId).turningDirection = 1;
+					parentObject.turningDirection = 1;
 				}
 				
 				else if(currentTime - lastDirectionUpdate >= 2000 && currentTime - lastDirectionUpdate < 2500) {
 					
-					wrapper.enemies.get(parentId).turningDirection = 0;
+					parentObject.turningDirection = 0;
 				}
 				
 				else if(currentTime - lastDirectionUpdate >= 2500 && currentTime - lastDirectionUpdate < 3000) {
 					
-					wrapper.enemies.get(parentId).turningDirection = 2;
+					parentObject.turningDirection = 2;
 				}
 				
 				else if(currentTime - lastDirectionUpdate >= 3000)
@@ -99,7 +99,7 @@ public class SquigglyAi extends AbstractAi
 //					double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
 		    	
 					/* M‰‰ritet‰‰n k‰‰ntymissuunta */
-					wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+					parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
 				}
 			}
 		}

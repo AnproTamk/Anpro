@@ -12,7 +12,7 @@ public class Message extends GuiObject
 	private long startTime;
 	
 	// Kierron suunta
-	private byte state;				 // M‰‰ritt‰‰ objektin tilan
+	private byte messageState;				 // M‰‰ritt‰‰ objektin tilan
 	private byte TURN_VISIBLE   = 1; // K‰‰nt‰‰ objektin n‰kyv‰ksi
 	private byte STAY_STILL   = 2; // Pit‰‰ objektin n‰kyviss‰
 	private byte TURN_INVISIBLE = 3; // K‰‰nt‰‰ objektin n‰kym‰ttˆm‰ksi
@@ -42,14 +42,13 @@ public class Message extends GuiObject
 		
 		// Asetetaan pois n‰kyvist‰
 		wrapper = Wrapper.getInstance();
-		wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
-		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
+		
+		state = Wrapper.INACTIVE;
 	}
 	
 	public final void activate()
 	{
-		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
-		wrapper.messageStates.set(messageType, Wrapper.FULL_ACTIVITY);
+		state = Wrapper.FULL_ACTIVITY;
 		
 		yAxisRotation = 90.0f;
 		
@@ -58,31 +57,31 @@ public class Message extends GuiObject
 	
 	public final void updateAngle()
 	{
-		if (state == TURN_VISIBLE) {
+		if (messageState == TURN_VISIBLE) {
 			yAxisRotation -= (0.1f + ((90 - yAxisRotation) * 0.45f));
 			
 			if (yAxisRotation <= 3.0f) {
 				
 				yAxisRotation = 0.0f;
-				state = STAY_STILL;
+				messageState = STAY_STILL;
 				startTime = android.os.SystemClock.uptimeMillis();
 				
 			}
 		}
-		else if (state == STAY_STILL) {
+		else if (messageState == STAY_STILL) {
 			if (android.os.SystemClock.uptimeMillis() - startTime >= showTime) {
 				
-				state = TURN_INVISIBLE;
+				messageState = TURN_INVISIBLE;
 			}
 		}
-		else if (state == TURN_INVISIBLE) {
+		else if (messageState == TURN_INVISIBLE) {
 			yAxisRotation += (0.1f + (yAxisRotation * 0.45f));
 
 			if (yAxisRotation >= 87.0f) {
 				yAxisRotation = 90.0f;
-				state = STAY_STILL;
-				wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
-				wrapper.messageStates.set(messageType, Wrapper.INACTIVE);
+				messageState = STAY_STILL;
+				
+				state = Wrapper.INACTIVE;
 			}
 		}
 	}

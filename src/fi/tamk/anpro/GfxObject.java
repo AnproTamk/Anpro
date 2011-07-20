@@ -14,12 +14,13 @@ abstract public class GfxObject
 	protected static final byte ACTION_ENABLED   = 2;
 	protected static final byte ACTION_RESPAWN   = 3;
     
-	/* Objektin tunnus Wrapperissa */
-    protected int listId;
+	/* Objektin tila */
+    public int state = Wrapper.FULL_ACTIVITY;
 	
     /* Objektin sijainti */
     public float x = 0;
     public float y = 0;
+    public float z = 0;
     
     /* Objektin suunta */
     public    int direction       = 0; // Liikkumissuunta (0 oikealle, 90 ylös)
@@ -130,7 +131,7 @@ abstract public class GfxObject
      * Päivittää animaation seuraavaan kuvaruutuun. Hallitsee myös toistokerrat
      * ja mahdollisen palautuksen vakiotekstuuriin (tunnus 0).
      */
-    public final void update()
+    public final void updateAnimation()
     {
     	if (usedAnimation != -1) {
     		// Tarkistetaan animaation tauotus

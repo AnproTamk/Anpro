@@ -14,9 +14,9 @@ public class LinearProjectileAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public LinearProjectileAi(int _id, int _type) 
+	public LinearProjectileAi(AiObject _parentObject, int _userType) 
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 	}
 
     /**
@@ -28,7 +28,7 @@ public class LinearProjectileAi extends AbstractAi
 	@Override
     public final void setActive(float _x, float _y)
     {
-		wrapper.projectiles.get(parentId).direction = setDirection(_x, _y);
+		parentObject.direction = setDirection(_x, _y);
 		
 		active = true;
     }

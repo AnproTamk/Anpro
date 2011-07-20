@@ -10,18 +10,12 @@ import android.util.Log;
  * 
  * @extends GameObject
  */
-public class Player extends GameObject
+public class Player extends AiObject
 {
     /* Osoittimet muihin luokkiin */
     private Wrapper  wrapper;
     private GameMode gameMode;
     private Hud      hud;
-    
-    /* Tekoäly */
-    public AbstractAi ai;
-    
-    /* Haluttu liikkumissuunta */
-    public int movementTargetDirection;
     
     /* Suojien palautumisen ajastin */
     public long outOfBattleTime = 0;
@@ -66,10 +60,10 @@ public class Player extends GameObject
         }
         
         // Lisätään pelaaja piirtolistalle ja määritetään tila
-        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, 4);
+        wrapper.addToDrawables(this);
         
         // Asetetaan pelaajan "tekoäly"
-        ai = new PlayerAi(0, Wrapper.CLASS_TYPE_PLAYER);
+        ai = new PlayerAi(this, Wrapper.CLASS_TYPE_PLAYER);
         
         // Asetetaan pelaajan asetukset
         setMovementSpeed(0.0f);
@@ -81,7 +75,7 @@ public class Player extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.playerState = Wrapper.FULL_ACTIVITY;
+        state = Wrapper.FULL_ACTIVITY;
     }
 
     /**
@@ -90,7 +84,7 @@ public class Player extends GameObject
     @Override
     public final void setUnactive()
     {
-        wrapper.playerState = Wrapper.INACTIVE;
+        state = Wrapper.INACTIVE;
     }
 
     /**
@@ -117,7 +111,7 @@ public class Player extends GameObject
     	/* Tarkistaa törmäykset kerättäviin esineiseen */
     	for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
     		
-    		if (wrapper.collectableStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    		if (wrapper.collectables.get(i).state == Wrapper.FULL_ACTIVITY) {
     		
 				if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
 		        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
@@ -173,12 +167,12 @@ public class Player extends GameObject
 	    hud.armorBar.updateValue(currentArmor);
 	    hud.healthBar.updateValue(currentHealth);
 	    
-	    if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
-	    	wrapper.playerState = Wrapper.ONLY_ANIMATION;
+	    if (currentHealth <= 0 && state == Wrapper.FULL_ACTIVITY) {
+	    	state = Wrapper.ONLY_ANIMATION;
 	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 	    }
 	    else if (_eventType == COLLISION_WITH_OBSTACLE) {
-    		wrapper.playerState = Wrapper.ONLY_ANIMATION;
+    		state = Wrapper.ONLY_ANIMATION;
     		
     		turningDirection = 0;
             
@@ -227,7 +221,7 @@ public class Player extends GameObject
         else if (actionId == ACTION_RESPAWN) {
         	setMovementSpeed(1.0f);
         	
-        	wrapper.playerState = Wrapper.FULL_ACTIVITY;
+        	state = Wrapper.FULL_ACTIVITY;
         }
     }
 }
