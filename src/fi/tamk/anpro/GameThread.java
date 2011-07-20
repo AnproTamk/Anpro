@@ -14,6 +14,17 @@ class GameThread extends Thread
     public boolean isRunning = false; // Onko s‰ie k‰ynniss‰?
     public boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
+    /* Pelin tila */
+    public static final int GAMESTATE_HIDE_MAINMENU     = 0;
+    public static final int GAMESTATE_LOADING_RESOURCES = 1;
+    public static final int GAMESTATE_STORY             = 2;
+    public static final int GAMESTATE_TUTORIALS         = 3;
+    public static final int GAMESTATE_STARTUP           = 4;
+    public static final int GAMESTATE_GAME              = 5;
+    
+    public  static byte gameState      = 0;
+    private        long gameStateTimer;
+    
     /* Tarvittavat luokat */
     private Wrapper       wrapper;
     private GameMode      gameMode;
@@ -38,11 +49,14 @@ class GameThread extends Thread
     private long lastGuideArrowUpdate;
     private long lastRadarUpdate;
     
+    private long currentTime;
+    
     /* Muille luokille v‰litett‰v‰t muuttujat (tallennetaan v‰liaikaisesti, sill‰ muut
        luokat voidaan luoda vasta kun renderˆij‰ on ladannut kaikki grafiikat) */
     private DisplayMetrics dm;
     private Context        context;
     private GameActivity   gameActivity;
+    private GLRenderer     renderer;
 
     /**
      * Alustaa luokan muuttujat ja luo pelitilan.
@@ -53,7 +67,7 @@ class GameThread extends Thread
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
-    				  WeaponManager _weaponManager, GLSurfaceView _surfaceView)
+    				  WeaponManager _weaponManager, GLRenderer _renderer, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
         
@@ -61,6 +75,7 @@ class GameThread extends Thread
         context 	  = _context;
         gameActivity  = _gameActivity;
         weaponManager = _weaponManager;
+        renderer      = _renderer;
         surfaceView   = _surfaceView;
     }
 
@@ -101,77 +116,112 @@ class GameThread extends Thread
     @Override
     public void run()
     {
-    	Log.e("TESTI", "run()");
-    	
-        /* Haetaan p‰ivityksille aloitusajat */
-        waveStartTime		   = android.os.SystemClock.uptimeMillis();
-        lastMovementUpdate     = waveStartTime;
-        lastAiUpdateStateOne   = waveStartTime;
-        lastAiUpdateStateTwo   = waveStartTime;
-        lastAiUpdateStateThree = waveStartTime;
-        lastAiUpdateStateFour  = waveStartTime;
-        lastCooldownUpdate     = waveStartTime;
-        lastGameModeUpdate	   = waveStartTime;
-        lastCollisionUpdate    = waveStartTime;
-        lastArmorUpdate		   = waveStartTime;
-        lastBoundCheck         = waveStartTime;
-        lastGuideArrowUpdate   = waveStartTime;
-        lastRadarUpdate        = waveStartTime;
-        
-        /* Suoritetaan s‰iett‰ kunnes se m‰‰ritet‰‰n pys‰ytett‰v‰ksi */
-        while (isRunning) {
-        	
-            // Haetaan t‰m‰nhetkinen aika
-            long currentTime = android.os.SystemClock.uptimeMillis();
-            
-            /* Tarkastetaan pelaajan sijainti pelikent‰ll‰ */
-            if (currentTime - lastBoundCheck >= 1500) {
-            	
-            	lastBoundCheck = currentTime;
-            	
-            	gameMode.checkBounds();            	
-            }
-            
-            /* P‰ivitet‰‰n objektien sijainnit niiden liikkeen mukaan (k‰sitell‰‰n
-               myˆs t‰htitaustan rajatarkistukset) */
-            if (currentTime - lastMovementUpdate >= 10) {
-                updateMovement(currentTime);
-                updateBackgroundStars();
-            }
-           
-            /* P‰ivitet‰‰n teko‰lyt */
-            if (wrapper.player != null) {
-            	updateAi(currentTime);
-            }
-            
-            /* Tarkistetaan tˆrm‰ykset */
-            checkCollisions(currentTime);
-            
-            /* P‰ivitet‰‰n efektien sijainnit */
-            updateEffectPositions();
-            
-            /* P‰ivitet‰‰n aseiden cooldownit */
-        	updateWeaponCooldowns(currentTime);
-            
-            /* Palautetaan osa pelaajan suojista */
-            recoverWeaponArmor(currentTime);
-            
-            /* P‰ivitet‰‰n vihollisaallot ja pelitila */
-            updateGameMode(currentTime);
-            
-            /* P‰ivitet‰‰n opastusnuolet */
-            updateGuideArrows(currentTime);
-            
-            /* P‰ivitet‰‰n tutka */
-            updateRadar(currentTime);
-
-            /* Hidastetaan s‰iett‰ pakottamalla se odottamaan 20 ms */
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    	while (isRunning) {
+    		
+    		if (gameState == GAMESTATE_HIDE_MAINMENU) {
+    			gameState = GAMESTATE_LOADING_RESOURCES;
+    		}
+    		else if (gameState == GAMESTATE_LOADING_RESOURCES) {
+	    		if (renderer.allLoaded) {
+	    			gameState = GAMESTATE_STORY;
+	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
+	    			initialize();
+	    		}
+	    	}
+	    	else if (gameState == GAMESTATE_STORY) {
+	    		currentTime = android.os.SystemClock.uptimeMillis();
+	    		if (currentTime - gameStateTimer >= 0) {
+	    			gameState = GAMESTATE_TUTORIALS;
+	    			gameStateTimer = currentTime;
+	    		}
+	    	}
+	    	else if (gameState == GAMESTATE_TUTORIALS) {
+	    		currentTime = android.os.SystemClock.uptimeMillis();
+	    		if (currentTime - gameStateTimer >= 0) {
+	    			gameState = GAMESTATE_STARTUP;
+	    			gameStateTimer = currentTime;
+	    		}
+	    	}
+	    	else if (gameState == GAMESTATE_STARTUP) {
+	    		currentTime = android.os.SystemClock.uptimeMillis();
+	    		if (currentTime - gameStateTimer >= 0) {
+	    			gameState = GAMESTATE_GAME;
+	    		}
+	    	}
+		    
+	    	while (gameState == GAMESTATE_GAME) {
+	    		
+		        /* Haetaan p‰ivityksille aloitusajat */
+		        waveStartTime		   = android.os.SystemClock.uptimeMillis();
+		        lastMovementUpdate     = waveStartTime;
+		        lastAiUpdateStateOne   = waveStartTime;
+		        lastAiUpdateStateTwo   = waveStartTime;
+		        lastAiUpdateStateThree = waveStartTime;
+		        lastAiUpdateStateFour  = waveStartTime;
+		        lastCooldownUpdate     = waveStartTime;
+		        lastGameModeUpdate	   = waveStartTime;
+		        lastCollisionUpdate    = waveStartTime;
+		        lastArmorUpdate		   = waveStartTime;
+		        lastBoundCheck         = waveStartTime;
+		        lastGuideArrowUpdate   = waveStartTime;
+		        lastRadarUpdate        = waveStartTime;
+		        
+		        /* Suoritetaan s‰iett‰ kunnes se m‰‰ritet‰‰n pys‰ytett‰v‰ksi */
+		        while (isRunning) {
+		        	
+		            // Haetaan t‰m‰nhetkinen aika
+		            currentTime = android.os.SystemClock.uptimeMillis();
+		            
+		            /* Tarkastetaan pelaajan sijainti pelikent‰ll‰ */
+		            if (currentTime - lastBoundCheck >= 1500) {
+		            	
+		            	lastBoundCheck = currentTime;
+		            	
+		            	gameMode.checkBounds();            	
+		            }
+		            
+		            /* P‰ivitet‰‰n objektien sijainnit niiden liikkeen mukaan (k‰sitell‰‰n
+		               myˆs t‰htitaustan rajatarkistukset) */
+		            if (currentTime - lastMovementUpdate >= 10) {
+		                updateMovement(currentTime);
+		                updateBackgroundStars();
+		            }
+		           
+		            /* P‰ivitet‰‰n teko‰lyt */
+		            if (wrapper.player != null) {
+		            	updateAi(currentTime);
+		            }
+		            
+		            /* Tarkistetaan tˆrm‰ykset */
+		            checkCollisions(currentTime);
+		            
+		            /* P‰ivitet‰‰n efektien sijainnit */
+		            updateEffectPositions();
+		            
+		            /* P‰ivitet‰‰n aseiden cooldownit */
+		        	updateWeaponCooldowns(currentTime);
+		            
+		            /* Palautetaan osa pelaajan suojista */
+		            recoverWeaponArmor(currentTime);
+		            
+		            /* P‰ivitet‰‰n vihollisaallot ja pelitila */
+		            updateGameMode(currentTime);
+		            
+		            /* P‰ivitet‰‰n opastusnuolet */
+		            updateGuideArrows(currentTime);
+		            
+		            /* P‰ivitet‰‰n tutka */
+		            updateRadar(currentTime);
+		
+		            /* Hidastetaan s‰iett‰ pakottamalla se odottamaan 20 ms */
+		            try {
+		                Thread.sleep(20);
+		            } catch (InterruptedException e) {
+		                e.printStackTrace();
+		            }
+		        }
+	    	}
+    	}
     }
 
     /**
