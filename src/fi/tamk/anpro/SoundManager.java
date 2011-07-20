@@ -37,15 +37,12 @@ public class SoundManager
 	
 	/**
 	 * Palauttaa osoittimen t‰h‰n luokkaan.
-	 * 
-	 * @return SoundManager Osoitin t‰h‰n luokkaan
 	 */
-	synchronized public static SoundManager getInstance()
+	synchronized public static void getInstance()
 	{
 		if (instance == null) {
 			instance = new SoundManager();
 		}
-		return instance;
 	}
 	
 	/**
@@ -55,15 +52,18 @@ public class SoundManager
 	 */
 	public static final void initSounds(Context _context)
 	{
-		context = _context;
+		if (soundPool == null) {
+			context = _context;
 		
-		// Ensimm‰inen argumentti(4) m‰‰ritt‰‰, kuinka monta ‰‰nt‰ voidaan toistaa samaan aikaan
-		soundPool    = new SoundPool(4, AudioManager.STREAM_MUSIC,0);
-		soundPoolMap = new HashMap<Integer, Integer>();
-		audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-		
-		// Ladataan ‰‰net
-		loadSounds();
+			// Ensimm‰inen argumentti(4) m‰‰ritt‰‰, kuinka monta ‰‰nt‰ voidaan toistaa samaan aikaan
+			soundPool    = new SoundPool(4, AudioManager.STREAM_MUSIC,0);
+			soundPoolMap = new HashMap<Integer, Integer>();
+			audioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+			
+			// Ladataan ‰‰net
+			loadSounds();
+		}
+
 	}
 	
 	/**
