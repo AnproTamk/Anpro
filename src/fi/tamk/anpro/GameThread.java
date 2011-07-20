@@ -22,8 +22,8 @@ class GameThread extends Thread
     public static final int GAMESTATE_STARTUP           = 4;
     public static final int GAMESTATE_GAME              = 5;
     
-    public  static byte gameState      = 0;
-    private        long gameStateTimer;
+    public  byte gameState      = 0;
+    private long gameStateTimer;
     
     /* Tarvittavat luokat */
     private Wrapper       wrapper;
@@ -94,9 +94,10 @@ class GameThread extends Thread
      */
     public void initialize()
     {
-    	// Luodaan EffectManager ja MessageManager
+    	// Luodaan manager-luokat
         EffectManager.getInstance();
         MessageManager.getInstance();
+        CameraManager.getInstance();
                 
         // Luodaan Hud ja TouchManager
         hud          = new Hud(context, weaponManager);

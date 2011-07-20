@@ -45,6 +45,11 @@ public class SoundManager
 		}
 	}
 	
+	synchronized public static void destroy()
+	{
+		instance = null;
+	}
+	
 	/**
 	 * Valmistelee s‰ilytyspaikan ‰‰nille.
 	 * 

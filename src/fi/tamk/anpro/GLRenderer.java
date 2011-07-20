@@ -58,7 +58,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
     public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
-    public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 11;
+    public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 12;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
@@ -181,6 +181,8 @@ public class GLRenderer implements Renderer
         
         // Ladataan tekstuurit
     	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1); // TODO: Outo paikka?
+    	
+    	loadTextures(_gl);
     }
 
     /**
@@ -228,41 +230,58 @@ public class GLRenderer implements Renderer
      */
     public void onDrawFrame(GL10 _gl)
     {
-        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
-        _gl.glClearColor(0, 0, 0, 0);
-        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-        
-        if (GameThread.gameState == GameThread.GAMESTATE_HIDE_MAINMENU) {
-        	// TODO: T‰m‰ vaihe on t‰ss‰ vain siksi, ett‰ ehditt‰isiin piirt‰m‰‰n
-        	// lataustekstuuri ennen lataamisen alkamista, joka est‰‰ onDrawFramea
-        	// p‰‰sem‰st‰ funktion loppuun. T‰h‰n pit‰‰ kehitell‰ jotain parempaa.
-            loadingTexture.draw(_gl, 0, 0, 90, 0);
-        }
-        else if (GameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
-            
-            if (!loadingStarted && !allLoaded) {
-            	loadingStarted = true;
-    	    	if (loadTextures(_gl)) {
-    	        	allLoaded = true;
-    	        }
-    	        else {
-    	            // TODO: K‰sittele virhe PAREMMIN
-    	        	System.exit(0);
-    	        }
-            }
-        }
-        else if (GameThread.gameState == GameThread.GAMESTATE_STORY) {
-        }
-        else if (GameThread.gameState == GameThread.GAMESTATE_TUTORIALS) {
-        }
-        else if (GameThread.gameState == GameThread.GAMESTATE_STARTUP) {
-        }
-        else if (GameThread.gameState == GameThread.GAMESTATE_GAME) {
-	        /* Tarkastetaan onko tekstuurit ladattu */
-	        if (allLoaded && gameThread.allLoaded) {
-	        	renderScene(_gl);
+    	/*if (reloadRequested) {
+    		loadTextures(_gl);
+    		reloadRequested = false;
+    	}*/
+    	
+    	if (gameThread != null) {
+	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
+	        _gl.glClearColor(0, 0, 0, 0);
+	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+	        
+	        if (gameThread.gameState == GameThread.GAMESTATE_HIDE_MAINMENU) {
+	        	// TODO: T‰m‰ vaihe on t‰ss‰ vain siksi, ett‰ ehditt‰isiin piirt‰m‰‰n
+	        	// lataustekstuuri ennen lataamisen alkamista, joka est‰‰ onDrawFramea
+	        	// p‰‰sem‰st‰ funktion loppuun. T‰h‰n pit‰‰ kehitell‰ jotain parempaa.
+	            loadingTexture.draw(_gl, 0, 0, 90, 0);
 	        }
-        }
+	        else if (gameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
+	            
+	            if (!loadingStarted && !allLoaded) {
+	            	loadingStarted = true;
+	            	allLoaded = true;
+	    	    	//if (loadTextures(_gl)) {
+	    	        //	allLoaded = true;
+	    	        //}
+	    	        //else {
+	    	        //    // TODO: K‰sittele virhe PAREMMIN
+	    	        //	System.exit(0);
+	    	        //}
+	            }
+	        }
+	        else if (gameThread.gameState == GameThread.GAMESTATE_STORY) {
+	        }
+	        else if (gameThread.gameState == GameThread.GAMESTATE_TUTORIALS) {
+	        }
+	        else if (gameThread.gameState == GameThread.GAMESTATE_STARTUP) {
+	        }
+	        else if (gameThread.gameState == GameThread.GAMESTATE_GAME) {
+		        /* Tarkastetaan onko tekstuurit ladattu */
+		        if (allLoaded && gameThread.allLoaded) {
+		        	renderScene(_gl);
+		        }
+	        }
+    	}
+    }
+    
+    /**
+     * 
+     */
+    private boolean reloadRequested = false;
+    public final void requestReloadOnResume()
+    {
+    	reloadRequested = true;
     }
 
     /**
@@ -270,7 +289,8 @@ public class GLRenderer implements Renderer
      * 
      * @param _gameThread Osoitin pelis‰ikeeseen
      */
-    public final void connectToGameThread(GameThread _gameThread) {
+    public final void connectToGameThread(GameThread _gameThread)
+    {
         gameThread = _gameThread;
     }
 
@@ -400,7 +420,8 @@ public class GLRenderer implements Renderer
         effectAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.combo5_effect_anim, 6);
         
         // J‰lkipoltto
-        effectAnimations[8] = new GLSpriteSet(_gl, context, R.drawable.trail_effect_anim, 1);
+        effectAnimations[8]  = new GLSpriteSet(_gl, context, R.drawable.playertrail_effect_anim, 1);
+        effectAnimations[11] = new GLSpriteSet(_gl, context, R.drawable.enemytrail_effect_anim, 1);
         
         // Armor-kilven v‰l‰hdys
         effectAnimations[9] = new GLSpriteSet(_gl, context, R.drawable.armor_hit_effect_anim, 3);

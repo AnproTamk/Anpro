@@ -98,7 +98,7 @@ public class EffectObject extends GameObject
 		
 		setActive();
 		
-		if (effectType == EffectManager.EFFECT_TRAIL) {
+		if (effectType == EffectManager.EFFECT_PLAYER_TRAIL || effectType == EffectManager.EFFECT_ENEMY_TRAIL) {
 			setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0, (byte)0, 150);
 		}
 		else {
