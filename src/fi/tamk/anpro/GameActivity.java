@@ -113,7 +113,7 @@ public class GameActivity extends Activity
         
         gameThread.setRunning(true);
         
-        if (!gameThread.isAlive()) {
+        if (gameThread.getState() == Thread.State.NEW) {
         	gameThread.start();
         }
     }
