@@ -29,6 +29,8 @@ public class Enemy extends AiObject
     {
         super(_speed);
         
+        state = Wrapper.INACTIVE;
+        
         // Tallennetaan tiedot
         health          = _health;
         currentHealth   = _health;

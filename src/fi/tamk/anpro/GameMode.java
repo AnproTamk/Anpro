@@ -53,6 +53,7 @@ public class GameMode
     protected        CameraManager camera;
     protected        GameActivity  gameActivity;
     private   static Hud		   hud;
+    private          Wrapper       wrapper;
     
     /* Pisteet ja combot */
     private static long score;
@@ -76,6 +77,8 @@ public class GameMode
     	// Tallennetaan osoitin peliaktiviteettiin ja hudiin
         gameActivity = _gameActivity;
         hud          = _hud;
+        
+        wrapper = Wrapper.getInstance();
         
         // Tallennetaan n‰ytˆn tiedot
         halfOfScreenWidth  = _dm.widthPixels;
@@ -188,56 +191,60 @@ public class GameMode
      */
     public void startWave()
     {
-        /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
-        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
-            currentWave = 0;
-            
-            // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
-            int rankTemp;
-            
-            for (int index = enemies.size()-1; index >= 0; --index) {
-                // Lasketaan uusi rank, k‰ytet‰‰n v‰liaikaismuuttujana rankTemppi‰
-            	if (enemies.get(index).rank <= 4) {
-	                rankTemp = enemies.get(index).rank;
-                    enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
-                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
-            	}
-            }
-        }
-        
-        /* Aktivoidaan viholliset */
-        int temp;
-        int tempRandA, tempRandB;
-        
-        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
-        	if (waves[currentWave][index] != -1) {
-	        	temp = waves[currentWave][index];
-	        	
-	        	tempRandA = Utility.getRandom(1, 8);
-	        	tempRandB = Utility.getRandom(0, 2);
-	        	
-	        	enemies.get(temp).setActive();
-	        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+    	if ((wrapper.player.x < -(Options.scaledScreenWidth / 2) || wrapper.player.x > (Options.scaledScreenWidth / 2)) &&
+    		(wrapper.player.y < -(Options.scaledScreenHeight / 2) || wrapper.player.y > (Options.scaledScreenHeight / 2))) {
+    		
+	        /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
+	        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
+	            currentWave = 0;
 	            
-	            // Eliminoidaan samasta spawnpontista spawnaaminen
-	            for(int i = 0; i <= enemies.size()-1; ++i) {
-	            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
-	            		
-	            		tempRandA = Utility.getRandom(1, 8);
-	    	        	tempRandB = Utility.getRandom(0, 2);
-	    	        	
-	            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-	    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+	            // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
+	            int rankTemp;
+	            
+	            for (int index = enemies.size()-1; index >= 0; --index) {
+	                // Lasketaan uusi rank, k‰ytet‰‰n v‰liaikaismuuttujana rankTemppi‰
+	            	if (enemies.get(index).rank <= 4) {
+		                rankTemp = enemies.get(index).rank;
+	                    enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
+	                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
 	            	}
 	            }
-	            
-	        	++enemiesLeft;
-        	}
-        }
-        
-        ++currentWave;
-        ++totalWaves;
+	        }
+	        
+	        /* Aktivoidaan viholliset */
+	        int temp;
+	        int tempRandA, tempRandB;
+	        
+	        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
+	        	if (waves[currentWave][index] != -1) {
+		        	temp = waves[currentWave][index];
+		        	
+		        	tempRandA = Utility.getRandom(1, 8);
+		        	tempRandB = Utility.getRandom(0, 2);
+		        	
+		        	enemies.get(temp).setActive();
+		        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+		            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+		            
+		            // Eliminoidaan samasta spawnpontista spawnaaminen
+		            for(int i = 0; i <= enemies.size()-1; ++i) {
+		            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
+		            		
+		            		tempRandA = Utility.getRandom(1, 8);
+		    	        	tempRandB = Utility.getRandom(0, 2);
+		    	        	
+		            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+		    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+		            	}
+		            }
+		            
+		        	++enemiesLeft;
+	        	}
+	        }
+	        
+	        ++currentWave;
+	        ++totalWaves;
+    	}
     }
 
     /**
