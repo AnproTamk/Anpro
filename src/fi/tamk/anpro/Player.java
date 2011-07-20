@@ -10,18 +10,12 @@ import android.util.Log;
  * 
  * @extends GameObject
  */
-public class Player extends GameObject
+public class Player extends AiObject
 {
     /* Osoittimet muihin luokkiin */
     private Wrapper  wrapper;
     private GameMode gameMode;
     private Hud      hud;
-    
-    /* Tekoäly */
-    public AbstractAi ai;
-    
-    /* Haluttu liikkumissuunta */
-    public int movementTargetDirection;
     
     /* Suojien palautumisen ajastin */
     public long outOfBattleTime = 0;
@@ -66,10 +60,10 @@ public class Player extends GameObject
         }
         
         // Lisätään pelaaja piirtolistalle ja määritetään tila
-        wrapper.addToList(this, Wrapper.CLASS_TYPE_PLAYER, 4);
+        wrapper.addToDrawables(this);
         
         // Asetetaan pelaajan "tekoäly"
-        ai = new PlayerAi(0, Wrapper.CLASS_TYPE_PLAYER);
+        ai = new PlayerAi(this, Wrapper.CLASS_TYPE_PLAYER);
         
         // Asetetaan pelaajan asetukset
         setMovementSpeed(0.0f);
@@ -81,7 +75,7 @@ public class Player extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.playerState = Wrapper.FULL_ACTIVITY;
+        state = Wrapper.FULL_ACTIVITY;
     }
 
     /**
@@ -90,7 +84,7 @@ public class Player extends GameObject
     @Override
     public final void setUnactive()
     {
-        wrapper.playerState = Wrapper.INACTIVE;
+        state = Wrapper.INACTIVE;
     }
 
     /**
@@ -117,13 +111,13 @@ public class Player extends GameObject
     	/* Tarkistaa törmäykset kerättäviin esineiseen */
     	for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
     		
-    		if (wrapper.collectableStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    		if (wrapper.collectables.get(i).state == Wrapper.FULL_ACTIVITY) {
     		
 				if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
 		        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
 		        		
 		        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
-		        			wrapper.collectables.get(i).triggerCollision(0, 0);
+		        			wrapper.collectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
 		        		}
 		        	}
 				}
@@ -152,31 +146,49 @@ public class Player extends GameObject
      * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
-    public final void triggerCollision(int _damage, int _armorPiercing)
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-        VibrateManager.vibrateOnHit();
-    	
-        if (currentArmor > 0) {
-        	EffectManager.showPlayerArmorEffect(this);
-        	EffectManager.showArmorHitEffect(hud.armorBar);
-        	
-        	if(_armorPiercing > 0) {
-        		EffectManager.showHealthHitEffect(hud.healthBar);
-        	}
-        }
-        else {
-            EffectManager.showHealthHitEffect(hud.healthBar);
-        }
-        
-        Utility.checkDamage(this, _damage, _armorPiercing);
-        
-        hud.armorBar.updateValue(currentArmor);
-        hud.healthBar.updateValue(currentHealth);
+    	VibrateManager.vibrateOnHit();
+	
+	    if (currentArmor > 0) {
+	    	EffectManager.showPlayerArmorEffect(this);
+	    	EffectManager.showArmorHitEffect(hud.armorBar);
+	    	
+	    	if(_armorPiercing > 0) {
+	    		EffectManager.showHealthHitEffect(hud.healthBar);
+	    	}
+	    }
+	    else {
+	        EffectManager.showHealthHitEffect(hud.healthBar);
+	    }
+	    
+	    Utility.checkDamage(this, _damage, _armorPiercing);
+	    
+	    hud.armorBar.updateValue(currentArmor);
+	    hud.healthBar.updateValue(currentHealth);
+	    
+	    if (currentHealth <= 0 && state == Wrapper.FULL_ACTIVITY) {
+	    	state = Wrapper.ONLY_ANIMATION;
+	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
+	    }
+	    else if (_eventType == COLLISION_WITH_OBSTACLE) {
+    		state = Wrapper.ONLY_ANIMATION;
+    		
+    		turningDirection = 0;
+            
+            setMovementSpeed(0.0f);
 
-        if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
-        	wrapper.playerState = Wrapper.ONLY_ANIMATION;
-        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-        }
+            x -= Math.cos((direction * Math.PI)/180) * 100 * Options.scaleX;
+            y -= Math.sin((direction * Math.PI)/180) * 100 * Options.scaleY;
+            
+            direction -= 180;
+            
+            if (direction < 0) {
+            	direction *= -1;
+            }
+            
+            setAction(GLRenderer.ANIMATION_RESPAWN, 1, 2, ACTION_RESPAWN, 0, 0);
+    	}
     }
 
     /**
@@ -201,10 +213,15 @@ public class Player extends GameObject
     protected void triggerEndOfAction()
     {    	
         // Tuhotaan pelaaja ja siirrytään pois pelitilasta
-        if (actionId == GfxObject.ACTION_DESTROYED) {
+        if (actionId == ACTION_DESTROYED) {
             setUnactive();
             
             gameMode.endGameMode();
+        }
+        else if (actionId == ACTION_RESPAWN) {
+        	setMovementSpeed(1.0f);
+        	
+        	state = Wrapper.FULL_ACTIVITY;
         }
     }
 }

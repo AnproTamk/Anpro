@@ -40,13 +40,13 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     @Override
     protected void triggerSpecialAction()
     {
-        wrapper.projectileStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
+        state = Wrapper.ANIMATION_AND_MOVEMENT;
 
         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+            if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
             	if (Utility.isColliding(this, wrapper.enemies.get(i))) {
                     wrapper.enemies.get(i).triggerDestroyed();
             	}

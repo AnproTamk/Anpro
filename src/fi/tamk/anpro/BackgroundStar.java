@@ -8,29 +8,24 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class BackgroundStar extends GfxObject
 {
-	// Osoitin Wrapperiin
-	private Wrapper       wrapper;
-	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
 	 * @param _x T‰hden X-koordinaatti
 	 * @param _y T‰hden Y-koordinaatti
 	 */
-	public BackgroundStar(int _x, int _y)
+	public BackgroundStar(int _x, int _y, Wrapper _wrapper)
 	{
 		x = _x;
 		y = _y;
 		
-		wrapper       = Wrapper.getInstance();
-		
-		wrapper.addToList(this, Wrapper.CLASS_TYPE_BACKGROUNDSTAR, 0);
+		_wrapper.addToDrawables(this);
 	}
 
 	/**
 	 * Tarkistetaan t‰hden sijainti ja siirret‰‰n, mik‰li se on ulkona kuvasta.
 	 */
-	public void checkPosition()
+	public void updatePosition()
 	{
 		if (x < CameraManager.xTranslate - 600) {
 			x = Utility.getRandom((int)CameraManager.xTranslate + 420, (int)CameraManager.xTranslate + 590);

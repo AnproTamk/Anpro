@@ -6,7 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Sisältää liittolaisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
  */
-public class Ally extends GameObject
+public class Ally extends AiObject
 {
 	/* Liittolaisten tyypit */
 	public static final byte ALLY_TURRET = 1;
@@ -14,9 +14,6 @@ public class Ally extends GameObject
     /* Liittolaisen tiedot */
     public int attack;
     public int type;   // Liittolaisten tyypit vastaavat vihollisten tasoja
-    
-    /* Tekoäly */
-    public AbstractAi ai;
     
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
@@ -66,10 +63,10 @@ public class Ally extends GameObject
         weaponManager = _weaponManager;
         
         // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+        wrapper.addToDrawables(this);
+        
         if (_ai == AbstractAi.TURRET_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ALLY, 4);
-            wrapper.allyStates.set(listId, Wrapper.FULL_ACTIVITY);
-            ai = new TurretAllyAi(listId, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
+            ai = new TurretAllyAi(this, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
         }
     }
 
@@ -79,7 +76,7 @@ public class Ally extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.allyStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         
     	currentHealth = health;
     }
@@ -90,7 +87,7 @@ public class Ally extends GameObject
     @Override
     public final void setUnactive()
     {
-        wrapper.allyStates.set(listId, Wrapper.INACTIVE);
+        state = Wrapper.INACTIVE;
     }
     
     /**
@@ -185,10 +182,6 @@ public class Ally extends GameObject
         if (actionId == GfxObject.ACTION_DESTROYED) {
             setUnactive();
         }
-        // Aktivoidaan vihollinen
-        else if (actionId == GfxObject.ACTION_ENABLED) {
-        	wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
-        }
         
     	movementAcceleration = 0;
     	setMovementDelay(1.0f);
@@ -201,7 +194,7 @@ public class Ally extends GameObject
      */
 	private void triggerDestroyed()
 	{
-    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
+    	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
     	movementAcceleration = -15;
     	

@@ -28,7 +28,7 @@ public class WeaponManager
 
     /* Käytössä oleva ase */
     											  // 0:Laser 1:EMP 2:Spinning Laser 3:Cluster 4:Swarm 5:Missile 6:Spitfire
-    public int       currentWeapon       = 6;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
+    public int       currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
     public boolean   isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
     public boolean[] weaponLocation;		      // Aseen
     
@@ -54,6 +54,28 @@ public class WeaponManager
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
+        
+    	// TODO: Muuta aseiden järjestys loogisemmaksi
+        // Ladataan aseet ja määritetään niiden cooldownit
+        playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[0] = 0;
+        playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[1] = 20000;
+        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[2] = 7000;
+        playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[3] = 4000;
+    	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[4] = 20000;
+    	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[5] = 1000;
+        playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[6] = 200;
+
+        allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
+            
+        enemyWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_ENEMY));
+        enemyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ENEMY));
     }
     
     /**
@@ -89,27 +111,12 @@ public class WeaponManager
     		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
     public final void triggerEnemyShootForward(double _direction, float _startX, float _startY, int _weapon) {
     	// Vihollinen ampuu suoraa omaan suuntaansa, jos käytössä on Spitfire, muutoin ampuminen tapahtuu pelaajan suuntaan
     	if (_weapon == WeaponManager.ENEMY_SPITFIRE) {
     		enemyWeapons.get(_weapon).activate(Utility.getAngleToCoordinates(_direction, _startX, _startY, 'x'), Utility.getAngleToCoordinates(_direction, _startX, _startY, 'y'), _startX, _startY);
     	}
     }
-    
-    
-    
-    
-    
-    
-    
     
     /**
      * Välittää kutsupyynnön liittolaisen aseelle aktivoiden sen ja lähettämällä
@@ -157,36 +164,6 @@ public class WeaponManager
             }
         }
 	}
-    
-    /**
-     * Lataa aseet muistiin.
-     * 
-     * @param _id Pelitilan ja tason tunnus
-     */
-    public final void initialize(int _id)
-    {
-    	// TODO: Muuta aseiden järjestys loogisemmaksi
-        // Ladataan aseet ja määritetään niiden cooldownit
-        playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[0] = 0;
-        playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[1] = 20000;
-        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[2] = 7000;
-    	playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[3] = 4000;
-    	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[4] = 20000;
-    	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[5] = 1000;
-        playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[6] = 200;
-
-        allyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ALLY));
-            
-        enemyWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_ENEMY));
-        enemyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ENEMY));
-    }
 
     /**
      * Päivittää cooldownit (vähentää 100 ms jokaisesta cooldownista).

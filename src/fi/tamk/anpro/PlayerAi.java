@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 public class PlayerAi extends AbstractAi
 {
 	/**
@@ -8,9 +10,9 @@ public class PlayerAi extends AbstractAi
 	 * @param _id   Objektin tunnus piirtolistalla
 	 * @param _type Objektin tyyppi
 	 */
-	public PlayerAi(int _id, int _type)
+	public PlayerAi(AiObject _parentObject, int _userType)
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 	}
 	
     /**
@@ -20,7 +22,7 @@ public class PlayerAi extends AbstractAi
     public final void handleAi()
     {
         // M‰‰ritet‰‰n k‰‰ntymissuunta
-        wrapper.player.turningDirection = Utility.getTurningDirection(wrapper.player.direction, wrapper.player.movementTargetDirection);
+        parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, parentObject.movementTargetDirection);
     }
     
     /**

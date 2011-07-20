@@ -51,6 +51,16 @@ public class MessageManager
 		return instance;
 	}
 	
+	public static final void updateMessages()
+	{
+		outOfBounds.updateAngle();
+		/*autoPilotOn.updateAngle();
+		autoPilotOff.updateAngle();
+		newSkillsReady.updateAngle();
+		repairNeeded.updateAngle();
+		armorsOff.updateAngle();*/
+	}
+	
 	/**
 	 * N‰ytt‰‰ "Out of bounds"-viestin.
 	 */

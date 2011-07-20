@@ -6,15 +6,10 @@ import javax.microedition.khronos.opengles.GL10;
  * Sisältää vihollisen omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
  */
-public class Enemy extends GameObject
+public class Enemy extends AiObject
 {
     /* Vihollisen tiedot */
-	public int attack; // TODO: Siirrä checkCollisionWithPlayer AbstractAi:sta Enemy-luokkaan,
-					   // jolloin tämä voisi olla "protected"
     public int rank;
-    
-    /* Tekoäly */
-    public AbstractAi ai;
     
     /* Muut tarvittavat oliot */
     private Wrapper       wrapper;
@@ -34,13 +29,15 @@ public class Enemy extends GameObject
     {
         super(_speed);
         
+        state = Wrapper.INACTIVE;
+        
         // Tallennetaan tiedot
-        health        = _health;
-        currentHealth = _health;
-        attack        = _attack;
-        armor         = _armor;
-        currentArmor  = _armor;
-        rank          = _rank;
+        health          = _health;
+        currentHealth   = _health;
+        collisionDamage = _attack;
+        armor           = _armor;
+        currentArmor    = _armor;
+        rank            = _rank;
         
         // Asetetaan törmäysetäisyys
         if (rank == 1) {
@@ -73,21 +70,19 @@ public class Enemy extends GameObject
         weaponManager = _weaponManager;
         
         // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+        wrapper.addToDrawables(this);
+        
         if (_ai == AbstractAi.LINEAR_ENEMY_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
-            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new LinearAi(this, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == AbstractAi.ROTARY_ENEMY_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 4);
-            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
+            ai = new RotaryAi(this, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
         else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 3);
-            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
+            ai = new SquigglyAi(this, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
         else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
-            listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_ENEMY, 1);
-            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
+            ai = new ApproachAndStopAi(this, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
     }
 
@@ -97,7 +92,7 @@ public class Enemy extends GameObject
     @Override
     public final void setActive()
     {
-        wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
+        state = Wrapper.FULL_ACTIVITY;
         
     	movementAcceleration = 0;
     	setMovementDelay(1.0f);
@@ -114,7 +109,7 @@ public class Enemy extends GameObject
     @Override
     public final void setUnactive()
     {
-        wrapper.enemyStates.set(listId, Wrapper.INACTIVE);
+        state = Wrapper.INACTIVE;
     }
     
     /**
@@ -203,11 +198,11 @@ public class Enemy extends GameObject
     public final void setStats(int _health, int _armor, int _speed, int _attack, int _ai, int _rank)
     {
         // Tallennetaan uudet tiedot
-        health     = _health;
-        speed      = _speed;
-        attack     = _attack;
-        armor      = _armor;
-        rank       = _rank;
+        health          = _health;
+        speed           = _speed;
+        collisionDamage = _attack;
+        armor           = _armor;
+        rank            = _rank;
 
         
         // Otetaan uusi tekoäly käyttöön
@@ -215,16 +210,16 @@ public class Enemy extends GameObject
         
         // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
         if (_ai == AbstractAi.LINEAR_ENEMY_AI) {
-            ai = new LinearAi(listId, Wrapper.CLASS_TYPE_ENEMY);
+            ai = new LinearAi(this, Wrapper.CLASS_TYPE_ENEMY);
         }
         else if (_ai == AbstractAi.ROTARY_ENEMY_AI) {
-            ai = new RotaryAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
+            ai = new RotaryAi(this, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
         else if (_ai == AbstractAi.SQUIGGLY_ENEMY_AI) {
-            ai = new SquigglyAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
+            ai = new SquigglyAi(this, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
         else if (_ai == AbstractAi.APPROACHANDSTOP_ENEMY_AI) {
-            ai = new ApproachAndStopAi(listId, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
+            ai = new ApproachAndStopAi(this, Wrapper.CLASS_TYPE_ENEMY, weaponManager);
         }
     }
 
@@ -267,7 +262,7 @@ public class Enemy extends GameObject
         }
         // Aktivoidaan vihollinen (esim. EMPin jälkeen)
         else if (actionId == GfxObject.ACTION_ENABLED) {
-        	wrapper.enemyStates.set(listId, Wrapper.FULL_ACTIVITY);
+        	state = Wrapper.FULL_ACTIVITY;
         }
     }
     
@@ -276,7 +271,7 @@ public class Enemy extends GameObject
      */
     public void triggerDisabled()
 	{
-    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
+    	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
     	movementAcceleration = -15;
     	turningDirection     = 0;
@@ -294,7 +289,7 @@ public class Enemy extends GameObject
 	{
 		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
 		
-    	wrapper.enemyStates.set(listId, Wrapper.ANIMATION_AND_MOVEMENT);
+    	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
     	movementAcceleration = -15;
     	turningDirection     = 0;

@@ -20,9 +20,9 @@ public class AllyAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public AllyAi(int _id, int _type, WeaponManager _weaponManager) 
+	public AllyAi(AiObject _parentObject, int _userType, WeaponManager _weaponManager) 
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 		
 		weaponManager = _weaponManager;
 	}
@@ -76,7 +76,7 @@ public class AllyAi extends AbstractAi
         checkpoints[11][1] = (int) wrapper.player.y - 25;
 
         // Määritetään vihollisen ja pelaajan välinen kulma
-        double startAngle = Utility.getAngle((int) wrapper.allies.get(parentId).x, (int) wrapper.allies.get(parentId).y, (int) wrapper.player.x, (int) wrapper.player.y);
+        double startAngle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, (int) wrapper.player.x, (int) wrapper.player.y);
         
         // Liittolainene ja pelaajan välisellä kulmalla määritetään kunkin vihollisen ensimmäinen "checkpoint", josta ympyräliike alkaa
         if(startAngle >= 0 && startAngle < 30 ) {
@@ -128,28 +128,28 @@ public class AllyAi extends AbstractAi
         }
 
         // Jos liittolainen on kaukana pelaajasta, liittolainen käyttää LinearAi:ta väliaikaisesti kunnes on tarpeeksi lähellä
-        double distance = Utility.getDistance(wrapper.allies.get(parentId).x, wrapper.allies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+        double distance = Utility.getDistance(parentObject.x, parentObject.y, wrapper.player.x, wrapper.player.y);
         
         if(distance > 300) {
         	
-        	double angle = Utility.getAngle((int) wrapper.allies.get(parentId).x, (int) wrapper.allies.get(parentId).y, wrapper.player.x, wrapper.player.y);
+        	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, wrapper.player.x, wrapper.player.y);
         	
-        	wrapper.allies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.allies.get(parentId).direction, (int)angle);
+        	parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
         }
 
         else {
 	        // Määritetään kääntymissuuntaa aina kun liittolainen ei ole checkpointissa
-	        if((int) wrapper.allies.get(parentId).x != checkpoints[startCheckpoint][0] && (int) wrapper.allies.get(parentId).y != checkpoints[startCheckpoint][1]) {
+	        if((int) parentObject.x != checkpoints[startCheckpoint][0] && (int) parentObject.y != checkpoints[startCheckpoint][1]) {
 	        	
 	        	// Määritetään kulma
-	        	double angle = Utility.getAngle((int) wrapper.allies.get(parentId).x, (int) wrapper.allies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+	        	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
 	
 	        	// Määritetään kääntymissuunta
-	        	wrapper.allies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.allies.get(parentId).direction, (int)angle);
+	        	parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
 	        }
 	        
 	        // Jos liittolainen on osunut checkponttiin, asetetaan kohteeksi seuraava checkpoint
-	        if((int) wrapper.allies.get(parentId).x == checkpoints[startCheckpoint][0] && (int) wrapper.allies.get(parentId).y == checkpoints[startCheckpoint][1]){
+	        if((int) parentObject.x == checkpoints[startCheckpoint][0] && (int) parentObject.y == checkpoints[startCheckpoint][1]){
 	        	
 	        	++startCheckpoint;
 	        	
@@ -158,23 +158,23 @@ public class AllyAi extends AbstractAi
 	        	}
 	        	
 	        	// Määritetään kulma
-	        	double angle = Utility.getAngle((int) wrapper.allies.get(parentId).x, (int) wrapper.allies.get(parentId).y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
+	        	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, checkpoints[startCheckpoint][0], checkpoints[startCheckpoint][1]);
 	
 	        	// Määritetään kääntymissuunta
-	        	wrapper.allies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.allies.get(parentId).direction, (int)angle);
+	        	parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
 	        }
 	        
 	        // Suoritetaan ampuminen
 	        if (lastShootingTime == 0) {
 	    		lastShootingTime = android.os.SystemClock.uptimeMillis();
-	    		weaponManager.triggerAllyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.allies.get(parentId).x, wrapper.allies.get(parentId).y);
+	    		weaponManager.triggerAllyShoot(parentObject.x, parentObject.y, parentObject.x, parentObject.y);
 	    	}
 	    	else {
 	    		long currentTime = android.os.SystemClock.uptimeMillis();
 	        	
 	        	if (currentTime - lastShootingTime >= 2000) {
 	        		lastShootingTime = currentTime;
-		    		weaponManager.triggerAllyShoot(wrapper.enemies.get(parentId).x, wrapper.enemies.get(parentId).y, wrapper.allies.get(parentId).x, wrapper.allies.get(parentId).y);
+		    		weaponManager.triggerAllyShoot(parentObject.x, parentObject.y, parentObject.x, parentObject.y);
 	        	}
 	    	}
         }

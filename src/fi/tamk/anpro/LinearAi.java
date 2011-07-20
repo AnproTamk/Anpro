@@ -15,9 +15,9 @@ public class LinearAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public LinearAi(int _id, int _type) 
+	public LinearAi(AiObject _parentObject, int _userType) 
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
     }
 	
     /**
@@ -27,10 +27,10 @@ public class LinearAi extends AbstractAi
     public final void handleAi()
     {
     	// M‰‰ritet‰‰n vihollisen ja pelaajan v‰linen kulma
-    	double angle = Utility.getAngle((int) wrapper.enemies.get(parentId).x, (int) wrapper.enemies.get(parentId).y,(int) wrapper.player.x,(int) wrapper.player.y);
+    	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y,(int) wrapper.player.x,(int) wrapper.player.y);
     	
         /* M‰‰ritet‰‰n k‰‰ntymissuunta */
-        wrapper.enemies.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.enemies.get(parentId).direction, (int)angle);
+        parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, (int)angle);
         
         /* Tarkistetaan tˆrm‰ykset pelaajan kanssa */
         checkCollisionWithPlayer();
