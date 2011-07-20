@@ -34,7 +34,8 @@ abstract public class AbstractProjectile extends GameObject
     protected int     damageOnRadius     = 0;
     protected int     damageRadius       = 0;
     
-    // Räjähdyksen ajastus
+    // Räjähdykset
+    protected boolean triggersExplosionEffect = false;
     private int  explodeTime  = 0;
     private long startTime    = 0;
     private long currentTime  = 0;
@@ -310,12 +311,11 @@ abstract public class AbstractProjectile extends GameObject
 			            	    		parent.triggerClusterExplosion(8, x, y);
 			                    	}
 			                    	
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+			                        triggerDestroyed();
 			                    }
 			                    // Aiheutetaan räjähdys
 			                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
-			
+	
 			                        triggerExplosion();
 			                    }
 			                    
@@ -359,11 +359,10 @@ abstract public class AbstractProjectile extends GameObject
 		            	    		parent.triggerClusterExplosion(8, x, y);
 		                    	}
 		                    	
-		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+		                    	triggerDestroyed();
 		                    }
 		                    else if (damageType == ProjectileLaser.EXPLODE_ON_TOUCH) {
-		                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
-		
+		                       
 		                        triggerExplosion();
 		                    }
 	            		}
@@ -404,12 +403,11 @@ abstract public class AbstractProjectile extends GameObject
 			            	    		parent.triggerClusterExplosion(8, x, y);
 			                    	}
 			                    	
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+			                    	triggerDestroyed();
 			                    }
 			                    // Aiheutetaan räjähdys
 			                    else if (damageType == EXPLODE_ON_TOUCH) {
-			                        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
-			
+			                        
 			                        triggerExplosion();
 			                    }
 			                    
@@ -434,7 +432,6 @@ abstract public class AbstractProjectile extends GameObject
 
             if (currentTime - startTime >= explodeTime) {
                 wrapper.projectileStates.set(listId, 2);
-                setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
 
                 triggerExplosion();
             }
@@ -510,6 +507,10 @@ abstract public class AbstractProjectile extends GameObject
      */
 	private void triggerDestroyed()
 	{
+		if(triggersExplosionEffect) {
+			EffectManager.showExplosionEffect(x, y);
+		}
+		
     	wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
     	
         setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
@@ -520,6 +521,8 @@ abstract public class AbstractProjectile extends GameObject
      */
     private final void triggerExplosion()
     {
+    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+    	
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
         for (int i = wrapper.enemies.size() - 1; i >= 0; --i) {
