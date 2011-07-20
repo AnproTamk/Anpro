@@ -22,7 +22,8 @@ public class EffectManager
 	public static final byte EFFECT_COMBOMULTIPLIER_4   = 5;
 	public static final byte EFFECT_COMBOMULTIPLIER_5   = 6;
 	public static final byte EFFECT_EXPLOSION           = 7;
-	public static final byte EFFECT_TRAIL               = 8;
+	public static final byte EFFECT_PLAYER_TRAIL        = 8;
+	public static final byte EFFECT_ENEMY_TRAIL         = 11;
 	public static final byte EFFECT_HUD_ARMOR			= 9;
 	public static final byte EFFECT_HUD_HEALTH			= 10;
 	
@@ -37,6 +38,7 @@ public class EffectManager
 	private static EffectObject   combo5MultiplierEffect;
 	private static EffectObject   explosionEffect;
 	private static EffectObject[] playerTrailEffect;
+	private static EffectObject[] enemyTrailEffect;
 	private static EffectObject	  hudArmorEffect;
 	private static EffectObject   hudHealthEffect;
 
@@ -46,6 +48,7 @@ public class EffectManager
 	private EffectManager()
 	{
 		playerTrailEffect        = new EffectObject[8];
+		enemyTrailEffect         = new EffectObject[30];
 		balloonExclamationEffect = new EffectObject(0, EFFECT_BALLOON_EXCLAMATION, TYPE_FRONT_EFFECT);
 		balloonQuestionEffect    = new EffectObject(0, EFFECT_BALLOON_QUESTION, TYPE_FRONT_EFFECT);
 		playerArmorEffect        = new EffectObject(0, EFFECT_PLAYER_ARMOR, TYPE_BACK_EFFECT);
@@ -62,7 +65,10 @@ public class EffectManager
 			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
 		}
 		for (int i = 0; i < 8; ++i) {
-			playerTrailEffect[i] = new EffectObject(0, EFFECT_TRAIL, TYPE_BACK_EFFECT);
+			playerTrailEffect[i] = new EffectObject(0, EFFECT_PLAYER_TRAIL, TYPE_BACK_EFFECT);
+		}
+		for (int i = 0; i < 30; ++i) {
+			enemyTrailEffect[i] = new EffectObject(0, EFFECT_ENEMY_TRAIL, TYPE_BACK_EFFECT);
 		}
 	}
 	
@@ -71,12 +77,16 @@ public class EffectManager
 	 * 
 	 * @return EffectManager Osoitin tähän luokkaan
 	 */
-	synchronized public static EffectManager getInstance()
+	synchronized public static void getInstance()
 	{
 		if (instance == null) {
 			instance = new EffectManager();
 		}
-		return instance;
+	}
+	
+	synchronized public static void destroy()
+	{
+		instance = null;
 	}
 
 	/**
@@ -156,13 +166,24 @@ public class EffectManager
 	 * 
 	 * @param _object Kohde-objekti
 	 */
-	public static void showPlayerTrailEffect(GameObject _object)
+	public static void showTrailEffect(GameObject _object)
 	{
-		for (int i = 0; i < 8; ++i) {
-			if (!playerTrailEffect[i].activated) {
-				playerTrailEffect[i].activate(_object.x, _object.y);
-				playerTrailEffect[i].direction = _object.direction;
-				break;
+		if (_object instanceof Player) {
+			for (int i = 0; i < 8; ++i) {
+				if (!playerTrailEffect[i].activated) {
+					playerTrailEffect[i].activate(_object.x, _object.y);
+					playerTrailEffect[i].direction = _object.direction;
+					break;
+				}
+			}
+		}
+		else if (_object instanceof Enemy) {
+			for (int i = 0; i < 30; ++i) {
+				if (!enemyTrailEffect[i].activated) {
+					enemyTrailEffect[i].activate(_object.x, _object.y);
+					enemyTrailEffect[i].direction = _object.direction;
+					break;
+				}
 			}
 		}
 	}

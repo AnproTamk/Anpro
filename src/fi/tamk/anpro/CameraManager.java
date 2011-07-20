@@ -35,13 +35,17 @@ public class CameraManager
      * 
      * @return CameraManager
      */
-    public static CameraManager getInstance()
+    public static void getInstance()
     {
         if(instance == null) {
             instance = new CameraManager();
         }
-        return instance;
     }
+	
+	synchronized public static void destroy()
+	{
+		instance = null;
+	}
     
     /**
      * Päivittää kameran sijainnin.

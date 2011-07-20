@@ -134,6 +134,9 @@ abstract public class GameObject extends GfxObject
             	movementAcceleration = 0;
             }
             
+            if (movementSpeed > 0 && !(this instanceof AbstractProjectile)) {
+                EffectManager.showTrailEffect(this);
+            }
         }
         
         // Lasketaan k‰‰ntymisnopeus objektille
