@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,7 +21,7 @@ import android.media.AudioManager;
 public class GameActivity extends Activity
 {
     /* Renderöijä ja OpenGL-pinta */
-    private CustomSurfaceView surfaceView;
+    private GLSurfaceView surfaceView;
     private GLRenderer    renderer;
     
     /* Tarvittavat luokat */
@@ -49,31 +50,6 @@ public class GameActivity extends Activity
         
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        // Ladataan näytön tiedot
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        
-        // Luodaan OpenGL-pinta ja renderöijä
-        surfaceView = new CustomSurfaceView(this);
-        renderer    = new GLRenderer(this, surfaceView, dm);
-        
-        // Määritetään renderöijän asetukset ja otetaan se käyttöön
-        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
-        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-        surfaceView.setRenderer(renderer);
-        
-        // Asetetaan käytettävä pinta
-        setContentView(surfaceView);
-
-        // TODO: Pitää tarkistaa mikä pelitila on käynnistettävä
-    	// Luodaan WeaponManager
-    	weaponManager = new WeaponManager();
-        weaponManager.initialize(GameActivity.activeMode);
-        
-        // Luodaan ja käynnistetään pelin säie
-        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, renderer, surfaceView);
-        renderer.connectToGameThread(gameThread);
         
         // Luodaan InputController, mikäli laitteessa on sellainen
         if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
@@ -88,7 +64,33 @@ public class GameActivity extends Activity
     protected void onStart()
     {
         super.onStart();
-        // TODO: Tee toteutus
+        
+        // Ladataan näytön tiedot
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        
+        // Luodaan OpenGL-pinta ja renderöijä
+        surfaceView = new GLSurfaceView(this);
+        renderer    = new GLRenderer(this, surfaceView, dm);
+
+    	// Luodaan WeaponManager
+    	weaponManager = new WeaponManager();
+        weaponManager.initialize(GameActivity.activeMode);
+        
+        // Luodaan ja käynnistetään pelin säie
+        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, renderer, surfaceView);
+        renderer.connectToGameThread(gameThread);
+        
+        // Määritetään renderöijän asetukset ja otetaan se käyttöön
+        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 0, 0);
+        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceView.setRenderer(renderer);
+        
+        // Asetetaan käytettävä pinta
+        setContentView(surfaceView);
+        
+        gameThread.setRunning(true);
+        gameThread.start();
     }
         
     /**
@@ -109,13 +111,7 @@ public class GameActivity extends Activity
     {
         super.onResume();
         
-        surfaceView.onResume();
-        
         gameThread.setRunning(true);
-        
-        if (gameThread.getState() == Thread.State.NEW) {
-        	gameThread.start();
-        }
     }
     
     /**
@@ -126,11 +122,6 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
-        
-        surfaceView.onPause();
-        
-        // Pysäytetään säie
-        gameThread.setRunning(false);
     }
         
     /**
@@ -141,8 +132,15 @@ public class GameActivity extends Activity
     protected void onStop()
     {
         super.onStop();
-
-        gameThread.gameState = 1;
+        
+        Wrapper.destroy();
+        CameraManager.destroy();
+        EffectManager.destroy();
+        gameThread.interrupt();
+        gameThread    = null;
+        surfaceView   = null;
+        renderer      = null;
+        weaponManager = null;
     }
         
     /**
@@ -152,11 +150,6 @@ public class GameActivity extends Activity
     protected void onDestroy()
     {
         super.onDestroy();
-        
-        Wrapper.destroy();
-        gameThread    = null;
-        renderer      = null;
-        weaponManager = null;
     }
     
     /**
@@ -167,6 +160,8 @@ public class GameActivity extends Activity
      */
     public void continueToHighscores(int _score)
 	{
+    	gameThread.setRunning(false); // TODO: Wat..?
+    	
 		Intent i_highscores = new Intent(this, HighScoresActivity.class);
 		
 		// Luodaan uusi Bundle
@@ -232,7 +227,7 @@ public class GameActivity extends Activity
 			finish();
 		}
 		else {
-	        gameThread.setRunning(true);
+			gameThread.setRunning(false); // TODO: Wat..?
 		}
 	}
 }

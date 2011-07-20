@@ -54,9 +54,6 @@ public class Joystick extends GuiObject
         _wrapper.player.setMovementSpeed(1.0f);
         _wrapper.player.setMovementDelay(1.0f);
         
-        // N‰ytet‰‰n j‰lkipolttoefekti
-        EffectManager.showPlayerTrailEffect(_wrapper.player);
-        
         return true;
     }
 }

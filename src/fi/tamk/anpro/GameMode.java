@@ -90,9 +90,6 @@ public class GameMode
         
         overBoundWidth  = mapWidth + 20;
         overBoundHeight = mapHeight + 20;
-                
-        // Otetaan CameraManager käyttöön
-        camera = CameraManager.getInstance();
         
         // Alustetaan taulukot
         enemies         = new ArrayList<Enemy>();
