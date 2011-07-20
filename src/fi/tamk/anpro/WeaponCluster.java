@@ -76,6 +76,8 @@ public class WeaponCluster extends AbstractWeapon
 				// Aktivoidaan ammus ja asetetaan ammuksen suunta
 				projectiles.get(i).activate(loopAmount * 45, false, false, this, _startX, _startY);
 				
+				EffectManager.showExplosionEffect(projectiles.get(i).x, projectiles.get(i).y);
+				
     			// M‰‰ritet‰‰n silmukan kiertom‰‰r‰ suurentamalla muuttujan arvoa
 				++loopAmount;
 				

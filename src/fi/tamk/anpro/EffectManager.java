@@ -35,7 +35,7 @@ public class EffectManager
 	private static EffectObject   combo3MultiplierEffect;
 	private static EffectObject   combo4MultiplierEffect;
 	private static EffectObject   combo5MultiplierEffect;
-	//private static EffectObject   explosionEffect;
+	private static EffectObject   explosionEffect;
 	private static EffectObject[] playerTrailEffect;
 	private static EffectObject	  hudArmorEffect;
 	private static EffectObject   hudHealthEffect;
@@ -56,6 +56,7 @@ public class EffectManager
 		combo5MultiplierEffect   = new EffectObject(0, EFFECT_COMBOMULTIPLIER_5, TYPE_FRONT_EFFECT);
 		hudArmorEffect			 = new EffectObject(0, EFFECT_HUD_ARMOR, TYPE_FRONT_EFFECT);
 		hudHealthEffect			 = new EffectObject(0, EFFECT_HUD_HEALTH, TYPE_FRONT_EFFECT);
+		explosionEffect 		 = new EffectObject(0, EFFECT_EXPLOSION, TYPE_FRONT_EFFECT);
 		
 		for (int i = 0; i < 5; ++i) {
 			enemyArmorEffect[i] = new EffectObject(0, EFFECT_ENEMY_ARMOR, TYPE_BACK_EFFECT);
@@ -187,6 +188,13 @@ public class EffectManager
 	{
 		if (!hudHealthEffect.activated) {
 			hudHealthEffect.activate(_object);
+		}
+	}
+	
+	public static void showExplosionEffect(float _x, float _y) 
+	{
+		if(!explosionEffect.activated) {
+			explosionEffect.activate(_x, _y);
 		}
 	}
 }

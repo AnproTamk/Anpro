@@ -408,6 +408,9 @@ public class GLRenderer implements Renderer
         // Health-sydämen välähdys
         effectAnimations[10] = new GLSpriteSet(_gl, context, R.drawable.health_hit_effect_anim, 3);
         
+        // Räjähdys
+        effectAnimations[7] = new GLSpriteSet(_gl, context, R.drawable.explosion_effect_anim, 5);
+        
         /* Ladataan kartan grafiikat */
         obstacleTextures[0][0] = new GLSpriteSet(_gl, context, R.drawable.planetearth_tex_0, 1);
         obstacleTextures[0][1] = new GLSpriteSet(_gl, context, R.drawable.planet_tex_0, 1);
