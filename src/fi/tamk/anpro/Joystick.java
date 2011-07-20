@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Sisältää käyttöliittymän joystickin toiminnallisuudet.
  */

@@ -24,6 +24,7 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_SHOOT    = 2;
     public static final int ANIMATION_DESTROY  = 3;
     public static final int ANIMATION_DISABLED = 4;
+    public static final int ANIMATION_RESPAWN  = 5;
     
     public static final int ANIMATION_COLLECTED = 0;
 
@@ -44,7 +45,7 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_RADAR_WARNING = 1;
     
     /* Animaatioiden ja tekstuurien määrät */
-    public static final int AMOUNT_OF_PLAYER_TEXTURES        = 4;
+    public static final int AMOUNT_OF_PLAYER_TEXTURES        = 5;
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
@@ -53,7 +54,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
     
-    public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 6;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
@@ -306,6 +307,7 @@ public class GLRenderer implements Renderer
         /* Ladataan pelaajan grafiikat */
         playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1); 
         playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        playerAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.player_respawn_anim, 4);
         
         /* Ladataan liittolaisten grafiikat */
         // Emoalus
@@ -468,122 +470,16 @@ public class GLRenderer implements Renderer
             updateAnimations = true;
         }
         
-        /* Käydään läpi piirtolistat ja päivitetään animaatiot */
-    	// Tähtitausta
-        for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
-        	wrapper.backgroundStars.get(i).draw(_gl);
-        }
-        
-        // Emoalus
-        if (wrapper.mothership != null) {
-        	wrapper.mothership.draw(_gl);
-        	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
-            	wrapper.mothership.update();
-            }
-        }
-        
-        // Taustaefektit
-        for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
-            if (wrapper.backEffectStates.get(i) != Wrapper.INACTIVE) {
-                wrapper.backEffects.get(i).draw(_gl);
-                if (updateAnimations && wrapper.backEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.backEffects.get(i).animationSpeed == 0) {
-                    wrapper.backEffects.get(i).update();
-                }
-            }
-        }
-        
-        // Ammukset
-        for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-        	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
-            	wrapper.projectiles.get(i).draw(_gl);
-                if (updateAnimations && wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
-                    wrapper.projectiles.get(i).update();
-                }
+        for (GfxObject object : wrapper.drawables) {
+        	if (object.state == Wrapper.FULL_ACTIVITY || object.state == Wrapper.ONLY_ANIMATION ||
+        		object.state == Wrapper.ANIMATION_AND_MOVEMENT) {
+        		object.draw(_gl);
         	}
-        }
-        
-        // Liittolaiset
-        for (int i = wrapper.allies.size()-1; i >= 0; --i) {
-            if (wrapper.allyStates.get(i) != Wrapper.INACTIVE) {
-                wrapper.allies.get(i).draw(_gl);
-                if (updateAnimations && wrapper.allies.get(i).usedAnimation != -1 && updateBeat % wrapper.allies.get(i).animationSpeed == 0) {
-                	wrapper.allies.get(i).update();
-                }
-            }
-        }
-        
-        // Viholliset
-        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
-                wrapper.enemies.get(i).draw(_gl);
-                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
-                	wrapper.enemies.get(i).update();
-                }
-            }
-        }
-    
-        // Pelaaja
-        if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
-            wrapper.player.draw(_gl);
-        	if (updateAnimations && wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
-                wrapper.player.update();
-            }
-        }
-        
-        // Kerättävät esineet
-        for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
-            if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
-                wrapper.collectables.get(i).draw(_gl);
-                if (updateAnimations && wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
-                    wrapper.collectables.get(i).update();
-                }
-            }
-        }
-        
-        // Aurinko, planeetat ja asteroidit
-        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-            if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
-            	wrapper.obstacles.get(i).draw(_gl);
-            	if (updateAnimations && wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
-                    wrapper.obstacles.get(i).update();
-            	}
-            }
-        }
-        
-        // Etuefektit
-        for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
-            if (wrapper.frontEffectStates.get(i) != Wrapper.INACTIVE) {
-                wrapper.frontEffects.get(i).draw(_gl);
-                if (updateAnimations && wrapper.frontEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.frontEffects.get(i).animationSpeed == 0) {
-                    wrapper.frontEffects.get(i).update();
-                }
-            }
-        }
-        
-        // HUD
-        for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
-            if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
-        		wrapper.guiObjects.get(i).draw(_gl);
-            	if (updateAnimations && wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
-            		wrapper.guiObjects.get(i).update();
-            	}
-            }
-        }
-        
-        // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
-        // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
-        /*for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
-        	gameThread.hud.buttons.get(i).update();
-        }*/
-        
-        if (currentTime - lastMessageUpdate >= 50) {
-        	lastMessageUpdate = currentTime;
         	
-            for (int i = wrapper.messages.size()-1; i >= 0; --i) {
-            	if (wrapper.messageStates.get(i) != Wrapper.INACTIVE) {
-            		wrapper.messages.get(i).updateAngle();
-            	}
-            }
+        	if (updateAnimations && object.usedAnimation > -1 && object.state != Wrapper.INACTIVE ||
+            	object.state == Wrapper.ANIMATION_AND_MOVEMENT) {
+        		object.updateAnimation();
+        	}
         }
         
         updateAnimations = false;

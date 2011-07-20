@@ -88,6 +88,55 @@ public class EffectManager
 	{
 		instance = null;
 	}
+	
+	public static final void updateEffectPositions()
+	{
+		for (int i = 0; i < 8; ++i) {
+			if (playerTrailEffect[i].state == Wrapper.FULL_ACTIVITY) {
+				playerTrailEffect[i].updatePosition();
+			}
+		}
+		for (int i = 0; i < 30; ++i) {
+			if (enemyTrailEffect[i].state == Wrapper.FULL_ACTIVITY) {
+				enemyTrailEffect[i].updatePosition();
+			}
+		}
+		for (int i = 0; i < 5; ++i) {
+			if (enemyArmorEffect[i].state == Wrapper.FULL_ACTIVITY) {
+				enemyArmorEffect[i].updatePosition();
+			}
+		}
+		if (balloonExclamationEffect.state == Wrapper.FULL_ACTIVITY) {
+			balloonExclamationEffect.updatePosition();
+		}
+		if (balloonQuestionEffect.state == Wrapper.FULL_ACTIVITY) {
+			balloonQuestionEffect.updatePosition();
+		}
+		if (playerArmorEffect.state == Wrapper.FULL_ACTIVITY) {
+			playerArmorEffect.updatePosition();
+		}
+		if (combo2MultiplierEffect.state == Wrapper.FULL_ACTIVITY) {
+			combo2MultiplierEffect.updatePosition();
+		}
+		if (combo3MultiplierEffect.state == Wrapper.FULL_ACTIVITY) {
+			combo3MultiplierEffect.updatePosition();
+		}
+		if (combo4MultiplierEffect.state == Wrapper.FULL_ACTIVITY) {
+			combo4MultiplierEffect.updatePosition();
+		}
+		if (combo5MultiplierEffect.state == Wrapper.FULL_ACTIVITY) {
+			combo5MultiplierEffect.updatePosition();
+		}
+		if (hudArmorEffect.state == Wrapper.FULL_ACTIVITY) {
+			hudArmorEffect.updatePosition();
+		}
+		if (hudHealthEffect.state == Wrapper.FULL_ACTIVITY) {
+			hudHealthEffect.updatePosition();
+		}
+		if (explosionEffect.state == Wrapper.FULL_ACTIVITY) {
+			explosionEffect.updatePosition();
+		}
+	}
 
 	/**
 	 * Näyttää pelaajan ympärillä suojakentän toisen objektin osuessa siihen.

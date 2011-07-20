@@ -22,7 +22,7 @@ public class Counter extends GuiObject
 		
 		usedTexture = GLRenderer.TEXTURE_COUNTER;
 		
-		wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
+		state = Wrapper.INACTIVE;
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class Counter extends GuiObject
 	 */
 	public void parseScore(long _score)
 	{
-		wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
+		state = Wrapper.FULL_ACTIVITY;
 		
 		String temp = String.valueOf(_score);
 		

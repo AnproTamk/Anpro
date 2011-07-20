@@ -38,6 +38,9 @@ abstract public class GameObject extends GfxObject
     /* Törmäystunnistus */
     protected int collisionRadius = 0;
     
+    /* Törmäysvahinko */
+    public int collisionDamage = 0;
+    
     /* Lineaarinen liike */
     protected int movementSpeed;            // Kuinka monta yksikköä objekti liikkuu kerrallaan. Arvot välillä 0-5
     protected int movementDelay;            // Arvot välillä 5-100(ms), mitä suurempi sitä hitaampi kiihtyvyys
@@ -93,18 +96,6 @@ abstract public class GameObject extends GfxObject
     {
     	// Ilmoitetaan väärän komennon kutsumisesta LogCatiin
     	Log.e("VIRHE", "Kutsuttiin väärää triggerCollision-funktiota! Tätä funktiota käyttävät vain viholliset ja liittolaiset!");
-    }
-
-    /**
-     * Käsittelee törmäyksien vaikutukset objektiin.
-     * 
-     * @param int Osuman aiheuttama vahinko
-     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
-     */
-    public void triggerCollision(int _damage, int _armorPiercing)
-    {
-    	// Ilmoitetaan väärän komennon kutsumisesta LogCatiin
-    	Log.e("VIRHE", "Kutsuttiin väärää triggerCollision-funktiota! Tätä funktiota käyttää vain pelaaja!");
     }
     
     /**

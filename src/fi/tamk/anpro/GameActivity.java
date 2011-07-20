@@ -28,9 +28,6 @@ public class GameActivity extends Activity
     private GameThread      gameThread;
     private WeaponManager   weaponManager;
     private InputController inputController;
-    
-    /* Aktiivinen pelitila (asetetaan päävalikossa) */
-    public static int activeMode = 1;
         
     /**
      * Määrittää asetukset ja luo tarvittavat oliot, kuten renderöijän, HUDin,
@@ -50,11 +47,6 @@ public class GameActivity extends Activity
         
         // Asetetaan äänensäätönapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        
-        // Luodaan InputController, mikäli laitteessa on sellainen
-        if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
-        	inputController = new InputController();
-        }
     }
         
     /**
@@ -65,6 +57,11 @@ public class GameActivity extends Activity
     {
         super.onStart();
         
+        // Luodaan InputController, mikäli laitteessa on sellainen
+        if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
+        	inputController = new InputController();
+        }
+        
         // Ladataan näytön tiedot
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -72,13 +69,9 @@ public class GameActivity extends Activity
         // Luodaan OpenGL-pinta ja renderöijä
         surfaceView = new GLSurfaceView(this);
         renderer    = new GLRenderer(this, surfaceView, dm);
-
-    	// Luodaan WeaponManager
-    	weaponManager = new WeaponManager();
-        weaponManager.initialize(GameActivity.activeMode);
         
         // Luodaan ja käynnistetään pelin säie
-        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, renderer, surfaceView);
+        gameThread = new GameThread(dm, getBaseContext(), this, renderer, surfaceView);
         renderer.connectToGameThread(gameThread);
         
         // Määritetään renderöijän asetukset ja otetaan se käyttöön
@@ -89,6 +82,7 @@ public class GameActivity extends Activity
         // Asetetaan käytettävä pinta
         setContentView(surfaceView);
         
+        // Käynnistetään pelisäie
         gameThread.setRunning(true);
         gameThread.start();
     }

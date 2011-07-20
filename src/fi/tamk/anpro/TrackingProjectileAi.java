@@ -18,9 +18,9 @@ public class TrackingProjectileAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public TrackingProjectileAi(int _id, int _type)
+	public TrackingProjectileAi(AiObject _parentObject, int _userType)
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 	}
 
     /**
@@ -65,21 +65,21 @@ public class TrackingProjectileAi extends AbstractAi
 			// Tarkistetaan kauanko ammus on ollut kent‰ll‰
 			if (currentTime - startTime < 5000) {
 				/* Etsit‰‰n l‰hin vihollinen */
-				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemyStates.get(indexOfClosestEnemy) != Wrapper.FULL_ACTIVITY)) {
+				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemies.get(indexOfClosestEnemy).state != Wrapper.FULL_ACTIVITY)) {
 					findClosestEnemy(500);
 				}
 				/* M‰‰ritet‰‰n k‰‰ntyminen */
 				else {
 					// M‰‰ritet‰‰n objektien v‰linen kulma
-					int angle = Utility.getAngle(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y,
+					int angle = Utility.getAngle(parentObject.x, parentObject.y,
 												 wrapper.enemies.get(indexOfClosestEnemy).x, wrapper.enemies.get(indexOfClosestEnemy).y);
 					
-					wrapper.projectiles.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.projectiles.get(parentId).direction, angle);
+					parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, angle);
 				}
 			}
 			// Ammus on ollut tarpeeksi kauan kent‰ll‰, joten teko‰ly ohjaa sen ulos
 			else {
-				wrapper.projectiles.get(parentId).turningDirection = 0;
+				parentObject.turningDirection = 0;
 			}
 		}
 	}

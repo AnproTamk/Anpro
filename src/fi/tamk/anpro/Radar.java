@@ -47,7 +47,7 @@ public class Radar extends GuiObject {
 		if (usedAnimation == -1) {
 			for(int i = wrapper.enemies.size()-1; i >= 0; --i) {
 				
-				if(wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+				if(wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
 					distance = Utility.getDistance(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
 					
 					angle = Utility.getAngle(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
