@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  * Sisältää kaikille tekoälyille yhteiset ominaisuudet.
  */
@@ -111,7 +109,7 @@ abstract public class AbstractAi
         		// Tarkistetaan törmäys
         		if (Utility.isColliding(wrapper.enemies.get(parentId), wrapper.player)) {
         			wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
-        			wrapper.player.triggerCollision(wrapper.enemies.get(parentId).attack, 0);
+        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, wrapper.enemies.get(parentId).attack, 0);
         		}
         	}
     	}

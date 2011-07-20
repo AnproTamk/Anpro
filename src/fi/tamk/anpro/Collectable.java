@@ -105,7 +105,7 @@ public class Collectable extends GameObject
      * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
-    public final void triggerCollision(int _damage, int _armorPiercing)
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
     	GameMode.updateScore(COLLECTABLE_RANK, x, y);
     	

@@ -12,6 +12,7 @@ abstract public class GfxObject
 	/* Toimintojen tilat */
 	protected static final byte ACTION_DESTROYED = 1;
 	protected static final byte ACTION_ENABLED   = 2;
+	protected static final byte ACTION_RESPAWN   = 3;
     
 	/* Objektin tunnus Wrapperissa */
     protected int listId;

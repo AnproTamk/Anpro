@@ -123,7 +123,7 @@ public class Player extends GameObject
 		        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
 		        		
 		        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
-		        			wrapper.collectables.get(i).triggerCollision(0, 0);
+		        			wrapper.collectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
 		        		}
 		        	}
 				}
@@ -152,31 +152,49 @@ public class Player extends GameObject
      * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
     @Override
-    public final void triggerCollision(int _damage, int _armorPiercing)
+    public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-        VibrateManager.vibrateOnHit();
-    	
-        if (currentArmor > 0) {
-        	EffectManager.showPlayerArmorEffect(this);
-        	EffectManager.showArmorHitEffect(hud.armorBar);
-        	
-        	if(_armorPiercing > 0) {
-        		EffectManager.showHealthHitEffect(hud.healthBar);
-        	}
-        }
-        else {
-            EffectManager.showHealthHitEffect(hud.healthBar);
-        }
-        
-        Utility.checkDamage(this, _damage, _armorPiercing);
-        
-        hud.armorBar.updateValue(currentArmor);
-        hud.healthBar.updateValue(currentHealth);
+    	VibrateManager.vibrateOnHit();
+	
+	    if (currentArmor > 0) {
+	    	EffectManager.showPlayerArmorEffect(this);
+	    	EffectManager.showArmorHitEffect(hud.armorBar);
+	    	
+	    	if(_armorPiercing > 0) {
+	    		EffectManager.showHealthHitEffect(hud.healthBar);
+	    	}
+	    }
+	    else {
+	        EffectManager.showHealthHitEffect(hud.healthBar);
+	    }
+	    
+	    Utility.checkDamage(this, _damage, _armorPiercing);
+	    
+	    hud.armorBar.updateValue(currentArmor);
+	    hud.healthBar.updateValue(currentHealth);
+	    
+	    if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
+	    	wrapper.playerState = Wrapper.ONLY_ANIMATION;
+	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
+	    }
+	    else if (_eventType == COLLISION_WITH_OBSTACLE) {
+    		wrapper.playerState = Wrapper.ONLY_ANIMATION;
+    		
+    		turningDirection = 0;
+            
+            setMovementSpeed(0.0f);
 
-        if (currentHealth <= 0 && wrapper.playerState == Wrapper.FULL_ACTIVITY) {
-        	wrapper.playerState = Wrapper.ONLY_ANIMATION;
-        	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-        }
+            x -= Math.cos((direction * Math.PI)/180) * 100 * Options.scaleX;
+            y -= Math.sin((direction * Math.PI)/180) * 100 * Options.scaleY;
+            
+            direction -= 180;
+            
+            if (direction < 0) {
+            	direction *= -1;
+            }
+            
+            setAction(GLRenderer.ANIMATION_RESPAWN, 1, 2, ACTION_RESPAWN, 0, 0);
+    	}
     }
 
     /**
@@ -201,10 +219,15 @@ public class Player extends GameObject
     protected void triggerEndOfAction()
     {    	
         // Tuhotaan pelaaja ja siirrytään pois pelitilasta
-        if (actionId == GfxObject.ACTION_DESTROYED) {
+        if (actionId == ACTION_DESTROYED) {
             setUnactive();
             
             gameMode.endGameMode();
+        }
+        else if (actionId == ACTION_RESPAWN) {
+        	setMovementSpeed(1.0f);
+        	
+        	wrapper.playerState = Wrapper.FULL_ACTIVITY;
         }
     }
 }

@@ -351,7 +351,7 @@ abstract public class AbstractProjectile extends GameObject
 		                    wrapper.projectileStates.set(listId, Wrapper.ONLY_ANIMATION);
 		                    
 		                    if (damageType == ProjectileLaser.DAMAGE_ON_TOUCH) {
-		                        wrapper.player.triggerCollision(damageOnTouch, armorPiercing);
+		                        wrapper.player.triggerCollision(COLLISION_WITH_PROJECTILE, damageOnTouch, armorPiercing);
 		
 		                    	if (explodeOnTarget) {
 		                		    setUnactive();

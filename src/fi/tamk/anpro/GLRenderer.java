@@ -24,6 +24,7 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_SHOOT    = 2;
     public static final int ANIMATION_DESTROY  = 3;
     public static final int ANIMATION_DISABLED = 4;
+    public static final int ANIMATION_RESPAWN  = 5;
     
     public static final int ANIMATION_COLLECTED = 0;
 
@@ -44,7 +45,7 @@ public class GLRenderer implements Renderer
     public static final int ANIMATION_RADAR_WARNING = 1;
     
     /* Animaatioiden ja tekstuurien m‰‰r‰t */
-    public static final int AMOUNT_OF_PLAYER_TEXTURES        = 4;
+    public static final int AMOUNT_OF_PLAYER_TEXTURES        = 5;
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
@@ -53,7 +54,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
     
-    public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 5;
+    public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 6;
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
@@ -306,6 +307,7 @@ public class GLRenderer implements Renderer
         /* Ladataan pelaajan grafiikat */
         playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1); 
         playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20);
+        playerAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.player_respawn_anim, 4);
         
         /* Ladataan liittolaisten grafiikat */
         // Emoalus
