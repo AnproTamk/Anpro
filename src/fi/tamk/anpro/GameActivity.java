@@ -71,14 +71,14 @@ public class GameActivity extends Activity
     	weaponManager = new WeaponManager();
         weaponManager.initialize(GameActivity.activeMode);
         
+        // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
+        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, renderer, surfaceView);
+        renderer.connectToGameThread(gameThread);
+        
         // Luodaan InputController, mik‰li laitteessa on sellainen
         if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
         	inputController = new InputController();
         }
-
-        // Luodaan ja k‰ynnistet‰‰n pelin s‰ie
-        gameThread = new GameThread(dm, getBaseContext(), this, weaponManager, surfaceView);
-        renderer.connectToGameThread(gameThread);
     }
         
     /**
@@ -110,6 +110,12 @@ public class GameActivity extends Activity
         super.onResume();
         
         surfaceView.onResume();
+        
+        gameThread.setRunning(true);
+        
+        if (!gameThread.isAlive()) {
+        	gameThread.start();
+        }
     }
     
     /**
@@ -125,16 +131,6 @@ public class GameActivity extends Activity
         
         // Pys‰ytet‰‰n s‰ie
         gameThread.setRunning(false);
-        /*boolean retry = true;
-        while (retry) {
-            try {
-                gameThread.join();
-                retry = false;
-            }
-            catch (InterruptedException e) {
-                // Yritet‰‰n uudelleen kunnes onnistuu
-            }
-        }*/
     }
         
     /**
@@ -145,7 +141,8 @@ public class GameActivity extends Activity
     protected void onStop()
     {
         super.onStop();
-        // TODO: Tee toteutus
+
+        gameThread.gameState = 1;
     }
         
     /**

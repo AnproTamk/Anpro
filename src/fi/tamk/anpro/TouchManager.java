@@ -91,14 +91,14 @@ public class TouchManager
         	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
         }
         
-        // K‰sitell‰‰n kosketustapahtumat
+        // Asetetaan TouchListenerit
         setSurfaceListeners();
     }
 
     /**
      * Asettaa TouchListenerit ja k‰sittelee kosketustapahtumat.
      */
-    private final void setSurfaceListeners()
+    public final void setSurfaceListeners()
     {
         surface.setOnTouchListener(new OnTouchListener() {
         	
