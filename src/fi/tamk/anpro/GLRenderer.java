@@ -8,6 +8,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Lataa ja varastoi tekstuurit ja hallitsee niiden piirtämisen ruudulle.
@@ -64,7 +65,6 @@ public class GLRenderer implements Renderer
     
     /* Latausruudun tekstuurit ja tila */
     private GLSpriteSet loadingTexture;
-    private boolean showLoadingScreen = false;
    
     /* Piirrettävät animaatiot ja objektit */
     public static GLSpriteSet[]     playerTextures;
@@ -99,8 +99,9 @@ public class GLRenderer implements Renderer
     private GameThread    gameThread = null;
     
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
-    public        boolean allLoaded     = false;
-    public static boolean loadingFailed = false;
+    public        boolean loadingStarted = false;
+    public static boolean loadingFailed  = false;
+    public        boolean allLoaded      = false;
     
     /* Animaatiopäivitysten muuttujat */
     private long lastAnimationUpdate;
@@ -178,25 +179,8 @@ public class GLRenderer implements Renderer
         _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
-        // TODO: Kaksi alempaa riviä jotenkin epäloogisessa paikassa
-        // Ladataan latausruudun tekstuuri
-    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
-    	
-    	showLoadingScreen = true;
-    	
-        // Ladataan grafiikat ja käynnistetään pelisäie
-        if (loadTextures(_gl)) {
-        	if (gameThread.isAlive()) {
-        		gameThread.setRunning(true);
-        	}
-        	else {
-        		startThread();
-        	}
-        }
-        else {
-            // TODO: Käsittele virhe PAREMMIN
-        	System.exit(0);
-        }
+        // Ladataan tekstuurit
+    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1); // TODO: Outo paikka?
     }
 
     /**
@@ -248,152 +232,36 @@ public class GLRenderer implements Renderer
         _gl.glClearColor(0, 0, 0, 0);
         _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
-        /* Tarkastetaan onko tekstuurit ladattu */
-        if (allLoaded && gameThread.allLoaded) {
+        if (GameThread.gameState == GameThread.GAMESTATE_HIDE_MAINMENU) {
+        	// TODO: Tämä vaihe on tässä vain siksi, että ehdittäisiin piirtämään
+        	// lataustekstuuri ennen lataamisen alkamista, joka estää onDrawFramea
+        	// pääsemästä funktion loppuun. Tähän pitää kehitellä jotain parempaa.
+            loadingTexture.draw(_gl, 0, 0, 90, 0);
+        }
+        else if (GameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
             
-            long currentTime = android.os.SystemClock.uptimeMillis();
-            
-            if (currentTime - lastAnimationUpdate >= 40) {
-                lastAnimationUpdate = currentTime;
-                updateAnimations = true;
-            }
-            
-            /* Käydään läpi piirtolistat ja päivitetään animaatiot */
-        	// Tähtitausta
-            for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
-            	wrapper.backgroundStars.get(i).draw(_gl);
-            }
-            
-            // Emoalus
-            if (wrapper.mothership != null) {
-            	wrapper.mothership.draw(_gl);
-            	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
-                	wrapper.mothership.update();
-                }
-            }
-            
-            // Taustaefektit
-            for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
-                if (wrapper.backEffectStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.backEffects.get(i).draw(_gl);
-                    if (updateAnimations && wrapper.backEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.backEffects.get(i).animationSpeed == 0) {
-                        wrapper.backEffects.get(i).update();
-                    }
-                }
-            }
-            
-            // Ammukset
-            for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-            	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
-                	wrapper.projectiles.get(i).draw(_gl);
-                    if (updateAnimations && wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
-                        wrapper.projectiles.get(i).update();
-                    }
-            	}
-            }
-            
-            // Liittolaiset
-            for (int i = wrapper.allies.size()-1; i >= 0; --i) {
-	            if (wrapper.allyStates.get(i) != Wrapper.INACTIVE) {
-	                wrapper.allies.get(i).draw(_gl);
-	                if (updateAnimations && wrapper.allies.get(i).usedAnimation != -1 && updateBeat % wrapper.allies.get(i).animationSpeed == 0) {
-	                	wrapper.allies.get(i).update();
-	                }
-	            }
-            }
-            
-            // Viholliset
-            for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
-	                wrapper.enemies.get(i).draw(_gl);
-	                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
-	                	wrapper.enemies.get(i).update();
-	                }
-	            }
-            }
-        
-            // Pelaaja
-            if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
-                wrapper.player.draw(_gl);
-            	if (updateAnimations && wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
-                    wrapper.player.update();
-                }
-            }
-            
-            // Kerättävät esineet
-            for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
-                if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.collectables.get(i).draw(_gl);
-                    if (updateAnimations && wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
-                        wrapper.collectables.get(i).update();
-                    }
-                }
-            }
-            
-            // Aurinko, planeetat ja asteroidit
-            for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-                if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
-                	wrapper.obstacles.get(i).draw(_gl);
-                	if (updateAnimations && wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
-                        wrapper.obstacles.get(i).update();
-                	}
-                }
-            }
-            
-            // Etuefektit
-            for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
-                if (wrapper.frontEffectStates.get(i) != Wrapper.INACTIVE) {
-                    wrapper.frontEffects.get(i).draw(_gl);
-                    if (updateAnimations && wrapper.frontEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.frontEffects.get(i).animationSpeed == 0) {
-                        wrapper.frontEffects.get(i).update();
-                    }
-                }
-            }
-            
-            // HUD
-            for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
-                if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
-            		wrapper.guiObjects.get(i).draw(_gl);
-                	if (updateAnimations && wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
-                		wrapper.guiObjects.get(i).update();
-                	}
-                }
-            }
-            
-            // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
-            // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
-            /*for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
-            	gameThread.hud.buttons.get(i).update();
-            }*/
-            
-            if (currentTime - lastMessageUpdate >= 50) {
-            	lastMessageUpdate = currentTime;
-            	
-	            for (int i = wrapper.messages.size()-1; i >= 0; --i) {
-	            	if (wrapper.messageStates.get(i) != Wrapper.INACTIVE) {
-	            		wrapper.messages.get(i).updateAngle();
-	            	}
-	            }
-            }
-            
-            updateAnimations = false;
-                
-            // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mikäli raja ylitetään.
-            // Tällä animaatioiden päivittäminen tahdistetaan; Animaatiot voivat näkyä joko
-            // joka kierroksella, joka toisella, joka neljännellä tai joka kahdeksannella
-            // kierroksella.
-            ++updateBeat;
-            
-            if (updateBeat > 32) {
-                updateBeat = 1;
+            if (!loadingStarted && !allLoaded) {
+            	loadingStarted = true;
+    	    	if (loadTextures(_gl)) {
+    	        	allLoaded = true;
+    	        }
+    	        else {
+    	            // TODO: Käsittele virhe PAREMMIN
+    	        	System.exit(0);
+    	        }
             }
         }
-        /* Tekstuureja ei ole vielä ladattu */
-        else if (!allLoaded && gameThread != null) {
-        	// Näytetään latausruutu
-        	loadingTexture.draw(_gl, 0, 0, 90, 0);
-        	
-    		showLoadingScreen = true;
+        else if (GameThread.gameState == GameThread.GAMESTATE_STORY) {
+        }
+        else if (GameThread.gameState == GameThread.GAMESTATE_TUTORIALS) {
+        }
+        else if (GameThread.gameState == GameThread.GAMESTATE_STARTUP) {
+        }
+        else if (GameThread.gameState == GameThread.GAMESTATE_GAME) {
+	        /* Tarkastetaan onko tekstuurit ladattu */
+	        if (allLoaded && gameThread.allLoaded) {
+	        	renderScene(_gl);
+	        }
         }
     }
 
@@ -564,16 +432,149 @@ public class GLRenderer implements Renderer
         	return false;
         }
     }
-
+    
     /**
-     * Käynnistää pelisäikeen.
+     * Piirtää pelitilan objektit.
+     * 
+     * @param _gl OpenGL-konteksti
      */
-    private final void startThread()
+    private void renderScene(GL10 _gl)
     {
-        if (gameThread != null) {
-            gameThread.setRunning(true);
-            gameThread.initialize();
-            gameThread.start();
+    	long currentTime = android.os.SystemClock.uptimeMillis();
+        
+        if (currentTime - lastAnimationUpdate >= 40) {
+            lastAnimationUpdate = currentTime;
+            updateAnimations = true;
+        }
+        
+        /* Käydään läpi piirtolistat ja päivitetään animaatiot */
+    	// Tähtitausta
+        for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
+        	wrapper.backgroundStars.get(i).draw(_gl);
+        }
+        
+        // Emoalus
+        if (wrapper.mothership != null) {
+        	wrapper.mothership.draw(_gl);
+        	if (updateAnimations && wrapper.mothership.usedAnimation != -1 && updateBeat % wrapper.mothership.animationSpeed == 0) {
+            	wrapper.mothership.update();
+            }
+        }
+        
+        // Taustaefektit
+        for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
+            if (wrapper.backEffectStates.get(i) != Wrapper.INACTIVE) {
+                wrapper.backEffects.get(i).draw(_gl);
+                if (updateAnimations && wrapper.backEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.backEffects.get(i).animationSpeed == 0) {
+                    wrapper.backEffects.get(i).update();
+                }
+            }
+        }
+        
+        // Ammukset
+        for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
+        	if (wrapper.projectileStates.get(i) != Wrapper.INACTIVE) {
+            	wrapper.projectiles.get(i).draw(_gl);
+                if (updateAnimations && wrapper.projectiles.get(i).usedAnimation != -1 && updateBeat % wrapper.projectiles.get(i).animationSpeed == 0) {
+                    wrapper.projectiles.get(i).update();
+                }
+        	}
+        }
+        
+        // Liittolaiset
+        for (int i = wrapper.allies.size()-1; i >= 0; --i) {
+            if (wrapper.allyStates.get(i) != Wrapper.INACTIVE) {
+                wrapper.allies.get(i).draw(_gl);
+                if (updateAnimations && wrapper.allies.get(i).usedAnimation != -1 && updateBeat % wrapper.allies.get(i).animationSpeed == 0) {
+                	wrapper.allies.get(i).update();
+                }
+            }
+        }
+        
+        // Viholliset
+        for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
+            if (wrapper.enemyStates.get(i) != Wrapper.INACTIVE) {
+                wrapper.enemies.get(i).draw(_gl);
+                if (updateAnimations && wrapper.enemies.get(i).usedAnimation != -1 && updateBeat % wrapper.enemies.get(i).animationSpeed == 0) {
+                	wrapper.enemies.get(i).update();
+                }
+            }
+        }
+    
+        // Pelaaja
+        if (wrapper.player != null && wrapper.playerState != Wrapper.INACTIVE) {
+            wrapper.player.draw(_gl);
+        	if (updateAnimations && wrapper.player.usedAnimation != -1 && updateBeat % wrapper.player.animationSpeed == 0) {
+                wrapper.player.update();
+            }
+        }
+        
+        // Kerättävät esineet
+        for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+            if (wrapper.collectableStates.get(i) != Wrapper.INACTIVE) {
+                wrapper.collectables.get(i).draw(_gl);
+                if (updateAnimations && wrapper.collectables.get(i).usedAnimation != -1 && updateBeat % wrapper.collectables.get(i).animationSpeed == 0) {
+                    wrapper.collectables.get(i).update();
+                }
+            }
+        }
+        
+        // Aurinko, planeetat ja asteroidit
+        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
+            if (wrapper.obstacleStates.get(i) != Wrapper.INACTIVE) {
+            	wrapper.obstacles.get(i).draw(_gl);
+            	if (updateAnimations && wrapper.obstacles.get(i).usedAnimation != -1 && updateBeat % wrapper.obstacles.get(i).animationSpeed == 0) {
+                    wrapper.obstacles.get(i).update();
+            	}
+            }
+        }
+        
+        // Etuefektit
+        for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
+            if (wrapper.frontEffectStates.get(i) != Wrapper.INACTIVE) {
+                wrapper.frontEffects.get(i).draw(_gl);
+                if (updateAnimations && wrapper.frontEffects.get(i).usedAnimation != -1 && updateBeat % wrapper.frontEffects.get(i).animationSpeed == 0) {
+                    wrapper.frontEffects.get(i).update();
+                }
+            }
+        }
+        
+        // HUD
+        for (int i = wrapper.guiObjects.size()-1; i >= 0; --i) {
+            if (wrapper.guiObjectStates.get(i) != Wrapper.INACTIVE) {
+        		wrapper.guiObjects.get(i).draw(_gl);
+            	if (updateAnimations && wrapper.guiObjects.get(i).usedAnimation != -1 && updateBeat % wrapper.guiObjects.get(i).animationSpeed == 0) {
+            		wrapper.guiObjects.get(i).update();
+            	}
+            }
+        }
+        
+        // TODO: Napit pitäisi lisätä Wrapperin piirtolistalle, jottei renderöijän
+        // tarvitse kutsua sekä pelisäiettä että HUDia nappeja päivittääkseen.
+        /*for (int i = gameThread.hud.buttons.size()-1; i >= 0; --i) {
+        	gameThread.hud.buttons.get(i).update();
+        }*/
+        
+        if (currentTime - lastMessageUpdate >= 50) {
+        	lastMessageUpdate = currentTime;
+        	
+            for (int i = wrapper.messages.size()-1; i >= 0; --i) {
+            	if (wrapper.messageStates.get(i) != Wrapper.INACTIVE) {
+            		wrapper.messages.get(i).updateAngle();
+            	}
+            }
+        }
+        
+        updateAnimations = false;
+            
+        // Kasvatetaan updateBeat:ia ja aloitetaan kierros alusta, mikäli raja ylitetään.
+        // Tällä animaatioiden päivittäminen tahdistetaan; Animaatiot voivat näkyä joko
+        // joka kierroksella, joka toisella, joka neljännellä tai joka kahdeksannella
+        // kierroksella.
+        ++updateBeat;
+        
+        if (updateBeat > 32) {
+            updateBeat = 1;
         }
     }
 }
