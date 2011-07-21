@@ -78,7 +78,10 @@ public class WeaponManager
         enemyWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_ENEMY));
         enemyWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_ENEMY));
     }
-    
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Välittää kutsupyynnön käytössä pelaajan aseelle aktivoiden sen ja lähettämällä
      * sille kohteen koordinaatit. Päivittää myös cooldownit.

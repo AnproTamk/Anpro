@@ -16,7 +16,10 @@ public class PlayerAi extends AbstractAi
 	{
 		super(_parentObject, _userType);
 	}
-	
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * K‰sittelee teko‰lyn.
      */
@@ -43,6 +46,9 @@ public class PlayerAi extends AbstractAi
     	}
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * K‰ynnist‰‰ autopilotin. K‰ytet‰‰n kun pelaaja menee kent‰n rajojen yli.
      */

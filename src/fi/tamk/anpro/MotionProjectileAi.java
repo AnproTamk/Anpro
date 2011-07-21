@@ -30,6 +30,9 @@ public class MotionProjectileAi extends AbstractAi
 		super(_parentObject, _userType);
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 
@@ -104,7 +107,10 @@ public class MotionProjectileAi extends AbstractAi
 		
 		
 	}
-	
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	/**
 	 * Optimoi ammuksen kulkureitin.
 	 * 

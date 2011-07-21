@@ -28,6 +28,9 @@ public class XmlReader
         context = _context;
     }
     
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Lukee HUDin tiedot. Riippuen pelimodesta, lukee tarvittavat tiedot 
      * XML-tiedostosta joko story- tai survival-modea varten.

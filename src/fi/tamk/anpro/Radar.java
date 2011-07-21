@@ -36,7 +36,10 @@ public class Radar extends GuiObject {
 			direction = -90;
 		}
 	}
-	
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	public final void updateRadar() {
 
 		if (usedAnimation == -1) {

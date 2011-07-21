@@ -24,7 +24,10 @@ public class TurretAllyAi extends AbstractAi
 		/* Tallennetaan muuttujat */
 		weaponManager = _weaponManager;
 	}
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */

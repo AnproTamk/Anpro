@@ -29,6 +29,9 @@ public class WeaponSpitfire extends AbstractWeapon
 		}
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.

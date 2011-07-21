@@ -34,7 +34,10 @@ public class RotaryAi extends AbstractAi
 		/* Alustetaan muuttujat */
 		checkpoints = new int[13][2];
 	}
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */
