@@ -25,7 +25,8 @@ public class GameMode
 
     /* Asteroidit */
     private Obstacle[] asteroids; // Asteroidit
-    private Obstacle[] planets; // Planeetat
+    private Obstacle[] planets;   // Planeetat
+    private Obstacle   star;      // Aurinko
     
     /* Ker‰tt‰v‰t esineet */
     private Collectable[] collectables; // Ker‰tt‰v‰t esineet
@@ -87,8 +88,8 @@ public class GameMode
         
         /* Alustetaan muuttujat */
         // M‰‰ritet‰‰n kartan leveys
-        mapWidth  = 1200;
-        mapHeight = 800;
+        mapWidth  = 1700;
+        mapHeight = 1700;
         
         // M‰‰ritet‰‰n reuna-alue (alue, jossa autopilot aktivoituu)
         overBoundWidth  = mapWidth + 700;
@@ -297,21 +298,11 @@ public class GameMode
         }
         
         // Luodaan planeetat
-        for (int i = 0; i < 2; ++i) {
-        	tempDirection = Utility.getRandom(0, 359);
-            tempX         = Utility.getRandom(-mapWidth, mapWidth);
-            tempY         = Utility.getRandom(-mapHeight, mapHeight);
-			
-			if (tempX > -Options.scaledScreenWidth * 2 && tempX < Options.scaledScreenWidth * 2 &&
-				tempY > -Options.scaledScreenHeight * 2 && tempY < Options.scaledScreenHeight * 2) {
-	    			--i;
-			}
-			else {
-				// Planeetan erityistyypiksi m‰‰ritet‰‰n i, jolloin se saa arvoksi 0 tai 1.
-				// Vastaavasti planeettojen erityistyypit m‰‰ritt‰v‰t vakiot sis‰lt‰v‰t arvot 0 tai 1.
-				planets[i] = new Obstacle(Obstacle.OBSTACLE_PLANET, i, tempX, tempY, 0, tempDirection);
-			}
-        }
+        planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 400, -800, 0, 90);
+        planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, -1000, -100, 0, 0);
+        
+        // Luodaan aurinko
+        star = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 900, 800, 0, 0);
     }
     
     /**

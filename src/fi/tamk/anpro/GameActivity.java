@@ -160,8 +160,6 @@ public class GameActivity extends Activity
      */
     public void continueToHighscores(int _score)
 	{
-    	gameThread.setRunning(false); // TODO: Wat..?
-    	
 		Intent i_highscores = new Intent(this, HighScoresActivity.class);
 		
 		// Luodaan uusi Bundle
@@ -177,12 +175,12 @@ public class GameActivity extends Activity
 	}
     
     /**
-     * 
-     * 
-     * @param TODO:PARAMETRIT!
+     * K‰ynnist‰‰ MothershipActivityn.
      */
     public void continueToMothership()
     {
+    	gameThread.setRunning(false); // TODO: Wat..?
+    	
     	Intent i_mothership = new Intent(this, MothershipActivity.class);
 		
 		startActivity(i_mothership);
