@@ -35,6 +35,9 @@ abstract public class GameObject extends GfxObject
     protected int health;
     protected int currentHealth;
     
+    // Panssarien l‰p‰isykyky (lis‰‰ tehty‰ vahinkoa)
+    protected int armorPiercing = 0;
+    
     /* Tˆrm‰ystunnistus */
     protected int collisionRadius = 0;
     
@@ -98,6 +101,16 @@ abstract public class GameObject extends GfxObject
      */
     public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
 
+    /**
+     * Etsii r‰j‰hdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
+     */
+    protected void triggerExplosion() { }
+    
+    /**
+     * Aiheuttaa ammuksen erikoistoiminnon.
+     */
+    protected void triggerSpecialAction() { }
+    
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
      * 
