@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  * Sis‰lt‰‰ k‰yttˆliittym‰n joystickin toiminnallisuudet.
  */
@@ -22,14 +20,19 @@ public class Joystick extends GuiObject
     {
         super(_x, _y);
         
-        joystickX = _x;
-        joystickY = _y;
-        joystickDown = false;
+        // M‰‰ritet‰‰n tila
+        joystickX     = _x;
+        joystickY     = _y;
+        joystickDown  = false;
         joystickInUse = false;
         
+        // M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
     }
-    
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * M‰‰ritt‰‰ pelaajan kulkusuunnan ollessaan k‰ytˆss‰
      * 

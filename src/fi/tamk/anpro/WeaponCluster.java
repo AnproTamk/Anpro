@@ -22,15 +22,16 @@ public class WeaponCluster extends AbstractWeapon
     {
         super(_wrapper, _userType);
         
-        // Alustetaan ammukset
+		/* Alustetaan muuttujat */
 		projectiles = new ArrayList<ProjectileBomb>(16);
-		
-		// Luodaan tarvittava määrä ammuksia
 		for (int i = 15; i >= 0; --i) {
 			projectiles.add(new ProjectileBomb(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
-
     }
+    
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.

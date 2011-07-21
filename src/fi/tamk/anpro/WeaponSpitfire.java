@@ -21,16 +21,17 @@ public class WeaponSpitfire extends AbstractWeapon
 	public WeaponSpitfire(Wrapper _wrapper, int _userType)
 	{
 		super(_wrapper, _userType);
-		
-		// Alustetaan ammukset
+
+		/* Alustetaan muuttujat */
 		projectiles = new ArrayList<ProjectileSpitfire>(25);
-		
-		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 25; ++i) {
 			projectiles.add(new ProjectileSpitfire(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. T‰st‰ eteenp‰in ammusten oma teko‰ly hoitaa niiden
      * p‰ivitt‰misen.

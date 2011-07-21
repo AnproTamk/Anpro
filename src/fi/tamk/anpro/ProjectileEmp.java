@@ -15,7 +15,9 @@ public class ProjectileEmp extends AbstractProjectile
     public ProjectileEmp(int _ai, int _userType)
     {
         super(_ai, _userType);
-    
+        
+        /* Alustetaan muuttujat */
+        // Määritetään ammuksen tunnus (käytetään tekstuureja valittaessa)
         projectileId = 1;
         
         // Haetaan animaatioiden pituudet
@@ -32,16 +34,19 @@ public class ProjectileEmp extends AbstractProjectile
         collisionRadius = (int)(200 * Options.scale);
         damageOnTouch   = 0;
     }
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.
      */
     @Override
-    protected void triggerSpecialAction()
+    public void triggerSpecialAction()
     {
         state = Wrapper.ONLY_ANIMATION;
         
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
         
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {

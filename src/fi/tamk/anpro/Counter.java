@@ -13,23 +13,40 @@ public class Counter extends GuiObject
 	/**
      * Alustaa luokan muuttujat.
      * 
-     * @param int Objektin X-koordinaatti
-     * @param int Objektin Y-koordinaatti
-     * @param int Laskettavat arvot
+     * @param _x Objektin X-koordinaatti
+     * @param _y Objektin Y-koordinaatti
      */
 	public Counter(int _x, int _y) {
 		super(_x, _y);
 		
-		usedTexture = GLRenderer.TEXTURE_COUNTER;
-		
+		// M‰‰ritet‰‰n objektin tila
 		state = Wrapper.INACTIVE;
+		
+		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
+		usedTexture = GLRenderer.TEXTURE_COUNTER;
+	}
+
+	/* =======================================================
+	* Perityt funktiot
+	* ======================================================= */
+	@Override
+	public void draw(GL10 _gl)
+	{
+		for (int i = 0; i < 6; ++i) {
+			if (frames[i] > -1) {
+				GLRenderer.hudTextures[usedTexture].draw(_gl, (tempX+30*i) + CameraManager.xTranslate,  y + CameraManager.yTranslate, direction, frames[i]);
+			}
+		}
 	}
 	
+	/* =======================================================
+	* Uudet funktiot
+	* ======================================================= */
 	/**
 	 * Palastelee pisteet yksitt‰isiksi numeroiksi, joiden avulla
 	 * piirret‰‰n yksitt‰iset numerot ruudulle pisteiden muodostamiseksi.
 	 * 
-	 * @param int Pisteet
+	 * @param _score Pisteet
 	 */
 	public void parseScore(long _score)
 	{
@@ -44,15 +61,5 @@ public class Counter extends GuiObject
 		}
 		
 		tempX -= tempX * 13;
-	}
-	
-	@Override
-	public void draw(GL10 _gl)
-	{
-		for (int i = 0; i < 6; ++i) {
-			if (frames[i] > -1) {
-				GLRenderer.hudTextures[usedTexture].draw(_gl, (tempX+30*i) + CameraManager.xTranslate,  y + CameraManager.yTranslate, direction, frames[i]);
-			}
-		}
 	}
 }

@@ -75,26 +75,32 @@ public class TouchManager
         touchPath[0][1] = 0;
         
         // Määritetään kentällä olevat rajat nappien painamiselle eri näytön korkeuksien mukaan
+        // TODO: Tälle toteutukselle tarvitaan dynaaminen muoto.
         if (screenHeight == 320) {
-        	yClickFirstBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);		// 96
-        	yClickSecondBorder = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 64; // 32
+        	yClickFirstBorder  = -48;
+        	yClickSecondBorder = -96;
+        	yClickThirdBorder  = -128;
         }
         else if (screenHeight == 480) {
-        	yClickFirstBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f);		 // 96
-        	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
+        	yClickFirstBorder  = -32;
+        	yClickSecondBorder = -100;
+        	yClickThirdBorder  = -168;
         }
         else {
-        	yClickFirstBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f);		 // 96
-        	yClickSecondBorder = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
+        	yClickFirstBorder  = -32;
+        	yClickSecondBorder = -100;
+        	yClickThirdBorder  = -168;
         }
+        
+        Log.e("testi", "FirstBorder: " + yClickFirstBorder + " SecondBorder: " + yClickSecondBorder + " ThirdBorder" + yClickThirdBorder);
         
         // Asetetaan TouchListenerit
         setSurfaceListeners();
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Asettaa TouchListenerit ja käsittelee kosketustapahtumat.
      */
@@ -150,7 +156,7 @@ public class TouchManager
                             	
                             	// Lopetetaan joystickin käyttäminen, jos sormen etäisyys siitä on yli sallitun rajan
                             	if (Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) > JOYSTICK_TRESHOLD) {
-                            		Joystick.joystickDown = false;
+                            		Joystick.joystickDown  = false;
                             		Joystick.joystickInUse = false;
                             		
                                     // Asetetaan pelaajan jarrutus
@@ -201,24 +207,29 @@ public class TouchManager
                     	// Muistetaan mistä painallus alkaa
                     	xClickOffsetFirstTouch = (int) event.getX() - screenWidth / 2;
                         yClickOffsetFirstTouch = screenHeight / 2 - (int) event.getY();
-                        //Log.e("testi", "ACTION_DOWN");
+                        Log.e("testi", "ACTION_DOWN: xFirst = " + xClickOffsetFirstTouch + " yFirst = " + yClickOffsetFirstTouch);
                         
                         /* Oikean reunan napit */
-                        if (xClickOffsetFirstTouch > screenWidth - 100 * Options.scaleX && xClickOffsetFirstTouch < screenWidth &&
+                        if (xClickOffsetFirstTouch > (screenWidth / 2) - 100 * Options.scaleX && xClickOffsetFirstTouch < (screenWidth / 2) &&
                         	yClickOffsetFirstTouch < yClickFirstBorder) {
                         	
+                        	Log.e("testi", "OIKEASSA REUNASSA..");
+                        	
                             // Oikean reunan alin nappula
-                            if (yClickOffsetFirstTouch < yClickThirdBorder && yClickOffsetFirstTouch > 0) {
+                            if (yClickOffsetFirstTouch < yClickThirdBorder && yClickOffsetFirstTouch > (-screenHeight / 2)) {
+                            	Log.e("testi", "ALIN NAPPULA");
                                 hud.triggerClick(Hud.BUTTON_3);
                             }
 
                             // Oikean reunan keskimmäinen nappula
                             else if (yClickOffsetFirstTouch < yClickSecondBorder && yClickOffsetFirstTouch > yClickThirdBorder) {
+                            	Log.e("testi", "KESKIMMÄINEN NAPPULA");
                                 hud.triggerClick(Hud.BUTTON_2);
                             }
 
                             // Oikean reunan ylin nappula
                             else if (yClickOffsetFirstTouch < yClickFirstBorder && yClickOffsetFirstTouch > yClickSecondBorder) {
+                            	Log.e("testi", "YLIN NAPPULA");
                                 hud.triggerClick(Hud.BUTTON_1);
                             }
                         }
@@ -272,7 +283,7 @@ public class TouchManager
                         	
                         	// Lopetetaan joystickin käyttäminen, jos sormen etäisyys siitä on yli sallitun rajan
                         	if (Utility.getDistance((float)xClickOffsetFirstTouch, (float)yClickOffsetFirstTouch, (float)joystickX, (float)joystickY) > JOYSTICK_TRESHOLD) {
-                        		Joystick.joystickDown = false;
+                        		Joystick.joystickDown  = false;
                         		Joystick.joystickInUse = false;
                         		
                         		// Asetetaan pelaajan jarrutus

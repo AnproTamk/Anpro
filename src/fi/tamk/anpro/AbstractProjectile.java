@@ -62,17 +62,20 @@ abstract public class AbstractProjectile extends AiObject
     public AbstractProjectile(int _ai, int _userType)
     {
         super(15); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
-        
+
+        /* Tallennetaan muuttujat */
+        userType = _userType;
+
+		/* Alustetaan muuttujat */
+		z = 5;
+		
+        /* Otetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
+        wrapper.addToDrawables(this);
         state = Wrapper.INACTIVE;
         
-        // Tallenne taan käyttäjän tyyppi
-        userType = _userType;
-        
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
-        
-        // Lisätään ammus piirtolistalle ja ladataan tekoäly
-        wrapper.addToDrawables(this);
         if (_ai == AbstractAi.NO_AI) {
         	ai = null;
         }
@@ -84,6 +87,9 @@ abstract public class AbstractProjectile extends AiObject
         }
     }
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */    
     /**
      * Määrittää ammuksen aktiiviseksi.
      */
@@ -254,7 +260,7 @@ abstract public class AbstractProjectile extends AiObject
         	triggerSpecialAction();
         }
     }
-    
+
     /**
      * Käsittelee ammuksen törmäystarkistukset.
      */
@@ -500,7 +506,7 @@ abstract public class AbstractProjectile extends AiObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	private void triggerDestroyed()
+	public void triggerDestroyed()
 	{
 		if(triggersExplosionEffect) {
 			EffectManager.showExplosionEffect(x, y);
@@ -517,7 +523,7 @@ abstract public class AbstractProjectile extends AiObject
 	@Override
     protected final void triggerExplosion()
     {
-    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     	
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
@@ -536,5 +542,5 @@ abstract public class AbstractProjectile extends AiObject
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.
      */
-    protected void triggerSpecialAction() { }
+    public void triggerSpecialAction() { }
 }

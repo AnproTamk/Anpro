@@ -22,11 +22,16 @@ public class GuideArrow extends GuiObject
 	{
 		super(_x, _y);
 		
+		// Tallennetaan kohteen tyyppi
 		targetType = _target;
 		
+		// M‰‰ritet‰‰n aloitustekstuuri
 		usedTexture = GLRenderer.TEXTURE_GUIDEARROW + _target;
 	}
 
+	/* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	/**
 	 * P‰ivitt‰‰ nuolen etsim‰ll‰ uuden kohteen mik‰li tarpeen ja tarkistamalla
 	 * nuolen ja kohteen v‰lisen kulman.

@@ -20,10 +20,14 @@ public class TurretAllyAi extends AbstractAi
 	public TurretAllyAi(AiObject _parentObject, int _userType, WeaponManager _weaponManager) 
 	{
 		super(_parentObject, _userType);
-		
+        
+		/* Tallennetaan muuttujat */
 		weaponManager = _weaponManager;
 	}
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */

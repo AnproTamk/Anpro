@@ -30,6 +30,9 @@ public class CameraManager
     	wrapper = Wrapper.getInstance();
     }
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Palauttaa osoittimen t‰st‰ luokasta.
      * 
@@ -47,6 +50,9 @@ public class CameraManager
 		instance = null;
 	}
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * P‰ivitt‰‰ kameran sijainnin.
      */

@@ -81,6 +81,10 @@ abstract public class GameObject extends GfxObject
         setTurningDelay(1.0f);
     }
     
+
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Käsittelee räjähdyksien vaikutukset objektiin.
      * 
@@ -91,16 +95,12 @@ abstract public class GameObject extends GfxObject
     /**
      * Käsittelee törmäyksien vaikutukset objektiin.
      * 
-     * @param int Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
-     * @param int Osuman aiheuttama vahinko
-     * @param int Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     * @param _eventType     Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
+     * @param _damage        Osuman aiheuttama vahinko
+     * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
-    {
-    	// Ilmoitetaan väärän komennon kutsumisesta LogCatiin
-    	Log.e("VIRHE", "Kutsuttiin väärää triggerCollision-funktiota! Tätä funktiota käyttävät vain viholliset ja liittolaiset!");
-    }
-    
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
+
     /**
      * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
@@ -114,7 +114,7 @@ abstract public class GameObject extends GfxObject
     /**
      * Päivittää liikkumisen ja kääntymisen.
      * 
-     * @param long Tämän hetkinen aika
+     * @param _time Tämän hetkinen aika
      */
     public void updateMovement(long _time)
     {
@@ -198,11 +198,11 @@ abstract public class GameObject extends GfxObject
             }
         }
     }
-    
+
     /**
      * Laskee objektille "nopeuden" (pikselien määrä / liike).
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setMovementSpeed(float _multiplier)
     {
@@ -212,7 +212,7 @@ abstract public class GameObject extends GfxObject
     /**
      * Laskee objektille liikkeen viiveen. 
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setMovementDelay(float _multiplier)
     {
@@ -222,7 +222,7 @@ abstract public class GameObject extends GfxObject
     /**
      * Laskee objektille "kääntymisnopeuden" (asteiden määrä / liike).
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setTurningSpeed(float _multiplier)
     {
@@ -232,7 +232,7 @@ abstract public class GameObject extends GfxObject
     /**
      * Laskee objektille kääntymisen viiveen. 
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setTurningDelay(float _multiplier)
     {
@@ -242,7 +242,7 @@ abstract public class GameObject extends GfxObject
     /**
      * Laskee objektille "kääntymisnopeuden" (katselukulma).
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setFacingTurningSpeed(float _multiplier)
     {
@@ -252,11 +252,20 @@ abstract public class GameObject extends GfxObject
     /**
      * Laskee objektille kääntymisen viiveen (katselukulma).
      * 
-     * @param float Nopeuden muutoskerroin
+     * @param _multiplier Nopeuden muutoskerroin
      */
     public final void setFacingTurningDelay(float _multiplier)
     {
     	facingTurningDelay = (int) (60 / (_multiplier * (float)speed));
     }
-}
+    
+    /**
+     * Aktivoi peliobjektin tuhoutumisen, toteutus jokaisella objektilla omassa luokassaan.
+     */    
+    public void triggerDestroyed() { }
 
+    /**
+     * Epäaktivoi peliobjektin, toteutus jokaisella objektilla omassa luokassaan.
+     */
+    public void triggerDisabled() { }
+}

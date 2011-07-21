@@ -7,7 +7,6 @@ public class Bar extends GuiObject
 {
 	// Palkin maksimiarvo
 	private int max;
-	private int type;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -18,17 +17,20 @@ public class Bar extends GuiObject
 	public Bar(int _x, int _y, int _type)
     {
         super(_x, _y);
-        type = _type;
         
         // M‰‰ritet‰‰n aloitustekstuuri
-        if (type == 1) {
+        // TODO: Vakiot tyypeille
+        if (_type == 1) {
         	usedTexture = GLRenderer.TEXTURE_HEALTH;
         }
-        else if (type == 2) {
+        else if (_type == 2) {
         	usedTexture = GLRenderer.TEXTURE_ARMOR;
         }
     }
-
+    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	/**
 	 * Tallentaa palkin maksimiarvon.
 	 * 

@@ -41,7 +41,10 @@ public class VibrateManager
         }
         return instance;
     }
-    
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Aiheuttaa värinän.
      */

@@ -12,7 +12,6 @@ public class Ally extends AiObject
 	public static final byte ALLY_TURRET = 1;
 	
     /* Liittolaisen tiedot */
-    public int attack;
     public int type;   // Liittolaisten tyypit vastaavat vihollisten tasoja
     
     /* Muut tarvittavat oliot */
@@ -33,15 +32,18 @@ public class Ally extends AiObject
     {
         super(_speed);
         
-        // Tallennetaan tiedot
-        health        = _health;
-        currentHealth = _health;
-        attack        = _attack;
-        armor         = _armor;
-        currentArmor  = _armor;
-        type          = _type;
+        /* Tallennetaan muuttujat */
+        health          = _health;
+        currentHealth   = _health;
+        collisionDamage = _attack;
+        armor           = _armor;
+        currentArmor    = _armor;
+        type            = _type;
+        weaponManager   = _weaponManager;
         
-        // Asetetaan törmäysetäisyys
+        /* Alustetaan muuttujat */
+        // Määritetään törmäysetäisyys
+        // TODO: Vakiot tyypeille?
         if (type == 1) {
             collisionRadius = (int) (20 * Options.scale);
         }
@@ -58,18 +60,21 @@ public class Ally extends AiObject
             }
         }
         
-        // Otetaan Wrapper käyttöön ja tallennetaan WeaponManagerin osoitin
-        wrapper       = Wrapper.getInstance();
-        weaponManager = _weaponManager;
-        
-        // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+        /* Otetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
         wrapper.addToDrawables(this);
+        state = Wrapper.INACTIVE;
         
         if (_ai == AbstractAi.TURRET_AI) {
             ai = new TurretAllyAi(this, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
         }
     }
-
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Määrittää objektin aktiiviseksi.
      */
@@ -192,12 +197,12 @@ public class Ally extends AiObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	private void triggerDestroyed()
+	public void triggerDestroyed()
 	{
     	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
     	movementAcceleration = -15;
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 }

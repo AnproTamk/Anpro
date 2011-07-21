@@ -48,27 +48,34 @@ public class Hud
      */
     public Hud(Context _context, WeaponManager _weaponManager)
     {
+    	/* Tallennetaan muuttujat */
         weaponManager = _weaponManager;
         
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n nappeihin asetetut aseet
+        // TODO: Vain 3 nappia!
         weapons = new int[5];
         for (byte i = 0; i < 5; ++i) {
         	weapons[i] = -1;
         }
+        weapons[0] = 0; // TODO: Pit‰‰ ladata SkillTreest‰
         
-        weapons[0] = 0; // TODO: DEBUG!!!!
-        
+        // Alustetaan taulukot
         buttons          = new ArrayList<Button>();
         cooldownCounter	 = new ArrayList<CooldownCounter>();
         icons            = new ArrayList<Icon>();
 
+        /* Luodaan HUD */
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
-        // Luodaan opastusnuolet
         guideArrowToCollectable = new GuideArrow(0, 0, GuideArrow.TARGET_COLLECTABLE);
         guideArrowToMothership  = new GuideArrow(0, 0, GuideArrow.TARGET_MOTHERSHIP);
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * P‰ivitt‰‰ cooldownit (HUD:ssa n‰kyv‰t, ei oikeita cooldowneja).
      */

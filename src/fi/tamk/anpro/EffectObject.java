@@ -30,24 +30,34 @@ public class EffectObject extends GameObject
 	public EffectObject(int _speed, byte _effectType, byte _effectGroup)
 	{
 		super(_speed);
-		
+
+		/* Tallennetaan muuttujat */
 		effectType  = _effectType;
 		effectGroup = _effectGroup;
-    
+		
+		/* Alustetaan muuttujat */
+		z = 4;
+		
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
-        
         if (GLRenderer.effectAnimations[_effectType] != null) {
             animationLength[_effectType] = GLRenderer.effectAnimations[_effectType].length;
         }
 		
-		wrapper = Wrapper.getInstance();
-		
+        // M‰‰ritet‰‰n asetukset
 		direction = 90;
+		
+        /* Otetaan tarvittavat luokat k‰yttˆˆn */
+		wrapper = Wrapper.getInstance();
 
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
+		state = Wrapper.INACTIVE;
 	}
-	
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
 	/**
 	 * Aktivoi peliobjektin efektin.
 	 * 
@@ -98,21 +108,6 @@ public class EffectObject extends GameObject
 		}
 		else {
 			setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-		}
-	}
-	
-	/**
-	 * P‰ivitt‰‰ efektien sijainnit
-	 */
-	public void updatePosition()
-	{
-		if (parentGameObject != null) {
-			x = parentGameObject.x;
-			y = parentGameObject.y;
-		}
-		else if (parentGuiObject != null) {
-			x = parentGuiObject.x + CameraManager.xTranslate;
-			y = parentGuiObject.y + CameraManager.yTranslate;
 		}
 	}
 	
@@ -186,6 +181,24 @@ public class EffectObject extends GameObject
 	{
 		if (actionId == GfxObject.ACTION_DESTROYED) {
 			setUnactive();
+		}
+	}
+	
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
+	/**
+	 * P‰ivitt‰‰ efektien sijainnit
+	 */
+	public void updatePosition()
+	{
+		if (parentGameObject != null) {
+			x = parentGameObject.x;
+			y = parentGameObject.y;
+		}
+		else if (parentGuiObject != null) {
+			x = parentGuiObject.x + CameraManager.xTranslate;
+			y = parentGuiObject.y + CameraManager.yTranslate;
 		}
 	}
 }

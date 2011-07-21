@@ -11,7 +11,7 @@ public class TrackingProjectileAi extends AbstractAi
 {
 	private long    startTime;
 	private boolean isTracking = false;
-	
+		
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -23,6 +23,9 @@ public class TrackingProjectileAi extends AbstractAi
 		super(_parentObject, _userType);
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 

@@ -57,7 +57,10 @@ public class MessageManager
 		}
 		return instance;
 	}
-	
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	public static final void updateMessages()
 	{
 		outOfBounds.updateAngle();

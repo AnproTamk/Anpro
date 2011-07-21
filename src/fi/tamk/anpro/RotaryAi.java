@@ -27,12 +27,17 @@ public class RotaryAi extends AbstractAi
 	public RotaryAi(AiObject _parentObject, int _userType, WeaponManager _weaponManager) 
 	{
 		super(_parentObject, _userType);
-		
+        
+		/* Tallennetaan muuttujat */
 		weaponManager = _weaponManager;
-		
+        
+		/* Alustetaan muuttujat */
 		checkpoints = new int[13][2];
 	}
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */

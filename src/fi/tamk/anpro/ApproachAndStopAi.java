@@ -26,9 +26,13 @@ public class ApproachAndStopAi extends AbstractAi
 	{
 		super(_parentObject, _userType);
         
+		/* Tallennetaan muuttujat */
 		weaponManager = _weaponManager;
     }
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */

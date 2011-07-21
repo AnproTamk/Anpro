@@ -20,7 +20,7 @@ abstract public class GfxObject
     /* Objektin sijainti */
     public float x = 0;
     public float y = 0;
-    public float z = 0;
+    public float z = 8;
     
     /* Objektin suunta */
     public    int direction       = 0; // Liikkumissuunta (0 oikealle, 90 ylös)
@@ -68,6 +68,9 @@ abstract public class GfxObject
     	// ...
     }
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Määrittää objektin aktiiviseksi.
      */

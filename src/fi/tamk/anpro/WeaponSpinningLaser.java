@@ -17,11 +17,14 @@ public class WeaponSpinningLaser extends AbstractWeapon
     public WeaponSpinningLaser(Wrapper _wrapper, int _userType)
     {
         super(_wrapper, _userType);
-        
-        // Luodaan ammus
+
+		/* Alustetaan muuttujat */
         projectile = new ProjectileSpinningLaser(AbstractAi.NO_AI, _userType);
     }
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.

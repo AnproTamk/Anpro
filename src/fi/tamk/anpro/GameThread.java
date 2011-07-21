@@ -79,6 +79,9 @@ class GameThread extends Thread
         surfaceView   = _surfaceView;
     }
 
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ s‰ikeen p‰‰lle tai pois.
      * 

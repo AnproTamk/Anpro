@@ -15,10 +15,16 @@ public class Button extends GuiObject
     {
         super(_x, _y);
         
+        // Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
+        z = 2;
+        
         // M‰‰ritet‰‰n aloitustekstuuri
         usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
     }
 
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Asettaa napin valituksi tai poistaa valinnan.
      * 
@@ -27,7 +33,7 @@ public class Button extends GuiObject
     public void setSelected(boolean _selected)
     {
         if (_selected) {
-            setAction(GLRenderer.ANIMATION_CLICK, 1, 1, 1, 0, 0);
+            setAction(GLRenderer.ANIMATION_CLICK, 1, 1, GLRenderer.TEXTURE_BUTTON_SELECTED, 0, 0);
         }
         else {
             usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;

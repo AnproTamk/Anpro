@@ -42,12 +42,17 @@ abstract public class AbstractAi
      */
     public AbstractAi(AiObject _parentObject, int _userType)
     {
+    	/* Tallennetaan muuttujat */
         parentObject = _parentObject;
         userType     = _userType;
         
+        /* Otetaan tarvittavat luokat käyttöön */
         wrapper = Wrapper.getInstance();
     }
 
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 

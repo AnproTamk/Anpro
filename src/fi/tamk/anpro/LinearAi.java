@@ -19,7 +19,10 @@ public class LinearAi extends AbstractAi
 	{
 		super(_parentObject, _userType);
     }
-	
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */
