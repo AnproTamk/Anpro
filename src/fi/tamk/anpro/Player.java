@@ -149,20 +149,19 @@ public class Player extends AiObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
     	VibrateManager.vibrateOnHit();
-	
-	    if (currentArmor > 0) {
-	    	EffectManager.showPlayerArmorEffect(this);
-	    	EffectManager.showArmorHitEffect(hud.armorBar);
-	    	
-	    	if(_armorPiercing > 0) {
-	    		EffectManager.showHealthHitEffect(hud.healthBar);
-	    	}
-	    }
-	    else {
-	        EffectManager.showHealthHitEffect(hud.healthBar);
-	    }
+	    
+	    int armorTemp = currentArmor;
+	    int healthTemp = currentHealth;
 	    
 	    Utility.checkDamage(this, _damage, _armorPiercing);
+	    
+	    if (currentArmor < armorTemp) {
+	    	EffectManager.showPlayerArmorEffect(this);
+	    	EffectManager.showArmorHitEffect(hud.armorBar);
+	    }
+	    if (currentHealth < healthTemp) {
+	    	EffectManager.showHealthHitEffect(hud.healthBar);
+	    }
 	    
 	    hud.armorBar.updateValue(currentArmor);
 	    hud.healthBar.updateValue(currentHealth);
@@ -171,7 +170,8 @@ public class Player extends AiObject
 	    	state = Wrapper.ONLY_ANIMATION;
 	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 	    }
-	    else if (_eventType == COLLISION_WITH_OBSTACLE) {
+	    
+	    if (_eventType == COLLISION_WITH_OBSTACLE && currentHealth > 0) {
     		state = Wrapper.ONLY_ANIMATION;
     		
     		turningDirection = 0;
