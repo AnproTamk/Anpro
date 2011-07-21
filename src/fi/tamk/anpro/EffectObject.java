@@ -31,21 +31,26 @@ public class EffectObject extends GameObject
 	{
 		super(_speed);
 		
+		/* Tallennetaan muuttujat */
 		effectType  = _effectType;
 		effectGroup = _effectGroup;
-    
+		
+		/* Alustetaan muuttujat */
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
-        
         if (GLRenderer.effectAnimations[_effectType] != null) {
             animationLength[_effectType] = GLRenderer.effectAnimations[_effectType].length;
         }
 		
-		wrapper = Wrapper.getInstance();
-		
+        // M‰‰ritet‰‰n asetukset
 		direction = 90;
+		
+        /* Otetaan tarvittavat luokat k‰yttˆˆn */
+		wrapper = Wrapper.getInstance();
 
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
+		state = Wrapper.INACTIVE;
 	}
 	
 	/**

@@ -35,16 +35,13 @@ public class Message extends GuiObject
 	{
 		super(0, 100);
 		
-		// M‰‰rit‰ tekstuuri
+		/* Tallennetaan muuttujat */
 		usedTexture = _message;
-		
-		// Tallennetaan viestin tyyppi ja aika
 		messageType = (byte) (_message - GLRenderer.TEXTURE_MESSAGE);
 		showTime    = _showTime;
-		
-		// Asetetaan pois n‰kyvist‰
+
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper = Wrapper.getInstance();
-		
 		state = Wrapper.INACTIVE;
 	}
 	

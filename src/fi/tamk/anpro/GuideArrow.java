@@ -22,8 +22,10 @@ public class GuideArrow extends GuiObject
 	{
 		super(_x, _y);
 		
+		// Tallennetaan kohteen tyyppi
 		targetType = _target;
 		
+		// M‰‰ritet‰‰n aloitustekstuuri
 		usedTexture = GLRenderer.TEXTURE_GUIDEARROW + _target;
 	}
 

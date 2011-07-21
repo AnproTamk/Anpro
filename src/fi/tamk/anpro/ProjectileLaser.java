@@ -16,6 +16,8 @@ public class ProjectileLaser extends AbstractProjectile
     {
         super(_ai, _userType);
         
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n ammuksen tunnus (k‰ytet‰‰n tekstuureja valittaessa)
         projectileId = 0;
 
         // Haetaan animaatioiden pituudet

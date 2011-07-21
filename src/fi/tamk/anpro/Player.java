@@ -31,24 +31,26 @@ public class Player extends AiObject
     {
         super(8); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
         		  // Muiden GameObjectien tapaan.
-        
-        // Otetaan Wrapper k‰yttˆˆn ja tallennetaan pelitilan osoitin
-        wrapper  = Wrapper.getInstance();
-        gameMode = _gameMode;
-        hud      = _hud;
-        
-        // Tallennetaan pelaajan tiedot
+
+        /* Tallennetaan muuttujat */
+        gameMode      = _gameMode;
+        hud           = _hud;
         health  	  = _health;
         currentHealth = _health;
         armor         = _armor;
         currentArmor  = _armor;
         
-        // M‰‰ritet‰‰n Hudin healthBarin ja armorBarin tiedot
+        /* Haetaan tarvittavat luokat k‰yttˆˆn */
+        wrapper = Wrapper.getInstance();
+        
+        /* M‰‰ritet‰‰n Health- ja Armor-palkit */
     	hud.healthBar.initBar(health);
     	hud.armorBar.initBar(armor);
         
-        // Asetetaan tˆrm‰ystunnistuksen s‰de
+    	/* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n asetukset
         collisionRadius = (int) (25 * Options.scale);
+        setMovementSpeed(0.0f);
         
         // Haetaan k‰ytett‰vien animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_PLAYER_ANIMATIONS];
@@ -59,14 +61,9 @@ public class Player extends AiObject
             }
         }
         
-        // Lis‰t‰‰n pelaaja piirtolistalle ja m‰‰ritet‰‰n tila
+        /* M‰‰ritet‰‰n objektin tila (piirtolista ja teko‰ly) */
         wrapper.addToDrawables(this);
-        
-        // Asetetaan pelaajan "teko‰ly"
         ai = new PlayerAi(this, Wrapper.CLASS_TYPE_PLAYER);
-        
-        // Asetetaan pelaajan asetukset
-        setMovementSpeed(0.0f);
     }
 
     /**

@@ -15,7 +15,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     public ProjectileSpinningLaser(int _ai, int _userType)
     {
         super(_ai, _userType);
-
+        
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n ammuksen tunnus (k‰ytet‰‰n tekstuureja valittaessa)
         projectileId = 2;
 
         // Haetaan animaatioiden pituudet
@@ -27,7 +29,7 @@ public class ProjectileSpinningLaser extends AbstractProjectile
             }
         }
 
-        // M‰‰ritet‰‰n ammuksen asetukset
+        // M‰‰ritet‰‰n asetukset
         setMovementSpeed(0.0f);
         collisionRadius  = (int)(200 * Options.scale);
         damageOnTouch    = 40;
