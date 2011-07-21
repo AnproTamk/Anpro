@@ -19,6 +19,9 @@ public class LinearProjectileAi extends AbstractAi
 		super(_parentObject, _userType);
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 

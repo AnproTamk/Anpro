@@ -66,6 +66,9 @@ public class Player extends AiObject
         ai = new PlayerAi(this, Wrapper.CLASS_TYPE_PLAYER);
     }
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Asettaa pelaajan aktiiviseksi.
      */

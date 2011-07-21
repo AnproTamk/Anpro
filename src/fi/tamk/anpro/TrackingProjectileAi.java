@@ -23,6 +23,9 @@ public class TrackingProjectileAi extends AbstractAi
 		super(_parentObject, _userType);
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 

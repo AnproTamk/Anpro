@@ -29,7 +29,10 @@ public class Joystick extends GuiObject
         // M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
         usedTexture = GLRenderer.TEXTURE_JOYSTICK;
     }
-    
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * M‰‰ritt‰‰ pelaajan kulkusuunnan ollessaan k‰ytˆss‰
      * 

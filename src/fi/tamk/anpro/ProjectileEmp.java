@@ -34,7 +34,10 @@ public class ProjectileEmp extends AbstractProjectile
         collisionRadius = (int)(200 * Options.scale);
         damageOnTouch   = 0;
     }
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.
      */

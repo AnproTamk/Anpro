@@ -49,7 +49,10 @@ public class SoundManager
 	{
 		instance = null;
 	}
-	
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
 	/**
 	 * Valmistelee s‰ilytyspaikan ‰‰nille.
 	 * 

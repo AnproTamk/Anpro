@@ -46,7 +46,25 @@ public class Message extends GuiObject
 		wrapper = Wrapper.getInstance();
 		state = Wrapper.INACTIVE;
 	}
-	
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
+    /**
+     * Piirtää käytössä olevan tekstuurin ruudulle.
+     * 
+     * @param GL10 OpenGL-konteksti
+     */
+	@Override
+    public final void draw(GL10 _gl)
+    {
+		GLRenderer.hudTextures[usedTexture].drawIn3D(_gl, x + CameraManager.xTranslate,  y + CameraManager.yTranslate, direction,
+													 0, xAxisRotation, yAxisRotation);
+    }
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	public final void activate()
 	{
 		state = Wrapper.FULL_ACTIVITY;
@@ -55,8 +73,7 @@ public class Message extends GuiObject
 		
 		messageState = TURN_VISIBLE;
 	}
-	
-	
+
 	public final void updateAngle()
 	{
 		if (messageState == TURN_VISIBLE) {
@@ -89,16 +106,4 @@ public class Message extends GuiObject
 			}
 		}
 	}
-
-    /**
-     * Piirtää käytössä olevan tekstuurin ruudulle.
-     * 
-     * @param GL10 OpenGL-konteksti
-     */
-	@Override
-    public final void draw(GL10 _gl)
-    {
-		GLRenderer.hudTextures[usedTexture].drawIn3D(_gl, x + CameraManager.xTranslate,  y + CameraManager.yTranslate, direction,
-													 0, xAxisRotation, yAxisRotation);
-    }
 }

@@ -17,7 +17,10 @@ public class InputController
     {
 		wrapper = Wrapper.getInstance();
     }
-	
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
 	/**
 	 * Käsittelee näppäinpainalluksen.
 	 * 

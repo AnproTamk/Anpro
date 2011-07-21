@@ -24,6 +24,9 @@ public class WeaponEmp extends AbstractWeapon
         projectile = new ProjectileEmp(AbstractAi.NO_AI, _userType);
     }
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.

@@ -27,8 +27,11 @@ public class WeaponCluster extends AbstractWeapon
 		for (int i = 15; i >= 0; --i) {
 			projectiles.add(new ProjectileBomb(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}
-
     }
+    
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.
