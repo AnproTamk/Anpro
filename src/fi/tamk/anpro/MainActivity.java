@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener
 {
@@ -93,11 +92,9 @@ public class MainActivity extends Activity implements OnClickListener
             	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Particles Enabled", Toast.LENGTH_SHORT).show();
                     Options.particles = true;
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Particles Disabled", Toast.LENGTH_SHORT).show();
                     Options.particles = false;
                 }
             }
@@ -109,12 +106,10 @@ public class MainActivity extends Activity implements OnClickListener
                 // Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Music Enabled", Toast.LENGTH_SHORT).show();
                     Options.music = true;
                     
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Music Disabled", Toast.LENGTH_SHORT).show();
                     Options.music = false;
                 }
             }
@@ -126,11 +121,9 @@ public class MainActivity extends Activity implements OnClickListener
             	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Sounds Enabled", Toast.LENGTH_SHORT).show();
                     Options.sounds = true;
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Sounds Disabled", Toast.LENGTH_SHORT).show();
                     Options.sounds = false;
                 }
             }
@@ -142,11 +135,9 @@ public class MainActivity extends Activity implements OnClickListener
             	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Vibrations Enabled", Toast.LENGTH_SHORT).show();
                     Options.vibration = true;
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(MainActivity.this, "Vibrations Disabled", Toast.LENGTH_SHORT).show();
                     Options.vibration = false;
                 }
             }
