@@ -38,11 +38,11 @@ public class ProjectileSpinningLaser extends AbstractProjectile
      * Käynnistää ammuksen erikoistoiminnon.
      */
     @Override
-    protected void triggerSpecialAction()
+    public void triggerSpecialAction()
     {
         state = Wrapper.ANIMATION_AND_MOVEMENT;
 
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
