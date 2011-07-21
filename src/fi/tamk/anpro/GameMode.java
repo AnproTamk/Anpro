@@ -156,6 +156,9 @@ public class GameMode
         wrapper = Wrapper.getInstance();
     }
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * P‰ivitt‰‰ pisteet.
      * 

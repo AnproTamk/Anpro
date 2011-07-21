@@ -54,7 +54,10 @@ public class EffectObject extends GameObject
 		wrapper.addToDrawables(this);
 		state = Wrapper.INACTIVE;
 	}
-	
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
 	/**
 	 * Aktivoi peliobjektin efektin.
 	 * 
@@ -105,21 +108,6 @@ public class EffectObject extends GameObject
 		}
 		else {
 			setAction(effectType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
-		}
-	}
-	
-	/**
-	 * P‰ivitt‰‰ efektien sijainnit
-	 */
-	public void updatePosition()
-	{
-		if (parentGameObject != null) {
-			x = parentGameObject.x;
-			y = parentGameObject.y;
-		}
-		else if (parentGuiObject != null) {
-			x = parentGuiObject.x + CameraManager.xTranslate;
-			y = parentGuiObject.y + CameraManager.yTranslate;
 		}
 	}
 	
@@ -193,6 +181,24 @@ public class EffectObject extends GameObject
 	{
 		if (actionId == GfxObject.ACTION_DESTROYED) {
 			setUnactive();
+		}
+	}
+	
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
+	/**
+	 * P‰ivitt‰‰ efektien sijainnit
+	 */
+	public void updatePosition()
+	{
+		if (parentGameObject != null) {
+			x = parentGameObject.x;
+			y = parentGameObject.y;
+		}
+		else if (parentGuiObject != null) {
+			x = parentGuiObject.x + CameraManager.xTranslate;
+			y = parentGuiObject.y + CameraManager.yTranslate;
 		}
 	}
 }

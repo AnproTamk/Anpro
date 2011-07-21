@@ -14,6 +14,9 @@ public class BackgroundManager
     	}
 	}
 	
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	public final void updatePositions()
 	{
 		for (int i = 0; i < 15; ++i) {

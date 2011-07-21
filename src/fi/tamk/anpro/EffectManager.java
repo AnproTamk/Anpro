@@ -84,6 +84,9 @@ public class EffectManager
 		}
 	}
 	
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	synchronized public static void destroy()
 	{
 		instance = null;
