@@ -30,25 +30,29 @@ public class EffectObject extends GameObject
 	public EffectObject(int _speed, byte _effectType, byte _effectGroup)
 	{
 		super(_speed);
-		
-		// Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
-		z = 4;
-		
+
+		/* Tallennetaan muuttujat */
 		effectType  = _effectType;
 		effectGroup = _effectGroup;
-    
+		
+		/* Alustetaan muuttujat */
+		z = 4;
+		
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
-        
         if (GLRenderer.effectAnimations[_effectType] != null) {
             animationLength[_effectType] = GLRenderer.effectAnimations[_effectType].length;
         }
 		
-		wrapper = Wrapper.getInstance();
-		
+        // M‰‰ritet‰‰n asetukset
 		direction = 90;
+		
+        /* Otetaan tarvittavat luokat k‰yttˆˆn */
+		wrapper = Wrapper.getInstance();
 
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
+		state = Wrapper.INACTIVE;
 	}
 	
 	/**

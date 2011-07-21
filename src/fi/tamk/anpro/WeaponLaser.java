@@ -21,11 +21,9 @@ public class WeaponLaser extends AbstractWeapon
 	public WeaponLaser(Wrapper _wrapper, int _userType)
 	{
 		super(_wrapper, _userType);
-		
-		// Alustetaan ammukset
+        
+		/* Alustetaan muuttujat */
 		projectiles = new ArrayList<ProjectileLaser>(20);
-		
-		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 20; ++i) {
 			projectiles.add(new ProjectileLaser(AbstractAi.LINEAR_PROJECTILE_AI, _userType));
 		}

@@ -19,27 +19,27 @@ abstract public class GuiObject extends GfxObject
      */
     public GuiObject(int _x, int _y)
     {
-    	// Tallennetaan koordinaatit
+    	/* Tallennetaan muuttujat */
         x = _x;
         y = _y;
         z = 0;
         
-        // M‰‰ritet‰‰n kulma
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n asetukset
         direction = 90;
-        
-        // Otetaan Wrapper k‰yttˆˆn
-        wrapper = Wrapper.getInstance();
     
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_HUD_ANIMATIONS];
-        
         for (int i = 0; i < GLRenderer.AMOUNT_OF_HUD_ANIMATIONS; ++i) {
             if (GLRenderer.hudAnimations[i] != null) {
                 animationLength[i] = GLRenderer.hudAnimations[i].length;
             }
         }
 
-        // Lis‰t‰‰n objekti piirtolistalle ja m‰‰ritet‰‰n tila
+        /* Otetaan tarvittavat luokat k‰yttˆˆn */
+        wrapper = Wrapper.getInstance();
+        
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
         wrapper.addToDrawables(this);
     }
 

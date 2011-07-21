@@ -20,10 +20,8 @@ public class WeaponSwarm extends AbstractWeapon
 	{
 		super(_wrapper, _userType);
 		
-		// Alustetaan ammukset
+		/* Alustetaan muuttujat */
 		projectiles = new ArrayList<ProjectileMissile>(10);
-		
-		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 10; ++i) {
 			projectiles.add(new ProjectileMissile(AbstractAi.TRACKING_PROJECTILE_AI, _userType));
 		}

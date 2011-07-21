@@ -29,27 +29,28 @@ public class Player extends AiObject
     {
         super(8); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
         		  // Muiden GameObjectien tapaan.
-        
-        // Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on päälimmäisenä ja 10 alimmaisena)
-        z = 3;
-        
-        // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin
-        wrapper  = Wrapper.getInstance();
-        gameMode = _gameMode;
-        hud      = _hud;
-        
-        // Tallennetaan pelaajan tiedot
+
+        /* Tallennetaan muuttujat */
+        gameMode      = _gameMode;
+        hud           = _hud;
         health  	  = _health;
         currentHealth = _health;
         armor         = _armor;
         currentArmor  = _armor;
         
-        // Määritetään Hudin healthBarin ja armorBarin tiedot
+        /* Haetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+        
+        /* Määritetään Health- ja Armor-palkit */
     	hud.healthBar.initBar(health);
     	hud.armorBar.initBar(armor);
         
-        // Asetetaan törmäystunnistuksen säde
+    	/* Alustetaan muuttujat */
+    	z = 3;
+    	
+        // Määritetään asetukset
         collisionRadius = (int) (25 * Options.scale);
+        setMovementSpeed(0.0f);
         
         // Haetaan käytettävien animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_PLAYER_ANIMATIONS];
@@ -60,14 +61,9 @@ public class Player extends AiObject
             }
         }
         
-        // Lisätään pelaaja piirtolistalle ja määritetään tila
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
         wrapper.addToDrawables(this);
-        
-        // Asetetaan pelaajan "tekoäly"
         ai = new PlayerAi(this, Wrapper.CLASS_TYPE_PLAYER);
-        
-        // Asetetaan pelaajan asetukset
-        setMovementSpeed(0.0f);
     }
 
     /**
@@ -150,20 +146,19 @@ public class Player extends AiObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
     	VibrateManager.vibrateOnHit();
-	
-	    if (currentArmor > 0) {
-	    	EffectManager.showPlayerArmorEffect(this);
-	    	EffectManager.showArmorHitEffect(hud.armorBar);
-	    	
-	    	if(_armorPiercing > 0) {
-	    		EffectManager.showHealthHitEffect(hud.healthBar);
-	    	}
-	    }
-	    else {
-	        EffectManager.showHealthHitEffect(hud.healthBar);
-	    }
+	    
+	    int armorTemp = currentArmor;
+	    int healthTemp = currentHealth;
 	    
 	    Utility.checkDamage(this, _damage, _armorPiercing);
+	    
+	    if (currentArmor < armorTemp) {
+	    	EffectManager.showPlayerArmorEffect(this);
+	    	EffectManager.showArmorHitEffect(hud.armorBar);
+	    }
+	    if (currentHealth < healthTemp) {
+	    	EffectManager.showHealthHitEffect(hud.healthBar);
+	    }
 	    
 	    hud.armorBar.updateValue(currentArmor);
 	    hud.healthBar.updateValue(currentHealth);
@@ -172,7 +167,8 @@ public class Player extends AiObject
 	    	state = Wrapper.ONLY_ANIMATION;
 	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 	    }
-	    else if (_eventType == COLLISION_WITH_OBSTACLE) {
+	    
+	    if (_eventType == COLLISION_WITH_OBSTACLE && currentHealth > 0) {
     		state = Wrapper.ONLY_ANIMATION;
     		
     		turningDirection = 0;

@@ -17,27 +17,22 @@ public class Radar extends GuiObject {
 		
 		super(_x, _y);
 		
+		// Tallennetaan tutkan tyyppi (suunta, jota tutka tarkkailee)
 		type = _type;
 		
+		// Määritetään tekstuuri ja suunta
 		usedTexture = GLRenderer.TEXTURE_RADAR;
 		
-		// Tutka ylös
-		if(type == 0) {
+		if (type == 0) {
 			direction = 90;
 		}
-		
-		// Tutka vasen
-		if(type == 1) {
+		else if (type == 1) {
 			direction = 180;
 		}
-		
-		// Tutka oikea
-		if(type == 2) {
+		else if (type == 2) {
 			direction = 0;
 		}
-		
-		// Tutka alas
-		if(type == 3) {
+		else if (type == 3) {
 			direction = -90;
 		}
 	}

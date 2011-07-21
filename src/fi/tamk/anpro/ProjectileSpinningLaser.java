@@ -15,7 +15,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     public ProjectileSpinningLaser(int _ai, int _userType)
     {
         super(_ai, _userType);
-
+        
+        /* Alustetaan muuttujat */
+        // Määritetään ammuksen tunnus (käytetään tekstuureja valittaessa)
         projectileId = 2;
 
         // Haetaan animaatioiden pituudet
@@ -27,7 +29,7 @@ public class ProjectileSpinningLaser extends AbstractProjectile
             }
         }
 
-        // Määritetään ammuksen asetukset
+        // Määritetään asetukset
         setMovementSpeed(0.0f);
         collisionRadius  = (int)(200 * Options.scale);
         damageOnTouch    = 40;
@@ -38,11 +40,11 @@ public class ProjectileSpinningLaser extends AbstractProjectile
      * Käynnistää ammuksen erikoistoiminnon.
      */
     @Override
-    protected void triggerSpecialAction()
+    public void triggerSpecialAction()
     {
         state = Wrapper.ANIMATION_AND_MOVEMENT;
 
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {

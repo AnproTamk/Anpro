@@ -45,16 +45,16 @@ public class WeaponManager
      */
     public WeaponManager()
     {
-        // Alustetaan taulukot
+        /* Otetaan tarvittavat luokat käyttöön käyttöön */
+        wrapper = Wrapper.getInstance();
+        
+		/* Alustetaan muuttujat */
         playerWeapons    = new ArrayList<AbstractWeapon>();
         allyWeapons      = new ArrayList<AbstractWeapon>();
         enemyWeapons     = new ArrayList<AbstractWeapon>();
         cooldownMax      = new int[10];
         cooldownLeft     = new int[10];
         motioneventUsage = new boolean[7];
-        
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
         
     	// TODO: Muuta aseiden järjestys loogisemmaksi
         // Ladataan aseet ja määritetään niiden cooldownit
