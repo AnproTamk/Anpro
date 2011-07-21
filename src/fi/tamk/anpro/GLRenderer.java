@@ -49,7 +49,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 51;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 56;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -404,6 +404,11 @@ public class GLRenderer implements Renderer
         
         // Ilmoitukset
         hudTextures[50] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_tex_0, 1);
+        hudTextures[51] = new GLSpriteSet(_gl, context, R.drawable.autopilotonmessage_tex_0, 1);
+        hudTextures[52] = new GLSpriteSet(_gl, context, R.drawable.autopilotoffmessage_tex_0, 1);
+        hudTextures[53] = new GLSpriteSet(_gl, context, R.drawable.newskillavailablemessage_tex_0, 1);
+        hudTextures[54] = new GLSpriteSet(_gl, context, R.drawable.repairingrequiredmessage_tex_0, 1);
+        //hudTextures[55] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_tex_0, 1);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki

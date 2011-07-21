@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -45,8 +46,8 @@ public class GameMode
     protected static int mapWidth;
     protected static int mapHeight;
     
-    protected int overBoundWidth;
-    protected int overBoundHeight; 
+    protected static int overBoundWidth;
+    protected static int overBoundHeight; 
     
     /* Muiden olioiden pointterit */
     protected        WeaponManager weaponManager;
@@ -84,11 +85,11 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
         
-        mapWidth  = 1750;
-        mapHeight = 1250;
+        mapWidth  = 1200;
+        mapHeight = 800;
         
-        overBoundWidth  = mapWidth + 20;
-        overBoundHeight = mapHeight + 20;
+        overBoundWidth  = mapWidth + 700;
+        overBoundHeight = mapHeight + 700;
         
         // Alustetaan taulukot
         enemies         = new ArrayList<Enemy>();
@@ -330,18 +331,22 @@ public class GameMode
      */
 	public void checkBounds ()
 	{
-		if (player.x >= halfOfScreenWidth || player.x <= -halfOfScreenWidth ||
-			player.y >= halfOfScreenHeight || player.y <= -halfOfScreenHeight	) {
-
-			// TODO: Tähän toteutus rajojen ylittämisen ilmoittamiselle ! !
-
+		if (player.x >= mapWidth  || player.x <= -mapWidth || player.y >= mapHeight || player.y <= -mapHeight) {
+			
 			if (player.x >= overBoundWidth || player.x <= -overBoundWidth ||
 				player.y >= overBoundHeight || player.y <= -overBoundHeight	) {
-					PlayerAi.activateAutoPilot();
+				if (!((PlayerAi)player.ai).autoPilotActivated) {
+					((PlayerAi)player.ai).activateAutoPilot();
+				}
 			}
-		}
-		else {
-			PlayerAi.deactivateAutoPilot();
+			else {
+				if (((PlayerAi)player.ai).autoPilotActivated) {
+					((PlayerAi)player.ai).deactivateAutoPilot();
+				}
+				else {
+					MessageManager.showOutOfBoundsMessage();
+				}
+			}
 		}
 	}
 

@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  *  Sisältää yhden ilmoituksen toiminnot.
  */
@@ -52,8 +54,9 @@ public class Message extends GuiObject
 		
 		yAxisRotation = 90.0f;
 		
-		state = TURN_VISIBLE;
+		messageState = TURN_VISIBLE;
 	}
+	
 	
 	public final void updateAngle()
 	{
@@ -79,9 +82,11 @@ public class Message extends GuiObject
 
 			if (yAxisRotation >= 87.0f) {
 				yAxisRotation = 90.0f;
-				messageState = STAY_STILL;
+				messageState = 0;
 				
 				state = Wrapper.INACTIVE;
+				
+				MessageManager.isShowing = false;
 			}
 		}
 	}
