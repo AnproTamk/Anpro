@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  * Sisältää käyttöliittymän joystickin toiminnallisuudet.
  */
@@ -53,9 +55,6 @@ public class Joystick extends GuiObject
         _wrapper.player.movementAcceleration    = 0;
         _wrapper.player.setMovementSpeed(1.0f);
         _wrapper.player.setMovementDelay(1.0f);
-        
-        // Näytetään jälkipolttoefekti
-        EffectManager.showPlayerTrailEffect(_wrapper.player);
         
         return true;
     }

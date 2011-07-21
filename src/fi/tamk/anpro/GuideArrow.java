@@ -5,13 +5,11 @@ public class GuideArrow extends GuiObject
 	/* Vakiot kohteille */
 	public static final byte TARGET_COLLECTABLE = 0;
 	public static final byte TARGET_MOTHERSHIP  = 1;
+	public static final byte TARGET_BOSS	    = 2;
 		
-	/* Kohteet */
-	private Collectable collectableTarget = null;
-	private Mothership  mothershipTarget  = null;
-	
-	/* Nuolen tyyppi */
-	private byte targetType; 
+	/* Kohde ja tyyppi */
+	private GameObject targetObject = null;
+	private byte       targetType;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -35,17 +33,17 @@ public class GuideArrow extends GuiObject
 	 */
 	public final void updateArrow()
 	{
-		if (targetType == TARGET_COLLECTABLE) {
-			// Haetaan uusi kohde
-			if (collectableTarget == null || wrapper.collectableStates.get(collectableTarget.listId) != Wrapper.FULL_ACTIVITY) {
-	
-				int distanceToClosest = -1;
-				int indexOfClosest    = -1;
-				int distance;
-	
+		// Haetaan uusi kohde
+		if (targetObject == null || targetObject.state != Wrapper.FULL_ACTIVITY) {
+
+			int distanceToClosest = -1;
+			int indexOfClosest    = -1;
+			int distance;
+
+			if (targetType == TARGET_COLLECTABLE) {
 				for (int i = wrapper.collectables.size() - 1; i >= 0; --i) {
 	
-					if (wrapper.collectableStates.get(i) == Wrapper.FULL_ACTIVITY) {
+					if (wrapper.collectables.get(i).state == Wrapper.FULL_ACTIVITY) {
 						distance = Utility.getDistance(x, y, wrapper.collectables.get(i).x, wrapper.collectables.get(i).y);
 	
 						if (distanceToClosest == -1 || distance < distanceToClosest) {
@@ -56,25 +54,24 @@ public class GuideArrow extends GuiObject
 				}
 	
 				if (indexOfClosest != -1) {
-					collectableTarget = wrapper.collectables.get(indexOfClosest);
+					targetObject = wrapper.collectables.get(indexOfClosest);
 				}
 			}
+			else if (targetType == TARGET_MOTHERSHIP) {
+				targetObject = wrapper.mothership;
+			}
+			else if (targetType == TARGET_BOSS) {
+				// TODO: Tee toteutus
+			}
+		}
 	
-			// Päivitetään suunta kohteeseen
-			if (collectableTarget != null) {
-				wrapper.guiObjectStates.set(listId, Wrapper.FULL_ACTIVITY);
-				direction = Utility.getAngle(wrapper.player.x, wrapper.player.y, collectableTarget.x, collectableTarget.y);
-			}
-			else {
-				wrapper.guiObjectStates.set(listId, Wrapper.INACTIVE);
-			}
+		// Päivitetään suunta kohteeseen, jos sellainen on
+		if (targetObject != null) {
+			state = Wrapper.FULL_ACTIVITY;
+			direction = Utility.getAngle(wrapper.player.x, wrapper.player.y, targetObject.x, targetObject.y);
 		}
-		else if (targetType == TARGET_MOTHERSHIP) {
-			if (mothershipTarget == null) {
-				mothershipTarget = wrapper.mothership;
-			}
-			direction = Utility.getAngle(wrapper.player.x, wrapper.player.y, mothershipTarget.x, mothershipTarget.y);
+		else {
+			state = Wrapper.INACTIVE;
 		}
-		
 	}
 }

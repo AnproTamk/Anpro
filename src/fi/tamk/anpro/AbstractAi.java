@@ -1,7 +1,5 @@
 package fi.tamk.anpro;
 
-import android.util.Log;
-
 /**
  * Sis‰lt‰‰ kaikille teko‰lyille yhteiset ominaisuudet.
  */
@@ -26,8 +24,8 @@ abstract public class AbstractAi
     protected Wrapper wrapper;
     
     /* Objektin tunnus piirtolistalla ja sen tyyppi */
-    protected int parentId;
-    protected int type;
+    protected AiObject parentObject;
+    protected int      userType;
     
     /* Teko‰lyn tila (toistaiseksi ainoastaan ammusten teko‰lyt k‰ytt‰v‰t t‰t‰) */
 	public boolean active = false;
@@ -42,10 +40,10 @@ abstract public class AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
      */
-    public AbstractAi(int _id, int _type)
+    public AbstractAi(AiObject _parentObject, int _userType)
     {
-        parentId = _id;
-        type     = _type;
+        parentObject = _parentObject;
+        userType     = _userType;
         
         wrapper = Wrapper.getInstance();
     }
@@ -87,7 +85,7 @@ abstract public class AbstractAi
      */
     protected int setDirection(float _x, float _y)
     {
-        return Utility.getAngle(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y, _x, _y);
+        return Utility.getAngle(parentObject.x, parentObject.y, _x, _y);
     }
     
     /**
@@ -103,13 +101,15 @@ abstract public class AbstractAi
     {
     	// Tarkistetaan, onko vihollisen ja pelaajan v‰linen et‰isyys riitt‰v‰n pieni
     	// tarkkoja osumatarkistuksia varten
-    	if (Math.abs(wrapper.player.x - wrapper.enemies.get(parentId).x) <= Wrapper.gridSize) {
-        	if (Math.abs(wrapper.player.y - wrapper.enemies.get(parentId).y) <= Wrapper.gridSize) {
+    	if (Math.abs(wrapper.player.x - parentObject.x) <= Wrapper.gridSize) {
+        	if (Math.abs(wrapper.player.y - parentObject.y) <= Wrapper.gridSize) {
         
+        		wrapper.player.outOfBattleTime = android.os.SystemClock.uptimeMillis();
+        		
         		// Tarkistetaan tˆrm‰ys
-        		if (Utility.isColliding(wrapper.enemies.get(parentId), wrapper.player)) {
-        			wrapper.enemies.get(parentId).triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
-        			wrapper.player.triggerCollision(wrapper.enemies.get(parentId).attack, 0);
+        		if (Utility.isColliding(parentObject, wrapper.player)) {
+        			parentObject.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
+        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, parentObject.collisionDamage, 0);
         		}
         	}
     	}
@@ -121,10 +121,10 @@ abstract public class AbstractAi
 	protected final void findClosestEnemy(int _distance)
 	{
 		for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-			if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+			if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
 				
 				float distance = Utility.getDistance(wrapper.enemies.get(i).x, wrapper.enemies.get(i).y,
-													 wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y);
+													 parentObject.x, parentObject.y);
 				
 				// TODO: K‰yt‰ Wrapperin gridi‰
 				if (_distance >= distance) {

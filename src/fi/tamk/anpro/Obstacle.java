@@ -77,7 +77,7 @@ public class Obstacle extends GameObject
 		}
 		
 		// Lisätään objekti piirtolistalle
-		listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_OBSTACLE, 0);
+		wrapper.addToDrawables(this);
 	}
     
     /**
@@ -103,7 +103,7 @@ public class Obstacle extends GameObject
 	@Override
 	public void setActive()
 	{
-		wrapper.obstacleStates.set(listId, Wrapper.FULL_ACTIVITY);
+		state= Wrapper.FULL_ACTIVITY;
 	}
 
     /**
@@ -112,7 +112,7 @@ public class Obstacle extends GameObject
 	@Override
 	public void setUnactive()
 	{
-		wrapper.obstacleStates.set(listId, Wrapper.INACTIVE);
+		state = Wrapper.INACTIVE;
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public class Obstacle extends GameObject
     	/* Tarkistaa törmäykset vihollisiin */
     	for (int i = wrapper.enemies.size() - 1; i >= 0; --i) {
     		
-    		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    		if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
     			
     			if (Math.abs(x - wrapper.enemies.get(i).x) <= Wrapper.gridSize) {
     	        	if (Math.abs(y - wrapper.enemies.get(i).y) <= Wrapper.gridSize) {
@@ -139,7 +139,7 @@ public class Obstacle extends GameObject
     	/* Tarkistaa törmäykset ammuksiin */
     	for (int i = wrapper.projectiles.size() - 1; i >= 0; --i) {
     		
-    		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+    		if (wrapper.projectiles.get(i).state == Wrapper.FULL_ACTIVITY) {
     			
     			if (Math.abs(x - wrapper.projectiles.get(i).x) <= Wrapper.gridSize) {
     	        	if (Math.abs(y - wrapper.projectiles.get(i).y) <= Wrapper.gridSize) {
@@ -157,7 +157,7 @@ public class Obstacle extends GameObject
         	if (Math.abs(y - wrapper.player.y) <= Wrapper.gridSize) {
         		
         		if (Utility.isColliding(wrapper.player, this)) {
-        			wrapper.player.triggerCollision(1000, 20);
+        			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_OBSTACLE, (int)((float)wrapper.player.health * 0.3), 20);
         		}
         	}
 		}

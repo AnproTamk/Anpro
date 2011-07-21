@@ -242,7 +242,6 @@ public class GLSpriteSet
         _gl.glLoadIdentity();
         
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
-    	// TODO: Alukset tˆkkii
         _gl.glTranslatef(_x - CameraManager.xTranslate, _y - CameraManager.yTranslate, 0);
         _gl.glRotatef(_xAxisRotation, 1.0f, 0.0f, 0.0f);
         _gl.glRotatef(_yAxisRotation, 0.0f, 1.0f, 0.0f);

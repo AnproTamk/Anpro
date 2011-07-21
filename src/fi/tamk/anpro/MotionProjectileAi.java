@@ -25,9 +25,9 @@ public class MotionProjectileAi extends AbstractAi
      * @param int Objektin tunnus piirtolistalla
      * @param int Objektin tyyppi
 	 */
-	public MotionProjectileAi(int _id, int _type)
+	public MotionProjectileAi(AiObject _parentObject, int _userType)
 	{
-		super(_id, _type);
+		super(_parentObject, _userType);
 	}
 
     /**
@@ -63,20 +63,20 @@ public class MotionProjectileAi extends AbstractAi
 	public void handleAi()
 	{
 		// Lasketaan ammuksen ja nykyisen kohteen v‰linen et‰isyys
-		int angle = Utility.getAngle((int)wrapper.projectiles.get(parentId).x, (int)wrapper.projectiles.get(parentId).y,
+		int angle = Utility.getAngle((int)parentObject.x, (int)parentObject.y,
 				                     optimizedPath[targetIndex][0], optimizedPath[targetIndex][1]);
 		
 		// M‰‰ritet‰‰n k‰‰ntymissuunta
-		wrapper.projectiles.get(parentId).turningDirection = Utility.getTurningDirection(wrapper.projectiles.get(parentId).direction, angle);
+		parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, angle);
 		
 		// Lasketaan ammuksen et‰isyys kohteeseen
 		if (distanceToTarget == 0) {
-			distanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x, wrapper.projectiles.get(parentId).y,
+			distanceToTarget = Utility.getDistance(parentObject.x, parentObject.y,
 												   optimizedPath[targetIndex][0], optimizedPath[targetIndex][1]);
 		}
 		else {
-			int currentDistanceToTarget = Utility.getDistance(wrapper.projectiles.get(parentId).x,
-															  wrapper.projectiles.get(parentId).y,
+			int currentDistanceToTarget = Utility.getDistance(parentObject.x,
+															  parentObject.y,
 															  optimizedPath[targetIndex][0],
 															  optimizedPath[targetIndex][1]);
 			
@@ -92,7 +92,7 @@ public class MotionProjectileAi extends AbstractAi
 				++fails;
 				
 				if (fails == 2) {
-					wrapper.projectiles.get(parentId).turningDirection = 0;
+					parentObject.turningDirection = 0;
 					setUnactive();
 				}
 			}

@@ -38,6 +38,9 @@ abstract public class GameObject extends GfxObject
     /* Tˆrm‰ystunnistus */
     protected int collisionRadius = 0;
     
+    /* Tˆrm‰ysvahinko */
+    public int collisionDamage = 0;
+    
     /* Lineaarinen liike */
     protected int movementSpeed;            // Kuinka monta yksikkˆ‰ objekti liikkuu kerrallaan. Arvot v‰lill‰ 0-5
     protected int movementDelay;            // Arvot v‰lill‰ 5-100(ms), mit‰ suurempi sit‰ hitaampi kiihtyvyys
@@ -94,18 +97,6 @@ abstract public class GameObject extends GfxObject
     	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
     	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰v‰t vain viholliset ja liittolaiset!");
     }
-
-    /**
-     * K‰sittelee tˆrm‰yksien vaikutukset objektiin.
-     * 
-     * @param int Osuman aiheuttama vahinko
-     * @param int Osuman kyky l‰p‰ist‰ suojat (k‰ytet‰‰n, kun tˆrm‰ttiin ammukseen)
-     */
-    public void triggerCollision(int _damage, int _armorPiercing)
-    {
-    	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
-    	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰‰ vain pelaaja!");
-    }
     
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
@@ -134,6 +125,9 @@ abstract public class GameObject extends GfxObject
             	movementAcceleration = 0;
             }
             
+            if (movementSpeed > 0 && !(this instanceof AbstractProjectile)) {
+                EffectManager.showTrailEffect(this);
+            }
         }
         
         // Lasketaan k‰‰ntymisnopeus objektille

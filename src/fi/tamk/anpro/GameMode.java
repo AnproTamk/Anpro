@@ -17,14 +17,10 @@ public class GameMode
 
     /* Pelaaja, emoalus ja liittolaiset */
     private Player     player;
-    @SuppressWarnings("unused")
     private Mothership mothership;
     private Ally	   turret1;
     private Ally	   turret2;
     private Ally	   turret3;
-    
-    /* Tähtitausta */
-    private BackgroundStar[] backgroundStars;
 
     /* Asteroidit */
     private Obstacle[] asteroids; // Asteroidit
@@ -57,6 +53,7 @@ public class GameMode
     protected        CameraManager camera;
     protected        GameActivity  gameActivity;
     private   static Hud		   hud;
+    private          Wrapper       wrapper;
     
     /* Pisteet ja combot */
     private static long score;
@@ -81,6 +78,8 @@ public class GameMode
         gameActivity = _gameActivity;
         hud          = _hud;
         
+        wrapper = Wrapper.getInstance();
+        
         // Tallennetaan näytön tiedot
         halfOfScreenWidth  = _dm.widthPixels;
         halfOfScreenHeight = _dm.heightPixels;
@@ -90,9 +89,6 @@ public class GameMode
         
         overBoundWidth  = mapWidth + 20;
         overBoundHeight = mapHeight + 20;
-                
-        // Otetaan CameraManager käyttöön
-        camera = CameraManager.getInstance();
         
         // Alustetaan taulukot
         enemies         = new ArrayList<Enemy>();
@@ -100,7 +96,6 @@ public class GameMode
         asteroids       = new Obstacle[3];
         planets         = new Obstacle[3];
         collectables    = new Collectable[3];
-        backgroundStars = new BackgroundStar[15];
         
     	// Luodaan pelaaja
     	player = new Player(40, 15, this, hud);
@@ -146,9 +141,6 @@ public class GameMode
         
         // Luetaan pelitilan tiedot
         reader.readGameMode(this, _weaponManager);
-        
-        // Luodaan tähtitausta
-        generateStarBackground();
 
         // Luodaan "pelikenttä" (objektit ja vihollisten spawnpointit)
         generateMap();
@@ -199,56 +191,60 @@ public class GameMode
      */
     public void startWave()
     {
-        /* Tarkastetaan onko kaikki vihollisaallot käyty läpi */
-        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tietää wavejen määrä)
-            currentWave = 0;
-            
-            // Tarkistetaan vihollisen luokka, kasvatetaan sitä yhdellä ja lähetetään sille uudet statsit
-            int rankTemp;
-            
-            for (int index = enemies.size()-1; index >= 0; --index) {
-                // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
-            	if (enemies.get(index).rank <= 4) {
-	                rankTemp = enemies.get(index).rank;
-                    enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
-                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
-            	}
-            }
-        }
-        
-        /* Aktivoidaan viholliset */
-        int temp;
-        int tempRandA, tempRandB;
-        
-        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
-        	if (waves[currentWave][index] != -1) {
-	        	temp = waves[currentWave][index];
-	        	
-	        	tempRandA = Utility.getRandom(1, 8);
-	        	tempRandB = Utility.getRandom(0, 2);
-	        	
-	        	enemies.get(temp).setActive();
-	        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+    	if ((wrapper.player.x < -(Options.scaledScreenWidth / 2) || wrapper.player.x > (Options.scaledScreenWidth / 2)) &&
+    		(wrapper.player.y < -(Options.scaledScreenHeight / 2) || wrapper.player.y > (Options.scaledScreenHeight / 2))) {
+    		
+	        /* Tarkastetaan onko kaikki vihollisaallot käyty läpi */
+	        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tietää wavejen määrä)
+	            currentWave = 0;
 	            
-	            // Eliminoidaan samasta spawnpontista spawnaaminen
-	            for(int i = 0; i <= enemies.size()-1; ++i) {
-	            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
-	            		
-	            		tempRandA = Utility.getRandom(1, 8);
-	    	        	tempRandB = Utility.getRandom(0, 2);
-	    	        	
-	            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-	    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+	            // Tarkistetaan vihollisen luokka, kasvatetaan sitä yhdellä ja lähetetään sille uudet statsit
+	            int rankTemp;
+	            
+	            for (int index = enemies.size()-1; index >= 0; --index) {
+	                // Lasketaan uusi rank, käytetään väliaikaismuuttujana rankTemppiä
+	            	if (enemies.get(index).rank <= 4) {
+		                rankTemp = enemies.get(index).rank;
+	                    enemies.get(index).setStats(enemyStats[rankTemp][0], enemyStats[rankTemp][1], enemyStats[rankTemp][2],
+	                                                enemyStats[rankTemp][3], enemyStats[rankTemp][4], rankTemp + 1);
 	            	}
 	            }
-	            
-	        	++enemiesLeft;
-        	}
-        }
-        
-        ++currentWave;
-        ++totalWaves;
+	        }
+	        
+	        /* Aktivoidaan viholliset */
+	        int temp;
+	        int tempRandA, tempRandB;
+	        
+	        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
+	        	if (waves[currentWave][index] != -1) {
+		        	temp = waves[currentWave][index];
+		        	
+		        	tempRandA = Utility.getRandom(1, 8);
+		        	tempRandB = Utility.getRandom(0, 2);
+		        	
+		        	enemies.get(temp).setActive();
+		        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+		            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+		            
+		            // Eliminoidaan samasta spawnpontista spawnaaminen
+		            for(int i = 0; i <= enemies.size()-1; ++i) {
+		            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
+		            		
+		            		tempRandA = Utility.getRandom(1, 8);
+		    	        	tempRandB = Utility.getRandom(0, 2);
+		    	        	
+		            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
+		    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
+		            	}
+		            }
+		            
+		        	++enemiesLeft;
+	        	}
+	        }
+	        
+	        ++currentWave;
+	        ++totalWaves;
+    	}
     }
 
     /**
@@ -289,98 +285,21 @@ public class GameMode
      */
     protected void generateSpawnPoints()
     {
-	    /* 
-	     * Tallennetaan reunojen koordinaatit taulukkoon kameran sijainnin muutoksen määrän mukaan (CameraManager.camX ja CameraManager.camY)
-	     * { {vasen reuna X,Y}, {vasen yläreuna X,Y}, {yläreuna X,Y}, {oikea yläreuna X,Y},
-	     *	 {oikea reuna X,Y}, {oikea alareuna X,Y}, {alareuna X,Y}, {vasen alareuna X,Y} }
-	     * index: 	  1   0/1           2       0/1        3    0/1             4	  0/1
-	     * index: 	  5   0/1           6       0/1        7    0/1             8	  0/1
-	     * 
-	     */
-    	
     	// Satunnaisten spawnpointtien alustus
 	    for(int i = 1; i < 8; ++i) {
 	    	for(int j = 0; j < 2; ++j) {
-	    			spawnPoints[i][j][0] = (int) (Utility.getRandom(-3000, 3000));
-	    			spawnPoints[i][j][1] = (int) (Utility.getRandom(-3000, 3000));
+	    			spawnPoints[i][j][0] = (int) (Utility.getRandom(-mapWidth, mapWidth));
+	    			spawnPoints[i][j][1] = (int) (Utility.getRandom(-mapHeight, mapHeight));
+	    			
+	    			if (spawnPoints[i][j][0] > -Options.scaledScreenWidth * 2 &&
+	    				spawnPoints[i][j][0] < Options.scaledScreenWidth * 2) {
+	    				if (spawnPoints[i][j][1] > -Options.scaledScreenHeight * 2 &&
+	    	    			spawnPoints[i][j][1] < Options.scaledScreenHeight * 2) {
+	    	    			--j;
+	    	    		}
+	    			}
 	    	}
 	    }
-	    
-	    //****HUOM!**** LUKITTUJEN SPAWNPOINTTIEN ALUSTUS
-	    
-	    // Vihollisten syntypisteiden koordinaatit
-	    // [rykelmän järjestysnumero][spawnpointin järjestysnumero][pisteen x- ja y-koordinaatit]
-	    //					 X								   				      Y
-	    // Vasen reuna
-    	/*
-    	spawnPoints[1][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][0][1] = (int) camera.yTranslate;
-	    spawnPoints[1][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][1][1] = (int) (camera.yTranslate + 128 * Options.scale);
-	    spawnPoints[1][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[1][2][1] = (int) (camera.yTranslate - 128 * Options.scale);
-	    // Vasen yläkulma
-	    spawnPoints[2][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate); 	  						spawnPoints[2][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[2][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate + 64 * Options.scale); 	spawnPoints[2][1][1] = (int) (halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
-	    spawnPoints[2][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); 	spawnPoints[2][2][1] = (int) (halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
-	    // Yläreuna
-	    spawnPoints[3][0][0] = (int) camera.xTranslate; 					 	  						spawnPoints[3][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[3][1][0] = (int) (camera.xTranslate + 128 * Options.scale); 						spawnPoints[3][1][1] = (int) (halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[3][2][0] = (int) (camera.xTranslate - 128 * Options.scale); 						spawnPoints[3][2][1] = (int) (halfOfScreenHeight + camera.yTranslate);
-	    // Oikea yläkulma
-	    spawnPoints[4][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  						spawnPoints[3][0][1] = (int) (halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[4][1][0] = (int) (halfOfScreenWidth + camera.xTranslate + 64 * Options.scale);  	spawnPoints[3][1][1] = (int) (halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
-	    spawnPoints[4][2][0] = (int) (halfOfScreenWidth + camera.xTranslate - 64 * Options.scale);  	spawnPoints[3][2][1] = (int) (halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
-	    // Oikea reuna
-	    spawnPoints[5][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  						spawnPoints[4][0][1] = (int) camera.yTranslate;
-	    spawnPoints[5][1][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  						spawnPoints[4][1][1] = (int) (camera.yTranslate + 128 * Options.scale);
-	    spawnPoints[5][2][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  						spawnPoints[4][2][1] = (int) (camera.yTranslate - 128 * Options.scale);
-	    // Oikea alakulma
-	    spawnPoints[6][0][0] = (int) (halfOfScreenWidth + camera.xTranslate);  	  						spawnPoints[5][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[6][1][0] = (int) (halfOfScreenWidth + camera.xTranslate + 64 * Options.scale);  	spawnPoints[5][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
-	    spawnPoints[6][2][0] = (int) (halfOfScreenWidth + camera.xTranslate - 64 * Options.scale);  	spawnPoints[5][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
-	    // Alareuna
-	    spawnPoints[7][0][0] = (int) (camera.xTranslate); 				 		  						spawnPoints[7][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[7][1][0] = (int) (camera.xTranslate + 128 * Options.scale);			 	 	  		spawnPoints[7][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[7][2][0] = (int) (camera.xTranslate - 128 * Options.scale);					  		spawnPoints[7][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
-	    // Vasen alareuna
-	    spawnPoints[8][0][0] = (int) (-halfOfScreenWidth + camera.xTranslate);      					spawnPoints[8][0][1] = (int) (-halfOfScreenHeight + camera.yTranslate);
-	    spawnPoints[8][1][0] = (int) (-halfOfScreenWidth + camera.xTranslate + 64 * Options.scale); 	spawnPoints[8][1][1] = (int) (-halfOfScreenHeight + camera.yTranslate - 64 * Options.scale);
-	    spawnPoints[8][2][0] = (int) (-halfOfScreenWidth + camera.xTranslate - 64 * Options.scale); 	spawnPoints[8][2][1] = (int) (-halfOfScreenHeight + camera.yTranslate + 64 * Options.scale);
-	    */
-	    // Random reuna
-	    // spawnPoints[0][0][0] = ...
-	    /*
-	     * Hakee, satunnoi ja asettaa vihollisten aloituspisteet
-	     * 
-	     * @param alignPoint - Määrittää reunan, jolle viholliset tulevat
-	     * @param specificPoint - Määrittää tarkempia koordinaatteja 3:lle eri vihollisen spawnpointille
-	     */
-	    /*public void setSpawnPoints(int spawnPointCoords[][]) {
-	        for (int alignPoint = 1; alignPoint <= 8; ++alignPoint) {
-	            for (int specificPoint = 0; specificPoint < 3; ++specificPoint) {
-	                spawnPoints[alignPoint][specificPoint][0] = spawnPointCoords[alignPoint][0]; // Spawnpointin tarkan sijainnin x-koordinaatti
-	                spawnPoints[alignPoint][specificPoint][1] = spawnPointCoords[alignPoint][1]; // Spawnpointin tarkan sijainnin y-koordinaatti
-	            }
-	        }
-	    }*/
-	    
-	    /*
-	       1. [mille reunalle viholliset tulevat] <- hae tämä xmlReaderilla
-	       2. [spawnpointin järjestysnumero] <- näitä aluksi 3 jokaiselle spawnpointille
-	       3. [vihollisen x- ja y-sijainnit] <- esim. vasempaan reunaan esimääritettyjen x- ja y-koordinaattien lisäksi nämä
-	           (leftSpawnPointX + joko -1* tai 1* spawnPoints[][][x,y] (x- ja y-arvot taulukosta)
-	    */
-
-	    // [1][0][0] = vasempaan reunaan ilmestyvän vihollisen x-koord. (ensimmäinen spawnpoint)
-	    // [1][0][1] = vasempaan reunaan ilmestyvän vihollisen y-koord. (ensimmäinen spawnpoint)
-	    
-	    // [1][1][0] = vasempaan reunaan ilmestyvän vihollisen x-koord. (toinen spawnpoint)
-	    // [1][1][1] = vasempaan reunaan ilmestyvän vihollisen y-koord. (toinen spawnpoint)
-	    
-	    // [4][2][0] = alareunaan ilmestyvän vihollisen x-koord. (kolmas spawnpoint)
-	    // [4][2][1] = alareunaan ilmestyvän vihollisen y-koord. (kolmas spawnpoint)
-	    
-	    // [2][1][0] = x-koord.
-	    
-	    
     }
 
     /**
@@ -441,16 +360,6 @@ public class GameMode
 				asteroids[i].y = asteroids[i].y * (-1) + 100 ;
 			}
 		}
-	}
-
-	/**
-	 * Luo pelikentän taustatähdet.
-	 */
-	private void generateStarBackground()
-    {
-    	for (int i = 0; i < 15; ++i) {
-    		backgroundStars[i] = new BackgroundStar(Utility.getRandom(-halfOfScreenWidth, halfOfScreenWidth), Utility.getRandom(-halfOfScreenHeight, halfOfScreenHeight));
-    	}
 	}
 
 	/**

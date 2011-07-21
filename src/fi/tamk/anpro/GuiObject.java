@@ -39,7 +39,7 @@ abstract public class GuiObject extends GfxObject
         }
 
         // Lis‰t‰‰n objekti piirtolistalle ja m‰‰ritet‰‰n tila
-        listId = wrapper.addToList(this, Wrapper.CLASS_TYPE_GUI, Wrapper.FULL_ACTIVITY);
+        wrapper.addToDrawables(this);
     }
 
     /**

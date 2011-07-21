@@ -22,8 +22,8 @@ class GameThread extends Thread
     public static final int GAMESTATE_STARTUP           = 4;
     public static final int GAMESTATE_GAME              = 5;
     
-    public  static byte gameState      = 0;
-    private        long gameStateTimer;
+    public  byte gameState      = 0;
+    private long gameStateTimer;
     
     /* Tarvittavat luokat */
     private Wrapper       wrapper;
@@ -33,6 +33,7 @@ class GameThread extends Thread
     private Hud           hud;
     private WeaponManager weaponManager;
     private GLSurfaceView surfaceView;
+    private BackgroundManager backgroundManager;
     
     /* Ajastuksen muuttujat */
     private long waveStartTime;
@@ -40,7 +41,6 @@ class GameThread extends Thread
     private long lastAiUpdateStateOne;
     private long lastAiUpdateStateTwo;
     private long lastAiUpdateStateThree;
-    private long lastAiUpdateStateFour;
     private long lastCooldownUpdate;
     private long lastGameModeUpdate;
     private long lastCollisionUpdate;
@@ -48,6 +48,7 @@ class GameThread extends Thread
     private long lastBoundCheck;
     private long lastGuideArrowUpdate;
     private long lastRadarUpdate;
+    private long lastMessageUpdate;
     
     private long currentTime;
     
@@ -67,14 +68,13 @@ class GameThread extends Thread
      * @param GameActivity   Pelin aloittava aktiviteetti
      */
     public GameThread(DisplayMetrics _dm, Context _context, GameActivity _gameActivity,
-    				  WeaponManager _weaponManager, GLRenderer _renderer, GLSurfaceView _surfaceView)
+    				  GLRenderer _renderer, GLSurfaceView _surfaceView)
     {
         wrapper       = Wrapper.getInstance();
         
         dm      	  = _dm;
         context 	  = _context;
         gameActivity  = _gameActivity;
-        weaponManager = _weaponManager;
         renderer      = _renderer;
         surfaceView   = _surfaceView;
     }
@@ -94,17 +94,22 @@ class GameThread extends Thread
      */
     public void initialize()
     {
-    	// Luodaan EffectManager ja MessageManager
+    	// Luodaan manager-luokat
         EffectManager.getInstance();
         MessageManager.getInstance();
-                
-        // Luodaan Hud ja TouchManager
-        hud          = new Hud(context, weaponManager);
-        touchManager = new TouchManager(dm, surfaceView, context, hud, weaponManager);
+        CameraManager.getInstance();
+
+        // Luodaan pelitilan eri osat
+        backgroundManager = new BackgroundManager(wrapper);
+    	weaponManager     = new WeaponManager();
+        hud               = new Hud(context, weaponManager);
+        touchManager      = new TouchManager(dm, surfaceView, context, hud, weaponManager);
+        gameMode          = new GameMode(gameActivity, dm, context, hud, weaponManager);
         
-        // Luodaan SurvivalMode
-        gameMode = new GameMode(gameActivity, dm, context, hud, weaponManager);
-                
+        // Järjestellään Wrapperin listat uudelleen
+        wrapper.sortDrawables();
+        wrapper.generateAiGroups();
+        
         // Merkitään kaikki ladatuiksi
         allLoaded = true;
     }
@@ -157,7 +162,6 @@ class GameThread extends Thread
 		        lastAiUpdateStateOne   = waveStartTime;
 		        lastAiUpdateStateTwo   = waveStartTime;
 		        lastAiUpdateStateThree = waveStartTime;
-		        lastAiUpdateStateFour  = waveStartTime;
 		        lastCooldownUpdate     = waveStartTime;
 		        lastGameModeUpdate	   = waveStartTime;
 		        lastCollisionUpdate    = waveStartTime;
@@ -165,6 +169,7 @@ class GameThread extends Thread
 		        lastBoundCheck         = waveStartTime;
 		        lastGuideArrowUpdate   = waveStartTime;
 		        lastRadarUpdate        = waveStartTime;
+		        lastMessageUpdate	   = waveStartTime;
 		        
 		        /* Suoritetaan säiettä kunnes se määritetään pysäytettäväksi */
 		        while (isRunning) {
@@ -195,8 +200,11 @@ class GameThread extends Thread
 		            /* Tarkistetaan törmäykset */
 		            checkCollisions(currentTime);
 		            
-		            /* Päivitetään efektien sijainnit */
-		            updateEffectPositions();
+		            /* Päivitetään viestit */
+		            updateMessages(currentTime);
+		            
+		            /* Päivitetään efektit */
+		            updateEffects();
 		            
 		            /* Päivitetään aseiden cooldownit */
 		        	updateWeaponCooldowns(currentTime);
@@ -235,27 +243,28 @@ class GameThread extends Thread
         lastMovementUpdate = _currentTime;
         
 		wrapper.player.updateMovement(_currentTime);
+		
 		CameraManager.updateCameraPosition();
 	    
 	    for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	        if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY ||
-	            wrapper.enemyStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	        if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY ||
+	            wrapper.enemies.get(i).state == Wrapper.ANIMATION_AND_MOVEMENT) {
 	            
 	            wrapper.enemies.get(i).updateMovement(_currentTime);
 	        }
 	    }
 	    
 	    for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-	        if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY ||
-	            wrapper.projectileStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	        if (wrapper.projectiles.get(i).state == Wrapper.FULL_ACTIVITY ||
+	            wrapper.projectiles.get(i).state == Wrapper.ANIMATION_AND_MOVEMENT) {
 	            
 	            wrapper.projectiles.get(i).updateMovement(_currentTime);
 	        }
 	    }
 	    
 	    for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-	        if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY ||
-	            wrapper.obstacleStates.get(i) == Wrapper.ANIMATION_AND_MOVEMENT) {
+	        if (wrapper.obstacles.get(i).state == Wrapper.FULL_ACTIVITY ||
+	            wrapper.obstacles.get(i).state == Wrapper.ANIMATION_AND_MOVEMENT) {
 	            
 	            wrapper.obstacles.get(i).updateMovement(_currentTime);
 	        }
@@ -267,9 +276,7 @@ class GameThread extends Thread
      */
 	private void updateBackgroundStars()
 	{
-	    for (int i = wrapper.backgroundStars.size()-1; i >= 0; --i) {
-	    	wrapper.backgroundStars.get(i).checkPosition();
-	    }
+	    backgroundManager.updatePositions();
 	}
 
     /**
@@ -281,107 +288,35 @@ class GameThread extends Thread
 	private void updateAi(long _currentTime)
 	{
 	    // Päivitetään tila 1
-		if (_currentTime - lastAiUpdateStateOne >= 300) {
+		if (_currentTime - lastAiUpdateStateOne >= 350) {
 	        lastAiUpdateStateOne = _currentTime;
 	        
-	        for (int i : wrapper.priorityOneEnemies) {
-	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.enemies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityOneAllies) {
-	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.allies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityOneProjectiles) {
-	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	            	if (wrapper.projectiles.get(i).ai != null) {
-	                	if (wrapper.projectiles.get(i).ai.active) {
-	                		wrapper.projectiles.get(i).ai.handleAi();
-	                	}
-	            	}
-	            }
+	        for (AiObject object : wrapper.aiGroupOne) {
+	        	if (object.state == Wrapper.FULL_ACTIVITY && object.ai != null) {
+	        		object.ai.handleAi();
+	        	}
 	        }
 		}
 		
 	    // Päivitetään tila 2
-	    if (_currentTime - lastAiUpdateStateTwo >= 150) {
+	    if (_currentTime - lastAiUpdateStateTwo >= 180) {
 	        lastAiUpdateStateTwo = _currentTime;
 	        
-	        for (int i : wrapper.priorityTwoEnemies) {
-	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.enemies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityTwoAllies) {
-	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.allies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityTwoProjectiles) {
-	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	            	if (wrapper.projectiles.get(i).ai.active) {
-	            		wrapper.projectiles.get(i).ai.handleAi();
-	            	}
-	            }
+	        for (AiObject object : wrapper.aiGroupTwo) {
+	        	if (object.state == Wrapper.FULL_ACTIVITY && object.ai != null) {
+	        		object.ai.handleAi();
+	        	}
 	        }
 	    }
 	
 	    // Päivitetään tila 3
-	    if (_currentTime - lastAiUpdateStateThree >= 75) {
+	    if (_currentTime - lastAiUpdateStateThree >= 40) {
 	        lastAiUpdateStateThree = _currentTime;
 	        
-	        for (int i : wrapper.priorityThreeEnemies) {
-	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.enemies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityThreeAllies) {
-	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.allies.get(i).ai.handleAi();
-	            }
-	        }
-	        
-	        for (int i : wrapper.priorityThreeProjectiles) {
-	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	            	if (wrapper.projectiles.get(i).ai.active) {
-	            		wrapper.projectiles.get(i).ai.handleAi();
-	            	}
-	            }
-	        }
-	    }
-	
-	    // Päivitetään tila 4
-	    if (_currentTime - lastAiUpdateStateFour >= 40) {
-	        lastAiUpdateStateFour = _currentTime;
-	
-	    	// Päivitetään pelaajan tekoäly (aina tila 4)
-	    	wrapper.player.ai.handleAi();
-
-	        for (int i : wrapper.priorityFourEnemies) {
-	            if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.enemies.get(i).ai.handleAi();
-	            }
-	        }
-
-	        for (int i : wrapper.priorityFourAllies) {
-	            if (wrapper.allyStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	                wrapper.allies.get(i).ai.handleAi();
-	            }
-	        }
-
-	        for (int i : wrapper.priorityFourProjectiles) {
-	            if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
-	            	if (wrapper.projectiles.get(i).ai.active) {
-	            		wrapper.projectiles.get(i).ai.handleAi();
-	            	}
-	            }
+	        for (AiObject object : wrapper.aiGroupThree) {
+	        	if (object.state == Wrapper.FULL_ACTIVITY && object.ai != null) {
+	        		object.ai.handleAi();
+	        	}
 	        }
 	    }
 	}
@@ -398,25 +333,34 @@ class GameThread extends Thread
 			lastCollisionUpdate = _currentTime;
 			
 	    	for (int i = wrapper.projectiles.size()-1; i >= 0; --i) {
-	    		if (wrapper.projectileStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    		if (wrapper.projectiles.get(i).state == Wrapper.FULL_ACTIVITY) {
 	    			wrapper.projectiles.get(i).checkCollision();
 	    		}
 	    	}
 	    	for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
-	    		if (wrapper.enemyStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    		if (wrapper.enemies.get(i).state == Wrapper.FULL_ACTIVITY) {
 	    			//wrapper.enemies.get(i).checkCollision(); // TODO: ?
 	    		}
 	    	}
 	    	for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-	    		if (wrapper.obstacleStates.get(i) == Wrapper.FULL_ACTIVITY) {
+	    		if (wrapper.obstacles.get(i).state == Wrapper.FULL_ACTIVITY) {
 	    			wrapper.obstacles.get(i).checkCollision();
 	    		}
 	    	}
 	    	
-	    	if (wrapper.playerState == Wrapper.FULL_ACTIVITY) {
+	    	if (wrapper.player.state == Wrapper.FULL_ACTIVITY) {
 	    		wrapper.player.checkCollision();
 	    	}
 	    	
+        }
+	}
+	
+	private void updateMessages(long _currentTime)
+	{
+		if (_currentTime - lastMessageUpdate >= 50) {
+        	lastMessageUpdate = _currentTime;
+        	
+        	MessageManager.updateMessages();
         }
 	}
 
@@ -424,19 +368,9 @@ class GameThread extends Thread
      * Päivittää efektien sijainnit, sillä joidenkin efektien on seurattava
      * niille annettuja kohteita.
      */
-	private void updateEffectPositions()
+	private void updateEffects()
 	{
-    	for (int i = wrapper.backEffects.size()-1; i >= 0; --i) {
-    		if (wrapper.backEffectStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			wrapper.backEffects.get(i).updatePosition();
-    		}
-    	}
-    	
-    	for (int i = wrapper.frontEffects.size()-1; i >= 0; --i) {
-    		if (wrapper.frontEffectStates.get(i) == Wrapper.FULL_ACTIVITY) {
-    			wrapper.frontEffects.get(i).updatePosition();
-    		}
-    	}
+		EffectManager.updateEffectPositions();
 	}
 
     /**
@@ -448,6 +382,7 @@ class GameThread extends Thread
 	{
         if (_currentTime - lastCooldownUpdate >= 100) {
         	lastCooldownUpdate = _currentTime;
+        	
             gameMode.weaponManager.updateCooldowns();
             hud.updateCooldowns();
         }
@@ -483,6 +418,8 @@ class GameThread extends Thread
 	private void updateGameMode(long _currentTime)
 	{
         if (_currentTime - lastGameModeUpdate >= 1000) {
+        	lastGameModeUpdate = _currentTime;
+        	
             if (GameMode.enemiesLeft == 0) {
                 gameMode.startWave();
             }
