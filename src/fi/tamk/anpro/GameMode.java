@@ -82,6 +82,9 @@ public class GameMode
         halfOfScreenWidth  = _dm.widthPixels / 2;
         halfOfScreenHeight = _dm.heightPixels / 2;
         
+        /* Otetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+        
         /* Alustetaan muuttujat */
         // Määritetään kartan leveys
         mapWidth  = 1200;
@@ -151,9 +154,6 @@ public class GameMode
         
         // Käynnistetään ensimmäinen vihollisaalto
         startWave();
-        
-        /* Otetaan tarvittavat luokat käyttöön */
-        wrapper = Wrapper.getInstance();
     }
     
     /* =======================================================
