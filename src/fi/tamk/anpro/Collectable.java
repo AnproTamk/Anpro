@@ -25,6 +25,7 @@ public class Collectable extends GameObject
 		/* Tallennetaan muuttujat */
 		x = _x;
 		y = _y;
+		z = 7;
 		
 		/* Otetaan tarvittavat luokat käyttöön */
 		wrapper = Wrapper.getInstance();

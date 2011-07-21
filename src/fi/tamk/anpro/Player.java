@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
 /**
  * Sis‰lt‰‰ pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * ep‰aktiiviseksi, piirt‰misen ja tˆrm‰yksenhallinnan (ei tunnistusta).
@@ -48,6 +46,8 @@ public class Player extends AiObject
     	hud.armorBar.initBar(armor);
         
     	/* Alustetaan muuttujat */
+    	z = 3;
+    	
         // M‰‰ritet‰‰n asetukset
         collisionRadius = (int) (25 * Options.scale);
         setMovementSpeed(0.0f);
