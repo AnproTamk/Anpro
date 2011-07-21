@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
-import android.widget.Toast;
 
 /**
  * Sis‰lt‰‰ StoryModen kentt‰valikon toteutuksen. Kentt‰valikossa pelaaja voi
@@ -75,7 +74,6 @@ public class LevelSelectActivity extends Activity implements OnItemClickListener
 	    	//	finish();
 */
 	            // storyButton.setVisibility(View.VISIBLE);
-	            Toast.makeText(LevelSelectActivity.this, "level" + " " + (position + 1), Toast.LENGTH_LONG).show();
 	            //storybutton.
 	            }
 	    });

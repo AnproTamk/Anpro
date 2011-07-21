@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-import android.widget.Toast;
 import android.media.AudioManager;
 
 /**
@@ -73,12 +72,10 @@ public class PauseMenuActivity extends Activity implements OnClickListener
                 // Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Music Enabled", Toast.LENGTH_SHORT).show();
                     Options.music = true;
                     
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Music Disabled", Toast.LENGTH_SHORT).show();
                     Options.music = false;
                 }
             }
@@ -90,11 +87,9 @@ public class PauseMenuActivity extends Activity implements OnClickListener
             	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Sounds Enabled", Toast.LENGTH_SHORT).show();
                     Options.sounds = true;
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Sounds Disabled", Toast.LENGTH_SHORT).show();
                     Options.sounds = false;
                 }
             }
@@ -106,11 +101,9 @@ public class PauseMenuActivity extends Activity implements OnClickListener
             	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
                 if (((CheckBox) v).isChecked()) {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Vibrations Enabled", Toast.LENGTH_SHORT).show();
                     Options.vibration = true;
                 } else {
                 	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Toast.makeText(PauseMenuActivity.this, "Vibrations Disabled", Toast.LENGTH_SHORT).show();
                     Options.vibration = false;
                 }
             }
@@ -160,7 +153,6 @@ public class PauseMenuActivity extends Activity implements OnClickListener
     	e.putBoolean(PREF_BOOL_VIB, vibrationCheckBox.isChecked());
     	e.commit();
         
-    	Toast.makeText(this, "Settings Saved.", Toast.LENGTH_SHORT).show();
     	super.onPause();
     }
         
