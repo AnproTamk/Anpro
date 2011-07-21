@@ -22,6 +22,7 @@ abstract public class GuiObject extends GfxObject
     	/* Tallennetaan muuttujat */
         x = _x;
         y = _y;
+        z = 0;
         
         /* Alustetaan muuttujat */
         // M‰‰ritet‰‰n asetukset

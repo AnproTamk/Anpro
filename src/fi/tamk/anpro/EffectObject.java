@@ -30,12 +30,14 @@ public class EffectObject extends GameObject
 	public EffectObject(int _speed, byte _effectType, byte _effectGroup)
 	{
 		super(_speed);
-		
+
 		/* Tallennetaan muuttujat */
 		effectType  = _effectType;
 		effectGroup = _effectGroup;
 		
 		/* Alustetaan muuttujat */
+		z = 4;
+		
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_EFFECT_ANIMATIONS];
         if (GLRenderer.effectAnimations[_effectType] != null) {

@@ -14,6 +14,8 @@ public class Mothership extends GameObject
 		wrapper = Wrapper.getInstance();
 		
     	/* Alustetaan muuttujat */
+	    z = 6;
+	    
         // Haetaan käytettävien animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
         

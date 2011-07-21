@@ -64,10 +64,13 @@ abstract public class AbstractProjectile extends AiObject
     public AbstractProjectile(int _ai, int _userType)
     {
         super(15); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
-        
+
         /* Tallennetaan muuttujat */
         userType = _userType;
-        
+
+		/* Alustetaan muuttujat */
+		z = 5;
+		
         /* Otetaan tarvittavat luokat käyttöön */
         wrapper = Wrapper.getInstance();
 

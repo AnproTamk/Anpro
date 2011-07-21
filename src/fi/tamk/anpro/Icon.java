@@ -16,6 +16,9 @@ public class Icon extends GuiObject
 	{
 		super(_x, _y);
 		
+		// Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
+		z = 1;
+		
 		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
 		// TODO:
 		usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
