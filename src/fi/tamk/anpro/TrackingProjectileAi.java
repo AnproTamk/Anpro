@@ -11,7 +11,7 @@ public class TrackingProjectileAi extends AbstractAi
 {
 	private long    startTime;
 	private boolean isTracking = false;
-	
+		
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 

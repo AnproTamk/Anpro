@@ -19,6 +19,8 @@ public class Message extends GuiObject
 	private byte STAY_STILL   = 2; // Pitää objektin näkyvissä
 	private byte TURN_INVISIBLE = 3; // Kääntää objektin näkymättömäksi
 	
+	private byte IS_UNACTIVE = 0;
+	
 	// Osoitin Wrapperiin
 	private Wrapper wrapper;
 	
@@ -82,7 +84,7 @@ public class Message extends GuiObject
 
 			if (yAxisRotation >= 87.0f) {
 				yAxisRotation = 90.0f;
-				messageState = 0;
+				messageState = IS_UNACTIVE;
 				
 				state = Wrapper.INACTIVE;
 				

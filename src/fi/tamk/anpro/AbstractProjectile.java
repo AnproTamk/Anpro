@@ -518,7 +518,7 @@ abstract public class AbstractProjectile extends AiObject
      */
     public final void triggerExplosion()
     {
-    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     	
         // Tarkistetaan etäisyydet
         // Kutsutaan osumatarkistuksia tarvittaessa
