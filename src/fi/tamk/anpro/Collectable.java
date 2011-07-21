@@ -22,17 +22,18 @@ public class Collectable extends GameObject
 	{
 		super(0);
 		
-		// Tallennetaan koordinaatit
+		/* Tallennetaan muuttujat */
 		x = _x;
 		y = _y;
 		
-		// Otetaan Wrapper käyttöön
+		/* Otetaan tarvittavat luokat käyttöön */
 		wrapper = Wrapper.getInstance();
 		
-		// Määritellään törmäystunnistus
+		/* Alustetaan muuttujat */
+		// Määritetään törmäystunnistus
 		collisionRadius = (int) (25 * Options.scale);
 		
-		// Määritetään tekstuuri
+		// Määritetään käytettävä tekstuuri
 		usedTexture = 0;
     
         // Haetaan animaatioiden pituudet
@@ -44,7 +45,7 @@ public class Collectable extends GameObject
             }
         }
 
-		// Lisätään objekti piirtolistalle
+        /* Määritetään objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
 	}
     

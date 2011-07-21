@@ -20,7 +20,7 @@ public class WeaponEmp extends AbstractWeapon
     {
         super(_wrapper, _userType);
         
-        // Luodaan ammus
+		/* Alustetaan muuttujat */
         projectile = new ProjectileEmp(AbstractAi.NO_AI, _userType);
     }
 

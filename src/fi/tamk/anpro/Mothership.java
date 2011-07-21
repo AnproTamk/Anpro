@@ -9,16 +9,12 @@ public class Mothership extends GameObject
 	public Mothership(int _speed)
 	{
 		super(0);
-		
-		// Otetaan Wrapper käyttöön
+
+        /* Haetaan tarvittavat luokat käyttöön */
 		wrapper = Wrapper.getInstance();
 		
-		// Lisätään emoalus piirtolistalle
-		wrapper.addToDrawables(this);
-		
-
-	    
-        // Haetaan animaatioiden pituudet
+    	/* Alustetaan muuttujat */
+        // Haetaan käytettävien animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_MOTHERSHIP_ANIMATIONS];
         
         for (int i = 0; i < GLRenderer.AMOUNT_OF_MOTHERSHIP_ANIMATIONS; ++i) {
@@ -26,6 +22,9 @@ public class Mothership extends GameObject
                 animationLength[i] = GLRenderer.mothershipAnimations[i].length;
             }
         }
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
+		wrapper.addToDrawables(this);
 	}
 
 	@Override

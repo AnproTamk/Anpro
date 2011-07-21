@@ -15,7 +15,9 @@ public class ProjectileEmp extends AbstractProjectile
     public ProjectileEmp(int _ai, int _userType)
     {
         super(_ai, _userType);
-    
+        
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n ammuksen tunnus (k‰ytet‰‰n tekstuureja valittaessa)
         projectileId = 1;
         
         // Haetaan animaatioiden pituudet

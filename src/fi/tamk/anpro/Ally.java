@@ -32,15 +32,18 @@ public class Ally extends AiObject
     {
         super(_speed);
         
-        // Tallennetaan tiedot
+        /* Tallennetaan muuttujat */
         health          = _health;
         currentHealth   = _health;
         collisionDamage = _attack;
         armor           = _armor;
         currentArmor    = _armor;
         type            = _type;
+        weaponManager   = _weaponManager;
         
-        // Asetetaan törmäysetäisyys
+        /* Alustetaan muuttujat */
+        // Määritetään törmäysetäisyys
+        // TODO: Vakiot tyypeille?
         if (type == 1) {
             collisionRadius = (int) (20 * Options.scale);
         }
@@ -57,12 +60,12 @@ public class Ally extends AiObject
             }
         }
         
-        // Otetaan Wrapper käyttöön ja tallennetaan WeaponManagerin osoitin
-        wrapper       = Wrapper.getInstance();
-        weaponManager = _weaponManager;
-        
-        // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+        /* Otetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
         wrapper.addToDrawables(this);
+        state = Wrapper.INACTIVE;
         
         if (_ai == AbstractAi.TURRET_AI) {
             ai = new TurretAllyAi(this, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
