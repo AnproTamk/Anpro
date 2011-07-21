@@ -178,11 +178,11 @@ class GameThread extends Thread
 		            currentTime = android.os.SystemClock.uptimeMillis();
 		            
 		            /* Tarkastetaan pelaajan sijainti pelikent‰ll‰ */
-		            if (currentTime - lastBoundCheck >= 1500) {
+		            if (currentTime - lastBoundCheck >= 1000) {
 		            	
 		            	lastBoundCheck = currentTime;
 		            	
-		            	gameMode.checkBounds();            	
+		            	gameMode.checkBounds();
 		            }
 		            
 		            /* P‰ivitet‰‰n objektien sijainnit niiden liikkeen mukaan (k‰sitell‰‰n

@@ -29,7 +29,7 @@ public class Player extends AiObject
      */
     public Player(int _health, int _armor, GameMode _gameMode, Hud _hud)
     {
-        super(6); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
+        super(8); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
         		  // Muiden GameObjectien tapaan.
         
         // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin

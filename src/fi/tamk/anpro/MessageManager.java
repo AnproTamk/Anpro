@@ -1,5 +1,7 @@
 package fi.tamk.anpro;
 
+import android.util.Log;
+
 /**
  *  Hallitsee kaikkia ilmoituksia, esimerkiksi rajojen ylitt‰misest‰ annettavaa
  *  "Out of bounds" teksti‰.
@@ -24,6 +26,9 @@ public class MessageManager
 	public static Message newSkillsReady;
 	public static Message repairNeeded;
 	public static Message armorsOff;
+
+	/* Onko viesti n‰kyviss‰ */
+	public static boolean isShowing;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -31,11 +36,13 @@ public class MessageManager
 	public MessageManager()
 	{
 		outOfBounds    = new Message(MESSAGE_OUTOFBOUNDS, 1500);
-		/*autoPilotOn    = new Message(MESSAGE_AUTOPILOT_ON, 1500);
+		autoPilotOn    = new Message(MESSAGE_AUTOPILOT_ON, 1500);
 		autoPilotOff   = new Message(MESSAGE_AUTOPILOT_OFF, 1500);
 		newSkillsReady = new Message(MESSAGE_NEWSKILLSREADY, 3000);
 		repairNeeded   = new Message(MESSAGE_REPAIR_NEEDED, 3000);
-		armorsOff      = new Message(MESSAGE_ARMORS_OFF, 2000);*/
+		armorsOff      = new Message(MESSAGE_ARMORS_OFF, 2000);
+		
+		isShowing = false;
 	}
 	
 	/**
@@ -54,18 +61,77 @@ public class MessageManager
 	public static final void updateMessages()
 	{
 		outOfBounds.updateAngle();
-		/*autoPilotOn.updateAngle();
+		autoPilotOn.updateAngle();
 		autoPilotOff.updateAngle();
 		newSkillsReady.updateAngle();
 		repairNeeded.updateAngle();
-		armorsOff.updateAngle();*/
+		armorsOff.updateAngle();
 	}
-	
+
 	/**
 	 * N‰ytt‰‰ "Out of bounds"-viestin.
 	 */
 	public static final void showOutOfBoundsMessage()
 	{
-		outOfBounds.activate();
+		if (!isShowing) {
+			isShowing = true;
+			outOfBounds.activate();
+		}
 	}
+	
+	/**
+	 * N‰ytt‰‰ "Autopilot On"-viestin.
+	 */
+	public static final void showAutoPilotOnMessage()
+	{
+		if (!isShowing) {
+			isShowing = true;
+			autoPilotOn.activate();			
+		}
+	}
+	
+	/**
+	 * N‰ytt‰‰ "AutoPilot Off"-viestin.
+	 */
+	public static final void showAutoPilotOffMessage()
+	{
+		if (!isShowing) {
+			isShowing = true;
+			autoPilotOff.activate();
+		}
+	}
+	
+	/**
+	 * N‰ytt‰‰ "New Skills Ready"-viestin.
+	 */
+	public static final void showNewSkillsReadyMessage()
+	{
+		if (!isShowing) {
+			isShowing = true;
+			newSkillsReady.activate();
+		}
+	}
+	
+	/**
+	 * N‰ytt‰‰ "Repair Needed"-viestin.
+	 */
+	public static final void showRepairNeededMessage()
+	{
+		if (!isShowing) {
+			isShowing = true;
+			repairNeeded.activate();
+		}
+	}
+	
+	/**
+	 * N‰ytt‰‰ "Armors Off"-viestin.
+	 */
+	public static final void showArmorsOffMessage()
+	{
+		if (!isShowing) {
+			isShowing = true;
+			armorsOff.activate();
+		}
+	}
+
 }

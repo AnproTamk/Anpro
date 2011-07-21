@@ -4,6 +4,8 @@ import android.util.Log;
 
 public class PlayerAi extends AbstractAi
 {
+	public boolean autoPilotActivated = false;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -21,31 +23,43 @@ public class PlayerAi extends AbstractAi
     @Override
     public final void handleAi()
     {
-        // M‰‰ritet‰‰n k‰‰ntymissuunta
-        parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, parentObject.movementTargetDirection);
+    	if (!autoPilotActivated) {
+	        // M‰‰ritet‰‰n k‰‰ntymissuunta
+	        parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction, parentObject.movementTargetDirection);
+    	}
+    	else {
+    		if (parentObject.x < (GameMode.mapWidth - 200) && parentObject.x > -(GameMode.mapWidth + 200) &&
+    			parentObject.y < (GameMode.mapHeight - 200) && parentObject.y > -(GameMode.mapHeight + 200)) {
+    			parentObject.movementTargetDirection = parentObject.direction; 
+    			deactivateAutoPilot();
+    		}
+    		
+    		else {
+    			parentObject.turningDirection = Utility.getTurningDirection(parentObject.direction,
+    											Utility.getAngle(parentObject.x, parentObject.y, wrapper.mothership.x, wrapper.mothership.y));
+    			parentObject.setMovementSpeed(1.0f);
+    			parentObject.setMovementDelay(1.0f);
+    		}
+    	}
     }
-    
+
     /**
      * K‰ynnist‰‰ autopilotin. K‰ytet‰‰n kun pelaaja menee kent‰n rajojen yli.
      */
-    public static final void activateAutoPilot()
+    public final void activateAutoPilot()
     {
-    	// TODO: Tee toteutus
+		autoPilotActivated = true;
+		MessageManager.showAutoPilotOnMessage();
     }
 
     /**
      * Sammuttaa autopilotin. K‰ytet‰‰n kun pelaaja on palautunnut kent‰n rajojen sis‰puolelle.
      */
-    public static final void deactivateAutoPilot()
+    public final void deactivateAutoPilot()
     {
-    	// TODO: Tee toteutus
-    }
-        
-    /**
-     * K‰sittelee autopilotin teko‰lyn.
-     */
-    public final void handleAutoPilot()
-    {
-    	// TODO: Tee toteutus
+    	parentObject.movementAcceleration = -10;
+    	
+    	autoPilotActivated = false;
+		MessageManager.showAutoPilotOffMessage();
     }
 }
