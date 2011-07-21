@@ -16,7 +16,8 @@ public class Mothership extends GameObject
 		// Lis‰t‰‰n emoalus piirtolistalle
 		wrapper.addToDrawables(this);
 		
-
+		// Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
+		z = 6;
 	    
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_MOTHERSHIP_ANIMATIONS];

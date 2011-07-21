@@ -30,7 +30,7 @@ public class WeaponManager
     											  // 0:Laser 1:EMP 2:Spinning Laser 3:Cluster 4:Swarm 5:Missile 6:Spitfire
     public int       currentWeapon       = 0;     // Käytössä oleva ase (viittaa alla olevien taulukoiden soluihin)
     public boolean   isUsingMotionEvents = false; // Käyttääkö käytössä oleva ase motioneventtejä
-    public boolean[] weaponLocation;		      // Aseen
+    public boolean[] motioneventUsage;		      
     
     /* Aseiden oliot */
     private ArrayList<AbstractWeapon> allyWeapons   = null;
@@ -46,11 +46,12 @@ public class WeaponManager
     public WeaponManager()
     {
         // Alustetaan taulukot
-        playerWeapons = new ArrayList<AbstractWeapon>();
-        allyWeapons   = new ArrayList<AbstractWeapon>();
-        enemyWeapons  = new ArrayList<AbstractWeapon>();
-        cooldownMax   = new int[10];
-        cooldownLeft  = new int[10];
+        playerWeapons    = new ArrayList<AbstractWeapon>();
+        allyWeapons      = new ArrayList<AbstractWeapon>();
+        enemyWeapons     = new ArrayList<AbstractWeapon>();
+        cooldownMax      = new int[10];
+        cooldownLeft     = new int[10];
+        motioneventUsage = new boolean[7];
         
         // Otetaan Wrapper käyttöön
         wrapper = Wrapper.getInstance();
@@ -188,7 +189,7 @@ public class WeaponManager
     	currentWeapon = _selectedWeapon;
     	
     	// Tarkastetaan tarvitseeko nykyinen ase MotionEventtiä
-    	if(weaponLocation[currentWeapon]) {
+    	if(motioneventUsage[currentWeapon]) {
     		isUsingMotionEvents = true;
     	}
     	else {

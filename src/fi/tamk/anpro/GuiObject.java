@@ -22,6 +22,7 @@ abstract public class GuiObject extends GfxObject
     	// Tallennetaan koordinaatit
         x = _x;
         y = _y;
+        z = 0;
         
         // M‰‰ritet‰‰n kulma
         direction = 90;

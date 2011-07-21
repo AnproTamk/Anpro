@@ -2,8 +2,6 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.Log;
-
 /**
  * Sisältää pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -31,6 +29,9 @@ public class Player extends AiObject
     {
         super(8); // TODO: Pelaajalle voisi mieluummin antaa nopeuden suoraan rakentajassa
         		  // Muiden GameObjectien tapaan.
+        
+        // Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on päälimmäisenä ja 10 alimmaisena)
+        z = 3;
         
         // Otetaan Wrapper käyttöön ja tallennetaan pelitilan osoitin
         wrapper  = Wrapper.getInstance();

@@ -65,6 +65,9 @@ abstract public class AbstractProjectile extends AiObject
     {
         super(15); // TODO: T‰m‰ pit‰isi mieluummin ladata jostain tai ottaa vastaan parametrina.
         
+        // Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
+        z = 5;
+        
         state = Wrapper.INACTIVE;
         
         // Tallenne taan k‰ytt‰j‰n tyyppi

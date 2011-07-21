@@ -25,6 +25,7 @@ public class Collectable extends GameObject
 		// Tallennetaan koordinaatit
 		x = _x;
 		y = _y;
+		z = 7;
 		
 		// Otetaan Wrapper käyttöön
 		wrapper = Wrapper.getInstance();

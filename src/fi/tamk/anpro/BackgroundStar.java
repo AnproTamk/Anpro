@@ -16,8 +16,10 @@ public class BackgroundStar extends GfxObject
 	 */
 	public BackgroundStar(int _x, int _y, Wrapper _wrapper)
 	{
+		// Tallennetaan koordinaatit
 		x = _x;
 		y = _y;
+		z = 9;
 		
 		_wrapper.addToDrawables(this);
 	}

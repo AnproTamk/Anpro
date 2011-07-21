@@ -31,6 +31,9 @@ public class EffectObject extends GameObject
 	{
 		super(_speed);
 		
+		// Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
+		z = 4;
+		
 		effectType  = _effectType;
 		effectGroup = _effectGroup;
     
