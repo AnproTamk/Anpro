@@ -16,7 +16,6 @@ public class AiObject extends GameObject
     public AiObject(int _speed)
     {
 		super(_speed);
-		// TODO Auto-generated constructor stub
 	}
 
     

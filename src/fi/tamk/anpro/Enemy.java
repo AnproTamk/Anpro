@@ -29,17 +29,17 @@ public class Enemy extends AiObject
     {
         super(_speed);
         
-        state = Wrapper.INACTIVE;
-        
-        // Tallennetaan tiedot
+        /* Tallennetaan muuttujat */
         health          = _health;
         currentHealth   = _health;
         collisionDamage = _attack;
         armor           = _armor;
         currentArmor    = _armor;
         rank            = _rank;
-        
-        // Asetetaan törmäysetäisyys
+        weaponManager   = _weaponManager;
+
+		/* Alustetaan muuttujat */
+        // Määritetään törmäysetäisyys tason perusteella
         if (rank == 1) {
             collisionRadius = (int) (20 * Options.scale);
         }
@@ -64,13 +64,13 @@ public class Enemy extends AiObject
                 animationLength[i] = GLRenderer.enemyAnimations[rank-1][i].length;
             }
         }
-        
-        // Otetaan Wrapper käyttöön ja tallennetaan WeaponManagerin osoitin
+
+        /* Haetaan tarvittavat luokat käyttöön */
         wrapper       = Wrapper.getInstance();
-        weaponManager = _weaponManager;
-        
-        // Lisätään objekti piirtolistalle ja otetaan tekoäly käyttöön
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
         wrapper.addToDrawables(this);
+        state = Wrapper.INACTIVE;
         
         if (_ai == AbstractAi.LINEAR_ENEMY_AI) {
             ai = new LinearAi(this, Wrapper.CLASS_TYPE_ENEMY);

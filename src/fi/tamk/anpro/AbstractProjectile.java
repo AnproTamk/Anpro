@@ -64,17 +64,20 @@ abstract public class AbstractProjectile extends AiObject
     public AbstractProjectile(int _ai, int _userType)
     {
         super(15); // TODO: Tämä pitäisi mieluummin ladata jostain tai ottaa vastaan parametrina.
-        
+
+        /* Tallennetaan muuttujat */
+        userType = _userType;
+
+		/* Alustetaan muuttujat */
+		z = 5;
+		
+        /* Otetaan tarvittavat luokat käyttöön */
+        wrapper = Wrapper.getInstance();
+
+        /* Määritetään objektin tila (piirtolista ja tekoäly) */
+        wrapper.addToDrawables(this);
         state = Wrapper.INACTIVE;
         
-        // Tallenne taan käyttäjän tyyppi
-        userType = _userType;
-        
-        // Otetaan Wrapper käyttöön
-        wrapper = Wrapper.getInstance();
-        
-        // Lisätään ammus piirtolistalle ja ladataan tekoäly
-        wrapper.addToDrawables(this);
         if (_ai == AbstractAi.NO_AI) {
         	ai = null;
         }

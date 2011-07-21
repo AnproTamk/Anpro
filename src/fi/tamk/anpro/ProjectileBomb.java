@@ -16,6 +16,8 @@ public class ProjectileBomb extends AbstractProjectile
     {
         super(_ai, _userType);
         
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n ammuksen tunnus (k‰ytet‰‰n tekstuureja valittaessa)
         projectileId = 3;
 
         // Haetaan animaatioiden pituudet

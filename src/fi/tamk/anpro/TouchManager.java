@@ -75,20 +75,21 @@ public class TouchManager
         touchPath[0][1] = 0;
         
         // Määritetään kentällä olevat rajat nappien painamiselle eri näytön korkeuksien mukaan
+        // TODO: Tälle toteutukselle tarvitaan dynaaminen muoto.
         if (screenHeight == 320) {
-        	yClickFirstBorder  = (-screenHeight / 2) + screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f);	  // 96
-        	yClickSecondBorder = (-screenHeight / 2) + screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = (-screenHeight / 2) + screenHeight / 2 - (int)(96 * Options.scaleY + 0.5f) - 64; // 32
+        	yClickFirstBorder  = -48;
+        	yClickSecondBorder = -96;
+        	yClickThirdBorder  = -128;
         }
         else if (screenHeight == 480) {
-        	yClickFirstBorder  = (-screenHeight / 2) + screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f);	   // 96
-        	yClickSecondBorder = (-screenHeight / 2) + screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = (-screenHeight / 2) +screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64;  // 32
+        	yClickFirstBorder  = -32;
+        	yClickSecondBorder = -100;
+        	yClickThirdBorder  = -168;
         }
         else {
-        	yClickFirstBorder  = (-screenHeight / 2) + screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f);	   // 96
-        	yClickSecondBorder = (-screenHeight / 2) + screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 32; // 64
-        	yClickThirdBorder  = (-screenHeight / 2) + screenHeight / 2 - (int)(144 * Options.scaleY + 0.5f) - 64; // 32
+        	yClickFirstBorder  = -32;
+        	yClickSecondBorder = -100;
+        	yClickThirdBorder  = -168;
         }
         
         Log.e("testi", "FirstBorder: " + yClickFirstBorder + " SecondBorder: " + yClickSecondBorder + " ThirdBorder" + yClickThirdBorder);

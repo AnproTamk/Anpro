@@ -19,9 +19,11 @@ public class Counter extends GuiObject
 	public Counter(int _x, int _y) {
 		super(_x, _y);
 		
-		usedTexture = GLRenderer.TEXTURE_COUNTER;
-		
+		// M‰‰ritet‰‰n objektin tila
 		state = Wrapper.INACTIVE;
+		
+		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
+		usedTexture = GLRenderer.TEXTURE_COUNTER;
 	}
 
 	/* =======================================================

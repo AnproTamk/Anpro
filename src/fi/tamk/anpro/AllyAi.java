@@ -24,6 +24,7 @@ public class AllyAi extends AbstractAi
 	{
 		super(_parentObject, _userType);
 		
+		/* Tallennetaan muuttujat */
 		weaponManager = _weaponManager;
 	}
     

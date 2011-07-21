@@ -19,11 +19,9 @@ public class WeaponMissile extends AbstractWeapon
 	public WeaponMissile(Wrapper _wrapper, int _userType)
 	{
 		super(_wrapper, _userType);
-		
-		// Alustetaan ammukset
+
+		/* Alustetaan muuttujat */
 		projectiles = new ArrayList<ProjectileMissile>(10);
-		
-		// Luodaan tarvittava m‰‰r‰ ammuksia
 		for (int i = 0; i < 5; ++i) {
 			projectiles.add(new ProjectileMissile(AbstractAi.MOTION_PROJECTILE_AI, _userType));
 		}

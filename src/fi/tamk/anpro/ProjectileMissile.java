@@ -16,6 +16,8 @@ public class ProjectileMissile extends AbstractProjectile
     {
         super(_ai, _userType);
         
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n ammuksen tunnus (k‰ytet‰‰n tekstuureja valittaessa)
         projectileId = 4;
 
         // Haetaan animaatioiden pituudet
@@ -27,7 +29,7 @@ public class ProjectileMissile extends AbstractProjectile
             }
         }
 
-        // M‰‰ritet‰‰n ammuksen asetukset
+        // M‰‰ritet‰‰n asetukset
         damageOnExplode = 25;
         damageType      = EXPLODE_ON_TOUCH;
         
