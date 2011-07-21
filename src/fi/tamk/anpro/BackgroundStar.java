@@ -16,9 +16,11 @@ public class BackgroundStar extends GfxObject
 	 */
 	public BackgroundStar(int _x, int _y, Wrapper _wrapper)
 	{
+		/* Tallennetaan muuttujat */
 		x = _x;
 		y = _y;
-		
+
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		_wrapper.addToDrawables(this);
 	}
 

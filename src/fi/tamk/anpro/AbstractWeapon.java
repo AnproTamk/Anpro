@@ -16,6 +16,7 @@ abstract public class AbstractWeapon
      */
     public AbstractWeapon(Wrapper _wrapper, int _userType)
     {
+    	/* Tallennetaan muuttujat */
     	wrapper = _wrapper;
     }
     

@@ -75,19 +75,19 @@ public class GameMode
      */
     public GameMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, Hud _hud, WeaponManager _weaponManager)
     {
-    	// Tallennetaan osoitin peliaktiviteettiin ja hudiin
-        gameActivity = _gameActivity;
-        hud          = _hud;
+    	/* Tallennetaan muuttujat */
+        gameActivity       = _gameActivity;
+        hud                = _hud;
+        weaponManager      = _weaponManager;
+        halfOfScreenWidth  = _dm.widthPixels / 2;
+        halfOfScreenHeight = _dm.heightPixels / 2;
         
-        wrapper = Wrapper.getInstance();
-        
-        // Tallennetaan n‰ytˆn tiedot
-        halfOfScreenWidth  = _dm.widthPixels;
-        halfOfScreenHeight = _dm.heightPixels;
-        
+        /* Alustetaan muuttujat */
+        // M‰‰ritet‰‰n kartan leveys
         mapWidth  = 1200;
         mapHeight = 800;
         
+        // M‰‰ritet‰‰n reuna-alue (alue, jossa autopilot aktivoituu)
         overBoundWidth  = mapWidth + 700;
         overBoundHeight = mapHeight + 700;
         
@@ -95,28 +95,11 @@ public class GameMode
         enemies         = new ArrayList<Enemy>();
         enemyStats      = new int[5][5];
         asteroids       = new Obstacle[3];
-        planets         = new Obstacle[3];
+        planets         = new Obstacle[2];
         collectables    = new Collectable[3];
         
-    	// Luodaan pelaaja
-    	player = new Player(40, 15, this, hud);
-    	player.x = 0;
-    	player.y = 0;
-    	
-    	// Luodaan emoalus ja sen tykit
-    	mothership = new Mothership(0);
-		mothership.direction = 160;
-		mothership.x         = 100 * Options.scaleX;
-		mothership.y         = 90 * Options.scaleY;
-    	turret1    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret1.x  = 135 * Options.scaleX;
-    	turret1.y  = 8 * Options.scaleY;
-    	turret2    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret2.x  = 280 * Options.scaleX;
-    	turret2.y  = -45 * Options.scaleY;
-    	turret3    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
-    	turret3.x  = 332 * Options.scaleX;
-    	turret3.y  = 84 * Options.scaleY;
+        waves       = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+        spawnPoints = new int[9][3][2];
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
@@ -127,18 +110,38 @@ public class GameMode
         	
         	enemyStats[rank][i-rank*5] = enemyStatsTemp[i];
         }
-        
-        gameActivity  = _gameActivity;
-        weaponManager = _weaponManager;
     	
-    	// Alustetaan taulukot
-        waves = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+    	// M‰‰ritet‰‰n vihollisaallot
         for (int j = 0; j < AMOUNT_OF_WAVES; ++j) {
         	for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
         		waves[j][i] = -1;
         	}
         }
-        spawnPoints  = new int[9][3][2];
+        
+    	/* Luodaan tarvittavat objektit */
+        // Luodaan pelaaja
+    	player = new Player(40, 15, this, hud);
+    	player.x = 0;
+    	player.y = 0;
+    	
+    	// Luodaan emoalus
+    	mothership           = new Mothership(0);
+		mothership.direction = 160;
+		mothership.x         = 100 * Options.scaleX;
+		mothership.y         = 90 * Options.scaleY;
+		
+		// Luodaan emoaluksen tykit
+    	turret1    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret1.x  = 135 * Options.scaleX; turret1.y  = 8 * Options.scaleY;
+    	turret1.state = Wrapper.FULL_ACTIVITY;
+    	
+    	turret2    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret2.x  = 280 * Options.scaleX; turret2.y  = -45 * Options.scaleY;
+    	turret2.state = Wrapper.FULL_ACTIVITY;
+    	
+    	turret3    = new Ally(1000, 0, 0, 0, AbstractAi.TURRET_AI, Ally.ALLY_TURRET, _weaponManager);
+    	turret3.x  = 332 * Options.scaleX; turret3.y  = 84 * Options.scaleY;
+    	turret3.state = Wrapper.FULL_ACTIVITY;
         
         // Luetaan pelitilan tiedot
         reader.readGameMode(this, _weaponManager);
@@ -148,6 +151,9 @@ public class GameMode
         
         // K‰ynnistet‰‰n ensimm‰inen vihollisaalto
         startWave();
+        
+        /* Otetaan tarvittavat luokat k‰yttˆˆn */
+        wrapper = Wrapper.getInstance();
     }
     
     /**
@@ -268,17 +274,41 @@ public class GameMode
      */
     protected void generateObstacles()
     {
-    	// Luodaan kent‰n asteroidit
-        int randDirection = Utility.getRandom(0, 359);
+        int tempDirection;
+        int tempX;
+        int tempY;
         
-    	asteroids[0] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, -400, -400, 2, 120);
-    	asteroids[1] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 400, 400, 2, randDirection);
-    	asteroids[2] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, 0, -400, 2, 240);
-    		
-    	// Luodaan kent‰n planeetat
-		planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 0, -600, 0, 0);
-		planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, 800, 0, 0, 0);
-		planets[2] = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 1200, 1200, 0, 0);
+        // Luodaan asteroidit
+        for (int i = 0; i < 3; ++i) {
+        	tempDirection = Utility.getRandom(0, 359);
+            tempX         = Utility.getRandom(-mapWidth, mapWidth);
+            tempY         = Utility.getRandom(-mapHeight, mapHeight);
+			
+			if (tempX > -Options.scaledScreenWidth * 2 && tempX < Options.scaledScreenWidth * 2 &&
+				tempY > -Options.scaledScreenHeight * 2 && tempY < Options.scaledScreenHeight * 2) {
+	    			--i;
+			}
+			else {
+				asteroids[i] = new Obstacle(Obstacle.OBSTACLE_ASTEROID, 0, tempX, tempY, 2, tempDirection);
+			}
+        }
+        
+        // Luodaan planeetat
+        for (int i = 0; i < 2; ++i) {
+        	tempDirection = Utility.getRandom(0, 359);
+            tempX         = Utility.getRandom(-mapWidth, mapWidth);
+            tempY         = Utility.getRandom(-mapHeight, mapHeight);
+			
+			if (tempX > -Options.scaledScreenWidth * 2 && tempX < Options.scaledScreenWidth * 2 &&
+				tempY > -Options.scaledScreenHeight * 2 && tempY < Options.scaledScreenHeight * 2) {
+	    			--i;
+			}
+			else {
+				// Planeetan erityistyypiksi m‰‰ritet‰‰n i, jolloin se saa arvoksi 0 tai 1.
+				// Vastaavasti planeettojen erityistyypit m‰‰ritt‰v‰t vakiot sis‰lt‰v‰t arvot 0 tai 1.
+				planets[i] = new Obstacle(Obstacle.OBSTACLE_PLANET, i, tempX, tempY, 0, tempDirection);
+			}
+        }
     }
     
     /**

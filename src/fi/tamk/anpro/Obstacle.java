@@ -36,20 +36,19 @@ public class Obstacle extends GameObject
 	public Obstacle(int _type, int _specifiedType, int _x, int _y, int _speed, int _direction)
 	{
 		super(_speed);
-		
-		// Tallennetaan koordinaatit
-		x = _x;
-		y = _y;
-		
-		// Otetaan Wrapper k‰yttˆˆn
-		wrapper = Wrapper.getInstance();
-		
-		// Tallennetaan tyyppi ja m‰‰ritet‰‰n n‰ytett‰v‰ tekstuuri
+
+        /* Tallennetaan muuttujat */
+		x             = _x;
+		y             = _y;
 		type          = _type;
 		specifiedType = _specifiedType;
 		usedTexture   = _specifiedType;
 		
-		// M‰‰ritell‰‰n liike
+        /* Haetaan tarvittavat luokat k‰yttˆˆn */
+		wrapper = Wrapper.getInstance();
+		
+		/* Alustetaan muuttujat */
+		// M‰‰ritell‰‰n obstaclen liike
 		if (type == OBSTACLE_PLANET || type == OBSTACLE_ASTEROID) {
 			facingTurningDirection = Utility.getRandom(1, 2);
 		}
@@ -65,7 +64,7 @@ public class Obstacle extends GameObject
 			direction = Utility.getRandom(0, 359);
 		}
 		
-		// M‰‰ritell‰‰n tˆrm‰ystunnistus
+		// M‰‰ritell‰‰n asetukset
 		if (type == OBSTACLE_PLANET) {
 			collisionRadius = (int) (117 * Options.scale);
 		}
@@ -75,8 +74,8 @@ public class Obstacle extends GameObject
 		else if (type == OBSTACLE_STAR) {
 			collisionRadius = (int) (240 * Options.scale);
 		}
-		
-		// Lis‰t‰‰n objekti piirtolistalle
+
+        /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
 	}
     

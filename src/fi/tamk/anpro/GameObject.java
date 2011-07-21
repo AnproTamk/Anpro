@@ -92,11 +92,7 @@ abstract public class GameObject extends GfxObject
      * @param _damage        Osuman aiheuttama vahinko
      * @param _armorPiercing Osuman kyky l‰p‰ist‰ suojat (k‰ytet‰‰n, kun tˆrm‰ttiin ammukseen)
      */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
-    {
-    	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
-    	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰v‰t vain viholliset ja liittolaiset!");
-    }
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
     
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
