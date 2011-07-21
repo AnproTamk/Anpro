@@ -191,7 +191,7 @@ public class Ally extends AiObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	private void triggerDestroyed()
+	public void triggerDestroyed()
 	{
     	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
