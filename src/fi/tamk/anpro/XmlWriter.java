@@ -14,6 +14,9 @@ import org.xmlpull.v1.XmlSerializer;
  */
 public class XmlWriter
 {
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	/**
 	 * Tallentaa pelitilan.
 	 */

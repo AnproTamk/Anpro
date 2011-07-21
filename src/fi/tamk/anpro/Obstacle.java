@@ -78,7 +78,10 @@ public class Obstacle extends GameObject
         /* M‰‰ritet‰‰n objektin tila (piirtolista) */
 		wrapper.addToDrawables(this);
 	}
-    
+
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Piirt‰‰ objektin k‰ytˆss‰ olevan tekstuurin tai animaation ruudulle.
      * 

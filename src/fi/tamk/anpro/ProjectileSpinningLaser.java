@@ -36,6 +36,9 @@ public class ProjectileSpinningLaser extends AbstractProjectile
         turningDirection = 1;
     }
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * K‰ynnist‰‰ ammuksen erikoistoiminnon.
      */

@@ -27,6 +27,9 @@ public class WeaponMissile extends AbstractWeapon
 		}
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.

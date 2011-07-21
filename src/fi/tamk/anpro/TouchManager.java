@@ -98,6 +98,9 @@ public class TouchManager
         setSurfaceListeners();
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Asettaa TouchListenerit ja käsittelee kosketustapahtumat.
      */

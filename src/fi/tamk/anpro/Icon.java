@@ -24,6 +24,9 @@ public class Icon extends GuiObject
 		usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
 	}
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Asettaa kuvakkeen valinnan (= k‰ytett‰v‰ tekstuuri) joko p‰‰lle tai pois
      * pelaajan valinnan mukaan.

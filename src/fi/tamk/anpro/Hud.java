@@ -73,6 +73,9 @@ public class Hud
         guideArrowToMothership  = new GuideArrow(0, 0, GuideArrow.TARGET_MOTHERSHIP);
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * P‰ivitt‰‰ cooldownit (HUD:ssa n‰kyv‰t, ei oikeita cooldowneja).
      */

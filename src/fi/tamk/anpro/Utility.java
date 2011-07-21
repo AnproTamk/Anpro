@@ -9,7 +9,10 @@ import java.util.Random;
 public class Utility
 {
 	private static Random randomGenerator = new Random();
-	
+
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
 	/**
 	 * Laskee kahden pisteen välisen etäisyyden.
 	 * 

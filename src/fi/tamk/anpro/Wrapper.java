@@ -94,6 +94,9 @@ public class Wrapper
         instance = null;
     }
 
+	/* =======================================================
+	 * Uudet funktiot
+	 * ======================================================= */
     /**
      * Lis‰‰ parametrina annetun luokan piirtolistalle ja tallentaa objektin tilan.
      *

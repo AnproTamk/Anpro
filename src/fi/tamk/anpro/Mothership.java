@@ -29,6 +29,9 @@ public class Mothership extends GameObject
 		wrapper.addToDrawables(this);
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
 	@Override
 	public void draw(GL10 _gl)
 	{

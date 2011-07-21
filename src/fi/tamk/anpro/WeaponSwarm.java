@@ -27,6 +27,9 @@ public class WeaponSwarm extends AbstractWeapon
 		}
 	}
 
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.
