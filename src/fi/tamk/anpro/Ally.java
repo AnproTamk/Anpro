@@ -12,7 +12,6 @@ public class Ally extends AiObject
 	public static final byte ALLY_TURRET = 1;
 	
     /* Liittolaisen tiedot */
-    public int attack;
     public int type;   // Liittolaisten tyypit vastaavat vihollisten tasoja
     
     /* Muut tarvittavat oliot */
@@ -34,12 +33,12 @@ public class Ally extends AiObject
         super(_speed);
         
         // Tallennetaan tiedot
-        health        = _health;
-        currentHealth = _health;
-        attack        = _attack;
-        armor         = _armor;
-        currentArmor  = _armor;
-        type          = _type;
+        health          = _health;
+        currentHealth   = _health;
+        collisionDamage = _attack;
+        armor           = _armor;
+        currentArmor    = _armor;
+        type            = _type;
         
         // Asetetaan törmäysetäisyys
         if (type == 1) {
