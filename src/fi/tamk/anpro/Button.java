@@ -27,7 +27,7 @@ public class Button extends GuiObject
     public void setSelected(boolean _selected)
     {
         if (_selected) {
-            setAction(GLRenderer.ANIMATION_CLICK, 1, 1, 1, 0, 0);
+            setAction(GLRenderer.ANIMATION_CLICK, 1, 1, GLRenderer.TEXTURE_BUTTON_SELECTED, 0, 0);
         }
         else {
             usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;

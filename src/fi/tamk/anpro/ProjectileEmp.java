@@ -37,11 +37,11 @@ public class ProjectileEmp extends AbstractProjectile
      * Aiheuttaa ammuksen erikoistoiminnon.
      */
     @Override
-    protected void triggerSpecialAction()
+    public void triggerSpecialAction()
     {
         state = Wrapper.ONLY_ANIMATION;
         
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
         
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
