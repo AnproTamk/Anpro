@@ -19,6 +19,9 @@ public class Button extends GuiObject
         usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
     }
 
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Asettaa napin valituksi tai poistaa valinnan.
      * 

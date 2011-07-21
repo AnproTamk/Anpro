@@ -21,7 +21,10 @@ public class CooldownCounter extends GuiObject
 		// M‰‰ritet‰‰n aloitustekstuuri
 		usedTexture = GLRenderer.TEXTURE_COOLDOWN;
 	}
-	
+	    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	/**
 	 * P‰ivitt‰‰ n‰ytett‰v‰n tekstuurin.
 	 * 

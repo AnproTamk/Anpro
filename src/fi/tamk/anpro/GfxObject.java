@@ -68,6 +68,9 @@ abstract public class GfxObject
     	// ...
     }
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ objektin aktiiviseksi.
      */

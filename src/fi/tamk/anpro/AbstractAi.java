@@ -48,6 +48,9 @@ abstract public class AbstractAi
         wrapper = Wrapper.getInstance();
     }
 
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Asettaa tekoälyn aktiiviseksi.
      * 

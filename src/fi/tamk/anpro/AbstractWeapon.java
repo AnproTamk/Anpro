@@ -19,6 +19,9 @@ abstract public class AbstractWeapon
     	wrapper = _wrapper;
     }
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */    
     /**
      * Aktivoi ammukset. Tästä eteenpäin ammusten oma tekoäly hoitaa niiden
      * päivittämisen.
@@ -40,6 +43,10 @@ abstract public class AbstractWeapon
      */
     public void activate(int[][] _path, float _startX, float _startY) { }
 
+    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Aiheuttaa räjähdyksen, jossa ammus jakaantuu useammaksi eri ammukseksi.
      * 

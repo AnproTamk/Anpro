@@ -42,6 +42,9 @@ abstract public class GuiObject extends GfxObject
         wrapper.addToDrawables(this);
     }
 
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Piirtää käytössä olevan tekstuurin ruudulle.
      * 

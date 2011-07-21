@@ -10,6 +10,9 @@ import android.media.AudioManager;
  */
 public class AboutActivity extends Activity
 {
+	/* =======================================================
+	 * Perityt funktiot
+	 * ======================================================= */
 	/**
 	 * Luo About-popupin. Android kutsuu tätä automaattisesti.
 	 * 

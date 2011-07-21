@@ -78,26 +78,9 @@ abstract public class GameObject extends GfxObject
         setTurningDelay(1.0f);
     }
     
-    /**
-     * Käsittelee räjähdyksien vaikutukset objektiin.
-     * 
-     * @param int Räjähdyksen aiheuttama vahinko
-     */
-    public void triggerImpact(int _damage) { }
-
-    /**
-     * Käsittelee törmäyksien vaikutukset objektiin.
-     * 
-     * @param _eventType     Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
-     * @param _damage        Osuman aiheuttama vahinko
-     * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
-     */
-    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
-    {
-    	// Ilmoitetaan väärän komennon kutsumisesta LogCatiin
-    	Log.e("VIRHE", "Kutsuttiin väärää triggerCollision-funktiota! Tätä funktiota käyttävät vain viholliset ja liittolaiset!");
-    }
-    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Päivittää liikkumisen ja kääntymisen.
      * 
@@ -184,6 +167,26 @@ abstract public class GameObject extends GfxObject
             	facingTurningDelay = 0;
             }
         }
+    }
+
+    /**
+     * Käsittelee räjähdyksien vaikutukset objektiin.
+     * 
+     * @param int Räjähdyksen aiheuttama vahinko
+     */
+    public void triggerImpact(int _damage) { }
+
+    /**
+     * Käsittelee törmäyksien vaikutukset objektiin.
+     * 
+     * @param _eventType     Osuman tyyppi, eli mihin törmättiin (tyypit löytyvät GameObjectista)
+     * @param _damage        Osuman aiheuttama vahinko
+     * @param _armorPiercing Osuman kyky läpäistä suojat (käytetään, kun törmättiin ammukseen)
+     */
+    public void triggerCollision(int _eventType, int _damage, int _armorPiercing)
+    {
+    	// Ilmoitetaan väärän komennon kutsumisesta LogCatiin
+    	Log.e("VIRHE", "Kutsuttiin väärää triggerCollision-funktiota! Tätä funktiota käyttävät vain viholliset ja liittolaiset!");
     }
     
     /**

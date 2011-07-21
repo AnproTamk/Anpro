@@ -48,6 +48,9 @@ public class Collectable extends GameObject
 		wrapper.addToDrawables(this);
 	}
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Piirtää objektin käytössä olevan tekstuurin tai animaation ruudulle.
      * 

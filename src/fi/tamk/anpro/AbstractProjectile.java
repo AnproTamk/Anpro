@@ -86,6 +86,9 @@ abstract public class AbstractProjectile extends AiObject
         }
     }
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */    
     /**
      * Määrittää ammuksen aktiiviseksi.
      */
@@ -256,7 +259,7 @@ abstract public class AbstractProjectile extends AiObject
         	triggerSpecialAction();
         }
     }
-    
+
     /**
      * Käsittelee ammuksen törmäystarkistukset.
      */

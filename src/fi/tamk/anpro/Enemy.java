@@ -85,7 +85,10 @@ public class Enemy extends AiObject
             ai = new ApproachAndStopAi(this, Wrapper.CLASS_TYPE_ENEMY, _weaponManager);
         }
     }
-
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ objektin aktiiviseksi.
      */
@@ -183,7 +186,10 @@ public class Enemy extends AiObject
         	triggerDestroyed();
         }
     }
-
+    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Asettaa vihollisen tiedot. K‰ytet‰‰n, kun vihollisen tasoa halutaan nostaa, ei vihollista
      * luodessa.

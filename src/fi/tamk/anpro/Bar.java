@@ -28,7 +28,10 @@ public class Bar extends GuiObject
         	usedTexture = GLRenderer.TEXTURE_ARMOR;
         }
     }
-
+    
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
 	/**
 	 * Tallentaa palkin maksimiarvon.
 	 * 

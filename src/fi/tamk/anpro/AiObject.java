@@ -19,6 +19,10 @@ public class AiObject extends GameObject
 		// TODO Auto-generated constructor stub
 	}
 
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
 	@Override
 	public void draw(GL10 _gl) { }
 
