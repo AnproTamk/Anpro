@@ -35,6 +35,9 @@ abstract public class GameObject extends GfxObject
     protected int health;
     protected int currentHealth;
     
+    // Panssarien l‰p‰isykyky (lis‰‰ tehty‰ vahinkoa)
+    protected int armorPiercing = 0;
+    
     /* Tˆrm‰ystunnistus */
     protected int collisionRadius = 0;
     
@@ -97,6 +100,16 @@ abstract public class GameObject extends GfxObject
     	// Ilmoitetaan v‰‰r‰n komennon kutsumisesta LogCatiin
     	Log.e("VIRHE", "Kutsuttiin v‰‰r‰‰ triggerCollision-funktiota! T‰t‰ funktiota k‰ytt‰v‰t vain viholliset ja liittolaiset!");
     }
+    
+    /**
+     * Etsii r‰j‰hdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
+     */
+    protected void triggerExplosion() { }
+    
+    /**
+     * Aiheuttaa ammuksen erikoistoiminnon.
+     */
+    protected void triggerSpecialAction() { }
     
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
