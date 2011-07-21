@@ -502,7 +502,7 @@ abstract public class AbstractProjectile extends AiObject
      * Aiheuttaa objektin tuhoutumisen asettamalla toiminnon (ks. setAction GfxObject-luokasta)
      * ja hidastamalla objektia.
      */
-	private void triggerDestroyed()
+	public void triggerDestroyed()
 	{
 		if(triggersExplosionEffect) {
 			EffectManager.showExplosionEffect(x, y);
@@ -516,7 +516,7 @@ abstract public class AbstractProjectile extends AiObject
     /**
      * Etsii räjähdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
-    private final void triggerExplosion()
+    public final void triggerExplosion()
     {
     	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, 1, 0, 0);
     	
@@ -537,5 +537,5 @@ abstract public class AbstractProjectile extends AiObject
     /**
      * Aiheuttaa ammuksen erikoistoiminnon.
      */
-    protected void triggerSpecialAction() { }
+    public void triggerSpecialAction() { }
 }
