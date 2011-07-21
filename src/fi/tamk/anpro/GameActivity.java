@@ -28,7 +28,10 @@ public class GameActivity extends Activity
     private GameThread      gameThread;
     private WeaponManager   weaponManager;
     private InputController inputController;
-        
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ asetukset ja luo tarvittavat oliot, kuten renderˆij‰n, HUDin,
      * GameThreadin ja TouchManagerin. Android kutsuu t‰t‰ automaattisesti.
@@ -48,7 +51,7 @@ public class GameActivity extends Activity
         // Asetetaan ‰‰nens‰‰tˆnapit muuttamaan media volumea
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
-        
+    
     /**
      * Android kutsuu t‰t‰ automaattisesti onCreaten j‰lkeen.
      */
@@ -146,6 +149,9 @@ public class GameActivity extends Activity
         super.onDestroy();
     }
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */    
     /**
      * Ottaa pelaajan pisteet vastaan parametrina, l‰hett‰‰ pisteet 
      * ja siirtyy HighScoresActivityyn.

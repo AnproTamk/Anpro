@@ -74,6 +74,9 @@ public class GLSpriteSet
     	}
     }
     
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * Lataa tekstuurin muistiin ja muuntaa sen OpenGL-tekstuuriksi.
      * 

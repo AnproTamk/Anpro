@@ -71,7 +71,10 @@ public class Ally extends AiObject
             ai = new TurretAllyAi(this, Wrapper.CLASS_TYPE_ALLY, _weaponManager);
         }
     }
-
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ objektin aktiiviseksi.
      */

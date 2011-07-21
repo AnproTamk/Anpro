@@ -78,6 +78,10 @@ abstract public class GameObject extends GfxObject
         setTurningDelay(1.0f);
     }
     
+
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */
     /**
      * K‰sittelee r‰j‰hdyksien vaikutukset objektiin.
      * 
@@ -93,7 +97,7 @@ abstract public class GameObject extends GfxObject
      * @param _armorPiercing Osuman kyky l‰p‰ist‰ suojat (k‰ytet‰‰n, kun tˆrm‰ttiin ammukseen)
      */
     public void triggerCollision(int _eventType, int _damage, int _armorPiercing) { }
-    
+
     /**
      * P‰ivitt‰‰ liikkumisen ja k‰‰ntymisen.
      * 
@@ -181,7 +185,7 @@ abstract public class GameObject extends GfxObject
             }
         }
     }
-    
+
     /**
      * Laskee objektille "nopeuden" (pikselien m‰‰r‰ / liike).
      * 

@@ -146,6 +146,9 @@ public class GLRenderer implements Renderer
         wrapper = Wrapper.getInstance();
     }
 
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * M‰‰ritt‰‰ OpenGL-asetukset ja lataa tekstuurit.
      * Android kutsuu t‰t‰ automaattisesti.
@@ -276,15 +279,9 @@ public class GLRenderer implements Renderer
     	}
     }
     
-    /**
-     * 
-     */
-    private boolean reloadRequested = false;
-    public final void requestReloadOnResume()
-    {
-    	reloadRequested = true;
-    }
-
+    /* =======================================================
+     * Uudet funktiot
+     * ======================================================= */        
     /**
      * Yhdist‰‰ renderˆij‰n pelis‰ikeeseen tallentamalla pelis‰ikeen pointterin muistiin.
      * 

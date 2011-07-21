@@ -28,6 +28,9 @@ public class AllyAi extends AbstractAi
 		weaponManager = _weaponManager;
 	}
     
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
     /**
      * Käsittelee tekoälyn.
      */

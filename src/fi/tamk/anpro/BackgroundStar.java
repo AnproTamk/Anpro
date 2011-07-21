@@ -27,6 +27,9 @@ public class BackgroundStar extends GfxObject
 		_wrapper.addToDrawables(this);
 	}
 
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
 	/**
 	 * Tarkistetaan t‰hden sijainti ja siirret‰‰n, mik‰li se on ulkona kuvasta.
 	 */

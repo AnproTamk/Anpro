@@ -18,6 +18,10 @@ public class AiObject extends GameObject
 		super(_speed);
 	}
 
+    
+    /* =======================================================
+     * Perityt funktiot
+     * ======================================================= */
 	@Override
 	public void draw(GL10 _gl) { }
 
