@@ -25,9 +25,7 @@ abstract public class AbstractProjectile extends AiObject
     
     // R‰j‰ht‰minen kohteen p‰‰ll‰
     protected boolean explodeOnTarget = false;
-    
-    // Panssarien l‰p‰isykyky (lis‰‰ tehty‰ vahinkoa)
-    protected int armorPiercing = 0;
+   
     
     // Passiivinen AoE-vahinko
     protected boolean causePassiveDamage = false;
@@ -522,7 +520,8 @@ abstract public class AbstractProjectile extends AiObject
     /**
      * Etsii r‰j‰hdyksen vaikutusalueella olevia vihollisia ja kutsuu niiden triggerImpact-funktiota.
      */
-    public final void triggerExplosion()
+	@Override
+    protected final void triggerExplosion()
     {
     	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
     	
