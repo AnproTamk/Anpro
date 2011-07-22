@@ -236,17 +236,14 @@ public class GameMode
 	        int temp;
 	        int tempRandX, tempRandY;
 	        
-	        Log.e("SPAWN", "Aloitetaan spawnaaminen");
 	        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
 	        	if (waves[currentWave][index] != -1) {
 		        	temp = waves[currentWave][index];
 		        	
             		tempRandX = Utility.getRandom(-Options.scaledScreenWidth * 2, Options.scaledScreenHeight * 2);
-        	        Log.e("SPAWN", "RandX: "+tempRandX);
             		
             		if (tempRandX <= -halfOfScreenWidth || tempRandX >= halfOfScreenWidth) {
             			tempRandY = Utility.getRandom(-Options.scaledScreenHeight * 2, Options.scaledScreenHeight * 2);
-            	        Log.e("SPAWN", "RandY: "+tempRandY);
             			
             			if (tempRandY <= -halfOfScreenHeight - 50 || tempRandY >= halfOfScreenHeight + 50) {
         		        	
@@ -256,7 +253,6 @@ public class GameMode
             						break;
             					}
             					else if (spawnPointsX[i] == 0 && spawnPointsY[i] == 0) {
-            	        	        Log.e("SPAWN", "SPAWNAUS!");
             						spawnPointsX[i] = tempRandX;
             						spawnPointsY[i] = tempRandY;
             						
