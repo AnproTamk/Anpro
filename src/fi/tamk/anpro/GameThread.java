@@ -203,9 +203,6 @@ class GameThread extends Thread
 		            /* Tarkistetaan törmäykset */
 		            checkCollisions(currentTime);
 		            
-		            /* Päivitetään viestit */
-		            updateMessages(currentTime);
-		            
 		            /* Päivitetään efektit */
 		            updateEffects();
 		            
@@ -355,15 +352,6 @@ class GameThread extends Thread
 	    		wrapper.player.checkCollision();
 	    	}
 	    	
-        }
-	}
-	
-	private void updateMessages(long _currentTime)
-	{
-		if (_currentTime - lastMessageUpdate >= 50) {
-        	lastMessageUpdate = _currentTime;
-        	
-        	MessageManager.updateMessages();
         }
 	}
 

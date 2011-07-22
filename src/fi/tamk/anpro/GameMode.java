@@ -50,6 +50,8 @@ public class GameMode
     protected static int overBoundWidth;
     protected static int overBoundHeight; 
     
+    private long outOfBoundsTimer = 0;
+    
     /* Muiden olioiden pointterit */
     protected        WeaponManager weaponManager;
     protected        CameraManager camera;
@@ -354,21 +356,38 @@ public class GameMode
      */
 	public void checkBounds ()
 	{
-		if (player.x >= mapWidth  || player.x <= -mapWidth || player.y >= mapHeight || player.y <= -mapHeight) {
+		if (player.x > mapWidth  || player.x < -mapWidth || player.y > mapHeight || player.y < -mapHeight) {
 			
-			if (player.x >= overBoundWidth || player.x <= -overBoundWidth ||
-				player.y >= overBoundHeight || player.y <= -overBoundHeight	) {
-				if (!((PlayerAi)player.ai).autoPilotActivated) {
-					((PlayerAi)player.ai).activateAutoPilot();
-				}
+			MessageManager.showOutOfBoundsMessage();
+
+			long timer = android.os.SystemClock.uptimeMillis();
+			
+			if (outOfBoundsTimer == 0) {
+				outOfBoundsTimer = timer;
 			}
-			else {
-				if (((PlayerAi)player.ai).autoPilotActivated) {
-					((PlayerAi)player.ai).deactivateAutoPilot();
+			else if (timer - outOfBoundsTimer >= 3000) {
+				outOfBoundsTimer = 0;
+				
+				if (player.x > mapWidth) {
+					player.x = mapWidth - (100 * Options.scaleX);
 				}
-				else {
-					MessageManager.showOutOfBoundsMessage();
+				else if (player.x < -mapWidth) {
+					player.x = -mapWidth + (100 * Options.scaleX);
 				}
+				if (player.y > mapHeight) {
+					player.y = mapHeight - (100 * Options.scaleY);
+				}
+				else if (player.y < -mapHeight) {
+					player.y = -mapHeight + (100 * Options.scaleY);
+				}
+				
+				player.direction = Utility.getAngle(player.x, player.y, mothership.x, mothership.y);
+				
+				player.movementTargetDirection = player.direction;
+				
+				player.startAnimation(GLRenderer.ANIMATION_RESPAWN, 6, 1, 0, 0);
+				
+				CameraManager.updateCameraPosition();
 			}
 		}
 	}
