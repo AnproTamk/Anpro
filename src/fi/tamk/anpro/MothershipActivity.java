@@ -3,6 +3,9 @@ package fi.tamk.anpro;
 import android.app.Activity;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 public class MothershipActivity extends Activity implements OnClickListener
@@ -23,6 +27,7 @@ public class MothershipActivity extends Activity implements OnClickListener
 	ScaleAnimation scaleBack;
 	ScaleAnimation scaleFront;
 	Bundle 		   bundle;
+	TextView	   textScore;
 	
 	private int score;
 	
@@ -52,7 +57,7 @@ public class MothershipActivity extends Activity implements OnClickListener
 	{
 		super.onCreate(_savedInstanceState);
 		
-	    // Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
+		// Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
 	    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 	                         WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -70,8 +75,8 @@ public class MothershipActivity extends Activity implements OnClickListener
 		if (bundle != null) {
 			score = bundle.getInt("Score");
 		}
-	    
-	    // Luodaan olio, joka sis‰lt‰‰ emoaluksen eri n‰kym‰t.
+		
+		// Luodaan olio, joka sis‰lt‰‰ emoaluksen eri n‰kym‰t.
 	    viewFlipper = (ViewFlipper) findViewById(R.id.ViewFlipper01);
 	    
 	    scaleBack = new ScaleAnimation((float)1.0, (float)1.0, (float)1.0, (float)0.5);
@@ -80,6 +85,10 @@ public class MothershipActivity extends Activity implements OnClickListener
 	    scaleFront.setFillAfter(false);
 	    scaleBack.setDuration(150);
 	    scaleFront.setDuration(300);
+	    
+	    textScore = (TextView) findViewById(R.id.textview_score);
+	    String scoreStr = Integer.toString(score);
+	    textScore.setText(scoreStr);
 	    
 	    // Luodaan emoaluksen painikkeet.
 	    repair = (ImageButton) findViewById(R.id.button_repair);
