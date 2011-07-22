@@ -107,7 +107,7 @@ class GameThread extends Thread
     	weaponManager     = new WeaponManager();
         hud               = new Hud(context, weaponManager);
         touchManager      = new TouchManager(dm, surfaceView, context, hud, weaponManager);
-        gameMode          = new GameMode(gameActivity, dm, context, hud, weaponManager);
+        gameMode          = new GameMode(gameActivity, this, dm, context, hud, weaponManager);
         
         // J‰rjestell‰‰n Wrapperin listat uudelleen
         wrapper.sortDrawables();

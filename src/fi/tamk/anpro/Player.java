@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sisältää pelaajan omat ominaisuudet ja tiedot, kuten asettamisen aktiiviseksi ja
  * epäaktiiviseksi, piirtämisen ja törmäyksenhallinnan (ei tunnistusta).
@@ -180,6 +182,8 @@ public class Player extends AiObject
 
             x -= Math.cos((direction * Math.PI)/180) * 100 * Options.scaleX;
             y -= Math.sin((direction * Math.PI)/180) * 100 * Options.scaleY;
+            
+            CameraManager.updateCameraPosition();
             
             direction -= 180;
             

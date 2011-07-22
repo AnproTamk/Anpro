@@ -56,6 +56,7 @@ public class GameMode
     protected        GameActivity  gameActivity;
     private   static Hud		   hud;
     private          Wrapper       wrapper;
+    private          GameThread    gameThread;
     
     /* Pisteet ja combot */
     private static long score;
@@ -64,7 +65,8 @@ public class GameMode
     private static long newTime;             // Uuden pisteen lis‰yksen aika
     
     /* Vihollisten aloituspaikat */
-    private int spawnPoints[][][]; // [rykelm‰][paikka][x/y] = [koordinaatti]
+    private int spawnPointsX[];
+    private int spawnPointsY[];
     
     /**
      * Alustaa luokan muuttujat, lukee pelitilan tarvitsemat tiedot ja k‰ynnist‰‰ pelin.
@@ -74,10 +76,11 @@ public class GameMode
      * @param Context		 Ohjelman konteksti
      * @param WeaponManager  Osoitin WeaponManageriin
      */
-    public GameMode(GameActivity _gameActivity, DisplayMetrics _dm, Context _context, Hud _hud, WeaponManager _weaponManager)
+    public GameMode(GameActivity _gameActivity, GameThread _gameThread, DisplayMetrics _dm, Context _context, Hud _hud, WeaponManager _weaponManager)
     {
     	/* Tallennetaan muuttujat */
         gameActivity       = _gameActivity;
+        gameThread         = _gameThread;
         hud                = _hud;
         weaponManager      = _weaponManager;
         halfOfScreenWidth  = _dm.widthPixels / 2;
@@ -102,8 +105,9 @@ public class GameMode
         planets         = new Obstacle[2];
         collectables    = new Collectable[3];
         
-        waves       = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
-        spawnPoints = new int[9][3][2];
+        waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
+        spawnPointsX = new int[AMOUNT_OF_ENEMIES_PER_WAVE];
+        spawnPointsY = new int[AMOUNT_OF_ENEMIES_PER_WAVE];
         
         // Luetaan vihollistyyppien tiedot
         XmlReader reader = new XmlReader(_context);
@@ -222,34 +226,57 @@ public class GameMode
 	            }
 	        }
 	        
+	        /* Tyhj‰t‰‰n spawnpointit */
+			for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
+				spawnPointsX[i] = 0;
+				spawnPointsY[i] = 0;
+			}
+	        
 	        /* Aktivoidaan viholliset */
 	        int temp;
-	        int tempRandA, tempRandB;
+	        int tempRandX, tempRandY;
 	        
+	        Log.e("SPAWN", "Aloitetaan spawnaaminen");
 	        for (int index = 0; index < AMOUNT_OF_ENEMIES_PER_WAVE; ++index) {
 	        	if (waves[currentWave][index] != -1) {
 		        	temp = waves[currentWave][index];
 		        	
-		        	tempRandA = Utility.getRandom(1, 8);
-		        	tempRandB = Utility.getRandom(0, 2);
-		        	
-		        	enemies.get(temp).setActive();
-		        	enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-		            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
-		            
-		            // Eliminoidaan samasta spawnpontista spawnaaminen
-		            for(int i = 0; i <= enemies.size()-1; ++i) {
-		            	if(enemies.get(temp).x == enemies.get(i).x && enemies.get(temp).y == enemies.get(i).y) {
-		            		
-		            		tempRandA = Utility.getRandom(1, 8);
-		    	        	tempRandB = Utility.getRandom(0, 2);
-		    	        	
-		            		enemies.get(temp).x = spawnPoints[tempRandA][tempRandB][0];
-		    	            enemies.get(temp).y = spawnPoints[tempRandA][tempRandB][1];
-		            	}
-		            }
-		            
-		        	++enemiesLeft;
+            		tempRandX = Utility.getRandom(-Options.scaledScreenWidth * 2, Options.scaledScreenHeight * 2);
+        	        Log.e("SPAWN", "RandX: "+tempRandX);
+            		
+            		if (tempRandX <= -halfOfScreenWidth || tempRandX >= halfOfScreenWidth) {
+            			tempRandY = Utility.getRandom(-Options.scaledScreenHeight * 2, Options.scaledScreenHeight * 2);
+            	        Log.e("SPAWN", "RandY: "+tempRandY);
+            			
+            			if (tempRandY <= -halfOfScreenHeight - 50 || tempRandY >= halfOfScreenHeight + 50) {
+        		        	
+            				for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
+            					if (spawnPointsX[i] == tempRandX && spawnPointsY[i] == tempRandY) {
+            						--index;
+            						break;
+            					}
+            					else if (spawnPointsX[i] == 0 && spawnPointsY[i] == 0) {
+            	        	        Log.e("SPAWN", "SPAWNAUS!");
+            						spawnPointsX[i] = tempRandX;
+            						spawnPointsY[i] = tempRandY;
+            						
+		        		        	enemies.get(temp).setActive();
+		        		        	enemies.get(temp).x = tempRandX;
+		        		        	enemies.get(temp).y = tempRandY;
+		        		        	
+		        		        	++enemiesLeft;
+		        		        	
+		        		        	break;
+            					}
+            				}
+            			}
+            			else {
+            				--index;
+            			}
+            		}
+            		else {
+            			--index;
+            		}
 	        	}
 	        }
 	        
@@ -265,9 +292,6 @@ public class GameMode
     {
     	// P‰ivitet‰‰n ns obstacle-objektit
         generateObstacles();
-    	
-        // P‰ivitet‰‰n aloituspisteet
-        generateSpawnPoints();
         
         // P‰ivitet‰‰n ker‰tt‰v‰t esineet
         generateCollectables();
@@ -304,28 +328,6 @@ public class GameMode
         // Luodaan aurinko
         star = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 900, 800, 0, 0);
     }
-    
-    /**
-     * P‰ivitt‰‰ vihollisten aloituspisteet kameran koordinaattien perusteella.
-     */
-    protected void generateSpawnPoints()
-    {
-    	// Satunnaisten spawnpointtien alustus
-	    for(int i = 1; i < 8; ++i) {
-	    	for(int j = 0; j < 2; ++j) {
-	    			spawnPoints[i][j][0] = (int) (Utility.getRandom(-mapWidth, mapWidth));
-	    			spawnPoints[i][j][1] = (int) (Utility.getRandom(-mapHeight, mapHeight));
-	    			
-	    			if (spawnPoints[i][j][0] > -Options.scaledScreenWidth * 2 &&
-	    				spawnPoints[i][j][0] < Options.scaledScreenWidth * 2) {
-	    				if (spawnPoints[i][j][1] > -Options.scaledScreenHeight * 2 &&
-	    	    			spawnPoints[i][j][1] < Options.scaledScreenHeight * 2) {
-	    	    			--j;
-	    	    		}
-	    			}
-	    	}
-	    }
-    }
 
     /**
      * P‰ivitt‰‰ ker‰tt‰v‰t esineet
@@ -347,6 +349,7 @@ public class GameMode
      */
 	public void endGameMode()
 	{
+		gameThread.setRunning(false);
 		gameActivity.continueToHighscores((int)score);
 	}
 
