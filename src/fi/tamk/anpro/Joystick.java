@@ -47,19 +47,17 @@ public class Joystick extends GuiObject
     public static boolean useJoystick(int _xClickOffset, int _yClickOffset, int _getX, int _getY,
     						          Wrapper _wrapper)
     {
-    	if (!((PlayerAi)_wrapper.player.ai).autoPilotActivated) {
-	    	_xClickOffset = _getX - Options.screenWidth / 2;
-	        _yClickOffset = Options.screenHeight / 2 - _getY;
-	    	
-	        // M‰‰ritet‰‰n sormen ja joystickin v‰linen kulma
-	        int angle = Utility.getAngle(joystickX, joystickY, _xClickOffset, _yClickOffset);
-	        
-	        // Muutetaan pelaajan suunta ja nopeus
-	        _wrapper.player.movementTargetDirection = angle;
-	        _wrapper.player.movementAcceleration    = 0;
-	        _wrapper.player.setMovementSpeed(1.0f);
-	        _wrapper.player.setMovementDelay(1.0f);
-    	}
+    	_xClickOffset = _getX - Options.screenWidth / 2;
+        _yClickOffset = Options.screenHeight / 2 - _getY;
+    	
+        // M‰‰ritet‰‰n sormen ja joystickin v‰linen kulma
+        int angle = Utility.getAngle(joystickX, joystickY, _xClickOffset, _yClickOffset);
+        
+        // Muutetaan pelaajan suunta ja nopeus
+        _wrapper.player.movementTargetDirection = angle;
+        _wrapper.player.movementAcceleration    = 0;
+        _wrapper.player.setMovementSpeed(1.0f);
+        _wrapper.player.setMovementDelay(1.0f);
         
         return true;
     }
