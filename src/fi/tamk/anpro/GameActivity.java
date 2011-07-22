@@ -175,13 +175,21 @@ public class GameActivity extends Activity
 	}
     
     /**
-     * K‰ynnist‰‰ MothershipActivityn.
+     * Ottaa pelaajan pisteet parametrina, k‰ynnist‰‰ MothershipActivityn ja
+     * l‰hett‰‰ pelaajan pisteet Bundlena.
+     * 
+     * @param int _score Pelaajan pisteet
      */
-    public void continueToMothership()
+    public void continueToMothership(int _score)
     {
-    	gameThread.setRunning(false); // TODO: Wat..?
-    	
     	Intent i_mothership = new Intent(this, MothershipActivity.class);
+    	
+    	// Luodaan uusi bundle
+    	Bundle bundle = new Bundle();
+    	
+    	// L‰hetet‰‰n pelaajan pisteet Bundlessa MothershipActivitylle
+    	bundle.putInt("Score", _score);
+    	i_mothership.putExtras(bundle);
 		
 		startActivity(i_mothership);
     }
