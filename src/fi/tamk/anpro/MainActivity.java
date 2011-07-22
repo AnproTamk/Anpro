@@ -19,22 +19,6 @@ public class MainActivity extends Activity implements OnClickListener
 {
     public static Context context;
 
-	// TODO: Kommentit
-    // TODO: Kaikkia n‰ist‰ ei k‰ytet‰. V‰ltet‰‰n tallentamista, mik‰li k‰ytet‰‰n vain kerran.
-    public static final String PREFS_NAME = "SharedPrefs";
-    public static final String PREF_STRING = "PrefString";
-    public static final String PREF_BOOL_PAR = "PrefBoolPar";
-    public static final String PREF_BOOL_MUS = "PrefBoolMUS";
-    public static final String PREF_BOOL_SOU = "PrefBoolSOU";
-    public static final String PREF_BOOL_VIB = "PrefBoolVib";
-    private SharedPreferences mPrefs;
-    
-    /* Valintanapit asetuksille */
-    private CheckBox particleCheckBox;
-    private CheckBox musicCheckBox;
-    private CheckBox soundCheckBox;
-    private CheckBox vibrationCheckBox;
-
 	/**
 	 * Luo p‰‰valikon ja aloittaa koko pelin. Android kutsuu t‰t‰ automaattisesti.
 	 * 
@@ -52,7 +36,6 @@ public class MainActivity extends Activity implements OnClickListener
         setContentView(R.layout.main);
         
         context = getApplicationContext();
-        mPrefs = getSharedPreferences(PREFS_NAME,0);
 
         // Ladataan n‰ytˆn tiedot
         DisplayMetrics dm = new DisplayMetrics();
@@ -83,65 +66,14 @@ public class MainActivity extends Activity implements OnClickListener
         View highscoresButton = findViewById(R.id.button_highscores);
         highscoresButton.setOnClickListener(this);
         
+        View settingsButton = findViewById(R.id.button_settings);
+        settingsButton.setOnClickListener(this);
+        
         View quitButton = findViewById(R.id.button_quit);
         quitButton.setOnClickListener(this);
-        
-        particleCheckBox = (CheckBox) findViewById(R.id.checkBoxParticle);
-        particleCheckBox.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
-                if (((CheckBox) v).isChecked()) {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.particles = true;
-                } else {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.particles = false;
-                }
-            }
-        });
 
-        musicCheckBox = (CheckBox) findViewById(R.id.checkBoxMusic);
-        musicCheckBox.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                // Suorita toiminto klikatessa, riippuen onko nappula ruksattu
-                if (((CheckBox) v).isChecked()) {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.music = true;
-                    
-                } else {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.music = false;
-                }
-            }
-        });
         
-        soundCheckBox = (CheckBox) findViewById(R.id.checkBoxSound);
-        soundCheckBox.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
-                if (((CheckBox) v).isChecked()) {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.sounds = true;
-                } else {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.sounds = false;
-                }
-            }
-        });
-        
-        vibrationCheckBox = (CheckBox) findViewById(R.id.checkBoxVibration);
-        vibrationCheckBox.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-            	// Suorita toiminto klikatessa, riippuen onko nappula ruksattu
-                if (((CheckBox) v).isChecked()) {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.vibration = true;
-                } else {
-                	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                    Options.vibration = false;
-                }
-            }
-        });
+
     }
 
 	/**
@@ -165,6 +97,13 @@ public class MainActivity extends Activity implements OnClickListener
                 startActivity(i_highscores);
                 finish();
                 break;
+            
+            case R.id.button_settings:
+            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+                Intent i_settings = new Intent(this, SettingsActivity.class);
+                startActivity(i_settings);
+                finish();
+                break;
                 
             case R.id.button_help:
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
@@ -185,10 +124,6 @@ public class MainActivity extends Activity implements OnClickListener
      */
     @Override
     protected void onResume() {
-    	particleCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_PAR, true));
-        musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, true));
-        soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
-        vibrationCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_VIB, true));
         super.onResume();
     }
     
@@ -198,13 +133,7 @@ public class MainActivity extends Activity implements OnClickListener
      */
     @Override
     protected void onPause() {
-    	Editor e = mPrefs.edit();
-    	e.putBoolean(PREF_BOOL_PAR, particleCheckBox.isChecked());
-    	e.putBoolean(PREF_BOOL_MUS, musicCheckBox.isChecked());
-    	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
-    	e.putBoolean(PREF_BOOL_SOU, vibrationCheckBox.isChecked());
-    	e.commit();
-        
+
     	super.onPause();
     }
         
