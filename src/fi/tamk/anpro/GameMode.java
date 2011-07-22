@@ -395,10 +395,9 @@ public class GameMode
 	 * Avaa "emoalusmenun", jossa p‰ivitet‰‰n skillej‰, tallennetaan pelitilanne
 	 * sek‰ korjataan pelaajan alusta/emoalusta.
 	 * 
-	 * @param MAHDOLLISET PARAMETRIT TULEE MY÷HEMMIN!
 	 */
 	public void moveToMothershipMenu()
 	{
-		gameActivity.continueToMothership();
+		gameActivity.continueToMothership((int)score);
 	}
 }

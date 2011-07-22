@@ -8,6 +8,6 @@
         <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="fill_parent"></LinearLayout>
     </ScrollView>
     <TableRow android:baselineAligned="false" android:layout_weight="0.0" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/TableRow01" android:layout_gravity="left">
-        <ImageButton android:background="@drawable/checkbox_on_background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/button_repair" android:id="@+id/button_repair" android:layout_gravity="left" android:layout_weight="1"></ImageButton>
+        <ImageButton android:background="@drawable/checkbox_on_background" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/button_repair" android:id="@+id/button_repair" android:layout_gravity="left" android:layout_weight="1" android:layout_marginLeft="10dip"></ImageButton>
     </TableRow>
 </LinearLayout>

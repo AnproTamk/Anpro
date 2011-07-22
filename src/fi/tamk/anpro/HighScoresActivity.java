@@ -72,10 +72,7 @@ public class HighScoresActivity extends Activity implements OnClickListener
 		
 		scores = reader.readHighScores();
 		
-		
 		scores = writer.saveHighScores(playerScore, scores);
-		//scores = getScores();
-		//addScores(scores, playerScore);
 		
 		for (int i = 0; i < scores.length; i++) {
 			scoreStr[i] = String.valueOf(scores[i]);
