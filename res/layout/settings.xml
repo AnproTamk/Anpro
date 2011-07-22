@@ -21,28 +21,28 @@
         	
             <Button 
             	android:layout_width="wrap_content" 
-            	android:id="@+id/button1" 
-            	android:layout_marginTop="25dip" 
-            	android:layout_height="wrap_content" 
-            	android:text="Button" 
+            	android:id="@+id/button1"
+            	android:background="@drawable/button_music" 
+            	android:layout_marginTop="10dip" 
+            	android:layout_height="wrap_content"
             	android:layout_marginRight="50dip" 
-            	android:layout_marginLeft="125dip">
+            	android:layout_marginLeft="50dip">
             </Button>
             
             <Button 
             	android:layout_width="wrap_content" 
-            	android:id="@+id/button2" 
+            	android:id="@+id/button_music_on" 
             	android:layout_height="wrap_content" 
-            	android:text="Button" 
-            	android:layout_marginTop="25dip">
+            	android:background="@drawable/button_on"
+            	android:layout_marginTop="10dip">
             </Button>
             
             <Button 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content" 
-            	android:id="@+id/button3" 
-            	android:text="Button" 
-            	android:layout_marginTop="25dip">
+            	android:id="@+id/button_music_off" 
+            	android:background="@drawable/button_off"
+            	android:layout_marginTop="10dip">
             </Button>
             
         </TableRow>
@@ -54,23 +54,23 @@
         	
             <Button 
             	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="125dip" 
+            	android:layout_marginLeft="50dip" 
             	android:id="@+id/button4" 
+            	android:background="@drawable/button_sounds"
             	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip"
-            	android:text="Button">
+            	android:layout_marginRight="50dip">
             </Button>
         	
             <Button 
-            	android:text="Button" 
-            	android:id="@+id/button5" 
+            	android:background="@drawable/button_on"
+            	android:id="@+id/button_sounds_on" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
             
             <Button 
-            	android:text="Button" 
-            	android:id="@+id/button6" 
+            	android:background="@drawable/button_off"
+            	android:id="@+id/button_sounds_off" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
@@ -84,23 +84,23 @@
         	
             <Button 
             	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="125dip" 
+            	android:layout_marginLeft="50dip" 
             	android:id="@+id/button7" 
+            	android:background="@drawable/button_particles"
             	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip"
-            	android:text="Button">
+            	android:layout_marginRight="50dip">
             </Button>
         	
             <Button 
-            	android:text="Button" 
-            	android:id="@+id/button8" 
+            	android:background="@drawable/button_high"
+            	android:id="@+id/button_particles_high" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
             
             <Button
-            	android:text="Button" 
-            	android:id="@+id/button9" 
+            	android:background="@drawable/button_low"
+            	android:id="@+id/button_particles_low" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
@@ -114,35 +114,36 @@
         	
             <Button 
             	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="125dip" 
+            	android:layout_marginLeft="50dip" 
             	android:id="@+id/button10" 
+            	android:background="@drawable/button_vibration"
             	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip"
-            	android:text="Button">
+            	android:layout_marginRight="50dip">
             </Button>
         	
             <Button 
-            	android:text="Button" 
-            	android:id="@+id/button11" 
+            	android:background="@drawable/button_on"
+            	android:id="@+id/button_vibration_on" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
             
             <Button 
-            	android:text="Button" 
-            	android:id="@+id/button12" 
+            	android:background="@drawable/button_off"
+            	android:id="@+id/button_vibration_off" 
             	android:layout_width="wrap_content" 
             	android:layout_height="wrap_content">
             </Button>
             
         </TableRow>
         
-        <Button android:layout_width="wrap_content"
-        		android:layout_marginLeft="125dip" 
-        		android:layout_height="wrap_content" 
-        		android:id="@+id/button13" 
-        		android:text="Button">
-        </Button>
+        <ImageButton android:id="@+id/button_mainmenu" 
+                 android:layout_height="wrap_content" 
+                 android:layout_width="wrap_content"  
+                 android:src="@drawable/mainmenu"
+                 android:background="@drawable/checkbox_on_background" 
+                 android:padding="5dip">
+        </ImageButton>
         
     </TableLayout>
     
