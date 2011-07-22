@@ -19,14 +19,8 @@
               android:layout_height="fill_parent"
               android:layout_gravity="center"
               android:gravity="center"
-              android:layout_marginTop="60dip">    
-        <CheckBox android:id="@+id/checkBoxVibration"  
-                  android:background="@drawable/vibration"
-                  android:button="@drawable/checkbox"
-                  android:layout_height="wrap_content" 
-                  android:gravity="left"  
-                  android:layout_width="wrap_content"
-                  android:layout_marginLeft="5dip"/> 
+              android:layout_marginTop="60dip">
+        <ImageButton android:src="@drawable/highscores" android:background="@drawable/checkbox_on_background" android:layout_width="fill_parent" android:id="@+id/button_highscores" android:layout_height="wrap_content"></ImageButton> 
         <ImageButton android:id="@+id/button_survival"
                      android:background="@drawable/checkbox_on_background"
                      android:layout_gravity="right" 
@@ -41,20 +35,10 @@
               android:layout_width="wrap_content" 
               android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:gravity="center"
-              android:layout_marginTop="25dip">
-        <ImageButton android:id="@+id/button_highscores"
-                     android:background="@drawable/checkbox_on_background" 
-                     android:gravity="center" 
-                     android:layout_height="wrap_content" 
-                     android:src="@drawable/highscores" 
-		             android:layout_width="fill_parent"/>
-        <ImageButton android:id="@+id/button_quit"
-                     android:background="@drawable/checkbox_on_background" 
-                     android:src="@drawable/quit" 
-	                 android:gravity="center" 
-	                 android:layout_height="wrap_content" 
-	                 android:layout_width="wrap_content"/>
+              android:gravity="center" android:layout_marginTop="50dip">
+        <ImageButton android:src="@drawable/help" android:background="@drawable/checkbox_on_background" android:layout_width="wrap_content" android:id="@+id/button_help" android:padding="5dip" android:layout_gravity="bottom" android:layout_height="wrap_content"></ImageButton>
+        <ImageButton android:src="@drawable/button_settings" android:background="@drawable/checkbox_on_background" android:layout_width="fill_parent" android:id="@+id/button_settings" android:layout_height="wrap_content"></ImageButton>
+        <ImageButton android:src="@drawable/quit" android:background="@drawable/checkbox_on_background" android:layout_width="wrap_content" android:id="@+id/button_quit" android:layout_height="wrap_content" android:layout_marginLeft="25dip"></ImageButton>
     </TableRow>
 
 </TableLayout>
@@ -71,36 +55,6 @@
                  android:layout_gravity="center"
                  android:gravity="center"
                  android:layout_marginBottom="5dip">
-        <CheckBox android:id="@+id/checkBoxParticle"  
-                  android:background="@drawable/particle"
-                  android:button="@drawable/checkbox"
-                  android:layout_height="wrap_content" 
-                  android:gravity="left"  
-                  android:layout_width="wrap_content"
-                  android:layout_marginLeft="5dip"/> 
-        <CheckBox android:id="@+id/checkBoxMusic"
-                  android:background="@drawable/music"
-                  android:button="@drawable/checkbox"         
-                  android:layout_height="wrap_content" 
-                  android:gravity="bottom|left" 
-                  android:layout_width="wrap_content"
-                  android:layout_marginLeft="25dip"/> 
-        <CheckBox android:id="@+id/checkBoxSound"
-                  android:background="@drawable/sound"
-                  android:button="@drawable/checkbox" 
-                  android:layout_height="wrap_content" 
-                  android:gravity="bottom|right" 
-                  android:layout_width="wrap_content" 
-                  android:layout_marginLeft="25dip"
-                  android:layout_marginRight="25dip"/>
-        <ImageButton android:id="@+id/button_help"
-	                 android:background="@drawable/checkbox_on_background"
-	                 android:layout_height="wrap_content" 
-	                 android:layout_width="wrap_content" 
-	                 android:layout_gravity="bottom"
-	                 android:gravity="center" 
-	                 android:padding="5dip" 
-	                 android:src="@drawable/help"/>
     </TableRow>
 </TableLayout>
 </LinearLayout>
