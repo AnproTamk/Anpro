@@ -39,7 +39,8 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_MISSILE			   = 45;
     public static final int TEXTURE_GUIDEARROW		   = 47;
     public static final int TEXTURE_RADAR			   = 49;
-    public static final int TEXTURE_MESSAGE			   = 50;
+    
+    public static final int ANIMATION_MESSAGE = 2;
     
     public static final int ANIMATION_CLICK         = 0;
     public static final int ANIMATION_RADAR_WARNING = 1;
@@ -49,7 +50,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 56;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 50;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -58,7 +59,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 8;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 12;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
@@ -234,11 +235,6 @@ public class GLRenderer implements Renderer
      */
     public void onDrawFrame(GL10 _gl)
     {
-    	/*if (reloadRequested) {
-    		loadTextures(_gl);
-    		reloadRequested = false;
-    	}*/
-    	
     	if (gameThread != null) {
 	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
 	        _gl.glClearColor(0, 0, 0, 0);
@@ -400,12 +396,12 @@ public class GLRenderer implements Renderer
         hudAnimations[1] = new GLSpriteSet(_gl, context, R.drawable.radar_warning_anim, 3);
         
         // Ilmoitukset
-        hudTextures[50] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_tex_0, 1);
-        hudTextures[51] = new GLSpriteSet(_gl, context, R.drawable.autopilotonmessage_tex_0, 1);
-        hudTextures[52] = new GLSpriteSet(_gl, context, R.drawable.autopilotoffmessage_tex_0, 1);
-        hudTextures[53] = new GLSpriteSet(_gl, context, R.drawable.newskillavailablemessage_tex_0, 1);
-        hudTextures[54] = new GLSpriteSet(_gl, context, R.drawable.repairingrequiredmessage_tex_0, 1);
-        //hudTextures[55] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_tex_0, 1);
+        hudAnimations[2] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_left_anim, 9);
+        hudAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_right_anim, 9);
+        hudAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_left_anim, 9);
+        hudAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_right_anim, 9);
+        hudAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.enemybattleshipnearbymessage_left_anim, 9);
+        hudAnimations[7] = new GLSpriteSet(_gl, context, R.drawable.enemybattleshipnearbymessage_right_anim, 9);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki

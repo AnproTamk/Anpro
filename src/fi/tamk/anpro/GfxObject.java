@@ -10,9 +10,10 @@ import javax.microedition.khronos.opengles.GL10;
 abstract public class GfxObject
 {
 	/* Toimintojen tilat */
-	protected static final byte ACTION_DESTROYED = 1;
-	protected static final byte ACTION_ENABLED   = 2;
-	protected static final byte ACTION_RESPAWN   = 3;
+	protected static final byte ACTION_DESTROYED   = 1;
+	protected static final byte ACTION_ENABLED     = 2;
+	protected static final byte ACTION_RESPAWN     = 3;
+	protected static final byte ACTION_SHOWMESSAGE = 4;
     
 	/* Objektin tila */
     public int state = Wrapper.FULL_ACTIVITY;
@@ -46,7 +47,7 @@ abstract public class GfxObject
     private int returnFrame;
     
     /* Animaation tauot (pys‰ytt‰‰ animaation johonkin ruutuun tietyksi aikaa) */
-    private byte pauseFrame = -1;
+    private int  pauseFrame = -1;
     private int  pauseTime;
     private long startTime;
     
@@ -222,7 +223,7 @@ abstract public class GfxObject
      * @param int  Aika, joksi animaatio pys‰ytet‰‰n
      */
     protected void setAction(int _animation, int _loops, int _animationSpeed, int _actionId,
-    		 				 int _returnTexture, int _returnFrame, byte _pauseFrame, int _pauseTime)
+    		 				 int _returnTexture, int _returnFrame, int _pauseFrame, int _pauseTime)
     {
     	// TODO: Toimintojen tunnuksia varten voisi olla vakiot
     	
