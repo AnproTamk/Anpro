@@ -18,31 +18,22 @@
         	android:id="@+id/tableRow1"
         	android:layout_width="wrap_content" 
         	android:layout_height="wrap_content">
+            
+            <Button android:id="@+id/button_music_on" 
+                 	android:layout_height="wrap_content" 
+                 	android:layout_width="wrap_content"  
+                 	android:background="@drawable/button_music_on" 
+                 	android:padding="5dip" 
+                 	android:layout_marginTop="50dip"
+                 	android:layout_marginLeft="100dip">
+        	</Button>
         	
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:id="@+id/button1"
-            	android:background="@drawable/button_music" 
-            	android:layout_marginTop="10dip" 
-            	android:layout_height="wrap_content"
-            	android:layout_marginRight="50dip" 
-            	android:layout_marginLeft="50dip">
-            </Button>
-            
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:id="@+id/button_music_on" 
-            	android:layout_height="wrap_content" 
-            	android:background="@drawable/button_on"
-            	android:layout_marginTop="10dip">
-            </Button>
-            
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content" 
-            	android:id="@+id/button_music_off" 
-            	android:background="@drawable/button_off"
-            	android:layout_marginTop="10dip">
+            <Button android:background="@drawable/button_sounds_on" 
+            		android:layout_height="wrap_content" 
+            		android:layout_width="wrap_content"
+            		android:layout_marginTop="50dip" 
+            		android:padding="5dip" 
+            		android:id="@+id/button_sounds_on">
             </Button>
             
         </TableRow>
@@ -51,30 +42,7 @@
         	android:id="@+id/tableRow2" 
         	android:layout_width="wrap_content" 
         	android:layout_height="wrap_content">
-        	
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="50dip" 
-            	android:id="@+id/button4" 
-            	android:background="@drawable/button_sounds"
-            	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip">
-            </Button>
-        	
-            <Button 
-            	android:background="@drawable/button_on"
-            	android:id="@+id/button_sounds_on" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
-            </Button>
-            
-            <Button 
-            	android:background="@drawable/button_off"
-            	android:id="@+id/button_sounds_off" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
-            </Button>
-            
+
         </TableRow>
         
         <TableRow 
@@ -82,27 +50,20 @@
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content">
         	
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="50dip" 
-            	android:id="@+id/button7" 
-            	android:background="@drawable/button_particles"
-            	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip">
-            </Button>
         	
-            <Button 
-            	android:background="@drawable/button_high"
-            	android:id="@+id/button_particles_high" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
-            </Button>
-            
-            <Button
-            	android:background="@drawable/button_low"
-            	android:id="@+id/button_particles_low" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
+            <Button android:id="@+id/button_particles_on" 
+                	android:layout_height="wrap_content" 
+                 	android:layout_width="wrap_content"  
+                 	android:background="@drawable/button_particles_on"
+                 	android:padding="5dip" 
+                 	android:layout_marginLeft="100dip">
+        	</Button>
+        	
+            <Button android:background="@drawable/button_vibration_on"
+            		android:layout_height="wrap_content" 
+            		android:layout_width="wrap_content" 
+            		android:padding="5dip" 
+            		android:id="@+id/button_vibration_on">
             </Button>
             
         </TableRow>
@@ -111,38 +72,16 @@
         	android:id="@+id/tableRow4" 
         	android:layout_width="wrap_content" 
         	android:layout_height="wrap_content">
-        	
-            <Button 
-            	android:layout_width="wrap_content" 
-            	android:layout_marginLeft="50dip" 
-            	android:id="@+id/button10" 
-            	android:background="@drawable/button_vibration"
-            	android:layout_height="wrap_content" 
-            	android:layout_marginRight="50dip">
-            </Button>
-        	
-            <Button 
-            	android:background="@drawable/button_on"
-            	android:id="@+id/button_vibration_on" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
-            </Button>
-            
-            <Button 
-            	android:background="@drawable/button_off"
-            	android:id="@+id/button_vibration_off" 
-            	android:layout_width="wrap_content" 
-            	android:layout_height="wrap_content">
-            </Button>
             
         </TableRow>
         
         <ImageButton android:id="@+id/button_mainmenu" 
-                 android:layout_height="wrap_content" 
-                 android:layout_width="wrap_content"  
-                 android:src="@drawable/mainmenu"
-                 android:background="@drawable/checkbox_on_background" 
-                 android:padding="5dip">
+                android:layout_height="wrap_content" 
+                android:layout_width="wrap_content"  
+                android:src="@drawable/mainmenu"
+                android:background="@drawable/checkbox_on_background" 
+                android:padding="5dip" 
+                android:layout_marginLeft="100dip">
         </ImageButton>
         
     </TableLayout>
