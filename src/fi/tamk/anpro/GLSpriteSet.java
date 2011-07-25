@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 /**
  * Sis‰lt‰‰ yhden tekstuurin tai animaation tiedot ja toiminnot.
@@ -53,7 +54,7 @@ public class GLSpriteSet
         sprites = new int[1];
         
         // Generoidaan OpenGL-tunnukset
-        _gl.glGenTextures(length, sprites, 0);
+        _gl.glGenTextures(1, sprites, 0);
     	
     	if (!GLRenderer.loadingFailed) {
     		
@@ -165,6 +166,36 @@ public class GLSpriteSet
         textureBuffer.position(0);
         textureBuffer.clear();
 	}
+	
+	private final void generateTextureVectors(int _frame)
+	{
+    	float tempLeft;
+    	float tempRight;
+    	
+    	if (length > 0) {
+        	float temp = ((realWidth / (float)length) / imageWidth);
+        	
+    		tempLeft  = temp * _frame;
+    		tempRight = temp * (_frame + 1);
+    	}
+    	else {
+    		tempLeft  = 0.0f;
+    		tempRight = 1.0f;
+    	}
+    	
+		texture[0] = tempLeft; texture[1] = 1.0f;  // vasen yl‰
+		texture[2] = tempLeft; texture[3] = 0.0f;  // vasen ala
+		texture[4] = tempRight; texture[5] = 1.0f; // oikea yl‰
+		texture[6] = tempRight; texture[7] = 0.0f; // oikea ala
+        
+        // Varataan muistia tekstuurin vektoreille ja lis‰t‰‰n ne puskuriin
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
+        byteBuffer.order(ByteOrder.nativeOrder());
+        textureBuffer = byteBuffer.asFloatBuffer();
+        textureBuffer.put(texture);
+        textureBuffer.position(0);
+        textureBuffer.clear();
+	}
     
     /**
      * Piirt‰‰ tekstuurin ruudulle.
@@ -188,28 +219,15 @@ public class GLSpriteSet
         // Valitaan piirrett‰v‰ tekstuuri
         if (cachedTexture != sprites[0] || cachedTexture == -1) {
         	_gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
+        	
+        	generateTextureVectors(_frame);
+        	
         	cachedTexture = sprites[0];
+            cachedFrame = _frame;
         }
-        
-        // Valitaan piirrett‰v‰ kohta framen mukaan
-        if (length > 1) {
+        else {
         	if (cachedFrame != _frame) {
-        		float temp      = ((realWidth / (float)length) / imageWidth);
-        		float tempLeft  = temp * _frame;
-        		float tempRight = temp * (_frame + 1);
-        		
-        		texture[0] = tempLeft; texture[1] = 1.0f;  // vasen yl‰
-        		texture[2] = tempLeft; texture[3] = 0.0f;  // vasen ala
-        		texture[4] = tempRight; texture[5] = 1.0f; // oikea yl‰
-        		texture[6] = tempRight; texture[7] = 0.0f; // oikea ala
-                
-                // Varataan muistia tekstuurin vektoreille ja lis‰t‰‰n ne puskuriin
-                ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-                byteBuffer.order(ByteOrder.nativeOrder());
-                textureBuffer = byteBuffer.asFloatBuffer();
-                textureBuffer.put(texture);
-                textureBuffer.position(0);
-                textureBuffer.clear();
+        		generateTextureVectors(_frame);
                 
                 cachedFrame = _frame;
         	}
