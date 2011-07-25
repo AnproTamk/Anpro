@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.Log;
+
 /**
  * Sis‰lt‰‰ yhden taustalle generoitavan t‰hden tiedot ja toiminnot. N‰it‰ t‰hti‰
  * generoidaan taustalle pelaajan liikkuessa.
@@ -35,21 +37,32 @@ public class BackgroundStar extends GfxObject
 	 */
 	public void updatePosition()
 	{
-		if (x < CameraManager.xTranslate - 600) {
-			x = Utility.getRandom((int)CameraManager.xTranslate + 420, (int)CameraManager.xTranslate + 590);
-			y = Utility.getRandom((int)CameraManager.yTranslate - 235, (int)CameraManager.yTranslate + 235);
+		int tempWidth  = (int)((float)Options.screenWidth / 2);
+		int tempHeight = (int)((float)Options.screenHeight / 2);
+		
+		if (x < CameraManager.xTranslate - tempWidth - Options.scaledScreenWidth) {
+			x = Utility.getRandom((int)CameraManager.xTranslate + tempWidth + 10,
+								  (int)CameraManager.xTranslate + tempWidth + Options.scaledScreenWidth - 30);
+			y = Utility.getRandom((int)CameraManager.yTranslate - tempHeight - Options.scaledScreenHeight + 20,
+		  			  			  (int)CameraManager.yTranslate + tempHeight + Options.scaledScreenHeight - 20);
 		}
-		else if (x > CameraManager.xTranslate + 600) {
-			x = Utility.getRandom((int)CameraManager.xTranslate - 590, (int)CameraManager.xTranslate - 420);
-			y = Utility.getRandom((int)CameraManager.yTranslate - 235, (int)CameraManager.yTranslate + 235);
+		else if (x > CameraManager.xTranslate + tempWidth + Options.scaledScreenWidth) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - tempWidth - Options.scaledScreenWidth + 30,
+								  (int)CameraManager.xTranslate - tempWidth - 10);
+			y = Utility.getRandom((int)CameraManager.yTranslate - tempHeight - Options.scaledScreenHeight + 20,
+		  			  			  (int)CameraManager.yTranslate + tempHeight + Options.scaledScreenHeight - 20);
 		}
-		else if (y < CameraManager.yTranslate - 400) {
-			x = Utility.getRandom((int)CameraManager.xTranslate - 395, (int)CameraManager.xTranslate + 395);
-			y = Utility.getRandom((int)CameraManager.yTranslate + 245, (int)CameraManager.yTranslate + 390);
+		else if (y < CameraManager.yTranslate - tempHeight - Options.scaledScreenHeight) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - tempWidth - Options.scaledScreenWidth + 30,
+					  			  (int)CameraManager.xTranslate + tempWidth + Options.scaledScreenWidth - 30);
+			y = Utility.getRandom((int)CameraManager.yTranslate + tempHeight + 10,
+		  			  			  (int)CameraManager.yTranslate + tempHeight + Options.scaledScreenHeight - 20);
 		}
-		else if (y > CameraManager.yTranslate + 400) {
-			x = Utility.getRandom((int)CameraManager.xTranslate - 395, (int)CameraManager.xTranslate + 395);
-			y = Utility.getRandom((int)CameraManager.yTranslate - 390, (int)CameraManager.yTranslate - 245);
+		else if (y > CameraManager.yTranslate + tempHeight + Options.scaledScreenHeight) {
+			x = Utility.getRandom((int)CameraManager.xTranslate - tempWidth - Options.scaledScreenWidth + 30,
+								  (int)CameraManager.xTranslate + tempWidth + Options.scaledScreenWidth - 30);
+			y = Utility.getRandom((int)CameraManager.yTranslate - tempHeight - Options.scaledScreenHeight + 20,
+								  (int)CameraManager.yTranslate - tempHeight - 10);
 		}
 	}
     
@@ -61,7 +74,7 @@ public class BackgroundStar extends GfxObject
 	@Override
 	public void draw(GL10 _gl)
 	{
-		GLRenderer.starBackgroundTexture.draw(_gl, x, y, 0, currentFrame);
+		GLRenderer.starBackgroundTexture.draw(_gl, x, y, direction, currentFrame);
 	}
 
     /**

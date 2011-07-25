@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -26,6 +25,7 @@ public class GameMode
     /* Asteroidit */
     private Obstacle[] asteroids; // Asteroidit
     private Obstacle[] planets;   // Planeetat
+    @SuppressWarnings("unused")
     private Obstacle   star;      // Aurinko
     
     /* Ker‰tt‰v‰t esineet */
@@ -212,7 +212,7 @@ public class GameMode
     		(wrapper.player.y < -(Options.scaledScreenHeight / 2) || wrapper.player.y > (Options.scaledScreenHeight / 2))) {
     		
 	        /* Tarkastetaan onko kaikki vihollisaallot k‰yty l‰pi */
-	        if (currentWave == AMOUNT_OF_WAVES) { // TODO: TARKISTA MITEN MULTIDIMENSIONAL ARRAYN LENGTH TOIMII! (halutaan tiet‰‰ wavejen m‰‰r‰)
+	        if (currentWave == AMOUNT_OF_WAVES) {
 	            currentWave = 0;
 	            
 	            // Tarkistetaan vihollisen luokka, kasvatetaan sit‰ yhdell‰ ja l‰hetet‰‰n sille uudet statsit
@@ -230,8 +230,8 @@ public class GameMode
 	        
 	        /* Tyhj‰t‰‰n spawnpointit */
 			for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
-				spawnPointsX[i] = 0;
-				spawnPointsY[i] = 0;
+				spawnPointsX[i] = 480; // (480 on varmasti poissa ruudulta)
+				spawnPointsY[i] = 480;
 			}
 	        
 	        /* Aktivoidaan viholliset */
@@ -242,12 +242,12 @@ public class GameMode
 	        	if (waves[currentWave][index] != -1) {
 		        	temp = waves[currentWave][index];
 		        	
-            		tempRandX = Utility.getRandom(-Options.scaledScreenWidth * 2, Options.scaledScreenHeight * 2);
+            		tempRandX = Utility.getRandom((int)player.x-(Options.scaledScreenWidth * 2), (int)player.x+(Options.scaledScreenHeight * 2));
             		
-            		if (tempRandX <= -halfOfScreenWidth || tempRandX >= halfOfScreenWidth) {
-            			tempRandY = Utility.getRandom(-Options.scaledScreenHeight * 2, Options.scaledScreenHeight * 2);
+            		if (tempRandX >= player.x-halfOfScreenWidth && tempRandX <= player.x+halfOfScreenWidth) {
+            			tempRandY = Utility.getRandom((int)player.y-(Options.scaledScreenHeight * 2), (int)player.y+(Options.scaledScreenHeight * 2));
             			
-            			if (tempRandY <= -halfOfScreenHeight - 50 || tempRandY >= halfOfScreenHeight + 50) {
+            			if (tempRandY >= player.y-halfOfScreenHeight-50 && tempRandY <= player.y+halfOfScreenHeight+50) {
         		        	
             				for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
             					if (spawnPointsX[i] == tempRandX && spawnPointsY[i] == tempRandY) {

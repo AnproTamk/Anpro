@@ -133,7 +133,7 @@ class GameThread extends Thread
 	    	}
 	    	else if (gameState == GAMESTATE_STORY) {
 	    		currentTime = android.os.SystemClock.uptimeMillis();
-	    		if (currentTime - gameStateTimer >= 3000) {
+	    		if (currentTime - gameStateTimer >= 0) {
 	    			gameState = GAMESTATE_STARTUP;
 	    			gameStateTimer = currentTime;
 	    		}
