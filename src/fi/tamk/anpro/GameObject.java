@@ -161,7 +161,7 @@ abstract public class GameObject extends GfxObject
                 direction -= turningSpeed;
                 
                 if (direction < 0) {
-                    direction = 359;
+                    direction = 360 + direction;
                 }
             }
             
