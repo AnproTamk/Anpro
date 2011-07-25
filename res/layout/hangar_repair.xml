@@ -8,7 +8,7 @@
     <TableRow android:layout_weight="0.0" android:id="@+id/TableRow01" android:baselineAligned="false" android:gravity="center|center_horizontal|right" android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="100dip" android:layout_gravity="right">
         <ImageView android:src="@drawable/player_score_str" android:layout_width="wrap_content" android:id="@+id/player_score_str" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:layout_weight="1"></ImageView>
         <TextView android:id="@+id/textview_score" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:gravity="left" android:layout_weight="1" android:layout_marginRight="100dip" android:textColor="#0000FF" android:textSize="20dip"></TextView>
-        <TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content" android:gravity="right" android:layout_width="wrap_content" android:layout_gravity="bottom">
+        <TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="bottom" android:layout_weight="0.1">
             <ImageButton android:background="@drawable/checkbox_on_background" android:id="@+id/button_skills" android:src="@drawable/button_skills" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="10"></ImageButton>
         </TableRow>
     </TableRow>
