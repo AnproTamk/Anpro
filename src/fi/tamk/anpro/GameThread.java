@@ -15,14 +15,12 @@ class GameThread extends Thread
     public boolean allLoaded = false; // Onko kaikki tarvittava ladattu?
     
     /* Pelin tila */
-    public static final int GAMESTATE_HIDE_MAINMENU     = 0;
-    public static final int GAMESTATE_LOADING_RESOURCES = 1;
-    public static final int GAMESTATE_STORY             = 2;
-    public static final int GAMESTATE_TUTORIALS         = 3;
-    public static final int GAMESTATE_STARTUP           = 4;
-    public static final int GAMESTATE_GAME              = 5;
+    public static final int GAMESTATE_LOADING_RESOURCES = 0;
+    public static final int GAMESTATE_STORY             = 1;
+    public static final int GAMESTATE_STARTUP           = 2;
+    public static final int GAMESTATE_GAME              = 3;
     
-    public  byte gameState      = 0;
+    public  byte gameState      = GAMESTATE_LOADING_RESOURCES;
     private long gameStateTimer;
     
     /* Tarvittavat luokat */
@@ -126,10 +124,7 @@ class GameThread extends Thread
     {
     	while (isRunning) {
     		
-    		if (gameState == GAMESTATE_HIDE_MAINMENU) {
-    			gameState = GAMESTATE_LOADING_RESOURCES;
-    		}
-    		else if (gameState == GAMESTATE_LOADING_RESOURCES) {
+    		if (gameState == GAMESTATE_LOADING_RESOURCES) {
 	    		if (renderer.allLoaded) {
 	    			gameState = GAMESTATE_STORY;
 	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
@@ -138,14 +133,7 @@ class GameThread extends Thread
 	    	}
 	    	else if (gameState == GAMESTATE_STORY) {
 	    		currentTime = android.os.SystemClock.uptimeMillis();
-	    		if (currentTime - gameStateTimer >= 0) {
-	    			gameState = GAMESTATE_TUTORIALS;
-	    			gameStateTimer = currentTime;
-	    		}
-	    	}
-	    	else if (gameState == GAMESTATE_TUTORIALS) {
-	    		currentTime = android.os.SystemClock.uptimeMillis();
-	    		if (currentTime - gameStateTimer >= 0) {
+	    		if (currentTime - gameStateTimer >= 3000) {
 	    			gameState = GAMESTATE_STARTUP;
 	    			gameStateTimer = currentTime;
 	    		}
@@ -202,9 +190,6 @@ class GameThread extends Thread
 		            
 		            /* Tarkistetaan törmäykset */
 		            checkCollisions(currentTime);
-		            
-		            /* Päivitetään viestit */
-		            updateMessages(currentTime);
 		            
 		            /* Päivitetään efektit */
 		            updateEffects();
@@ -355,15 +340,6 @@ class GameThread extends Thread
 	    		wrapper.player.checkCollision();
 	    	}
 	    	
-        }
-	}
-	
-	private void updateMessages(long _currentTime)
-	{
-		if (_currentTime - lastMessageUpdate >= 50) {
-        	lastMessageUpdate = _currentTime;
-        	
-        	MessageManager.updateMessages();
         }
 	}
 

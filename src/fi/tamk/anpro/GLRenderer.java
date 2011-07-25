@@ -39,7 +39,8 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_MISSILE			   = 45;
     public static final int TEXTURE_GUIDEARROW		   = 47;
     public static final int TEXTURE_RADAR			   = 49;
-    public static final int TEXTURE_MESSAGE			   = 50;
+    
+    public static final int ANIMATION_MESSAGE = 2;
     
     public static final int ANIMATION_CLICK         = 0;
     public static final int ANIMATION_RADAR_WARNING = 1;
@@ -49,7 +50,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 56;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 50;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -58,46 +59,47 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_ANIMATIONS        = 4;
     public static final int AMOUNT_OF_ENEMY_ANIMATIONS       = 5;
     public static final int AMOUNT_OF_PROJECTILE_ANIMATIONS  = 5;
-    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 5;
+    public static final int AMOUNT_OF_HUD_ANIMATIONS         = 8;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 12;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
     public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
-    /* Latausruudun tekstuurit ja tila */
+    /* Lataus- ja tarinaruutujen tekstuurit */
     private GLSpriteSet loadingTexture;
+    private GLSpriteSet storyTexture;
    
     /* Piirrett‰v‰t animaatiot ja objektit */
-    public static GLSpriteSet[]     playerTextures;
+    public static GLSpriteSet[]   playerTextures;
     public static GLSpriteSet[]   playerAnimations;
-    public static GLSpriteSet[][]   allyTextures;
+    public static GLSpriteSet[][] allyTextures;
     public static GLSpriteSet[][] allyAnimations;
-    public static GLSpriteSet[][]   enemyTextures;
+    public static GLSpriteSet[][] enemyTextures;
     public static GLSpriteSet[][] enemyAnimations;
-    public static GLSpriteSet[][]   projectileTextures;
+    public static GLSpriteSet[][] projectileTextures;
     public static GLSpriteSet[][] projectileAnimations;
-    public static GLSpriteSet[]     mothershipTextures;
+    public static GLSpriteSet[]   mothershipTextures;
     public static GLSpriteSet[]   mothershipAnimations;
     
-    public static GLSpriteSet[]     hudTextures;
+    public static GLSpriteSet[]   hudTextures;
     public static GLSpriteSet[]   hudAnimations;
     
     public static GLSpriteSet[]   effectAnimations;
     
-    public static GLSpriteSet[][]   obstacleTextures;
+    public static GLSpriteSet[][] obstacleTextures;
     public static GLSpriteSet[][] obstacleAnimations;
     
-    public static GLSpriteSet[]     collectableTextures;
+    public static GLSpriteSet[]   collectableTextures;
     public static GLSpriteSet[]   collectableAnimations;
     
-    public static GLSpriteSet       starBackgroundTexture;
+    public static GLSpriteSet     starBackgroundTexture;
     
     /* Ohjelman konteksti */
-    private Context   context;
+    private Context context;
     
     /* Tarvittavat oliot */
-    private Wrapper       wrapper;
-    private GameThread    gameThread = null;
+    private Wrapper    wrapper;
+    private GameThread gameThread = null;
     
     /* Lataustiedot (kertoo, onko tekstuureja viel‰ ladattu) */
     public        boolean loadingStarted = false;
@@ -105,9 +107,8 @@ public class GLRenderer implements Renderer
     public        boolean allLoaded      = false;
     
     /* Animaatiop‰ivitysten muuttujat */
-    private long lastAnimationUpdate;
-    private long lastMessageUpdate;
-    private int  updateBeat = 1;
+    private long    lastAnimationUpdate;
+    private int     updateBeat = 1;
     private boolean updateAnimations = true;
 
     /**
@@ -183,10 +184,9 @@ public class GLRenderer implements Renderer
         _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
-        // Ladataan tekstuurit
-    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1); // TODO: Outo paikka?
-    	
-    	loadTextures(_gl);
+        // Ladataan latausruudun ja tarinan tekstuurit
+    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
+    	storyTexture   = new GLSpriteSet(_gl, context, R.drawable.story1, 1);
     }
 
     /**
@@ -234,39 +234,28 @@ public class GLRenderer implements Renderer
      */
     public void onDrawFrame(GL10 _gl)
     {
-    	/*if (reloadRequested) {
-    		loadTextures(_gl);
-    		reloadRequested = false;
-    	}*/
-    	
     	if (gameThread != null) {
 	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
 	        _gl.glClearColor(0, 0, 0, 0);
 	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	        
-	        if (gameThread.gameState == GameThread.GAMESTATE_HIDE_MAINMENU) {
-	        	// TODO: T‰m‰ vaihe on t‰ss‰ vain siksi, ett‰ ehditt‰isiin piirt‰m‰‰n
-	        	// lataustekstuuri ennen lataamisen alkamista, joka est‰‰ onDrawFramea
-	        	// p‰‰sem‰st‰ funktion loppuun. T‰h‰n pit‰‰ kehitell‰ jotain parempaa.
+	        if (gameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
 	            loadingTexture.draw(_gl, 0, 0, 90, 0);
-	        }
-	        else if (gameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
 	            
 	            if (!loadingStarted && !allLoaded) {
 	            	loadingStarted = true;
-	            	allLoaded = true;
-	    	    	//if (loadTextures(_gl)) {
-	    	        //	allLoaded = true;
-	    	        //}
-	    	        //else {
-	    	        //    // TODO: K‰sittele virhe PAREMMIN
-	    	        //	System.exit(0);
-	    	        //}
+	            }
+	            else if (loadingStarted && !allLoaded) {
+	            	if (loadTextures(_gl)) {
+	            		allLoaded = true;
+	            	}
+	            	else {
+	            		System.exit(0);
+	            	}
 	            }
 	        }
 	        else if (gameThread.gameState == GameThread.GAMESTATE_STORY) {
-	        }
-	        else if (gameThread.gameState == GameThread.GAMESTATE_TUTORIALS) {
+	            storyTexture.draw(_gl, 0, 0, 90, 0);
 	        }
 	        else if (gameThread.gameState == GameThread.GAMESTATE_STARTUP) {
 	        }
@@ -400,12 +389,12 @@ public class GLRenderer implements Renderer
         hudAnimations[1] = new GLSpriteSet(_gl, context, R.drawable.radar_warning_anim, 3);
         
         // Ilmoitukset
-        hudTextures[50] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_tex_0, 1);
-        hudTextures[51] = new GLSpriteSet(_gl, context, R.drawable.autopilotonmessage_tex_0, 1);
-        hudTextures[52] = new GLSpriteSet(_gl, context, R.drawable.autopilotoffmessage_tex_0, 1);
-        hudTextures[53] = new GLSpriteSet(_gl, context, R.drawable.newskillavailablemessage_tex_0, 1);
-        hudTextures[54] = new GLSpriteSet(_gl, context, R.drawable.repairingrequiredmessage_tex_0, 1);
-        //hudTextures[55] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_tex_0, 1);
+        hudAnimations[2] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_left_anim, 9);
+        hudAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.outofboundsmessage_right_anim, 9);
+        hudAnimations[4] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_left_anim, 9);
+        hudAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.armorsoffmessage_right_anim, 9);
+        hudAnimations[6] = new GLSpriteSet(_gl, context, R.drawable.enemybattleshipnearbymessage_left_anim, 9);
+        hudAnimations[7] = new GLSpriteSet(_gl, context, R.drawable.enemybattleshipnearbymessage_right_anim, 9);
         
         /* Ladataan efektien grafiikat */
         // Huutomerkki
