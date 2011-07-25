@@ -183,10 +183,6 @@ public class GLRenderer implements Renderer
         // Avataan tekstuuri- ja vektoritaulukot käyttöön
         _gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         _gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        
-        // Ladataan latausruudun ja tarinan tekstuurit
-    	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
-    	storyTexture   = new GLSpriteSet(_gl, context, R.drawable.story1, 1);
     }
 
     /**
@@ -236,10 +232,15 @@ public class GLRenderer implements Renderer
     {
     	if (gameThread != null) {
 	        // Tyhjätään ruutu ja syvyyspuskuri
-	        _gl.glClearColor(0, 0, 0, 0);
+    		_gl.glClearColor(0.0f, 0.0f, 0.0f, 0);
 	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	        
 	        if (gameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
+	        	if (loadingTexture == null) {
+	                // Ladataan latausruudun ja tarinan tekstuurit
+	            	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1);
+	            	storyTexture   = new GLSpriteSet(_gl, context, R.drawable.story1, 1);
+	        	}
 	            loadingTexture.draw(_gl, 0, 0, 90, 0);
 	            
 	            if (!loadingStarted && !allLoaded) {

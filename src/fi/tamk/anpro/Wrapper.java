@@ -42,13 +42,8 @@ public class Wrapper
     public ArrayList<Ally>               allies          = null;
     public ArrayList<Enemy>              enemies         = null;
     public ArrayList<AbstractProjectile> projectiles     = null;
-    //public ArrayList<GuiObject> 		 guiObjects      = null;
     public ArrayList<Obstacle>  		 obstacles       = null;
-    //public ArrayList<EffectObject> 	     backEffects     = null;
-    //public ArrayList<EffectObject> 	     frontEffects    = null;
-    //public ArrayList<Message>            messages        = null;
     public ArrayList<Collectable> 	     collectables    = null;
-    //public ArrayList<BackgroundStar>     backgroundStars = null;
 
     /* Osumatarkistuksen ruudukon yhden ruudun leveys/korkeus */
     public static int gridSize;
@@ -68,11 +63,11 @@ public class Wrapper
         aiGroupTwo   = new ArrayList<AiObject>();
         aiGroupThree = new ArrayList<AiObject>();
         
-        allies       = new ArrayList<Ally>();
-        enemies      = new ArrayList<Enemy>();
-        projectiles  = new ArrayList<AbstractProjectile>();
-        obstacles    = new ArrayList<Obstacle>();
-        collectables = new ArrayList<Collectable>();
+        allies          = new ArrayList<Ally>();
+        enemies         = new ArrayList<Enemy>();
+        projectiles     = new ArrayList<AbstractProjectile>();
+        obstacles       = new ArrayList<Obstacle>();
+        collectables    = new ArrayList<Collectable>();
     }
 
     /**
