@@ -264,7 +264,7 @@ class GameThread extends Thread
      */
 	private void updateBackgroundStars()
 	{
-	    backgroundManager.updatePositions();
+	    //backgroundManager.updatePositions();
 	}
 
     /**

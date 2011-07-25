@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 /**
  * Survival-pelitila. Luo pelaajan ja viholliset ja hallitsee vihollisaaltojen
@@ -242,19 +243,19 @@ public class GameMode
 	        	if (waves[currentWave][index] != -1) {
 		        	temp = waves[currentWave][index];
 		        	
-            		tempRandX = Utility.getRandom((int)player.x-(Options.scaledScreenWidth * 2), (int)player.x+(Options.scaledScreenHeight * 2));
+            		tempRandX = Utility.getRandom((int)player.x-(Options.scaledScreenWidth * 3), (int)player.x+(Options.scaledScreenHeight * 3));
             		
-            		if (tempRandX >= player.x-halfOfScreenWidth && tempRandX <= player.x+halfOfScreenWidth) {
-            			tempRandY = Utility.getRandom((int)player.y-(Options.scaledScreenHeight * 2), (int)player.y+(Options.scaledScreenHeight * 2));
+            		if (tempRandX < player.x-Options.scaledScreenWidth || tempRandX > player.x+Options.scaledScreenWidth) {
+            			tempRandY = Utility.getRandom((int)player.y-(Options.scaledScreenHeight * 3), (int)player.y+(Options.scaledScreenHeight * 3));
             			
-            			if (tempRandY >= player.y-halfOfScreenHeight-50 && tempRandY <= player.y+halfOfScreenHeight+50) {
+            			if (tempRandY < player.y-Options.scaledScreenHeight-50 || tempRandY > player.y+Options.scaledScreenHeight+50) {
         		        	
             				for (int i = 0; i < AMOUNT_OF_ENEMIES_PER_WAVE; ++i) {
             					if (spawnPointsX[i] == tempRandX && spawnPointsY[i] == tempRandY) {
             						--index;
             						break;
             					}
-            					else if (spawnPointsX[i] == 0 && spawnPointsY[i] == 0) {
+            					else if (spawnPointsX[i] == 480 && spawnPointsY[i] == 480) {
             						spawnPointsX[i] = tempRandX;
             						spawnPointsY[i] = tempRandY;
             						
