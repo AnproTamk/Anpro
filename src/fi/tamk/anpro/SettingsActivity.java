@@ -198,8 +198,11 @@ public class SettingsActivity extends Activity implements OnClickListener
 	public boolean onKeyDown(int _keyCode, KeyEvent _event)
 	{
 		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+			
+			writer.saveSettings(musicState, soundsState, particlesState, vibrationState);
 	        Intent i_mainmenu = new Intent(this, MainActivity.class);
 	        startActivityIfNeeded(i_mainmenu, 1);
+	        finish();
 			return true;
 	    }
 		
