@@ -304,4 +304,46 @@ public class XmlReader
     	
     	return scores;
     }
+    
+    public final int[] readSettings() 
+    {
+    	File 				file 		= new File(Environment.getExternalStorageDirectory()+"/settings.xml");
+    	FileInputStream 	fis 		= null;
+    	int[] 			settings	= new int[4];
+    	
+    	try {
+    		fis = new FileInputStream(file);
+    		
+    		XmlPullParser parser = Xml.newPullParser();
+    		
+			parser.setInput(fis, "UTF-8");
+			
+			int index = 0;
+			
+			if(parser != null) {
+				while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
+	                if (parser.getEventType() == XmlPullParser.START_TAG) {
+	                    if (parser.getName().equals("music") || parser.getName().equals("sounds") || parser.getName().equals("particles")
+	                    	|| parser.getName().equals("vibration")) {
+	                    	settings[index - 1] = Integer.parseInt(parser.getAttributeValue(null, "value"));
+	                    }
+	                    
+	                    ++index;
+	                }
+	                else if (parser.getEventType() == XmlPullParser.END_TAG) {
+	                    // ...
+	                }
+	                
+	                parser.next();
+	            }
+			}
+			fis.close();
+    	}
+    	
+    	catch (Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return settings;
+    }
 }

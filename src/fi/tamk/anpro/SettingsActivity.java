@@ -22,15 +22,29 @@ import android.media.AudioManager;
  * 
  *
  */
-// TODO: Turha luokka?
 public class SettingsActivity extends Activity implements OnClickListener
 {
+	private int settings[] = new int[4];
+	
+	View musicOnButton;
+	View soundsOnButton;
+	View particlesOnButton;
+	View vibrationOnButton;
+	View mainmenuButton;
+	
+	protected boolean musicState;
+	protected boolean soundsState;
+	protected boolean vibrationState;
+	protected boolean particlesState;
+	
+	private XmlReader reader 	    = new XmlReader(MainActivity.context);
+	private XmlWriter writer 	    = new XmlWriter();
 
 	@Override
 	protected void onCreate(Bundle _savedInstanceState)
 	{
 		super.onCreate(_savedInstanceState);
-        
+		
         // Asetetaan aktiviteetti koko näytölle
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -39,32 +53,62 @@ public class SettingsActivity extends Activity implements OnClickListener
         
 		setContentView(R.layout.settings);
 		
-        View musicOnButton = findViewById(R.id.button_music_on);
-        musicOnButton.setOnClickListener(this);
-        
-        View musicOffButton = findViewById(R.id.button_music_off);
-        musicOffButton.setOnClickListener(this);
-        
-        View soundsOnButton = findViewById(R.id.button_sounds_on);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		
+		musicOnButton = findViewById(R.id.button_music_on);
+		musicOnButton.setOnClickListener(this);
+		
+        soundsOnButton = findViewById(R.id.button_sounds_on);
         soundsOnButton.setOnClickListener(this);
-        
-        View soundsOffButton = findViewById(R.id.button_sounds_off);
-        soundsOffButton.setOnClickListener(this);
-        
-        View particlesHighButton = findViewById(R.id.button_particles_high);
-        particlesHighButton.setOnClickListener(this);
-        
-        View particlesLowButton = findViewById(R.id.button_particles_low);
-        particlesLowButton.setOnClickListener(this);
-        
-        View vibrationOnButton = findViewById(R.id.button_vibration_on);
+    
+        particlesOnButton = findViewById(R.id.button_particles_on);
+        particlesOnButton.setOnClickListener(this);
+
+        vibrationOnButton = findViewById(R.id.button_vibration_on);
         vibrationOnButton.setOnClickListener(this);
         
-        View vibrationOffButton = findViewById(R.id.button_vibration_off);
-        vibrationOffButton.setOnClickListener(this);
-		
-		View mainmenuButton = findViewById(R.id.button_mainmenu);
+		mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this);
+        
+        settings = reader.readSettings();
+        
+        writer.saveSettings(musicState, soundsState, particlesState, vibrationState);
+        
+		if(settings[0] == 1) {
+			musicState = true;
+		}
+		
+		else if (settings[0] == 0) {
+			musicOnButton.setBackgroundResource(R.drawable.button_music_off);
+			musicState = false;
+		}
+		if(settings[1] == 1) {
+			soundsState = true;
+		}
+		
+		else if (settings[1] == 0) {
+			soundsOnButton.setBackgroundResource(R.drawable.button_sounds_off);
+			soundsState = false;
+		}
+		
+		if(settings[2] == 1) {
+			particlesState = true;
+		}
+		
+		else if (settings[2] == 0) {
+			particlesOnButton.setBackgroundResource(R.drawable.button_particles_off);
+			particlesState = false;
+		}
+		
+		if(settings[3] == 1) {
+			vibrationState = true;
+		}
+		
+		else if (settings[3] == 0) {
+			vibrationOnButton.setBackgroundResource(R.drawable.button_vibration_off);
+			vibrationState = false;
+		}
+
 	}
 	
 	/**
@@ -74,45 +118,77 @@ public class SettingsActivity extends Activity implements OnClickListener
 	 */
     public void onClick(View _v)
     {
-        switch(_v.getId()) {                
-            case R.id.button_music_on:
-                SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_music_off:
-                SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-            
-            case R.id.button_sounds_on:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_sounds_off:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_particles_high:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_particles_low:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_vibration_on:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-            case R.id.button_vibration_off:
-            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
-                break;
-                
-	    	case R.id.button_mainmenu:
-	    		Intent i_mainmenu = new Intent(this, MainActivity.class);
-	    		startActivity(i_mainmenu);
-	    		finish();
-	    		break;
+		if(_v == musicOnButton) {
+			if(musicState == true) {
+				musicOnButton.setBackgroundResource(R.drawable.button_music_off);
+				musicState = false;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.music = false;
+			}
+			else {
+				musicOnButton.setBackgroundResource(R.drawable.button_music_on);
+				musicState = true;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.music = true;
+			}
         }
+		
+		else if(_v == soundsOnButton) {
+			if(soundsState == true) {
+				soundsOnButton.setBackgroundResource(R.drawable.button_sounds_off);
+				soundsState = false;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.sounds = false;
+			}
+			else {
+				soundsOnButton.setBackgroundResource(R.drawable.button_sounds_on);
+				soundsState = true;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.sounds = true;
+			}
+		}
+		
+		else if(_v == vibrationOnButton) {
+			if(vibrationState == true) {
+				vibrationOnButton.setBackgroundResource(R.drawable.button_vibration_off);
+				vibrationState = false;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.vibration = false;
+			}
+			else {
+				vibrationOnButton.setBackgroundResource(R.drawable.button_vibration_on);
+				vibrationState = true;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.vibration = true;
+			}
+		}
+		
+		else if(_v == particlesOnButton) {
+			if(particlesState == true) {
+				particlesOnButton.setBackgroundResource(R.drawable.button_particles_off);
+				particlesState = false;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.particles = false;
+			}
+			else {
+				particlesOnButton.setBackgroundResource(R.drawable.button_particles_on);
+				particlesState = true;
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+				Options.particles = true;
+			}
+		}
+		
+		else if(_v == mainmenuButton) {
+			writer.saveSettings(musicState, soundsState, particlesState, vibrationState);
+			
+			if(soundsState = true) {
+				SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
+			}
+			
+			Intent i_mainmenu = new Intent(this, MainActivity.class);
+    		startActivity(i_mainmenu);
+    		finish();
+		}
     }
 }
         

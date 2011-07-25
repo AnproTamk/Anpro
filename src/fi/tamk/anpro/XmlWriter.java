@@ -97,21 +97,22 @@ public class XmlWriter
 	 * @param boolean Musiikkiasetus
 	 * @param boolean Ääniasetus
 	 * 
-	 * @deprecated
 	 **/
-	public final void saveSettings(boolean _particleState, boolean _musicState, boolean _soundState)
+	public final void saveSettings(boolean _musicState, boolean _soundsState, boolean _particlesState, boolean _vibrationState)
 	{
 		// Luodaan uusi XML-tiedosto asetuksille.
-		File xmlStoreSettings = new File("HWUserData/Android/settings.xml");
+		File xmlStoreSettings = new File(Environment.getExternalStorageDirectory()+"/settings.xml");
 		
-		String[] stateId = {"0", "0", "0"};
+		String[] stateId = {"1", "1", "1", "1"};
 		
-		if (_particleState == true)
-			stateId[0] = "1";
-		if (_musicState == true)
-			stateId[1] = "1";
-		if (_soundState == true)
-			stateId[2] = "1";
+		if (_musicState == false)
+			stateId[0] = "0";
+		if (_soundsState == false)
+			stateId[1] = "0";
+		if (_particlesState == false)
+			stateId[2] = "0";
+		if (_vibrationState == false)
+			stateId[3] = "0";
 
 		try {
 			xmlStoreSettings.createNewFile();
@@ -154,17 +155,21 @@ public class XmlWriter
 			 /* 'Particles'-elementin sisällä on attribuutti, jonka nimenä on 'value'.
 			 * 'Value' tallentaa string-tiedon siitä, onko partikkelit käytössä vai ei.
 			 */
-			serializer.startTag(null, "particles");
-			serializer.attribute(null, "value", stateId[0]);
-			serializer.endTag(null, "particles");
-			
 			serializer.startTag(null, "music");
-			serializer.attribute(null, "value", stateId[1]);
+			serializer.attribute(null, "value", stateId[0]);
 			serializer.endTag(null, "music");
 			
 			serializer.startTag(null, "sounds");
-			serializer.attribute(null, "value", stateId[2]);
+			serializer.attribute(null, "value", stateId[1]);
 			serializer.endTag(null, "sounds");
+			
+			serializer.startTag(null, "particles");
+			serializer.attribute(null, "value", stateId[2]);
+			serializer.endTag(null, "particles");
+			
+			serializer.startTag(null, "vibration");
+			serializer.attribute(null, "value", stateId[3]);
+			serializer.endTag(null, "vibration");
 			
 			serializer.endTag(null, "res");
 			serializer.endDocument();
