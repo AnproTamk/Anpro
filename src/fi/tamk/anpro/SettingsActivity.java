@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -36,6 +37,8 @@ public class SettingsActivity extends Activity implements OnClickListener
 	protected boolean soundsState;
 	protected boolean vibrationState;
 	protected boolean particlesState;
+	
+	private InputController inputController;
 	
 	private XmlReader reader 	    = new XmlReader(MainActivity.context);
 	private XmlWriter writer 	    = new XmlWriter();
@@ -190,6 +193,18 @@ public class SettingsActivity extends Activity implements OnClickListener
     		finish();
 		}
     }
+    
+    @Override
+	public boolean onKeyDown(int _keyCode, KeyEvent _event)
+	{
+		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+	        Intent i_mainmenu = new Intent(this, MainActivity.class);
+	        startActivityIfNeeded(i_mainmenu, 1);
+			return true;
+	    }
+		
+	    return inputController.handleKeyDown(_keyCode, _event); 
+	}
 }
         
 	
