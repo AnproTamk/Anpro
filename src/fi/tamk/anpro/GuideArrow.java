@@ -4,7 +4,7 @@ public class GuideArrow extends GuiObject
 {
 	/* Vakiot kohteille */
 	public static final byte TARGET_COLLECTABLE = 0;
-	public static final byte TARGET_MOTHERSHIP  = 1;
+	public static final byte TARGET_WEAPON      = 1;
 	public static final byte TARGET_BOSS	    = 2;
 		
 	/* Kohde ja tyyppi */
@@ -46,10 +46,10 @@ public class GuideArrow extends GuiObject
 			int distance;
 
 			if (targetType == TARGET_COLLECTABLE) {
-				for (int i = wrapper.collectables.size() - 1; i >= 0; --i) {
+				for (int i = wrapper.scoreCollectables.size() - 1; i >= 0; --i) {
 	
-					if (wrapper.collectables.get(i).state == Wrapper.FULL_ACTIVITY) {
-						distance = Utility.getDistance(x, y, wrapper.collectables.get(i).x, wrapper.collectables.get(i).y);
+					if (wrapper.scoreCollectables.get(i).state == Wrapper.FULL_ACTIVITY) {
+						distance = Utility.getDistance(x, y, wrapper.scoreCollectables.get(i).x, wrapper.scoreCollectables.get(i).y);
 	
 						if (distanceToClosest == -1 || distance < distanceToClosest) {
 							distanceToClosest = distance;
@@ -59,11 +59,11 @@ public class GuideArrow extends GuiObject
 				}
 	
 				if (indexOfClosest != -1) {
-					targetObject = wrapper.collectables.get(indexOfClosest);
+					targetObject = wrapper.scoreCollectables.get(indexOfClosest);
 				}
 			}
-			else if (targetType == TARGET_MOTHERSHIP) {
-				targetObject = wrapper.mothership;
+			else if (targetType == TARGET_WEAPON) {
+				targetObject = wrapper.weaponCollectable;
 			}
 			else if (targetType == TARGET_BOSS) {
 				// TODO: Tee toteutus
