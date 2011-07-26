@@ -66,6 +66,7 @@ public class Obstacle extends GameObject
 		
 		// M‰‰ritell‰‰n asetukset
 		if (type == OBSTACLE_PLANET) {
+			// TODO: SCALING (Options.scale)
 			collisionRadius = (int) (117 * Options.scale);
 		}
 		else if (type == OBSTACLE_ASTEROID) {

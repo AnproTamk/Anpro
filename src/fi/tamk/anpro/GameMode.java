@@ -406,12 +406,13 @@ public class GameMode
 	{
 		for (int i = asteroids.length - 1; i >= 0; --i) {
 			if ( asteroids[i].x < -overBoundWidth || asteroids[i].y < -overBoundHeight) {
-				asteroids[i].x = asteroids[i].x * (-1) - 100 ;
-				asteroids[i].y = asteroids[i].y * (-1) - 100 ;
+				// TODO: SCALING (tuleeko tähän?)
+				asteroids[i].x = asteroids[i].x * (-1) - 100 * Options.scaleX ;
+				asteroids[i].y = asteroids[i].y * (-1) - 100 * Options.scaleY ;
 			}
 			else if (asteroids[i].x > overBoundWidth || asteroids[i].y > overBoundHeight) {
-				asteroids[i].x = asteroids[i].x * (-1) + 100 ;
-				asteroids[i].y = asteroids[i].y * (-1) + 100 ;
+				asteroids[i].x = asteroids[i].x * (-1) + 100 * Options.scaleX ;
+				asteroids[i].y = asteroids[i].y * (-1) + 100 * Options.scaleY ;
 			}
 		}
 	}

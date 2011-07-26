@@ -33,6 +33,7 @@ public class ProjectileMissile extends AbstractProjectile
         damageOnExplode = 25;
         damageType      = EXPLODE_ON_TOUCH;
         
+        // TODO: SCALING (Options.scale)
         collisionRadius = (int)(15 * Options.scale);
         explosionRadius = (int)(80 * Options.scale);
         

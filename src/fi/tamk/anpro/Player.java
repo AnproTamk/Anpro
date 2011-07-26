@@ -51,6 +51,7 @@ public class Player extends AiObject
     	z = 3;
     	
         // M‰‰ritet‰‰n asetukset
+    	// TODO: SCALING (Options.scale)
         collisionRadius = (int) (25 * Options.scale);
         setMovementSpeed(0.0f);
         

@@ -34,27 +34,22 @@ public class InputController
 	    // Käsitellään DPad-napit
 	    if (_keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
 			// TODO: Keskinapin painamisen jälkeiset toiminnot..
-			//return false;
 		}
 	    else if (_keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
 			// TODO: Liikuta vasemmalle PAREMMIN
 			angle = 180;
-			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
 			// TODO: Liikuta oikealle PAREMMIN
 			angle = 0;
-			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_UP) {
 			// TODO: Liikuta ylös PAREMMIN
 			angle = 90;
-			//return false;
 		}
 		else if (_keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
 			// TODO: Liikuta alas PAREMMIN
 			angle = 270;
-			//return false;
 		}
 	    
         wrapper.player.movementTargetDirection = angle;

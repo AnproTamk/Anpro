@@ -43,6 +43,7 @@ public class Collectable extends GameObject
 		z = 7;
 		
 		// Määritetään törmäystunnistus
+		// TODO: SCALING (Options.scale)
 		collisionRadius = (int) (25 * Options.scale);
 		
 		// Määritetään käytettävä tekstuuri
@@ -96,8 +97,9 @@ public class Collectable extends GameObject
 	        y = Utility.getRandom(-GameMode.mapHeight, GameMode.mapHeight);
 
 	        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-		        if (Math.abs(x - wrapper.obstacles.get(i).x) > (Wrapper.gridSize + 300) && Math.abs(x - wrapper.player.x) > 250 &&
-		        	Math.abs(y - wrapper.obstacles.get(i).y) > (Wrapper.gridSize + 300) && Math.abs(y - wrapper.player.y) > 500) {
+		        if (Math.abs(x - wrapper.obstacles.get(i).x) > (Wrapper.gridSize + 300 * Options.scaleX) && Math.abs(x - wrapper.player.x) > 250 * Options.scaleX &&
+		        	Math.abs(y - wrapper.obstacles.get(i).y) > (Wrapper.gridSize + 300 * Options.scaleY) && Math.abs(y - wrapper.player.y) > 500 * Options.scaleY) {
+
 	        		isPlaced = true;
 	        		break;
 				}
