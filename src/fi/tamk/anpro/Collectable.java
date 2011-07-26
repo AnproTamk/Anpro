@@ -6,11 +6,19 @@ import android.util.Log;
 
 public class Collectable extends GameObject
 {
+	// Collectablen tyypit
+	public static final byte COLLECTABLE_TYPE_SCORE  = 0;
+	public static final byte COLLECTABLE_TYPE_WEAPON = 1;
+	
+	public int collectableType;
+	public int weaponType;
+	
 	// Collectablen "rank" (tällä määritettään keräyksestä ansaitut pisteet)
 	protected int COLLECTABLE_RANK = 5;
 	
-	// Wrapper
+	// Wrapper ja Hud
 	private Wrapper wrapper;
+	private Hud     hud;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -18,25 +26,28 @@ public class Collectable extends GameObject
 	 * @param _x         X-koordinaatti
 	 * @param _y         Y-koordinaatti
 	 */
-	public Collectable(int _x, int _y)
+	public Collectable(int _x, int _y, int _type, Hud _hud)
 	{
 		super(0);
 		
 		/* Tallennetaan muuttujat */
-		x = _x;
-		y = _y;
-		z = 7;
+		x               = _x;
+		y               = _y;
+		collectableType = _type;
+		hud             = _hud;
 		
 		/* Otetaan tarvittavat luokat käyttöön */
 		wrapper = Wrapper.getInstance();
 		
 		/* Alustetaan muuttujat */
+		z = 7;
+		
 		// Määritetään törmäystunnistus
 		// TODO: SCALING (Options.scale)
 		collisionRadius = (int) (25 * Options.scale);
 		
 		// Määritetään käytettävä tekstuuri
-		usedTexture = 0;
+		usedTexture = collectableType;
     
         // Haetaan animaatioiden pituudet
         animationLength = new int[GLRenderer.AMOUNT_OF_COLLECTABLE_ANIMATIONS];
@@ -64,10 +75,10 @@ public class Collectable extends GameObject
 	{
         // Tarkistaa onko animaatio päällä ja kutsuu oikeaa animaatiota tai tekstuuria
         if (usedAnimation >= 0) {
-            GLRenderer.collectableAnimations[usedAnimation].draw(_gl, x, y, 0, currentFrame);
+            GLRenderer.collectableAnimations[collectableType].draw(_gl, x, y, 0, currentFrame);
         }
         else {
-            GLRenderer.collectableTextures[usedTexture].draw(_gl, x, y, direction, currentFrame);
+            GLRenderer.collectableTextures[collectableType].draw(_gl, x, y, direction, currentFrame);
         }
 	}
     
@@ -86,14 +97,21 @@ public class Collectable extends GameObject
 	        y = Utility.getRandom(-GameMode.mapHeight, GameMode.mapHeight);
 
 	        for (int i = wrapper.obstacles.size()-1; i >= 0; --i) {
-	        	// TODO: SCALING (tuleeko tähän?)
-		        if ((Math.abs(x - wrapper.obstacles.get(i).x) > (Wrapper.gridSize + 300 * Options.scale)) && (Math.abs(x - wrapper.mothership.x) > Wrapper.gridSize + 50 * Options.scale && Math.abs(x - wrapper.player.x) > 250 * Options.scale &&
-		        	 Math.abs(y - wrapper.obstacles.get(i).y) > (Wrapper.gridSize + 300 * Options.scale)) && (Math.abs(y - wrapper.mothership.y) > Wrapper.gridSize + 50 * Options.scale && Math.abs(y - wrapper.player.y) > 500 * Options.scale)) {
+		        if (Math.abs(x - wrapper.obstacles.get(i).x) > (Wrapper.gridSize + 300 * Options.scaleX) && Math.abs(x - wrapper.player.x) > 250 * Options.scaleX &&
+		        	Math.abs(y - wrapper.obstacles.get(i).y) > (Wrapper.gridSize + 300 * Options.scaleY) && Math.abs(y - wrapper.player.y) > 500 * Options.scaleY) {
+
 	        		isPlaced = true;
 	        		break;
 				}
 	        }
         }
+
+		if (collectableType == COLLECTABLE_TYPE_WEAPON) {
+			int tempType = weaponType;
+			while (weaponType == tempType) {
+				weaponType = Utility.getRandom(1, 6);
+			}
+		}
 	}
 
     /**
@@ -114,10 +132,19 @@ public class Collectable extends GameObject
     @Override
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
-    	GameMode.updateScore(COLLECTABLE_RANK, x, y);
-    	
-    	state = Wrapper.ONLY_ANIMATION;
-    	setAction(GLRenderer.ANIMATION_COLLECTED, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+    	if (collectableType == COLLECTABLE_TYPE_SCORE) {
+	    	GameMode.updateScore(COLLECTABLE_RANK, x, y);
+	    	
+	    	state = Wrapper.ONLY_ANIMATION;
+	    	setAction(collectableType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+    	}
+    	else if (collectableType == COLLECTABLE_TYPE_WEAPON) {
+    		hud.setCollectedWeapon(weaponType);
+    		Log.e("COLLECTEDWEAPON", String.valueOf(Hud.collectedWeapon));
+	    	
+	    	state = Wrapper.ONLY_ANIMATION;
+	    	setAction(collectableType, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+    	}
     }
 
     /**

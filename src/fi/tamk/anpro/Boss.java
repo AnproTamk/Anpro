@@ -2,11 +2,11 @@ package fi.tamk.anpro;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Mothership extends GameObject
+public class Boss extends GameObject
 {
 	private Wrapper wrapper;
 	
-	public Mothership(int _speed)
+	public Boss(int _speed)
 	{
 		super(0);
 

@@ -213,24 +213,16 @@ public class TouchManager
                         if (xClickOffsetFirstTouch > (screenWidth / 2) - 100 * Options.scaleX && xClickOffsetFirstTouch < (screenWidth / 2) &&
                         	yClickOffsetFirstTouch < yClickFirstBorder) {
                         	
-                        	Log.e("testi", "OIKEASSA REUNASSA..");
-                        	
                             // Oikean reunan alin nappula
                             if (yClickOffsetFirstTouch < yClickThirdBorder && yClickOffsetFirstTouch > (-screenHeight / 2)) {
                             	Log.e("testi", "ALIN NAPPULA");
-                                hud.triggerClick(Hud.BUTTON_3);
+                                hud.triggerClick(Hud.BUTTON_1);
                             }
 
                             // Oikean reunan keskimmäinen nappula
                             else if (yClickOffsetFirstTouch < yClickSecondBorder && yClickOffsetFirstTouch > yClickThirdBorder) {
                             	Log.e("testi", "KESKIMMÄINEN NAPPULA");
                                 hud.triggerClick(Hud.BUTTON_2);
-                            }
-
-                            // Oikean reunan ylin nappula
-                            else if (yClickOffsetFirstTouch < yClickFirstBorder && yClickOffsetFirstTouch > yClickSecondBorder) {
-                            	Log.e("testi", "YLIN NAPPULA");
-                                hud.triggerClick(Hud.BUTTON_1);
                             }
                         }
                         

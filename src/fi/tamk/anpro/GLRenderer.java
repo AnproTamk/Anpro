@@ -52,7 +52,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
     public static final int AMOUNT_OF_HUD_TEXTURES           = 50;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
-    public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 1;
+    public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 2;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
     
     public static final int AMOUNT_OF_PLAYER_ANIMATIONS      = 6;
@@ -62,7 +62,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_HUD_ANIMATIONS         = 8;
     public static final int AMOUNT_OF_EFFECT_ANIMATIONS      = 12;
     public static final int AMOUNT_OF_OBSTACLE_ANIMATIONS    = 0;
-    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 1;
+    public static final int AMOUNT_OF_COLLECTABLE_ANIMATIONS = 2;
     public static final int AMOUNT_OF_MOTHERSHIP_ANIMATIONS  = 0;
     
     /* Lataus- ja tarinaruutujen tekstuurit */
@@ -258,11 +258,8 @@ public class GLRenderer implements Renderer
 	        else if (gameThread.gameState == GameThread.GAMESTATE_STORY) {
 	            storyTexture.draw(_gl, 0, 0, 90, 0);
 	        }
-	        else if (gameThread.gameState == GameThread.GAMESTATE_STARTUP) {
-	        }
 	        else if (gameThread.gameState == GameThread.GAMESTATE_GAME) {
-		        /* Tarkastetaan onko tekstuurit ladattu */
-		        if (allLoaded && gameThread.allLoaded) {
+		        if (gameThread.allLoaded) {
 		        	renderScene(_gl);
 		        }
 	        }
@@ -436,6 +433,8 @@ public class GLRenderer implements Renderer
     	/* Ladataan kerättävien esineiden grafiikat */
     	collectableTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.collectable_tex_0, 1);
     	collectableAnimations[0] = new GLSpriteSet(_gl, context, R.drawable.collectable_collected_anim, 12);
+    	collectableTextures[1]   = new GLSpriteSet(_gl, context, R.drawable.particle, 1);
+    	collectableAnimations[1] = new GLSpriteSet(_gl, context, R.drawable.collectable_collected_anim, 12);
 
     	/* Tarkistetaan virheet */
         if (!loadingFailed) {
