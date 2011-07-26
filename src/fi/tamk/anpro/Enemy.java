@@ -40,6 +40,7 @@ public class Enemy extends AiObject
 
 		/* Alustetaan muuttujat */
         // Määritetään törmäysetäisyys tason perusteella
+        // TODO: SCALING (Options.scale)
         if (rank == 1) {
             collisionRadius = (int) (20 * Options.scale);
         }
@@ -100,7 +101,6 @@ public class Enemy extends AiObject
     	movementAcceleration = 0;
     	setMovementDelay(1.0f);
     	setMovementSpeed(1.0f);
-    	
     	
     	currentHealth = health;
     	currentArmor  = armor;

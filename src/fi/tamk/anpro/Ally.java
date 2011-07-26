@@ -45,6 +45,7 @@ public class Ally extends AiObject
         // Määritetään törmäysetäisyys
         // TODO: Vakiot tyypeille?
         if (type == 1) {
+        	// TODO: SCALING (Options.scale)
             collisionRadius = (int) (20 * Options.scale);
         }
         else if (type == 2) {

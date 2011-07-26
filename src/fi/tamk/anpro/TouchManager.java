@@ -75,7 +75,7 @@ public class TouchManager
         touchPath[0][1] = 0;
         
         // Määritetään kentällä olevat rajat nappien painamiselle eri näytön korkeuksien mukaan
-        // TODO: Tälle toteutukselle tarvitaan dynaaminen muoto.
+        // TODO: SCALING (Tälle toteutukselle tarvitaan dynaaminen muoto.)
         if (screenHeight == 320) {
         	yClickFirstBorder  = -48;
         	yClickSecondBorder = -96;

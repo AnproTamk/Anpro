@@ -31,6 +31,7 @@ public class ProjectileEmp extends AbstractProjectile
         
         // M‰‰ritet‰‰n ammuksen asetukset
         setMovementSpeed(0.0f);
+        // TODO: SCALING (Options.scale)
         collisionRadius = (int)(200 * Options.scale);
         damageOnTouch   = 0;
     }

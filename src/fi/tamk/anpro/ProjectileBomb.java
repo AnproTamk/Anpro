@@ -31,6 +31,7 @@ public class ProjectileBomb extends AbstractProjectile
 
         // M‰‰ritet‰‰n ammuksen asetukset
         explodeOnTarget = true;
+        // TODO: SCALING (Options.scale)
         collisionRadius = (int) (10 * Options.scale);
         triggersExplosionEffect = true;
     }

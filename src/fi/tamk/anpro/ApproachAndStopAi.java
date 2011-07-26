@@ -43,13 +43,14 @@ public class ApproachAndStopAi extends AbstractAi
         double distance = Utility.getDistance(parentObject.x, parentObject.y, wrapper.player.x, wrapper.player.y);
         
         // Vihollinen hidastaa tietyllä etäisyydellä pelaajasta
-        if (distance <= 200 && distance >= 150) {
+        // TODO: SCALING (Options.scale)
+        if (distance <= 200 * Options.scale && distance >= 150 * Options.scale) {
         	parentObject.movementAcceleration = -5;	
         }
         
         
         // Vihollinen pysähtyy tietyllä etäisyydellä pelaajasta ja alkaa ampumaan pelaajaa kohti
-        if (distance < 150) {
+        if (distance < 150 * Options.scale) {
         	parentObject.movementSpeed = 0;
         	
         	if (lastShootingTime == 0) {

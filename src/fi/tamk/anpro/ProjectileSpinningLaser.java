@@ -31,6 +31,7 @@ public class ProjectileSpinningLaser extends AbstractProjectile
 
         // M‰‰ritet‰‰n asetukset
         setMovementSpeed(0.0f);
+        // TODO: SCALING (Options.scale)
         collisionRadius  = (int)(200 * Options.scale);
         damageOnTouch    = 40;
         turningDirection = 1;

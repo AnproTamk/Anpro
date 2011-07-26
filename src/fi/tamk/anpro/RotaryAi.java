@@ -48,41 +48,41 @@ public class RotaryAi extends AbstractAi
         int startCheckpoint = 0;
         
         // 12 "checkpointtia" ympyrän kaarella 30 asteen välein. Vihollisten on kuljettava näiden kautta.
-        checkpoints[0][0] =	(int) wrapper.player.x + 150;
+        checkpoints[0][0] =	(int) (wrapper.player.x + 150 * Options.scaleX);
         checkpoints[0][1] = (int) wrapper.player.y;
         	
-        checkpoints[1][0] = (int) wrapper.player.x + 130;
-        checkpoints[1][1] = (int) wrapper.player.y + 75;
+        checkpoints[1][0] = (int) (wrapper.player.x + 130 * Options.scaleX);
+        checkpoints[1][1] = (int) (wrapper.player.y + 75 * Options.scaleY);
         	
-        checkpoints[2][0] = (int) wrapper.player.x + 75;
-        checkpoints[2][1] = (int) wrapper.player.y + 130;
+        checkpoints[2][0] = (int) (wrapper.player.x + 75 * Options.scaleX);
+        checkpoints[2][1] = (int) (wrapper.player.y + 130 * Options.scaleY);
         	
         checkpoints[3][0] = (int) wrapper.player.x;
-        checkpoints[3][1] = (int) wrapper.player.y + 150;
+        checkpoints[3][1] = (int) (wrapper.player.y + 150 * Options.scaleY);
         
-    	checkpoints[4][0] = (int) wrapper.player.x - 75;
-        checkpoints[4][1] = (int) wrapper.player.y + 130;
+    	checkpoints[4][0] = (int) (wrapper.player.x - 75 * Options.scaleX);
+        checkpoints[4][1] = (int) (wrapper.player.y + 130 * Options.scaleY);
         	
-        checkpoints[5][0] = (int) wrapper.player.x - 130;
-        checkpoints[5][1] = (int) wrapper.player.y + 75;
+        checkpoints[5][0] = (int) (wrapper.player.x - 130 * Options.scaleX);
+        checkpoints[5][1] = (int) (wrapper.player.y + 75 * Options.scaleY);
         	
-        checkpoints[6][0] = (int) wrapper.player.x - 150;
+        checkpoints[6][0] = (int) (wrapper.player.x - 150 * Options.scaleX);
         checkpoints[6][1] = (int) wrapper.player.y;
         	
-        checkpoints[7][0] = (int) wrapper.player.x - 130;
-        checkpoints[7][1] = (int) wrapper.player.y - 75;
+        checkpoints[7][0] = (int) (wrapper.player.x - 130 * Options.scaleX);
+        checkpoints[7][1] = (int) (wrapper.player.y - 75 * Options.scaleY);
         
-        checkpoints[8][0] = (int) wrapper.player.x - 75;
-        checkpoints[8][1] = (int) wrapper.player.y - 130;
+        checkpoints[8][0] = (int) (wrapper.player.x - 75 * Options.scaleX);
+        checkpoints[8][1] = (int) (wrapper.player.y - 130 * Options.scaleY);
         
     	checkpoints[9][0] = (int) wrapper.player.x;
-        checkpoints[9][1] = (int) wrapper.player.y - 150;
+        checkpoints[9][1] = (int) (wrapper.player.y - 150 * Options.scaleY);
         	
-        checkpoints[10][0] = (int) wrapper.player.x + 75;
-        checkpoints[10][1] = (int) wrapper.player.y - 130;
+        checkpoints[10][0] = (int) (wrapper.player.x + 75 * Options.scaleX);
+        checkpoints[10][1] = (int) (wrapper.player.y - 130 * Options.scaleY);
         	
-        checkpoints[11][0] = (int) wrapper.player.x + 130;
-        checkpoints[11][1] = (int) wrapper.player.y - 75;
+        checkpoints[11][0] = (int) (wrapper.player.x + 130 * Options.scaleX);
+        checkpoints[11][1] = (int) (wrapper.player.y - 75 * Options.scaleY);
 
         // Määritetään vihollisen ja pelaajan välinen kulma
         double startAngle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, (int) wrapper.player.x, (int) wrapper.player.y);
@@ -139,7 +139,8 @@ public class RotaryAi extends AbstractAi
         // Jos vihollinen on kaukana pelaajasta, vihollinen käyttää LinearAi:ta väliaikaisesti kunnes on tarpeeksi lähellä
         double distance = Utility.getDistance(parentObject.x, parentObject.y, wrapper.player.x, wrapper.player.y);
         
-        if(distance > 300) {
+        // TODO: SCALING (Options.scale)
+        if(distance > 300 * Options.scale) {
         	
         	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, wrapper.player.x, wrapper.player.y);
         	
