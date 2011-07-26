@@ -3,6 +3,7 @@ package fi.tamk.anpro;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Hallitsee pelin käyttöliittymää eli HUDia. Ei kuitenkaan tunnista kosketustapahtumia
@@ -13,28 +14,24 @@ public class Hud
     /* Painikkeiden tunnukset */
     public static final int BUTTON_1  = 0;
     public static final int BUTTON_2  = 1;
-    public static final int BUTTON_3  = 2;
-    public static final int SPECIAL_1 = 3;
-    public static final int SPECIAL_2 = 4;
 
-    /* Painikkeisiin sijoitettujen aseiden tunnukset (viittaa WeaponManagerin
-       asetaulukoiden soluihin */
-    public int[] weapons;
+    /* Kerätyn aseen tunnus (viittaa WeaponManagerin asetaulukkoon) */
+    public static int collectedWeapon;
     
     /* Käyttöliittymän objektit */
-    public ArrayList<Button>          buttons                 = null; // TODO: Ei kai kaikkien tarvitsisi olla public?
-    public ArrayList<CooldownCounter> cooldownCounter         = null;
-    public ArrayList<Icon>	          icons	                  = null;
-    public Counter                    scoreCounter            = null;
-    public Joystick                   joystick                = null;
-    public Bar		                  healthBar               = null;
-    public Bar				          armorBar                = null;
-    public GuideArrow                 guideArrowToCollectable = null;
-    public GuideArrow                 guideArrowToMothership  = null;
-    public Radar					  radar_top			      = null;
-    public Radar					  radar_left			  = null;
-    public Radar					  radar_right			  = null;
-    public Radar					  radar_down			  = null;
+    public ArrayList<Button> buttons                 = null;
+    public CooldownCounter   cooldownCounter         = null;
+    public ArrayList<Icon>	 icons	                 = null;
+    public Counter           scoreCounter            = null;
+    public Joystick          joystick                = null;
+    public Bar		         healthBar               = null;
+    public Bar				 armorBar                = null;
+    public GuideArrow        guideArrowToCollectable = null;
+    public GuideArrow        guideArrowToWeapon      = null;
+    public Radar			 radar_top			     = null;
+    public Radar			 radar_left			     = null;
+    public Radar			 radar_right			 = null;
+    public Radar			 radar_down			     = null;
     
      
     /* Osoittimet tarvittaviin luokkiin */
@@ -52,25 +49,22 @@ public class Hud
         weaponManager = _weaponManager;
         
         /* Alustetaan muuttujat */
-        // Määritetään nappeihin asetetut aseet
-        // TODO: Vain 3 nappia!
-        weapons = new int[5];
-        for (byte i = 0; i < 5; ++i) {
-        	weapons[i] = -1;
-        }
-        weapons[0] = 0; // TODO: Pitää ladata SkillTreestä
+        collectedWeapon = -1;
         
         // Alustetaan taulukot
-        buttons          = new ArrayList<Button>();
-        cooldownCounter	 = new ArrayList<CooldownCounter>();
-        icons            = new ArrayList<Icon>();
+        buttons = new ArrayList<Button>();
+        icons   = new ArrayList<Icon>();
 
         /* Luodaan HUD */
         XmlReader reader = new XmlReader(_context);
         reader.readHud(this);
         
         guideArrowToCollectable = new GuideArrow(0, 0, GuideArrow.TARGET_COLLECTABLE);
-        guideArrowToMothership  = new GuideArrow(0, 0, GuideArrow.TARGET_MOTHERSHIP);
+        guideArrowToWeapon      = new GuideArrow(0, 0, GuideArrow.TARGET_WEAPON);
+        
+    	// Otetaan uusi ase käyttöön
+        icons.get(BUTTON_1).setState(true);
+        buttons.get(BUTTON_1).setSelected(true);
     }
 
 	/* =======================================================
@@ -81,11 +75,9 @@ public class Hud
      */
     public final void updateCooldowns()
     {
-    	 for (int i = buttons.size()-1; i >= 0; --i) {
-            if (weapons[i] > -1) {
-	    		if (weaponManager.cooldownLeft[weapons[i]] >= 0) {
-	            	cooldownCounter.get(i).update(weaponManager.cooldownLeft[i]);
-	            }
+        if (collectedWeapon > -1) {
+    		if (weaponManager.cooldownLeft[collectedWeapon] >= 0) {
+            	cooldownCounter.updateCounter(weaponManager.cooldownLeft[collectedWeapon]);
             }
         }
     }
@@ -107,20 +99,42 @@ public class Hud
      */
     public final void triggerClick(int _buttonId)
     {
-        // Tarkistetaan, onko aseessa cooldownia jäljellä vai ei
-    	if (weapons[_buttonId] > -1) {
-	        if (weaponManager.cooldownLeft[weapons[_buttonId]] <= 0) {
-	            
+    	if (_buttonId == BUTTON_1) {
+            // Otetaan muut aseet pois käytöstä
+    		for (Button object : buttons) {
+    			object.setSelected(false);
+	        }
+	        
+	    	// Otetaan uusi ase käyttöön
+	        weaponManager.setCurrentWeapon(0);
+	        icons.get(_buttonId).setState(true);
+	        buttons.get(_buttonId).setSelected(true);
+    	}
+    	else if (_buttonId == BUTTON_2) {
+	    	if (collectedWeapon > -1) {
 	            // Otetaan muut aseet pois käytöstä
 	            for (Button object : buttons) {
-	                object.setSelected(false); // TODO: Poista pelkästään valittuna ollut ase käytöstä
+	                object.setSelected(false);
 	            }
 	            
 	        	// Otetaan uusi ase käyttöön
-	            weaponManager.setCurrentWeapon(weapons[_buttonId]);
+	            weaponManager.setCurrentWeapon(collectedWeapon);
 	            icons.get(_buttonId).setState(true);
 	            buttons.get(_buttonId).setSelected(true);
 	        }
     	}
+    }
+    
+    public final void setCollectedWeapon(int _weaponType)
+    {
+    	collectedWeapon = _weaponType;
+    	
+        for (Button object : buttons) {
+            object.setSelected(false);
+        }
+        icons.get(BUTTON_2).setState(true);
+        buttons.get(BUTTON_2).setSelected(true);
+        
+        weaponManager.setCurrentWeapon(collectedWeapon);
     }
 }

@@ -2,6 +2,8 @@ package fi.tamk.anpro;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 /**
  * Hallitsee aseiden cooldowneja, varastoi aseiden oliot ja v‰litt‰‰ kutsupyynnˆt
  * eri aseisiin.
@@ -60,14 +62,14 @@ public class WeaponManager
         // Ladataan aseet ja m‰‰ritet‰‰n niiden cooldownit
         playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[0] = 0;
-        playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[1] = 20000;
-        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[2] = 7000;
-        playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[3] = 4000;
     	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[4] = 20000;
+        cooldownMax[1] = 15000;
+        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[2] = 8000;
+        playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[3] = 3000;
+        playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[4] = 10000;
     	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[5] = 1000;
         playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
@@ -91,6 +93,7 @@ public class WeaponManager
      */
     public final void triggerPlayerShoot(float _targetX, float _targetY)
     {
+		Log.e("TRIGGERSHOOT", String.valueOf(currentWeapon));
 		if (cooldownLeft[currentWeapon] <= 0) {
             playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
             										  wrapper.player.x, wrapper.player.y);

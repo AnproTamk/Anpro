@@ -13,17 +13,18 @@ public class Wrapper
 
     /* Vakioita */
     // Luokan tyyppi (käytetään myös aseissa ja ammuksissa)
-    public static final int CLASS_TYPE_PLAYER         = 1;
-    public static final int CLASS_TYPE_ALLY           = 5;
-    public static final int CLASS_TYPE_ENEMY          = 2;
-    public static final int CLASS_TYPE_PROJECTILE     = 3;
-    public static final int CLASS_TYPE_GUI            = 4;
-    public static final int CLASS_TYPE_OBSTACLE       = 6;
-    public static final int CLASS_TYPE_BACKEFFECT     = 7;
-    public static final int CLASS_TYPE_FRONTEFFECT    = 11;
-    public static final int CLASS_TYPE_COLLECTABLE    = 8;
-    public static final int CLASS_TYPE_BACKGROUNDSTAR = 9;
-    public static final int CLASS_TYPE_MOTHERSHIP     = 10;
+    public static final int CLASS_TYPE_PLAYER            = 1;
+    public static final int CLASS_TYPE_ALLY              = 5;
+    public static final int CLASS_TYPE_ENEMY             = 2;
+    public static final int CLASS_TYPE_PROJECTILE        = 3;
+    public static final int CLASS_TYPE_GUI               = 4;
+    public static final int CLASS_TYPE_OBSTACLE          = 6;
+    public static final int CLASS_TYPE_BACKEFFECT        = 7;
+    public static final int CLASS_TYPE_FRONTEFFECT       = 11;
+    public static final int CLASS_TYPE_SCORECOLLECTABLE  = 8;
+    public static final int CLASS_TYPE_WEAPONCOLLECTABLE = 12;
+    public static final int CLASS_TYPE_BACKGROUNDSTAR    = 9;
+    public static final int CLASS_TYPE_BOSS              = 10;
 
     // Objektien tilat (ks. projektin Wiki)
     public static final int INACTIVE               = 0;
@@ -37,13 +38,14 @@ public class Wrapper
     public ArrayList<AiObject> aiGroupTwo   = null;
     public ArrayList<AiObject> aiGroupThree = null;
 
-    public Player                        player          = null;
-    public Mothership 					 mothership      = null;
-    public ArrayList<Ally>               allies          = null;
-    public ArrayList<Enemy>              enemies         = null;
-    public ArrayList<AbstractProjectile> projectiles     = null;
-    public ArrayList<Obstacle>  		 obstacles       = null;
-    public ArrayList<Collectable> 	     collectables    = null;
+    public Player                        player            = null;
+    public Boss 					     boss              = null;
+    public ArrayList<Ally>               allies            = null;
+    public ArrayList<Enemy>              enemies           = null;
+    public ArrayList<AbstractProjectile> projectiles       = null;
+    public ArrayList<Obstacle>  		 obstacles         = null;
+    public ArrayList<Collectable> 	     scoreCollectables = null;
+    public Collectable 	    			 weaponCollectable = null;
 
     /* Osumatarkistuksen ruudukon yhden ruudun leveys/korkeus */
     public static int gridSize;
@@ -63,11 +65,11 @@ public class Wrapper
         aiGroupTwo   = new ArrayList<AiObject>();
         aiGroupThree = new ArrayList<AiObject>();
         
-        allies          = new ArrayList<Ally>();
-        enemies         = new ArrayList<Enemy>();
-        projectiles     = new ArrayList<AbstractProjectile>();
-        obstacles       = new ArrayList<Obstacle>();
-        collectables    = new ArrayList<Collectable>();
+        allies            = new ArrayList<Ally>();
+        enemies           = new ArrayList<Enemy>();
+        projectiles       = new ArrayList<AbstractProjectile>();
+        obstacles         = new ArrayList<Obstacle>();
+        scoreCollectables = new ArrayList<Collectable>();
     }
 
     /**
@@ -130,8 +132,8 @@ public class Wrapper
         else if (_object instanceof Ally) {
             allies.add((Ally) _object);
         }
-        else if (_object instanceof Mothership) {
-            mothership = (Mothership) _object;
+        else if (_object instanceof Boss) {
+            boss = (Boss) _object;
         }
         else if (_object instanceof AbstractProjectile) {
             projectiles.add((AbstractProjectile) _object);
@@ -140,7 +142,12 @@ public class Wrapper
             obstacles.add((Obstacle) _object);
         }
         else if (_object instanceof Collectable) {
-            collectables.add((Collectable) _object);
+        	if (((Collectable)_object).collectableType == Collectable.COLLECTABLE_TYPE_SCORE) {
+        		scoreCollectables.add((Collectable) _object);
+        	}
+        	else {
+        		weaponCollectable = (Collectable)_object;
+        	}
         }
     }
 

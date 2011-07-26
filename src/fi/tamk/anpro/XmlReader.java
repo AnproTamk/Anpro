@@ -57,8 +57,8 @@ public class XmlReader
 	                if (hud.getEventType() == XmlPullParser.START_TAG) {
 	                    if (hud.getName().equals("button")) {
 	                        // NÄILLE RIVEILLE TEHDÄÄN GuiObject LUOKKAAN VASTAAVAT KOHTANSA MYÖHEMMIN!
-	                        _hud.cooldownCounter.add(new CooldownCounter(Integer.parseInt(hud.getAttributeValue(null, "x")),
-	                                				 Integer.parseInt(hud.getAttributeValue(null, "y"))));
+	                        _hud.cooldownCounter = new CooldownCounter(Integer.parseInt(hud.getAttributeValue(null, "x")),
+	                                				 Integer.parseInt(hud.getAttributeValue(null, "y")));
 	                        _hud.buttons.add(new Button(Integer.parseInt(hud.getAttributeValue(null, "x")),
 	                                                    Integer.parseInt(hud.getAttributeValue(null, "y"))));
 	                    }

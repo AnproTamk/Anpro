@@ -17,8 +17,7 @@ class GameThread extends Thread
     /* Pelin tila */
     public static final int GAMESTATE_LOADING_RESOURCES = 0;
     public static final int GAMESTATE_STORY             = 1;
-    public static final int GAMESTATE_STARTUP           = 2;
-    public static final int GAMESTATE_GAME              = 3;
+    public static final int GAMESTATE_GAME              = 2;
     
     public  byte gameState      = GAMESTATE_LOADING_RESOURCES;
     private long gameStateTimer;
@@ -125,6 +124,7 @@ class GameThread extends Thread
     	while (isRunning) {
     		
     		if (gameState == GAMESTATE_LOADING_RESOURCES) {
+    			Log.e("GAMESTATE", "LATAUS");
 	    		if (renderer.allLoaded) {
 	    			gameState = GAMESTATE_STORY;
 	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
@@ -132,20 +132,16 @@ class GameThread extends Thread
 	    		}
 	    	}
 	    	else if (gameState == GAMESTATE_STORY) {
-	    		currentTime = android.os.SystemClock.uptimeMillis();
-	    		if (currentTime - gameStateTimer >= 0) {
-	    			gameState = GAMESTATE_STARTUP;
-	    			gameStateTimer = currentTime;
-	    		}
-	    	}
-	    	else if (gameState == GAMESTATE_STARTUP) {
+    			Log.e("GAMESTATE", "STORY");
 	    		currentTime = android.os.SystemClock.uptimeMillis();
 	    		if (currentTime - gameStateTimer >= 0) {
 	    			gameState = GAMESTATE_GAME;
+	    			gameStateTimer = currentTime;
 	    		}
 	    	}
 		    
 	    	while (gameState == GAMESTATE_GAME) {
+    			Log.e("GAMESTATE", "GAME");
 	    		
 		        /* Haetaan päivityksille aloitusajat */
 		        waveStartTime		   = android.os.SystemClock.uptimeMillis();
@@ -264,7 +260,7 @@ class GameThread extends Thread
      */
 	private void updateBackgroundStars()
 	{
-	    //backgroundManager.updatePositions();
+	    backgroundManager.updatePositions();
 	}
 
     /**
@@ -404,6 +400,10 @@ class GameThread extends Thread
             }
             
             gameMode.mirrorAsteroidPosition();
+            
+            if (wrapper.weaponCollectable.state == Wrapper.INACTIVE) {
+            	wrapper.weaponCollectable.setActive();
+            }
         }
 	}
 
@@ -418,7 +418,7 @@ class GameThread extends Thread
         	lastGuideArrowUpdate = _currentTime;
         	
         	hud.guideArrowToCollectable.updateArrow();
-        	hud.guideArrowToMothership.updateArrow();
+        	hud.guideArrowToWeapon.updateArrow();
         }
 	}
 	/**
