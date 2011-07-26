@@ -69,7 +69,8 @@ public class TrackingProjectileAi extends AbstractAi
 			if (currentTime - startTime < 5000) {
 				/* Etsit‰‰n l‰hin vihollinen */
 				if (indexOfClosestEnemy == -1 || (indexOfClosestEnemy > -1 && wrapper.enemies.get(indexOfClosestEnemy).state != Wrapper.FULL_ACTIVITY)) {
-					findClosestEnemy(500);
+					// TODO: SCALING (Options.scale)
+					findClosestEnemy((int) (500 * Options.scale));
 				}
 				/* M‰‰ritet‰‰n k‰‰ntyminen */
 				else {

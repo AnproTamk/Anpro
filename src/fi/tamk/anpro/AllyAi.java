@@ -43,41 +43,41 @@ public class AllyAi extends AbstractAi
         
         
         // 12 "checkpointtia" ympyrän kaarella 30 asteen välein.
-        checkpoints[0][0] =	(int) wrapper.player.x + 50;
+        checkpoints[0][0] =	(int) (wrapper.player.x + 50 * Options.scaleX);
         checkpoints[0][1] = (int) wrapper.player.y;
         	
-        checkpoints[1][0] = (int) wrapper.player.x + 43;
-        checkpoints[1][1] = (int) wrapper.player.y + 25;
+        checkpoints[1][0] = (int) (wrapper.player.x + 43 * Options.scaleX);
+        checkpoints[1][1] = (int) (wrapper.player.y + 25 * Options.scaleY);
         	
-        checkpoints[2][0] = (int) wrapper.player.x + 25;
-        checkpoints[2][1] = (int) wrapper.player.y + 43;
+        checkpoints[2][0] = (int) (wrapper.player.x + 25 * Options.scaleX);
+        checkpoints[2][1] = (int) (wrapper.player.y + 43 * Options.scaleY);
         	
         checkpoints[3][0] = (int) wrapper.player.x;
-        checkpoints[3][1] = (int) wrapper.player.y + 50;
+        checkpoints[3][1] = (int) (wrapper.player.y + 50 * Options.scaleY);
         
-    	checkpoints[4][0] = (int) wrapper.player.x - 25;
-        checkpoints[4][1] = (int) wrapper.player.y + 43;
+    	checkpoints[4][0] = (int) (wrapper.player.x - 25 * Options.scaleX);
+        checkpoints[4][1] = (int) (wrapper.player.y + 43 * Options.scaleY);
         	
-        checkpoints[5][0] = (int) wrapper.player.x - 43;
-        checkpoints[5][1] = (int) wrapper.player.y + 25;
+        checkpoints[5][0] = (int) (wrapper.player.x - 43 * Options.scaleX);
+        checkpoints[5][1] = (int) (wrapper.player.y + 25 * Options.scaleY);
         	
-        checkpoints[6][0] = (int) wrapper.player.x - 50;
+        checkpoints[6][0] = (int) (wrapper.player.x - 50 * Options.scaleX);
         checkpoints[6][1] = (int) wrapper.player.y;
         	
-        checkpoints[7][0] = (int) wrapper.player.x - 43;
-        checkpoints[7][1] = (int) wrapper.player.y - 25;
+        checkpoints[7][0] = (int) (wrapper.player.x - 43 * Options.scaleX);
+        checkpoints[7][1] = (int) (wrapper.player.y - 25 * Options.scaleY);
         
-        checkpoints[8][0] = (int) wrapper.player.x - 25;
-        checkpoints[8][1] = (int) wrapper.player.y - 43;
+        checkpoints[8][0] = (int) (wrapper.player.x - 25 * Options.scaleX);
+        checkpoints[8][1] = (int) (wrapper.player.y - 43 * Options.scaleY);
         
     	checkpoints[9][0] = (int) wrapper.player.x;
-        checkpoints[9][1] = (int) wrapper.player.y - 50;
+        checkpoints[9][1] = (int) (wrapper.player.y - 50 * Options.scaleY);
         	
-        checkpoints[10][0] = (int) wrapper.player.x + 25;
-        checkpoints[10][1] = (int) wrapper.player.y - 43;
+        checkpoints[10][0] = (int) (wrapper.player.x + 25 * Options.scaleX);
+        checkpoints[10][1] = (int) (wrapper.player.y - 43 * Options.scaleY);
         	
-        checkpoints[11][0] = (int) wrapper.player.x + 43;
-        checkpoints[11][1] = (int) wrapper.player.y - 25;
+        checkpoints[11][0] = (int) (wrapper.player.x + 43 * Options.scaleX);
+        checkpoints[11][1] = (int) (wrapper.player.y - 25 * Options.scaleY);
 
         // Määritetään vihollisen ja pelaajan välinen kulma
         double startAngle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, (int) wrapper.player.x, (int) wrapper.player.y);
@@ -133,8 +133,8 @@ public class AllyAi extends AbstractAi
 
         // Jos liittolainen on kaukana pelaajasta, liittolainen käyttää LinearAi:ta väliaikaisesti kunnes on tarpeeksi lähellä
         double distance = Utility.getDistance(parentObject.x, parentObject.y, wrapper.player.x, wrapper.player.y);
-        
-        if(distance > 300) {
+        // TODO: SCALING (Options.scale)
+        if(distance > 300 * Options.scale) {
         	
         	double angle = Utility.getAngle((int) parentObject.x, (int) parentObject.y, wrapper.player.x, wrapper.player.y);
         	

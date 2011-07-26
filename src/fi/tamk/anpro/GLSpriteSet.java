@@ -214,7 +214,7 @@ public class GLSpriteSet
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x - CameraManager.xTranslate, _y - CameraManager.yTranslate, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
+        _gl.glScalef(0.5f, 0.5f, 0.0f); // TODO: Miksi jaetaan kahdella? Originaali: _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         if (cachedTexture != sprites[0] || cachedTexture == -1) {
@@ -267,7 +267,7 @@ public class GLSpriteSet
         _gl.glRotatef(_xAxisRotation, 1.0f, 0.0f, 0.0f);
         _gl.glRotatef(_yAxisRotation, 0.0f, 1.0f, 0.0f);
         //_gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 0.0f);
-        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
+        _gl.glScalef(0.5f, 0.5f, 0.0f); // TODO: Miksi jaetaan kahdella? Originaali: _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[_frame]);

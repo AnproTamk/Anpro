@@ -49,8 +49,8 @@ public class Radar extends GuiObject {
 					distance = Utility.getDistance(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
 					
 					angle = Utility.getAngle(wrapper.player.x, wrapper.player.y, wrapper.enemies.get(i).x, wrapper.enemies.get(i).y);
-					
-					if(distance <= 800 && distance >= 350) {
+					// TODO: SCALING (Options.scale)
+					if(distance <= 800 * Options.scale && distance >= 350 * Options.scale) {
 						
 						if((angle > 315 || angle <= 45) && type == 2) {
 								startAnimation(GLRenderer.ANIMATION_RADAR_WARNING, 1, 1, GLRenderer.TEXTURE_RADAR, 0);

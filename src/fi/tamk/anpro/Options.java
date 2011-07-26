@@ -25,8 +25,8 @@ public class Options
 	public static boolean sounds;	  // Ääniefektit
 	public static boolean music;	  // Musiikit
 	public static boolean vibration;  // Tärinät
-	public static boolean multiTouch;
-	public static boolean joystick;
+	public static boolean multiTouch; // Multitouch
+	public static boolean joystick;	  // Joystick
 	
 	/**
 	 * Määrittelee mikä lisäohjaustapa laitteessa on: <br>
@@ -79,8 +79,7 @@ public class Options
      * @param _dm		Näytön tiedot
      */
     public final static void initialize(Configuration _config, PackageManager _pManager, DisplayMetrics _dm)
-    {	
-    	//Log.i("navigare", "Navigation = " + _config.navigation);
+    {
     	controlType = (byte)_config.navigation;
         
         particles = true;
@@ -88,30 +87,32 @@ public class Options
         sounds    = false;
         vibration = false;
         
-        Log.v("navigare", "Testataan multitouch..");
-        
         // Ottaa multitouchin käyttöön tai pois käytöstä laitteen ominaisuuksista riippuen
         if (_pManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH)) {
         	// Käynnistetään multiTouch ja joystick
         	multiTouch = true;
         	joystick = true;
-        	Log.v("navigare", "multiTouch = true");
-        	Log.v("navigare", "joystick = true");
         }
         else {
         	// Sammutetaan multiTouch ja joystick
         	multiTouch = false;
         	joystick = false;
-        	Log.v("navigare", "multiTouch = false");
-        	Log.v("navigare", "joystick = false");
         }
         
     	scaleX      	   = (float)_dm.widthPixels / 800;
     	scaleY             = (float)_dm.heightPixels / 480;
-    	scale	           = 1.0f; 				// TODO: Pitäisikö olla jokin muu kuin 1.0f?
+    	
     	screenWidth        = _dm.widthPixels;
-    	screenHeight       = _dm.heightPixels;
-    	scaledScreenWidth  = _dm.widthPixels / 2;  // Tätä käytetään AbstractProjectile-luokassa
-    	scaledScreenHeight = _dm.heightPixels / 2; // Tätä käytetään AbstractProjectile-luokassa    
+    	screenHeight       = _dm.heightPixels;			
+    	scaledScreenWidth  = _dm.widthPixels / 2; 		    // Tätä käytetään AbstractProjectile-luokassa
+    	scaledScreenHeight = _dm.heightPixels / 2; 			// Tätä käytetään AbstractProjectile-luokassa    
+    	
+    	if (scaleX == 1 && scaleY == 1) {
+    		scale = 1.0f; 							     	// TODO: Pitäisikö olla jokin muu kuin 1.0f?
+    	}
+    	else {
+    		scale = ((float)screenWidth / 800 + (float)screenHeight / 480) / 2;
+    	}
+    	
     }
 }
