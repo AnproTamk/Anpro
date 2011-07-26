@@ -18,7 +18,7 @@ public class GameMode
 
     /* Pelaaja, emoalus ja liittolaiset */
     private Player     player;
-    private Mothership mothership;
+    private Boss mothership;
     private Ally	   turret1;
     private Ally	   turret2;
     private Ally	   turret3;
@@ -30,7 +30,8 @@ public class GameMode
     private Obstacle   star;      // Aurinko
     
     /* Ker‰tt‰v‰t esineet */
-    private Collectable[] collectables; // Ker‰tt‰v‰t esineet
+    private Collectable[] scoreCollectables; // Ker‰tt‰v‰t piste-esineet
+    private Collectable   weaponCollectable; // Ker‰tt‰v‰ ase
     
     /* Viholliset */
     public           ArrayList<Enemy> enemies;         // Viholliset
@@ -102,11 +103,11 @@ public class GameMode
         overBoundHeight = mapHeight + 700;
         
         // Alustetaan taulukot
-        enemies         = new ArrayList<Enemy>();
-        enemyStats      = new int[5][5];
-        asteroids       = new Obstacle[3];
-        planets         = new Obstacle[2];
-        collectables    = new Collectable[3];
+        enemies           = new ArrayList<Enemy>();
+        enemyStats        = new int[5][5];
+        asteroids         = new Obstacle[3];
+        planets           = new Obstacle[2];
+        scoreCollectables = new Collectable[3];
         
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         spawnPointsX = new int[AMOUNT_OF_ENEMIES_PER_WAVE];
@@ -136,7 +137,7 @@ public class GameMode
     	player.y = 0;
     	
     	// Luodaan emoalus
-    	mothership           = new Mothership(0);
+    	mothership           = new Boss(0);
 		mothership.direction = 160;
 		mothership.x         = 100 * Options.scaleX;
 		mothership.y         = 90 * Options.scaleY;
@@ -294,6 +295,8 @@ public class GameMode
         
         // P‰ivitet‰‰n ker‰tt‰v‰t esineet
         generateCollectables();
+        
+        int a = 0;
     }
     
     /**
@@ -333,14 +336,17 @@ public class GameMode
      */
     public void generateCollectables()
     {
-   		collectables[0] = new Collectable(0, 0);
-   		collectables[0].setActive();
+    	scoreCollectables[0] = new Collectable(0, 0, Collectable.COLLECTABLE_TYPE_SCORE, hud);
+    	scoreCollectables[0].setActive();
    		
-   		collectables[1] = new Collectable(0, 0);
-   		collectables[1].setActive();
+    	scoreCollectables[1] = new Collectable(0, 0, Collectable.COLLECTABLE_TYPE_SCORE, hud);
+    	scoreCollectables[1].setActive();
    		
-   		collectables[2] = new Collectable(0, 0);
-   		collectables[2].setActive();
+    	scoreCollectables[2] = new Collectable(0, 0, Collectable.COLLECTABLE_TYPE_SCORE, hud);
+    	scoreCollectables[2].setActive();
+    	
+    	weaponCollectable = new Collectable(0, 0, Collectable.COLLECTABLE_TYPE_WEAPON, hud);
+    	weaponCollectable.setUnactive();
     }
 
     /**

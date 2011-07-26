@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <icon id="weapon_button_icon_1" x="362" y="-63" type="1" />
+        <icon id="weapon_button_icon_1" x="362" y="-203" type="3" />
         <icon id="weapon_button_icon_2" x="362" y="-133" type="2" />
-        <icon id="weapon_button_icon_3" x="362" y="-203" type="3" />
         
-        <button id="weapon_button_1" x="362" y="-63" type="weapon" />
+        <button id="weapon_button_1" x="362" y="-203" type="weapon" />
         <button id="weapon_button_2" x="362" y="-133" type="weapon" />
-        <button id="weapon_button_3" x="362" y="-203" type="weapon" />
         
         
         <health_bar x="290" y="-143" type="1" />

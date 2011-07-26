@@ -110,34 +110,32 @@ public class Player extends AiObject
      */
     public final void checkCollision()
     {
-    	/* Tarkistaa törmäykset kerättäviin esineiseen */
-    	for (int i = wrapper.collectables.size()-1; i >= 0; --i) {
+    	/* Tarkistaa törmäykset kerättäviin piste-esineiseen */
+    	for (int i = wrapper.scoreCollectables.size()-1; i >= 0; --i) {
     		
-    		if (wrapper.collectables.get(i).state == Wrapper.FULL_ACTIVITY) {
+    		if (wrapper.scoreCollectables.get(i).state == Wrapper.FULL_ACTIVITY) {
     		
-				if (Math.abs(x - wrapper.collectables.get(i).x) <= Wrapper.gridSize) {
-		        	if (Math.abs(y - wrapper.collectables.get(i).y) <= Wrapper.gridSize) {
+				if (Math.abs(x - wrapper.scoreCollectables.get(i).x) <= Wrapper.gridSize) {
+		        	if (Math.abs(y - wrapper.scoreCollectables.get(i).y) <= Wrapper.gridSize) {
 		        		
-		        		if (Utility.isColliding(wrapper.collectables.get(i), this)) {
-		        			wrapper.collectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
+		        		if (Utility.isColliding(wrapper.scoreCollectables.get(i), this)) {
+		        			wrapper.scoreCollectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
 		        		}
 		        	}
 				}
     		}
     	}
     	
-    	/* Tarkistetaan törmäykset emoalukseen */
-    	// Tarkistetaan, onko emoaluksen ja pelaajan välinen etäisyys riittävän pieni
-    	// tarkkoja osumatarkistuksia varten
-    	if (Math.abs(wrapper.mothership.x - x) <= Wrapper.gridSize) {
-        	if (Math.abs(wrapper.mothership.y - y) <= Wrapper.gridSize) {
-        		
-        		// Tarkistetaan osuma
-        		if (Utility.isColliding(wrapper.mothership, this)) {
-        			// Siirrytään emoaluksen valikkoon
-        			gameMode.moveToMothershipMenu();
-        		}
-        	}
+    	/* Tarkistaa törmäykset kerättäviin aseisiin */
+    	if (wrapper.weaponCollectable.state == Wrapper.FULL_ACTIVITY) {
+			if (Math.abs(x - wrapper.weaponCollectable.x) <= Wrapper.gridSize) {
+	        	if (Math.abs(y - wrapper.weaponCollectable.y) <= Wrapper.gridSize) {
+	        		
+	        		if (Utility.isColliding(wrapper.weaponCollectable, this)) {
+	        			wrapper.weaponCollectable.triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
+	        		}
+	        	}
+			}
     	}
     }
     

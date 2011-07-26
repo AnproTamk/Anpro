@@ -30,7 +30,7 @@ public class CooldownCounter extends GuiObject
 	 * 
 	 * @param int Aseen cooldown
 	 */
-	public void update(int _cooldown)
+	public void updateCounter(int _cooldown)
 	{
 		// Tallenna alkuperäinen cooldown, jos se ei ole vielä tallessa
 		
