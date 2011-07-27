@@ -23,6 +23,8 @@ public class GLSpriteSet
     protected float imageWidth  = 0;
     protected float imageHeight = 0;
     
+    public boolean isClamped;
+    
     /* Animaation tiedot */
     public int length = 1;
     
@@ -48,10 +50,12 @@ public class GLSpriteSet
      * @param _id        Tekstuurin tunnus
      * @param _length    Animaation pituus
      */
-    public GLSpriteSet(GL10 _gl, Context _context, int _id, int _length)
+    public GLSpriteSet(GL10 _gl, Context _context, int _id, int _length, boolean _isClamped)
     {
     	// Alustetaan tekstuuritaulukko
         sprites = new int[1];
+        
+        isClamped = _isClamped;
         
         // Generoidaan OpenGL-tunnukset
         _gl.glGenTextures(1, sprites, 0);
@@ -67,7 +71,7 @@ public class GLSpriteSet
 	        }
 	        else {
 	            // M‰‰ritet‰‰n tekstuurin vektorit
-	            createVertices();
+	            createVertices(_isClamped);
 	            
 	            // Luodaan vektoribufferit
 	            createBuffers();
@@ -108,9 +112,19 @@ public class GLSpriteSet
 
         // Ladataan bitmap OpenGL-tekstuuriksi
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
-
-        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        
+        
+        if (isClamped) {
+	        // TODO: TƒHƒN TULEE SAMA KUIN ALLA, HIEMAN MUUTETTUNA (KATSO NETTITUTORIAALI!)
+        	//_gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+	        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
+	        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+	        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        }
+        else {
+        	_gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+	        _gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        }
 
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 
@@ -123,27 +137,50 @@ public class GLSpriteSet
     /**
      * Luo vektoritaulukon kuvan koon mukaisesti.
      */
-	protected void createVertices()
+    protected void createVertices(boolean _isClamped)
 	{
-        vertices = new float[12];
-        
-        realWidth = imageHeight * length;
-        
-        vertices[0] = (float)((-1)*(int)(realWidth/length));
-        vertices[1] = (-1)*imageHeight;
-        vertices[2] = 0.0f;
-        
-        vertices[3] = (float)((-1)*(int)(realWidth/length));
-        vertices[4] = imageHeight;
-        vertices[5] = 0.0f;
-        
-        vertices[6] = (float)((int)(realWidth/length));
-        vertices[7] = (-1)*imageHeight;
-        vertices[8] = 0.0f;
-        
-        vertices[9] = (int)(realWidth/length);
-        vertices[10] = imageHeight;
-        vertices[11] = 0.0f;
+		if (isClamped) {
+			vertices = new float[12];
+	        
+	        realWidth = imageHeight * length;
+	        
+	        vertices[0] = (float)((-1)*(int)(realWidth/length * 106));
+	        vertices[1] = (-1)*imageHeight;
+	        vertices[2] = 0.0f;
+	        
+	        vertices[3] = (float)((-1)*(int)(realWidth/length * 106));
+	        vertices[4] = imageHeight;
+	        vertices[5] = 0.0f;
+	        
+	        vertices[6] = (float)((int)(realWidth/length * 106));
+	        vertices[7] = (-1)*imageHeight;
+	        vertices[8] = 0.0f;
+	        
+	        vertices[9] = (float)(int)(realWidth/length * 106);
+	        vertices[10] = imageHeight;
+	        vertices[11] = 0.0f;
+		}
+		else {
+	        vertices = new float[12];
+	        
+	        realWidth = imageHeight * length;
+	        
+	        vertices[0] = (float)((-1)*(int)(realWidth/length));
+	        vertices[1] = (-1)*imageHeight;
+	        vertices[2] = 0.0f;
+	        
+	        vertices[3] = (float)((-1)*(int)(realWidth/length));
+	        vertices[4] = imageHeight;
+	        vertices[5] = 0.0f;
+	        
+	        vertices[6] = (float)((int)(realWidth/length));
+	        vertices[7] = (-1)*imageHeight;
+	        vertices[8] = 0.0f;
+	        
+	        vertices[9] = (float)(int)(realWidth/length);
+	        vertices[10] = imageHeight;
+	        vertices[11] = 0.0f;
+		}
 	}
 	
 	/**
@@ -183,10 +220,16 @@ public class GLSpriteSet
     		tempRight = 1.0f;
     	}
     	
-		texture[0] = tempLeft; texture[1] = 1.0f;  // vasen yl‰
-		texture[2] = tempLeft; texture[3] = 0.0f;  // vasen ala
-		texture[4] = tempRight; texture[5] = 1.0f; // oikea yl‰
-		texture[6] = tempRight; texture[7] = 0.0f; // oikea ala
+    	if (isClamped) {
+    		texture[4] = 53.0f; // oikea yl‰, x-koordinaatti
+	        texture[6] = 53.0f; // oikea ala, x-koordinaatti
+    	}
+    	else {
+    		texture[0] = tempLeft; texture[1] = 1.0f;  // vasen yl‰
+			texture[2] = tempLeft; texture[3] = 0.0f;  // vasen ala
+			texture[4] = tempRight; texture[5] = 1.0f; // oikea yl‰
+			texture[6] = tempRight; texture[7] = 0.0f; // oikea ala
+    	}
         
         // Varataan muistia tekstuurin vektoreille ja lis‰t‰‰n ne puskuriin
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -214,7 +257,7 @@ public class GLSpriteSet
         // Siirret‰‰n ja k‰‰nnet‰‰n mallimatriisia
         _gl.glTranslatef(_x - CameraManager.xTranslate, _y - CameraManager.yTranslate, 0);
         _gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 1.0f);
-        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
+        _gl.glScalef(0.5f, 0.5f, 0.0f); // TODO: Miksi jaetaan kahdella? Originaali: _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         if (cachedTexture != sprites[0] || cachedTexture == -1) {
@@ -267,7 +310,7 @@ public class GLSpriteSet
         _gl.glRotatef(_xAxisRotation, 1.0f, 0.0f, 0.0f);
         _gl.glRotatef(_yAxisRotation, 0.0f, 1.0f, 0.0f);
         //_gl.glRotatef((float)_direction-90.0f, 0.0f, 0.0f, 0.0f);
-        _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f); // TODO: Miksi jaetaan kahdella?
+        _gl.glScalef(0.5f, 0.5f, 0.0f); // TODO: Miksi jaetaan kahdella? Originaali: _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrett‰v‰ tekstuuri
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[_frame]);

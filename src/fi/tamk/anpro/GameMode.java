@@ -29,6 +29,10 @@ public class GameMode
     @SuppressWarnings("unused")
     private Obstacle   star;      // Aurinko
     
+    /* Pelikentän rajat osoittavat objektit */
+    private Boundary[] boundaries;
+    
+    
     /* Kerättävät esineet */
     private Collectable[] scoreCollectables; // Kerättävät piste-esineet
     private Collectable   weaponCollectable; // Kerättävä ase
@@ -108,6 +112,7 @@ public class GameMode
         asteroids         = new Obstacle[3];
         planets           = new Obstacle[2];
         scoreCollectables = new Collectable[3];
+        boundaries		= new Boundary[4];
         
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         spawnPointsX = new int[AMOUNT_OF_ENEMIES_PER_WAVE];
@@ -329,6 +334,12 @@ public class GameMode
         
         // Luodaan aurinko
         star = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 900, 800, 0, 0);
+        
+        // Luodaan pelialueen rajat
+        boundaries[0] = new Boundary(-mapWidth, 0, 0);
+        boundaries[1] = new Boundary(0, mapHeight, 1);
+        boundaries[2] = new Boundary(mapWidth, 0, 0);
+        boundaries[3] = new Boundary(0, -mapHeight, 1);
     }
 
     /**
@@ -406,12 +417,13 @@ public class GameMode
 	{
 		for (int i = asteroids.length - 1; i >= 0; --i) {
 			if ( asteroids[i].x < -overBoundWidth || asteroids[i].y < -overBoundHeight) {
-				asteroids[i].x = asteroids[i].x * (-1) - 100 ;
-				asteroids[i].y = asteroids[i].y * (-1) - 100 ;
+				// TODO: SCALING (tuleeko tähän?)
+				asteroids[i].x = asteroids[i].x * (-1) - 100 * Options.scaleX ;
+				asteroids[i].y = asteroids[i].y * (-1) - 100 * Options.scaleY ;
 			}
 			else if (asteroids[i].x > overBoundWidth || asteroids[i].y > overBoundHeight) {
-				asteroids[i].x = asteroids[i].x * (-1) + 100 ;
-				asteroids[i].y = asteroids[i].y * (-1) + 100 ;
+				asteroids[i].x = asteroids[i].x * (-1) + 100 * Options.scaleX ;
+				asteroids[i].y = asteroids[i].y * (-1) + 100 * Options.scaleY ;
 			}
 		}
 	}
