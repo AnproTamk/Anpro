@@ -206,7 +206,7 @@ public class SettingsActivity extends Activity implements OnClickListener
 			return true;
 	    }
 		
-	    return inputController.handleKeyDown(_keyCode, _event); 
+	    return false; //inputController.handleKeyDown(_keyCode, _event); 
 	}
 }
         
