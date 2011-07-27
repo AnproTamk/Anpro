@@ -124,7 +124,6 @@ class GameThread extends Thread
     	while (isRunning) {
     		
     		if (gameState == GAMESTATE_LOADING_RESOURCES) {
-    			Log.e("GAMESTATE", "LATAUS");
 	    		if (renderer.allLoaded) {
 	    			gameState = GAMESTATE_STORY;
 	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
@@ -132,7 +131,6 @@ class GameThread extends Thread
 	    		}
 	    	}
 	    	else if (gameState == GAMESTATE_STORY) {
-    			Log.e("GAMESTATE", "STORY");
 	    		currentTime = android.os.SystemClock.uptimeMillis();
 	    		if (currentTime - gameStateTimer >= 0) {
 	    			gameState = GAMESTATE_GAME;
@@ -141,8 +139,6 @@ class GameThread extends Thread
 	    	}
 		    
 	    	while (gameState == GAMESTATE_GAME) {
-    			Log.e("GAMESTATE", "GAME");
-	    		
 		        /* Haetaan päivityksille aloitusajat */
 		        waveStartTime		   = android.os.SystemClock.uptimeMillis();
 		        lastMovementUpdate     = waveStartTime;
