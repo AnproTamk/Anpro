@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <icon id="weapon_button_icon_1" x="218" y="-136" type="3" />
-        <icon id="weapon_button_icon_2" x="218" y="-94" type="2" />
+        <icon id="weapon_button_icon_1" x="218" y="-136" type="0" />
+        <icon id="weapon_button_icon_2" x="218" y="-94" type="1" />
         
         <button id="weapon_button_1" x="218" y="-136" type="weapon" />   <!--  ALIN NAPPULA -->
         <button id="weapon_button_2" x="218" y="-94" type="weapon" /> <!--  KESKIMMÄINEN NAPPULA -->

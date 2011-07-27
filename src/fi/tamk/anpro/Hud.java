@@ -62,9 +62,12 @@ public class Hud
         guideArrowToCollectable = new GuideArrow(0, 0, GuideArrow.TARGET_COLLECTABLE);
         guideArrowToWeapon      = new GuideArrow(0, 0, GuideArrow.TARGET_WEAPON);
         
-    	// Otetaan uusi ase käyttöön
-        icons.get(BUTTON_1).setState(true);
-        buttons.get(BUTTON_1).setSelected(true);
+        buttons.get(0).setSelected(true);
+        icons.get(0).setState(true);
+        
+        icons.get(1).state = Wrapper.INACTIVE;
+        
+        cooldownCounter.state = Wrapper.INACTIVE;
     }
 
 	/* =======================================================
@@ -100,27 +103,25 @@ public class Hud
     public final void triggerClick(int _buttonId)
     {
     	if (_buttonId == BUTTON_1) {
-            // Otetaan muut aseet pois käytöstä
-    		for (Button object : buttons) {
-    			object.setSelected(false);
-	        }
+	        weaponManager.setCurrentWeapon(0);
+	        
+    		buttons.get(0).setSelected(true);
+	        icons.get(0).setState(true);
+	        
+    		buttons.get(1).setSelected(false);
+	        icons.get(1).setState(false);
 	        
 	    	// Otetaan uusi ase käyttöön
-	        weaponManager.setCurrentWeapon(0);
-	        icons.get(_buttonId).setState(true);
-	        buttons.get(_buttonId).setSelected(true);
     	}
     	else if (_buttonId == BUTTON_2) {
 	    	if (collectedWeapon > -1) {
-	            // Otetaan muut aseet pois käytöstä
-	            for (Button object : buttons) {
-	                object.setSelected(false);
-	            }
-	            
-	        	// Otetaan uusi ase käyttöön
-	            weaponManager.setCurrentWeapon(collectedWeapon);
-	            icons.get(_buttonId).setState(true);
-	            buttons.get(_buttonId).setSelected(true);
+		        weaponManager.setCurrentWeapon(collectedWeapon);
+		        
+	    		buttons.get(0).setSelected(false);
+		        icons.get(0).setState(false);
+		        
+	    		buttons.get(1).setSelected(true);
+		        icons.get(1).setState(true);
 	        }
     	}
     }
@@ -129,12 +130,13 @@ public class Hud
     {
     	collectedWeapon = _weaponType;
     	
-        for (Button object : buttons) {
-            object.setSelected(false);
-        }
-        icons.get(BUTTON_2).setState(true);
-        buttons.get(BUTTON_2).setSelected(true);
-        
         weaponManager.setCurrentWeapon(collectedWeapon);
+        
+		buttons.get(0).setSelected(false);
+        icons.get(0).setState(false);
+
+		buttons.get(1).setSelected(true);
+        icons.get(1).setState(true);
+        icons.get(1).state = Wrapper.FULL_ACTIVITY;
     }
 }

@@ -36,9 +36,15 @@ public class GLRenderer implements Renderer
     public static final int TEXTURE_COOLDOWN           = 14;
     public static final int TEXTURE_COUNTER			   = 24;
     public static final int TEXTURE_ARMOR			   = 34;
-    public static final int TEXTURE_MISSILE			   = 45;
     public static final int TEXTURE_GUIDEARROW		   = 47;
     public static final int TEXTURE_RADAR			   = 49;
+    public static final int TEXTURE_LASER_ICON   	   = 50;
+    public static final int TEXTURE_CLUSTER_ICON   	   = 51;
+    public static final int TEXTURE_MISSILE_ICON   	   = 52;
+    public static final int TEXTURE_SWARM_ICON   	   = 53;
+    public static final int TEXTURE_EMP_ICON	   	   = 54;
+    public static final int TEXTURE_SPINNINGLASER_ICON = 55;
+    public static final int TEXTURE_SPITFIRE_ICON      = 56;
     
     public static final int ANIMATION_MESSAGE = 2;
     
@@ -50,7 +56,7 @@ public class GLRenderer implements Renderer
     public static final int AMOUNT_OF_ALLY_TEXTURES          = 1;
     public static final int AMOUNT_OF_ENEMY_TEXTURES         = 4;
     public static final int AMOUNT_OF_PROJECTILE_TEXTURES    = 4;
-    public static final int AMOUNT_OF_HUD_TEXTURES           = 50;
+    public static final int AMOUNT_OF_HUD_TEXTURES           = 57;
     public static final int AMOUNT_OF_OBSTACLE_TEXTURES      = 3;
     public static final int AMOUNT_OF_COLLECTABLE_TEXTURES   = 2;
     public static final int AMOUNT_OF_MOTHERSHIP_TEXTURES    = 1;
@@ -366,7 +372,7 @@ public class GLRenderer implements Renderer
         hudTextures[3]  = new GLSpriteSet(_gl, context, R.drawable.healthbar_texs, 11);
 
         // Cooldown-tekstuurit
-        hudTextures[14] = new GLSpriteSet(_gl, context, R.drawable.cooldown_texs, 10);
+        hudTextures[14] = new GLSpriteSet(_gl, context, R.drawable.cooldown_texs, 8);
 
         //Counter-tekstuurit
         hudTextures[24] = new GLSpriteSet(_gl, context, R.drawable.counter_texs, 10);
@@ -375,8 +381,13 @@ public class GLRenderer implements Renderer
         hudTextures[34] = new GLSpriteSet(_gl, context, R.drawable.armorbar_texs, 11);
         
         // Aseet
-        hudTextures[45] = new GLSpriteSet(_gl, context, R.drawable.missile_tex_0, 1);
-        hudTextures[46] = new GLSpriteSet(_gl, context, R.drawable.missile_tex_1, 1);
+        hudTextures[50] = new GLSpriteSet(_gl, context, R.drawable.lasericon_texs, 2);
+        hudTextures[51] = new GLSpriteSet(_gl, context, R.drawable.clustericon_texs, 2);
+        hudTextures[52] = new GLSpriteSet(_gl, context, R.drawable.missileicon_texs, 2);
+        hudTextures[53] = new GLSpriteSet(_gl, context, R.drawable.swarmicon_texs, 2);
+        hudTextures[54] = new GLSpriteSet(_gl, context, R.drawable.empicon_texs, 2);
+        hudTextures[55] = new GLSpriteSet(_gl, context, R.drawable.spinninglasericon_texs, 2);
+        hudTextures[56] = new GLSpriteSet(_gl, context, R.drawable.spitfireicon_texs, 2);
         
         // Kohteen osoittavat nuolet
         hudTextures[47] = new GLSpriteSet(_gl, context, R.drawable.collectablearrow_tex_0, 1);
