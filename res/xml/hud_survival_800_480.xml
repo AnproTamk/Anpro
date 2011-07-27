@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <hud>
-        <icon id="weapon_button_icon_1" x="362" y="-203" type="3" />
-        <icon id="weapon_button_icon_2" x="362" y="-133" type="2" />
+        <icon id="weapon_button_icon_1" x="362" y="-203" type="0" />
+        <icon id="weapon_button_icon_2" x="362" y="-133" type="1" />
         
         <button id="weapon_button_1" x="362" y="-203" type="weapon" />
         <button id="weapon_button_2" x="362" y="-133" type="weapon" />
