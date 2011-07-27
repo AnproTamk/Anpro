@@ -36,6 +36,7 @@ public class Button extends GuiObject
             setAction(GLRenderer.ANIMATION_CLICK, 1, 1, GLRenderer.TEXTURE_BUTTON_SELECTED, 0, 0);
         }
         else {
+        	usedAnimation = -1;
             usedTexture = GLRenderer.TEXTURE_BUTTON_NOTSELECTED;
         }
     }
