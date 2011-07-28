@@ -17,18 +17,7 @@ import android.media.AudioManager;
  */
 public class PauseMenuActivity extends Activity implements OnClickListener
 {
-	
-	private CheckBox musicCheckBox;
-    private CheckBox soundCheckBox;
-    private CheckBox vibrationCheckBox;
-    
-    public static final String PREFS_NAME = "SharedPrefs";
-    public static final String PREF_STRING = "PrefString";
-    public static final String PREF_BOOL_MUS = "PrefBoolMUS";
-    public static final String PREF_BOOL_SOU = "PrefBoolSOU";
-    public static final String PREF_BOOL_VIB = "PrefBoolVIB";
-    private SharedPreferences mPrefs;
-	
+
 	/**
 	 * Luo Pause-valikon. Android kutsuu t‰t‰ automaattisesti.
 	 * 
@@ -37,28 +26,13 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 	@Override
 	public void onCreate(Bundle _savedInstanceState)
 	{
+		super.onCreate(_savedInstanceState);
+		setContentView(R.layout.pausemenu);
 		
-		boolean storyMode = false;
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
-		mPrefs = getSharedPreferences(PREFS_NAME,0);
-
-		// TODO: Pelitilan voi tarkistaa joko GameActivitysta (pit‰isi siirt‰‰ Optionsiin?)
-		if(storyMode == true) {
-			super.onCreate(_savedInstanceState);
-			setContentView(R.layout.pausemenu);
-	        
-	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-	        
-	        // Asetetaan ‰‰nens‰‰tˆnapit muuttamaan media volumea
-	        setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		}
-		
-		
-		else if(storyMode == false) {
-			super.onCreate(_savedInstanceState);
-			setContentView(R.layout.pausemenu);
-		
-		}
+		// Asetetaan ‰‰nens‰‰tˆnapit muuttamaan media volumea
+	    setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		
 		View mainmenuButton = findViewById(R.id.button_main_menu);
         mainmenuButton.setOnClickListener(this);
@@ -66,7 +40,7 @@ public class PauseMenuActivity extends Activity implements OnClickListener
         View resumeButton = findViewById(R.id.button_resume);
         resumeButton.setOnClickListener(this);
         
-        musicCheckBox = (CheckBox) findViewById(R.id.checkBoxMusic);
+        /*musicCheckBox = (CheckBox) findViewById(R.id.checkBoxMusic);
         musicCheckBox.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Suorita toiminto klikatessa, riippuen onko nappula ruksattu
@@ -107,7 +81,7 @@ public class PauseMenuActivity extends Activity implements OnClickListener
                     Options.vibration = false;
                 }
             }
-        });
+        });*/
 	}
 	
 	/**
@@ -135,9 +109,9 @@ public class PauseMenuActivity extends Activity implements OnClickListener
      */
     @Override
     protected void onResume() {
-        musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, true));
+        /*musicCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_MUS, true));
         soundCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_SOU, true));
-        vibrationCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_VIB, true));
+        vibrationCheckBox.setChecked(mPrefs.getBoolean(PREF_BOOL_VIB, true)); */
         super.onResume();
     }
     
@@ -147,11 +121,11 @@ public class PauseMenuActivity extends Activity implements OnClickListener
      */
     @Override
     protected void onPause() {
-    	Editor e = mPrefs.edit();
+    	/*Editor e = mPrefs.edit();
     	e.putBoolean(PREF_BOOL_MUS, musicCheckBox.isChecked());
     	e.putBoolean(PREF_BOOL_SOU, soundCheckBox.isChecked());
     	e.putBoolean(PREF_BOOL_VIB, vibrationCheckBox.isChecked());
-    	e.commit();
+    	e.commit();*/
         
     	super.onPause();
     }
