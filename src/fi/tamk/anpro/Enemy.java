@@ -269,6 +269,8 @@ public class Enemy extends AiObject
         // Aktivoidaan vihollinen (esim. EMPin jälkeen)
         else if (actionId == GfxObject.ACTION_ENABLED) {
         	state = Wrapper.FULL_ACTIVITY;
+        	setMovementSpeed(1.0f);
+        	setMovementDelay(1.0f);
         }
     }
     
@@ -284,7 +286,7 @@ public class Enemy extends AiObject
 
     	EffectManager.showQuestionMarkBalloon(this);
     	
-        setAction(GLRenderer.ANIMATION_DISABLED, 1, 8, GfxObject.ACTION_ENABLED, 0, 0);
+        setAction(GLRenderer.ANIMATION_DISABLED, 1, 1, GfxObject.ACTION_ENABLED, 0, 0, 0, 3500);
 	}
     
     /**
