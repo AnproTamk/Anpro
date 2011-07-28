@@ -299,7 +299,7 @@ public class GLRenderer implements Renderer
     {
         /* Ladataan pelaajan grafiikat */
         playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1, false); 
-        playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
+        playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1, false); // TODO korvaa räjähdyksellä
         playerAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.player_respawn_anim, 4, false);
         
         /* Ladataan liittolaisten grafiikat */
@@ -308,33 +308,33 @@ public class GLRenderer implements Renderer
         
         // Liittolainen #1
         allyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.allyturret_tex_0, 1, false);
-        allyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1, false);
+        allyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.allyturret_tex_0, 1, false); // TODO korvaa räjähdyksellä
 
         /* Ladataan vihollisten grafiikat */
         // Vihollinen #1
         enemyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_0, 1, false);
-        enemyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
-        enemyAnimations[0][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20, false);
+        enemyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[0][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
         
         // Vihollinen #2
         enemyTextures[1][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_0, 1, false);
-        enemyAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
-        enemyAnimations[1][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20, false);
+        enemyAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[1][4] = new GLSpriteSet(_gl, context, R.drawable.enemy2_disabled_anim, 5, false);
         
         // Vihollinen #3
         enemyTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1, false);
-        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
-        enemyAnimations[2][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20, false);
+        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[2][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
         
         // Vihollinen #4
         enemyTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_0, 1, false);
-        enemyAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
-        enemyAnimations[3][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20, false);
+        enemyAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[3][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
 
         // Vihollinen #4
         enemyTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_0, 1, false);
-        enemyAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_destroy_anim, 20, false);
-        enemyAnimations[4][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 20, false);
+        enemyAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[4][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
 
         /* Ladataan ammusten grafiikat */
         // Vakioase
@@ -347,7 +347,7 @@ public class GLRenderer implements Renderer
 
         // Pyörivä laser
         projectileTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilespinninglaser_destroy_anim, 1, false);
-        projectileAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.projectilespinninglaser_destroy_anim, 10, false);
+        projectileAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.projectilespinninglaser_destroy_anim, 1, false);
 
         // Bomb
         projectileTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.projectilebomb_destroy_anim, 1, false);

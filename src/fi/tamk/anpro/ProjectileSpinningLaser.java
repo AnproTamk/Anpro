@@ -48,7 +48,7 @@ public class ProjectileSpinningLaser extends AbstractProjectile
     {
         state = Wrapper.ANIMATION_AND_MOVEMENT;
 
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0, 0, 1000);
 
         // Tarkistetaan etäisyydet
         for (int i = wrapper.enemies.size()-1; i >= 0; --i) {
