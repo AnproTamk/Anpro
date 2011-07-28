@@ -57,19 +57,19 @@ public class MainActivity extends Activity implements OnClickListener
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
         // Ladataan valikon painikkeet käyttöön
-        View survivalButton = findViewById(R.id.button_survival);
+        View survivalButton = findViewById(R.id.start_game);
         survivalButton.setOnClickListener(this);
         
-        View helpButton = findViewById(R.id.button_help);
+        View helpButton = findViewById(R.id.help);
         helpButton.setOnClickListener(this);
         
-        View highscoresButton = findViewById(R.id.button_highscores);
+        View highscoresButton = findViewById(R.id.highscores);
         highscoresButton.setOnClickListener(this);
         
-        View settingsButton = findViewById(R.id.button_settings);
+        View settingsButton = findViewById(R.id.settings);
         settingsButton.setOnClickListener(this);
         
-        View quitButton = findViewById(R.id.button_quit);
+        View quitButton = findViewById(R.id.quit);
         quitButton.setOnClickListener(this);
 
         
@@ -84,34 +84,34 @@ public class MainActivity extends Activity implements OnClickListener
     public void onClick(View _v)
     {
         switch(_v.getId()) {                
-            case R.id.button_survival:
+            case R.id.start_game:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
                 startActivity(i_game);
                 finish();
                 break;
                 
-            case R.id.button_highscores:
+            case R.id.highscores:
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_highscores = new Intent(this, HighScoresActivity.class);
                 startActivity(i_highscores);
                 finish();
                 break;
             
-            case R.id.button_settings:
+            case R.id.settings:
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_settings = new Intent(this, SettingsActivity.class);
                 startActivity(i_settings);
                 finish();
                 break;
                 
-            case R.id.button_help:
+            case R.id.help:
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_help = new Intent(this, AboutActivity.class);
                 startActivity(i_help);
                 break;
                 
-            case R.id.button_quit:
+            case R.id.quit:
             	SoundManager.cleanUp();
                 android.os.Process.killProcess(android.os.Process.myPid());
                 finish();
