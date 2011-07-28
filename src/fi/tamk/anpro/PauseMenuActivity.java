@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -138,4 +139,20 @@ public class PauseMenuActivity extends Activity implements OnClickListener
     protected void onStop() {
     	super.onStop();
     }
+    
+    /**
+     * Korvataan back- ja home- nappien toteutukset, jottei peli sammu niitä painettaessa pause-menussa.
+     */
+    @Override
+	public boolean onKeyDown(int _keyCode, KeyEvent _event)
+	{
+		if (_keyCode == KeyEvent.KEYCODE_BACK && _event.getRepeatCount() == 0) {
+			return true;
+	    }
+		else if (_keyCode == KeyEvent.KEYCODE_HOME && _event.getRepeatCount() == 0) {
+			return true;
+		}
+		
+	    return false;
+	}
 }
