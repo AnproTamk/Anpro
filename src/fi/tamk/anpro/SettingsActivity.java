@@ -19,12 +19,14 @@ import android.media.AudioManager;
 /**
  * Sis‰lt‰‰ Options-valikon toteutuksen.
  * 
- * 
- * 
+ * Lukee ja tallentaa puhelimeen settings.xml-tiedostoon k‰ytt‰j‰n valitsemien
+ * asetuksien tilat.
  *
  */
 public class SettingsActivity extends Activity implements OnClickListener
 {
+	// M‰‰ritet‰‰n tarvittavat muuttujat
+	
 	private int settings[] = new int[4];
 	
 	View musicOnButton;
@@ -33,10 +35,10 @@ public class SettingsActivity extends Activity implements OnClickListener
 	View vibrationOnButton;
 	View mainmenuButton;
 	
-	protected boolean musicState;
-	protected boolean soundsState;
-	protected boolean vibrationState;
-	protected boolean particlesState;
+	protected boolean musicState = true;
+	protected boolean soundsState = true;
+	protected boolean vibrationState = true;
+	protected boolean particlesState = true;
 	
 	private InputController inputController;
 	
@@ -73,9 +75,8 @@ public class SettingsActivity extends Activity implements OnClickListener
 		mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this);
         
+        // Luetaan tallennetut asetukset XmlReaderilla ja asetetaan asetuksien tilat sen mukaan mit‰ tiedostoon on tallennettu
         settings = reader.readSettings();
-        
-        writer.saveSettings(musicState, soundsState, particlesState, vibrationState);
         
 		if(settings[0] == 1) {
 			musicState = true;
@@ -111,6 +112,9 @@ public class SettingsActivity extends Activity implements OnClickListener
 			vibrationOnButton.setBackgroundResource(R.drawable.button_vibration_off);
 			vibrationState = false;
 		}
+		
+		// Tallennetaan XmlWriterilla uudet asetuksien tilat tiedostoon
+        writer.saveSettings(musicState, soundsState, particlesState, vibrationState);
 
 	}
 	
