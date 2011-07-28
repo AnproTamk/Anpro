@@ -11,11 +11,11 @@ import android.util.Log;
 public class Options
 {
 	/* Ohjaintyypit */
-	public static final byte CONTROLS_UNDEFINED = 0;
-	public static final byte CONTROLS_NONAV = 1;
-	public static final byte CONTROLS_DPAD = 2;
-	public static final byte CONTROLS_TRACKBALL = 3;
-	public static final byte CONTROLS_WHEEL = 4;
+	public static final byte CONTROLS_UNDEFINED = 0; // M‰‰ritt‰m‰tˆn
+	public static final byte CONTROLS_NONAV = 1;	 // Ei hardware-suuntapainikkeita
+	public static final byte CONTROLS_DPAD = 2;		 // Nelisuuntaohjain
+	public static final byte CONTROLS_TRACKBALL = 3; // Trackball
+	public static final byte CONTROLS_WHEEL = 4;	 // Rulla
 	
 	/* Osoitin t‰h‰n luokkaan (singleton-toimintoa varten) */
 	private static Options instance = null;
@@ -39,13 +39,15 @@ public class Options
 	public static byte controlType;
 	
 	/* Skaalausmuuttujat */
-	public static float scale;
-	public static float scaleX;
-	public static float scaleY;	
-	public static int   scaledScreenWidth;
-	public static int   scaledScreenHeight;
-	public static int   screenWidth;
-	public static int   screenHeight;
+	public static float scale;				// Skaalaus asioille, joita ei voi skaalata X- tai Y-akselien mukaan (esim. radiukset)
+	public static float scaleX;				// Skaalaus X-akselille
+	public static float scaleY;				// Skaalaus Y-akselille
+	public static int   scaledScreenWidth;	// Skaalattu ruudun leveys
+	public static int   scaledScreenHeight; // Skaalattu ruudun korkeus
+	
+	/* Muuttujat */
+	public static int   screenWidth;		// Ruudun leveys
+	public static int   screenHeight;		// Ruudun korkeus
 
 	/**
 	 * Alustaa luokan muuttujat.
@@ -91,19 +93,19 @@ public class Options
         if (_pManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH)) {
         	// K‰ynnistet‰‰n multiTouch ja joystick
         	multiTouch = true;
-        	joystick = true;
+        	joystick   = true;
         }
         else {
         	// Sammutetaan multiTouch ja joystick
         	multiTouch = false;
-        	joystick = false;
+        	joystick   = false;
         }
         
-    	scaleX      	   = (float)_dm.widthPixels / 800;
-    	scaleY             = (float)_dm.heightPixels / 480;
+    	scaleX      	   = (float)_dm.widthPixels / 800;  // X-skaalaus ruudun leveyden mukaan
+    	scaleY             = (float)_dm.heightPixels / 480; // Y-skaalaus ruudun korkeuden mukaan
     	
-    	screenWidth        = _dm.widthPixels;
-    	screenHeight       = _dm.heightPixels;			
+    	screenWidth        = _dm.widthPixels;				// Ruudun leveys
+    	screenHeight       = _dm.heightPixels;				// Ruudun korkeus
     	scaledScreenWidth  = _dm.widthPixels / 2; 		    // T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa
     	scaledScreenHeight = _dm.heightPixels / 2; 			// T‰t‰ k‰ytet‰‰n AbstractProjectile-luokassa    
     	
