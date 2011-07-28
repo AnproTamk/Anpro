@@ -16,11 +16,11 @@ public class WeaponManager
 	
 	/* Pelaajan aseiden vakiot */
 	public static int WEAPON_LASER 		 	= 0;
-	public static int WEAPON_EMP   		    = 1;
-	public static int WEAPON_SPINNING_LASER = 2;
-	public static int WEAPON_CLUSTER		= 3;
-	public static int WEAPON_SWARM			= 4;
-	public static int WEAPON_MISSILE		= 5;
+	public static int WEAPON_CLUSTER		= 1;
+	public static int WEAPON_MISSILE		= 2;
+	public static int WEAPON_SWARM			= 3;
+	public static int WEAPON_EMP   		    = 4;
+	public static int WEAPON_SPINNING_LASER = 5;
 	public static int WEAPON_SPITFIRE		= 6;
 	
     
@@ -62,16 +62,16 @@ public class WeaponManager
         // Ladataan aseet ja m‰‰ritet‰‰n niiden cooldownit
         playerWeapons.add(new WeaponLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[0] = 0;
-    	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[1] = 15000;
-        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[2] = 8000;
         playerWeapons.add(new WeaponCluster(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[3] = 3000;
+        cooldownMax[1] = 3000;
+    	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[2] = 1000;
+    	playerWeapons.add(new WeaponSwarm(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[3] = 15000;
         playerWeapons.add(new WeaponEmp(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[4] = 10000;
-    	playerWeapons.add(new WeaponMissile(wrapper, Wrapper.CLASS_TYPE_PLAYER));
-        cooldownMax[5] = 1000;
+        playerWeapons.add(new WeaponSpinningLaser(wrapper, Wrapper.CLASS_TYPE_PLAYER));
+        cooldownMax[5] = 8000;
         playerWeapons.add(new WeaponSpitfire(wrapper, Wrapper.CLASS_TYPE_PLAYER));
         cooldownMax[6] = 200;
 

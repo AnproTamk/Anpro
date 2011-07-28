@@ -5,6 +5,8 @@ package fi.tamk.anpro;
  */
 public class Icon extends GuiObject
 {
+	private int iconType;
+	
 	/**
 	 * Alustaa luokan muuttujat.
 	 * 
@@ -16,12 +18,14 @@ public class Icon extends GuiObject
 	{
 		super(_x, _y);
 		
+		iconType = _type;
+		
 		// Asetetaan sijainti syvyystopologiassa (0-10, jossa 0 on p‰‰limm‰isen‰ ja 10 alimmaisena)
 		z = 1;
 		
-		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri
-		// TODO:
-		usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
+		// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri (ei v‰li‰ mik‰ tekstuuri, sill‰ tekstuuri
+		// m‰‰ritet‰‰n uudestaan kun pelaaja ker‰‰ aseita)
+		usedTexture = GLRenderer.TEXTURE_LASER_ICON;
 	}
 
 	/* =======================================================
@@ -37,11 +41,23 @@ public class Icon extends GuiObject
 	{
 		// TODO:
 		if(_selected) {
-			usedTexture = GLRenderer.TEXTURE_MISSILE + 1;
+			if (iconType == 0) {
+				usedTexture  = GLRenderer.TEXTURE_LASER_ICON;
+			}
+			else {
+				usedTexture = GLRenderer.TEXTURE_LASER_ICON + Hud.collectedWeapon;
+			}
+			currentFrame = 1;
 		}
 		
 		else {
-			usedTexture = GLRenderer.TEXTURE_MISSILE;
+			if (iconType == 0) {
+				usedTexture  = GLRenderer.TEXTURE_LASER_ICON;
+			}
+			else {
+				usedTexture = GLRenderer.TEXTURE_LASER_ICON + Hud.collectedWeapon;
+			}
+			currentFrame = 0;
 		}
 	}
 }

@@ -6,7 +6,7 @@ package fi.tamk.anpro;
  */
 public class CooldownCounter extends GuiObject
 {
-	private int originalCooldown;
+	private int originalCooldown = 0;
 	
 	/**
 	 * Alustaa luokan muuttujat.
@@ -18,8 +18,10 @@ public class CooldownCounter extends GuiObject
 	{
 		super(_x, _y);
 		
-		// M‰‰ritet‰‰n aloitustekstuuri
+		// M‰‰ritet‰‰n tekstuuri
 		usedTexture = GLRenderer.TEXTURE_COOLDOWN;
+		
+		state = Wrapper.INACTIVE;
 	}
 	    
     /* =======================================================
@@ -32,18 +34,26 @@ public class CooldownCounter extends GuiObject
 	 */
 	public void updateCounter(int _cooldown)
 	{
-		// Tallenna alkuper‰inen cooldown, jos se ei ole viel‰ tallessa
-		
-		if (originalCooldown <= 0 && _cooldown > 0) {
-			originalCooldown = _cooldown;
+		if (_cooldown > 0) {
+			// Tallenna alkuper‰inen cooldown, jos se ei ole viel‰ tallessa
+			if (originalCooldown == 0) {
+				originalCooldown = _cooldown;
+			}
+			float temp = ((float)_cooldown / (float)originalCooldown) * 7;
+			
+			if (temp >= 1) {
+				currentFrame = (int)temp;
+			}
+			else {
+				currentFrame = 0;
+			}
+			
+			state = Wrapper.FULL_ACTIVITY;
 		}
-		else if (originalCooldown > 0) {
-			// M‰‰ritet‰‰n k‰ytett‰v‰ tekstuuri (arvot v‰lilt‰ 14-23)
-			currentFrame = 9 - (int)((1 - ((float)_cooldown / (float)originalCooldown)) * 9); // TODO: K‰yt‰ ruutuja, ‰l‰ vaihda tekstuuria!
-		}
-		if (_cooldown <= 0) {
-			usedTexture = GLRenderer.TEXTURE_COOLDOWN;
+		else {
 			originalCooldown = 0;
+			
+			state = Wrapper.INACTIVE;
 		}
 	}
 
