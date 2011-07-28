@@ -112,7 +112,7 @@ public class GLRenderer implements Renderer
     /* Lataustiedot (kertoo, onko tekstuureja vielä ladattu) */
     public        boolean loadingStarted = false;
     public static boolean loadingFailed  = false;
-    public        boolean allLoaded      = false;
+    public static boolean allLoaded      = false;
     
     /* Animaatiopäivitysten muuttujat */
     private long    lastAnimationUpdate;
