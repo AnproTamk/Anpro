@@ -67,7 +67,7 @@ public class TouchManager
         hud           = _hud;
         
         // Tallennetaan pinta
-        surface = _glSurfaceView;
+        surface 	  = _glSurfaceView;
         
         // Tallennetaan näytön koot
         screenWidth   = _dm.widthPixels;
@@ -177,8 +177,6 @@ public class TouchManager
             	    		ySecondTouch = screenHeight / 2 - (int) event.getY(i);
             	    		//Log.d("testi", i + 1 + ". kosketus asetettu.");
             	    		
-            	    		// Tähän triggerMotionShoot() käytettäväksi samaan aikaan kuin joystick.
-            	    		
                             /* Sarjatuliaseen käyttäminen päästämättä kosketusta irti */
                             if (weaponManager.currentWeapon == WeaponManager.WEAPON_SPITFIRE &&
                             	xSecondTouch > (screenWidth / 2) - 100 * Options.scaleX && xSecondTouch < (screenWidth / 2) &&
@@ -233,6 +231,9 @@ public class TouchManager
             	    	Log.d("testi", "ACTION_POINTER_UP");
             	    	// TODO: Pitäisikö napin painaminen aktivoida vasta tässä?
             	    	
+            	    	Joystick.joystickDown  = false;
+            	    	Joystick.joystickInUse = false;
+            	    	
             	    	/* Lähetetään ja nollataan kosketuspolun indeksointi, jos oikea ase on valittuna */
                         if (weaponManager.isUsingMotionEvents) {
                         	
@@ -241,7 +242,7 @@ public class TouchManager
                     		
                     		// Tyhjennetään  touchPath[][]-taulukko seuraavaa ampumiskertaa varten
                         	for (int i = 0; i < 10; i++) {
-                        		// Tulostaa taulukon LogCatiin
+                        		// Tulostaa touchPath[][]-taulukon LogCatiin
                     			//Log.v("TouchManager", "touchPath[" + i + "][" + touchPath[i][0] + "][" + touchPath[i][1] + "]");
 
                     			touchPath[i][0] = 0;
@@ -292,7 +293,9 @@ public class TouchManager
                         
                         /* Painetaan pelikentältä */
                         else {
-                        	if (xFirstTouch < (screenWidth / 2) - 100 * Options.scaleX && yFirstTouch > yFirstButtonBorder) {
+                        	if (xFirstTouch < (screenWidth / 2) - 100 * Options.scaleX && yFirstTouch > yFirstButtonBorder ||
+                        		xFirstTouch < (screenWidth / 2) - 100 * Options.scaleX && yFirstTouch < yFirstButtonBorder ||
+                        		xFirstTouch > (screenWidth / 2) - 100 * Options.scaleX && yFirstTouch > yFirstButtonBorder) {
                         		weaponManager.triggerPlayerShoot(event.getX() - screenWidth/2, -((-screenHeight / 2) + event.getY()));
                         	}
                         }
@@ -329,7 +332,6 @@ public class TouchManager
                         if (!Joystick.joystickInUse && Joystick.joystickDown && Utility.getDistance((float)xFirstTouch, (float)yFirstTouch, (float)joystickX, (float)joystickY) < JOYSTICK_TRESHOLD) {
                                 Joystick.joystickInUse = true;
                         }
-                        
                         else if (Joystick.joystickInUse) {
                         	// Käytetään joystickia
                         	Joystick.useJoystick(xFirstTouch, yFirstTouch, (int)event.getX(), (int)event.getY(), wrapper);
@@ -347,6 +349,7 @@ public class TouchManager
     				
                     /* Nostetaan sormi pois */
                     if (event.getAction() == MotionEvent.ACTION_UP) {
+                    	
                     	// Poistetaan joystick käytöstä
                         Joystick.joystickInUse = false;
                         Joystick.joystickDown  = false;
