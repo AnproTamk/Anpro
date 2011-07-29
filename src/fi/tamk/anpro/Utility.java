@@ -240,4 +240,28 @@ public class Utility
     		return randomGenerator.nextInt(_max - _min) + _min;
     	}
     }
+    
+    /**
+     * Palauttaa objektille halutulle et‰isyydelle m‰‰ritetyn actionspotin x- ja y-koordinaatit
+     * 
+     * @param _direction Objektin nykyinen suunta
+     * @param _distance  Haluttu et‰isyys actionspotille objektista
+     * @param _x		 Objektin X-koordinaatti
+     * @param _y		 Objektin Y-koordinaatti
+     * @param _type		 Haluttu koordinaatti (x tai y)
+     * @param _xOffset	 X-akselin haluttu siirtym‰
+     * @param _yOffset	 Y-akselin haluttu siirtym‰
+     * 
+     * @return			 X:n tai Y:n actionspot
+     */
+    public static float getActionSpot(int _direction, int _distance, float _x, float _y, char _type, float _xOffset, float _yOffset){
+    	
+    	// Palautetaan x- tai y-arvo _typen mukaan
+    	if (_type == 'x') {
+    		return _x + _xOffset + (float) Math.cos((_direction * Math.PI)/180) * _distance;
+    	}
+    	else {
+    		return _y + _yOffset + (float) Math.sin((_direction * Math.PI)/180) * _distance;
+    	}
+    }
 }
