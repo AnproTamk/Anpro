@@ -95,8 +95,12 @@ public class WeaponManager
     {
 		Log.e("TRIGGERSHOOT", String.valueOf(currentWeapon));
 		if (cooldownLeft[currentWeapon] <= 0) {
-            playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
-            										  wrapper.player.x, wrapper.player.y);
+            /*playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
+            										  wrapper.player.x, wrapper.player.y);*/
+			
+			playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
+					  								  Utility.getActionSpot(wrapper.player.direction, 32, wrapper.player.x, wrapper.player.y, 'x', 0, 0),
+					  								  Utility.getActionSpot(wrapper.player.direction, 32, wrapper.player.x, wrapper.player.y, 'y', 0, 0));
 
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
@@ -109,13 +113,19 @@ public class WeaponManager
      * Välittää kutsupyynnön vihollisen aseelle aktivoiden sen ja lähettämällä
      * sille kohteen koordinaatit.
      * 
-     * @param _startX Ampujan X-koordinaatti
-     * @param _startY Ampujan Y-koordinaatt
-     * @param _weapon Vihollisen ase
+     * @param _startX    Ampujan X-koordinaatti
+     * @param _startY    Ampujan Y-koordinaatt
+     * @param _weapon    Vihollisen ase
+     * @param _direction Vihollisen suunta
+     * @param _distance  Haluttu etäisyys, jolta ammus lähtee
+     * @param _xOffset   X-akselin haluttu siirtymä
+     * @param _yOffset	 Y-akselin haluttu siirtymä
      */
-    public final void triggerEnemyShoot(float _startX, float _startY, int _weapon)
+    public final void triggerEnemyShoot(float _startX, float _startY, int _weapon, int _direction, int _distance, int _xOffset, int _yOffset)
     {
-    		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y, _startX, _startY);
+    		enemyWeapons.get(_weapon).activate(wrapper.player.x, wrapper.player.y,
+    										   Utility.getActionSpot(_direction, _distance, _startX, _startY, 'x', _xOffset, _yOffset),
+    										   Utility.getActionSpot(_direction, _distance, _startX, _startY, 'y', _xOffset, _yOffset));
     }
     
     public final void triggerEnemyShootForward(double _direction, float _startX, float _startY, int _weapon) {

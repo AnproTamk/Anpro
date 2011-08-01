@@ -211,7 +211,12 @@ public class GameActivity extends Activity
 			return true;
 		}
 		
-	    return inputController.handleKeyDown(_keyCode, _event); 
+		if (!GLRenderer.allLoaded) {
+			return false;
+		}
+		else {
+			return inputController.handleKeyDown(_keyCode, _event); 
+		}
 	}
 	
 	@Override
