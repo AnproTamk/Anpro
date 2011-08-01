@@ -232,9 +232,6 @@ public class GLSpriteSet
     	}
         
         // Varataan muistia tekstuurin vektoreille ja lis‰t‰‰n ne puskuriin
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        byteBuffer.order(ByteOrder.nativeOrder());
-        textureBuffer = byteBuffer.asFloatBuffer();
         textureBuffer.put(texture);
         textureBuffer.position(0);
         textureBuffer.clear();
