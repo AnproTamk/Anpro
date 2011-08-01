@@ -5,7 +5,7 @@
               android:layout_height="480dip" 
               android:layout_width="320dip">
             
-         <ImageButton android:src="@drawable/button_resume_game"
+         <ImageButton android:src="@drawable/button_pausemenu_resume_game"
          			  android:background="@drawable/checkbox_on_background" 
                  	  android:layout_height="wrap_content" 
                  	  android:id="@+id/button_resume" 
@@ -24,7 +24,7 @@
          <ImageButton android:layout_height="wrap_content" 
                  	  android:id="@+id/button_main_menu" 
                  	  android:background="@drawable/checkbox_on_background" 
-                 	  android:src="@drawable/button_pausemenu_quit"
+                 	  android:src="@drawable/button_pausemenu_mainmenu"
                  	  android:layout_marginLeft="75dip" 
                  	  android:layout_width="175dip" 
                  	  android:layout_marginTop="50dip">
