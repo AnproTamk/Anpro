@@ -125,9 +125,9 @@ class GameThread extends Thread
     		
     		if (gameState == GAMESTATE_LOADING_RESOURCES) {
 	    		if (renderer.allLoaded) {
-	    			gameState = GAMESTATE_STORY;
-	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
 	    			initialize();
+	    			gameStateTimer = android.os.SystemClock.uptimeMillis();
+	    			gameState = GAMESTATE_STORY;
 	    		}
 	    	}
 	    	else if (gameState == GAMESTATE_STORY) {
