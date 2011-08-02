@@ -239,9 +239,6 @@ public class GLRenderer implements Renderer
     public void onDrawFrame(GL10 _gl)
     {
     	if (gameThread != null) {
-	        // Tyhj‰t‰‰n ruutu ja syvyyspuskuri
-    		_gl.glClearColor(0.0f, 0.0f, 0.0f, 0);
-	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 	        
 	        if (gameThread.gameState == GameThread.GAMESTATE_LOADING_RESOURCES) {
 	        	if (loadingTexture == null) {
@@ -249,12 +246,21 @@ public class GLRenderer implements Renderer
 	            	loadingTexture = new GLSpriteSet(_gl, context, R.drawable.loading, 1, false);
 	            	storyTexture   = new GLSpriteSet(_gl, context, R.drawable.story1, 1, false);
 	        	}
-	            loadingTexture.draw(_gl, 0, 0, 90, 0);
 	            
 	            if (!loadingStarted && !allLoaded) {
+	        		_gl.glClearColor(0.0f, 0.0f, 0.0f, 0);
+	    	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+	    	        
+		            loadingTexture.draw(_gl, 0, 0, 90, 0);
+		            
 	            	loadingStarted = true;
 	            }
 	            else if (loadingStarted && !allLoaded) {
+	        		_gl.glClearColor(0.0f, 0.0f, 0.0f, 0);
+	    	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+	    	        
+		            loadingTexture.draw(_gl, 0, 0, 90, 0);
+		            
 	            	if (loadTextures(_gl)) {
 	            		allLoaded = true;
 	            	}
@@ -269,6 +275,9 @@ public class GLRenderer implements Renderer
 	        else if (gameThread.gameState == GameThread.GAMESTATE_GAME) {
 		        /* Tarkastetaan onko tekstuurit ladattu */
 		        if (allLoaded && gameThread.allLoaded) {
+	        		_gl.glClearColor(0.0f, 0.0f, 0.0f, 0);
+	    	        _gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+	    	        
 		        	renderScene(_gl);
 		        }
 	        }

@@ -38,7 +38,7 @@ public class GLSpriteSet
     								   1.0f, 0.0f};
     
     /* Viimeksi käytetty tekstuuri ja ruutu */
-    private static int cachedTexture = -1; // Jaettu kaikkien tekstuurien kesken
+    private static int cachedTexture; // Jaettu kaikkien tekstuurien kesken
     private        int cachedFrame   = -1;
     
     /**
@@ -112,6 +112,7 @@ public class GLSpriteSet
 
         // Ladataan bitmap OpenGL-tekstuuriksi
         _gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
+        _gl.glActiveTexture(sprites[0]);
         
         
         if (isClamped) {
@@ -257,13 +258,13 @@ public class GLSpriteSet
         _gl.glScalef(0.5f, 0.5f, 0.0f); // TODO: Miksi jaetaan kahdella? Originaali: _gl.glScalef(Options.scale/2, Options.scale/2, 0.0f);
         
         // Valitaan piirrettävä tekstuuri
-        if (cachedTexture != sprites[0] || cachedTexture == -1) {
+        if (cachedTexture != sprites[0]) {
+        	cachedTexture = sprites[0];
+            cachedFrame = _frame;
+            
         	_gl.glBindTexture(GL10.GL_TEXTURE_2D, sprites[0]);
         	
         	generateTextureVectors(_frame);
-        	
-        	cachedTexture = sprites[0];
-            cachedFrame = _frame;
         }
         else {
         	if (cachedFrame != _frame) {
