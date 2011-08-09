@@ -1,100 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Pohjalayoutti -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:background="@drawable/testivalikko"  
-    android:layout_width="wrap_content"
-    android:padding="15px">
-    <!-- android:layout_marginLeft="5px"
-    android:layout_marginRight="5px"
-    android:layout_marginBottom="5px"> -->
-
-<TableLayout android:id="@+id/tableLayout1" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:orientation="horizontal">
-    <TableRow android:id="@+id/tableRow4" 
-    		  android:layout_width="wrap_content" 
-    		  android:layout_height="wrap_content">
-    		  
-              <ImageButton android:src="@drawable/game_title"
-        			 	   android:layout_marginLeft="50dip" 
-        			 	   android:layout_marginRight="50dip" 
-        			 	   android:background="@drawable/checkbox_on_background" 
-        			 	   android:id="@+id/title" 
-        			 	   android:layout_width="wrap_content" 
-        			 	   android:layout_height="wrap_content">
-        	  </ImageButton>
-        
-    </TableRow>
-             
-    <TableRow android:layout_height="wrap_content" 
-    		  android:id="@+id/tableRow1" 
-    		  android:layout_width="wrap_content" 
-    		  android:layout_weight="1" 
-    		  android:layout_marginTop="20dip">
-    		  
-        <ImageButton android:layout_height="wrap_content"
-        			 android:layout_marginRight="275dip" 
-        			 android:layout_marginLeft="10dip" 
-        			 android:background="@drawable/checkbox_on_background" 
-        			 android:layout_width="wrap_content" 
-        			 android:id="@+id/highscores" 
-        			 android:src="@drawable/button_highscores">
-        </ImageButton>
-        
-        <ImageButton android:src="@drawable/button_start_game"
-        			 android:layout_marginLeft="-175dip"
-        			 android:layout_marginRight="100dip"
-        			 android:background="@drawable/checkbox_on_background" 
-        			 android:id="@+id/start_game" 
-        			 android:layout_width="wrap_content" 
-        			 android:layout_height="wrap_content">
-        </ImageButton>
-        
-    </TableRow>
+    android:layout_width="fill_parent"
+    android:padding="15dp">
     
-    <TableRow android:id="@+id/tableRow2" 
-    		  android:layout_height="wrap_content" 
-    		  android:layout_width="wrap_content" 
-    		  android:layout_weight="1">
-    		  
-        <ImageButton android:src="@drawable/button_help"
-        			 android:layout_marginLeft="10dip" 
-        			 android:layout_marginRight="275dip" 
-        			 android:background="@drawable/checkbox_on_background" 
-        			 android:id="@+id/help" 
-        			 android:layout_width="wrap_content" 
-        			 android:layout_height="wrap_content">
+    <!-- Titlen layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <!-- Titlen logo -->
+        <ImageButton
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:adjustViewBounds="true" 
+            android:scaleType="fitXY"
+            android:maxWidth="200dp"
+            android:maxHeight="59dp"
+            android:layout_weight="1"
+            android:id="@+id/title"
+            android:background="@drawable/checkbox_on_background" 
+            android:src="@drawable/game_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
         </ImageButton>
         
-        <ImageButton android:src="@drawable/button_settings"
-        			 android:layout_marginLeft="-175dip"
-        			 android:layout_marginRight="100dip"
-        			 android:background="@drawable/checkbox_on_background" 
-        			 android:id="@+id/settings" 
-        			 android:layout_width="wrap_content" 
-        			 android:layout_height="wrap_content">
+    </LinearLayout>
+    
+    <!-- Ensimmäisten parinappien layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <!-- Highscores -->
+        <ImageButton
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/highscores"
+            android:src="@drawable/button_highscores"
+            android:background="@drawable/checkbox_on_background"
+            android:layout_height="wrap_content">
         </ImageButton>
         
-    </TableRow>
-    <TableRow android:layout_weight="1" 
-    		  android:layout_width="wrap_content" 
-    		  android:id="@+id/tableRow3" 
-    		  android:layout_height="wrap_content">
-    		  
-        <ImageButton android:layout_height="wrap_content" 
-        			 android:layout_marginRight="200dip" 
-        			 android:layout_marginLeft="10dip" 
-        			 android:background="@drawable/checkbox_on_background" 
-        			 android:layout_width="wrap_content" 
-        			 android:id="@+id/quit" 
-        			 android:src="@drawable/button_quit" 
-        			 android:layout_gravity="center_horizontal">
+        <!-- Start Game -->
+        <ImageButton
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/start_game"
+            android:src="@drawable/button_start_game"
+            android:background="@drawable/checkbox_on_background" 
+            android:layout_height="wrap_content">
         </ImageButton>
-    </TableRow>
-
-</TableLayout>
+        
+    </LinearLayout>
+    
+    <!-- Toisten parinappien layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <!-- Help -->
+        <ImageButton
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/help"
+            android:src="@drawable/button_help"
+            android:background="@drawable/checkbox_on_background"
+            android:layout_height="wrap_content">
+        </ImageButton>
+        
+        <!-- Settings -->
+        <ImageButton
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/settings"
+            android:src="@drawable/button_settings"
+            android:background="@drawable/checkbox_on_background" 
+            android:layout_height="wrap_content">
+        </ImageButton>
+        
+    </LinearLayout>
+    
+    <!-- Quit-nappulan layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        <!-- Quit -->
+        <ImageButton
+            android:paddingLeft="100dp"
+            android:paddingRight="100dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:maxWidth="382dp"
+            android:maxHeight="103dp"
+            android:id="@+id/quit"
+            android:background="@drawable/checkbox_on_background" 
+            android:src="@drawable/button_quit"
+            android:layout_height="wrap_content">
+        </ImageButton>
+        
+    </LinearLayout>
 
 </LinearLayout>

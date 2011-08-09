@@ -99,8 +99,8 @@ public class WeaponManager
             										  wrapper.player.x, wrapper.player.y);*/
 			
 			playerWeapons.get(currentWeapon).activate(_targetX + wrapper.player.x, _targetY + wrapper.player.y,
-					  								  Utility.getActionSpot(wrapper.player.direction, 32, wrapper.player.x, wrapper.player.y, 'x', 0, 0),
-					  								  Utility.getActionSpot(wrapper.player.direction, 32, wrapper.player.x, wrapper.player.y, 'y', 0, 0));
+					  								  Utility.getActionSpot(wrapper.player.direction, 8, wrapper.player.x, wrapper.player.y, 'x', 0, 0),
+					  								  Utility.getActionSpot(wrapper.player.direction, 8, wrapper.player.x, wrapper.player.y, 'y', 0, 0));
 
             cooldownLeft[currentWeapon] = cooldownMax[currentWeapon];
 
