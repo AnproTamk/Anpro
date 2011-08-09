@@ -50,8 +50,8 @@ public class Message extends GuiObject
 	@Override
     public final void draw(GL10 _gl)
     {
-		GLRenderer.hudAnimations[usedAnimation].draw(_gl, -128 + CameraManager.xTranslate, 180 + CameraManager.yTranslate, 90, currentFrame);
-		GLRenderer.hudAnimations[usedAnimation+1].draw(_gl, 128 + CameraManager.xTranslate, 180 + CameraManager.yTranslate, 90, currentFrame);
+		GLRenderer.hudAnimations[usedAnimation].draw(_gl, -128 * Options.scaleX + CameraManager.xTranslate, 180 * Options.scaleY + CameraManager.yTranslate, 90, currentFrame);
+		GLRenderer.hudAnimations[usedAnimation+1].draw(_gl, 128 * Options.scaleX + CameraManager.xTranslate, 180 * Options.scaleY + CameraManager.yTranslate, 90, currentFrame);
     }
 
 	/* =======================================================

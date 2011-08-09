@@ -57,7 +57,7 @@ public class Wrapper
     private Wrapper()
     {
         // Lasketaan osumatarkistuksessa käytettävien "ruutujen" koko
-        gridSize = (int) (((Options.screenWidth * Options.scaleX) / 20) * 10);
+        gridSize = (int) ((Options.screenWidth * Options.scaleX) / 2);
 
         // Alustetaan taulukot
         drawables    = new ArrayList<GfxObject>();
