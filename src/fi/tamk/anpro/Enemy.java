@@ -302,6 +302,6 @@ public class Enemy extends AiObject
     	movementAcceleration = -15;
     	turningDirection     = 0;
     	
-        setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, GfxObject.ACTION_DESTROYED, 0, 0);
+        setAction(GLRenderer.ANIMATION_DESTROY, 1, 4, GfxObject.ACTION_DESTROYED, 0, 0);
 	}
 }
