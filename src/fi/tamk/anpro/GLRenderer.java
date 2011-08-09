@@ -332,7 +332,7 @@ public class GLRenderer implements Renderer
         
         // Vihollinen #3
         enemyTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1, false);
-        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy3_destroy_anim, 28, false); // TODO korvaa räjähdyksellä
         enemyAnimations[2][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
         
         // Vihollinen #4
