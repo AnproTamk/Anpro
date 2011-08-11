@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="fill_parent"
+              android:gravity="center_vertical"
+              android:orientation="vertical" android:layout_width="fill_parent">
+
+    <LinearLayout android:layout_width="fill_parent" 
+                  android:id="@+id/linearLayout1" 
+                  android:layout_height="wrap_content" 
+                  android:layout_gravity="center" 
+                  android:layout_weight="0">
+
+        <TextView android:layout_height="wrap_content" 
+                  android:textAppearance="?android:attr/textAppearanceMedium" 
+                  android:layout_width="wrap_content" 
+                  android:gravity="center_horizontal" 
+                  android:id="@+id/textView1" 
+                  android:text="@string/tutorial_title" 
+                  android:layout_weight="1" 
+                  android:layout_gravity="center_vertical"></TextView>
+              
+        <Button android:maxLines="1" 
+                android:layout_weight="0.05" 
+                android:text="@string/button_resume" 
+                android:id="@+id/button_resume" 
+                android:layout_gravity="center_vertical" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:bufferType="normal"></Button>
+    </LinearLayout>
+    
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/scroller"
+                android:layout_height="wrap_content"
+                android:fillViewport="true" 
+                android:layout_width="fill_parent" 
+                android:layout_gravity="center" 
+                android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
+              <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="#ff106510"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginRight="6dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginBottom="12dip"/>
+              <ImageView android:layout_width="wrap_content" 
+                         android:layout_height="wrap_content" 
+                         android:src="@drawable/tutorial" 
+                         android:id="@+id/ImageView01" 
+                         android:layout_gravity="center_horizontal" 
+                         android:layout_weight="1"></ImageView>
+              <TextView android:id="@+id/textView2" 
+                        android:text="@string/tutorial_text_new_weapon_missile" 
+                        android:layout_weight="1.0" 
+                        android:layout_width="fill_parent" 
+                        android:layout_height="wrap_content" 
+                        android:paddingLeft="6dip" 
+                        android:paddingBottom="0dip" 
+                        android:paddingRight="6dip"></TextView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
