@@ -148,10 +148,28 @@ public class GameActivity extends Activity
     {
         super.onDestroy();
     }
-    
+
     /* =======================================================
      * Uudet funktiot
-     * ======================================================= */    
+     * ======================================================= */
+    /**
+     *  Siirtyy TutorialActivityyn.
+     */
+    public void continueToTutorial(int _tutorial)
+	{
+		// Luodaan uusi Bundle
+		Bundle bundle = new Bundle();
+    	
+		bundle.putInt("Tutorial", _tutorial);
+		
+    	gameThread.setRunning(false); // TODO: Wat..?
+		
+        Intent i_tutorial = new Intent(this, TutorialActivity.class);
+
+        i_tutorial.putExtras(bundle); 
+        
+        startActivityIfNeeded(i_tutorial, 1);
+	}
     /**
      * Ottaa pelaajan pisteet vastaan parametrina, l‰hett‰‰ pisteet 
      * ja siirtyy HighScoresActivityyn.
