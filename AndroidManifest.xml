@@ -78,11 +78,13 @@
                   android:launchMode="standard">
         </activity>
         
-        <activity android:name="MothershipActivity"
-                  android:label="@string/mothership_title"
+        <activity android:name="TutorialActivity"
+                  android:label=""
+                  android:theme="@android:style/Theme.Dialog"
                   android:screenOrientation="landscape"
                   android:configChanges="keyboardHidden|orientation"
-                  android:launchMode="singleInstance">
+                  android:launchMode="standard"
+                  android:taskAffinity="">
         </activity>
     </application>
 </manifest>
