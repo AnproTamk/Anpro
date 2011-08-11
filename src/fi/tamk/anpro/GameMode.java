@@ -12,6 +12,15 @@ import android.util.Log;
  */
 public class GameMode
 {
+	/* Vakiot tutoriaalien m‰‰ritt‰miseksi */
+	public static final int TUTORIAL_START                    = 1;
+	public static final int TUTORIAL_NEW_WEAPON_CLUSTER       = 2;	
+	public static final int TUTORIAL_NEW_WEAPON_EMP           = 3;
+	public static final int TUTORIAL_NEW_WEAPON_MISSILE       = 4;	
+	public static final int TUTORIAL_NEW_WEAPON_SPINNINGLASER = 5;
+	public static final int TUTORIAL_NEW_WEAPON_SPITFIRE      = 6;
+	public static final int TUTORIAL_NEW_WEAPON_SWARM         = 7;
+	
 	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
     public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
@@ -436,5 +445,16 @@ public class GameMode
 	public void moveToMothershipMenu()
 	{
 		gameActivity.continueToMothership((int)score);
+	}
+
+	/**
+	 * Avaa "tutoriaali-ilmoituksen", joka ilmoittaa pelaajan toiminnoista / uusista ominaisuuksista
+	 * n‰iden ilmaantuessa.
+	 */
+	public void moveToTutorial(int _tutorial)
+	{
+			TutorialActivity.startActive     = false;
+			TutorialActivity.newWeaponActive = false;
+			gameActivity.continueToTutorial(_tutorial);
 	}
 }

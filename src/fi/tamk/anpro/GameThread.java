@@ -48,6 +48,9 @@ class GameThread extends Thread
     private long lastMessageUpdate;
     
     private long currentTime;
+
+    /* Esittelytutoriaalin näyttämisen tarkastus */
+    private boolean tutorialHasShown;
     
     /* Muille luokille välitettävät muuttujat (tallennetaan väliaikaisesti, sillä muut
        luokat voidaan luoda vasta kun renderöijä on ladannut kaikki grafiikat) */
@@ -74,6 +77,8 @@ class GameThread extends Thread
         gameActivity  = _gameActivity;
         renderer      = _renderer;
         surfaceView   = _surfaceView;
+        
+        tutorialHasShown = false;
     }
 
     /* =======================================================
@@ -201,6 +206,12 @@ class GameThread extends Thread
 		            /* Päivitetään tutka */
 		            updateRadar(currentTime);
 		
+		            /* Käydään esittelytutoriaalissa */
+		            if (!tutorialHasShown) {
+		            	gameMode.moveToTutorial(GameMode.TUTORIAL_START);
+		            	tutorialHasShown = true;
+		            }
+
 		            /* Hidastetaan säiettä pakottamalla se odottamaan 20 ms */
 		            try {
 		                Thread.sleep(20);
