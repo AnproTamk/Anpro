@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -24,12 +25,13 @@ public class HighScoresActivity extends Activity implements OnClickListener
 	private XmlWriter writer 	    = new XmlWriter();
 	//private SharedPreferences prefs = getPreferences(0);
 	
-	TextView score_0;
-	TextView score_1;
-	TextView score_2;
-	TextView score_3;
-	TextView score_4;
+	private TextView score_0;
+	private TextView score_1;
+	private TextView score_2;
+	private TextView score_3;
+	private TextView score_4;
  
+	private ResetThread doReset;
 	
 	/**
 	 * Luo Highscores-valikon. Android kutsuu tätä automaattisesti.
@@ -98,6 +100,8 @@ public class HighScoresActivity extends Activity implements OnClickListener
         
         View mainmenuButton = findViewById(R.id.button_mainmenu);
         mainmenuButton.setOnClickListener(this); 
+        
+		doReset = new ResetThread();
 	}
 	
 	/**
@@ -109,24 +113,49 @@ public class HighScoresActivity extends Activity implements OnClickListener
 	{
     	switch(_v.getId()) {
 	    	case R.id.button_reset:
-	    		scores = writer.resetHighScores();
-	    		
-	    		for (int i = 0; i < scores.length; i++) {
-	    			scoreStr[i] = String.valueOf(scores[i]);
+	    		if (doReset.getState() == Thread.State.NEW) {
+	    			doReset.start();
 	    		}
-	    		
-	    		score_0.setText(scoreStr[0]);
-	    		score_1.setText(scoreStr[1]);
-	    		score_2.setText(scoreStr[2]);
-	    		score_3.setText(scoreStr[3]);
-	    		score_4.setText(scoreStr[4]);
-	    		
 	    		break;
+	    		
 	    	case R.id.button_mainmenu:
+				Log.e("TESTI", "BACK!");
 	    		Intent i_mainmenu = new Intent(this, MainActivity.class);
 	    		startActivity(i_mainmenu);
 	    		finish();
 	    		break;
     	}
+	}
+	
+	private class ResetThread extends Thread
+	{
+		@Override
+		public void run()
+		{
+			Log.e("TESTI", "RESET!");
+			Log.e("TESTI", "Reset: Suoritettu 0/3");
+			
+    		scores = writer.resetHighScores();
+			Log.e("TESTI", "Reset: Suoritettu 1/3");
+    		
+    		for (int i = 0; i < scores.length; i++) {
+    			scoreStr[i] = String.valueOf(scores[i]);
+    		}
+			Log.e("TESTI", "Reset: Suoritettu 2/3");
+
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run()
+				{
+					score_0.setText(scoreStr[0]);
+					score_1.setText(scoreStr[1]);
+					score_2.setText(scoreStr[2]);
+					score_3.setText(scoreStr[3]);
+					score_4.setText(scoreStr[4]);
+				}
+			});
+    		
+			Log.e("TESTI", "Reset: Suoritettu 3/3");
+		}
 	}
 }
