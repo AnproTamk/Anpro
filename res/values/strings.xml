@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Anpro</string>
+    <string name="tutorial_name">Tutorial</string>
     <string name="button_story">Story</string>
     <string name="button_survival">Survival</string>
     <string name="button_highscores">Highscores</string>
@@ -65,4 +66,15 @@
     <string name="button_previous">Previous</string>
     
     <string name="button_savegame">Save Game</string>
+    
+    <string name="tutorial_title">Tutorial </string>
+    <string name="tutorial_text_start">Tämä on tutorialin tekstiä. Tässä tutoriaalissa kerrottaan pelin alkutilanne ja opastetaan pelikokemuksen alkuun.</string>
+    <string name="tutorial_text_new_weapon_cluster">Tämä on ilmoitus uudesta aseesta CLUSTER. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    <string name="tutorial_text_new_weapon_emp">Tämä on ilmoitus uudesta aseesta EMP. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    <string name="tutorial_text_new_weapon_missile">Tämä on ilmoitus uudesta aseesta MISSILE. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    <string name="tutorial_text_new_weapon_spinninglaser">Tämä on ilmoitus uudesta aseesta SPINNING LASER. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    <string name="tutorial_text_new_weapon_spitfire">Tämä on ilmoitus uudesta aseesta SPITFIRE. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    <string name="tutorial_text_new_weapon_swarm">Tämä on ilmoitus uudesta aseesta SWARM MISSILE. Tässä tulisi olla ohjeistusta aseen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
+    
+    <string name="tutorial_text_mothership">Tämä on ilmoitus emoalukseen saapumisesta. Tässä tulisi olla ohjeistusta emoaluksen toiminnasta ja käytöstä. Tsekkaa uusi tulivoima lähimmässä emoaluksessasi!</string>
 </resources>

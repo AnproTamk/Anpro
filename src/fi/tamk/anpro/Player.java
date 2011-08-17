@@ -12,13 +12,21 @@ import android.util.Log;
  */
 public class Player extends AiObject
 {
-    /* Osoittimet muihin luokkiin */
+	/* Osoittimet muihin luokkiin */
     private Wrapper  wrapper;
     private GameMode gameMode;
     private Hud      hud;
     
     /* Suojien palautumisen ajastin */
     public long outOfBattleTime = 0;
+    
+    /* Asetutoriaalien esittelyjen tarkastus */
+    private boolean clusterTutorialHasShown;
+    private boolean missileTutorialHasShown;
+    private boolean spinninglaserTutorialHasShown;
+    private boolean empTutorialHasShown;
+    private boolean spitfireTutorialHasShown;
+    private boolean swarmTutorialHasShown;
     
     /**
      * Alustaa luokan muuttujat.
@@ -49,6 +57,14 @@ public class Player extends AiObject
         
     	/* Alustetaan muuttujat */
     	z = 3;
+    	
+        // Alustetaan tutoriaalien esittelymuuttujat
+        clusterTutorialHasShown       = false;
+        missileTutorialHasShown       = false;
+        spinninglaserTutorialHasShown = false;
+        empTutorialHasShown           = false;
+        spitfireTutorialHasShown      = false;
+        swarmTutorialHasShown         = false;
     	
         // M‰‰ritet‰‰n asetukset
     	// TODO: SCALING (Options.scale)
@@ -121,7 +137,7 @@ public class Player extends AiObject
 		        		
 		        		if (Utility.isColliding(wrapper.scoreCollectables.get(i), this)) {
 		        			wrapper.scoreCollectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
-		        		}
+		           		}
 		        	}
 				}
     		}
@@ -134,6 +150,33 @@ public class Player extends AiObject
 	        		
 	        		if (Utility.isColliding(wrapper.weaponCollectable, this)) {
 	        			wrapper.weaponCollectable.triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
+	        			if (!clusterTutorialHasShown || !missileTutorialHasShown || !spinninglaserTutorialHasShown ||
+	        				!empTutorialHasShown || !spitfireTutorialHasShown || !swarmTutorialHasShown) {
+	        					if (!clusterTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_CLUSTER) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_CLUSTER);
+	        						clusterTutorialHasShown = true;
+	        					}
+	        					else if (!empTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_EMP) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_EMP);
+	        						empTutorialHasShown = true;
+	        					}
+	        					else if (!missileTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_MISSILE) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_MISSILE);
+	        						missileTutorialHasShown = true;
+	        					}
+	        					else if (!spinninglaserTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SPINNING_LASER) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SPINNINGLASER);
+	        						spinninglaserTutorialHasShown = true;
+	        					}
+	        					else if (!spitfireTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SPITFIRE) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SPITFIRE);
+	        						spitfireTutorialHasShown = true;
+	        					}
+	        					else if (!swarmTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SWARM) {
+	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SWARM);
+	        						swarmTutorialHasShown = true;
+	        					}
+	        			}
 	        		}
 	        	}
 			}

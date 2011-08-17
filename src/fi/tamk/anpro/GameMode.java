@@ -12,6 +12,15 @@ import android.util.Log;
  */
 public class GameMode
 {
+	/* Vakiot tutoriaalien m‰‰ritt‰miseksi */
+	public static final int TUTORIAL_START                    = 1;
+	public static final int TUTORIAL_NEW_WEAPON_CLUSTER       = 2;	
+	public static final int TUTORIAL_NEW_WEAPON_EMP           = 3;
+	public static final int TUTORIAL_NEW_WEAPON_MISSILE       = 4;	
+	public static final int TUTORIAL_NEW_WEAPON_SPINNINGLASER = 5;
+	public static final int TUTORIAL_NEW_WEAPON_SPITFIRE      = 6;
+	public static final int TUTORIAL_NEW_WEAPON_SWARM         = 7;
+	
 	/* Vakioita XML-tiedostojen lukemista ja muuttujien alustamista varten */
     public static final int AMOUNT_OF_WAVES            = 4;
     public static final int AMOUNT_OF_ENEMIES_PER_WAVE = 11;
@@ -99,12 +108,12 @@ public class GameMode
         
         /* Alustetaan muuttujat */
         // M‰‰ritet‰‰n kartan leveys
-        mapWidth  = 1700;
-        mapHeight = 1700;
+        mapWidth  = (int) (1700 * Options.scaleX);
+        mapHeight = (int) (1700 * Options.scaleY);
         
         // M‰‰ritet‰‰n reuna-alue (alue, jossa autopilot aktivoituu)
-        overBoundWidth  = mapWidth + 700;
-        overBoundHeight = mapHeight + 700;
+        overBoundWidth  = (int) (mapWidth + (700 * Options.scaleX));
+        overBoundHeight = (int) (mapHeight + (700 * Options.scaleY));
         
         // Alustetaan taulukot
         enemies           = new ArrayList<Enemy>();
@@ -112,7 +121,7 @@ public class GameMode
         asteroids         = new Obstacle[3];
         planets           = new Obstacle[2];
         scoreCollectables = new Collectable[3];
-        boundaries		= new Boundary[4];
+        boundaries		  = new Boundary[4];
         
         waves        = new int[AMOUNT_OF_WAVES][AMOUNT_OF_ENEMIES_PER_WAVE];
         spawnPointsX = new int[AMOUNT_OF_ENEMIES_PER_WAVE];
@@ -329,11 +338,11 @@ public class GameMode
         }
         
         // Luodaan planeetat
-        planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, 400, -800, 0, 90);
-        planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, -1000, -100, 0, 0);
+        planets[0] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_EARTH, (int)(400 * Options.scaleX), (int)(-800 * Options.scaleY), 0, 90);
+        planets[1] = new Obstacle(Obstacle.OBSTACLE_PLANET, Obstacle.PLANET_X, (int)(-1000 * Options.scaleX), (int)(-100 * Options.scaleY), 0, 0);
         
         // Luodaan aurinko
-        star = new Obstacle(Obstacle.OBSTACLE_STAR, 0, 900, 800, 0, 0);
+        star = new Obstacle(Obstacle.OBSTACLE_STAR, 0, (int)(900 * Options.scaleX), (int)(800 * Options.scaleY), 0, 0);
         
         // Luodaan pelialueen rajat
         boundaries[0] = new Boundary(-mapWidth, 0, 0);
@@ -436,5 +445,16 @@ public class GameMode
 	public void moveToMothershipMenu()
 	{
 		gameActivity.continueToMothership((int)score);
+	}
+
+	/**
+	 * Avaa "tutoriaali-ilmoituksen", joka ilmoittaa pelaajan toiminnoista / uusista ominaisuuksista
+	 * n‰iden ilmaantuessa.
+	 */
+	public void moveToTutorial(int _tutorial)
+	{
+			TutorialActivity.startActive     = false;
+			TutorialActivity.newWeaponActive = false;
+			gameActivity.continueToTutorial(_tutorial);
 	}
 }
