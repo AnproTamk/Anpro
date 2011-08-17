@@ -45,7 +45,7 @@ public class WeaponEmp extends AbstractWeapon
             projectile.activate(_targetX, _targetY, false, true, this, _startX, _startY);
             
             // Soitetaan ‰‰ni
-            SoundManager.playSound(3, 1);
+            SoundManager.playSound(SoundManager.SOUND_WEAPON_EMP, 1);
         }
     }
 }

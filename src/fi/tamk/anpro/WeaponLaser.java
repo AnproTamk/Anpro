@@ -52,7 +52,7 @@ public class WeaponLaser extends AbstractWeapon
 				projectiles.get(i).activate(_targetX, _targetY, false, false, this, _startX, _startY);
 				
 				// Soitetaan ‰‰ni
-				SoundManager.playSound(3, 1);
+				SoundManager.playSound(SoundManager.SOUND_WEAPON_LASER, 1);
 				
 				// Keskeytet‰‰n silmukka
 				break;

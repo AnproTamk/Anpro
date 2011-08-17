@@ -533,6 +533,7 @@ abstract public class AbstractProjectile extends AiObject
 
                 if (distance - wrapper.enemies.get(i).collisionRadius - explosionRadius <= 0) {
                     // Osuma ja räjähdys
+            		SoundManager.playSound(SoundManager.SOUND_EXPLOSION_2, 1);
                     wrapper.enemies.get(i).triggerImpact(damageOnExplode);
                 }
             }

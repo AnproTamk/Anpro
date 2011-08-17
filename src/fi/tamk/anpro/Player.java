@@ -136,6 +136,9 @@ public class Player extends AiObject
 		        	if (Math.abs(y - wrapper.scoreCollectables.get(i).y) <= Wrapper.gridSize) {
 		        		
 		        		if (Utility.isColliding(wrapper.scoreCollectables.get(i), this)) {
+		    				
+		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_SCORE, 1);
+		        			
 		        			wrapper.scoreCollectables.get(i).triggerCollision(COLLISION_WITH_PLAYER, 0, 0);
 		           		}
 		        	}
@@ -153,26 +156,32 @@ public class Player extends AiObject
 	        			if (!clusterTutorialHasShown || !missileTutorialHasShown || !spinninglaserTutorialHasShown ||
 	        				!empTutorialHasShown || !spitfireTutorialHasShown || !swarmTutorialHasShown) {
 	        					if (!clusterTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_CLUSTER) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_CLUSTER);
 	        						clusterTutorialHasShown = true;
 	        					}
 	        					else if (!empTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_EMP) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_EMP);
 	        						empTutorialHasShown = true;
 	        					}
 	        					else if (!missileTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_MISSILE) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_MISSILE);
 	        						missileTutorialHasShown = true;
 	        					}
 	        					else if (!spinninglaserTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SPINNING_LASER) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SPINNINGLASER);
 	        						spinninglaserTutorialHasShown = true;
 	        					}
 	        					else if (!spitfireTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SPITFIRE) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SPITFIRE);
 	        						spitfireTutorialHasShown = true;
 	        					}
 	        					else if (!swarmTutorialHasShown && wrapper.weaponCollectable.weaponType == WeaponManager.WEAPON_SWARM) {
+	    		        			SoundManager.playSound(SoundManager.SOUND_PICKUP_WEAPON, 1);
 	        						gameMode.moveToTutorial(GameMode.TUTORIAL_NEW_WEAPON_SWARM);
 	        						swarmTutorialHasShown = true;
 	        					}
@@ -193,6 +202,7 @@ public class Player extends AiObject
     public final void triggerCollision(int _eventType, int _damage, int _armorPiercing)
     {
     	VibrateManager.vibrateOnHit();
+		
 	    
 	    int armorTemp = currentArmor;
 	    int healthTemp = currentHealth;
@@ -200,10 +210,12 @@ public class Player extends AiObject
 	    Utility.checkDamage(this, _damage, _armorPiercing);
 	    
 	    if (currentArmor < armorTemp) {
+	    	SoundManager.playSound(SoundManager.SOUND_HIT_ARMOR, 1);
 	    	EffectManager.showPlayerArmorEffect(this);
 	    	EffectManager.showArmorHitEffect(hud.armorBar);
 	    }
 	    if (currentHealth < healthTemp) {
+	    	SoundManager.playSound(SoundManager.SOUND_HIT_HEALTH, 1);
 	    	EffectManager.showHealthHitEffect(hud.healthBar);
 	    }
 	    
@@ -211,12 +223,16 @@ public class Player extends AiObject
 	    hud.healthBar.updateValue(currentHealth);
 	    
 	    if (currentHealth <= 0 && state == Wrapper.FULL_ACTIVITY) {
+	    	SoundManager.playSound(SoundManager.SOUND_DEATH, 1);
 	    	state = Wrapper.ONLY_ANIMATION;
 	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
 	    }
 	    
 	    if (_eventType == COLLISION_WITH_OBSTACLE && currentHealth > 0) {
-    		state = Wrapper.ONLY_ANIMATION;
+	    	
+	    	SoundManager.playSound(SoundManager.SOUND_HIT_ARMOR, 1);
+    		
+	    	state = Wrapper.ONLY_ANIMATION;
     		
     		turningDirection = 0;
             
@@ -233,6 +249,10 @@ public class Player extends AiObject
             	direction *= -1;
             }
             
+            // Toistetaan r‰j‰hdys‰‰ni
+        	EffectManager.showExplosionEffect(x, y);
+        	
+        	// Vaihtaa animaation
             setAction(GLRenderer.ANIMATION_RESPAWN, 1, 2, ACTION_RESPAWN, 0, 0);
     	}
     }

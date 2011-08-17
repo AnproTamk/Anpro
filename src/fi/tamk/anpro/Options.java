@@ -86,7 +86,7 @@ public class Options
         
         particles = true;
         music     = true;
-        sounds    = false;
+        sounds    = true;
         vibration = false;
         
         // Ottaa multitouchin käyttöön tai pois käytöstä laitteen ominaisuuksista riippuen
