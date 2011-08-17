@@ -211,12 +211,14 @@ public class TouchManager
             	    		// Oikean reunan alin nappula
                             if (ySecondTouch < yThirdButtonBorder && ySecondTouch > (-screenHeight / 2)) {
                             	Log.e("testi", "ALIN NAPPULA");
+                            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                                 hud.triggerClick(Hud.BUTTON_1);
                             }
 
                             // Oikean reunan keskimmäinen nappula
                             else if (ySecondTouch < ySecondButtonBorder && ySecondTouch > yThirdButtonBorder) {
                             	Log.e("testi", "KESKIMMÄINEN NAPPULA");
+                            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                                 hud.triggerClick(Hud.BUTTON_2);
                             }
             	    	 }
@@ -276,12 +278,14 @@ public class TouchManager
                             // Oikean reunan alin nappula
                             if (yFirstTouch < yThirdButtonBorder && yFirstTouch > (-screenHeight / 2)) {
                             	Log.e("testi", "ALIN NAPPULA");
+                            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                                 hud.triggerClick(Hud.BUTTON_1);
                             }
 
                             // Oikean reunan keskimmäinen nappula
                             else if (yFirstTouch < ySecondButtonBorder && yFirstTouch > yThirdButtonBorder) {
                             	Log.e("testi", "KESKIMMÄINEN NAPPULA");
+                            	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                                 hud.triggerClick(Hud.BUTTON_2);
                             }
                         }

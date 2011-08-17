@@ -107,6 +107,12 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
+
+        // Ladataan musiikki
+        SoundManager.loadMusic(R.raw.music_game);
+        
+        // Toistetaan musiikki ja loopataan sitä
+        SoundManager.playMusic(true);
         
         gameThread.setRunning(true);
     }
@@ -119,6 +125,7 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
+    	SoundManager.stopMusic();
     }
         
     /**
@@ -130,6 +137,9 @@ public class GameActivity extends Activity
     {
         super.onStop();
         
+    	SoundManager.stopMusic();
+    	SoundManager.cleanUp();
+    	
         Wrapper.destroy();
         CameraManager.destroy();
         EffectManager.destroy();
