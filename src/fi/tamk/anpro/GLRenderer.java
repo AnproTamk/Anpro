@@ -307,9 +307,9 @@ public class GLRenderer implements Renderer
     private final boolean loadTextures(GL10 _gl)
     {
         /* Ladataan pelaajan grafiikat */
-        playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1, false); 
-        playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.player_tex_0, 1, false); // TODO korvaa räjähdyksellä
-        playerAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.player_respawn_anim, 4, false);
+        playerTextures[0]   = new GLSpriteSet(_gl, context, R.drawable.player_tex_1, 1, false); 
+        playerAnimations[3] = new GLSpriteSet(_gl, context, R.drawable.player_destroy_anim, 7, false); // TODO korvaa räjähdyksellä
+        playerAnimations[5] = new GLSpriteSet(_gl, context, R.drawable.player_respawn_anim1, 4, false);
         
         /* Ladataan liittolaisten grafiikat */
         // Emoalus
@@ -321,28 +321,28 @@ public class GLRenderer implements Renderer
 
         /* Ladataan vihollisten grafiikat */
         // Vihollinen #1
-        enemyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_0, 1, false);
-        enemyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyTextures[0][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_1, 1, false);
+        enemyAnimations[0][3] = new GLSpriteSet(_gl, context, R.drawable.enemy1_tex_1, 1, false); // TODO korvaa räjähdyksellä
         enemyAnimations[0][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
         
         // Vihollinen #2
-        enemyTextures[1][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_0, 1, false);
-        enemyAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyTextures[1][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_1, 1, false);
+        enemyAnimations[1][3] = new GLSpriteSet(_gl, context, R.drawable.enemy2_tex_1, 1, false); // TODO korvaa räjähdyksellä
         enemyAnimations[1][4] = new GLSpriteSet(_gl, context, R.drawable.enemy2_disabled_anim, 5, false);
         
         // Vihollinen #3
-        enemyTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_0, 1, false);
-        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy3_destroy_anim, 28, false); // TODO korvaa räjähdyksellä
+        enemyTextures[2][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_1, 1, false);
+        enemyAnimations[2][3] = new GLSpriteSet(_gl, context, R.drawable.enemy3_tex_1, 1, false); // TODO korvaa räjähdyksellä
         enemyAnimations[2][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
         
         // Vihollinen #4
-        enemyTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_0, 1, false);
-        enemyAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyTextures[3][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_1, 1, false);
+        enemyAnimations[3][3] = new GLSpriteSet(_gl, context, R.drawable.enemy4_tex_1, 1, false); // TODO korvaa räjähdyksellä
         enemyAnimations[3][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
 
         // Vihollinen #4
-        enemyTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_0, 1, false);
-        enemyAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_0, 1, false); // TODO korvaa räjähdyksellä
+        enemyTextures[4][0]   = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_1, 1, false);
+        enemyAnimations[4][3] = new GLSpriteSet(_gl, context, R.drawable.enemy5_tex_1, 1, false); // TODO korvaa räjähdyksellä
         enemyAnimations[4][4] = new GLSpriteSet(_gl, context, R.drawable.enemy1_disabled_anim, 5, false);
 
         /* Ladataan ammusten grafiikat */
@@ -495,7 +495,9 @@ public class GLRenderer implements Renderer
         	
         	if (updateAnimations && object.usedAnimation > -1 && object.state != Wrapper.INACTIVE ||
             	object.state == Wrapper.ANIMATION_AND_MOVEMENT) {
-        		object.updateAnimation();
+        		if (updateBeat % object.animationSpeed == 0) {
+        			object.updateAnimation();
+        		}
         	}
         }
         
@@ -507,7 +509,7 @@ public class GLRenderer implements Renderer
         // kierroksella.
         ++updateBeat;
         
-        if (updateBeat > 32) {
+        if (updateBeat > 64) {
             updateBeat = 1;
         }
     }

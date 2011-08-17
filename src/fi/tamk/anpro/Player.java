@@ -212,7 +212,7 @@ public class Player extends AiObject
 	    
 	    if (currentHealth <= 0 && state == Wrapper.FULL_ACTIVITY) {
 	    	state = Wrapper.ONLY_ANIMATION;
-	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 1, ACTION_DESTROYED, 0, 0);
+	    	setAction(GLRenderer.ANIMATION_DESTROY, 1, 4, ACTION_DESTROYED, 0, 0);
 	    }
 	    
 	    if (_eventType == COLLISION_WITH_OBSTACLE && currentHealth > 0) {
