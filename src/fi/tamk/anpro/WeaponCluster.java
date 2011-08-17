@@ -51,7 +51,7 @@ public class WeaponCluster extends AbstractWeapon
 				projectiles.get(i).activate( _targetX, _targetY, true, false, this, _startX, _startY);
 				
 				// Soitetaan ääni
-				SoundManager.playSound(3, 1);
+				SoundManager.playSound(SoundManager.SOUND_EXPLOSION_1, 1);
 				
 				// Keskeytetään silmukka
 				break;
@@ -70,6 +70,8 @@ public class WeaponCluster extends AbstractWeapon
     public final void triggerClusterExplosion(int _amount, float _startX, float _startY)
     {
     	int loopAmount = 0;
+
+		SoundManager.playSound(SoundManager.SOUND_EXPLOSION_2, 1);
     	
         for (int i = 15; i >= 0; --i) {
 			if (!projectiles.get(i).active) {

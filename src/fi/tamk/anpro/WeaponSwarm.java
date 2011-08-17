@@ -43,7 +43,7 @@ public class WeaponSwarm extends AbstractWeapon
 	public final void activate(float _targetX, float _targetY, float _startX, float _startY)
 	{
 		// Soitetaan ääni
-		SoundManager.playSound(3, 1);
+		SoundManager.playSound(SoundManager.SOUND_EXPLOSION_1, 1);
 		
 		// Käydään ammukset läpi
         for (int index = 9; index >= 0; --index) {

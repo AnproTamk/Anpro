@@ -1,104 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout 
-	android:id="@+id/linearLayout1" 
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
-	android:orientation="vertical"
-	android:background="@drawable/settings_menu" 
-	xmlns:android="http://schemas.android.com/apk/res/android">
-
-<TextView  
-    android:id="@+id/label_title"
-    android:layout_height="wrap_content"
-    android:background="@drawable/settings"
-    android:layout_gravity="center"
-    android:textSize="35sp"
-    android:layout_marginBottom="25dip" 
-    android:layout_width="wrap_content">
-</TextView>
+<!-- Pohjalayoutti -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:background="@drawable/settings_menu"  
+    android:layout_width="fill_parent"
+    android:padding="15dp">
     
-    <TableLayout 
-    	android:id="@+id/tableLayout1" 
-    	android:layout_height="fill_parent" 
-    	android:layout_width="wrap_content">
-
-        <TableRow 
-        	android:id="@+id/tableRow1"
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content">
-            
-            <Button android:id="@+id/button_music_on" 
-                 	android:layout_height="wrap_content" 
-                 	android:layout_width="wrap_content"  
-                 	android:background="@drawable/button_music_on" 
-                 	android:padding="5dip" 
-                 	android:layout_marginLeft="10dip" 
-        			android:layout_marginRight="275dip">
-        	</Button>
-        	
-            <Button android:background="@drawable/button_sounds_on" 
-            		android:layout_height="wrap_content" 
-            		android:layout_width="wrap_content"
-            		android:layout_marginLeft="-175dip"
-        			android:layout_marginRight="100dip" 
-            		android:padding="5dip" 
-            		android:id="@+id/button_sounds_on">
-            </Button>
-            
-        </TableRow>
+    <!-- Titlen layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
         
-        <TableRow 
-        	android:id="@+id/tableRow2" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content">
-
-        </TableRow>
+        <!-- Titlen logo -->
+        <ImageButton
+            android:paddingLeft="75dp"
+            android:paddingRight="75dp"
+            android:adjustViewBounds="true" 
+            android:scaleType="fitXY"
+            android:maxWidth="200dp"
+            android:maxHeight="59dp"
+            android:layout_weight="1"
+            android:id="@+id/settings"
+            android:background="@drawable/checkbox_on_background"
+            android:src="@drawable/settings"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </ImageButton>
         
-        <TableRow 
-        	android:id="@+id/tableRow3" 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content">
-        	
-        	
-            <Button android:id="@+id/button_particles_on" 
-                	android:layout_height="wrap_content" 
-                 	android:layout_width="wrap_content"  
-                 	android:background="@drawable/button_particles_on"
-                 	android:padding="5dip" 
-                 	android:layout_marginLeft="10dip" 
-        			android:layout_marginRight="275dip">
-        	</Button>
-        	
-            <Button android:background="@drawable/button_vibration_on"
-            		android:layout_height="wrap_content" 
-            		android:layout_width="wrap_content" 
-            		android:padding="5dip"
-            		android:layout_marginLeft="-175dip"
-        			android:layout_marginRight="100dip" 
-            		android:id="@+id/button_vibration_on">
-            </Button>
-            
-        </TableRow>
-        
-        <TableRow 
-        	android:id="@+id/tableRow4" 
-        	android:layout_width="wrap_content" 
-        	android:layout_height="wrap_content">
-        	
-            <ImageButton android:layout_marginRight="200dip" 
-            			 android:background="@drawable/checkbox_on_background" 
-            			 android:layout_width="wrap_content" 
-            			 android:id="@+id/button_mainmenu" 
-            			 android:layout_marginLeft="10dip" 
-            			 android:src="@drawable/button_mainmenu" 
-            			 android:layout_height="wrap_content" android:layout_gravity="center">
-           </ImageButton>
-            
-        </TableRow>
-        
-    </TableLayout>
+    </LinearLayout>
     
+    <!-- Ensimmäisten parinappien layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <!-- Music -->
+        <Button
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/button_music_on"
+            android:background="@drawable/button_music_on"
+            android:layout_height="wrap_content">
+        </Button>
+        
+        <!-- Sounds -->
+        <Button
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/button_sounds_on"
+            android:background="@drawable/button_sounds_on" 
+            android:layout_height="wrap_content">
+        </Button>
+        
+    </LinearLayout>
+    
+    <!-- Toisten parinappien layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <!-- Particles -->
+        <Button
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/button_particles_on"
+            android:background="@drawable/button_particles_on"
+            android:layout_height="wrap_content">
+        </Button>
+        
+        <!-- Vibration -->
+        <Button
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:adjustViewBounds="true" 
+            android:maxWidth="280dp"
+            android:maxHeight="109dp"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/button_vibration_on"
+            android:background="@drawable/button_vibration_on" 
+            android:layout_height="wrap_content">
+        </Button>
+        
+    </LinearLayout>
+    
+    <!-- Main Menu-nappulan layoutti -->
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+        <!-- Main Menu -->
+        <ImageButton
+            android:paddingLeft="100dp"
+            android:paddingRight="100dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:maxWidth="280dp"
+            android:maxHeight="103dp"
+            android:id="@+id/button_mainmenu"
+            android:background="@drawable/checkbox_on_background"
+            android:src="@drawable/button_mainmenu"
+            android:layout_height="wrap_content">
+        </ImageButton>
+        
+    </LinearLayout>
+
 </LinearLayout>
-
-

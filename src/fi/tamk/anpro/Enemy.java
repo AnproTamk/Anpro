@@ -165,6 +165,7 @@ public class Enemy extends AiObject
             
             if (currentHealth <= 0) {
         		GameMode.updateScore(rank, x, y);
+        		SoundManager.playSound(SoundManager.SOUND_EXPLOSION_1, 1);
             	triggerDestroyed();
             }
         }
@@ -176,6 +177,7 @@ public class Enemy extends AiObject
             Utility.checkDamage(this, _damage, _armorPiercing);
             
             if (currentHealth <= 0) {
+        		SoundManager.playSound(SoundManager.SOUND_EXPLOSION_1, 1);
             	triggerDestroyed();
             }
         }
@@ -296,7 +298,10 @@ public class Enemy extends AiObject
     public void triggerDestroyed()
 	{
 		// TODO: Pitäisikö samanlainen toteutus olla myös ammuksilla?
-		
+    	
+    	// Näytetään räjähdys
+    	EffectManager.showExplosionEffect(x, y);
+    	
     	state = Wrapper.ANIMATION_AND_MOVEMENT;
 
     	movementAcceleration = -15;
