@@ -40,10 +40,6 @@ public class MainActivity extends Activity implements OnClickListener
         // Ladataan näytön tiedot
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        // Ladataan SoundManager käyttöön ja alustetaan se
-        SoundManager.getInstance();
-        SoundManager.initSounds(this);
         
         // Ladataan laitteen ominaisuudet
         Configuration config = getResources().getConfiguration();
@@ -71,9 +67,6 @@ public class MainActivity extends Activity implements OnClickListener
         
         View quitButton = findViewById(R.id.quit);
         quitButton.setOnClickListener(this);
-
-        
-
     }
 
 	/**
@@ -85,6 +78,7 @@ public class MainActivity extends Activity implements OnClickListener
     {
         switch(_v.getId()) {                
             case R.id.start_game:
+            	SoundManager.stopMusic();
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_game = new Intent(this, GameActivity.class);
                 startActivityIfNeeded(i_game, 0);
@@ -92,6 +86,7 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
                 
             case R.id.highscores:
+            	SoundManager.stopMusic();
                 SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_highscores = new Intent(this, HighScoresActivity.class);
                 startActivity(i_highscores);
@@ -99,6 +94,7 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
             
             case R.id.settings:
+            	SoundManager.stopMusic();
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_settings = new Intent(this, SettingsActivity.class);
                 startActivity(i_settings);
@@ -106,6 +102,7 @@ public class MainActivity extends Activity implements OnClickListener
                 break;
                 
             case R.id.help:
+            	SoundManager.stopMusic();
             	SoundManager.playSound(SoundManager.SOUND_BUTTONCLICK, 1);
                 Intent i_help = new Intent(this, AboutActivity.class);
                 startActivity(i_help);
@@ -125,6 +122,16 @@ public class MainActivity extends Activity implements OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
+        
+        // Ladataan SoundManager käyttöön ja alustetaan se
+        SoundManager.getInstance();
+        SoundManager.initSounds(this);
+        
+        // Ladataan musiikki
+        SoundManager.loadMusic(R.raw.music_menu);
+        
+        // Toistetaan musiikki ja loopataan sitä
+        SoundManager.playMusic(true);
     }
     
     /**
@@ -133,8 +140,8 @@ public class MainActivity extends Activity implements OnClickListener
      */
     @Override
     protected void onPause() {
-
     	super.onPause();
+    	SoundManager.stopMusic();
     }
         
     /**
@@ -144,5 +151,6 @@ public class MainActivity extends Activity implements OnClickListener
     @Override
     protected void onStop() {
     	super.onStop();
+    	SoundManager.stopMusic();
     }
 }

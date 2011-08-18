@@ -267,6 +267,7 @@ public class EffectManager
 	public static void showExplosionEffect(float _x, float _y) 
 	{
 		if(!explosionEffect.activated) {
+			SoundManager.playSound(SoundManager.SOUND_EXPLOSION_2, 1);
 			explosionEffect.activate(_x, _y);
 		}
 	}

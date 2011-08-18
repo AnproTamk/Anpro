@@ -113,6 +113,9 @@ abstract public class AbstractAi
         		
         		// Tarkistetaan törmäys
         		if (Utility.isColliding(parentObject, wrapper.player)) {
+        			
+    				SoundManager.playSound(SoundManager.SOUND_HIT_HEALTH, 1);
+    				
         			parentObject.triggerCollision(GameObject.COLLISION_WITH_PLAYER, 0, 0);
         			wrapper.player.triggerCollision(GameObject.COLLISION_WITH_ENEMY, parentObject.collisionDamage, 0);
         		}

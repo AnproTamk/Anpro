@@ -112,6 +112,12 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
+
+        // Ladataan musiikki
+        SoundManager.loadMusic(R.raw.music_game);
+        
+        // Toistetaan musiikki ja loopataan sitä
+        SoundManager.playMusic(true);
         
         Log.e("LIFE", "onResume");
         
@@ -127,9 +133,9 @@ public class GameActivity extends Activity
     {
         super.onPause();
         
-        Log.e("LIFE", "onPause");
-        
         gameThread.setRunning(false);
+        
+    	SoundManager.stopMusic();
     }
         
     /**
@@ -141,8 +147,9 @@ public class GameActivity extends Activity
     {
         super.onStop();
         
-        Log.e("LIFE", "onStop");
-        
+    	SoundManager.stopMusic();
+    	SoundManager.cleanUp();
+    	
         Wrapper.destroy();
         CameraManager.destroy();
         EffectManager.destroy();

@@ -67,6 +67,10 @@ public class SquigglyAi extends AbstractAi
 				
 				// Suoritetaan ampuminen
 		    		lastShootingTime = android.os.SystemClock.uptimeMillis();
+		    		
+		    		// Soitetaan ‰‰ni
+		        	SoundManager.playSound(SoundManager.SOUND_WEAPON_SPITFIRE, 1);
+		        	
 		    		weaponManager.triggerEnemyShootForward(shootingAngle, parentObject.x, parentObject.y, WeaponManager.ENEMY_SPITFIRE);
 			}
 			
