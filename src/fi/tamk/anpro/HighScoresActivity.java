@@ -144,7 +144,6 @@ public class HighScoresActivity extends Activity implements OnClickListener
 			Log.e("TESTI", "Reset: Suoritettu 2/3");
 
 			runOnUiThread(new Runnable() {
-				@Override
 				public void run()
 				{
 					score_0.setText(scoreStr[0]);
