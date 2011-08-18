@@ -97,7 +97,6 @@ public class GameActivity extends Activity
     protected void onRestart()
     {
         super.onRestart();
-        // TODO: Tee toteutus
     }
     
     /**
@@ -119,6 +118,8 @@ public class GameActivity extends Activity
     protected void onPause()
     {
         super.onPause();
+        
+        gameThread.setRunning(false);
     }
         
     /**
@@ -136,7 +137,10 @@ public class GameActivity extends Activity
         gameThread.interrupt();
         gameThread    = null;
         surfaceView   = null;
+        
+        GLRenderer.allLoaded = false;
         renderer      = null;
+        
         weaponManager = null;
     }
         
