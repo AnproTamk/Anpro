@@ -93,8 +93,6 @@ public class PauseMenuActivity extends Activity implements OnClickListener
 	public void onClick(View _v)
 	{
 		if(_v.getId() == R.id.button_main_menu) {
-			Intent i_mainmenu = new Intent(this, MainActivity.class);
-    		startActivity(i_mainmenu);
     		setResult(0);
     		finish();
 		}
