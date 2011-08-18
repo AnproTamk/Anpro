@@ -42,6 +42,8 @@ public class GameActivity extends Activity
     public void onCreate(Bundle _savedInstanceState)
     {
         super.onCreate(_savedInstanceState);
+        
+        Log.e("LIFE", "onCreate");
 
         // Piiloitetaan otsikko ja vaihdetaan kokoruuduntilaan
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -59,6 +61,8 @@ public class GameActivity extends Activity
     protected void onStart()
     {
         super.onStart();
+        
+        Log.e("LIFE", "onCreate");
         
         // Luodaan InputController, mikäli laitteessa on sellainen
         if (Options.controlType != Options.CONTROLS_NONAV && Options.controlType != Options.CONTROLS_UNDEFINED) {
@@ -97,6 +101,8 @@ public class GameActivity extends Activity
     protected void onRestart()
     {
         super.onRestart();
+        
+        Log.e("LIFE", "onRestart");
     }
     
     /**
@@ -106,6 +112,8 @@ public class GameActivity extends Activity
     protected void onResume()
     {
         super.onResume();
+        
+        Log.e("LIFE", "onResume");
         
         gameThread.setRunning(true);
     }
@@ -119,6 +127,8 @@ public class GameActivity extends Activity
     {
         super.onPause();
         
+        Log.e("LIFE", "onPause");
+        
         gameThread.setRunning(false);
     }
         
@@ -130,6 +140,8 @@ public class GameActivity extends Activity
     protected void onStop()
     {
         super.onStop();
+        
+        Log.e("LIFE", "onStop");
         
         Wrapper.destroy();
         CameraManager.destroy();
@@ -151,6 +163,8 @@ public class GameActivity extends Activity
     protected void onDestroy()
     {
         super.onDestroy();
+        
+        Log.e("LIFE", "FATALITY!");
     }
 
     /* =======================================================
@@ -256,10 +270,13 @@ public class GameActivity extends Activity
 	{
 		super.onActivityResult(_requestCode, _resultCode, _data);
 		
-		if (_resultCode == RESULT_CANCELED) {
+		if (_resultCode == 0) {
+			Log.e("LIFE", "FINISH HIM!");
+			Intent i_mainmenu = new Intent(this, MainActivity.class);
+    		startActivity(i_mainmenu);
 			finish();
 		}
-		else {
+		else if (_resultCode == 1) {
 			gameThread.setRunning(false); // TODO: Wat..?
 		}
 	}
